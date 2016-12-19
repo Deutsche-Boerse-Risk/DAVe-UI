@@ -172,7 +172,11 @@ if [ "$1" = "./bin/start_dave.sh" ]; then
         keytool -genkeypair -keystore ${jwtKeystorePath} -storetype jceks -storepass ${jwtKeystorePassword} -keyalg EC -keysize 256 -alias ES512 -keypass ${jwtKeystorePassword} -sigalg SHA512withECDSA -dname "CN=,OU=,O=,L=,ST=,C=" -validity 360
       fi
 
-      http_auth="\"auth\": { \"enable\": true, \"salt\": \"${DAVE_HTTP_AUTH_SALT}\", \"dbName\": \"${DAVE_DB_NAME}\", \"connectionUrl\": \"${DAVE_DB_URL}\", \"checkUserAgainstCertificate\": ${DAVE_HTTP_AUTH_LINK_SSL}, \"jwtKeystorePath\": \"${jwtKeystorePath}\", \"jwtKeystorePassword\": \"${jwtKeystorePassword}\" }"
+      if [ -z "$DAVE_HTTP_JWT_TOKEN_EXPIRATION" ] ; then
+        DAVE_HTTP_JWT_TOKEN_EXPIRATION=60
+      fi
+      jwtTokenExpiration="${DAVE_HTTP_JWT_TOKEN_EXPIRATION}"
+      http_auth="\"auth\": { \"enable\": true, \"salt\": \"${DAVE_HTTP_AUTH_SALT}\", \"dbName\": \"${DAVE_DB_NAME}\", \"connectionUrl\": \"${DAVE_DB_URL}\", \"checkUserAgainstCertificate\": ${DAVE_HTTP_AUTH_LINK_SSL}, \"jwtKeystorePath\": \"${jwtKeystorePath}\", \"jwtKeystorePassword\": \"${jwtKeystorePassword}\", \"jwtTokenExpiration\": ${DAVE_HTTP_JWT_TOKEN_EXPIRATION} }"
       CONFIG_HTTP+=("$http_auth")
     fi
   fi
