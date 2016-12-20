@@ -1,4 +1,4 @@
-import {ElementRef, Input, Component, OnChanges, SimpleChanges} from '@angular/core';
+import {ElementRef, Input, Component, OnChanges, SimpleChanges, HostBinding, OnInit} from '@angular/core';
 
 import {ChartOptions, ChartData} from "./chart.types";
 
@@ -7,11 +7,11 @@ declare var googleLoaded: any;
 @Component({
     moduleId: module.id,
     selector: 'google-chart]',
-    template: '<div [id]="id" [style.height]="height"></div>',
-    styles: ['div { width: 100% !important }'],
+    template: '<div [id]="id"></div>',
+    styles: ['/deep/ google-chart > div { width: 100%; height: 100%; }'],
     styleUrls: ['common.component.css']
 })
-export class GoogleChart implements OnChanges {
+export class GoogleChart implements OnInit, OnChanges {
 
     public _element: HTMLElement;
 
@@ -28,14 +28,24 @@ export class GoogleChart implements OnChanges {
     public chartData: ChartData;
 
     @Input()
+    @HostBinding('style.height')
     public height: any;
+
+    private intialized: boolean = false;
 
     constructor(public element: ElementRef) {
         this._element = this.element.nativeElement;
     }
 
-    public ngOnChanges(changes: SimpleChanges): void {
+    public ngOnInit(): void {
+        this.intialized = true;
         this.reinitChart();
+    }
+
+    public ngOnChanges(changes: SimpleChanges): void {
+        if (this.intialized) {
+            this.reinitChart();
+        }
     }
 
     private reinitChart(): void {
@@ -43,7 +53,9 @@ export class GoogleChart implements OnChanges {
             googleLoaded = true;
             google.charts.load('current', {'packages': ['corechart', 'gauge']});
         }
-        this.drawGraph(this.chartOptions, this.chartType, this.chartData, this._element);
+        setTimeout(() => {
+            this.drawGraph(this.chartOptions, this.chartType, this.chartData, this._element)
+        }, 0);
     }
 
     private drawGraph(chartOptions: ChartOptions, chartType, chartData: ChartData, ele) {
