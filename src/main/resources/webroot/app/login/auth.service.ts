@@ -1,8 +1,8 @@
 import {Injectable, EventEmitter} from "@angular/core";
-import {Http, Response} from "@angular/http";
+import {Http} from "@angular/http";
 
 import {AuthHttp, AuthConfigConsts, JwtHelper} from "angular2-jwt"
-import {AbstractHttpService, defaultURL, ErrorResponse} from "../abstract.http.service";
+import {AbstractHttpService, ErrorResponse} from "../abstract.http.service";
 
 const url = {
     login: '/user/login',

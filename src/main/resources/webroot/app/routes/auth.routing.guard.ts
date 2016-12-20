@@ -10,7 +10,7 @@ export class AuthGuard implements CanActivate {
     }
 
     public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-        if(this.authService.isLoggedIn()) {
+        if (this.authService.isLoggedIn()) {
             return true;
         }
 

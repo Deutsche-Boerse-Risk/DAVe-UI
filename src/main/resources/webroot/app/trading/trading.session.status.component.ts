@@ -23,7 +23,7 @@ export class TradingSessionStatusComponent extends AbstractComponent implements 
 
     public ngOnInit(): void {
         this.tradingSessionService.getTradingSessionStatuses().then((tss: TradingSessionStatus[]) => {
-            if(tss && tss.length) {
+            if (tss && tss.length) {
                 this.status = tss[0];
             }
         });
