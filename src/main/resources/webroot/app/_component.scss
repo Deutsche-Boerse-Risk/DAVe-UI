@@ -1,0 +1,11 @@
+@import "global";
+
+:host {
+    display: block;
+    padding: 0;
+    margin: 0;
+
+    & > * {
+        vertical-align: bottom;
+    }
+}

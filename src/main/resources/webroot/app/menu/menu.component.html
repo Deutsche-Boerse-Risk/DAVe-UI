@@ -1,0 +1,29 @@
+<ul class="nav navbar-nav">
+    <li class="nav-divider"></li>
+    <li routerLinkActive="active">
+        <a routerLink="/dashboard"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+    </li>
+    <li class="dropdown"
+        routerLinkActive="active">
+        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+           aria-expanded="false"><i class="fa fa-line-chart fa-fw"></i> Margin Requirement <span
+                class="caret"></span></a>
+        <ul class="dropdown-menu">
+            <li routerLinkActive="active">
+                <a routerLink="/positionReportLatest">Position Reports</a>
+            </li>
+            <li routerLinkActive="active">
+                <a routerLink="/marginComponentLatest">Margin Components</a>
+            </li>
+            <li routerLinkActive="active">
+                <a routerLink="/totalMarginRequirementLatest">Total Margin Requirements</a>
+            </li>
+            <li routerLinkActive="active">
+                <a routerLink="/marginShortfallSurplusLatest">Margin Shortfall Surplus</a>
+            </li>
+        </ul>
+    </li>
+    <li routerLinkActive="active">
+        <a routerLink="/riskLimitLatest"><i class="fa fa-fire-extinguisher fa-fw"></i> Risk Limits</a>
+    </li>
+</ul>

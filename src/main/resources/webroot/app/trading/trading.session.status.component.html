@@ -1,0 +1,10 @@
+<li>
+    <p class="navbar-text" *ngIf="status">
+        <span *ngIf="status.stat == 2" class="label label-success">ERS Status: Online</span>
+        <span *ngIf="status.stat == 1" class="label label-danger">ERS Status: Halted</span>
+        <span *ngIf="status.stat == 3" class="label label-danger">ERS Status: Closed</span>
+        <span *ngIf="status.stat != 3 && status.stat != 1 && status.stat !=2 " class="label label-warning">
+            ERS Status: Unknown
+        </span>
+    </p>
+</li>

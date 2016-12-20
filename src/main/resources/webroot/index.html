@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <base href="/">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="DAVe - Data Analytics & Visualisation Service">
+    <meta name="author" content="Jakub Scholz">
+    <link rel="icon" href="./favicon.ico">
+
+    <title>DAVe</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="./vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="./vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Morris Charts CSS -->
+    <link href="./vendor/morrisjs/morris.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="./vendor/sb-admin-2/sb-admin-2.css" rel="stylesheet">
+
+    <!-- DAVe CSS -->
+    <link href="app/styles.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="./vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Load libraries -->
+    <!-- Polyfill(s) for older browsers -->
+    <script src="node_modules/core-js/client/shim.min.js"></script>
+    <script src="node_modules/web-animations-js/web-animations.min.js"></script>
+
+    <!-- jQuery -->
+    <script src="./vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="./vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Angular required libs -->
+    <script src="node_modules/zone.js/dist/zone.min.js"></script>
+    <script src="node_modules/reflect-metadata/Reflect.js"></script>
+    <script src="node_modules/systemjs/dist/system.js"></script>
+
+    <!-- Configure SystemJS -->
+    <script src="systemjs.config.js"></script>
+    <script>
+        //<![CDATA[
+        System.import('app').catch(function (err) {
+            console.error(err);
+        });
+        //]]>
+    </script>
+
+</head>
+
+<body>
+<dave></dave>
+</body>
+
+</html>
