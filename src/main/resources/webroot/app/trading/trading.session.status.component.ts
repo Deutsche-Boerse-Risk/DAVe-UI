@@ -1,7 +1,7 @@
 import {Component, ElementRef} from "@angular/core";
 import {Router, ActivatedRoute} from "@angular/router";
 
-import {AbstractComponentWithAutoRefresh} from "../abstract.component.with.autorefresh";
+import {AbstractComponentWithAutoRefresh} from "../abstract.component";
 
 import {TradingSessionService, TradingSessionStatus} from "./trading.session.service";
 
@@ -15,11 +15,8 @@ export class TradingSessionStatusComponent extends AbstractComponentWithAutoRefr
 
     public status: any;
 
-    constructor(private tradingSessionService: TradingSessionService,
-                router: Router,
-                route: ActivatedRoute,
-                el: ElementRef) {
-        super(router, route, el);
+    constructor(private tradingSessionService: TradingSessionService) {
+        super();
     }
 
     protected loadData(): void {

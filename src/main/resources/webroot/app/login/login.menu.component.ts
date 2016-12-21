@@ -1,7 +1,5 @@
-import {Router, ActivatedRoute} from "@angular/router";
-import {ElementRef, Component, HostBinding} from "@angular/core";
+import {Component, HostBinding} from "@angular/core";
 
-import {AbstractComponent} from "../abstract.component";
 import {AuthService} from "./auth.service";
 
 @Component({
@@ -10,7 +8,7 @@ import {AuthService} from "./auth.service";
     templateUrl: 'login.menu.component.html',
     styleUrls: ['login.menu.component.css']
 })
-export class LoginMenuComponent extends AbstractComponent {
+export class LoginMenuComponent {
 
     /**
      * Just to add bootstrap classes to be able to fix the layout...
@@ -21,11 +19,7 @@ export class LoginMenuComponent extends AbstractComponent {
     @HostBinding('class.navbar-right')
     private classes: boolean = true;
 
-    constructor(private authService: AuthService,
-                router: Router,
-                route: ActivatedRoute,
-                el: ElementRef) {
-        super(router, route, el);
+    constructor(private authService: AuthService) {
     }
 
     public get authStatus(): boolean {

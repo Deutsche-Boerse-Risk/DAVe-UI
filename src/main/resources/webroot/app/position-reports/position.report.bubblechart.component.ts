@@ -1,10 +1,9 @@
-import {DecimalPipe} from "@angular/common";
-import {Component, ElementRef} from "@angular/core";
-import {Router, ActivatedRoute} from "@angular/router";
+import {Component} from "@angular/core";
 
-import {AbstractComponentWithAutoRefresh} from "../abstract.component.with.autorefresh";
+import {AbstractComponentWithAutoRefresh} from "../abstract.component";
 import {ErrorResponse} from "../abstract.http.service";
 
+import {NUMBER_PIPE} from "../common/common.module";
 import {BubbleChartOptions, ChartData, ChartRow} from "../common/chart.types";
 
 import {PositionReportsService} from "./position.reports.service";
@@ -31,11 +30,8 @@ export class PositionReportBubbleChartComponent extends AbstractComponentWithAut
 
     public initialLoad: boolean = true;
 
-    constructor(private positionReportsService: PositionReportsService,
-                router: Router,
-                route: ActivatedRoute,
-                el: ElementRef) {
-        super(router, route, el);
+    constructor(private positionReportsService: PositionReportsService) {
+        super();
     }
 
     protected loadData(): void {
@@ -155,17 +151,17 @@ export class PositionReportBubbleChartComponent extends AbstractComponentWithAut
                 ]
             });
         }
-        let numberPipe = new DecimalPipe(navigator.language.split('-')[0]);
+
         this.title = "<strong>"
-            + numberPipe.transform(this.topRecordsCount, ".0-2")
+            + NUMBER_PIPE.transform(this.topRecordsCount, ".0-2")
             + "</strong> top risk positions represent <strong>"
-            + numberPipe.transform(this.positiveCoveragePerc, ".0-2")
+            + NUMBER_PIPE.transform(this.positiveCoveragePerc, ".0-2")
             + "%</strong> of total portfolio VaR. <strong>"
-            + numberPipe.transform(this.topRecordsCount, ".0-2")
+            + NUMBER_PIPE.transform(this.topRecordsCount, ".0-2")
             + "</strong> top offsetting positions represent <strong>"
-            + numberPipe.transform(this.negativeCoveragePerc, ".0-2")
+            + NUMBER_PIPE.transform(this.negativeCoveragePerc, ".0-2")
             + "%</strong> of total offsetting positions. Total portfolio VaR is <strong>"
-            + numberPipe.transform(this.totalCompVar, ".0-2") + "</strong>.";
+            + NUMBER_PIPE.transform(this.totalCompVar, ".0-2") + "</strong>.";
         this.options.hAxis.ticks = hTicks;
         this.options.vAxis.ticks = vTicks;
         this.chartData = {

@@ -1,10 +1,19 @@
-import {Router, ActivatedRoute} from "@angular/router";
-import {ElementRef} from "@angular/core";
+import {OnInit, OnDestroy} from "@angular/core";
 
-export abstract class AbstractComponent {
+export abstract class AbstractComponentWithAutoRefresh implements OnInit, OnDestroy {
 
-    constructor(protected router: Router,
-                protected route: ActivatedRoute,
-                protected el: ElementRef) {
+    private intervalHandle: any;
+
+    public ngOnInit(): void {
+        this.loadData();
+        this.intervalHandle = setInterval(() => {
+            this.loadData()
+        }, 60000);
     }
+
+    public ngOnDestroy(): void {
+        clearInterval(this.intervalHandle);
+    }
+
+    protected abstract loadData(): void;
 }

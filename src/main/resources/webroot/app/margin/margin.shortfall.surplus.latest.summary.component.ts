@@ -1,7 +1,6 @@
-import {Component, ElementRef} from "@angular/core";
-import {Router, ActivatedRoute} from "@angular/router";
+import {Component} from "@angular/core";
 
-import {AbstractComponentWithAutoRefresh} from "../abstract.component.with.autorefresh";
+import {AbstractComponentWithAutoRefresh} from "../abstract.component";
 
 import {MarginService} from "./margin.service";
 import {MarginShortfallSurplus} from "./margin.types";
@@ -24,11 +23,8 @@ export class MarginShortfallSurplusLatestSummaryComponent extends AbstractCompon
 
     public marginCall: number = 0;
 
-    constructor(private marginService: MarginService,
-                router: Router,
-                route: ActivatedRoute,
-                el: ElementRef) {
-        super(router, route, el);
+    constructor(private marginService: MarginService) {
+        super();
     }
 
     protected loadData(): void {

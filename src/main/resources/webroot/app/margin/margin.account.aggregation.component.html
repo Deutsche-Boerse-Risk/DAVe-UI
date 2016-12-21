@@ -1,0 +1,15 @@
+<div>
+    <initial-load *ngIf="initialLoad && !errorMessage"></initial-load>
+
+    <no-data *ngIf="!initialLoad && !errorMessage && dataRows?.length < 1"></no-data>
+
+    <update-failed *ngIf="errorMessage" [message]="errorMessage"></update-failed>
+
+    <data-table [headerColumns]="headers" [rows]="dataRows" [footerRows]="[footer]"></data-table>
+
+    <a routerLink="/marginComponentLatest" class="btn btn-default btn-block">View Details</a>
+    <!--TODO: button<td>-->
+    <!--<a href="#/marginComponentLatest/{{record.clearer}}/{{record.member}}/{{record.account}}"><span-->
+    <!--class="fa fa-bullseye" aria-hidden="true" title="Drilldown"></span></a>-->
+    <!--</td>-->
+</div>

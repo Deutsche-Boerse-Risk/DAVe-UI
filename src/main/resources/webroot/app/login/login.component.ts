@@ -1,7 +1,6 @@
-import {Router, ActivatedRoute} from "@angular/router";
-import {ElementRef, Component} from "@angular/core";
+import {Router} from "@angular/router";
+import {Component} from "@angular/core";
 
-import {AbstractComponent} from "../abstract.component";
 import {AuthService} from "./auth.service";
 import {ErrorResponse} from "../abstract.http.service";
 
@@ -10,7 +9,7 @@ import {ErrorResponse} from "../abstract.http.service";
     templateUrl: 'login.component.html',
     styleUrls: ['login.component.css']
 })
-export class LoginComponent extends AbstractComponent {
+export class LoginComponent {
 
     public errorMessage: string;
 
@@ -18,10 +17,7 @@ export class LoginComponent extends AbstractComponent {
     public password: string;
 
     constructor(private authService: AuthService,
-                router: Router,
-                route: ActivatedRoute,
-                el: ElementRef) {
-        super(router, route, el);
+                private router: Router) {
     }
 
     public get authStatus(): boolean {

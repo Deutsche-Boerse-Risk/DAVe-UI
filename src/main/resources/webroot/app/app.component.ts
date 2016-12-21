@@ -1,7 +1,5 @@
-import {Component, ElementRef} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Component} from '@angular/core';
 
-import {AbstractComponent} from "./abstract.component";
 import {AuthService} from "./login/auth.service";
 
 @Component({
@@ -10,14 +8,10 @@ import {AuthService} from "./login/auth.service";
     templateUrl: 'app.component.html',
     styleUrls: ['app.component.css']
 })
-export class AppComponent extends AbstractComponent {
+export class AppComponent {
 
 
-    constructor(private authService: AuthService,
-                router: Router,
-                route: ActivatedRoute,
-                el: ElementRef) {
-        super(router, route, el);
+    constructor(private authService: AuthService) {
     }
 
 
