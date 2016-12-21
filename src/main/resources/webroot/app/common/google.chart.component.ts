@@ -4,6 +4,7 @@ import {ChartOptions, ChartData} from "./chart.types";
 
 declare var google: any;
 declare var googleLoaded: any;
+
 @Component({
     moduleId: module.id,
     selector: 'google-chart]',

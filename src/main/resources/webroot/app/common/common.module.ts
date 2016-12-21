@@ -6,8 +6,18 @@ import {UpdateFailedComponent} from "./update.failed.component";
 import {GoogleChart} from "./google.chart.component";
 
 @NgModule({
-    declarations: [GoogleChart, InitialLoadComponent, NoDataComponent, UpdateFailedComponent],
-    exports: [GoogleChart, InitialLoadComponent, NoDataComponent, UpdateFailedComponent]
+    declarations: [
+        GoogleChart,
+        InitialLoadComponent,
+        NoDataComponent,
+        UpdateFailedComponent
+    ],
+    exports: [
+        GoogleChart,
+        InitialLoadComponent,
+        NoDataComponent,
+        UpdateFailedComponent
+    ]
 })
 export class CommonModule {
 }

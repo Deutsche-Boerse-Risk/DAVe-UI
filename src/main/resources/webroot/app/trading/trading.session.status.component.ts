@@ -1,7 +1,8 @@
-import {Component, ElementRef, OnInit} from "@angular/core";
+import {Component, ElementRef} from "@angular/core";
 import {Router, ActivatedRoute} from "@angular/router";
 
-import {AbstractComponent} from "../abstract.component";
+import {AbstractComponentWithAutoRefresh} from "../abstract.component.with.autorefresh";
+
 import {TradingSessionService, TradingSessionStatus} from "./trading.session.service";
 
 @Component({
@@ -10,7 +11,7 @@ import {TradingSessionService, TradingSessionStatus} from "./trading.session.ser
     templateUrl: 'trading.session.status.component.html',
     styleUrls: ['trading.session.status.component.css']
 })
-export class TradingSessionStatusComponent extends AbstractComponent implements OnInit {
+export class TradingSessionStatusComponent extends AbstractComponentWithAutoRefresh {
 
     public status: any;
 
@@ -21,7 +22,7 @@ export class TradingSessionStatusComponent extends AbstractComponent implements 
         super(router, route, el);
     }
 
-    public ngOnInit(): void {
+    protected loadData(): void {
         this.tradingSessionService.getTradingSessionStatuses().then((tss: TradingSessionStatus[]) => {
             if (tss && tss.length) {
                 this.status = tss[0];

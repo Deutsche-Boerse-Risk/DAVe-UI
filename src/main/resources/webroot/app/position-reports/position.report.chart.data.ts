@@ -51,3 +51,46 @@ export interface PositionReportChartData {
     underlying: string;
     received: string;
 }
+
+export type SelectValues = {
+    record?: PositionReportChartData,
+    subRecords: PositionReportChartDataSelect
+}
+
+export class PositionReportChartDataSelect {
+
+    private options: {
+        [key: string]: SelectValues
+    } = {};
+
+    constructor(public key?: string) {
+    }
+
+    public getOptions(): PositionReportChartData[] {
+        return Object.keys(this.options).map((key: string) => {
+            return this.options[key].record;
+        });
+    }
+
+    public get(key: string): SelectValues {
+        return this.options[key];
+    }
+
+    public create(key: string): SelectValues {
+        return this.options[key] = {
+            subRecords: new PositionReportChartDataSelect(key)
+        };
+    }
+}
+
+export interface PositionReportBubble {
+    key: string;
+    clearer: string;
+    member: string;
+    account: string;
+    symbol: string;
+    putCall: string;
+    maturityMonthYear: string;
+    underlying: string;
+    radius: number;
+}

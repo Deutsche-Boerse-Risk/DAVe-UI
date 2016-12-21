@@ -1,14 +1,17 @@
 import {DecimalPipe} from "@angular/common";
-import {Component, ElementRef, OnInit} from "@angular/core";
+import {Component, ElementRef} from "@angular/core";
 import {Router, ActivatedRoute} from "@angular/router";
 
-import {AbstractComponent} from "../abstract.component";
+import {AbstractComponentWithAutoRefresh} from "../abstract.component.with.autorefresh";
+import {ErrorResponse} from "../abstract.http.service";
 
 import {BubbleChartOptions, ChartData, ChartRow} from "../common/chart.types";
 
 import {PositionReportsService} from "./position.reports.service";
-import {PositionReportChartData} from "./position.report.chart.data";
-import {ErrorResponse} from "../abstract.http.service";
+import {
+    PositionReportChartData, PositionReportBubble,
+    PositionReportChartDataSelect, SelectValues
+} from "./position.report.chart.data";
 
 const compVarPositiveLegend = "Positive";
 const compVarNegativeLegend = "Negative";
@@ -20,7 +23,7 @@ const compVarNegativeLegend = "Negative";
     styleUrls: ['position.report.bubblechart.component.css'],
     host: {}
 })
-export class PositionReportBubbleChartComponent extends AbstractComponent implements OnInit {
+export class PositionReportBubbleChartComponent extends AbstractComponentWithAutoRefresh {
 
     public errorMessage: string;
 
@@ -35,7 +38,7 @@ export class PositionReportBubbleChartComponent extends AbstractComponent implem
         super(router, route, el);
     }
 
-    public ngOnInit(): void {
+    protected loadData(): void {
         this.positionReportsService.getPositionReportsChartData()
             .then(this.processData.bind(this))
             .catch((err: ErrorResponse) => {
@@ -44,7 +47,7 @@ export class PositionReportBubbleChartComponent extends AbstractComponent implem
             });
     }
 
-    public processData(chartData: PositionReportChartData[]): void {
+    private processData(chartData: PositionReportChartData[]): void {
         delete this.memberSelection;
         delete this.accountSelection;
 
@@ -236,7 +239,7 @@ export class PositionReportBubbleChartComponent extends AbstractComponent implem
 
     public chartData: ChartData;
 
-    public bubblesMap: Map<string, PositionReportBubble> = new Map();
+    private bubblesMap: Map<string, PositionReportBubble> = new Map();
 
     private totalCompVar: number;
 
@@ -317,48 +320,4 @@ export class PositionReportBubbleChartComponent extends AbstractComponent implem
     }
 
     // </editor-fold>
-}
-
-
-type SelectValues = {
-    record?: PositionReportChartData,
-    subRecords: PositionReportChartDataSelect
-}
-
-class PositionReportChartDataSelect {
-
-    private options: {
-        [key: string]: SelectValues
-    } = {};
-
-    constructor(public key?: string) {
-    }
-
-    public getOptions(): PositionReportChartData[] {
-        return Object.keys(this.options).map((key: string) => {
-            return this.options[key].record;
-        });
-    }
-
-    public get(key: string): SelectValues {
-        return this.options[key];
-    }
-
-    public create(key: string): SelectValues {
-        return this.options[key] = {
-            subRecords: new PositionReportChartDataSelect(key)
-        };
-    }
-}
-
-interface PositionReportBubble {
-    key: string;
-    clearer: string;
-    member: string;
-    account: string;
-    symbol: string;
-    putCall: string;
-    maturityMonthYear: string;
-    underlying: string;
-    radius: number;
 }

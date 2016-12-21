@@ -5,8 +5,9 @@ import {RouterModule} from "@angular/router";
 
 import {CommonModule} from "../common/common.module";
 
-import {PositionReportBubbleChartComponent} from "./position.report.bubblechart.component";
 import {PositionReportsService} from "./position.reports.service";
+
+import {PositionReportBubbleChartComponent} from "./position.report.bubblechart.component";
 
 @NgModule({
     imports: [
