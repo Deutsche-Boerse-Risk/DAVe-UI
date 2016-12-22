@@ -1,8 +1,8 @@
-import {NgModule} from "@angular/core";
-import {BrowserModule} from "@angular/platform-browser";
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
 
-import {TradingSessionStatusComponent} from "./trading.session.status.component";
-import {TradingSessionService} from "./trading.session.service";
+import {TradingSessionStatusComponent} from './trading.session.status.component';
+import {TradingSessionService} from './trading.session.service';
 
 @NgModule({
     imports: [

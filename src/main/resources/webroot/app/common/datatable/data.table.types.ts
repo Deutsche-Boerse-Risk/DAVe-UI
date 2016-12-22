@@ -1,4 +1,4 @@
-import {PipeTransform} from "@angular/core";
+import {PipeTransform} from '@angular/core';
 
 export interface DataTableColumn {
     title?: string;
@@ -6,16 +6,26 @@ export interface DataTableColumn {
     sortingKey?: string;
 }
 
-export interface DataTableRow {
+export type DataTableHeader = DataTableColumn[];
+
+export interface DataTableRows<T> {
     cells: DataTableCell[];
-    data: any;
+    data?: T[];
 }
 
 export interface DataTableCell {
     titleKey?: string;
-    routerLink?: any[];
+    routerLink?: string[];
     pipe?: PipeTransform;
     pipeArgs?: string;
 }
 
-export type DataTableFooter = DataTableRow;
+export type DataTableFooter<T> = DataTableRows<T>;
+
+export interface DataTable<T> {
+    header?: DataTableHeader;
+    rows?: DataTableRows<T>;
+    footer?: DataTableFooter<T>;
+    pageSize?: number;
+    defaultOrdering?: string[];
+}

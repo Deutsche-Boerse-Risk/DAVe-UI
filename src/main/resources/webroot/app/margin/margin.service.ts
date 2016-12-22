@@ -1,10 +1,10 @@
-import {Injectable} from "@angular/core";
-import {AbstractHttpService} from "../abstract.http.service";
-import {Http} from "@angular/http";
+import {Injectable} from '@angular/core';
+import {AbstractHttpService} from '../abstract.http.service';
+import {Http} from '@angular/http';
 
-import {AuthHttp} from "angular2-jwt";
+import {AuthHttp} from 'angular2-jwt';
 
-import {MarginShortfallSurplus, MarginAccountAggregationData} from "./margin.types";
+import {MarginShortfallSurplus, MarginAccountAggregationData} from './margin.types';
 
 const marginShortfallSurplusURL: string = '/mss/latest';
 const marginAccountAggregationURL: string = '/mc/latest/';

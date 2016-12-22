@@ -1,9 +1,9 @@
-import {Component} from "@angular/core";
+import {Component} from '@angular/core';
 
-import {AbstractComponentWithAutoRefresh} from "../abstract.component";
+import {AbstractComponentWithAutoRefresh} from '../abstract.component';
 
-import {MarginService} from "./margin.service";
-import {MarginShortfallSurplus} from "./margin.types";
+import {MarginService} from './margin.service';
+import {MarginShortfallSurplus} from './margin.types';
 
 @Component({
     moduleId: module.id,

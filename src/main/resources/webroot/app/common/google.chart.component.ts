@@ -1,6 +1,6 @@
 import {ElementRef, Input, Component, OnChanges, SimpleChanges, HostBinding, OnInit} from '@angular/core';
 
-import {ChartOptions, ChartData} from "./chart.types";
+import {ChartOptions, ChartData} from './chart.types';
 
 declare var google: any;
 declare var googleLoaded: any;

@@ -1,9 +1,8 @@
-import {Component, ElementRef} from "@angular/core";
-import {Router, ActivatedRoute} from "@angular/router";
+import {Component} from '@angular/core';
 
-import {AbstractComponentWithAutoRefresh} from "../abstract.component";
+import {AbstractComponentWithAutoRefresh} from '../abstract.component';
 
-import {TradingSessionService, TradingSessionStatus} from "./trading.session.service";
+import {TradingSessionService, TradingSessionStatus} from './trading.session.service';
 
 @Component({
     moduleId: module.id,

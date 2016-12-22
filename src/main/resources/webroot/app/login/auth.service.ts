@@ -1,8 +1,8 @@
-import {Injectable, EventEmitter} from "@angular/core";
-import {Http} from "@angular/http";
+import {Injectable, EventEmitter} from '@angular/core';
+import {Http} from '@angular/http';
 
-import {AuthHttp, AuthConfigConsts, JwtHelper} from "angular2-jwt"
-import {AbstractHttpService, ErrorResponse} from "../abstract.http.service";
+import {AuthHttp, AuthConfigConsts, JwtHelper} from 'angular2-jwt'
+import {AbstractHttpService, ErrorResponse} from '../abstract.http.service';
 
 const url = {
     login: '/user/login',
@@ -34,10 +34,17 @@ export class AuthService extends AbstractHttpService<any> {
     public loggedInChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     public authRequestedPath: string;
+
     private tokenData: TokenData;
 
     constructor(http: Http, authHttp: AuthHttp) {
         super(http, authHttp);
+        let token = localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME);
+        if (token) {
+            this.tokenData = this.jwtHelper.decodeToken(token);
+            this.loggedIn = true;
+            this.authUsername = this.tokenData.username;
+        }
         setInterval(this.checkAuth.bind(this), 60000);
     }
 
@@ -71,20 +78,20 @@ export class AuthService extends AbstractHttpService<any> {
                     if (this.tokenData.username !== username) {
                         reject(<ErrorResponse>{
                             status: 500,
-                            message: "Invalid token generated!"
+                            message: 'Invalid token generated!'
                         });
                     }
 
                     if (this.jwtHelper.isTokenExpired(response.token)) {
                         reject(<ErrorResponse>{
                             status: 500,
-                            message: "Invalid token expiration!"
+                            message: 'Invalid token expiration!'
                         });
                     }
                 } catch (err) {
                     reject(<ErrorResponse>{
                         status: 500,
-                        message: err ? err.toString() : "Error parsing token from auth response!"
+                        message: err ? err.toString() : 'Error parsing token from auth response!'
                     });
                 }
                 this.loggedIn = true;
@@ -98,7 +105,7 @@ export class AuthService extends AbstractHttpService<any> {
             } else {
                 reject(<ErrorResponse>{
                     status: 401,
-                    message: "Authentication failed. Server didn't generate a token."
+                    message: 'Authentication failed. Server didn\'t generate a token.'
                 });
             }
         });

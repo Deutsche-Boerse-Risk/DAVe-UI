@@ -1,8 +1,8 @@
-import {Router} from "@angular/router";
-import {Component} from "@angular/core";
+import {Router} from '@angular/router';
+import {Component} from '@angular/core';
 
-import {AuthService} from "./auth.service";
-import {ErrorResponse} from "../abstract.http.service";
+import {AuthService} from './auth.service';
+import {ErrorResponse} from '../abstract.http.service';
 
 @Component({
     moduleId: module.id,
@@ -32,10 +32,10 @@ export class LoginComponent {
                 }
                 this.router.navigate(['dashboard']);
             } else {
-                this.errorMessage = "Authentication failed. Server didn't generate a token.";
+                this.errorMessage = 'Authentication failed. Server didn\'t generate a token.';
             }
         }).catch((err: ErrorResponse) => {
-            this.errorMessage = "Authentication failed. Is the username and password correct?";
+            this.errorMessage = 'Authentication failed. Is the username and password correct?';
         });
     }
 }

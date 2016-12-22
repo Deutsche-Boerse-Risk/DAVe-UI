@@ -1,13 +1,13 @@
-import {NgModule} from "@angular/core";
-import {RouterModule, Route, Router} from "@angular/router";
+import {NgModule} from '@angular/core';
+import {RouterModule, Route, Router} from '@angular/router';
 
-import {AuthModule} from "../login/auth.module";
-import {LoginComponent} from "../login/login.component";
+import {AuthModule} from '../login/auth.module';
+import {LoginComponent} from '../login/login.component';
 
-import {DashboardModule} from "../dashboard/dashboard.module";
-import {DashboardComponent} from "../dashboard/dashboard.component";
-import {AuthGuard} from "./auth.routing.guard";
-import {AuthService} from "../login/auth.service";
+import {DashboardModule} from '../dashboard/dashboard.module';
+import {DashboardComponent} from '../dashboard/dashboard.component';
+import {AuthGuard} from './auth.routing.guard';
+import {AuthService} from '../login/auth.service';
 
 const ROUTES: Route[] = [
     {

@@ -1,8 +1,8 @@
-<div class="panel-body" ng-if="pageRows?.length">
+<div class="panel-body" ng-if="dataTable && pageRows?.length">
     <table class="table table-striped table-bordered table-hover">
-        <thead *ngIf="headerColumns">
+        <thead *ngIf="dataTable.header">
         <tr>
-            <th *ngFor="let column of headerColumns">
+            <th *ngFor="let column of dataTable.header">
                 <template [ngIf]="column.title">{{column.title}}</template>
                 <i *ngIf="column.tooltip"
                    class="fa fa-question-circle"
@@ -18,20 +18,20 @@
         </tr>
         </thead>
         <tbody *ngIf="pageRows">
-        <tr *ngFor="let row of pageRows">
-            <td *ngFor="let cell of row.cells" highlighter="record.pool">
+        <tr *ngFor="let row of pageRows.data">
+            <td *ngFor="let cell of pageRows.cells" highlighter="record.pool">
                 <template [ngIf]="!cell.routerLink">{{processTitle(row, cell)}}</template>
-                <a *ngIf="cell.routerLink" [routerLink]="cell.routerLink">
+                <a *ngIf="cell.routerLink" [routerLink]="processRouterLink(row, cell)">
                     {{processTitle(row, cell)}}
                 </a>
             </td>
         </tr>
         </tbody>
-        <tfoot *ngIf="footerRows">
-        <tr *ngFor="let row of footerRows">
-            <th *ngFor="let cell of row.cells" highlighter="record.pool">
+        <tfoot *ngIf="dataTable.footer">
+        <tr *ngFor="let row of dataTable.footer.data">
+            <th *ngFor="let cell of dataTable.footer.cells" highlighter="record.pool">
                 <template [ngIf]="!cell.routerLink">{{processTitle(row, cell)}}</template>
-                <a *ngIf="cell.routerLink" [routerLink]="cell.routerLink">
+                <a *ngIf="cell.routerLink" [routerLink]="processRouterLink(row, cell)">
                     {{processTitle(row, cell)}}
                 </a>
             </th>
@@ -40,8 +40,10 @@
     </table>
 </div>
 
-<div class="panel-footer" *ngIf="pageSize && rows?.length / pageSize > 1">
+<div class="panel-footer" *ngIf="pageSize && dataTable.rows?.data?.length / pageSize > 1">
     Showing {{pageRows?.length}} records out of {{rows?.length}}
 
-    <paging [pageSize]="pageSize" [totalRecords]="rows?.length" (pageChanged)="updatePage($event)"></paging>
+    <paging [pageSize]="pageSize"
+            [totalRecords]="dataTable.rows?.data?.length"
+            (pageChanged)="updatePage($event)"></paging>
 </div>

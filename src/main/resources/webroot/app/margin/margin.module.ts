@@ -1,13 +1,13 @@
-import {NgModule} from "@angular/core";
-import {BrowserModule} from "@angular/platform-browser";
-import {RouterModule} from "@angular/router";
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {RouterModule} from '@angular/router';
 
-import {CommonModule} from "../common/common.module";
+import {CommonModule} from '../common/common.module';
 
-import {MarginService} from "./margin.service";
+import {MarginService} from './margin.service';
 
-import {MarginShortfallSurplusLatestSummaryComponent} from "./margin.shortfall.surplus.latest.summary.component";
-import {MarginAccountAggregationComponent} from "./margin.account.aggregation.component";
+import {MarginShortfallSurplusLatestSummaryComponent} from './margin.shortfall.surplus.latest.summary.component';
+import {MarginAccountAggregationComponent} from './margin.account.aggregation.component';
 
 @NgModule({
     imports: [

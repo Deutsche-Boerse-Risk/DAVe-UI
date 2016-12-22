@@ -1,11 +1,11 @@
 <div>
     <initial-load *ngIf="initialLoad && !errorMessage"></initial-load>
 
-    <no-data *ngIf="!initialLoad && !errorMessage && dataRows?.length < 1"></no-data>
+    <no-data *ngIf="!initialLoad && !errorMessage && dataTable?.rows?.data?.length < 1"></no-data>
 
     <update-failed *ngIf="errorMessage" [message]="errorMessage"></update-failed>
 
-    <data-table [headerColumns]="headers" [rows]="dataRows" [footerRows]="[footer]"></data-table>
+    <data-table [dataTable]="dataTable"></data-table>
 
     <a routerLink="/marginComponentLatest" class="btn btn-default btn-block">View Details</a>
     <!--TODO: button<td>-->

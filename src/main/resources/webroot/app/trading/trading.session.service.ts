@@ -1,9 +1,9 @@
-import {Injectable} from "@angular/core";
-import {Http} from "@angular/http";
+import {Injectable} from '@angular/core';
+import {Http} from '@angular/http';
 
-import {AuthHttp} from "angular2-jwt";
+import {AuthHttp} from 'angular2-jwt';
 
-import {AbstractHttpService} from "../abstract.http.service";
+import {AbstractHttpService} from '../abstract.http.service';
 
 const url: string = '/tss/latest';
 

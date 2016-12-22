@@ -1,6 +1,6 @@
-import {Component, HostBinding} from "@angular/core";
+import {Component, HostBinding} from '@angular/core';
 
-import {AuthService} from "./auth.service";
+import {AuthService} from './auth.service';
 
 @Component({
     moduleId: module.id,

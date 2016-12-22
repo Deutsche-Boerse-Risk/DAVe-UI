@@ -1,4 +1,4 @@
-import {OnInit, OnDestroy} from "@angular/core";
+import {OnInit, OnDestroy} from '@angular/core';
 
 export abstract class AbstractComponentWithAutoRefresh implements OnInit, OnDestroy {
 

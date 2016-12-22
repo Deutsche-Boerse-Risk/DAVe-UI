@@ -201,7 +201,7 @@ module.exports = function (grunt) {
                 watchOptions: {
                     awaitWriteFinish: true,
                     usePolling: true,
-                    interval: 10000
+                    interval: 5000
                 },
                 injectChanges: false, // workaround for Angular 2 styleUrls loading
                 ui: false,
