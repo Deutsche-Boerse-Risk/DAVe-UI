@@ -8,6 +8,8 @@ import {CommonModule} from "../common/common.module";
 import {PositionReportsService} from "./position.reports.service";
 
 import {PositionReportBubbleChartComponent} from "./position.report.bubblechart.component";
+import {PositionReportLatestComponent} from './position.report.latest.component';
+import {PositionReportHistoryComponent} from './position.report.history.component';
 
 @NgModule({
     imports: [
@@ -17,7 +19,11 @@ import {PositionReportBubbleChartComponent} from "./position.report.bubblechart.
         CommonModule
     ],
     providers: [PositionReportsService],
-    declarations: [PositionReportBubbleChartComponent],
+    declarations: [
+        PositionReportBubbleChartComponent,
+        PositionReportLatestComponent,
+        PositionReportHistoryComponent
+    ],
     exports: [PositionReportBubbleChartComponent]
 })
 export class PositionReportsModule {

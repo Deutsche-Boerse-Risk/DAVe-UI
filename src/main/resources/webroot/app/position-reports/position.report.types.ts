@@ -1,4 +1,4 @@
-export interface PositionReportChartData {
+export interface PositionReportRow {
     _id: {
         clearer: string;
         member: string;
@@ -50,6 +50,9 @@ export interface PositionReportChartData {
     theta: number;
     underlying: string;
     received: string;
+}
+
+export interface PositionReportChartData extends PositionReportRow {
 }
 
 export type SelectValues = {

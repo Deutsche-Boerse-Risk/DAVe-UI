@@ -1,13 +1,17 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Route, Router} from '@angular/router';
 
+import {AuthGuard} from './auth.routing.guard';
+import {AuthService} from '../login/auth.service';
+
 import {AuthModule} from '../login/auth.module';
 import {LoginComponent} from '../login/login.component';
 
 import {DashboardModule} from '../dashboard/dashboard.module';
 import {DashboardComponent} from '../dashboard/dashboard.component';
-import {AuthGuard} from './auth.routing.guard';
-import {AuthService} from '../login/auth.service';
+
+import {PositionReportLatestComponent} from '../position-reports/position.report.latest.component';
+import {PositionReportHistoryComponent} from '../position-reports/position.report.history.component';
 
 const ROUTES: Route[] = [
     {
@@ -26,18 +30,72 @@ const ROUTES: Route[] = [
         component: DashboardComponent,
         canActivate: [AuthGuard]
     },
-    // {
-    //     path: 'positionReportLatest/:clearer/:member/:account/:class/:symbol/:putCall/:strikePrice/:optAttribute/:maturityMonthYear',
-    //     pathMatch: 'full',
-    //     component: PositionReportLatestComponent,
-    //     canActivate: [AuthGuard]
-    // },
-    // {
-    //     path: 'positionReportHistory/:clearer/:member/:account/:class/:symbol/:putCall/:strikePrice/:optAttribute/:maturityMonthYear',
-    //     pathMatch: 'full',
-    //     component: PositionReportHistoryComponent,
-    //     canActivate: [AuthGuard]
-    // },
+    {
+        path: 'positionReportLatest',
+        pathMatch: 'full',
+        component: PositionReportLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'positionReportLatest/:clearer',
+        pathMatch: 'full',
+        component: PositionReportLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'positionReportLatest/:clearer/:member',
+        pathMatch: 'full',
+        component: PositionReportLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'positionReportLatest/:clearer/:member/:account',
+        pathMatch: 'full',
+        component: PositionReportLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'positionReportLatest/:clearer/:member/:account/:class',
+        pathMatch: 'full',
+        component: PositionReportLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'positionReportLatest/:clearer/:member/:account/:class/:symbol',
+        pathMatch: 'full',
+        component: PositionReportLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'positionReportLatest/:clearer/:member/:account/:class/:symbol/:putCall',
+        pathMatch: 'full',
+        component: PositionReportLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'positionReportLatest/:clearer/:member/:account/:class/:symbol/:putCall/:strikePrice',
+        pathMatch: 'full',
+        component: PositionReportLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'positionReportLatest/:clearer/:member/:account/:class/:symbol/:putCall/:strikePrice/:optAttribute',
+        pathMatch: 'full',
+        component: PositionReportLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'positionReportLatest/:clearer/:member/:account/:class/:symbol/:putCall/:strikePrice/:optAttribute/:maturityMonthYear',
+        pathMatch: 'full',
+        component: PositionReportLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'positionReportHistory/:clearer/:member/:account/:class/:symbol/:putCall/:strikePrice/:optAttribute/:maturityMonthYear',
+        pathMatch: 'full',
+        component: PositionReportHistoryComponent,
+        canActivate: [AuthGuard]
+    },
     // {
     //     path: 'marginComponentLatest/:clearer/:member/:account/:class/:ccy',
     //     pathMatch: 'full',

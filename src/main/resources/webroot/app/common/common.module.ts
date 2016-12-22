@@ -9,6 +9,10 @@ import {UpdateFailedComponent} from './update.failed.component';
 
 import {GoogleChart} from './google.chart.component';
 
+import {DownloadMenuComponent} from './download.menu.component';
+
+import {BreadCrumbsComponent} from './bread.crumbs.component';
+
 import {DataTableComponent} from './datatable/data.table.component';
 import {PagingComponent} from './datatable/paging.component';
 
@@ -21,6 +25,8 @@ export const NUMBER_PIPE = new DecimalPipe(navigator.language.split('-')[0]);
     ],
     declarations: [
         GoogleChart,
+        DownloadMenuComponent,
+        BreadCrumbsComponent,
         DataTableComponent,
         PagingComponent,
         InitialLoadComponent,
@@ -29,6 +35,8 @@ export const NUMBER_PIPE = new DecimalPipe(navigator.language.split('-')[0]);
     ],
     exports: [
         GoogleChart,
+        DownloadMenuComponent,
+        BreadCrumbsComponent,
         DataTableComponent,
         InitialLoadComponent,
         NoDataComponent,

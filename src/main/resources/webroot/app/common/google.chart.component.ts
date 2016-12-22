@@ -2,8 +2,8 @@ import {ElementRef, Input, Component, OnChanges, HostBinding, OnInit} from '@ang
 
 import {ChartOptions, ChartData} from './chart.types';
 
-export let google: any;
-export let googleLoaded: any;
+declare let google: any;
+declare let googleLoaded: any;
 
 @Component({
     moduleId: module.id,

@@ -10,7 +10,7 @@ import {PositionReportsService} from "./position.reports.service";
 import {
     PositionReportChartData, PositionReportBubble,
     PositionReportChartDataSelect, SelectValues
-} from "./position.report.chart.data";
+} from "./position.report.types";
 
 const compVarPositiveLegend = "Positive";
 const compVarNegativeLegend = "Negative";
