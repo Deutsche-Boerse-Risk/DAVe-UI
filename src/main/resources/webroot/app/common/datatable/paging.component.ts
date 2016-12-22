@@ -1,4 +1,4 @@
-import {Component, Input, Output, OnChanges, SimpleChanges, EventEmitter} from '@angular/core';
+import {Component, Input, Output, OnChanges, EventEmitter} from '@angular/core';
 
 @Component({
     moduleId: module.id,
@@ -23,7 +23,7 @@ export class PagingComponent implements OnChanges {
     @Output()
     public pageChanged: EventEmitter<number> = new EventEmitter<number>();
 
-    public ngOnChanges(changes: SimpleChanges): void {
+    public ngOnChanges(): void {
         if (!this.pageSize || this.pageSize) {
             return;
         }

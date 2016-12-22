@@ -1,7 +1,4 @@
-import {
-    Component, Input, OnChanges, SimpleChanges, DoCheck, KeyValueDiffers, KeyValueDiffer,
-    SimpleChange
-} from '@angular/core';
+import {Component, Input, OnChanges, DoCheck} from '@angular/core';
 
 import {DataTableRows, DataTableCell, DataTable} from './data.table.types';
 
@@ -35,14 +32,12 @@ export class DataTableComponent implements OnChanges, DoCheck {
             let oldSerializedTable = this.serializedTable;
             this.serializedTable = JSON.stringify(this.dataTable);
             if (oldSerializedTable.localeCompare(this.serializedTable) !== 0) {
-                this.ngOnChanges({
-                    dataTable: new SimpleChange(JSON.parse(oldSerializedTable), this.dataTable)
-                });
+                this.ngOnChanges();
             }
         }
     }
 
-    public ngOnChanges(changes: SimpleChanges): void {
+    public ngOnChanges(): void {
         this.sort();
         this.serializedTable = JSON.stringify(this.dataTable);
     }
@@ -109,13 +104,14 @@ export class DataTableComponent implements OnChanges, DoCheck {
                 if (first < second)
                     return -1 * direction;
                 if (first > second)
-                    return 1 * direction;
+                    return direction;
                 return 0;
             });
         });
         this.updatePage(this.currentPage);
     }
 
+    //noinspection JSMethodCanBeStatic
     public processTitle(row: any, cell: DataTableCell): any {
         if (!cell.titleKey || !row) {
             return;
@@ -138,7 +134,7 @@ export class DataTableComponent implements OnChanges, DoCheck {
 
         Object.keys(cell.routerLink).forEach((key: string) => {
             let part = cell.routerLink[key];
-            if (part.match(/\{\{.*\}\}/i)) {
+            if (part.match(/\{\{.*}}/i)) {
                 let dataKey = part.slice(2, part.length - 2);
                 processedLink.push(row[dataKey]);
             } else {

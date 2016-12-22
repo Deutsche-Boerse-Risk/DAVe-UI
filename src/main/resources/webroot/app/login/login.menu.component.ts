@@ -10,6 +10,7 @@ import {AuthService} from './auth.service';
 })
 export class LoginMenuComponent {
 
+    //noinspection JSUnusedLocalSymbols
     /**
      * Just to add bootstrap classes to be able to fix the layout...
      */
@@ -26,6 +27,7 @@ export class LoginMenuComponent {
         return this.authService.isLoggedIn();
     }
 
+    //noinspection JSUnusedGlobalSymbols
     public logout(): void {
         this.authService.logout();
     }

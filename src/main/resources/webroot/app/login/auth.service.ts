@@ -136,7 +136,7 @@ export class AuthService extends AbstractHttpService<any> {
                 } else {
                     this.logout();
                 }
-            }, (data: ErrorResponse) => {
+            }, () => {
                 this.logout();
             });
         }
@@ -153,7 +153,7 @@ export class AuthService extends AbstractHttpService<any> {
                     resourceURL: url.refresh
                 }).subscribe((response: AuthResponse) => {
                     this.processToken(response, this.getLoggedUser());
-                }, (error: ErrorResponse) => {
+                }, () => {
                     this.logout();
                 });
             }

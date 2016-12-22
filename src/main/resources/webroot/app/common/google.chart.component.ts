@@ -1,9 +1,9 @@
-import {ElementRef, Input, Component, OnChanges, SimpleChanges, HostBinding, OnInit} from '@angular/core';
+import {ElementRef, Input, Component, OnChanges, HostBinding, OnInit} from '@angular/core';
 
 import {ChartOptions, ChartData} from './chart.types';
 
-declare var google: any;
-declare var googleLoaded: any;
+export let google: any;
+export let googleLoaded: any;
 
 @Component({
     moduleId: module.id,
@@ -32,19 +32,19 @@ export class GoogleChart implements OnInit, OnChanges {
     @HostBinding('style.height')
     public height: any;
 
-    private intialized: boolean = false;
+    private initialized: boolean = false;
 
     constructor(public element: ElementRef) {
         this._element = this.element.nativeElement;
     }
 
     public ngOnInit(): void {
-        this.intialized = true;
+        this.initialized = true;
         this.reinitChart();
     }
 
-    public ngOnChanges(changes: SimpleChanges): void {
-        if (this.intialized) {
+    public ngOnChanges(): void {
+        if (this.initialized) {
             this.reinitChart();
         }
     }
