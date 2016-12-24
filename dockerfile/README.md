@@ -42,7 +42,7 @@ To actually use the application, you have to point to a host running the MongoDB
 | `DAVE_HTTP_AUTH` | Enable authentication | `1` |
 | `DAVE_HTTP_AUTH_SALT` | Set the salt for password hashing | `sdf8hdgss3_a` |
 | `DAVE_HTTP_AUTH_LINK_SSL` | Validate the username against the CN of the SSL client certificate | `1` |
-| `DAVE_HTTP_JWT_BASE64_KEYSTORE` | Base64 encoded JCEKS keystore required by JWT authentication provider | `auto-generated` |
+| `DAVE_HTTP_JWT_BASE64_KEYSTORE` | Base64 encoded JCEKS keystore required by JWT authentication provider | |
 | `DAVE_HTTP_JWT_KEYSTORE_PASSWORD` | Password to the JWT keystore | `123456` |
 | `DAVE_HTTP_JWT_TOKEN_EXPIRATION` | Expiration time (in minutes) when the JWT token expires | `60` minutes |
 
