@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dave-config
+  namespace: ttsave
+data:
+  log.level: "INFO"
+  db.name: "DAVe-TTSave"
+  db.hostname: "mongo.default"
+  db.port: "27017"
+  http.enable: "TRUE"
+  http.compression: "TRUE"
+  http.auth: "TRUE"
+  http.redirect: "TRUE"
+  http.redirectUri: "ttsave.snapshot.dave.dbg-devops.com"
+  http.cors: "TRUE"
+  http.cors_origin: "*"
