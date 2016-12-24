@@ -17,8 +17,8 @@ if [ "$1" = "./bin/start_dave.sh" ]; then
   #####
   # Logging
   #####
-  if [ -z "$LOG_LEVEL" ]; then
-    LOG_LEVEL="INFO"
+  if [ -z "$DAVE_LOG_LEVEL" ]; then
+    DAVE_LOG_LEVEL="INFO"
   fi
 
   # Write the logging configuration file
@@ -33,7 +33,7 @@ if [ "$1" = "./bin/start_dave.sh" ]; then
       </Pattern>
     </layout>
   </appender>
-  <root level="${LOG_LEVEL}">
+  <root level="${DAVE_LOG_LEVEL}">
     <appender-ref ref="STDOUT" />
   </root>
 </configuration>

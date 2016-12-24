@@ -19,7 +19,7 @@ Allows to configure logging parameters. Supported log levels are `OFF`, `ERROR`,
 
 | Option | Explanation | Example |
 |--------|-------------|---------|
-| `LOG_LEVEL` | Logging level which should be used | `INFO` |
+| `DAVE_LOG_LEVEL` | Logging level which should be used | `INFO` |
 
 
 ### Database
