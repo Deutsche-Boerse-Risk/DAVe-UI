@@ -13,11 +13,20 @@ To actually use the application, you have to point to a host running the MongoDB
 
 ## Options
 
+### Logging
+
+Allows to configure logging parameters. Supported log levels are `OFF`, `ERROR`, `WARN`, `INFO`, `DEBUG`, `TRACE` and `ALL`.
+
+| Option | Explanation | Example |
+|--------|-------------|---------|
+| `LOG_LEVEL` | Logging level which should be used | `INFO` |
+
+
 ### Database
 
 | Option | Explanation | Example |
 |--------|-------------|---------|
-| `DAVE_DB_NAME` | Name of the database wich will be used | |
+| `DAVE_DB_NAME` | Name of the database which will be used | |
 | `DAVE_DB_HOSTNAME` | Hostname of the Mongo server | `mongo.mydomain.tld` |
 | `DAVE_DB_PORT` | Port where the Mongo database is listening | `27017` |
 | `DAVE_DB_USERNAME` | Username to connect into Mongo | |
