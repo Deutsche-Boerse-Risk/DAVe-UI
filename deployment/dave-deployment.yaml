@@ -4,6 +4,7 @@ metadata:
   name: dave-deployment
   labels:
     app: dave
+    layer: frontend
     project: dave
   namespace: ttsave
 spec:

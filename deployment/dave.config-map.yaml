@@ -3,6 +3,10 @@ kind: ConfigMap
 metadata:
   name: dave-config
   namespace: ttsave
+  labels:
+    app: dave
+    layer: frontend
+    project: dave
 data:
   log.level: "INFO"
   db.name: "DAVe-TTSave"
