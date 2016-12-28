@@ -1,0 +1,68 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: mongo-deployment
+  namespace: database
+  labels:
+    app: mongo
+    layer: database
+    project: dave
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: mongo
+      labels:
+        name: mongo
+        project: dave
+    spec:
+      containers:
+        - image: mongo:3.2
+          name: mongo
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 27017
+              name: db
+          volumeMounts:
+            - name: mongo-persistence
+              mountPath: /data/db
+      volumes:
+        - name: mongo-persistence
+          persistentVolumeClaim:
+            claimName: mongo-storage
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: database
+  labels:
+    name: mongo
+    app: mongo
+    layer: database
+    project: dave
+  name: mongo
+spec:
+  ports:
+    - port: 27017
+  selector:
+    name: mongo
+---
+
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: mongo-storage
+  namespace: database
+  annotations:
+    volume.beta.kubernetes.io/storage-class: "ssd"
+  labels:
+    name: mongo-storage
+    project: dave
+    layer: database
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
