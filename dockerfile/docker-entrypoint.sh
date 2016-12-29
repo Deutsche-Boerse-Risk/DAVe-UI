@@ -80,7 +80,7 @@ EOS
     fi
   fi
 
-  db_config="\"dbName\": \"${db_url}\", \"connectionUrl\": \"${DAVE_DB_URL}\""
+  db_config="\"dbName\": \"${DAVE_DB_NAME}\", \"connectionUrl\": \"${db_url}\""
   CONFIG_DB+=("$db_config")
 
   #####
