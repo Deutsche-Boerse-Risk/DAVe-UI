@@ -47,34 +47,40 @@ EOS
     DAVE_DB_NAME="DAVe"
   fi
 
-  # DB hostname
-  if [ -z "$DAVE_DB_HOSTNAME" ]; then
-    DAVE_DB_HOSTNAME="mongo"
-  fi
-
-  # DB port
-  if [ -z "$DAVE_DB_PORT" ]; then
-    DAVE_DB_PORT=27017
-  fi
-
-  # DB username
-  if [ -z "$DAVE_DB_USERNAME" ]; then
-    DAVE_DB_USERNAME=""
-  fi
-
-  # DB password
-  if [ -z "$DAVE_DB_PASSWORD" ]; then
-    DAVE_DB_PASSWORD=""
-  fi
-
-  # DB URL
-  if [[ "$DAVE_DB_USERNAME" && "$DAVE_DB_PASSWORD" ]]; then
-    DAVE_DB_URL="mongodb://${DAVE_DB_USERNAME}:${DAVE_DB_PASSWORD}@${DAVE_DB_HOSTNAME}:${DAVE_DB_PORT}"
+  # If DAVE_DB_URL is present, use the URL.
+  # Else build the URL from the individual fields.
+  if [ "$DAVE_DB_URL" ]; then
+    db_url="${DAVE_DB_URL}"
   else
-    DAVE_DB_URL="mongodb://${DAVE_DB_HOSTNAME}:${DAVE_DB_PORT}"
+    # DB hostname
+    if [ -z "$DAVE_DB_HOSTNAME" ]; then
+      DAVE_DB_HOSTNAME="mongo"
+    fi
+
+    # DB port
+    if [ -z "$DAVE_DB_PORT" ]; then
+      DAVE_DB_PORT=27017
+    fi
+
+    # DB username
+    if [ -z "$DAVE_DB_USERNAME" ]; then
+      DAVE_DB_USERNAME=""
+    fi
+
+    # DB password
+    if [ -z "$DAVE_DB_PASSWORD" ]; then
+      DAVE_DB_PASSWORD=""
+    fi
+
+    # Create DB URL
+    if [[ "$DAVE_DB_USERNAME" && "$DAVE_DB_PASSWORD" ]]; then
+      db_url="mongodb://${DAVE_DB_USERNAME}:${DAVE_DB_PASSWORD}@${DAVE_DB_HOSTNAME}:${DAVE_DB_PORT}"
+    else
+      db_url="mongodb://${DAVE_DB_HOSTNAME}:${DAVE_DB_PORT}"
+    fi
   fi
 
-  db_config="\"dbName\": \"${DAVE_DB_NAME}\", \"connectionUrl\": \"${DAVE_DB_URL}\""
+  db_config="\"dbName\": \"${db_url}\", \"connectionUrl\": \"${DAVE_DB_URL}\""
   CONFIG_DB+=("$db_config")
 
   #####

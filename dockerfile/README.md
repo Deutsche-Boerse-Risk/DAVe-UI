@@ -27,6 +27,7 @@ Allows to configure logging parameters. Supported log levels are `OFF`, `ERROR`,
 | Option | Explanation | Example |
 |--------|-------------|---------|
 | `DAVE_DB_NAME` | Name of the database which will be used | |
+| `DAVE_DB_URL` | Connection URL for Mongo database. Can be used for more complex database configuration. When set, options `DAVE_DB_HOSTNAME`, `DAVE_DB_PORT`, `DAVE_DB_USERNAME` and `DAVE_DB_PASSWORD` will be ignored. | `mongodb://user:pass@mongo1:27017,mongo2:27017/?replicaSet=test` |
 | `DAVE_DB_HOSTNAME` | Hostname of the Mongo server | `mongo.mydomain.tld` |
 | `DAVE_DB_PORT` | Port where the Mongo database is listening | `27017` |
 | `DAVE_DB_USERNAME` | Username to connect into Mongo | |
