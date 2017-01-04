@@ -1,4 +1,4 @@
-<div class="panel-body" ng-if="dataTable && pageRows?.length">
+<div class="panel-body" *ngIf="dataTable && dataTable.rows?.data?.length">
     <table class="table table-striped table-bordered table-hover">
         <thead *ngIf="dataTable.header">
         <tr>
@@ -40,10 +40,10 @@
     </table>
 </div>
 
-<div class="panel-footer" *ngIf="pageSize && dataTable.rows?.data?.length / pageSize > 1">
-    Showing {{pageRows?.length}} records out of {{rows?.length}}
+<div class="panel-footer" *ngIf="dataTable.pageSize && dataTable.rows?.data?.length / dataTable.pageSize > 1">
+    Showing {{dataTable.pageSize}} records out of {{dataTable.rows?.data?.length}}
 
-    <paging [pageSize]="pageSize"
+    <paging [pageSize]="dataTable.pageSize"
             [totalRecords]="dataTable.rows?.data?.length"
             (pageChanged)="updatePage($event)"></paging>
 </div>

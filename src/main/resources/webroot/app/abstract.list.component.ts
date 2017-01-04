@@ -1,11 +1,14 @@
 import {OnInit} from '@angular/core';
-
 import {ActivatedRoute, Params} from '@angular/router';
+
 import {RoutePart} from './common/bread.crumbs.component';
+import {DataTable} from './common/datatable/data.table.types';
 
-export abstract class AbstractListComponent implements OnInit {
+import {AbstractComponentWithAutoRefresh} from './abstract.component';
 
-    public initialLoad: boolean = false;
+export abstract class AbstractListComponent<T> extends AbstractComponentWithAutoRefresh implements OnInit {
+
+    public initialLoad: boolean = true;
 
     public errorMessage: string;
 
@@ -17,11 +20,16 @@ export abstract class AbstractListComponent implements OnInit {
 
     protected routeParams: Params;
 
+    public abstract dataTable: DataTable<T>;
+
     constructor(private route: ActivatedRoute) {
+        super();
     }
 
     public ngOnInit() {
-        this.route.params.forEach(this.processRoute.bind(this));
+        this.route.params.forEach(this.processRoute.bind(this))
+
+        super.ngOnInit();
     }
 
     protected abstract get exportKeys(): string[];
@@ -45,10 +53,21 @@ export abstract class AbstractListComponent implements OnInit {
                     routePart: pathParams[param]
                 });
             }
-            this.loadData();
         });
     }
 
+    protected processData(data: T[]): void {
+        let index;
+
+        for (index = 0; index < data.length; ++index) {
+            this.processRecord(data[index]);
+        }
+
+        this.filter();
+
+        delete this.errorMessage;
+        this.initialLoad = false;
+    }
 
 
     public filterAfterTimeout() {
@@ -62,6 +81,6 @@ export abstract class AbstractListComponent implements OnInit {
 
     }
 
-    protected abstract loadData(): void;
+    protected abstract processRecord(record: T): void;
 
 }

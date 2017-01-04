@@ -9,137 +9,140 @@
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <bread-crumbs [routeParts]="routeParts"></bread-crumbs>
 
                 <div class="pull-right col-lg-2 filter">
                     <div class="input-group input-group-sm">
                         <input type="text" class="form-control"
-                               placeholder="Filter ..." [(ngModel)]="filterQuery" (ngModelChange)="filterAfterTimeout()">
+                               placeholder="Filter ..." [(ngModel)]="filterQuery"
+                               (ngModelChange)="filterAfterTimeout()">
                         <span class="input-group-btn">
-                            <button class="btn btn-default" type="button" (click)="filter()"><i class="fa fa-search" aria-hidden="true"></i></button>
+                            <button class="btn btn-default" type="button" (click)="filter()"><i class="fa fa-search"
+                                                                                                aria-hidden="true"></i></button>
                         </span>
                     </div>
                 </div>
 
-                <!--<download-menu [columns]="" [data]="" [filename]=""></download-menu>-->
+                <download-menu [columns]="" [data]="" [filename]=""></download-menu>
+
+                <bread-crumbs [routeParts]="routeParts"></bread-crumbs>
             </div>
 
-            <!--<initial-load *ngIf="initialLoad && !errorMessage"></initial-load>-->
+            <initial-load *ngIf="initialLoad && !errorMessage"></initial-load>
 
-            <!--<no-data *ngIf="!initialLoad && !errorMessage && dataTable?.rows?.data?.length <= 1"></no-data>-->
+            <no-data *ngIf="!initialLoad && !errorMessage && dataTable?.rows?.data?.length < 1"></no-data>
 
-            <!--<update-failed *ngIf="errorMessage" [message]="errorMessage"></update-failed>-->
+            <update-failed *ngIf="errorMessage" [message]="errorMessage"></update-failed>
 
-            <!--<data-table [dataTable]="dataTable"></data-table>-->
+            <data-table [dataTable]="dataTable"></data-table>
 
             <!-- /.panel-heading -->
             <!--<div class="panel-body" *ngIf="viewWindow.length > 0">-->
-                <!--<table class="table table-bordered table-hover">-->
-                    <!--<thead>-->
-                    <!--<tr>-->
-                        <!--<th>Member / Client <span class="fa fa-sort" aria-hidden="true" (click)="sortRecords('member')"></span></th>-->
-                        <!--<th>Account <span class="fa fa-sort" aria-hidden="true" (click)="sortRecords('account')"></span></th>-->
-                        <!--<th>Symbol <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="Product symbol" aria-hidden="true"></i> <span class="fa fa-sort" aria-hidden="true" (click)="sortRecords('symbol')"></span></th>-->
-                        <!--<th>P/C <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="Put / Call flag (Options only)" aria-hidden="true"></i> <span class="fa fa-sort" aria-hidden="true" (click)="sortRecords('putCall')"></span></th>-->
-                        <!--<th>Strk <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="Strike (exercise) price (Options only)" aria-hidden="true"></i> <span class="fa fa-sort" aria-hidden="true" (click)="sortRecords('strikePriceFloat')"></span></th>-->
-                        <!--<th>Opt <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="Version number (Options only)" aria-hidden="true"></i> <span class="fa fa-sort" aria-hidden="true" (click)="sortRecords('optAttribute')"></span></th>-->
-                        <!--<th>MMY <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="Maturity month and year" aria-hidden="true"></i> <span class="fa fa-sort" aria-hidden="true" (click)="sortRecords('maturityMonthYear')"></span></th>-->
-                        <!--<th>NetLS <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="Net position" aria-hidden="true"></i> <span class="fa fa-sort" aria-hidden="true" (click)="sortRecords('netLS')"></span></th>-->
-                        <!--<th>Position VaR <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="PnL of the position when calculating portfolio VaR" aria-hidden="true"></i> <span class="fa fa-sort" aria-hidden="true" (click)="sortRecords('compVar')"></span></th>-->
-                        <!--<th>EuroDelta <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="Position sensibility to underlying move in Euro" aria-hidden="true"></i> <span class="fa fa-sort" aria-hidden="true" (click)="sortRecords('delta')"></span></th>-->
-                        <!--<th>LA <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="Liquidity Addon of the position" aria-hidden="true"></i> <span class="fa fa-sort" aria-hidden="true" (click)="sortRecords('compLiquidityAddOn')"></span></th>-->
-                        <!--<th></th>-->
-                    <!--</tr>-->
-                    <!--</thead>-->
-                    <!--<tbody>-->
-                    <!--<tr ng-repeat-start="record in viewWindow track by record.functionalKey" row-highlighter="record.functionalKey" (click)="showExtraInfo(record.functionalKey)">-->
-                        <!--<td highlighter="record.member"><a routerLink="/positionReportLatest/{{record.clearer}}/{{record.member}}">{{record.member}}</a></td>-->
-                        <!--<td highlighter="record.account"><a routerLink="/positionReportLatest/{{record.clearer}}/{{record.member}}/{{record.account}}">{{record.account}}</a></td>-->
-                        <!--<td highlighter="record.symbol"><a routerLink="/positionReportLatest/{{route.clearer}}/{{route.member}}/{{route.account}}/{{record.clss}}/{{record.symbol}}">{{record.symbol}}</a></td>-->
-                        <!--<td highlighter="record.putCall"><a routerLink="/positionReportLatest/{{route.clearer}}/{{route.member}}/{{route.account}}/{{record.clss}}/{{record.symbol}}/{{record.putCall | nullHandler:'*'}}">{{record.putCall}}</a></td>-->
-                        <!--<td highlighter="record.strikePrice"><a routerLink="/positionReportLatest/{{route.clearer}}/{{route.member}}/{{route.account}}/{{record.clss}}/{{record.symbol}}/{{record.putCall | nullHandler:'*'}}/{{record.strikePrice | nullHandler:'*'}}">{{record.strikePriceFloat | number:2}}</a></td>-->
-                        <!--<td highlighter="record.optAttribute"><a routerLink="/positionReportLatest/{{route.clearer}}/{{route.member}}/{{route.account}}/{{record.clss}}/{{record.symbol}}/{{record.putCall | nullHandler:'*'}}/{{record.strikePrice | nullHandler:'*'}}/{{record.optAttribute | nullHandler:'*'}}">{{record.optAttribute}}</a></td>-->
-                        <!--<td highlighter="record.maturityMonthYear"><a routerLink="/positionReportLatest/{{route.clearer}}/{{route.member}}/{{route.account}}/{{record.clss}}/{{record.symbol}}/{{record.putCall | nullHandler:'*'}}/{{record.strikePrice | nullHandler:'*'}}/{{record.optAttribute | nullHandler:'*'}}/{{record.maturityMonthYear}}">{{record.maturityMonthYear}}</a></td>-->
-                        <!--<td highlighter="record.netLS">{{record.netLS | number:2}}</td>-->
-                        <!--<td highlighter="record.compVar">{{record.compVar | number:2}}</td>-->
-                        <!--<td highlighter="record.delta">{{record.delta | number:2}}</td>-->
-                        <!--<td highlighter="record.compLiquidityAddOn">{{record.compLiquidityAddOn | number:2}}</td>-->
-                        <!--<td>-->
-                            <!--<a><span class="fa fa-chevron-circle-down" aria-hidden="true" title="Show additional fields" id="extra-icon-{{record.functionalKey}}"></span></a>-->
-                            <!--<a routerLink="/positionReportHistory/{{record.clearer}}/{{record.member}}/{{record.account}}/{{record.clss}}/{{record.symbol}}/{{record.putCall | nullHandler:'*'}}/{{record.strikePrice | nullHandler:'*'}}/{{record.optAttribute | nullHandler:'*'}}/{{record.maturityMonthYear}}"><span class="fa fa-bar-chart-o" aria-hidden="true" title="Detail"></span></a>-->
-                        <!--</td>-->
-                    <!--</tr>-->
-                    <!--<tr ng-repeat-end class="hidden" id="extra-{{record.functionalKey}}">-->
-                        <!--<td colspan="14">-->
-                            <!--<table class="table table-condensed">-->
-                                <!--<thead>-->
-                                <!--<tr row-highlighter="record.functionalKey">-->
-                                    <!--<th>Liqui Group / Margin Class</th>-->
-                                    <!--<th>Clearing Ccy</th>-->
-                                    <!--<th>Product Ccy</th>-->
-                                    <!--<th>CrMrgLQty</th>-->
-                                    <!--<th>CrMrgSQty</th>-->
-                                    <!--<th>NetEA</th>-->
-                                    <!--<th>OptExcQty</th>-->
-                                    <!--<th>OptAssQty</th>-->
-                                    <!--<th>AllTrQty</th>-->
-                                    <!--<th>DelNtQty</th>-->
-                                <!--</tr>-->
-                                <!--</thead>-->
-                                <!--<tbody>-->
-                                <!--<tr row-highlighter="record.functionalKey">-->
-                                    <!--<td highlighter="record.class"><a routerLink="/positionReportLatest/{{clearer}}/{{member}}/{{account}}/{{record.clss}}">{{record.clss}}</a></td>-->
-                                    <!--<td highlighter="record.clearingCcy">{{record.clearingCcy}}</td>-->
-                                    <!--<td highlighter="record.productCcy">{{record.productCcy}}</td>-->
-                                    <!--<td highlighter="record.crossMarginLongQty">{{record.crossMarginLongQty | number:2}}</td>-->
-                                    <!--<td highlighter="record.crossMarginShortQty">{{record.crossMarginShortQty | number:2}}</td>-->
-                                    <!--<td highlighter="record.netEA">{{record.netEA | number:2}}</td>-->
-                                    <!--<td highlighter="record.optionExcerciseQty">{{record.optionExcerciseQty | number:2}}</td>-->
-                                    <!--<td highlighter="record.optionAssignmentQty">{{record.optionAssignmentQty | number:2}}</td>-->
-                                    <!--<td highlighter="record.allocationTradeQty">{{record.allocationTradeQty | number:2}}</td>-->
-                                    <!--<td highlighter="record.deliveryNoticeQty">{{record.deliveryNoticeQty | number:2}}</td>-->
-                                <!--</tr>-->
-                                <!--</tbody>-->
-                                <!--<thead>-->
-                                <!--<tr row-highlighter="record.functionalKey">-->
-                                    <!--<th>CorrBreak</th>-->
-                                    <!--<th>CopmError</th>-->
-                                    <!--<th>LonOptCredit</th>-->
-                                    <!--<th>PremPay</th>-->
-                                    <!--<th>PremMrgn</th>-->
-                                    <!--<th>Gamma</th>-->
-                                    <!--<th>Vega</th>-->
-                                    <!--<th>Rho</th>-->
-                                    <!--<th>Theta</th>-->
-                                    <!--<th>MVar</th>-->
-                                <!--</tr>-->
-                                <!--</thead>-->
-                                <!--<tbody>-->
-                                <!--<tr row-highlighter="record.functionalKey">-->
-                                    <!--<td highlighter="record.compCorrelationBreak">{{record.compCorrelationBreak | number:2}}</td>-->
-                                    <!--<td highlighter="record.compCompressionError">{{record.compCompressionError | number:2}}</td>-->
-                                    <!--<td highlighter="record.compLongOptionCredit">{{record.compLongOptionCredit | number:2}}</td>-->
-                                    <!--<td highlighter="record.variationMarginPremiumPayment">{{record.variationMarginPremiumPayment | number:2}}</td>-->
-                                    <!--<td highlighter="record.premiumMargin">{{record.premiumMargin | number:2}}</td>-->
-                                    <!--<td highlighter="record.gamma">{{record.gamma | number:2}}</td>-->
-                                    <!--<td highlighter="record.vega">{{record.vega | number:2}}</td>-->
-                                    <!--<td highlighter="record.rho">{{record.rho | number:2}}</td>-->
-                                    <!--<td highlighter="record.theta">{{record.theta | number:2}}</td>-->
-                                    <!--<td highlighter="record.mVar">{{record.mVar | number:2}}</td>-->
-                                <!--</tr>-->
-                                <!--</tbody>-->
-                            <!--</table>-->
-                        <!--</td>-->
-                    <!--</tr>-->
-                    <!--</tbody>-->
-                <!--</table>-->
+            <!--<table class="table table-bordered table-hover">-->
+            <!--<thead>-->
+            <!--<tr>-->
+            <!--<th>Member / Client <span class="fa fa-sort" aria-hidden="true" (click)="sortRecords('member')"></span></th>-->
+            <!--<th>Account <span class="fa fa-sort" aria-hidden="true" (click)="sortRecords('account')"></span></th>-->
+            <!--<th>Symbol <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="Product symbol" aria-hidden="true"></i> <span class="fa fa-sort" aria-hidden="true" (click)="sortRecords('symbol')"></span></th>-->
+            <!--<th>P/C <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="Put / Call flag (Options only)" aria-hidden="true"></i> <span class="fa fa-sort" aria-hidden="true" (click)="sortRecords('putCall')"></span></th>-->
+            <!--<th>Strk <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="Strike (exercise) price (Options only)" aria-hidden="true"></i> <span class="fa fa-sort" aria-hidden="true" (click)="sortRecords('strikePriceFloat')"></span></th>-->
+            <!--<th>Opt <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="Version number (Options only)" aria-hidden="true"></i> <span class="fa fa-sort" aria-hidden="true" (click)="sortRecords('optAttribute')"></span></th>-->
+            <!--<th>MMY <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="Maturity month and year" aria-hidden="true"></i> <span class="fa fa-sort" aria-hidden="true" (click)="sortRecords('maturityMonthYear')"></span></th>-->
+            <!--<th>NetLS <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="Net position" aria-hidden="true"></i> <span class="fa fa-sort" aria-hidden="true" (click)="sortRecords('netLS')"></span></th>-->
+            <!--<th>Position VaR <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="PnL of the position when calculating portfolio VaR" aria-hidden="true"></i> <span class="fa fa-sort" aria-hidden="true" (click)="sortRecords('compVar')"></span></th>-->
+            <!--<th>EuroDelta <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="Position sensibility to underlying move in Euro" aria-hidden="true"></i> <span class="fa fa-sort" aria-hidden="true" (click)="sortRecords('delta')"></span></th>-->
+            <!--<th>LA <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="Liquidity Addon of the position" aria-hidden="true"></i> <span class="fa fa-sort" aria-hidden="true" (click)="sortRecords('compLiquidityAddOn')"></span></th>-->
+            <!--<th></th>-->
+            <!--</tr>-->
+            <!--</thead>-->
+            <!--<tbody>-->
+            <!--<tr ng-repeat-start="record in viewWindow track by record.functionalKey" row-highlighter="record.functionalKey" (click)="showExtraInfo(record.functionalKey)">-->
+            <!--<td highlighter="record.member"><a routerLink="/positionReportLatest/{{record.clearer}}/{{record.member}}">{{record.member}}</a></td>-->
+            <!--<td highlighter="record.account"><a routerLink="/positionReportLatest/{{record.clearer}}/{{record.member}}/{{record.account}}">{{record.account}}</a></td>-->
+            <!--<td highlighter="record.symbol"><a routerLink="/positionReportLatest/{{route.clearer}}/{{route.member}}/{{route.account}}/{{record.clss}}/{{record.symbol}}">{{record.symbol}}</a></td>-->
+            <!--<td highlighter="record.putCall"><a routerLink="/positionReportLatest/{{route.clearer}}/{{route.member}}/{{route.account}}/{{record.clss}}/{{record.symbol}}/{{record.putCall | nullHandler:'*'}}">{{record.putCall}}</a></td>-->
+            <!--<td highlighter="record.strikePrice"><a routerLink="/positionReportLatest/{{route.clearer}}/{{route.member}}/{{route.account}}/{{record.clss}}/{{record.symbol}}/{{record.putCall | nullHandler:'*'}}/{{record.strikePrice | nullHandler:'*'}}">{{record.strikePriceFloat | number:2}}</a></td>-->
+            <!--<td highlighter="record.optAttribute"><a routerLink="/positionReportLatest/{{route.clearer}}/{{route.member}}/{{route.account}}/{{record.clss}}/{{record.symbol}}/{{record.putCall | nullHandler:'*'}}/{{record.strikePrice | nullHandler:'*'}}/{{record.optAttribute | nullHandler:'*'}}">{{record.optAttribute}}</a></td>-->
+            <!--<td highlighter="record.maturityMonthYear"><a routerLink="/positionReportLatest/{{route.clearer}}/{{route.member}}/{{route.account}}/{{record.clss}}/{{record.symbol}}/{{record.putCall | nullHandler:'*'}}/{{record.strikePrice | nullHandler:'*'}}/{{record.optAttribute | nullHandler:'*'}}/{{record.maturityMonthYear}}">{{record.maturityMonthYear}}</a></td>-->
+            <!--<td highlighter="record.netLS">{{record.netLS | number:2}}</td>-->
+            <!--<td highlighter="record.compVar">{{record.compVar | number:2}}</td>-->
+            <!--<td highlighter="record.delta">{{record.delta | number:2}}</td>-->
+            <!--<td highlighter="record.compLiquidityAddOn">{{record.compLiquidityAddOn | number:2}}</td>-->
+            <!--<td>-->
+            <!--<a><span class="fa fa-chevron-circle-down" aria-hidden="true" title="Show additional fields" id="extra-icon-{{record.functionalKey}}"></span></a>-->
+            <!--<a routerLink="/positionReportHistory/{{record.clearer}}/{{record.member}}/{{record.account}}/{{record.clss}}/{{record.symbol}}/{{record.putCall | nullHandler:'*'}}/{{record.strikePrice | nullHandler:'*'}}/{{record.optAttribute | nullHandler:'*'}}/{{record.maturityMonthYear}}"><span class="fa fa-bar-chart-o" aria-hidden="true" title="Detail"></span></a>-->
+            <!--</td>-->
+            <!--</tr>-->
+            <!--<tr ng-repeat-end class="hidden" id="extra-{{record.functionalKey}}">-->
+            <!--<td colspan="14">-->
+            <!--<table class="table table-condensed">-->
+            <!--<thead>-->
+            <!--<tr row-highlighter="record.functionalKey">-->
+            <!--<th>Liqui Group / Margin Class</th>-->
+            <!--<th>Clearing Ccy</th>-->
+            <!--<th>Product Ccy</th>-->
+            <!--<th>CrMrgLQty</th>-->
+            <!--<th>CrMrgSQty</th>-->
+            <!--<th>NetEA</th>-->
+            <!--<th>OptExcQty</th>-->
+            <!--<th>OptAssQty</th>-->
+            <!--<th>AllTrQty</th>-->
+            <!--<th>DelNtQty</th>-->
+            <!--</tr>-->
+            <!--</thead>-->
+            <!--<tbody>-->
+            <!--<tr row-highlighter="record.functionalKey">-->
+            <!--<td highlighter="record.class"><a routerLink="/positionReportLatest/{{clearer}}/{{member}}/{{account}}/{{record.clss}}">{{record.clss}}</a></td>-->
+            <!--<td highlighter="record.clearingCcy">{{record.clearingCcy}}</td>-->
+            <!--<td highlighter="record.productCcy">{{record.productCcy}}</td>-->
+            <!--<td highlighter="record.crossMarginLongQty">{{record.crossMarginLongQty | number:2}}</td>-->
+            <!--<td highlighter="record.crossMarginShortQty">{{record.crossMarginShortQty | number:2}}</td>-->
+            <!--<td highlighter="record.netEA">{{record.netEA | number:2}}</td>-->
+            <!--<td highlighter="record.optionExcerciseQty">{{record.optionExcerciseQty | number:2}}</td>-->
+            <!--<td highlighter="record.optionAssignmentQty">{{record.optionAssignmentQty | number:2}}</td>-->
+            <!--<td highlighter="record.allocationTradeQty">{{record.allocationTradeQty | number:2}}</td>-->
+            <!--<td highlighter="record.deliveryNoticeQty">{{record.deliveryNoticeQty | number:2}}</td>-->
+            <!--</tr>-->
+            <!--</tbody>-->
+            <!--<thead>-->
+            <!--<tr row-highlighter="record.functionalKey">-->
+            <!--<th>CorrBreak</th>-->
+            <!--<th>CopmError</th>-->
+            <!--<th>LonOptCredit</th>-->
+            <!--<th>PremPay</th>-->
+            <!--<th>PremMrgn</th>-->
+            <!--<th>Gamma</th>-->
+            <!--<th>Vega</th>-->
+            <!--<th>Rho</th>-->
+            <!--<th>Theta</th>-->
+            <!--<th>MVar</th>-->
+            <!--</tr>-->
+            <!--</thead>-->
+            <!--<tbody>-->
+            <!--<tr row-highlighter="record.functionalKey">-->
+            <!--<td highlighter="record.compCorrelationBreak">{{record.compCorrelationBreak | number:2}}</td>-->
+            <!--<td highlighter="record.compCompressionError">{{record.compCompressionError | number:2}}</td>-->
+            <!--<td highlighter="record.compLongOptionCredit">{{record.compLongOptionCredit | number:2}}</td>-->
+            <!--<td highlighter="record.variationMarginPremiumPayment">{{record.variationMarginPremiumPayment | number:2}}</td>-->
+            <!--<td highlighter="record.premiumMargin">{{record.premiumMargin | number:2}}</td>-->
+            <!--<td highlighter="record.gamma">{{record.gamma | number:2}}</td>-->
+            <!--<td highlighter="record.vega">{{record.vega | number:2}}</td>-->
+            <!--<td highlighter="record.rho">{{record.rho | number:2}}</td>-->
+            <!--<td highlighter="record.theta">{{record.theta | number:2}}</td>-->
+            <!--<td highlighter="record.mVar">{{record.mVar | number:2}}</td>-->
+            <!--</tr>-->
+            <!--</tbody>-->
+            <!--</table>-->
+            <!--</td>-->
+            <!--</tr>-->
+            <!--</tbody>-->
+            <!--</table>-->
             <!--</div>-->
             <!--&lt;!&ndash; /.panel-body &ndash;&gt;-->
 
             <!--<div class="panel-footer">-->
-                <!--<table-summary total="recordCount" shown="viewWindow.length"></table-summary>-->
+            <!--<table-summary total="recordCount" shown="viewWindow.length"></table-summary>-->
 
-                <!--<paging page-size="pageSize" total-records="recordCount" update-callback="updateViewWindow"></paging>-->
+            <!--<paging page-size="pageSize" total-records="recordCount" update-callback="updateViewWindow"></paging>-->
             <!--</div>-->
         </div>
         <!-- /.panel -->

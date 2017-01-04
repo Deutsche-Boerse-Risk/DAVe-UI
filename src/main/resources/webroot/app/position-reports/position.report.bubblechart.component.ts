@@ -8,7 +8,7 @@ import {BubbleChartOptions, ChartData, ChartRow} from "../common/chart.types";
 
 import {PositionReportsService} from "./position.reports.service";
 import {
-    PositionReportChartData, PositionReportBubble,
+    PositionReportRow, PositionReportBubble,
     PositionReportChartDataSelect, SelectValues
 } from "./position.report.types";
 
@@ -43,7 +43,7 @@ export class PositionReportBubbleChartComponent extends AbstractComponentWithAut
             });
     }
 
-    private processData(chartData: PositionReportChartData[]): void {
+    private processData(chartData: PositionReportRow[]): void {
         delete this.memberSelection;
         delete this.accountSelection;
 
@@ -66,11 +66,11 @@ export class PositionReportBubbleChartComponent extends AbstractComponentWithAut
 
     public selection: PositionReportChartDataSelect = new PositionReportChartDataSelect();
 
-    public memberSelection: PositionReportChartData;
+    public memberSelection: PositionReportRow;
 
-    public accountSelection: PositionReportChartData;
+    public accountSelection: PositionReportRow;
 
-    private addAccountToSelection(record: PositionReportChartData): void {
+    private addAccountToSelection(record: PositionReportRow): void {
         let memberKey = record.clearer + '-' + record.member;
 
         let selectValues: SelectValues = this.selection.get(memberKey);
@@ -245,7 +245,7 @@ export class PositionReportBubbleChartComponent extends AbstractComponentWithAut
 
     private negativeCoveragePerc: number;
 
-    private addRecordToBubbles(record: PositionReportChartData): void {
+    private addRecordToBubbles(record: PositionReportRow): void {
         let bubbleKey: string = record.clearer + '-' + record.member + '-' + record.account + '-' + record.symbol + '-' + record.maturityMonthYear;
         let radius: number = record.compVar;
         if (bubbleKey in this.bubblesMap.keys()) {
@@ -265,7 +265,7 @@ export class PositionReportBubbleChartComponent extends AbstractComponentWithAut
         }
     }
 
-    private getLargestBubbles(selection: PositionReportChartData): PositionReportBubble[] {
+    private getLargestBubbles(selection: PositionReportRow): PositionReportBubble[] {
         let totalPositiveCompVar: number = 0;
         let topNPositiveCompVar: number = 0;
         let topNNegativeCompVar: number = 0;

@@ -28,4 +28,5 @@ export interface DataTable<T> {
     footer?: DataTableFooter<T>;
     pageSize?: number;
     defaultOrdering?: string[];
+    missingRouteParam?: string;
 }

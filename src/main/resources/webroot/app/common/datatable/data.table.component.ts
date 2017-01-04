@@ -136,7 +136,11 @@ export class DataTableComponent implements OnChanges, DoCheck {
             let part = cell.routerLink[key];
             if (part.match(/\{\{.*}}/i)) {
                 let dataKey = part.slice(2, part.length - 2);
-                processedLink.push(row[dataKey]);
+                if (row[dataKey]) {
+                    processedLink.push(row[dataKey]);
+                } else {
+                    processedLink.push(this.dataTable.missingRouteParam || '*');
+                }
             } else {
                 processedLink.push(part);
             }

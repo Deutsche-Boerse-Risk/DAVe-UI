@@ -2,7 +2,7 @@ import {OnInit, OnDestroy} from '@angular/core';
 
 export abstract class AbstractComponentWithAutoRefresh implements OnInit, OnDestroy {
 
-    private intervalHandle: any;
+    private intervalHandle: NodeJS.Timer;
 
     public ngOnInit(): void {
         this.loadData();

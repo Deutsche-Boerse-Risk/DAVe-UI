@@ -4,7 +4,7 @@ import {Component, Input, Output, OnChanges, EventEmitter} from '@angular/core';
     moduleId: module.id,
     selector: 'paging',
     templateUrl: 'paging.component.html',
-    styleUrls: ['../common.component.css']
+    styleUrls: ['paging.component.css']
 })
 export class PagingComponent implements OnChanges {
 
@@ -24,7 +24,7 @@ export class PagingComponent implements OnChanges {
     public pageChanged: EventEmitter<number> = new EventEmitter<number>();
 
     public ngOnChanges(): void {
-        if (!this.pageSize || this.pageSize) {
+        if (!this.pageSize || this.pageSize < 1) {
             return;
         }
 

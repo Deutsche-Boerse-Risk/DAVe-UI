@@ -1,11 +1,10 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Route, Router} from '@angular/router';
 
-import {AuthGuard} from './auth.routing.guard';
-import {AuthService} from '../login/auth.service';
-
-import {AuthModule} from '../login/auth.module';
-import {LoginComponent} from '../login/login.component';
+import {AuthGuard} from '../auth/auth.routing.guard';
+import {AuthService} from '../auth/auth.service';
+import {LoginComponent} from '../auth/login.component';
+import {AuthModule} from '../auth/auth.module';
 
 import {DashboardModule} from '../dashboard/dashboard.module';
 import {DashboardComponent} from '../dashboard/dashboard.component';
@@ -146,8 +145,7 @@ const ROUTES: Route[] = [
         AuthModule,
         DashboardModule
     ],
-    exports: [RouterModule],
-    providers: [AuthGuard]
+    exports: [RouterModule]
 })
 export class RoutingModule {
 

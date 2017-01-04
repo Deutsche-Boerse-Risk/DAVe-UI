@@ -50,13 +50,15 @@ export interface PositionReportRow {
     theta: number;
     underlying: string;
     received: string;
-}
-
-export interface PositionReportChartData extends PositionReportRow {
+    // Technical only
+    netLS: number;
+    netEA: number;
+    absCompVar: number;
+    strikePriceFloat: number;
 }
 
 export type SelectValues = {
-    record?: PositionReportChartData,
+    record?: PositionReportRow,
     subRecords: PositionReportChartDataSelect
 }
 
@@ -69,7 +71,7 @@ export class PositionReportChartDataSelect {
     constructor(public key?: string) {
     }
 
-    public getOptions(): PositionReportChartData[] {
+    public getOptions(): PositionReportRow[] {
         return Object.keys(this.options).map((key: string) => {
             return this.options[key].record;
         });

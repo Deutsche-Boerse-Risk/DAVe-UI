@@ -16,14 +16,14 @@
         (click)="goToPage(page)">
         <a [attr.aria-label]="'Page ' + page">{{page}}</a>
     </li>
-    <li [class.disabled]="currentPage === pageCount"
+    <li [class.disabled]="currentPage === lastPage"
         (click)="goToPage(currentPage + 1)">
         <a aria-label="Next">
             <span aria-hidden="true" class="fa fa-step-forward"></span>
         </a>
     </li>
-    <li [class.disabled]="currentPage === pageCount"
-        (click)="goToPage(pageCount)">
+    <li [class.disabled]="currentPage === lastPage"
+        (click)="goToPage(lastPage)">
         <a aria-label="Last">
             <span aria-hidden="true" class="fa fa-fast-forward"></span>
         </a>

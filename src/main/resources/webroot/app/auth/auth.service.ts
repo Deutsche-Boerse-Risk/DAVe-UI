@@ -2,6 +2,7 @@ import {Injectable, EventEmitter} from '@angular/core';
 import {Http} from '@angular/http';
 
 import {AuthHttp, AuthConfigConsts, JwtHelper} from 'angular2-jwt'
+
 import {AbstractHttpService, ErrorResponse} from '../abstract.http.service';
 
 const url = {
@@ -21,15 +22,13 @@ interface AuthStatusResponse {
 interface TokenData {
     username: string;
     exp: number;
+    iat: number;
 }
 
 @Injectable()
 export class AuthService extends AbstractHttpService<any> {
 
     private jwtHelper: JwtHelper = new JwtHelper();
-
-    private loggedIn: boolean;
-    private authUsername: string;
 
     public loggedInChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
@@ -41,19 +40,21 @@ export class AuthService extends AbstractHttpService<any> {
         super(http, authHttp);
         let token = localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME);
         if (token) {
-            this.tokenData = this.jwtHelper.decodeToken(token);
-            this.loggedIn = true;
-            this.authUsername = this.tokenData.username;
+            if (!this.jwtHelper.isTokenExpired(token)) {
+                this.tokenData = this.jwtHelper.decodeToken(token);
+            } else {
+                localStorage.removeItem(AuthConfigConsts.DEFAULT_TOKEN_NAME);
+            }
         }
         setInterval(this.checkAuth.bind(this), 60000);
     }
 
     public isLoggedIn(): boolean {
-        return this.loggedIn;
+        return !!this.tokenData;
     }
 
     public getLoggedUser(): string {
-        return this.authUsername;
+        return this.tokenData.username;
     }
 
     public login(username: string, password: string): Promise<boolean> {
@@ -76,6 +77,7 @@ export class AuthService extends AbstractHttpService<any> {
                 try {
                     this.tokenData = this.jwtHelper.decodeToken(response.token);
                     if (this.tokenData.username !== username) {
+                        delete this.tokenData;
                         reject(<ErrorResponse>{
                             status: 500,
                             message: 'Invalid token generated!'
@@ -83,25 +85,25 @@ export class AuthService extends AbstractHttpService<any> {
                     }
 
                     if (this.jwtHelper.isTokenExpired(response.token)) {
+                        delete this.tokenData;
                         reject(<ErrorResponse>{
                             status: 500,
                             message: 'Invalid token expiration!'
                         });
                     }
                 } catch (err) {
+                    delete this.tokenData;
                     reject(<ErrorResponse>{
                         status: 500,
                         message: err ? err.toString() : 'Error parsing token from auth response!'
                     });
                 }
-                this.loggedIn = true;
-                this.authUsername = username;
                 // store username and token in local storage to keep user logged in between page refreshes
                 localStorage.setItem(AuthConfigConsts.DEFAULT_TOKEN_NAME, response.token);
 
-                this.loggedInChange.emit(this.loggedIn);
+                this.loggedInChange.emit(true);
 
-                resolve(this.loggedIn);
+                resolve(true);
             } else {
                 reject(<ErrorResponse>{
                     status: 401,
@@ -113,38 +115,35 @@ export class AuthService extends AbstractHttpService<any> {
 
     public logout(): void {
         // remove user from local storage and clear http auth header
-        this.loggedIn = false;
-        delete this.authUsername;
+        delete this.tokenData;
         localStorage.removeItem(AuthConfigConsts.DEFAULT_TOKEN_NAME);
-        this.loggedInChange.emit(this.loggedIn)
+        this.loggedInChange.emit(false)
     }
 
     private checkAuth(): void {
-        if (this.loggedIn) {
+        if (this.tokenData) {
             this.refreshTokenIfExpires();
-            let loggedIn = this.loggedIn;
-            this.get({
-                resourceURL: url.status
-            }).subscribe((data: AuthStatusResponse) => {
-                if (data.username) {
-                    this.loggedIn = true;
-                    this.authUsername = data.username;
-
-                    if (!loggedIn) {
-                        this.loggedInChange.emit(this.loggedIn);
+            if (this.tokenData) {
+                this.get({
+                    resourceURL: url.status
+                }).subscribe((data: AuthStatusResponse) => {
+                    if (!this.tokenData || this.tokenData.username !== data.username) {
+                        this.logout();
                     }
-                } else {
+                }, () => {
                     this.logout();
-                }
-            }, () => {
-                this.logout();
-            });
+                });
+            }
         }
     }
 
     private refreshTokenIfExpires(): void {
         if (this.getLoggedUser()) {
             let token = localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME);
+            if (!token) {
+                this.logout();
+                return;
+            }
             let expirationThreshold = new Date();
             expirationThreshold.setMinutes(expirationThreshold.getMinutes() + 10);
             let tokenExpires = this.jwtHelper.getTokenExpirationDate(token) < expirationThreshold;
@@ -152,6 +151,7 @@ export class AuthService extends AbstractHttpService<any> {
                 this.get({
                     resourceURL: url.refresh
                 }).subscribe((response: AuthResponse) => {
+                    //noinspection JSIgnoredPromiseFromCall
                     this.processToken(response, this.getLoggedUser());
                 }, () => {
                     this.logout();

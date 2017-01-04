@@ -18,8 +18,7 @@ export let $: any;
     </ul>
 </div>
 `,
-    styleUrls: ['common.component.css'],
-    styles: ['.btn { margin-top: -4px }']
+    styleUrls: ['download.menu.component.css']
 })
 export class DownloadMenuComponent {
 
