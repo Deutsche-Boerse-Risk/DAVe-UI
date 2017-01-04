@@ -13,14 +13,45 @@ if [ "$1" = "./bin/start_dave.sh" ]; then
   CONFIG_ERS=()
   CONFIG_MASTERDATA=()
 
+
+  #####
+  # Logging
+  #####
+  if [ -z "$DAVE_LOG_LEVEL" ]; then
+    DAVE_LOG_LEVEL="INFO"
+  fi
+
+  # Write the logging configuration file
+  loggingConfigFile="$(pwd)/etc/logback.xml"
+  cat > $loggingConfigFile <<-EOS
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <layout class="ch.qos.logback.classic.PatternLayout">
+      <Pattern>
+        %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
+      </Pattern>
+    </layout>
+  </appender>
+  <root level="${DAVE_LOG_LEVEL}">
+    <appender-ref ref="STDOUT" />
+  </root>
+</configuration>
+EOS
+
   #####
   # DB
   #####
-    # DB name
-    if [ -z "$DAVE_DB_NAME" ]; then
-      DAVE_DB_NAME="DAVe"
-    fi
+  # DB name
+  if [ -z "$DAVE_DB_NAME" ]; then
+    DAVE_DB_NAME="DAVe"
+  fi
 
+  # If DAVE_DB_URL is present, use the URL.
+  # Else build the URL from the individual fields.
+  if [ "$DAVE_DB_URL" ]; then
+    db_url="${DAVE_DB_URL}"
+  else
     # DB hostname
     if [ -z "$DAVE_DB_HOSTNAME" ]; then
       DAVE_DB_HOSTNAME="mongo"
@@ -41,15 +72,16 @@ if [ "$1" = "./bin/start_dave.sh" ]; then
       DAVE_DB_PASSWORD=""
     fi
 
-    # DB URL
+    # Create DB URL
     if [[ "$DAVE_DB_USERNAME" && "$DAVE_DB_PASSWORD" ]]; then
-      DAVE_DB_URL="mongodb://${DAVE_DB_USERNAME}:${DAVE_DB_PASSWORD}@${DAVE_DB_HOSTNAME}:${DAVE_DB_PORT}"
+      db_url="mongodb://${DAVE_DB_USERNAME}:${DAVE_DB_PASSWORD}@${DAVE_DB_HOSTNAME}:${DAVE_DB_PORT}"
     else
-      DAVE_DB_URL="mongodb://${DAVE_DB_HOSTNAME}:${DAVE_DB_PORT}"
+      db_url="mongodb://${DAVE_DB_HOSTNAME}:${DAVE_DB_PORT}"
     fi
+  fi
 
-    db_config="\"dbName\": \"${DAVE_DB_NAME}\", \"connectionUrl\": \"${DAVE_DB_URL}\""
-    CONFIG_DB+=("$db_config")
+  db_config="\"dbName\": \"${DAVE_DB_NAME}\", \"connectionUrl\": \"${db_url}\""
+  CONFIG_DB+=("$db_config")
 
   #####
   # HTTP
@@ -269,7 +301,7 @@ if [ "$1" = "./bin/start_dave.sh" ]; then
   ## Write the config file
   #####
   configFile="$(pwd)/etc/dave.json"
-  cat >> $configFile <<-EOS
+  cat > $configFile <<-EOS
 {
 EOS
   IFSBAK="$IFS"
