@@ -22,7 +22,7 @@
                     </div>
                 </div>
 
-                <download-menu [columns]="" [data]="" [filename]=""></download-menu>
+                <download-menu [columns]="exportKeys" [data]="dataTable.rows?.data" filename="download.csv"></download-menu>
 
                 <bread-crumbs [routeParts]="routeParts"></bread-crumbs>
             </div>

@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 
-export let $: any;
+declare let $: any;
 
 @Component({
     moduleId: module.id,
@@ -33,7 +33,7 @@ export class DownloadMenuComponent {
 
     //noinspection JSUnusedGlobalSymbols
     public downloadAsCsv(): void {
-        const processRow = function (row) {
+        const processRow = (row) => {
             const keys = Object.keys(row);
 
             let finalVal = '';
@@ -61,7 +61,7 @@ export class DownloadMenuComponent {
             return finalVal + '\n';
         };
 
-        const createHeader = function (row) {
+        const createHeader = (row) => {
             const keys = Object.keys(row);
             let finalVal = '';
             let first = true;
