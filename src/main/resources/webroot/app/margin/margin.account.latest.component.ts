@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
 import {ErrorResponse} from '../abstract.http.service';
-import {MarginService} from './margin.service';
+import {MarginAccountService} from './margin.account.service';
 import {MarginAccountData} from './margin.types';
 
 import {AbstractListComponent} from '../abstract.list.component';
@@ -17,18 +17,18 @@ const defaultOrdering = ['-absAdditionalMargin', 'clearer', 'member', 'account',
 
 @Component({
     moduleId: module.id,
-    templateUrl: 'margin.latest.component.html',
-    styleUrls: ['margin.latest.component.css']
+    templateUrl: 'margin.account.latest.component.html',
+    styleUrls: ['margin.account.latest.component.css']
 })
-export class MarginLatestComponent extends AbstractListComponent<MarginAccountData> {
+export class MarginAccountLatestComponent extends AbstractListComponent<MarginAccountData> {
 
-    constructor(private marginService: MarginService,
+    constructor(private marginAccountService: MarginAccountService,
                 route: ActivatedRoute) {
         super(route);
     }
 
     protected loadData(): void {
-        this.marginService.getMarginLatest(this.routeParams['clearer'], this.routeParams['member'],
+        this.marginAccountService.getMarginLatest(this.routeParams['clearer'], this.routeParams['member'],
             this.routeParams['account'], this.routeParams['class'], this.routeParams['ccy'])
             .then((rows: MarginAccountData[]) => {
                 this.processData(rows);

@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 
 import {AbstractComponentWithAutoRefresh} from '../abstract.component';
 
-import {MarginService} from './margin.service';
+import {MarginShortfallSurplusService} from './margin.shortfall.surplus.service';
 import {MarginShortfallSurplus} from './margin.types';
 
 @Component({
@@ -15,7 +15,7 @@ export class MarginShortfallSurplusLatestSummaryComponent extends AbstractCompon
 
     public data: MarginShortfallSurplus;
 
-    constructor(private marginService: MarginService) {
+    constructor(private marginService: MarginShortfallSurplusService) {
         super();
     }
 

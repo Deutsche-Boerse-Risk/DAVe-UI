@@ -3,7 +3,7 @@ import {Component} from '@angular/core';
 import {AbstractComponentWithAutoRefresh} from '../abstract.component';
 import {ErrorResponse} from '../abstract.http.service';
 
-import {MarginService} from './margin.service';
+import {MarginAccountService} from './margin.account.service';
 import {MarginAccountDataBase, MarginAccountAggregationData} from './margin.types';
 
 const defaultOrdering = ['-absAdditionalMargin', 'clearer', 'member', 'account'];
@@ -24,7 +24,7 @@ export class MarginAccountAggregationComponent extends AbstractComponentWithAuto
 
     public data: MarginAccountDataBase[];
 
-    constructor(private marginService: MarginService) {
+    constructor(private marginAccountService: MarginAccountService) {
         super();
     }
 
@@ -33,7 +33,7 @@ export class MarginAccountAggregationComponent extends AbstractComponentWithAuto
     }
 
     protected loadData(): void {
-        this.marginService.getMarginAccountAggregationData()
+        this.marginAccountService.getMarginAccountAggregationData()
             .then((data: MarginAccountAggregationData) => {
                 this.data = data.aggregatedRows;
                 this.footer = data.summary;

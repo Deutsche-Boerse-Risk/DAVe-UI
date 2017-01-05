@@ -5,49 +5,19 @@ import {Http} from '@angular/http';
 import {AuthHttp} from 'angular2-jwt';
 
 import {
-    MarginShortfallSurplus,
     MarginAccountAggregationData,
     MarginAccountServerData,
-    MarginShortfallServerSurplus,
     MarginAccountDataBase, MarginAccountExportData
 } from './margin.types';
 
-const marginShortfallSurplusURL: string = '/mss/latest';
 const marginAccountAggregationURL: string = '/mc/latest/';
 const marginLatestURL: string = '/mc/latest/:0/:1/:2/:3/:4';
 
 @Injectable()
-export class MarginService extends AbstractHttpService<MarginShortfallServerSurplus[]| MarginAccountServerData[]> {
+export class MarginAccountService extends AbstractHttpService<MarginAccountServerData[]> {
 
     constructor(http: Http, authHttp: AuthHttp) {
         super(http, authHttp);
-    }
-
-    public getMarginShortfallSurplusData(): Promise<MarginShortfallSurplus> {
-        return new Promise((resolve, reject) => {
-            this.get({resourceURL: marginShortfallSurplusURL}).subscribe((data: MarginShortfallServerSurplus[]) => {
-                if (!data) {
-                    resolve({});
-                    return;
-                }
-                let result: MarginShortfallSurplus = {
-                    shortfallSurplus: 0,
-                    marginRequirement: 0,
-                    securityCollateral: 0,
-                    cashBalance: 0,
-                    marginCall: 0,
-                };
-
-                for (let index = 0; index < data.length; ++index) {
-                    result.shortfallSurplus += data[index].shortfallSurplus;
-                    result.marginRequirement += data[index].marginRequirement;
-                    result.securityCollateral += data[index].securityCollateral;
-                    result.cashBalance += data[index].cashBalance;
-                    result.marginCall += data[index].marginCall;
-                }
-                resolve(result);
-            }, reject);
-        });
     }
 
     public getMarginAccountAggregationData(): Promise<MarginAccountAggregationData> {
