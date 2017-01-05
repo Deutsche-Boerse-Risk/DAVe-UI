@@ -18,6 +18,12 @@ export class DataTableColumnDirective {
     public tooltip: string;
 
     @Input()
+    public rowspan: number;
+
+    @Input()
+    public colspan: number;
+
+    @Input()
     @ContentChild(DataTableColumnCellDirective, {read: TemplateRef})
     public cellTemplate: TemplateRef<any>;
 

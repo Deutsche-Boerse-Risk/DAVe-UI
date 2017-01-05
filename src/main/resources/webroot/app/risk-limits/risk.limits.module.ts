@@ -5,9 +5,9 @@ import {FormsModule} from '@angular/forms';
 
 import {CommonModule} from '../common/common.module';
 
-import {TotalMarginService} from './total.margin.service';
+import {RiskLimitsService} from './risk.limits.service';
 
-import {TotalMarginRequirementLatestComponent} from './total.margin.requirement.latest.component';
+import {RiskLimitLatestComponent} from './risk.limit.latest.component';
 
 @NgModule({
     imports: [
@@ -17,12 +17,11 @@ import {TotalMarginRequirementLatestComponent} from './total.margin.requirement.
         CommonModule
     ],
     declarations: [
-        TotalMarginRequirementLatestComponent
+        RiskLimitLatestComponent
     ],
     exports: [
-        TotalMarginRequirementLatestComponent
+        RiskLimitLatestComponent
     ],
-    providers: [TotalMarginService]
+    providers: [RiskLimitsService]
 })
-export class TotalMarginModule {
-}
+export class RiskLimitsModule {}

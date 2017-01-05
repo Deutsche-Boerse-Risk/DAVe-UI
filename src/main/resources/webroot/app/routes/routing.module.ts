@@ -20,6 +20,9 @@ import {MarginShortfallSurplusLatestComponent} from '../margin/margin.shortfall.
 import {TotalMarginModule} from '../total-margin/total.margin.module';
 import {TotalMarginRequirementLatestComponent} from '../total-margin/total.margin.requirement.latest.component';
 
+import {RiskLimitsModule} from '../risk-limits/risk.limits.module';
+import {RiskLimitLatestComponent} from '../risk-limits/risk.limit.latest.component';
+
 const ROUTES: Route[] = [
     {
         path: '',
@@ -223,12 +226,36 @@ const ROUTES: Route[] = [
     //     component: MarginShortfallSurplusHistoryComponent,
     //     canActivate: [AuthGuard]
     // },
-    // {
-    //     path: 'riskLimitLatest/:clearer/:member/:maintainer/:limitType',
-    //     pathMatch: 'full',
-    //     component: RiskLimitLatestComponent,
-    //     canActivate: [AuthGuard]
-    // },
+    {
+        path: 'riskLimitLatest',
+        pathMatch: 'full',
+        component: RiskLimitLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'riskLimitLatest/:clearer',
+        pathMatch: 'full',
+        component: RiskLimitLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'riskLimitLatest/:clearer/:member',
+        pathMatch: 'full',
+        component: RiskLimitLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'riskLimitLatest/:clearer/:member/:maintainer',
+        pathMatch: 'full',
+        component: RiskLimitLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'riskLimitLatest/:clearer/:member/:maintainer/:limitType',
+        pathMatch: 'full',
+        component: RiskLimitLatestComponent,
+        canActivate: [AuthGuard]
+    },
     // {
     //     path: 'riskLimitHistory/:clearer/:member/:maintainer/:limitType',
     //     pathMatch: 'full',
@@ -248,7 +275,8 @@ const ROUTES: Route[] = [
         DashboardModule,
         PositionReportsModule,
         MarginModule,
-        TotalMarginModule
+        TotalMarginModule,
+        RiskLimitsModule
     ],
     exports: [RouterModule]
 })
