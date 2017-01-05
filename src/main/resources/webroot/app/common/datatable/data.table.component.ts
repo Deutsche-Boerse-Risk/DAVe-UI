@@ -1,6 +1,7 @@
-import {Component, Input, OnChanges, DoCheck} from '@angular/core';
+import {Component, Input, OnChanges, ContentChild, QueryList, ContentChildren, TemplateRef} from '@angular/core';
 
-import {DataTableRows, DataTableCell, DataTable} from './data.table.types';
+import {DataTableColumnDirective} from './data.table.column.directive';
+import {DataTableRowDetailDirective} from './data.table.row.detail.directive';
 
 @Component({
     moduleId: module.id,
@@ -8,56 +9,82 @@ import {DataTableRows, DataTableCell, DataTable} from './data.table.types';
     templateUrl: 'data.table.component.html',
     styleUrls: ['data.table.component.css']
 })
-export class DataTableComponent implements OnChanges, DoCheck {
+export class DataTableComponent implements OnChanges {
 
     @Input()
-    public dataTable: DataTable<any>;
+    public data: any[];
 
-    public pageRows: DataTableRows<any>;
+    @Input()
+    public footer: any;
+
+    @Input()
+    public pageSize: number;
+
+    @Input()
+    public defaultOrdering: string[];
+
+    @Input()
+    public striped: boolean = true;
+
+    public pageRows: any[];
 
     private currentPage: number = 1;
 
     private ordering: string[];
 
-    private serializedTable: string;
+    public columns: DataTableColumnDirective[];
 
-    public ngDoCheck(): void {
-        if (!this.dataTable) {
-            return;
-        }
+    public rowDetailTemplate: TemplateRef<any>;
 
-        if (!this.serializedTable) {
-            this.serializedTable = JSON.stringify(this.dataTable);
-        } else {
-            let oldSerializedTable = this.serializedTable;
-            this.serializedTable = JSON.stringify(this.dataTable);
-            if (oldSerializedTable.localeCompare(this.serializedTable) !== 0) {
-                this.ngOnChanges();
-            }
+    @ContentChildren(DataTableColumnDirective)
+    public set columnTemplates(val: QueryList<DataTableColumnDirective>) {
+        if (val) {
+            this.columns = val.toArray();
         }
+    }
+
+    @ContentChild(DataTableRowDetailDirective)
+    public set rowDetailTemplateChild(val: DataTableRowDetailDirective) {
+        if (val) {
+            this.rowDetailTemplate = val.template;
+        }
+    }
+
+    public hasHeader(): boolean {
+        if (this.columns) {
+            return this.columns.some((column: DataTableColumnDirective) => {
+                return !!column.title;
+            });
+        }
+        return false;
+    }
+
+    public hasFooter(): boolean {
+        if (this.columns) {
+            return this.columns.some((column: DataTableColumnDirective) => {
+                return !!column.footerTemplate;
+            });
+        }
+        return false;
     }
 
     public ngOnChanges(): void {
         this.sort();
-        this.serializedTable = JSON.stringify(this.dataTable);
     }
 
     public updatePage(page: number) {
-        if (!this.dataTable.rows) {
+        if (!this.data) {
             return;
         }
 
         this.currentPage = page;
-        if (!this.dataTable.pageSize) {
-            this.pageRows = this.dataTable.rows;
+        if (!this.pageSize) {
+            this.pageRows = this.data;
             return;
         }
-        let firstIndex = (page - 1) * this.dataTable.pageSize;
-        let lastIndex = page * this.dataTable.pageSize;
-        this.pageRows = {
-            cells: this.dataTable.rows.cells,
-            data: this.dataTable.rows.data.slice(firstIndex, lastIndex)
-        };
+        let firstIndex = (page - 1) * this.pageSize;
+        let lastIndex = page * this.pageSize;
+        this.pageRows = this.data.slice(firstIndex, lastIndex);
     }
 
     public sortRecords(sortingKey: string): void {
@@ -65,7 +92,7 @@ export class DataTableComponent implements OnChanges, DoCheck {
             this.ordering = [];
         }
 
-        let defaultOrdering = this.dataTable.defaultOrdering;
+        let defaultOrdering = this.defaultOrdering;
         if (!defaultOrdering) {
             defaultOrdering = [];
         }
@@ -79,12 +106,12 @@ export class DataTableComponent implements OnChanges, DoCheck {
     }
 
     private sort(): void {
-        if (!this.dataTable.rows) {
+        if (!this.data) {
             return;
         }
 
         if (!this.ordering) {
-            this.ordering = this.dataTable.defaultOrdering;
+            this.ordering = this.defaultOrdering;
         }
 
         if (!this.ordering) {
@@ -97,7 +124,7 @@ export class DataTableComponent implements OnChanges, DoCheck {
                 sortingKey = sortingKey.slice(1);
                 direction = -1
             }
-            this.dataTable.rows.data.sort((a: any, b: any) => {
+            this.data.sort((a: any, b: any) => {
                 let first = a[sortingKey];
                 let second = b[sortingKey];
 
@@ -109,44 +136,6 @@ export class DataTableComponent implements OnChanges, DoCheck {
             });
         });
         this.updatePage(this.currentPage);
-    }
-
-    //noinspection JSMethodCanBeStatic
-    public processTitle(row: any, cell: DataTableCell): any {
-        if (!cell.titleKey || !row) {
-            return;
-        }
-
-        let title = row[cell.titleKey];
-
-        if (cell.pipe) {
-            title = cell.pipe.transform(title, cell.pipeArgs);
-        }
-        return title;
-    }
-
-    public processRouterLink(row: any, cell: DataTableCell): string[] {
-        if (!cell.routerLink || !row) {
-            return;
-        }
-
-        let processedLink: string[] = [];
-
-        Object.keys(cell.routerLink).forEach((key: string) => {
-            let part = cell.routerLink[key];
-            if (part.match(/\{\{.*}}/i)) {
-                let dataKey = part.slice(2, part.length - 2);
-                if (row[dataKey]) {
-                    processedLink.push(row[dataKey]);
-                } else {
-                    processedLink.push(this.dataTable.missingRouteParam || '*');
-                }
-            } else {
-                processedLink.push(part);
-            }
-        });
-
-        return processedLink;
     }
 }
 

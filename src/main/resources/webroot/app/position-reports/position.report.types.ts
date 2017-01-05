@@ -1,4 +1,4 @@
-export interface PositionReportRow {
+export interface PositionReportServerData {
     _id: {
         clearer: string;
         member: string;
@@ -50,15 +50,60 @@ export interface PositionReportRow {
     theta: number;
     underlying: string;
     received: string;
-    // Technical only
-    netLS: number;
-    netEA: number;
-    absCompVar: number;
-    strikePriceFloat: number;
+}
+
+export interface PositionReportBase {
+    clearer: string;
+    member: string;
+    account: string;
+    symbol: string;
+    putCall: string;
+    maturityMonthYear: string;
+}
+
+export interface PositionReportChartData extends PositionReportBase {
+    compVar: number;
+    underlying: string;
+}
+
+export interface PositionReportRow extends PositionReportBase {
+    class: string;
+    strikePrice?: number;
+    optAttribute: string;
+    compLiquidityAddOn: number;
+    delta: number;
+    netLS?: number;
+    netEA?: number;
+    absCompVar?: number;
+}
+
+export interface PositionReportExportRow extends PositionReportRow {
+    bizDt: string;
+    crossMarginLongQty: number;
+    crossMarginShortQty: number;
+    optionExcerciseQty: number;
+    optionAssignmentQty: number;
+    allocationTradeQty: number;
+    deliveryNoticeQty: number;
+    clearingCcy: string;
+    mVar: number;
+    compVar: number;
+    compCorrelationBreak: number;
+    compCompressionError: number;
+    compLongOptionCredit: number;
+    productCcy: string;
+    variationMarginPremiumPayment: number;
+    premiumMargin: number;
+    gamma: number;
+    vega: number;
+    rho: number;
+    theta: number;
+    underlying: string;
+    received: string;
 }
 
 export type SelectValues = {
-    record?: PositionReportRow,
+    record?: PositionReportChartData,
     subRecords: PositionReportChartDataSelect
 }
 
@@ -71,7 +116,7 @@ export class PositionReportChartDataSelect {
     constructor(public key?: string) {
     }
 
-    public getOptions(): PositionReportRow[] {
+    public getOptions(): PositionReportChartData[] {
         return Object.keys(this.options).map((key: string) => {
             return this.options[key].record;
         });

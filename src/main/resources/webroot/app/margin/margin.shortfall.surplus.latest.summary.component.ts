@@ -13,15 +13,7 @@ import {MarginShortfallSurplus} from './margin.types';
 })
 export class MarginShortfallSurplusLatestSummaryComponent extends AbstractComponentWithAutoRefresh {
 
-    public shortfallSurplus: number = 0;
-
-    public marginRequirement: number = 0;
-
-    public securityCollateral: number = 0;
-
-    public cashBalance: number = 0;
-
-    public marginCall: number = 0;
+    public data: MarginShortfallSurplus;
 
     constructor(private marginService: MarginService) {
         super();
@@ -29,23 +21,8 @@ export class MarginShortfallSurplusLatestSummaryComponent extends AbstractCompon
 
     protected loadData(): void {
         this.marginService.getMarginShortfallSurplusData()
-            .then(this.processData.bind(this))
+            .then((data: MarginShortfallSurplus) => {
+                this.data = data;
+            });
     }
-
-    private processData(data: MarginShortfallSurplus[]): void {
-        this.shortfallSurplus = 0;
-        this.marginRequirement = 0;
-        this.securityCollateral = 0;
-        this.cashBalance = 0;
-        this.marginCall = 0;
-
-        for (let index = 0; index < data.length; ++index) {
-            this.shortfallSurplus += data[index].shortfallSurplus;
-            this.marginRequirement += data[index].marginRequirement;
-            this.securityCollateral += data[index].securityCollateral;
-            this.cashBalance += data[index].cashBalance;
-            this.marginCall += data[index].marginCall;
-        }
-    }
-
 }

@@ -1,9 +1,6 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {DataTable, DataTableHeader} from '../common/datatable/data.table.types';
-import {NUMBER_PIPE} from '../common/common.module';
-
 import {ErrorResponse} from '../abstract.http.service';
 import {PositionReportRow} from './position.report.types';
 import {PositionReportsService} from './position.reports.service';
@@ -14,79 +11,15 @@ const routingKeys: string[] = ['clearer', 'member', 'account', 'class', 'symbol'
     'strikePrice', 'optAttribute', 'maturityMonthYear'];
 
 const exportKeys: string[] = ['clearer', 'member', 'account', 'bizDt', 'symbol', 'putCall', 'maturityMonthYear',
-    'strikePriceFloat', 'optAttribute', 'crossMarginLongQty', 'crossMarginShortQty', 'optionExcerciseQty',
+    'strikePrice', 'optAttribute', 'crossMarginLongQty', 'crossMarginShortQty', 'optionExcerciseQty',
     'optionAssignmentQty', 'allocationTradeQty', 'deliveryNoticeQty', 'clearingCcy', 'mVar', 'compVar',
     'compCorrelationBreak', 'compCompressionError', 'compLiquidityAddOn', 'compLongOptionCredit', 'productCcy',
-    'variationMarginPremiumPayment', 'premiumMargin', 'delta', 'gamma', 'vega', 'rho', 'theta', 'received', 'clss',
+    'variationMarginPremiumPayment', 'premiumMargin', 'delta', 'gamma', 'vega', 'rho', 'theta', 'received', 'class',
     'underlying', 'netLS', 'netEA'
 ];
 
-const defaultOrdering = ['-absCompVar', 'clearer', 'member', 'account', 'symbol', 'putCall', 'strikePriceFloat',
+const defaultOrdering = ['-absCompVar', 'clearer', 'member', 'account', 'symbol', 'putCall', 'strikePrice',
     'optAttribute', 'maturityMonthYear'];
-
-const tableHeader: DataTableHeader = [
-    {
-        title: 'Member / Client',
-        sortingKey: 'member'
-    },
-    {
-        title: 'Account',
-        sortingKey: 'account'
-    },
-    {
-        title: 'Symbol',
-        tooltip: 'Product symbol',
-        sortingKey: 'symbol'
-    },
-    {
-        title: 'P/C',
-        tooltip: 'Put / Call flag (Options only)',
-        sortingKey: 'putCall'
-    },
-    {
-        title: 'Strk',
-        tooltip: 'Strike (exercise) price (Options only)',
-        sortingKey: 'strikePriceFloat'
-    },
-    {
-        title: 'Opt',
-        tooltip: 'Version number (Options only)',
-        sortingKey: 'optAttribute'
-    },
-    {
-        title: 'MMY',
-        tooltip: 'Maturity month and year',
-        sortingKey: 'maturityMonthYear'
-    },
-    {
-        title: 'NetLS',
-        tooltip: 'Net position',
-        sortingKey: 'netLS'
-    },
-    {
-        title: 'Position VaR',
-        tooltip: 'PnL of the position when calculating portfolio VaR',
-        sortingKey: 'compVar'
-    },
-    {
-        title: 'EuroDelta',
-        tooltip: 'Position sensibility to underlying move in Euro',
-        sortingKey: 'delta'
-    },
-    {
-        title: 'LA',
-        tooltip: 'Liquidity Addon of the position',
-        sortingKey: 'compLiquidityAddOn'
-    }
-];
-
-const rootRouteLink = ['/positionReportLatest', '{{clearer}}', '{{member}}'];
-const accountRouteLink = rootRouteLink.concat(['{{account}}']);
-const symbolRouteLink = accountRouteLink.concat(['{{clss}}', '{{symbol}}']);
-const putCallRouteLink = symbolRouteLink.concat(['{{putCall}}']);
-const strikePriceRouteLink = putCallRouteLink.concat(['{{strikePrice}}']);
-const optAttributeRouteLink = strikePriceRouteLink.concat(['{{optAttribute}}']);
-const maturityMonthYearRouteLink = optAttributeRouteLink.concat(['{{maturityMonthYear}}']);
 
 @Component({
     moduleId: module.id,
@@ -94,67 +27,6 @@ const maturityMonthYearRouteLink = optAttributeRouteLink.concat(['{{maturityMont
     styleUrls: ['position.report.latest.component.css']
 })
 export class PositionReportLatestComponent extends AbstractListComponent<PositionReportRow> {
-
-    public dataTable: DataTable<PositionReportRow> = {
-        header: tableHeader,
-        rows: {
-            cells: [
-                {
-                    titleKey: 'member',
-                    routerLink: rootRouteLink
-                },
-                {
-                    titleKey: 'account',
-                    routerLink: accountRouteLink
-                },
-                {
-                    titleKey: 'symbol',
-                    routerLink: symbolRouteLink
-                },
-                {
-                    titleKey: 'putCall',
-                    routerLink: putCallRouteLink
-                },
-                {
-                    titleKey: 'strikePriceFloat',
-                    pipe: NUMBER_PIPE,
-                    pipeArgs: '.2-2',
-                    routerLink: strikePriceRouteLink
-                },
-                {
-                    titleKey: 'optAttribute',
-                    routerLink: optAttributeRouteLink
-                },
-                {
-                    titleKey: 'maturityMonthYear',
-                    routerLink: maturityMonthYearRouteLink
-                },
-                {
-                    titleKey: 'netLS',
-                    pipe: NUMBER_PIPE,
-                    pipeArgs: '.2-2'
-                },
-                {
-                    titleKey: 'compVar',
-                    pipe: NUMBER_PIPE,
-                    pipeArgs: '.2-2'
-                },
-                {
-                    titleKey: 'delta',
-                    pipe: NUMBER_PIPE,
-                    pipeArgs: '.2-2'
-                },
-                {
-                    titleKey: 'compLiquidityAddOn',
-                    pipe: NUMBER_PIPE,
-                    pipeArgs: '.2-2'
-                }
-            ],
-            data: []
-        },
-        defaultOrdering: defaultOrdering,
-        pageSize: 20
-    };
 
     constructor(private positionReportsService: PositionReportsService,
                 route: ActivatedRoute) {
@@ -175,15 +47,8 @@ export class PositionReportLatestComponent extends AbstractListComponent<Positio
             });
     }
 
-    protected processRecord(record: PositionReportRow): void {
-        record.netLS = record.crossMarginLongQty - record.crossMarginShortQty;
-        record.netEA = (record.optionExcerciseQty - record.optionAssignmentQty) + (record.allocationTradeQty - record.deliveryNoticeQty);
-        record.absCompVar = Math.abs(record.compVar);
-
-        if (record.strikePrice) {
-            record.strikePriceFloat = parseFloat(record.strikePrice);
-        }
-        this.dataTable.rows.data.push(record);
+    public get defaultOrdering(): string[] {
+        return defaultOrdering;
     }
 
     protected get exportKeys(): string[] {

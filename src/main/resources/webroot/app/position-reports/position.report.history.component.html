@@ -11,21 +11,30 @@
             <div class="panel-heading">
                 <a href="#/positionReportLatest">Latest Position Reports</a>
                 <span ng-if="vm.route.clearer != '*'">: <a href="#/positionReportLatest/{{vm.route.clearer}}">{{vm.route.clearer}}</a></span>
-                <span ng-if="vm.route.member != '*'"> / <a href="#/positionReportLatest/{{vm.route.clearer}}/{{vm.route.member}}">{{vm.route.member}}</a></span>
-                <span ng-if="vm.route.account != '*'"> / <a href="#/positionReportLatest/{{vm.route.clearer}}/{{vm.route.member}}/{{vm.route.account}}">{{vm.route.account}}</a></span>
-                <span ng-if="vm.route.class != '*'"> / <a href="#/positionReportLatest/{{vm.route.clearer}}/{{vm.route.member}}/{{vm.route.account}}/{{vm.route.class}}">{{vm.route.class}}</a></span>
-                <span ng-if="vm.route.symbol != '*'"> / <a href="#/positionReportLatest/{{vm.route.clearer}}/{{vm.route.member}}/{{vm.route.account}}/{{vm.route.symbol}}">{{vm.route.symbol}}</a></span>
-                <span ng-if="vm.route.putCall != '*'"> / <a href="#/positionReportLatest/{{vm.route.clearer}}/{{vm.route.member}}/{{vm.route.account}}/{{vm.route.symbol}}/{{vm.route.putCall}}">{{vm.route.putCall}}</a></span>
-                <span ng-if="vm.route.strikePrice != '*'"> / <a href="#/positionReportLatest/{{vm.route.clearer}}/{{vm.route.member}}/{{vm.route.account}}/{{vm.route.symbol}}/{{vm.route.putCall}}/{{vm.route.strikePrice}}">{{vm.route.strikePrice}}</a></span>
-                <span ng-if="vm.route.optAttribute != '*'"> / <a href="#/positionReportLatest/{{vm.route.clearer}}/{{vm.route.member}}/{{vm.route.account}}/{{vm.route.symbol}}/{{vm.route.putCall}}/{{vm.route.strikePrice}}/{{vm.route.optAttribute}}">{{vm.route.optAttribute}}</a></span>
-                <span ng-if="vm.route.maturityMonthYear != '*'"> / <a href="#/positionReportLatest/{{vm.route.clearer}}/{{vm.route.member}}/{{vm.route.account}}/{{vm.route.symbol}}/{{vm.route.putCall}}/{{vm.route.strikePrice}}/{{vm.route.optAttribute}}/{{vm.route.maturityMonthYear}}">{{vm.route.maturityMonthYear}}</a></span>
+                <span ng-if="vm.route.member != '*'"> / <a
+                        href="#/positionReportLatest/{{vm.route.clearer}}/{{vm.route.member}}">{{vm.route.member}}</a></span>
+                <span ng-if="vm.route.account != '*'"> / <a
+                        href="#/positionReportLatest/{{vm.route.clearer}}/{{vm.route.member}}/{{vm.route.account}}">{{vm.route.account}}</a></span>
+                <span ng-if="vm.route.class != '*'"> / <a
+                        href="#/positionReportLatest/{{vm.route.clearer}}/{{vm.route.member}}/{{vm.route.account}}/{{vm.route.class}}">{{vm.route.class}}</a></span>
+                <span ng-if="vm.route.symbol != '*'"> / <a
+                        href="#/positionReportLatest/{{vm.route.clearer}}/{{vm.route.member}}/{{vm.route.account}}/{{vm.route.symbol}}">{{vm.route.symbol}}</a></span>
+                <span ng-if="vm.route.putCall != '*'"> / <a
+                        href="#/positionReportLatest/{{vm.route.clearer}}/{{vm.route.member}}/{{vm.route.account}}/{{vm.route.symbol}}/{{vm.route.putCall}}">{{vm.route.putCall}}</a></span>
+                <span ng-if="vm.route.strikePrice != '*'"> / <a
+                        href="#/positionReportLatest/{{vm.route.clearer}}/{{vm.route.member}}/{{vm.route.account}}/{{vm.route.symbol}}/{{vm.route.putCall}}/{{vm.route.strikePrice}}">{{vm.route.strikePrice}}</a></span>
+                <span ng-if="vm.route.optAttribute != '*'"> / <a
+                        href="#/positionReportLatest/{{vm.route.clearer}}/{{vm.route.member}}/{{vm.route.account}}/{{vm.route.symbol}}/{{vm.route.putCall}}/{{vm.route.strikePrice}}/{{vm.route.optAttribute}}">{{vm.route.optAttribute}}</a></span>
+                <span ng-if="vm.route.maturityMonthYear != '*'"> / <a
+                        href="#/positionReportLatest/{{vm.route.clearer}}/{{vm.route.member}}/{{vm.route.account}}/{{vm.route.symbol}}/{{vm.route.putCall}}/{{vm.route.strikePrice}}/{{vm.route.optAttribute}}/{{vm.route.maturityMonthYear}}">{{vm.route.maturityMonthYear}}</a></span>
 
                 <div class="pull-right col-lg-2 filter">
                     <div class="input-group input-group-sm">
                         <input type="text" class="form-control"
                                placeholder="Filter ..." ng-model="vm.filterQuery" ng-change="vm.filter()">
                         <span class="input-group-btn">
-                            <button class="btn btn-default" type="button" ng-click="vm.filter()"><i class="fa fa-search" aria-hidden="true"></i></button>
+                            <button class="btn btn-default" type="button" ng-click="vm.filter()"><i class="fa fa-search"
+                                                                                                    aria-hidden="true"></i></button>
                         </span>
                     </div>
                 </div>
@@ -34,9 +43,9 @@
 
             </div>
 
-            <initial-load ng-if="vm.recordCount == 0 && vm.initialLoad == true && vm.errorMessage == ''" />
+            <initial-load ng-if="vm.recordCount == 0 && vm.initialLoad == true && vm.errorMessage == ''"/>
 
-            <no-data ng-if="vm.recordCount == 0 && vm.initialLoad == false && vm.errorMessage == ''" />
+            <no-data ng-if="vm.recordCount == 0 && vm.initialLoad == false && vm.errorMessage == ''"/>
 
             <update-failed ng-if="vm.errorMessage != ''" message="vm.errorMessage"/>
 
@@ -45,36 +54,84 @@
                 <table class="table table-bordered table-hover">
                     <thead>
                     <tr>
-                        <th>Member / Client <span class="fa fa-sort" aria-hidden="true" ng-click="vm.sortRecords('member')"></span></th>
-                        <th>Account <span class="fa fa-sort" aria-hidden="true" ng-click="vm.sortRecords('account')"></span></th>
-                        <th>Symbol <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="Product symbol" aria-hidden="true"></i> <span class="fa fa-sort" aria-hidden="true" ng-click="vm.sortRecords('symbol')"></span></th>
-                        <th>P/C <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="Put / Call flag (Options only)" aria-hidden="true"></i> <span class="fa fa-sort" aria-hidden="true" ng-click="vm.sortRecords('putCall')"></span></th>
-                        <th>Strk <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="Strike (exercise) price (Options only)" aria-hidden="true"></i> <span class="fa fa-sort" aria-hidden="true" ng-click="vm.sortRecords('strikePriceFloat')"></span></th>
-                        <th>Opt <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="Version number (Options only)" aria-hidden="true"></i> <span class="fa fa-sort" aria-hidden="true" ng-click="vm.sortRecords('optAttribute')"></span></th>
-                        <th>MMY <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="Maturity month and year" aria-hidden="true"></i> <span class="fa fa-sort" aria-hidden="true" ng-click="vm.sortRecords('maturityMonthYear')"></span></th>
-                        <th>NetLS <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="Net position" aria-hidden="true"></i> <span class="fa fa-sort" aria-hidden="true" ng-click="vm.sortRecords('netLS')"></span></th>
-                        <th>Position VaR <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="PnL of the position when calculating portfolio VaR" aria-hidden="true"></i> <span class="fa fa-sort" aria-hidden="true" ng-click="vm.sortRecords('compVar')"></span></th>
-                        <th>EuroDelta <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="Position sensibility to underlying move in Euro" aria-hidden="true"></i> <span class="fa fa-sort" aria-hidden="true" ng-click="vm.sortRecords('delta')"></span></th>
-                        <th>LA <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="Liquidity Addon of the position" aria-hidden="true"></i> <span class="fa fa-sort" aria-hidden="true" ng-click="vm.sortRecords('compLiquidityAddOn')"></span></th>
+                        <th>Member / Client <span class="fa fa-sort" aria-hidden="true"
+                                                  ng-click="vm.sortRecords('member')"></span></th>
+                        <th>Account <span class="fa fa-sort" aria-hidden="true"
+                                          ng-click="vm.sortRecords('account')"></span></th>
+                        <th>Symbol <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top"
+                                      title="Product symbol" aria-hidden="true"></i> <span class="fa fa-sort"
+                                                                                           aria-hidden="true"
+                                                                                           ng-click="vm.sortRecords('symbol')"></span>
+                        </th>
+                        <th>P/C <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top"
+                                   title="Put / Call flag (Options only)" aria-hidden="true"></i> <span
+                                class="fa fa-sort" aria-hidden="true" ng-click="vm.sortRecords('putCall')"></span></th>
+                        <th>Strk <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top"
+                                    title="Strike (exercise) price (Options only)" aria-hidden="true"></i> <span
+                                class="fa fa-sort" aria-hidden="true"
+                                ng-click="vm.sortRecords('strikePriceFloat')"></span></th>
+                        <th>Opt <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top"
+                                   title="Version number (Options only)" aria-hidden="true"></i> <span
+                                class="fa fa-sort" aria-hidden="true" ng-click="vm.sortRecords('optAttribute')"></span>
+                        </th>
+                        <th>MMY <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top"
+                                   title="Maturity month and year" aria-hidden="true"></i> <span class="fa fa-sort"
+                                                                                                 aria-hidden="true"
+                                                                                                 ng-click="vm.sortRecords('maturityMonthYear')"></span>
+                        </th>
+                        <th>NetLS <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top"
+                                     title="Net position" aria-hidden="true"></i> <span class="fa fa-sort"
+                                                                                        aria-hidden="true"
+                                                                                        ng-click="vm.sortRecords('netLS')"></span>
+                        </th>
+                        <th>Position VaR <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top"
+                                            title="PnL of the position when calculating portfolio VaR"
+                                            aria-hidden="true"></i> <span class="fa fa-sort" aria-hidden="true"
+                                                                          ng-click="vm.sortRecords('compVar')"></span>
+                        </th>
+                        <th>EuroDelta <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top"
+                                         title="Position sensibility to underlying move in Euro" aria-hidden="true"></i>
+                            <span class="fa fa-sort" aria-hidden="true" ng-click="vm.sortRecords('delta')"></span></th>
+                        <th>LA <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top"
+                                  title="Liquidity Addon of the position" aria-hidden="true"></i> <span
+                                class="fa fa-sort" aria-hidden="true"
+                                ng-click="vm.sortRecords('compLiquidityAddOn')"></span></th>
                         <th></th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat-start="record in vm.viewWindow track by record.functionalKey" row-highlighter="record.functionalKey" ng-click="vm.showExtraInfo(record.functionalKey)">
-                        <td highlighter="record.member"><a href="#/positionReportLatest/{{record.clearer}}/{{record.member}}">{{record.member}}</a></td>
-                        <td highlighter="record.account"><a href="#/positionReportLatest/{{record.clearer}}/{{record.member}}/{{record.account}}">{{record.account}}</a></td>
-                        <td highlighter="record.symbol"><a href="#/positionReportLatest/{{vm.route.clearer}}/{{vm.route.member}}/{{vm.route.account}}/{{record.clss}}/{{record.symbol}}">{{record.symbol}}</a></td>
-                        <td highlighter="record.putCall"><a href="#/positionReportLatest/{{vm.route.clearer}}/{{vm.route.member}}/{{vm.route.account}}/{{record.clss}}/{{record.symbol}}/{{record.putCall | nullHandler:'*'}}">{{record.putCall}}</a></td>
-                        <td highlighter="record.strikePrice"><a href="#/positionReportLatest/{{vm.route.clearer}}/{{vm.route.member}}/{{vm.route.account}}/{{record.clss}}/{{record.symbol}}/{{record.putCall | nullHandler:'*'}}/{{record.strikePrice | nullHandler:'*'}}">{{record.strikePriceFloat | number:2}}</a></td>
-                        <td highlighter="record.optAttribute"><a href="#/positionReportLatest/{{vm.route.clearer}}/{{vm.route.member}}/{{vm.route.account}}/{{record.clss}}/{{record.symbol}}/{{record.putCall | nullHandler:'*'}}/{{record.strikePrice | nullHandler:'*'}}/{{record.optAttribute | nullHandler:'*'}}">{{record.optAttribute}}</a></td>
-                        <td highlighter="record.maturityMonthYear"><a href="#/positionReportLatest/{{vm.route.clearer}}/{{vm.route.member}}/{{vm.route.account}}/{{record.clss}}/{{record.symbol}}/{{record.putCall | nullHandler:'*'}}/{{record.strikePrice | nullHandler:'*'}}/{{record.optAttribute | nullHandler:'*'}}/{{record.maturityMonthYear}}">{{record.maturityMonthYear}}</a></td>
+                    <tr ng-repeat-start="record in vm.viewWindow track by record.functionalKey"
+                        row-highlighter="record.functionalKey" ng-click="vm.showExtraInfo(record.functionalKey)">
+                        <td highlighter="record.member"><a
+                                href="#/positionReportLatest/{{record.clearer}}/{{record.member}}">{{record.member}}</a>
+                        </td>
+                        <td highlighter="record.account"><a
+                                href="#/positionReportLatest/{{record.clearer}}/{{record.member}}/{{record.account}}">{{record.account}}</a>
+                        </td>
+                        <td highlighter="record.symbol"><a
+                                href="#/positionReportLatest/{{vm.route.clearer}}/{{vm.route.member}}/{{vm.route.account}}/{{record.clss}}/{{record.symbol}}">{{record.symbol}}</a>
+                        </td>
+                        <td highlighter="record.putCall"><a
+                                href="#/positionReportLatest/{{vm.route.clearer}}/{{vm.route.member}}/{{vm.route.account}}/{{record.clss}}/{{record.symbol}}/{{record.putCall | nullHandler:'*'}}">{{record.putCall}}</a>
+                        </td>
+                        <td highlighter="record.strikePrice"><a
+                                href="#/positionReportLatest/{{vm.route.clearer}}/{{vm.route.member}}/{{vm.route.account}}/{{record.clss}}/{{record.symbol}}/{{record.putCall | nullHandler:'*'}}/{{record.strikePrice | nullHandler:'*'}}">{{record.strikePriceFloat
+                            | number:2}}</a></td>
+                        <td highlighter="record.optAttribute"><a
+                                href="#/positionReportLatest/{{vm.route.clearer}}/{{vm.route.member}}/{{vm.route.account}}/{{record.clss}}/{{record.symbol}}/{{record.putCall | nullHandler:'*'}}/{{record.strikePrice | nullHandler:'*'}}/{{record.optAttribute | nullHandler:'*'}}">{{record.optAttribute}}</a>
+                        </td>
+                        <td highlighter="record.maturityMonthYear"><a
+                                href="#/positionReportLatest/{{vm.route.clearer}}/{{vm.route.member}}/{{vm.route.account}}/{{record.clss}}/{{record.symbol}}/{{record.putCall | nullHandler:'*'}}/{{record.strikePrice | nullHandler:'*'}}/{{record.optAttribute | nullHandler:'*'}}/{{record.maturityMonthYear}}">{{record.maturityMonthYear}}</a>
+                        </td>
                         <td highlighter="record.netLS">{{record.netLS | number:2}}</td>
                         <td highlighter="record.compVar">{{record.compVar | number:2}}</td>
                         <td highlighter="record.delta">{{record.delta | number:2}}</td>
                         <td highlighter="record.compLiquidityAddOn">{{record.compLiquidityAddOn | number:2}}</td>
                         <td>
-                            <a><span class="fa fa-chevron-circle-down" aria-hidden="true" title="Show additional fields" id="extra-icon-{{record.functionalKey}}"></span></a>
-                            <a href="#/positionReportHistory/{{record.clearer}}/{{record.member}}/{{record.account}}/{{record.clss}}/{{record.symbol}}/{{record.putCall | nullHandler:'*'}}/{{record.strikePrice | nullHandler:'*'}}/{{record.optAttribute | nullHandler:'*'}}/{{record.maturityMonthYear}}"><span class="fa fa-bar-chart-o" aria-hidden="true" title="Detail"></span></a>
+                            <a><span class="fa fa-chevron-circle-down" aria-hidden="true" title="Show additional fields"
+                                     id="extra-icon-{{record.functionalKey}}"></span></a>
+                            <a href="#/positionReportHistory/{{record.clearer}}/{{record.member}}/{{record.account}}/{{record.clss}}/{{record.symbol}}/{{record.putCall | nullHandler:'*'}}/{{record.strikePrice | nullHandler:'*'}}/{{record.optAttribute | nullHandler:'*'}}/{{record.maturityMonthYear}}"><span
+                                    class="fa fa-bar-chart-o" aria-hidden="true" title="Detail"></span></a>
                         </td>
                     </tr>
                     <tr ng-repeat-end class="hidden" id="extra-{{record.functionalKey}}">
@@ -96,16 +153,29 @@
                                 </thead>
                                 <tbody>
                                 <tr row-highlighter="record.functionalKey">
-                                    <td highlighter="record.class"><a href="#/positionReportLatest/{{clearer}}/{{member}}/{{account}}/{{record.clss}}">{{record.clss}}</a></td>
+                                    <td highlighter="record.class"><a
+                                            href="#/positionReportLatest/{{clearer}}/{{member}}/{{account}}/{{record.clss}}">{{record.clss}}</a>
+                                    </td>
                                     <td highlighter="record.clearingCcy">{{record.clearingCcy}}</td>
                                     <td highlighter="record.productCcy">{{record.productCcy}}</td>
-                                    <td highlighter="record.crossMarginLongQty">{{record.crossMarginLongQty | number:2}}</td>
-                                    <td highlighter="record.crossMarginShortQty">{{record.crossMarginShortQty | number:2}}</td>
+                                    <td highlighter="record.crossMarginLongQty">{{record.crossMarginLongQty |
+                                        number:2}}
+                                    </td>
+                                    <td highlighter="record.crossMarginShortQty">{{record.crossMarginShortQty |
+                                        number:2}}
+                                    </td>
                                     <td highlighter="record.netEA">{{record.netEA | number:2}}</td>
-                                    <td highlighter="record.optionExcerciseQty">{{record.optionExcerciseQty | number:2}}</td>
-                                    <td highlighter="record.optionAssignmentQty">{{record.optionAssignmentQty | number:2}}</td>
-                                    <td highlighter="record.allocationTradeQty">{{record.allocationTradeQty | number:2}}</td>
-                                    <td highlighter="record.deliveryNoticeQty">{{record.deliveryNoticeQty | number:2}}</td>
+                                    <td highlighter="record.optionExcerciseQty">{{record.optionExcerciseQty |
+                                        number:2}}
+                                    </td>
+                                    <td highlighter="record.optionAssignmentQty">{{record.optionAssignmentQty |
+                                        number:2}}
+                                    </td>
+                                    <td highlighter="record.allocationTradeQty">{{record.allocationTradeQty |
+                                        number:2}}
+                                    </td>
+                                    <td highlighter="record.deliveryNoticeQty">{{record.deliveryNoticeQty | number:2}}
+                                    </td>
                                 </tr>
                                 </tbody>
                                 <thead>
@@ -124,10 +194,18 @@
                                 </thead>
                                 <tbody>
                                 <tr row-highlighter="record.functionalKey">
-                                    <td highlighter="record.compCorrelationBreak">{{record.compCorrelationBreak | number:2}}</td>
-                                    <td highlighter="record.compCompressionError">{{record.compCompressionError | number:2}}</td>
-                                    <td highlighter="record.compLongOptionCredit">{{record.compLongOptionCredit | number:2}}</td>
-                                    <td highlighter="record.variationMarginPremiumPayment">{{record.variationMarginPremiumPayment | number:2}}</td>
+                                    <td highlighter="record.compCorrelationBreak">{{record.compCorrelationBreak |
+                                        number:2}}
+                                    </td>
+                                    <td highlighter="record.compCompressionError">{{record.compCompressionError |
+                                        number:2}}
+                                    </td>
+                                    <td highlighter="record.compLongOptionCredit">{{record.compLongOptionCredit |
+                                        number:2}}
+                                    </td>
+                                    <td highlighter="record.variationMarginPremiumPayment">
+                                        {{record.variationMarginPremiumPayment | number:2}}
+                                    </td>
                                     <td highlighter="record.premiumMargin">{{record.premiumMargin | number:2}}</td>
                                     <td highlighter="record.gamma">{{record.gamma | number:2}}</td>
                                     <td highlighter="record.vega">{{record.vega | number:2}}</td>
@@ -147,7 +225,8 @@
             <div class="panel-footer">
                 <table-summary total="vm.recordCount" shown="vm.viewWindow.length"></table-summary>
 
-                <paging page-size="vm.pageSize" total-records="vm.recordCount" update-callback="vm.updateViewWindow"></paging>
+                <paging page-size="vm.pageSize" total-records="vm.recordCount"
+                        update-callback="vm.updateViewWindow"></paging>
             </div>
         </div>
         <!-- /.panel -->

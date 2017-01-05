@@ -1,5 +1,5 @@
 <div class="panel panel-default" style="border-top: 0">
-    <div class="panel-body">
+    <div class="panel-body" *ngIf="chartData?.rows.length">
         <div class="pull-right">
             <label for="memberSelect">Member:</label>
             <select name="memberSelect" id="memberSelect"
@@ -36,7 +36,7 @@
         <update-failed *ngIf="errorMessage" [message]="errorMessage"></update-failed>
 
         <div class="panel-body" *ngIf="title">
-            <div class="alert alert-info" role="info" [innerHTML]="title"></div>
+            <div class="alert alert-info" role="alert" [innerHTML]="title"></div>
         </div>
 
         <google-chart *ngIf="chartData?.rows.length"
@@ -48,6 +48,8 @@
         </google-chart>
         <br/>
 
-        <a routerLink="/positionReportLatest" class="btn btn-default btn-block">View Details</a>
+        <a *ngIf="chartData?.rows.length" routerLink="/positionReportLatest" class="btn btn-default btn-block">
+            View Details
+        </a>
     </div>
 </div>

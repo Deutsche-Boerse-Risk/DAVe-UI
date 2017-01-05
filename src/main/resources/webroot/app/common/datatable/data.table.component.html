@@ -1,8 +1,8 @@
-<div class="panel-body" *ngIf="dataTable && dataTable.rows?.data?.length">
-    <table class="table table-striped table-bordered table-hover">
-        <thead *ngIf="dataTable.header">
+<div class="panel-body" *ngIf="data?.length">
+    <table [class.table-striped]="striped" class="table table-bordered table-hover">
+        <thead *ngIf="hasHeader()">
         <tr>
-            <th *ngFor="let column of dataTable.header">
+            <th *ngFor="let column of columns">
                 <template [ngIf]="column.title">{{column.title}}</template>
                 <i *ngIf="column.tooltip"
                    class="fa fa-question-circle"
@@ -18,32 +18,37 @@
         </tr>
         </thead>
         <tbody *ngIf="pageRows">
-        <tr *ngFor="let row of pageRows.data">
-            <td *ngFor="let cell of pageRows.cells" highlighter="record.pool">
-                <template [ngIf]="!cell.routerLink">{{processTitle(row, cell)}}</template>
-                <a *ngIf="cell.routerLink" [routerLink]="processRouterLink(row, cell)">
-                    {{processTitle(row, cell)}}
-                </a>
+        <tr *ngFor="let row of pageRows">
+            <td *ngFor="let column of columns" highlighter="record.pool">
+                <template [ngIf]="column.cellTemplate"
+                          [ngTemplateOutlet]="column.cellTemplate"
+                          [ngOutletContext]="{ row: row }"></template>
+            </td>
+        </tr>
+        <tr *ngIf="rowDetailTemplate">
+            <td>
+                <template [ngTemplateOutlet]="rowDetailTemplate"
+                          [ngOutletContext]="{ row: row }"></template>
+
             </td>
         </tr>
         </tbody>
-        <tfoot *ngIf="dataTable.footer">
-        <tr *ngFor="let row of dataTable.footer.data">
-            <th *ngFor="let cell of dataTable.footer.cells" highlighter="record.pool">
-                <template [ngIf]="!cell.routerLink">{{processTitle(row, cell)}}</template>
-                <a *ngIf="cell.routerLink" [routerLink]="processRouterLink(row, cell)">
-                    {{processTitle(row, cell)}}
-                </a>
+        <tfoot *ngIf="hasFooter()">
+        <tr>
+            <th *ngFor="let column of columns" highlighter="record.pool">
+                <template [ngIf]="column.footerTemplate"
+                          [ngTemplateOutlet]="column.footerTemplate"
+                          [ngOutletContext]="{ footer: footer }"></template>
             </th>
         </tr>
         </tfoot>
     </table>
 </div>
 
-<div class="panel-footer" *ngIf="dataTable.pageSize && dataTable.rows?.data?.length / dataTable.pageSize > 1">
-    Showing {{dataTable.pageSize}} records out of {{dataTable.rows?.data?.length}}
+<div class="panel-footer" *ngIf="pageSize && data?.length / pageSize > 1">
+    Showing {{pageSize}} records out of {{data?.length}}
 
-    <paging [pageSize]="dataTable.pageSize"
-            [totalRecords]="dataTable.rows?.data?.length"
+    <paging [pageSize]="pageSize"
+            [totalRecords]="data?.length"
             (pageChanged)="updatePage($event)"></paging>
 </div>

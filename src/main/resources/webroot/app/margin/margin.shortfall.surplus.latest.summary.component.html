@@ -1,12 +1,12 @@
-<div>
+<div *ngIf="data">
     <div class="col-lg-3 col-md-6">
         <div class="panel"
-             [class.panel-green]="shortfallSurplus >= 0"
-             [class.panel-red]="shortfallSurplus < 0">
+             [class.panel-green]="data.shortfallSurplus >= 0"
+             [class.panel-red]="data.shortfallSurplus < 0">
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-12 text-right">
-                        <div class="huge">{{shortfallSurplus | number:'.2-2'}}</div>
+                        <div class="huge">{{data.shortfallSurplus | number:'.2-2'}}</div>
                         <div>Margin Shortfall/Surplus</div>
                     </div>
                 </div>
@@ -15,12 +15,12 @@
     </div>
     <div class="col-lg-3 col-md-6">
         <div class="panel"
-             [class.panel-green]="marginRequirement >= 0"
-             [class.panel-red]="marginRequirement < 0">
+             [class.panel-green]="data.marginRequirement >= 0"
+             [class.panel-red]="data.marginRequirement < 0">
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-12 text-right">
-                        <div class="huge">{{marginRequirement | number:'.2-2'}}</div>
+                        <div class="huge">{{data.marginRequirement | number:'.2-2'}}</div>
                         <div>Margin Requirement</div>
                     </div>
                 </div>
@@ -29,12 +29,12 @@
     </div>
     <div class="col-lg-3 col-md-6">
         <div class="panel"
-             [class.panel-green]="securityCollateral >= 0"
-             [class.panel-red]="securityCollateral < 0">
+             [class.panel-green]="data.securityCollateral >= 0"
+             [class.panel-red]="data.securityCollateral < 0">
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-12 text-right">
-                        <div class="huge">{{securityCollateral | number:'.2-2'}}</div>
+                        <div class="huge">{{data.securityCollateral | number:'.2-2'}}</div>
                         <div>Collateral</div>
                     </div>
                 </div>
@@ -43,12 +43,12 @@
     </div>
     <div class="col-lg-3 col-md-6">
         <div class="panel"
-             [class.panel-green]="cashBalance >= 0"
-             [class.panel-red]="cashBalance < 0">
+             [class.panel-green]="data.cashBalance >= 0"
+             [class.panel-red]="data.cashBalance < 0">
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-12 text-right">
-                        <div class="huge">{{cashBalance | number:'.2-2'}}</div>
+                        <div class="huge">{{data.cashBalance | number:'.2-2'}}</div>
                         <div>Cash Balance</div>
                     </div>
                 </div>
@@ -57,12 +57,12 @@
     </div>
     <!--<div class="col-lg-2 col-md-4">
         <div class="panel"
-             [class.panel-green]="marginCall >= 0"
-             [class.panel-red]="marginCall < 0">
+             [class.panel-green]="data.marginCall >= 0"
+             [class.panel-red]="data.marginCall < 0">
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-12 text-right">
-                        <div class="huge">{{marginCall | number:'.2-2'}}</div>
+                        <div class="huge">{{data.marginCall | number:'.2-2'}}</div>
                         <div>Margin Call</div>
                     </div>
                 </div>

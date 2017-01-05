@@ -16,57 +16,126 @@
                                placeholder="Filter ..." [(ngModel)]="filterQuery"
                                (ngModelChange)="filterAfterTimeout()">
                         <span class="input-group-btn">
-                            <button class="btn btn-default" type="button" (click)="filter()"><i class="fa fa-search"
-                                                                                                aria-hidden="true"></i></button>
+                            <button class="btn btn-default" type="button" (click)="filter()">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </button>
                         </span>
                     </div>
                 </div>
 
-                <download-menu [columns]="exportKeys" [data]="dataTable.rows?.data" filename="download.csv"></download-menu>
+                <download-menu [columns]="exportKeys" [data]="data"
+                               filename="download.csv"></download-menu>
 
                 <bread-crumbs [routeParts]="routeParts"></bread-crumbs>
             </div>
 
             <initial-load *ngIf="initialLoad && !errorMessage"></initial-load>
 
-            <no-data *ngIf="!initialLoad && !errorMessage && dataTable?.rows?.data?.length < 1"></no-data>
+            <no-data *ngIf="!initialLoad && !errorMessage && data?.length < 1"></no-data>
 
             <update-failed *ngIf="errorMessage" [message]="errorMessage"></update-failed>
 
-            <data-table [dataTable]="dataTable"></data-table>
+            <data-table [data]="data"
+                        [pageSize]="pageSize"
+                        [defaultOrdering]="defaultOrdering">
+                <column title="Member / Client"
+                        sortingKey="member">
+                    <template let-record="row" cell-template>
+                        <a [routerLink]="['/positionReportLatest', record.clearer | nullvalue:'*', record.member | nullvalue:'*']">
+                            {{record.member}}
+                        </a>
+                    </template>
+                </column>
+                <column title="Account"
+                        sortingKey="account">
+                    <template let-record="row" cell-template>
+                        <a [routerLink]="['/positionReportLatest', record.clearer | nullvalue:'*', record.member | nullvalue:'*', record.account | nullvalue:'*']">
+                            {{record.account}}
+                        </a>
+                    </template>
+                </column>
+                <column title="Symbol"
+                        tooltip="Product symbol"
+                        sortingKey="symbol">
+                    <template let-record="row" cell-template>
+                        <a [routerLink]="['/positionReportLatest', routeParams['clearer'] | nullvalue:'*', routeParams['member'] | nullvalue:'*', record.account | nullvalue:'*', record.class | nullvalue:'*', record.symbol | nullvalue:'*']">
+                            {{record.symbol}}
+                        </a>
+                    </template>
+                </column>
+                <column title="P/C"
+                        tooltip="Put / Call flag (Options only)"
+                        sortingKey="putCall">
+                    <template let-record="row" cell-template>
+                        <a [routerLink]="['/positionReportLatest', routeParams['clearer'] | nullvalue:'*', routeParams['member'] | nullvalue:'*', routeParams['account'] | nullvalue:'*', record.class | nullvalue:'*', record.symbol | nullvalue:'*', record.putCall | nullvalue:'*']">
+                            {{record.putCall}}
+                        </a>
+                    </template>
+                </column>
+                <column title="Strk"
+                        tooltip="Strike (exercise) price (Options only)"
+                        sortingKey="strikePrice">
+                    <template let-record="row" cell-template>
+                        <a [routerLink]="['/positionReportLatest', routeParams['clearer'] | nullvalue:'*', routeParams['member'] | nullvalue:'*', routeParams['account'] | nullvalue:'*', record.class | nullvalue:'*', record.symbol | nullvalue:'*', record.putCall | nullvalue:'*', record.strikePrice | nullvalue:'*']">
+                            {{record.strikePrice | number:'.2-2'}}
+                        </a>
+                    </template>
+                </column>
+                <column title="Opt"
+                        tooltip="Version number (Options only)"
+                        sortingKey="optAttribute">
+                    <template let-record="row" cell-template>
+                        <a [routerLink]="['/positionReportLatest', routeParams['clearer'] | nullvalue:'*', routeParams['member'] | nullvalue:'*', routeParams['account'] | nullvalue:'*', record.class | nullvalue:'*', record.symbol | nullvalue:'*', record.putCall | nullvalue:'*', record.strikePrice | nullvalue:'*', record.optAttribute | nullvalue:'*']">
+                            {{record.optAttribute}}
+                        </a>
+                    </template>
+                </column>
+                <column title="MMY"
+                        tooltip="Maturity month and year"
+                        sortingKey="maturityMonthYear">
+                    <template let-record="row" cell-template>
+                        <a [routerLink]="['/positionReportLatest', routeParams['clearer'] | nullvalue:'*', routeParams['member'] | nullvalue:'*', routeParams['account'] | nullvalue:'*', record.class | nullvalue:'*', record.symbol | nullvalue:'*', record.putCall | nullvalue:'*', record.strikePrice | nullvalue:'*', record.optAttribute | nullvalue:'*', record.maturityMonthYear | nullvalue:'*']">
+                            {{record.maturityMonthYear}}
+                        </a>
+                    </template>
+                </column>
+                <column title="NetLS"
+                        tooltip="Net position"
+                        sortingKey="netLS">
+                    <template let-record="row" cell-template>
+                        {{record.netLS | number:'.2-2'}}
+                    </template>
+                </column>
+                <column title="Position VaR"
+                        tooltip="PnL of the position when calculating portfolio VaR"
+                        sortingKey="compVar">
+                    <template let-record="row" cell-template>
+                        {{record.compVar | number:'.2-2'}}
+                    </template>
+                </column>
+                <column title="EuroDelta"
+                        tooltip="Position sensibility to underlying move in Euro"
+                        sortingKey="delta">
+                    <template let-record="row" cell-template>
+                        {{record.delta | number:'.2-2'}}
+                    </template>
+                </column>
+                <column title="LA"
+                        tooltip="Liquidity Addon of the position"
+                        sortingKey="compLiquidityAddOn">
+                    <template let-record="row" cell-template>
+                        {{record.compLiquidityAddOn | number:'.2-2'}}
+                    </template>
+                </column>
+                <column>
+                    <template let-record="row" cell-template>
+                        <a [routerLink]="['/positionReportHistory', record.clearer | nullvalue:'*', record.member | nullvalue:'*', record.account | nullvalue:'*', record.class | nullvalue:'*', record.symbol | nullvalue:'*', record.putCall | nullvalue:'*', record.strikePrice | nullvalue:'*', record.optAttribute | nullvalue:'*', record.maturityMonthYear | nullvalue:'*']">
+                            <span class="fa fa-bar-chart-o" aria-hidden="true" title="Detail"></span>
+                        </a>
+                    </template>
+                </column>
+            </data-table>
 
-            <!-- /.panel-heading -->
-            <!--<div class="panel-body" *ngIf="viewWindow.length > 0">-->
-            <!--<table class="table table-bordered table-hover">-->
-            <!--<thead>-->
-            <!--<tr>-->
-            <!--<th>Member / Client <span class="fa fa-sort" aria-hidden="true" (click)="sortRecords('member')"></span></th>-->
-            <!--<th>Account <span class="fa fa-sort" aria-hidden="true" (click)="sortRecords('account')"></span></th>-->
-            <!--<th>Symbol <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="Product symbol" aria-hidden="true"></i> <span class="fa fa-sort" aria-hidden="true" (click)="sortRecords('symbol')"></span></th>-->
-            <!--<th>P/C <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="Put / Call flag (Options only)" aria-hidden="true"></i> <span class="fa fa-sort" aria-hidden="true" (click)="sortRecords('putCall')"></span></th>-->
-            <!--<th>Strk <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="Strike (exercise) price (Options only)" aria-hidden="true"></i> <span class="fa fa-sort" aria-hidden="true" (click)="sortRecords('strikePriceFloat')"></span></th>-->
-            <!--<th>Opt <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="Version number (Options only)" aria-hidden="true"></i> <span class="fa fa-sort" aria-hidden="true" (click)="sortRecords('optAttribute')"></span></th>-->
-            <!--<th>MMY <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="Maturity month and year" aria-hidden="true"></i> <span class="fa fa-sort" aria-hidden="true" (click)="sortRecords('maturityMonthYear')"></span></th>-->
-            <!--<th>NetLS <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="Net position" aria-hidden="true"></i> <span class="fa fa-sort" aria-hidden="true" (click)="sortRecords('netLS')"></span></th>-->
-            <!--<th>Position VaR <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="PnL of the position when calculating portfolio VaR" aria-hidden="true"></i> <span class="fa fa-sort" aria-hidden="true" (click)="sortRecords('compVar')"></span></th>-->
-            <!--<th>EuroDelta <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="Position sensibility to underlying move in Euro" aria-hidden="true"></i> <span class="fa fa-sort" aria-hidden="true" (click)="sortRecords('delta')"></span></th>-->
-            <!--<th>LA <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="Liquidity Addon of the position" aria-hidden="true"></i> <span class="fa fa-sort" aria-hidden="true" (click)="sortRecords('compLiquidityAddOn')"></span></th>-->
-            <!--<th></th>-->
-            <!--</tr>-->
-            <!--</thead>-->
-            <!--<tbody>-->
-            <!--<tr ng-repeat-start="record in viewWindow track by record.functionalKey" row-highlighter="record.functionalKey" (click)="showExtraInfo(record.functionalKey)">-->
-            <!--<td highlighter="record.member"><a routerLink="/positionReportLatest/{{record.clearer}}/{{record.member}}">{{record.member}}</a></td>-->
-            <!--<td highlighter="record.account"><a routerLink="/positionReportLatest/{{record.clearer}}/{{record.member}}/{{record.account}}">{{record.account}}</a></td>-->
-            <!--<td highlighter="record.symbol"><a routerLink="/positionReportLatest/{{route.clearer}}/{{route.member}}/{{route.account}}/{{record.clss}}/{{record.symbol}}">{{record.symbol}}</a></td>-->
-            <!--<td highlighter="record.putCall"><a routerLink="/positionReportLatest/{{route.clearer}}/{{route.member}}/{{route.account}}/{{record.clss}}/{{record.symbol}}/{{record.putCall | nullHandler:'*'}}">{{record.putCall}}</a></td>-->
-            <!--<td highlighter="record.strikePrice"><a routerLink="/positionReportLatest/{{route.clearer}}/{{route.member}}/{{route.account}}/{{record.clss}}/{{record.symbol}}/{{record.putCall | nullHandler:'*'}}/{{record.strikePrice | nullHandler:'*'}}">{{record.strikePriceFloat | number:2}}</a></td>-->
-            <!--<td highlighter="record.optAttribute"><a routerLink="/positionReportLatest/{{route.clearer}}/{{route.member}}/{{route.account}}/{{record.clss}}/{{record.symbol}}/{{record.putCall | nullHandler:'*'}}/{{record.strikePrice | nullHandler:'*'}}/{{record.optAttribute | nullHandler:'*'}}">{{record.optAttribute}}</a></td>-->
-            <!--<td highlighter="record.maturityMonthYear"><a routerLink="/positionReportLatest/{{route.clearer}}/{{route.member}}/{{route.account}}/{{record.clss}}/{{record.symbol}}/{{record.putCall | nullHandler:'*'}}/{{record.strikePrice | nullHandler:'*'}}/{{record.optAttribute | nullHandler:'*'}}/{{record.maturityMonthYear}}">{{record.maturityMonthYear}}</a></td>-->
-            <!--<td highlighter="record.netLS">{{record.netLS | number:2}}</td>-->
-            <!--<td highlighter="record.compVar">{{record.compVar | number:2}}</td>-->
-            <!--<td highlighter="record.delta">{{record.delta | number:2}}</td>-->
-            <!--<td highlighter="record.compLiquidityAddOn">{{record.compLiquidityAddOn | number:2}}</td>-->
             <!--<td>-->
             <!--<a><span class="fa fa-chevron-circle-down" aria-hidden="true" title="Show additional fields" id="extra-icon-{{record.functionalKey}}"></span></a>-->
             <!--<a routerLink="/positionReportHistory/{{record.clearer}}/{{record.member}}/{{record.account}}/{{record.clss}}/{{record.symbol}}/{{record.putCall | nullHandler:'*'}}/{{record.strikePrice | nullHandler:'*'}}/{{record.optAttribute | nullHandler:'*'}}/{{record.maturityMonthYear}}"><span class="fa fa-bar-chart-o" aria-hidden="true" title="Detail"></span></a>-->
@@ -132,26 +201,8 @@
             <!--</tr>-->
             <!--</tbody>-->
             <!--</table>-->
-            <!--</td>-->
-            <!--</tr>-->
-            <!--</tbody>-->
-            <!--</table>-->
-            <!--</div>-->
-            <!--&lt;!&ndash; /.panel-body &ndash;&gt;-->
-
-            <!--<div class="panel-footer">-->
-            <!--<table-summary total="recordCount" shown="viewWindow.length"></table-summary>-->
-
-            <!--<paging page-size="pageSize" total-records="recordCount" update-callback="updateViewWindow"></paging>-->
-            <!--</div>-->
         </div>
         <!-- /.panel -->
     </div>
     <!-- /.col-lg-12 -->
 </div>
-
-<script language="JavaScript">
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
-    })
-</script>

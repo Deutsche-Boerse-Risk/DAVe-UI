@@ -11,6 +11,7 @@ import {DashboardComponent} from '../dashboard/dashboard.component';
 
 import {PositionReportLatestComponent} from '../position-reports/position.report.latest.component';
 import {PositionReportHistoryComponent} from '../position-reports/position.report.history.component';
+import {MarginLatestComponent} from '../margin/margin.latest.component';
 
 const ROUTES: Route[] = [
     {
@@ -95,12 +96,42 @@ const ROUTES: Route[] = [
         component: PositionReportHistoryComponent,
         canActivate: [AuthGuard]
     },
-    // {
-    //     path: 'marginComponentLatest/:clearer/:member/:account/:class/:ccy',
-    //     pathMatch: 'full',
-    //     component: MarginComponentLatestComponent,
-    //     canActivate: [AuthGuard]
-    // },
+    {
+        path: 'marginComponentLatest',
+        pathMatch: 'full',
+        component: MarginLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'marginComponentLatest/:clearer',
+        pathMatch: 'full',
+        component: MarginLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'marginComponentLatest/:clearer/:member',
+        pathMatch: 'full',
+        component: MarginLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'marginComponentLatest/:clearer/:member/:account',
+        pathMatch: 'full',
+        component: MarginLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'marginComponentLatest/:clearer/:member/:account/:class',
+        pathMatch: 'full',
+        component: MarginLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'marginComponentLatest/:clearer/:member/:account/:class/:ccy',
+        pathMatch: 'full',
+        component: MarginLatestComponent,
+        canActivate: [AuthGuard]
+    },
     // {
     //     path: 'marginComponentHistory/:clearer/:member/:account/:class/:ccy',
     //     pathMatch: 'full',
