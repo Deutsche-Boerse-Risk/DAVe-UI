@@ -9,10 +9,16 @@ import {AuthModule} from '../auth/auth.module';
 import {DashboardModule} from '../dashboard/dashboard.module';
 import {DashboardComponent} from '../dashboard/dashboard.component';
 
+import {PositionReportsModule} from '../position-reports/position.reports.module';
 import {PositionReportLatestComponent} from '../position-reports/position.report.latest.component';
 import {PositionReportHistoryComponent} from '../position-reports/position.report.history.component';
+
+import {MarginModule} from '../margin/margin.module';
 import {MarginAccountLatestComponent} from '../margin/margin.account.latest.component';
 import {MarginShortfallSurplusLatestComponent} from '../margin/margin.shortfall.surplus.latest.component';
+
+import {TotalMarginModule} from '../total-margin/total.margin.module';
+import {TotalMarginRequirementLatestComponent} from '../total-margin/total.margin.requirement.latest.component';
 
 const ROUTES: Route[] = [
     {
@@ -139,12 +145,42 @@ const ROUTES: Route[] = [
     //     component: MarginComponentHistoryComponent,
     //     canActivate: [AuthGuard]
     // },
-    // {
-    //     path: 'totalMarginRequirementLatest/:clearer/:pool/:member/:account/:ccy',
-    //     pathMatch: 'full',
-    //     component: TotalMarginRequirementLatestComponent,
-    //     canActivate: [AuthGuard]
-    // },
+    {
+        path: 'totalMarginRequirementLatest',
+        pathMatch: 'full',
+        component: TotalMarginRequirementLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'totalMarginRequirementLatest/:clearer',
+        pathMatch: 'full',
+        component: TotalMarginRequirementLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'totalMarginRequirementLatest/:clearer/:pool',
+        pathMatch: 'full',
+        component: TotalMarginRequirementLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'totalMarginRequirementLatest/:clearer/:pool/:member',
+        pathMatch: 'full',
+        component: TotalMarginRequirementLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'totalMarginRequirementLatest/:clearer/:pool/:member/:account',
+        pathMatch: 'full',
+        component: TotalMarginRequirementLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'totalMarginRequirementLatest/:clearer/:pool/:member/:account/:ccy',
+        pathMatch: 'full',
+        component: TotalMarginRequirementLatestComponent,
+        canActivate: [AuthGuard]
+    },
     // {
     //     path: 'totalMarginRequirementHistory/:clearer/:pool/:member/:account/:ccy',
     //     pathMatch: 'full',
@@ -209,7 +245,10 @@ const ROUTES: Route[] = [
     imports: [
         RouterModule.forRoot(ROUTES),
         AuthModule,
-        DashboardModule
+        DashboardModule,
+        PositionReportsModule,
+        MarginModule,
+        TotalMarginModule
     ],
     exports: [RouterModule]
 })
