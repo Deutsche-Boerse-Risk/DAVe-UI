@@ -12,6 +12,7 @@ import {DashboardComponent} from '../dashboard/dashboard.component';
 import {PositionReportLatestComponent} from '../position-reports/position.report.latest.component';
 import {PositionReportHistoryComponent} from '../position-reports/position.report.history.component';
 import {MarginAccountLatestComponent} from '../margin/margin.account.latest.component';
+import {MarginShortfallSurplusLatestComponent} from '../margin/margin.shortfall.surplus.latest.component';
 
 const ROUTES: Route[] = [
     {
@@ -150,6 +151,36 @@ const ROUTES: Route[] = [
     //     component: TotalMarginRequirementHistoryComponent,
     //     canActivate: [AuthGuard]
     // },
+    {
+        path: 'marginShortfallSurplusLatest',
+        pathMatch: 'full',
+        component: MarginShortfallSurplusLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'marginShortfallSurplusLatest/:clearer',
+        pathMatch: 'full',
+        component: MarginShortfallSurplusLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'marginShortfallSurplusLatest/:clearer/:pool',
+        pathMatch: 'full',
+        component: MarginShortfallSurplusLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'marginShortfallSurplusLatest/:clearer/:pool/:member',
+        pathMatch: 'full',
+        component: MarginShortfallSurplusLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'marginShortfallSurplusLatest/:clearer/:pool/:member/:clearingCcy',
+        pathMatch: 'full',
+        component: MarginShortfallSurplusLatestComponent,
+        canActivate: [AuthGuard]
+    },
     // {
     //     path: 'marginShortfallSurplusHistory/:clearer/:pool/:member/:clearingCcy/:ccy',
     //     pathMatch: 'full',
@@ -167,7 +198,11 @@ const ROUTES: Route[] = [
     //     pathMatch: 'full',
     //     component: RiskLimitHistoryComponent,
     //     canActivate: [AuthGuard]
-    // }
+    // },
+    {
+        path: '**', // Otherwise
+        redirectTo: '/dashboard'
+    }
 ];
 
 @NgModule({

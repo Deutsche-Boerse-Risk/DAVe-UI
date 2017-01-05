@@ -45,10 +45,10 @@
     </table>
 </div>
 
-<div class="panel-footer" *ngIf="pageSize && data?.length / pageSize > 1">
-    Showing {{pageSize}} records out of {{data?.length}}
+<div class="panel-footer" *ngIf="showFooter && data?.length">
+    Showing {{pageRows?.length}} records out of {{data?.length}}
 
-    <paging [pageSize]="pageSize"
+    <paging *ngIf="pageSize && data?.length / pageSize > 1" [pageSize]="pageSize"
             [totalRecords]="data?.length"
             (pageChanged)="updatePage($event)"></paging>
 </div>

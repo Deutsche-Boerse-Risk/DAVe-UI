@@ -3,7 +3,7 @@ import {Component} from '@angular/core';
 import {AbstractComponentWithAutoRefresh} from '../abstract.component';
 
 import {MarginShortfallSurplusService} from './margin.shortfall.surplus.service';
-import {MarginShortfallSurplus} from './margin.types';
+import {MarginShortfallSurplusBase} from './margin.types';
 
 @Component({
     moduleId: module.id,
@@ -13,7 +13,7 @@ import {MarginShortfallSurplus} from './margin.types';
 })
 export class MarginShortfallSurplusLatestSummaryComponent extends AbstractComponentWithAutoRefresh {
 
-    public data: MarginShortfallSurplus;
+    public data: MarginShortfallSurplusBase;
 
     constructor(private marginService: MarginShortfallSurplusService) {
         super();
@@ -21,7 +21,7 @@ export class MarginShortfallSurplusLatestSummaryComponent extends AbstractCompon
 
     protected loadData(): void {
         this.marginService.getMarginShortfallSurplusData()
-            .then((data: MarginShortfallSurplus) => {
+            .then((data: MarginShortfallSurplusBase) => {
                 this.data = data;
             });
     }

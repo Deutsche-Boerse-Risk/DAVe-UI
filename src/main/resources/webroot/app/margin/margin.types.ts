@@ -1,4 +1,4 @@
-export interface MarginShortfallServerSurplus {
+export interface MarginShortfallSurplusServerData {
     _id?: {
         clearer?: string;
         pool?: string;
@@ -30,12 +30,26 @@ export interface MarginShortfallServerSurplus {
     received?: string
 }
 
-export interface MarginShortfallSurplus {
-    shortfallSurplus?: number;
-    marginRequirement?: number;
-    securityCollateral?: number;
-    cashBalance?: number;
-    marginCall?: number;
+export interface MarginShortfallSurplusBase {
+    shortfallSurplus: number;
+    marginRequirement: number;
+    securityCollateral: number;
+    cashBalance: number;
+    marginCall: number;
+}
+
+export interface MarginShortfallSurplusData extends MarginShortfallSurplusBase {
+    clearer: string
+    pool: string;
+    poolType: string;
+    member: string;
+    clearingCcy: string;
+    ccy: string;
+}
+
+export interface MarginShortfallSurplusExportData extends MarginShortfallSurplusData {
+    bizDt: string;
+    received: string;
 }
 
 export interface MarginAccountServerData {

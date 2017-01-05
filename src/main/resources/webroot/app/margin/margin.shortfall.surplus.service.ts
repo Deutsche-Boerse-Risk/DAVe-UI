@@ -5,26 +5,27 @@ import {Http} from '@angular/http';
 import {AuthHttp} from 'angular2-jwt';
 
 import {
-    MarginShortfallServerSurplus, MarginShortfallSurplus
+    MarginShortfallSurplusServerData, MarginShortfallSurplusBase, MarginShortfallSurplusExportData
 } from './margin.types';
 
 const marginShortfallSurplusURL: string = '/mss/latest';
+const marginShortfallSurplusLatestURL: string = '/mss/latest/:0/:1/:2/:3';
 
 @Injectable()
-export class MarginShortfallSurplusService extends AbstractHttpService<MarginShortfallServerSurplus[]> {
+export class MarginShortfallSurplusService extends AbstractHttpService<MarginShortfallSurplusServerData[]> {
 
     constructor(http: Http, authHttp: AuthHttp) {
         super(http, authHttp);
     }
 
-    public getMarginShortfallSurplusData(): Promise<MarginShortfallSurplus> {
+    public getMarginShortfallSurplusData(): Promise<MarginShortfallSurplusBase> {
         return new Promise((resolve, reject) => {
-            this.get({resourceURL: marginShortfallSurplusURL}).subscribe((data: MarginShortfallServerSurplus[]) => {
+            this.get({resourceURL: marginShortfallSurplusURL}).subscribe((data: MarginShortfallSurplusServerData[]) => {
                 if (!data) {
                     resolve({});
                     return;
                 }
-                let result: MarginShortfallSurplus = {
+                let result: MarginShortfallSurplusBase = {
                     shortfallSurplus: 0,
                     marginRequirement: 0,
                     securityCollateral: 0,
@@ -40,6 +41,47 @@ export class MarginShortfallSurplusService extends AbstractHttpService<MarginSho
                     result.marginCall += data[index].marginCall;
                 }
                 resolve(result);
+            }, reject);
+        });
+    }
+
+    public getShortfallSurplusLatest(clearer: string = '*', pool: string = '*', member: string = '*',
+                                     clearingCcy: string = '*'): Promise<MarginShortfallSurplusExportData[]> {
+        return new Promise((resolve, reject) => {
+            this.get({
+                resourceURL: marginShortfallSurplusLatestURL,
+                params: [
+                    clearer,
+                    pool,
+                    member,
+                    clearingCcy
+                ]
+            }).subscribe((data: MarginShortfallSurplusServerData[]) => {
+                let result: MarginShortfallSurplusExportData[] = [];
+                if (data) {
+                    data.forEach((record: MarginShortfallSurplusServerData) => {
+                        let row: MarginShortfallSurplusExportData = {
+                            clearer: record.clearer,
+                            member: record.member,
+                            bizDt: record.bizDt,
+                            received: record.received,
+                            ccy: record.ccy,
+                            cashBalance: record.cashBalance,
+                            clearingCcy: record.clearingCcy,
+                            marginCall: record.marginCall,
+                            marginRequirement: record.marginRequirement,
+                            pool: record.pool,
+                            poolType: record.poolType,
+                            shortfallSurplus: record.shortfallSurplus,
+                            securityCollateral: record.securityCollateral
+                        };
+
+                        result.push(row);
+                    });
+                    resolve(result);
+                } else {
+                    resolve([]);
+                }
             }, reject);
         });
     }

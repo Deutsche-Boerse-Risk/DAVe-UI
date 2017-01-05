@@ -26,6 +26,9 @@ export class DataTableComponent implements OnChanges {
     @Input()
     public striped: boolean = true;
 
+    @Input()
+    public showFooter: boolean = true;
+
     public pageRows: any[];
 
     private currentPage: number = 1;
@@ -35,6 +38,7 @@ export class DataTableComponent implements OnChanges {
     public columns: DataTableColumnDirective[];
 
     public rowDetailTemplate: TemplateRef<any>;
+
 
     @ContentChildren(DataTableColumnDirective)
     public set columnTemplates(val: QueryList<DataTableColumnDirective>) {
