@@ -1,0 +1,81 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h3>Margin Shortfall Surplus History</h3>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <download-menu [columns]="exportKeys" [data]="data"
+                               filename="download.csv"></download-menu>
+
+                <bread-crumbs [routeParts]="routeParts" [rootActive]="false"></bread-crumbs>
+            </div>
+
+            <initial-load *ngIf="initialLoad && !errorMessage"></initial-load>
+
+            <no-data *ngIf="!initialLoad && !errorMessage && data?.length < 1"></no-data>
+
+            <update-failed *ngIf="errorMessage" [message]="errorMessage"></update-failed>
+
+            <div class="panel-body" ng-if="vm.chartData.length > 0">
+                <!--<div id="mssHistoryChart" line-chart line-data="vm.chartData" line-xkey='period'-->
+                <!--line-ykeys='["marginRequirement", "securityCollateral", "cashBalance", "shortfallSurplus", "marginCall"]'-->
+                <!--line-labels='["Margin Requirement", "Security Collateral", "Cash Balance", "Shortfall Surplus", "Margin Call"]'-->
+                <!--line-colors='["#31C0BE", "#c7254e", "#800000", "#808000", "#FF00FF"]'></div>-->
+            </div>
+
+            <data-table [data]="data"
+                        [pageSize]="pageSize"
+                        [defaultOrdering]="defaultOrdering">
+                <column title="Last update"
+                        sortingKey="received">
+                    <template let-record="row" cell-template>
+                        {{record.received | date:'HH:mm:ss'}}
+                    </template>
+                </column>
+                <column title="Pool Type"
+                        sortingKey="poolType">
+                    <template let-record="row" cell-template>
+                        {{record.poolType}}
+                    </template>
+                </column>
+                <column title="Shortfall / Surplus"
+                        sortingKey="shortfallSurplus">
+                    <template let-record="row" cell-template>
+                        {{record.shortfallSurplus | number:'.2-2'}}
+                    </template>
+                </column>
+                <column title="Requirement"
+                        sortingKey="marginRequirement">
+                    <template let-record="row" cell-template>
+                        {{record.marginRequirement | number:'.2-2'}}
+                    </template>
+                </column>
+                <column title="Collateral"
+                        sortingKey="securityCollateral">
+                    <template let-record="row" cell-template>
+                        {{record.securityCollateral | number:'.2-2'}}
+                    </template>
+                </column>
+                <column title="Cash Balance"
+                        sortingKey="cashBalance">
+                    <template let-record="row" cell-template>
+                        {{record.cashBalance | number:'.2-2'}}
+                    </template>
+                </column>
+                <column title="Margin Call"
+                        sortingKey="marginCall">
+                    <template let-record="row" cell-template>
+                        {{record.marginCall | number:'.2-2'}}
+                    </template>
+                </column>
+            </data-table>
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
+</div>

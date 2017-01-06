@@ -1,10 +1,10 @@
-import {Injectable} from "@angular/core";
-import {AbstractHttpService} from "../abstract.http.service";
-import {Http} from "@angular/http";
+import {Injectable} from '@angular/core';
+import {AbstractHttpService} from '../abstract.http.service';
+import {Http} from '@angular/http';
 
-import {AuthHttp} from "angular2-jwt";
+import {AuthHttp} from 'angular2-jwt';
 
-import {PositionReportServerData, PositionReportChartData, PositionReportData} from "./position.report.types";
+import {PositionReportServerData, PositionReportChartData, PositionReportData} from './position.report.types';
 
 const chartsURL: string = '/pr/latest';
 const latestURL: string = '/pr/latest/:0/:1/:2/:3/:4/:5/:6/:7/:8';

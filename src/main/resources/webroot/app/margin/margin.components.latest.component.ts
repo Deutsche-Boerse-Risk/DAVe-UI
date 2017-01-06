@@ -7,9 +7,9 @@ import {MarginComponentsRowData} from './margin.types';
 
 import {AbstractLatestListComponent} from '../abstract.latest.list.component';
 
-const routingKeys: string[] = ['clearer', 'member', 'account', 'class', 'ccy'];
+export const routingKeys: string[] = ['clearer', 'member', 'account', 'class', 'ccy'];
 
-const exportKeys: string[] = ['clearer', 'member', 'account', 'class', 'ccy', 'bizDt', 'variationMargin', 'premiumMargin',
+export const exportKeys: string[] = ['clearer', 'member', 'account', 'class', 'ccy', 'bizDt', 'variationMargin', 'premiumMargin',
     'liquiMargin', 'spreadMargin', 'additionalMargin', 'variLiqui', 'received'
 ];
 
@@ -18,7 +18,7 @@ const defaultOrdering = ['-absAdditionalMargin', 'clearer', 'member', 'account',
 @Component({
     moduleId: module.id,
     templateUrl: 'margin.components.latest.component.html',
-    styleUrls: ['margin.components.latest.component.css']
+    styleUrls: ['margin.components.component.css']
 })
 export class MarginComponentsLatestComponent extends AbstractLatestListComponent<MarginComponentsRowData> {
 

@@ -113,7 +113,7 @@ export class DataTableComponent implements OnChanges {
         }
 
         if (this.ordering[0] == sortingKey) {
-            this.ordering = ["-" + sortingKey].concat(defaultOrdering);
+            this.ordering = ['-' + sortingKey].concat(defaultOrdering);
         } else {
             this.ordering = [sortingKey].concat(defaultOrdering);
         }

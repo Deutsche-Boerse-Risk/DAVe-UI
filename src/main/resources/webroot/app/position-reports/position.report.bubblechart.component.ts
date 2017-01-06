@@ -1,19 +1,19 @@
-import {Component} from "@angular/core";
+import {Component} from '@angular/core';
 
-import {AbstractComponentWithAutoRefresh} from "../abstract.component";
-import {ErrorResponse} from "../abstract.http.service";
+import {AbstractComponentWithAutoRefresh} from '../abstract.component';
+import {ErrorResponse} from '../abstract.http.service';
 
-import {NUMBER_PIPE} from "../common/common.module";
-import {BubbleChartOptions, ChartData, ChartRow} from "../common/chart.types";
+import {NUMBER_PIPE} from '../common/common.module';
+import {BubbleChartOptions, ChartData, ChartRow} from '../common/chart.types';
 
-import {PositionReportsService} from "./position.reports.service";
+import {PositionReportsService} from './position.reports.service';
 import {
     PositionReportChartData, PositionReportBubble,
     PositionReportChartDataSelect, SelectValues
-} from "./position.report.types";
+} from './position.report.types';
 
-const compVarPositiveLegend = "Positive";
-const compVarNegativeLegend = "Negative";
+const compVarPositiveLegend = 'Positive';
+const compVarNegativeLegend = 'Negative';
 
 @Component({
     moduleId: module.id,
@@ -38,7 +38,7 @@ export class PositionReportBubbleChartComponent extends AbstractComponentWithAut
         this.positionReportsService.getPositionReportsChartData()
             .then(this.processData.bind(this))
             .catch((err: ErrorResponse) => {
-                this.errorMessage = "Server returned status " + err.status;
+                this.errorMessage = 'Server returned status ' + err.status;
                 this.initialLoad = false;
             });
     }
@@ -154,16 +154,16 @@ export class PositionReportBubbleChartComponent extends AbstractComponentWithAut
             });
         }
 
-        this.title = "<strong>"
-            + NUMBER_PIPE.transform(this.topRecordsCount, ".0-2")
-            + "</strong> top risk positions represent <strong>"
-            + NUMBER_PIPE.transform(this.positiveCoveragePerc, ".0-2")
-            + "%</strong> of total portfolio VaR. <strong>"
-            + NUMBER_PIPE.transform(this.topRecordsCount, ".0-2")
-            + "</strong> top offsetting positions represent <strong>"
-            + NUMBER_PIPE.transform(this.negativeCoveragePerc, ".0-2")
-            + "%</strong> of total offsetting positions. Total portfolio VaR is <strong>"
-            + NUMBER_PIPE.transform(this.totalCompVar, ".0-2") + "</strong>.";
+        this.title = '<strong>'
+            + NUMBER_PIPE.transform(this.topRecordsCount, '.0-2')
+            + '</strong> top risk positions represent <strong>'
+            + NUMBER_PIPE.transform(this.positiveCoveragePerc, '.0-2')
+            + '%</strong> of total portfolio VaR. <strong>'
+            + NUMBER_PIPE.transform(this.topRecordsCount, '.0-2')
+            + '</strong> top offsetting positions represent <strong>'
+            + NUMBER_PIPE.transform(this.negativeCoveragePerc, '.0-2')
+            + '%</strong> of total offsetting positions. Total portfolio VaR is <strong>'
+            + NUMBER_PIPE.transform(this.totalCompVar, '.0-2') + '</strong>.';
         this.options.hAxis.ticks = hTicks;
         this.options.vAxis.ticks = vTicks;
         this.chartData = {
@@ -208,7 +208,7 @@ export class PositionReportBubbleChartComponent extends AbstractComponentWithAut
             ticks: []
         },
         chartArea: {
-            height: "50%"
+            height: '50%'
         },
         backgroundColor: {
             fill: 'transparent'

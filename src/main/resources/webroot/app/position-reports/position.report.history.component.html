@@ -12,7 +12,7 @@
                 <download-menu [columns]="exportKeys" [data]="data"
                                filename="download.csv"></download-menu>
 
-                <bread-crumbs [routeParts]="routeParts"></bread-crumbs>
+                <bread-crumbs [routeParts]="routeParts" [rootActive]="false"></bread-crumbs>
             </div>
 
             <initial-load *ngIf="initialLoad && !errorMessage"></initial-load>

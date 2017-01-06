@@ -1,13 +1,13 @@
-import {NgModule} from "@angular/core";
-import {BrowserModule} from "@angular/platform-browser";
-import {FormsModule} from "@angular/forms";
-import {RouterModule} from "@angular/router";
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {FormsModule} from '@angular/forms';
+import {RouterModule} from '@angular/router';
 
-import {CommonModule} from "../common/common.module";
+import {CommonModule} from '../common/common.module';
 
-import {PositionReportsService} from "./position.reports.service";
+import {PositionReportsService} from './position.reports.service';
 
-import {PositionReportBubbleChartComponent} from "./position.report.bubblechart.component";
+import {PositionReportBubbleChartComponent} from './position.report.bubblechart.component';
 import {PositionReportLatestComponent} from './position.report.latest.component';
 import {PositionReportHistoryComponent} from './position.report.history.component';
 

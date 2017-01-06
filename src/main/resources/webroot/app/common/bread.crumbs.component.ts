@@ -10,7 +10,8 @@ export interface RoutePart {
     moduleId: module.id,
     selector: 'bread-crumbs',
     template: `
-<a *ngIf="filteredRouteParts?.length > 0" [routerLink]="getRoute(0)">{{filteredRouteParts[0].title}}</a>
+<a *ngIf="filteredRouteParts?.length > 0 && rootActive" [routerLink]="getRoute(0)">{{filteredRouteParts[0].title}}</a>
+<template [ngIf]="filteredRouteParts?.length > 0 && !rootActive">{{filteredRouteParts[0].title}}</template>
 <span *ngIf="filteredRouteParts?.length > 1">: <a [routerLink]="getRoute(1)">{{filteredRouteParts[1].title}}</a></span>
 <template [ngIf]="filteredRouteParts?.length > 2"> 
     <span *ngFor="let route of getAdditionalRoutes(); let i=index"> / <a [routerLink]="getRoute(i + 2)">{{filteredRouteParts[route].title}}</a></span>
@@ -22,6 +23,9 @@ export class BreadCrumbsComponent implements OnChanges {
 
     @Input()
     public routeParts: RoutePart[];
+
+    @Input()
+    public rootActive: boolean = true;
 
     public filteredRouteParts: RoutePart[];
 

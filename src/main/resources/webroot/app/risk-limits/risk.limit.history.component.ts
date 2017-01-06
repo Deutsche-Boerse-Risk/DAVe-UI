@@ -39,7 +39,7 @@ export class RiskLimitHistoryComponent extends AbstractHistoryListComponent<Risk
 
     protected getTickFromRecord(record: RiskLimitsData): any {
         let tick = {
-            period: DATE_PIPE.transform(record.received, "yyyy-MM-dd HH:mm:ss"),
+            period: DATE_PIPE.transform(record.received, 'yyyy-MM-dd HH:mm:ss'),
             utilization: record.utilization,
             warningLevel: record.warningLevel,
             throttleLevel: record.throttleLevel,
@@ -61,7 +61,7 @@ export class RiskLimitHistoryComponent extends AbstractHistoryListComponent<Risk
     }
 
     protected get rootRouteTitle(): string {
-        return 'Risk Limits';
+        return 'Risk Limit History';
     }
 
     protected get rootRoutePath(): string {

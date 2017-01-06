@@ -17,15 +17,15 @@ export class DataTableExpandableDirective {
         }
         let extraIcon: Element = masterRow.querySelector(selector + ' .fa');
         let detailTable: Element = masterRow.nextElementSibling;
-        if (detailTable.classList.contains("hidden")) {
-            detailTable.classList.remove("hidden");
-            extraIcon.classList.remove("fa-chevron-circle-down");
-            extraIcon.classList.add("fa-chevron-circle-up");
+        if (detailTable.classList.contains('hidden')) {
+            detailTable.classList.remove('hidden');
+            extraIcon.classList.remove('fa-chevron-circle-down');
+            extraIcon.classList.add('fa-chevron-circle-up');
         }
         else {
-            detailTable.classList.add("hidden");
-            extraIcon.classList.remove("fa-chevron-circle-up");
-            extraIcon.classList.add("fa-chevron-circle-down");
+            detailTable.classList.add('hidden');
+            extraIcon.classList.remove('fa-chevron-circle-up');
+            extraIcon.classList.add('fa-chevron-circle-down');
         }
     }
 }

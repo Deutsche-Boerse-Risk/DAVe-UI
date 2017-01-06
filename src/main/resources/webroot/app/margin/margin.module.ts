@@ -14,6 +14,8 @@ import {MarginShortfallSurplusService} from './margin.shortfall.surplus.service'
 
 import {MarginShortfallSurplusLatestSummaryComponent} from './margin.shortfall.surplus.latest.summary.component';
 import {MarginShortfallSurplusLatestComponent} from './margin.shortfall.surplus.latest.component';
+import {MarginComponentsHistoryComponent} from './margin.components.history.component';
+import {MarginShortfallSurplusHistoryComponent} from './margin.shortfall.surplus.history.component';
 
 @NgModule({
     imports: [
@@ -25,14 +27,18 @@ import {MarginShortfallSurplusLatestComponent} from './margin.shortfall.surplus.
     declarations: [
         MarginComponentsAggregationComponent,
         MarginComponentsLatestComponent,
+        MarginComponentsHistoryComponent,
         MarginShortfallSurplusLatestSummaryComponent,
-        MarginShortfallSurplusLatestComponent
+        MarginShortfallSurplusLatestComponent,
+        MarginShortfallSurplusHistoryComponent
     ],
     exports: [
         MarginComponentsAggregationComponent,
         MarginComponentsLatestComponent,
+        MarginComponentsHistoryComponent,
         MarginShortfallSurplusLatestSummaryComponent,
-        MarginShortfallSurplusLatestComponent
+        MarginShortfallSurplusLatestComponent,
+        MarginShortfallSurplusHistoryComponent
     ],
     providers: [MarginComponentsService, MarginShortfallSurplusService]
 })

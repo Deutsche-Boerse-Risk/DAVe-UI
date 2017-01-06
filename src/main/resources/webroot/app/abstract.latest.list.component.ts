@@ -4,8 +4,6 @@ export abstract class AbstractLatestListComponent<T> extends AbstractListCompone
 
     public filterQuery: string;
 
-    private filterTimeoutHandle: NodeJS.Timer;
-
     private sourceData: T[];
 
     protected processData(data: T[]): void {
@@ -16,16 +14,13 @@ export abstract class AbstractLatestListComponent<T> extends AbstractListCompone
         this.filter();
     }
 
-    public filterAfterTimeout() {
-        clearTimeout(this.filterTimeoutHandle);
-        this.filterTimeoutHandle = setTimeout(() => {
-            this.filter();
-        }, 100);
-    }
+    public filter(filterQuery?: string): void {
+        if (filterQuery || filterQuery === '') {
+            this.filterQuery = filterQuery;
+        }
 
-    public filter(): void {
         if (this.filterQuery) {
-            let filters: string[] = this.filterQuery.toLowerCase().split(" ");
+            let filters: string[] = this.filterQuery.toLowerCase().split(' ');
             let index: number;
             let index2: number;
             let filteredItems: T[] = [];

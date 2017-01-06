@@ -4,31 +4,31 @@ import {ActivatedRoute} from '@angular/router';
 import {DATE_PIPE} from '../common/common.module';
 
 import {ErrorResponse} from '../abstract.http.service';
-import {TotalMarginService} from './total.margin.service';
-import {TotalMarginData} from './total.margin.types';
+import {MarginComponentsService} from './margin.components.service';
+import {MarginComponentsRowData} from './margin.types';
 
 import {AbstractHistoryListComponent} from '../abstract.history.list.component';
 
-import {exportKeys, routingKeys} from './total.margin.requirement.latest.component';
+import {exportKeys, routingKeys} from './margin.components.latest.component';
 
 const defaultOrdering = ['-received'];
 
 @Component({
     moduleId: module.id,
-    templateUrl: 'total.margin.requirement.history.component.html',
-    styleUrls: ['total.margin.requirement.component.css']
+    templateUrl: 'margin.components.history.component.html',
+    styleUrls: ['margin.components.component.css']
 })
-export class TotalMarginRequirementHistoryComponent extends AbstractHistoryListComponent<TotalMarginData> {
+export class MarginComponentsHistoryComponent extends AbstractHistoryListComponent<MarginComponentsRowData> {
 
-    constructor(private totalMarginService: TotalMarginService,
+    constructor(private marginComponentsService: MarginComponentsService,
                 route: ActivatedRoute) {
         super(route);
     }
 
     protected loadData(): void {
-        this.totalMarginService.getTotalMarginHistory(this.routeParams['clearer'], this.routeParams['pool'],
-            this.routeParams['member'], this.routeParams['account'], this.routeParams['ccy'])
-            .then((rows: TotalMarginData[]) => {
+        this.marginComponentsService.getMarginComponentsHistory(this.routeParams['clearer'], this.routeParams['member'],
+            this.routeParams['account'], this.routeParams['class'], this.routeParams['ccy'])
+            .then((rows: MarginComponentsRowData[]) => {
                 this.processData(rows);
             })
             .catch((err: ErrorResponse) => {
@@ -37,12 +37,13 @@ export class TotalMarginRequirementHistoryComponent extends AbstractHistoryListC
             });
     }
 
-
-    protected getTickFromRecord(record: TotalMarginData): any {
+    protected getTickFromRecord(record: MarginComponentsRowData): any {
         let tick = {
             period: DATE_PIPE.transform(record.received, 'yyyy-MM-dd HH:mm:ss'),
-            adjustedMargin: record.adjustedMargin,
-            unadjustedMargin: record.unadjustedMargin
+            variLiqui: record.variLiqui,
+            premiumMargin: record.premiumMargin,
+            spreadMargin: record.spreadMargin,
+            additionalMargin: record.additionalMargin
         };
         return tick;
     }
@@ -60,11 +61,11 @@ export class TotalMarginRequirementHistoryComponent extends AbstractHistoryListC
     }
 
     protected get rootRouteTitle(): string {
-        return 'Total Margin Requirement History';
+        return 'Margin Components History';
     }
 
     protected get rootRoutePath(): string {
-        return '/totalMarginRequirementLatest';
+        return '/marginComponentLatest';
     }
 
 }

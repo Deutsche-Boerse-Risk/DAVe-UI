@@ -15,7 +15,9 @@ import {PositionReportHistoryComponent} from '../position-reports/position.repor
 
 import {MarginModule} from '../margin/margin.module';
 import {MarginComponentsLatestComponent} from '../margin/margin.components.latest.component';
+import {MarginComponentsHistoryComponent} from '../margin/margin.components.history.component';
 import {MarginShortfallSurplusLatestComponent} from '../margin/margin.shortfall.surplus.latest.component';
+import {MarginShortfallSurplusHistoryComponent} from '../margin/margin.shortfall.surplus.history.component';
 
 import {TotalMarginModule} from '../total-margin/total.margin.module';
 import {TotalMarginRequirementLatestComponent} from '../total-margin/total.margin.requirement.latest.component';
@@ -144,12 +146,12 @@ const ROUTES: Route[] = [
         component: MarginComponentsLatestComponent,
         canActivate: [AuthGuard]
     },
-    // {
-    //     path: 'marginComponentHistory/:clearer/:member/:account/:class/:ccy',
-    //     pathMatch: 'full',
-    //     component: MarginComponentHistoryComponent,
-    //     canActivate: [AuthGuard]
-    // },
+    {
+        path: 'marginComponentHistory/:clearer/:member/:account/:class/:ccy',
+        pathMatch: 'full',
+        component: MarginComponentsHistoryComponent,
+        canActivate: [AuthGuard]
+    },
     {
         path: 'totalMarginRequirementLatest',
         pathMatch: 'full',
@@ -222,12 +224,12 @@ const ROUTES: Route[] = [
         component: MarginShortfallSurplusLatestComponent,
         canActivate: [AuthGuard]
     },
-    // {
-    //     path: 'marginShortfallSurplusHistory/:clearer/:pool/:member/:clearingCcy/:ccy',
-    //     pathMatch: 'full',
-    //     component: MarginShortfallSurplusHistoryComponent,
-    //     canActivate: [AuthGuard]
-    // },
+    {
+        path: 'marginShortfallSurplusHistory/:clearer/:pool/:member/:clearingCcy/:ccy',
+        pathMatch: 'full',
+        component: MarginShortfallSurplusHistoryComponent,
+        canActivate: [AuthGuard]
+    },
     {
         path: 'riskLimitLatest',
         pathMatch: 'full',

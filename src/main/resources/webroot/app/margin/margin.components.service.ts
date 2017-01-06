@@ -13,6 +13,7 @@ import {
 
 const marginComponentsAggregationURL: string = '/mc/latest/';
 const marginComponentsLatestURL: string = '/mc/latest/:0/:1/:2/:3/:4';
+const marginComponentsHistoryURL: string = '/mc/history/:0/:1/:2/:3/:4';
 
 @Injectable()
 export class MarginComponentsService extends AbstractHttpService<MarginComponentsServerData[]> {
@@ -120,6 +121,49 @@ export class MarginComponentsService extends AbstractHttpService<MarginComponent
 
                         row.variLiqui = record.variationMargin + record.liquiMargin;
                         row.absAdditionalMargin = Math.abs(record.additionalMargin);
+
+                        result.push(row);
+                    });
+                    resolve(result);
+                } else {
+                    resolve([]);
+                }
+            }, reject);
+        });
+    }
+
+    public getMarginComponentsHistory(clearer: string, member: string, account: string, clss: string, ccy: string): Promise<MarginComponentsRowData[]> {
+        return new Promise((resolve, reject) => {
+            this.get({
+                resourceURL: marginComponentsHistoryURL,
+                params: [
+                    clearer,
+                    member,
+                    account,
+                    clss,
+                    ccy
+                ]
+            }).subscribe((data: MarginComponentsServerData[]) => {
+                let result: MarginComponentsRowData[] = [];
+                if (data) {
+                    data.forEach((record: MarginComponentsServerData) => {
+                        let row: MarginComponentsRowData = {
+                            clearer: record.clearer,
+                            member: record.member,
+                            account: record.account,
+                            class: record.clss,
+                            bizDt: record.bizDt,
+                            premiumMargin: record.premiumMargin,
+                            received: record.received,
+                            ccy: record.ccy,
+                            additionalMargin: record.additionalMargin,
+                            liquiMargin: record.liquiMargin,
+                            spreadMargin: record.spreadMargin,
+                            variationMargin: record.variationMargin
+                        };
+
+                        row.variLiqui = record.variationMargin + record.liquiMargin;
+
                         result.push(row);
                     });
                     resolve(result);

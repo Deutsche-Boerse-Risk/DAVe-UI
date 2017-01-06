@@ -94,12 +94,12 @@ export class DownloadMenuComponent {
         if (navigator.msSaveBlob) { // IE 10+
             navigator.msSaveBlob(blob, this.filename);
         } else {
-            const link = document.createElement("a");
+            const link = document.createElement('a');
             if (link.download !== undefined) { // feature detection
                 // Browsers that support HTML5 download attribute
                 const url = URL.createObjectURL(blob);
-                link.setAttribute("href", url);
-                link.setAttribute("download", this.filename);
+                link.setAttribute('href', url);
+                link.setAttribute('download', this.filename);
                 link.style.visibility = 'hidden';
                 document.body.appendChild(link);
                 link.click();

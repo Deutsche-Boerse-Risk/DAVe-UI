@@ -1,26 +1,24 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
+import {DATE_PIPE} from '../common/common.module';
+
 import {ErrorResponse} from '../abstract.http.service';
 import {MarginShortfallSurplusService} from './margin.shortfall.surplus.service';
 import {MarginShortfallSurplusData} from './margin.types';
 
-import {AbstractLatestListComponent} from '../abstract.latest.list.component';
+import {AbstractHistoryListComponent} from '../abstract.history.list.component';
 
-export const routingKeys: string[] = ['clearer', 'pool', 'member', 'clearingCcy'];
+import {exportKeys, routingKeys} from './margin.shortfall.surplus.latest.component';
 
-export const exportKeys: string[] = ['clearer', 'pool', 'poolType', 'member', 'clearingCcy', 'ccy', 'bizDt', 'marginRequirement',
-    'securityCollateral', 'cashBalance', 'shortfallSurplus', 'marginCall', 'received'
-];
-
-const defaultOrdering = ['shortfallSurplus', 'clearer', 'pool', 'member', 'clearingCcy', 'ccy'];
+const defaultOrdering = ['-received'];
 
 @Component({
     moduleId: module.id,
-    templateUrl: 'margin.shortfall.surplus.latest.component.html',
+    templateUrl: 'margin.shortfall.surplus.history.component.html',
     styleUrls: ['margin.shortfall.surplus.component.css']
 })
-export class MarginShortfallSurplusLatestComponent extends AbstractLatestListComponent<MarginShortfallSurplusData> {
+export class MarginShortfallSurplusHistoryComponent extends AbstractHistoryListComponent<MarginShortfallSurplusData> {
 
     constructor(private marginShortfallSurplusService: MarginShortfallSurplusService,
                 route: ActivatedRoute) {
@@ -28,7 +26,7 @@ export class MarginShortfallSurplusLatestComponent extends AbstractLatestListCom
     }
 
     protected loadData(): void {
-        this.marginShortfallSurplusService.getShortfallSurplusLatest(this.routeParams['clearer'], this.routeParams['pool'],
+        this.marginShortfallSurplusService.getShortfallSurplusHistory(this.routeParams['clearer'], this.routeParams['pool'],
             this.routeParams['member'], this.routeParams['clearingCcy'])
             .then((rows: MarginShortfallSurplusData[]) => {
                 this.processData(rows);
@@ -37,6 +35,18 @@ export class MarginShortfallSurplusLatestComponent extends AbstractLatestListCom
                 this.errorMessage = 'Server returned status ' + err.status;
                 this.initialLoad = false;
             });
+    }
+
+    protected getTickFromRecord(record: MarginShortfallSurplusData): any {
+        let tick = {
+            period: DATE_PIPE.transform(record.received, 'yyyy-MM-dd HH:mm:ss'),
+            marginRequirement: record.marginRequirement,
+            securityCollateral: record.securityCollateral,
+            cashBalance: record.cashBalance,
+            shortfallSurplus: record.shortfallSurplus,
+            marginCall: record.marginCall
+        };
+        return tick;
     }
 
     public get defaultOrdering(): string[] {
@@ -52,7 +62,7 @@ export class MarginShortfallSurplusLatestComponent extends AbstractLatestListCom
     }
 
     protected get rootRouteTitle(): string {
-        return 'Latest Margin Shortfall Surplus';
+        return 'Margin Shortfall Surplus History';
     }
 
     protected get rootRoutePath(): string {
