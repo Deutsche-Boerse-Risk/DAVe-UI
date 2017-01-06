@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
 import {ErrorResponse} from '../abstract.http.service';
-import {PositionReportRow} from './position.report.types';
+import {PositionReportData} from './position.report.types';
 import {PositionReportsService} from './position.reports.service';
 
 import {AbstractListComponent} from '../abstract.list.component';
@@ -26,7 +26,7 @@ const defaultOrdering = ['-absCompVar', 'clearer', 'member', 'account', 'symbol'
     templateUrl: 'position.report.latest.component.html',
     styleUrls: ['position.report.latest.component.css']
 })
-export class PositionReportLatestComponent extends AbstractListComponent<PositionReportRow> {
+export class PositionReportLatestComponent extends AbstractListComponent<PositionReportData> {
 
     constructor(private positionReportsService: PositionReportsService,
                 route: ActivatedRoute) {
@@ -38,7 +38,7 @@ export class PositionReportLatestComponent extends AbstractListComponent<Positio
             this.routeParams['account'], this.routeParams['class'], this.routeParams['symbol'],
             this.routeParams['putCall'], this.routeParams['strikePrice'], this.routeParams['optAttribute'],
             this.routeParams['maturityMonthYear'])
-            .then((rows: PositionReportRow[]) => {
+            .then((rows: PositionReportData[]) => {
                 this.processData(rows);
             })
             .catch((err: ErrorResponse) => {
