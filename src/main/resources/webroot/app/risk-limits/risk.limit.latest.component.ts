@@ -5,7 +5,7 @@ import {ErrorResponse} from '../abstract.http.service';
 import {RiskLimitsService} from './risk.limits.service';
 import {RiskLimitsData} from './risk.limits.types';
 
-import {AbstractListComponent} from '../abstract.list.component';
+import {AbstractLatestListComponent} from '../abstract.latest.list.component';
 
 const routingKeys: string[] = ['clearer', 'member', 'maintainer', 'limitType'];
 
@@ -19,7 +19,7 @@ const defaultOrdering = ['-rejectUtil', 'clearer', 'member', 'maintainer', 'limi
     templateUrl: 'risk.limit.latest.component.html',
     styleUrls: ['risk.limit.latest.component.css']
 })
-export class RiskLimitLatestComponent extends AbstractListComponent<RiskLimitsData> {
+export class RiskLimitLatestComponent extends AbstractLatestListComponent<RiskLimitsData> {
 
     constructor(private riskLimitsService: RiskLimitsService,
                 route: ActivatedRoute) {

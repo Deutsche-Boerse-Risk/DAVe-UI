@@ -5,7 +5,7 @@ import {ErrorResponse} from '../abstract.http.service';
 import {MarginShortfallSurplusService} from './margin.shortfall.surplus.service';
 import {MarginShortfallSurplusData} from './margin.types';
 
-import {AbstractListComponent} from '../abstract.list.component';
+import {AbstractLatestListComponent} from '../abstract.latest.list.component';
 
 const routingKeys: string[] = ['clearer', 'pool', 'member', 'clearingCcy'];
 
@@ -20,7 +20,7 @@ const defaultOrdering = ['shortfallSurplus', 'clearer', 'pool', 'member', 'clear
     templateUrl: 'margin.shortfall.surplus.latest.component.html',
     styleUrls: ['margin.shortfall.surplus.latest.component.css']
 })
-export class MarginShortfallSurplusLatestComponent extends AbstractListComponent<MarginShortfallSurplusData> {
+export class MarginShortfallSurplusLatestComponent extends AbstractLatestListComponent<MarginShortfallSurplusData> {
 
     constructor(private marginShortfallSurplusService: MarginShortfallSurplusService,
                 route: ActivatedRoute) {

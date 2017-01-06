@@ -1,4 +1,4 @@
-import {DecimalPipe} from '@angular/common';
+import {DecimalPipe, DatePipe} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
@@ -18,6 +18,8 @@ import {BreadCrumbsComponent} from './bread.crumbs.component';
 import {NullPipe} from './null.pipe';
 
 export const NUMBER_PIPE = new DecimalPipe(navigator.language.split('-')[0]);
+
+export const DATE_PIPE = new DatePipe(navigator.language.split('-')[0]);
 
 @NgModule({
     imports: [

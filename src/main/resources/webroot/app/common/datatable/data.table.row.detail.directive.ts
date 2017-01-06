@@ -1,4 +1,4 @@
-import {Directive,  ContentChildren, QueryList} from '@angular/core';
+import {Directive, ContentChildren, QueryList} from '@angular/core';
 
 import {DataTableColumnGroupDirective} from './data.table.column.group.directive';
 

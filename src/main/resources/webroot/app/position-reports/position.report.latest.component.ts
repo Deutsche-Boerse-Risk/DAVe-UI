@@ -5,12 +5,12 @@ import {ErrorResponse} from '../abstract.http.service';
 import {PositionReportData} from './position.report.types';
 import {PositionReportsService} from './position.reports.service';
 
-import {AbstractListComponent} from '../abstract.list.component';
+import {AbstractLatestListComponent} from '../abstract.latest.list.component';
 
-const routingKeys: string[] = ['clearer', 'member', 'account', 'class', 'symbol', 'putCall',
+export const routingKeys: string[] = ['clearer', 'member', 'account', 'class', 'symbol', 'putCall',
     'strikePrice', 'optAttribute', 'maturityMonthYear'];
 
-const exportKeys: string[] = ['clearer', 'member', 'account', 'bizDt', 'symbol', 'putCall', 'maturityMonthYear',
+export const exportKeys: string[] = ['clearer', 'member', 'account', 'bizDt', 'symbol', 'putCall', 'maturityMonthYear',
     'strikePrice', 'optAttribute', 'crossMarginLongQty', 'crossMarginShortQty', 'optionExcerciseQty',
     'optionAssignmentQty', 'allocationTradeQty', 'deliveryNoticeQty', 'clearingCcy', 'mVar', 'compVar',
     'compCorrelationBreak', 'compCompressionError', 'compLiquidityAddOn', 'compLongOptionCredit', 'productCcy',
@@ -24,9 +24,9 @@ const defaultOrdering = ['-absCompVar', 'clearer', 'member', 'account', 'symbol'
 @Component({
     moduleId: module.id,
     templateUrl: 'position.report.latest.component.html',
-    styleUrls: ['position.report.latest.component.css']
+    styleUrls: ['position.report.component.css']
 })
-export class PositionReportLatestComponent extends AbstractListComponent<PositionReportData> {
+export class PositionReportLatestComponent extends AbstractLatestListComponent<PositionReportData> {
 
     constructor(private positionReportsService: PositionReportsService,
                 route: ActivatedRoute) {

@@ -19,6 +19,7 @@ import {MarginShortfallSurplusLatestComponent} from '../margin/margin.shortfall.
 
 import {TotalMarginModule} from '../total-margin/total.margin.module';
 import {TotalMarginRequirementLatestComponent} from '../total-margin/total.margin.requirement.latest.component';
+import {TotalMarginRequirementHistoryComponent} from '../total-margin/total.margin.requirement.history.component';
 
 import {RiskLimitsModule} from '../risk-limits/risk.limits.module';
 import {RiskLimitLatestComponent} from '../risk-limits/risk.limit.latest.component';
@@ -184,12 +185,12 @@ const ROUTES: Route[] = [
         component: TotalMarginRequirementLatestComponent,
         canActivate: [AuthGuard]
     },
-    // {
-    //     path: 'totalMarginRequirementHistory/:clearer/:pool/:member/:account/:ccy',
-    //     pathMatch: 'full',
-    //     component: TotalMarginRequirementHistoryComponent,
-    //     canActivate: [AuthGuard]
-    // },
+    {
+        path: 'totalMarginRequirementHistory/:clearer/:pool/:member/:account/:ccy',
+        pathMatch: 'full',
+        component: TotalMarginRequirementHistoryComponent,
+        canActivate: [AuthGuard]
+    },
     {
         path: 'marginShortfallSurplusLatest',
         pathMatch: 'full',

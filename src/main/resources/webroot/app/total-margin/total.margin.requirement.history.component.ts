@@ -1,25 +1,24 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
+import {DATE_PIPE} from '../common/common.module';
+
 import {ErrorResponse} from '../abstract.http.service';
 import {TotalMarginService} from './total.margin.service';
 import {TotalMarginData} from './total.margin.types';
 
-import {AbstractLatestListComponent} from '../abstract.latest.list.component';
+import {AbstractHistoryListComponent} from '../abstract.history.list.component';
 
-export const routingKeys: string[] = ['clearer', 'pool', 'member', 'account', 'ccy'];
+import {exportKeys, routingKeys} from './total.margin.requirement.latest.component';
 
-export const exportKeys: string[] = ['clearer', 'pool', 'member', 'account', 'ccy', 'bizDt', 'unadjustedMargin',
-    'adjustedMargin', 'received'];
-
-const defaultOrdering = ['-adjustedMargin', 'clearer', 'pool', 'member', 'account', 'ccy'];
+const defaultOrdering = ['-received'];
 
 @Component({
     moduleId: module.id,
-    templateUrl: 'total.margin.requirement.latest.component.html',
+    templateUrl: 'total.margin.requirement.history.component.html',
     styleUrls: ['total.margin.requirement.component.css']
 })
-export class TotalMarginRequirementLatestComponent extends AbstractLatestListComponent<TotalMarginData> {
+export class TotalMarginRequirementHistoryComponent extends AbstractHistoryListComponent<TotalMarginData> {
 
     constructor(private totalMarginService: TotalMarginService,
                 route: ActivatedRoute) {
@@ -27,7 +26,7 @@ export class TotalMarginRequirementLatestComponent extends AbstractLatestListCom
     }
 
     protected loadData(): void {
-        this.totalMarginService.getTotalMarginLatest(this.routeParams['clearer'], this.routeParams['pool'],
+        this.totalMarginService.getTotalMarginHistory(this.routeParams['clearer'], this.routeParams['pool'],
             this.routeParams['member'], this.routeParams['account'], this.routeParams['ccy'])
             .then((rows: TotalMarginData[]) => {
                 this.processData(rows);
@@ -36,6 +35,16 @@ export class TotalMarginRequirementLatestComponent extends AbstractLatestListCom
                 this.errorMessage = 'Server returned status ' + err.status;
                 this.initialLoad = false;
             });
+    }
+
+
+    protected getTickFromRecord(record: TotalMarginData): any {
+        let tick = {
+            period: DATE_PIPE.transform(record.received, 'yyyy-MM-dd HH:mm:ss'),
+            adjustedMargin: record.adjustedMargin,
+            unadjustedMargin: record.unadjustedMargin
+        };
+        return tick;
     }
 
     public get defaultOrdering(): string[] {
@@ -51,7 +60,7 @@ export class TotalMarginRequirementLatestComponent extends AbstractLatestListCom
     }
 
     protected get rootRouteTitle(): string {
-        return 'Latest Total Margin Requirements';
+        return 'Total Margin Requirement';
     }
 
     protected get rootRoutePath(): string {

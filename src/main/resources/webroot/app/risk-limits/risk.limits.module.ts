@@ -24,4 +24,5 @@ import {RiskLimitLatestComponent} from './risk.limit.latest.component';
     ],
     providers: [RiskLimitsService]
 })
-export class RiskLimitsModule {}
+export class RiskLimitsModule {
+}

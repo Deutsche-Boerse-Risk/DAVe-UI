@@ -5,7 +5,7 @@ import {ErrorResponse} from '../abstract.http.service';
 import {MarginComponentsService} from './margin.components.service';
 import {MarginComponentsRowData} from './margin.types';
 
-import {AbstractListComponent} from '../abstract.list.component';
+import {AbstractLatestListComponent} from '../abstract.latest.list.component';
 
 const routingKeys: string[] = ['clearer', 'member', 'account', 'class', 'ccy'];
 
@@ -20,7 +20,7 @@ const defaultOrdering = ['-absAdditionalMargin', 'clearer', 'member', 'account',
     templateUrl: 'margin.components.latest.component.html',
     styleUrls: ['margin.components.latest.component.css']
 })
-export class MarginComponentsLatestComponent extends AbstractListComponent<MarginComponentsRowData> {
+export class MarginComponentsLatestComponent extends AbstractLatestListComponent<MarginComponentsRowData> {
 
     constructor(private marginComponentsService: MarginComponentsService,
                 route: ActivatedRoute) {

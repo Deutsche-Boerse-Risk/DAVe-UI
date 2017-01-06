@@ -8,6 +8,7 @@ import {CommonModule} from '../common/common.module';
 import {TotalMarginService} from './total.margin.service';
 
 import {TotalMarginRequirementLatestComponent} from './total.margin.requirement.latest.component';
+import {TotalMarginRequirementHistoryComponent} from './total.margin.requirement.history.component';
 
 @NgModule({
     imports: [
@@ -17,10 +18,12 @@ import {TotalMarginRequirementLatestComponent} from './total.margin.requirement.
         CommonModule
     ],
     declarations: [
-        TotalMarginRequirementLatestComponent
+        TotalMarginRequirementLatestComponent,
+        TotalMarginRequirementHistoryComponent
     ],
     exports: [
-        TotalMarginRequirementLatestComponent
+        TotalMarginRequirementLatestComponent,
+        TotalMarginRequirementHistoryComponent
     ],
     providers: [TotalMarginService]
 })
