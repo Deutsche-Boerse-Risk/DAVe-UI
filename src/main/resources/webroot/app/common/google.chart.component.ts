@@ -7,7 +7,7 @@ declare let googleLoaded: any;
 
 @Component({
     moduleId: module.id,
-    selector: 'google-chart]',
+    selector: 'google-chart',
     template: '<div [id]="id"></div>',
     styles: ['/deep/ google-chart > div { width: 100%; height: 100%; }'],
     styleUrls: ['common.component.css']

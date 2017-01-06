@@ -7,7 +7,7 @@ import {MarginShortfallSurplusBase} from './margin.types';
 
 @Component({
     moduleId: module.id,
-    selector: 'margin-shortfall-surplus-latest-summary',
+    selector: 'margin-shortfall-surplus-summary',
     templateUrl: 'margin.shortfall.surplus.latest.summary.component.html',
     styleUrls: ['margin.shortfall.surplus.latest.summary.component.css']
 })

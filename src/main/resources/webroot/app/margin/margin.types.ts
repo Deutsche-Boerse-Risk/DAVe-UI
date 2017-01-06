@@ -45,14 +45,11 @@ export interface MarginShortfallSurplusData extends MarginShortfallSurplusBase {
     member: string;
     clearingCcy: string;
     ccy: string;
-}
-
-export interface MarginShortfallSurplusExportData extends MarginShortfallSurplusData {
     bizDt: string;
     received: string;
 }
 
-export interface MarginAccountServerData {
+export interface MarginComponentsServerData {
     _id?: {
         clearer?: string;
         member?: string;
@@ -87,7 +84,7 @@ export interface MarginAccountServerData {
     received?: string;
 }
 
-export interface MarginAccountDataBase {
+export interface MarginComponentsBaseData {
     clearer?: string;
     member?: string;
     account?: string;
@@ -99,18 +96,15 @@ export interface MarginAccountDataBase {
     absAdditionalMargin?: number;
 }
 
-export interface MarginAccountData extends MarginAccountDataBase {
+export interface MarginComponentsRowData extends MarginComponentsBaseData {
     class: string;
     ccy: string;
-}
-
-export interface MarginAccountExportData extends MarginAccountData {
     bizDt: string;
     variLiqui?: number;
     received: string;
 }
 
-export interface MarginAccountAggregationData {
-    aggregatedRows: MarginAccountDataBase[];
-    summary: MarginAccountDataBase;
+export interface MarginComponentsAggregationData {
+    aggregatedRows: MarginComponentsBaseData[];
+    summary: MarginComponentsBaseData;
 }

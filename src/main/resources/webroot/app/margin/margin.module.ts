@@ -5,10 +5,10 @@ import {FormsModule} from '@angular/forms';
 
 import {CommonModule} from '../common/common.module';
 
-import {MarginAccountService} from './margin.account.service';
+import {MarginComponentsService} from './margin.components.service';
 
-import {MarginAccountAggregationComponent} from './margin.account.aggregation.component';
-import {MarginAccountLatestComponent} from './margin.account.latest.component';
+import {MarginComponentsAggregationComponent} from './margin.components.aggregation.component';
+import {MarginComponentsLatestComponent} from './margin.components.latest.component';
 
 import {MarginShortfallSurplusService} from './margin.shortfall.surplus.service';
 
@@ -23,18 +23,18 @@ import {MarginShortfallSurplusLatestComponent} from './margin.shortfall.surplus.
         CommonModule
     ],
     declarations: [
-        MarginAccountAggregationComponent,
-        MarginAccountLatestComponent,
+        MarginComponentsAggregationComponent,
+        MarginComponentsLatestComponent,
         MarginShortfallSurplusLatestSummaryComponent,
         MarginShortfallSurplusLatestComponent
     ],
     exports: [
-        MarginAccountAggregationComponent,
-        MarginAccountLatestComponent,
+        MarginComponentsAggregationComponent,
+        MarginComponentsLatestComponent,
         MarginShortfallSurplusLatestSummaryComponent,
         MarginShortfallSurplusLatestComponent
     ],
-    providers: [MarginAccountService, MarginShortfallSurplusService]
+    providers: [MarginComponentsService, MarginShortfallSurplusService]
 })
 export class MarginModule {
 }

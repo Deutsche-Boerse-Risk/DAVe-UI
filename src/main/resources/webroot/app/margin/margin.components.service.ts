@@ -5,30 +5,31 @@ import {Http} from '@angular/http';
 import {AuthHttp} from 'angular2-jwt';
 
 import {
-    MarginAccountAggregationData,
-    MarginAccountServerData,
-    MarginAccountDataBase, MarginAccountExportData
+    MarginComponentsServerData,
+    MarginComponentsAggregationData,
+    MarginComponentsBaseData,
+    MarginComponentsRowData
 } from './margin.types';
 
-const marginAccountAggregationURL: string = '/mc/latest/';
-const marginLatestURL: string = '/mc/latest/:0/:1/:2/:3/:4';
+const marginComponentsAggregationURL: string = '/mc/latest/';
+const marginComponentsLatestURL: string = '/mc/latest/:0/:1/:2/:3/:4';
 
 @Injectable()
-export class MarginAccountService extends AbstractHttpService<MarginAccountServerData[]> {
+export class MarginComponentsService extends AbstractHttpService<MarginComponentsServerData[]> {
 
     constructor(http: Http, authHttp: AuthHttp) {
         super(http, authHttp);
     }
 
-    public getMarginAccountAggregationData(): Promise<MarginAccountAggregationData> {
+    public getMarginComponentsAggregationData(): Promise<MarginComponentsAggregationData> {
         return new Promise((resolve, reject) => {
-            this.get({resourceURL: marginAccountAggregationURL}).subscribe((data: MarginAccountServerData[]) => {
+            this.get({resourceURL: marginComponentsAggregationURL}).subscribe((data: MarginComponentsServerData[]) => {
                 if (!data) {
                     resolve({});
                     return;
                 }
-                let newViewWindow: {[key: string]: MarginAccountDataBase} = {};
-                let footerData: MarginAccountDataBase = {
+                let newViewWindow: {[key: string]: MarginComponentsBaseData} = {};
+                let footerData: MarginComponentsBaseData = {
                     variationMargin: 0,
                     liquiMargin: 0,
                     premiumMargin: 0,
@@ -41,7 +42,7 @@ export class MarginAccountService extends AbstractHttpService<MarginAccountServe
                     let fKey = record.clearer + '-' + record.member + '-' + record.account;
 
                     if (fKey in newViewWindow) {
-                        let cellData: MarginAccountDataBase = newViewWindow[fKey];
+                        let cellData: MarginComponentsBaseData = newViewWindow[fKey];
                         cellData.variationMargin += record.variationMargin;
                         cellData.liquiMargin += record.liquiMargin;
                         cellData.premiumMargin += record.premiumMargin;
@@ -74,7 +75,7 @@ export class MarginAccountService extends AbstractHttpService<MarginAccountServe
                     }
                 }
 
-                let result: MarginAccountAggregationData = {
+                let result: MarginComponentsAggregationData = {
                     aggregatedRows: Object.keys(newViewWindow).map((key: string) => {
                         newViewWindow[key].absAdditionalMargin = Math.abs(newViewWindow[key].additionalMargin);
                         return newViewWindow[key];
@@ -86,11 +87,11 @@ export class MarginAccountService extends AbstractHttpService<MarginAccountServe
         });
     }
 
-    public getMarginLatest(clearer: string = '*', member: string = '*', account: string = '*',
-                           clss: string = '*', ccy: string = '*'): Promise<MarginAccountExportData[]> {
+    public getMarginComponentsLatest(clearer: string = '*', member: string = '*', account: string = '*',
+                                     clss: string = '*', ccy: string = '*'): Promise<MarginComponentsRowData[]> {
         return new Promise((resolve, reject) => {
             this.get({
-                resourceURL: marginLatestURL,
+                resourceURL: marginComponentsLatestURL,
                 params: [
                     clearer,
                     member,
@@ -98,11 +99,11 @@ export class MarginAccountService extends AbstractHttpService<MarginAccountServe
                     clss,
                     ccy
                 ]
-            }).subscribe((data: MarginAccountServerData[]) => {
-                let result: MarginAccountExportData[] = [];
+            }).subscribe((data: MarginComponentsServerData[]) => {
+                let result: MarginComponentsRowData[] = [];
                 if (data) {
-                    data.forEach((record: MarginAccountServerData) => {
-                        let row: MarginAccountExportData = {
+                    data.forEach((record: MarginComponentsServerData) => {
+                        let row: MarginComponentsRowData = {
                             clearer: record.clearer,
                             member: record.member,
                             account: record.account,

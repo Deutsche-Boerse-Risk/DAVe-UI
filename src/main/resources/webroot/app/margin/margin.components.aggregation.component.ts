@@ -3,28 +3,28 @@ import {Component} from '@angular/core';
 import {AbstractComponentWithAutoRefresh} from '../abstract.component';
 import {ErrorResponse} from '../abstract.http.service';
 
-import {MarginAccountService} from './margin.account.service';
-import {MarginAccountDataBase, MarginAccountAggregationData} from './margin.types';
+import {MarginComponentsService} from './margin.components.service';
+import {MarginComponentsBaseData, MarginComponentsAggregationData} from './margin.types';
 
 const defaultOrdering = ['-absAdditionalMargin', 'clearer', 'member', 'account'];
 
 @Component({
     moduleId: module.id,
-    selector: 'margin-account-aggregation',
-    templateUrl: 'margin.account.aggregation.component.html',
-    styleUrls: ['margin.account.aggregation.component.css']
+    selector: 'margin-components-aggregation',
+    templateUrl: 'margin.components.aggregation.component.html',
+    styleUrls: ['margin.components.aggregation.component.css']
 })
-export class MarginAccountAggregationComponent extends AbstractComponentWithAutoRefresh {
+export class MarginComponentsAggregationComponent extends AbstractComponentWithAutoRefresh {
 
     public initialLoad: boolean = false;
 
     public errorMessage: string;
 
-    public footer: MarginAccountDataBase;
+    public footer: MarginComponentsBaseData;
 
-    public data: MarginAccountDataBase[];
+    public data: MarginComponentsBaseData[];
 
-    constructor(private marginAccountService: MarginAccountService) {
+    constructor(private marginComponentsService: MarginComponentsService) {
         super();
     }
 
@@ -33,8 +33,8 @@ export class MarginAccountAggregationComponent extends AbstractComponentWithAuto
     }
 
     protected loadData(): void {
-        this.marginAccountService.getMarginAccountAggregationData()
-            .then((data: MarginAccountAggregationData) => {
+        this.marginComponentsService.getMarginComponentsAggregationData()
+            .then((data: MarginComponentsAggregationData) => {
                 this.data = data.aggregatedRows;
                 this.footer = data.summary;
 

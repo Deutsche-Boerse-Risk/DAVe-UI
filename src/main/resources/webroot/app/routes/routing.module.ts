@@ -14,7 +14,7 @@ import {PositionReportLatestComponent} from '../position-reports/position.report
 import {PositionReportHistoryComponent} from '../position-reports/position.report.history.component';
 
 import {MarginModule} from '../margin/margin.module';
-import {MarginAccountLatestComponent} from '../margin/margin.account.latest.component';
+import {MarginComponentsLatestComponent} from '../margin/margin.components.latest.component';
 import {MarginShortfallSurplusLatestComponent} from '../margin/margin.shortfall.surplus.latest.component';
 
 import {TotalMarginModule} from '../total-margin/total.margin.module';
@@ -109,37 +109,37 @@ const ROUTES: Route[] = [
     {
         path: 'marginComponentLatest',
         pathMatch: 'full',
-        component: MarginAccountLatestComponent,
+        component: MarginComponentsLatestComponent,
         canActivate: [AuthGuard]
     },
     {
         path: 'marginComponentLatest/:clearer',
         pathMatch: 'full',
-        component: MarginAccountLatestComponent,
+        component: MarginComponentsLatestComponent,
         canActivate: [AuthGuard]
     },
     {
         path: 'marginComponentLatest/:clearer/:member',
         pathMatch: 'full',
-        component: MarginAccountLatestComponent,
+        component: MarginComponentsLatestComponent,
         canActivate: [AuthGuard]
     },
     {
         path: 'marginComponentLatest/:clearer/:member/:account',
         pathMatch: 'full',
-        component: MarginAccountLatestComponent,
+        component: MarginComponentsLatestComponent,
         canActivate: [AuthGuard]
     },
     {
         path: 'marginComponentLatest/:clearer/:member/:account/:class',
         pathMatch: 'full',
-        component: MarginAccountLatestComponent,
+        component: MarginComponentsLatestComponent,
         canActivate: [AuthGuard]
     },
     {
         path: 'marginComponentLatest/:clearer/:member/:account/:class/:ccy',
         pathMatch: 'full',
-        component: MarginAccountLatestComponent,
+        component: MarginComponentsLatestComponent,
         canActivate: [AuthGuard]
     },
     // {

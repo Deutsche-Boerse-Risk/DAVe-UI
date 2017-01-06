@@ -5,7 +5,7 @@ import {Http} from '@angular/http';
 import {AuthHttp} from 'angular2-jwt';
 
 import {
-    MarginShortfallSurplusServerData, MarginShortfallSurplusBase, MarginShortfallSurplusExportData
+    MarginShortfallSurplusServerData, MarginShortfallSurplusBase, MarginShortfallSurplusData
 } from './margin.types';
 
 const marginShortfallSurplusURL: string = '/mss/latest';
@@ -46,7 +46,7 @@ export class MarginShortfallSurplusService extends AbstractHttpService<MarginSho
     }
 
     public getShortfallSurplusLatest(clearer: string = '*', pool: string = '*', member: string = '*',
-                                     clearingCcy: string = '*'): Promise<MarginShortfallSurplusExportData[]> {
+                                     clearingCcy: string = '*'): Promise<MarginShortfallSurplusData[]> {
         return new Promise((resolve, reject) => {
             this.get({
                 resourceURL: marginShortfallSurplusLatestURL,
@@ -57,10 +57,10 @@ export class MarginShortfallSurplusService extends AbstractHttpService<MarginSho
                     clearingCcy
                 ]
             }).subscribe((data: MarginShortfallSurplusServerData[]) => {
-                let result: MarginShortfallSurplusExportData[] = [];
+                let result: MarginShortfallSurplusData[] = [];
                 if (data) {
                     data.forEach((record: MarginShortfallSurplusServerData) => {
-                        let row: MarginShortfallSurplusExportData = {
+                        let row: MarginShortfallSurplusData = {
                             clearer: record.clearer,
                             member: record.member,
                             bizDt: record.bizDt,
