@@ -3,6 +3,8 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
 
+import {DataTableModule} from './datatable/data.table.module';
+
 import {InitialLoadComponent} from './initial.load.component';
 import {NoDataComponent} from './no.data.component';
 import {UpdateFailedComponent} from './update.failed.component';
@@ -15,30 +17,18 @@ import {BreadCrumbsComponent} from './bread.crumbs.component';
 
 import {NullPipe} from './null.pipe';
 
-import {DataTableComponent} from './datatable/data.table.component';
-import {DataTableColumnDirective} from './datatable/data.table.column.directive';
-import {DataTableColumnCellDirective} from './datatable/data.table.column.cell.directive';
-import {DataTableColumnFooterDirective} from './datatable/data.table.column.footer.directive';
-import {DataTableRowDetailDirective} from './datatable/data.table.row.detail.directive';
-import {PagingComponent} from './datatable/paging.component';
-
 export const NUMBER_PIPE = new DecimalPipe(navigator.language.split('-')[0]);
 
 @NgModule({
     imports: [
         BrowserModule,
-        RouterModule
+        RouterModule,
+        DataTableModule
     ],
     declarations: [
         GoogleChart,
         DownloadMenuComponent,
         BreadCrumbsComponent,
-        DataTableComponent,
-        DataTableColumnDirective,
-        DataTableColumnCellDirective,
-        DataTableColumnFooterDirective,
-        DataTableRowDetailDirective,
-        PagingComponent,
         InitialLoadComponent,
         NoDataComponent,
         UpdateFailedComponent,
@@ -48,15 +38,11 @@ export const NUMBER_PIPE = new DecimalPipe(navigator.language.split('-')[0]);
         GoogleChart,
         DownloadMenuComponent,
         BreadCrumbsComponent,
-        DataTableComponent,
-        DataTableColumnDirective,
-        DataTableColumnCellDirective,
-        DataTableColumnFooterDirective,
-        DataTableRowDetailDirective,
         InitialLoadComponent,
         NoDataComponent,
         UpdateFailedComponent,
-        NullPipe
+        NullPipe,
+        DataTableModule
     ]
 })
 export class CommonModule {

@@ -1,7 +1,8 @@
-import {Component, Input, OnChanges, ContentChild, QueryList, ContentChildren, TemplateRef} from '@angular/core';
+import {Component, Input, OnChanges, ContentChild, QueryList, ContentChildren} from '@angular/core';
 
 import {DataTableColumnDirective} from './data.table.column.directive';
 import {DataTableRowDetailDirective} from './data.table.row.detail.directive';
+import {DataTableColumnGroupDirective} from './data.table.column.group.directive';
 
 @Component({
     moduleId: module.id,
@@ -37,8 +38,10 @@ export class DataTableComponent implements OnChanges {
 
     public columns: DataTableColumnDirective[];
 
-    public rowDetailTemplate: TemplateRef<any>;
+    @ContentChild(DataTableRowDetailDirective)
+    public _rowDetailTemplate: DataTableRowDetailDirective;
 
+    public _rowDetailTemplateColumns: DataTableColumnDirective[][];
 
     @ContentChildren(DataTableColumnDirective)
     public set columnTemplates(val: QueryList<DataTableColumnDirective>) {
@@ -47,11 +50,19 @@ export class DataTableComponent implements OnChanges {
         }
     }
 
-    @ContentChild(DataTableRowDetailDirective)
-    public set rowDetailTemplateChild(val: DataTableRowDetailDirective) {
-        if (val) {
-            this.rowDetailTemplate = val.template;
+    public get rowDetailTemplate(): DataTableColumnDirective[][] {
+        if (this._rowDetailTemplate && !this._rowDetailTemplateColumns) {
+            let rowDetailTemplate = [];
+            this._rowDetailTemplate.columnGroups.forEach((item: DataTableColumnGroupDirective) => {
+                rowDetailTemplate.push(item.columns.toArray());
+            });
+            if (!rowDetailTemplate.length) {
+                delete this._rowDetailTemplateColumns;
+            } else {
+                this._rowDetailTemplateColumns = rowDetailTemplate;
+            }
         }
+        return this._rowDetailTemplateColumns;
     }
 
     public hasHeader(): boolean {

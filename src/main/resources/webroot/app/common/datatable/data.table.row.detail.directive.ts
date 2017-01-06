@@ -1,11 +1,12 @@
-import {Directive, TemplateRef} from '@angular/core';
+import {Directive,  ContentChildren, QueryList} from '@angular/core';
+
+import {DataTableColumnGroupDirective} from './data.table.column.group.directive';
 
 @Directive({
-    selector: '[row-detail]'
+    selector: 'row-detail'
 })
 export class DataTableRowDetailDirective {
 
-    constructor(public template: TemplateRef<any>) {
-    }
-
+    @ContentChildren(DataTableColumnGroupDirective)
+    public columnGroups: QueryList<DataTableColumnGroupDirective>;
 }

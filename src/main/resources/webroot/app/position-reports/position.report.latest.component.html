@@ -37,7 +37,8 @@
 
             <data-table [data]="data"
                         [pageSize]="pageSize"
-                        [defaultOrdering]="defaultOrdering">
+                        [defaultOrdering]="defaultOrdering"
+                        [striped]="false">
                 <column title="Member / Client"
                         sortingKey="member">
                     <template let-record="row" cell-template>
@@ -58,7 +59,7 @@
                         tooltip="Product symbol"
                         sortingKey="symbol">
                     <template let-record="row" cell-template>
-                        <a [routerLink]="['/positionReportLatest', routeParams['clearer'] | nullvalue:'*', routeParams['member'] | nullvalue:'*', record.account | nullvalue:'*', record.class | nullvalue:'*', record.symbol | nullvalue:'*']">
+                        <a [routerLink]="['/positionReportLatest', routeParams['clearer'] | nullvalue:'*', routeParams['member'] | nullvalue:'*', routeParams['account'] | nullvalue:'*', record.class | nullvalue:'*', record.symbol | nullvalue:'*']">
                             {{record.symbol}}
                         </a>
                     </template>
@@ -129,78 +130,122 @@
                 </column>
                 <column>
                     <template let-record="row" cell-template>
+                        <row-detail-expander></row-detail-expander>
                         <a [routerLink]="['/positionReportHistory', record.clearer | nullvalue:'*', record.member | nullvalue:'*', record.account | nullvalue:'*', record.class | nullvalue:'*', record.symbol | nullvalue:'*', record.putCall | nullvalue:'*', record.strikePrice | nullvalue:'*', record.optAttribute | nullvalue:'*', record.maturityMonthYear | nullvalue:'*']">
                             <span class="fa fa-bar-chart-o" aria-hidden="true" title="Detail"></span>
                         </a>
                     </template>
                 </column>
+                <!-- Sub detail -->
+                <row-detail>
+                    <column-group>
+                        <column title="Liqui Group / Margin Class">
+                            <template let-record="row" cell-template>
+                                <a [routerLink]="['/positionReportLatest', routeParams['clearer'] | nullvalue:'*', routeParams['member'] | nullvalue:'*', routeParams['record.account'] | nullvalue:'*', record.class | nullvalue:'*']">
+                                    {{record.class}}
+                                </a>
+                            </template>
+                        </column>
+                        <column title="Clearing Ccy">
+                            <template let-record="row" cell-template>
+                                {{record.clearingCcy}}
+                            </template>
+                        </column>
+                        <column title="Product Ccy">
+                            <template let-record="row" cell-template>
+                                {{record.productCcy}}
+                            </template>
+                        </column>
+                        <column title="CrMrgLQty">
+                            <template let-record="row" cell-template>
+                                {{record.crossMarginLongQty | number:'.2-2'}}
+                            </template>
+                        </column>
+                        <column title="CrMrgSQty">
+                            <template let-record="row" cell-template>
+                                {{record.crossMarginShortQty | number:'.2-2'}}
+                            </template>
+                        </column>
+                        <column title="NetEA">
+                            <template let-record="row" cell-template>
+                                {{record.netEA | number:'.2-2'}}
+                            </template>
+                        </column>
+                        <column title="OptExcQty">
+                            <template let-record="row" cell-template>
+                                {{record.optionExcerciseQty | number:'.2-2'}}
+                            </template>
+                        </column>
+                        <column title="OptAssQty">
+                            <template let-record="row" cell-template>
+                                {{record.optionAssignmentQty | number:'.2-2'}}
+                            </template>
+                        </column>
+                        <column title="AllTrQty">
+                            <template let-record="row" cell-template>
+                                {{record.allocationTradeQty | number:'.2-2'}}
+                            </template>
+                        </column>
+                        <column title="DelNtQty">
+                            <template let-record="row" cell-template>
+                                {{record.deliveryNoticeQty | number:'.2-2'}}
+                            </template>
+                        </column>
+                    </column-group>
+                    <column-group>
+                        <column title="CorrBreak">
+                            <template let-record="row" cell-template>
+                                {{record.compCorrelationBreak | number:'.2-2'}}
+                            </template>
+                        </column>
+                        <column title="CopmError">
+                            <template let-record="row" cell-template>
+                                {{record.compCompressionError | number:'.2-2'}}
+                            </template>
+                        </column>
+                        <column title="LonOptCredit">
+                            <template let-record="row" cell-template>
+                                {{record.compLongOptionCredit | number:'.2-2'}}
+                            </template>
+                        </column>
+                        <column title="PremPay">
+                            <template let-record="row" cell-template>
+                                {{record.variationMarginPremiumPayment | number:'.2-2'}}
+                            </template>
+                        </column>
+                        <column title="PremMrgn">
+                            <template let-record="row" cell-template>
+                                {{record.premiumMargin | number:'.2-2'}}
+                            </template>
+                        </column>
+                        <column title="Gamma">
+                            <template let-record="row" cell-template>
+                                {{record.gamma | number:'.2-2'}}
+                            </template>
+                        </column>
+                        <column title="Vega">
+                            <template let-record="row" cell-template>
+                                {{record.vega | number:'.2-2'}}
+                            </template>
+                        </column>
+                        <column title="Rho">
+                            <template let-record="row" cell-template>
+                                {{record.rho | number:'.2-2'}}
+                            </template>
+                        </column>
+                        <column title="Theta">
+                            <template let-record="row" cell-template>
+                                {{record.theta | number:'.2-2'}}
+                            </template>
+                        </column>
+                        <column title="MVar">
+                            <template let-record="row" cell-template>
+                                {{record.mVar | number:'.2-2'}}
+                            </template>
+                        </column>
+                    </column-group>
+                </row-detail>
             </data-table>
-
-            <!--<td>-->
-            <!--<a><span class="fa fa-chevron-circle-down" aria-hidden="true" title="Show additional fields" id="extra-icon-{{record.functionalKey}}"></span></a>-->
-            <!--<a routerLink="/positionReportHistory/{{record.clearer}}/{{record.member}}/{{record.account}}/{{record.clss}}/{{record.symbol}}/{{record.putCall | nullHandler:'*'}}/{{record.strikePrice | nullHandler:'*'}}/{{record.optAttribute | nullHandler:'*'}}/{{record.maturityMonthYear}}"><span class="fa fa-bar-chart-o" aria-hidden="true" title="Detail"></span></a>-->
-            <!--</td>-->
-            <!--</tr>-->
-            <!--<tr ng-repeat-end class="hidden" id="extra-{{record.functionalKey}}">-->
-            <!--<td colspan="14">-->
-            <!--<table class="table table-condensed">-->
-            <!--<thead>-->
-            <!--<tr row-highlighter="record.functionalKey">-->
-            <!--<th>Liqui Group / Margin Class</th>-->
-            <!--<th>Clearing Ccy</th>-->
-            <!--<th>Product Ccy</th>-->
-            <!--<th>CrMrgLQty</th>-->
-            <!--<th>CrMrgSQty</th>-->
-            <!--<th>NetEA</th>-->
-            <!--<th>OptExcQty</th>-->
-            <!--<th>OptAssQty</th>-->
-            <!--<th>AllTrQty</th>-->
-            <!--<th>DelNtQty</th>-->
-            <!--</tr>-->
-            <!--</thead>-->
-            <!--<tbody>-->
-            <!--<tr row-highlighter="record.functionalKey">-->
-            <!--<td highlighter="record.class"><a routerLink="/positionReportLatest/{{clearer}}/{{member}}/{{account}}/{{record.clss}}">{{record.clss}}</a></td>-->
-            <!--<td highlighter="record.clearingCcy">{{record.clearingCcy}}</td>-->
-            <!--<td highlighter="record.productCcy">{{record.productCcy}}</td>-->
-            <!--<td highlighter="record.crossMarginLongQty">{{record.crossMarginLongQty | number:2}}</td>-->
-            <!--<td highlighter="record.crossMarginShortQty">{{record.crossMarginShortQty | number:2}}</td>-->
-            <!--<td highlighter="record.netEA">{{record.netEA | number:2}}</td>-->
-            <!--<td highlighter="record.optionExcerciseQty">{{record.optionExcerciseQty | number:2}}</td>-->
-            <!--<td highlighter="record.optionAssignmentQty">{{record.optionAssignmentQty | number:2}}</td>-->
-            <!--<td highlighter="record.allocationTradeQty">{{record.allocationTradeQty | number:2}}</td>-->
-            <!--<td highlighter="record.deliveryNoticeQty">{{record.deliveryNoticeQty | number:2}}</td>-->
-            <!--</tr>-->
-            <!--</tbody>-->
-            <!--<thead>-->
-            <!--<tr row-highlighter="record.functionalKey">-->
-            <!--<th>CorrBreak</th>-->
-            <!--<th>CopmError</th>-->
-            <!--<th>LonOptCredit</th>-->
-            <!--<th>PremPay</th>-->
-            <!--<th>PremMrgn</th>-->
-            <!--<th>Gamma</th>-->
-            <!--<th>Vega</th>-->
-            <!--<th>Rho</th>-->
-            <!--<th>Theta</th>-->
-            <!--<th>MVar</th>-->
-            <!--</tr>-->
-            <!--</thead>-->
-            <!--<tbody>-->
-            <!--<tr row-highlighter="record.functionalKey">-->
-            <!--<td highlighter="record.compCorrelationBreak">{{record.compCorrelationBreak | number:2}}</td>-->
-            <!--<td highlighter="record.compCompressionError">{{record.compCompressionError | number:2}}</td>-->
-            <!--<td highlighter="record.compLongOptionCredit">{{record.compLongOptionCredit | number:2}}</td>-->
-            <!--<td highlighter="record.variationMarginPremiumPayment">{{record.variationMarginPremiumPayment | number:2}}</td>-->
-            <!--<td highlighter="record.premiumMargin">{{record.premiumMargin | number:2}}</td>-->
-            <!--<td highlighter="record.gamma">{{record.gamma | number:2}}</td>-->
-            <!--<td highlighter="record.vega">{{record.vega | number:2}}</td>-->
-            <!--<td highlighter="record.rho">{{record.rho | number:2}}</td>-->
-            <!--<td highlighter="record.theta">{{record.theta | number:2}}</td>-->
-            <!--<td highlighter="record.mVar">{{record.mVar | number:2}}</td>-->
-            <!--</tr>-->
-            <!--</tbody>-->
-            <!--</table>-->
         </div>
         <!-- /.panel -->
     </div>

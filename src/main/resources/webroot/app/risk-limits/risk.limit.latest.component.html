@@ -39,8 +39,7 @@
                         [pageSize]="pageSize"
                         [defaultOrdering]="defaultOrdering">
                 <column title="Member / Client"
-                        sortingKey="member"
-                        [rowspan]="2">
+                        sortingKey="member">
                     <template let-record="row" cell-template>
                         <a [routerLink]="['/riskLimitLatest', record.clearer | nullvalue:'*', record.member | nullvalue:'*']">
                             {{record.member}}
@@ -48,8 +47,7 @@
                     </template>
                 </column>
                 <column title="Maintainer"
-                        sortingKey="maintainer"
-                        [rowspan]="2">
+                        sortingKey="maintainer">
                     <template let-record="row" cell-template>
                         <a [routerLink]="['/riskLimitLatest', routeParams['clearer'] | nullvalue:'*', routeParams['member'] | nullvalue:'*', record.maintainer | nullvalue:'*']">
                             {{record.maintainer}}
@@ -57,8 +55,7 @@
                     </template>
                 </column>
                 <column title="Type"
-                        sortingKey="limitType"
-                        [rowspan]="2">
+                        sortingKey="limitType">
                     <template let-record="row" cell-template>
                         <a [routerLink]="['/riskLimitLatest', routeParams['clearer'] | nullvalue:'*', routeParams['member'] | nullvalue:'*', routeParams['maintainer'] | nullvalue:'*', record.limitType | nullvalue:'*']">
                             {{record.limitType}}
@@ -66,8 +63,7 @@
                     </template>
                 </column>
                 <column title="Utilization"
-                        sortingKey="utilization"
-                        [rowspan]="2">
+                        sortingKey="utilization">
                     <template let-record="row" cell-template>
                         {{record.utilization | number:'.2-2'}}
                     </template>
@@ -87,7 +83,7 @@
                         {{record.rejectLevel | number:'.2-2'}}
                     </template>
                 </column>
-                <column [rowspan]="2">
+                <column>
                     <template let-record="row" cell-template>
                         <a href="['/riskLimitHistory', record.clearer | nullvalue:'*', record.member | nullvalue:'*', record.maintainer | nullvalue:'*', record.limitType | nullvalue:'*']">
                             <span class="fa fa-bar-chart-o" aria-hidden="true" title="Detail"></span>
