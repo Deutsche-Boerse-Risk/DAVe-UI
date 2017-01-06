@@ -4,7 +4,7 @@ import {Http} from '@angular/http';
 
 import {AuthHttp} from 'angular2-jwt';
 
-import {TotalMarginServerData, TotalMarginExportData} from './total.margin.types';
+import {TotalMarginServerData, TotalMarginData} from './total.margin.types';
 
 const totalMarginLatestURL: string = '/tmr/latest/:0/:1/:2/:3/:4';
 
@@ -16,7 +16,7 @@ export class TotalMarginService extends AbstractHttpService<TotalMarginServerDat
     }
 
     public getTotalMarginLatest(clearer: string = '*', pool: string = '*', member: string = '*', account: string = '*',
-                                ccy: string = '*'): Promise<TotalMarginExportData[]> {
+                                ccy: string = '*'): Promise<TotalMarginData[]> {
         return new Promise((resolve, reject) => {
             this.get({
                 resourceURL: totalMarginLatestURL,
@@ -28,10 +28,10 @@ export class TotalMarginService extends AbstractHttpService<TotalMarginServerDat
                     ccy
                 ]
             }).subscribe((data: TotalMarginServerData[]) => {
-                let result: TotalMarginExportData[] = [];
+                let result: TotalMarginData[] = [];
                 if (data) {
                     data.forEach((record: TotalMarginServerData) => {
-                        let row: TotalMarginExportData = {
+                        let row: TotalMarginData = {
                             clearer: record.clearer,
                             member: record.member,
                             account: record.account,

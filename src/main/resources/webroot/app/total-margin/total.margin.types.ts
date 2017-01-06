@@ -32,10 +32,6 @@ export interface TotalMarginData {
     ccy: string;
     adjustedMargin: number;
     unadjustedMargin: number;
-}
-
-
-export interface TotalMarginExportData extends TotalMarginData {
     bizDt: string;
     received: string;
 }

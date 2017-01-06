@@ -4,7 +4,7 @@ import {Http} from '@angular/http';
 
 import {AuthHttp} from 'angular2-jwt';
 
-import {RiskLimitsServerData, RiskLimitsExportData} from './risk.limits.types';
+import {RiskLimitsServerData, RiskLimitsData} from './risk.limits.types';
 
 const riskLimitsLatestURL: string = '/rl/latest/:0/:1/:2/:3';
 
@@ -16,7 +16,7 @@ export class RiskLimitsService extends AbstractHttpService<RiskLimitsServerData[
     }
 
     public getRiskLimitsLatest(clearer: string = '*', member: string = '*', maintainer: string = '*',
-                               limitType: string = '*'): Promise<RiskLimitsExportData[]> {
+                               limitType: string = '*'): Promise<RiskLimitsData[]> {
         return new Promise((resolve, reject) => {
             this.get({
                 resourceURL: riskLimitsLatestURL,
@@ -27,10 +27,10 @@ export class RiskLimitsService extends AbstractHttpService<RiskLimitsServerData[
                     limitType
                 ]
             }).subscribe((data: RiskLimitsServerData[]) => {
-                let result: RiskLimitsExportData[] = [];
+                let result: RiskLimitsData[] = [];
                 if (data) {
                     data.forEach((record: RiskLimitsServerData) => {
-                        let row: RiskLimitsExportData = {
+                        let row: RiskLimitsData = {
                             clearer: record.clearer,
                             member: record.member,
                             maintainer: record.maintainer,

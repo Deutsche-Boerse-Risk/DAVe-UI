@@ -36,8 +36,5 @@ export interface RiskLimitsData {
     throttleUtil?: number;
     rejectLevel: number;
     rejectUtil?: number;
-}
-
-export interface RiskLimitsExportData extends RiskLimitsData {
     received: string;
 }

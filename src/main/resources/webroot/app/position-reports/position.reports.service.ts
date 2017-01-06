@@ -4,7 +4,7 @@ import {Http} from "@angular/http";
 
 import {AuthHttp} from "angular2-jwt";
 
-import {PositionReportServerData, PositionReportChartData, PositionReportExportRow} from "./position.report.types";
+import {PositionReportServerData, PositionReportChartData, PositionReportData} from "./position.report.types";
 
 const chartsURL: string = '/pr/latest';
 const latestURL: string = '/pr/latest/:0/:1/:2/:3/:4/:5/:6/:7/:8';
@@ -25,7 +25,7 @@ export class PositionReportsService extends AbstractHttpService<PositionReportSe
     public getPositionReportLatest(clearer: string = '*', member: string = '*', account: string = '*',
                                    clss: string = '*', symbol: string = '*', putCall: string = '*',
                                    strikePrice: string = '*', optAttribute: string = '*',
-                                   maturityMonthYear: string = '*'): Promise<PositionReportExportRow[]> {
+                                   maturityMonthYear: string = '*'): Promise<PositionReportData[]> {
         return new Promise((resolve, reject) => {
             this.get({
                 resourceURL: latestURL,
@@ -41,10 +41,10 @@ export class PositionReportsService extends AbstractHttpService<PositionReportSe
                     maturityMonthYear
                 ]
             }).subscribe((data: PositionReportServerData[]) => {
-                let result: PositionReportExportRow[] = [];
+                let result: PositionReportData[] = [];
                 if (data) {
                     data.forEach((record: PositionReportServerData) => {
-                        let row: PositionReportExportRow = {
+                        let row: PositionReportData = {
                             clearer: record.clearer,
                             member: record.member,
                             account: record.account,

@@ -66,7 +66,7 @@ export interface PositionReportChartData extends PositionReportBase {
     underlying: string;
 }
 
-export interface PositionReportRow extends PositionReportBase {
+export interface PositionReportData extends PositionReportBase {
     class: string;
     strikePrice?: number;
     optAttribute: string;
@@ -75,9 +75,6 @@ export interface PositionReportRow extends PositionReportBase {
     netLS?: number;
     netEA?: number;
     absCompVar?: number;
-}
-
-export interface PositionReportExportRow extends PositionReportRow {
     bizDt: string;
     crossMarginLongQty: number;
     crossMarginShortQty: number;
