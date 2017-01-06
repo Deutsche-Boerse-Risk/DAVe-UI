@@ -23,6 +23,7 @@ import {TotalMarginRequirementHistoryComponent} from '../total-margin/total.marg
 
 import {RiskLimitsModule} from '../risk-limits/risk.limits.module';
 import {RiskLimitLatestComponent} from '../risk-limits/risk.limit.latest.component';
+import {RiskLimitHistoryComponent} from '../risk-limits/risk.limit.history.component';
 
 const ROUTES: Route[] = [
     {
@@ -257,12 +258,12 @@ const ROUTES: Route[] = [
         component: RiskLimitLatestComponent,
         canActivate: [AuthGuard]
     },
-    // {
-    //     path: 'riskLimitHistory/:clearer/:member/:maintainer/:limitType',
-    //     pathMatch: 'full',
-    //     component: RiskLimitHistoryComponent,
-    //     canActivate: [AuthGuard]
-    // },
+    {
+        path: 'riskLimitHistory/:clearer/:member/:maintainer/:limitType',
+        pathMatch: 'full',
+        component: RiskLimitHistoryComponent,
+        canActivate: [AuthGuard]
+    },
     {
         path: '**', // Otherwise
         redirectTo: '/dashboard'

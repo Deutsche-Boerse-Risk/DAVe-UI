@@ -1,25 +1,24 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
+import {DATE_PIPE} from '../common/common.module';
+
 import {ErrorResponse} from '../abstract.http.service';
 import {RiskLimitsService} from './risk.limits.service';
 import {RiskLimitsData} from './risk.limits.types';
 
-import {AbstractLatestListComponent} from '../abstract.latest.list.component';
+import {AbstractHistoryListComponent} from '../abstract.history.list.component';
 
-export const routingKeys: string[] = ['clearer', 'member', 'maintainer', 'limitType'];
-
-export const exportKeys: string[] = ['clearer', 'member', 'maintainer', 'limitType', 'utilization', 'warningLevel',
-    'warningUtil', 'throttleLevel', 'throttleUtil', 'rejectLevel', 'rejectUtil', 'received'];
+import {exportKeys, routingKeys} from './risk.limit.latest.component';
 
 const defaultOrdering = ['-rejectUtil', 'clearer', 'member', 'maintainer', 'limitType'];
 
 @Component({
     moduleId: module.id,
-    templateUrl: 'risk.limit.latest.component.html',
+    templateUrl: 'risk.limit.history.component.html',
     styleUrls: ['risk.limit.component.css']
 })
-export class RiskLimitLatestComponent extends AbstractLatestListComponent<RiskLimitsData> {
+export class RiskLimitHistoryComponent extends AbstractHistoryListComponent<RiskLimitsData> {
 
     constructor(private riskLimitsService: RiskLimitsService,
                 route: ActivatedRoute) {
@@ -27,7 +26,7 @@ export class RiskLimitLatestComponent extends AbstractLatestListComponent<RiskLi
     }
 
     protected loadData(): void {
-        this.riskLimitsService.getRiskLimitsLatest(this.routeParams['clearer'], this.routeParams['member'],
+        this.riskLimitsService.getRiskLimitsHistory(this.routeParams['clearer'], this.routeParams['member'],
             this.routeParams['maintainer'], this.routeParams['limitType'])
             .then((rows: RiskLimitsData[]) => {
                 this.processData(rows);
@@ -36,6 +35,17 @@ export class RiskLimitLatestComponent extends AbstractLatestListComponent<RiskLi
                 this.errorMessage = 'Server returned status ' + err.status;
                 this.initialLoad = false;
             });
+    }
+
+    protected getTickFromRecord(record: RiskLimitsData): any {
+        let tick = {
+            period: DATE_PIPE.transform(record.received, "yyyy-MM-dd HH:mm:ss"),
+            utilization: record.utilization,
+            warningLevel: record.warningLevel,
+            throttleLevel: record.throttleLevel,
+            rejectLevel: record.rejectLevel
+        };
+        return tick;
     }
 
     public get defaultOrdering(): string[] {

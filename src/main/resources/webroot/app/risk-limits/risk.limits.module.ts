@@ -8,6 +8,7 @@ import {CommonModule} from '../common/common.module';
 import {RiskLimitsService} from './risk.limits.service';
 
 import {RiskLimitLatestComponent} from './risk.limit.latest.component';
+import {RiskLimitHistoryComponent} from './risk.limit.history.component';
 
 @NgModule({
     imports: [
@@ -17,10 +18,12 @@ import {RiskLimitLatestComponent} from './risk.limit.latest.component';
         CommonModule
     ],
     declarations: [
-        RiskLimitLatestComponent
+        RiskLimitLatestComponent,
+        RiskLimitHistoryComponent
     ],
     exports: [
-        RiskLimitLatestComponent
+        RiskLimitLatestComponent,
+        RiskLimitHistoryComponent
     ],
     providers: [RiskLimitsService]
 })

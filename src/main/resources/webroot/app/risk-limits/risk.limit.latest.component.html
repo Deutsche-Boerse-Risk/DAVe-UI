@@ -85,7 +85,7 @@
                 </column>
                 <column>
                     <template let-record="row" cell-template>
-                        <a href="['/riskLimitHistory', record.clearer | nullvalue:'*', record.member | nullvalue:'*', record.maintainer | nullvalue:'*', record.limitType | nullvalue:'*']">
+                        <a [routerLink]="['/riskLimitHistory', record.clearer | nullvalue:'*', record.member | nullvalue:'*', record.maintainer | nullvalue:'*', record.limitType | nullvalue:'*']">
                             <span class="fa fa-bar-chart-o" aria-hidden="true" title="Detail"></span>
                         </a>
                     </template>
