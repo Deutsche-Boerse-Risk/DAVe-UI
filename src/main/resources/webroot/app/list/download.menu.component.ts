@@ -5,19 +5,7 @@ declare let $: any;
 @Component({
     moduleId: module.id,
     selector: 'download-menu',
-    template: `
-<div class="dropdown pull-right">
-    <button class="btn btn-sm btn-default dropdown-toggle" 
-            type="button" id="dropdownMenu1" data-toggle="dropdown" 
-            aria-haspopup="true" aria-expanded="false" >
-        <i class="fa fa-download" aria-hidden="true"></i> Download
-        <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-        <li><a (click)="downloadAsCsv()">As CSV file</a></li>
-    </ul>
-</div>
-`,
+    templateUrl: 'download.menu.component.html',
     styleUrls: ['download.menu.component.css']
 })
 export class DownloadMenuComponent {

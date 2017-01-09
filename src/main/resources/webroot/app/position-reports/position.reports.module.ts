@@ -4,6 +4,8 @@ import {FormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 
 import {CommonModule} from '../common/common.module';
+import {DataTableModule} from '../datatable/data.table.module';
+import {ListModule} from '../list/list.module';
 
 import {PositionReportsService} from './position.reports.service';
 
@@ -16,7 +18,9 @@ import {PositionReportHistoryComponent} from './position.report.history.componen
         BrowserModule,
         FormsModule,
         RouterModule,
-        CommonModule
+        CommonModule,
+        DataTableModule,
+        ListModule
     ],
     providers: [PositionReportsService],
     declarations: [

@@ -1,9 +1,9 @@
 import {OnInit} from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
 
-import {RoutePart} from './common/bread.crumbs.component';
-
 import {AbstractComponentWithAutoRefresh} from './abstract.component';
+
+import {RoutePart} from './list/bread.crumbs.component';
 
 export abstract class AbstractListComponent<T> extends AbstractComponentWithAutoRefresh implements OnInit {
 

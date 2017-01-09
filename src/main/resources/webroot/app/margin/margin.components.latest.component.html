@@ -1,104 +1,82 @@
-<div class="row">
-    <div class="col-lg-12">
-        <h3>Margin Components</h3>
-    </div>
-    <!-- /.col-lg-12 -->
-</div>
-<!-- /.row -->
-<div class="row">
-    <div class="col-lg-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <row-filter (filterChanged)="filter($event)"></row-filter>
-
-                <download-menu [columns]="exportKeys" [data]="data"
-                               filename="download.csv"></download-menu>
-
-                <bread-crumbs [routeParts]="routeParts"></bread-crumbs>
-            </div>
-
-            <initial-load *ngIf="initialLoad && !errorMessage"></initial-load>
-
-            <no-data *ngIf="!initialLoad && !errorMessage && data?.length < 1"></no-data>
-
-            <update-failed *ngIf="errorMessage" [message]="errorMessage"></update-failed>
-
-            <data-table [data]="data"
-                        [pageSize]="pageSize"
-                        [defaultOrdering]="defaultOrdering">
-                <column title="Member / Client"
-                        sortingKey="member">
-                    <template let-record="row" cell-template>
-                        <a [routerLink]="['/marginComponentLatest', record.clearer | nullvalue:'*', record.member | nullvalue:'*']">
-                            {{record.member}}
-                        </a>
-                    </template>
-                </column>
-                <column title="Account"
-                        sortingKey="account">
-                    <template let-record="row" cell-template>
-                        <a [routerLink]="['/marginComponentLatest', record.clearer | nullvalue:'*', record.member | nullvalue:'*', record.account | nullvalue:'*']">
-                            {{record.account}}
-                        </a>
-                    </template>
-                </column>
-                <column title="Liq Grp / Margin Class"
-                        sortingKey="class">
-                    <template let-record="row" cell-template>
-                        <a [routerLink]="['/marginComponentLatest', routeParams['clearer'] | nullvalue:'*', routeParams['member'] | nullvalue:'*', routeParams['account'] | nullvalue:'*', record.class | nullvalue:'*']">
-                            {{record.class}}
-                        </a>
-                    </template>
-                </column>
-                <column title="Ccy"
-                        sortingKey="ccy">
-                    <template let-record="row" cell-template>
-                        {{record.ccy}}
-                    </template>
-                </column>
-                <column title="Variation Margin"
-                        sortingKey="variationMargin">
-                    <template let-record="row" cell-template>
-                        {{record.variationMargin | number:'.2-2'}}
-                    </template>
-                </column>
-                <column title="Liquidation Margin"
-                        sortingKey="liquiMargin">
-                    <template let-record="row" cell-template>
-                        {{record.liquiMargin | number:'.2-2'}}
-                    </template>
-                </column>
-                <column title="Premium Margin"
-                        sortingKey="premiumMargin">
-                    <template let-record="row" cell-template>
-                        {{record.premiumMargin | number:'.2-2'}}
-                    </template>
-                </column>
-                <column title="Spread Margin"
-                        sortingKey="spreadMargin">
-                    <template let-record="row" cell-template>
-                        {{record.spreadMargin | number:'.2-2'}}
-                    </template>
-                </column>
-                <column title="Total Margin"
-                        sortingKey="additionalMargin">
-                    <template let-record="row" cell-template>
-                        {{record.additionalMargin | number:'.2-2'}}
-                    </template>
-                </column>
-                <column>
-                    <template let-record="row" cell-template>
-                        <a [routerLink]="['/positionReportLatest', record.clearer | nullvalue:'*', record.member | nullvalue:'*', record.account | nullvalue:'*', record.class | nullvalue:'*']">
-                            <span class="fa fa-bullseye" aria-hidden="true" title="Drilldown"></span>
-                        </a>
-                        <a [routerLink]="['/marginComponentHistory', record.clearer | nullvalue:'*', record.member | nullvalue:'*', record.account | nullvalue:'*', record.class | nullvalue:'*', record.ccy | nullvalue:'*']">
-                            <span class="fa fa-bar-chart-o" aria-hidden="true" title="Detail"></span>
-                        </a>
-                    </template>
-                </column>
-            </data-table>
-        </div>
-        <!-- /.panel -->
-    </div>
-    <!-- /.col-lg-12 -->
-</div>
+<list-content title="Margin Components"
+              [routeParts]="routeParts"
+              [exportKeys]="exportKeys"
+              [data]="data"
+              [initialLoad]="initialLoad"
+              [errorMessage]="errorMessage"
+              (filterChanged)="filter($event)">
+    <data-table [data]="data"
+                [pageSize]="pageSize"
+                [defaultOrdering]="defaultOrdering">
+        <column title="Member / Client"
+                sortingKey="member">
+            <template let-record="row" cell-template>
+                <a [routerLink]="['/marginComponentLatest', record.clearer | nullvalue:'*', record.member | nullvalue:'*']">
+                    {{record.member}}
+                </a>
+            </template>
+        </column>
+        <column title="Account"
+                sortingKey="account">
+            <template let-record="row" cell-template>
+                <a [routerLink]="['/marginComponentLatest', record.clearer | nullvalue:'*', record.member | nullvalue:'*', record.account | nullvalue:'*']">
+                    {{record.account}}
+                </a>
+            </template>
+        </column>
+        <column title="Liq Grp / Margin Class"
+                sortingKey="class">
+            <template let-record="row" cell-template>
+                <a [routerLink]="['/marginComponentLatest', routeParams['clearer'] | nullvalue:'*', routeParams['member'] | nullvalue:'*', routeParams['account'] | nullvalue:'*', record.class | nullvalue:'*']">
+                    {{record.class}}
+                </a>
+            </template>
+        </column>
+        <column title="Ccy"
+                sortingKey="ccy">
+            <template let-record="row" cell-template>
+                {{record.ccy}}
+            </template>
+        </column>
+        <column title="Variation Margin"
+                sortingKey="variationMargin">
+            <template let-record="row" cell-template>
+                {{record.variationMargin | number:'.2-2'}}
+            </template>
+        </column>
+        <column title="Liquidation Margin"
+                sortingKey="liquiMargin">
+            <template let-record="row" cell-template>
+                {{record.liquiMargin | number:'.2-2'}}
+            </template>
+        </column>
+        <column title="Premium Margin"
+                sortingKey="premiumMargin">
+            <template let-record="row" cell-template>
+                {{record.premiumMargin | number:'.2-2'}}
+            </template>
+        </column>
+        <column title="Spread Margin"
+                sortingKey="spreadMargin">
+            <template let-record="row" cell-template>
+                {{record.spreadMargin | number:'.2-2'}}
+            </template>
+        </column>
+        <column title="Total Margin"
+                sortingKey="additionalMargin">
+            <template let-record="row" cell-template>
+                {{record.additionalMargin | number:'.2-2'}}
+            </template>
+        </column>
+        <column>
+            <template let-record="row" cell-template>
+                <a [routerLink]="['/positionReportLatest', record.clearer | nullvalue:'*', record.member | nullvalue:'*', record.account | nullvalue:'*', record.class | nullvalue:'*']">
+                    <span class="fa fa-bullseye" aria-hidden="true" title="Drilldown"></span>
+                </a>
+                <a [routerLink]="['/marginComponentHistory', record.clearer | nullvalue:'*', record.member | nullvalue:'*', record.account | nullvalue:'*', record.class | nullvalue:'*', record.ccy | nullvalue:'*']">
+                    <span class="fa fa-bar-chart-o" aria-hidden="true" title="Detail"></span>
+                </a>
+            </template>
+        </column>
+    </data-table>
+</list-content>

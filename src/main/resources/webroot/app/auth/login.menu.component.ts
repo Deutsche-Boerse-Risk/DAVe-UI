@@ -6,7 +6,7 @@ import {AuthService} from './auth.service';
     moduleId: module.id,
     selector: 'login-menu',
     templateUrl: 'login.menu.component.html',
-    styleUrls: ['login.menu.component.css']
+    styleUrls: ['../common.component.css']
 })
 export class LoginMenuComponent {
 

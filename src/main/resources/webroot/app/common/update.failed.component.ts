@@ -6,7 +6,7 @@ import {Component, Input} from '@angular/core';
     template: `<div class="panel-body">
                     <div class="alert alert-danger" role="alert">Failed to update the data: {{error}}.</div>
                 </div>`,
-    styleUrls: ['common.component.css']
+    styleUrls: ['../common.component.css']
 })
 export class UpdateFailedComponent {
 

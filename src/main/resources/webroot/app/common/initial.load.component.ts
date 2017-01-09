@@ -6,7 +6,7 @@ import {Component} from '@angular/core';
     template: `<div class="panel-body" >
                     <div class="alert alert-warning" role="alert">Loading ...</div>
                 </div>`,
-    styleUrls: ['common.component.css']
+    styleUrls: ['../common.component.css']
 })
 export class InitialLoadComponent {
 }

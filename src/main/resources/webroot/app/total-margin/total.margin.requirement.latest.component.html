@@ -1,90 +1,68 @@
-<div class="row">
-    <div class="col-lg-12">
-        <h3>Total Margin Requirement</h3>
-    </div>
-    <!-- /.col-lg-12 -->
-</div>
-<!-- /.row -->
-<div class="row">
-    <div class="col-lg-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <row-filter (filterChanged)="filter($event)"></row-filter>
+<list-content title="Total Margin Requirement"
+              [routeParts]="routeParts"
+              [exportKeys]="exportKeys"
+              [data]="data"
+              [initialLoad]="initialLoad"
+              [errorMessage]="errorMessage"
+              (filterChanged)="filter($event)">
+    <data-table [data]="data"
+                [pageSize]="pageSize"
+                [defaultOrdering]="defaultOrdering">
+        <column title="Collateral Pool"
+                sortingKey="pool">
+            <template let-record="row" cell-template>
+                <a [routerLink]="['/totalMarginRequirementLatest', record.clearer | nullvalue:'*', record.pool | nullvalue:'*']">
+                    {{record.pool}}
+                </a>
+            </template>
+        </column>
+        <column title="Member / Client"
+                sortingKey="member">
+            <template let-record="row" cell-template>
+                <a [routerLink]="['/totalMarginRequirementLatest', record.clearer | nullvalue:'*', record.pool | nullvalue:'*', record.member | nullvalue:'*']">
+                    {{record.member}}
+                </a>
+            </template>
+        </column>
+        <column title="Account"
+                sortingKey="account">
+            <template let-record="row" cell-template>
+                <a [routerLink]="['/totalMarginRequirementLatest', record.clearer | nullvalue:'*', record.pool | nullvalue:'*', record.member | nullvalue:'*', record.account | nullvalue:'*']">
+                    {{record.account}}
+                </a>
+            </template>
+        </column>
+        <column title="Ccy"
+                sortingKey="ccy">
+            <template let-record="row" cell-template>
+                {{record.ccy}}
+            </template>
+        </column>
+        <column title="Adjusted Margin"
+                tooltip="Margin requirement excluding premium credit"
+                sortingKey="adjustedMargin">
+            <template let-record="row" cell-template>
+                {{record.adjustedMargin | number:'.2-2'}}
+            </template>
+        </column>
+        <column title="Unadjusted Margin"
+                tooltip="Unadjusted margin requirement"
+                sortingKey="unadjustedMargin">
+            <template let-record="row" cell-template>
+                {{record.unadjustedMargin | number:'.2-2'}}
+            </template>
+        </column>
+        <column>
+            <template let-record="row" cell-template>
+                <a [routerLink]="['/marginComponentLatest', record.clearer | nullvalue:'*', record.member | nullvalue:'*', record.account | nullvalue:'*', '*', record.ccy | nullvalue:'*']">
+                    <span class="fa fa-bullseye" aria-hidden="true" title="Drilldown"></span>
+                </a>
+                <a [routerLink]="['/totalMarginRequirementHistory', record.clearer | nullvalue:'*', record.pool | nullvalue:'*', record.member | nullvalue:'*', record.account | nullvalue:'*', record.ccy | nullvalue:'*']">
+                    <span class="fa fa-bar-chart-o" aria-hidden="true" title="Detail">
 
-                <download-menu [columns]="exportKeys" [data]="data"
-                               filename="download.csv"></download-menu>
-
-                <bread-crumbs [routeParts]="routeParts"></bread-crumbs>
-            </div>
-
-            <initial-load *ngIf="initialLoad && !errorMessage"></initial-load>
-
-            <no-data *ngIf="!initialLoad && !errorMessage && data?.length < 1"></no-data>
-
-            <update-failed *ngIf="errorMessage" [message]="errorMessage"></update-failed>
-
-            <data-table [data]="data"
-                        [pageSize]="pageSize"
-                        [defaultOrdering]="defaultOrdering">
-                <column title="Collateral Pool"
-                        sortingKey="pool">
-                    <template let-record="row" cell-template>
-                        <a [routerLink]="['/totalMarginRequirementLatest', record.clearer | nullvalue:'*', record.pool | nullvalue:'*']">
-                            {{record.pool}}
-                        </a>
-                    </template>
-                </column>
-                <column title="Member / Client"
-                        sortingKey="member">
-                    <template let-record="row" cell-template>
-                        <a [routerLink]="['/totalMarginRequirementLatest', record.clearer | nullvalue:'*', record.pool | nullvalue:'*', record.member | nullvalue:'*']">
-                            {{record.member}}
-                        </a>
-                    </template>
-                </column>
-                <column title="Account"
-                        sortingKey="account">
-                    <template let-record="row" cell-template>
-                        <a [routerLink]="['/totalMarginRequirementLatest', record.clearer | nullvalue:'*', record.pool | nullvalue:'*', record.member | nullvalue:'*', record.account | nullvalue:'*']">
-                            {{record.account}}
-                        </a>
-                    </template>
-                </column>
-                <column title="Ccy"
-                        sortingKey="ccy">
-                    <template let-record="row" cell-template>
-                        {{record.ccy}}
-                    </template>
-                </column>
-                <column title="Adjusted Margin"
-                        tooltip="Margin requirement excluding premium credit"
-                        sortingKey="adjustedMargin">
-                    <template let-record="row" cell-template>
-                        {{record.adjustedMargin | number:'.2-2'}}
-                    </template>
-                </column>
-                <column title="Unadjusted Margin"
-                        tooltip="Unadjusted margin requirement"
-                        sortingKey="unadjustedMargin">
-                    <template let-record="row" cell-template>
-                        {{record.unadjustedMargin | number:'.2-2'}}
-                    </template>
-                </column>
-                <column>
-                    <template let-record="row" cell-template>
-                        <a [routerLink]="['/marginComponentLatest', record.clearer | nullvalue:'*', record.member | nullvalue:'*', record.account | nullvalue:'*', '*', record.ccy | nullvalue:'*']">
-                            <span class="fa fa-bullseye" aria-hidden="true" title="Drilldown"></span>
-                        </a>
-                        <a [routerLink]="['/totalMarginRequirementHistory', record.clearer | nullvalue:'*', record.pool | nullvalue:'*', record.member | nullvalue:'*', record.account | nullvalue:'*', record.ccy | nullvalue:'*']">
-                            <span class="fa fa-bar-chart-o" aria-hidden="true" title="Detail">
-
-                            </span>
-                        </a>
-                    </template>
-                </column>
-            </data-table>
-        </div>
-        <!-- /.panel -->
-    </div>
-    <!-- /.col-lg-12 -->
-</div>
+                    </span>
+                </a>
+            </template>
+        </column>
+    </data-table>
+</list-content>

@@ -8,7 +8,7 @@ import {DataTableColumnGroupDirective} from './data.table.column.group.directive
     moduleId: module.id,
     selector: 'data-table',
     templateUrl: 'data.table.component.html',
-    styleUrls: ['data.table.component.css']
+    styleUrls: ['../common.component.css']
 })
 export class DataTableComponent implements OnChanges {
 

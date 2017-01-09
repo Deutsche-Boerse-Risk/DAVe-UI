@@ -16,7 +16,7 @@ const defaultOrdering = ['-received'];
 @Component({
     moduleId: module.id,
     templateUrl: 'margin.components.history.component.html',
-    styleUrls: ['margin.components.component.css']
+    styleUrls: ['../common.component.css']
 })
 export class MarginComponentsHistoryComponent extends AbstractHistoryListComponent<MarginComponentsRowData> {
 
@@ -38,14 +38,13 @@ export class MarginComponentsHistoryComponent extends AbstractHistoryListCompone
     }
 
     protected getTickFromRecord(record: MarginComponentsRowData): any {
-        let tick = {
+        return {
             period: DATE_PIPE.transform(record.received, 'yyyy-MM-dd HH:mm:ss'),
             variLiqui: record.variLiqui,
             premiumMargin: record.premiumMargin,
             spreadMargin: record.spreadMargin,
             additionalMargin: record.additionalMargin
         };
-        return tick;
     }
 
     public get defaultOrdering(): string[] {

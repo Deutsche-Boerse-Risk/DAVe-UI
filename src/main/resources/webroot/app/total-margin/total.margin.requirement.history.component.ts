@@ -16,7 +16,7 @@ const defaultOrdering = ['-received'];
 @Component({
     moduleId: module.id,
     templateUrl: 'total.margin.requirement.history.component.html',
-    styleUrls: ['total.margin.requirement.component.css']
+    styleUrls: ['../common.component.css']
 })
 export class TotalMarginRequirementHistoryComponent extends AbstractHistoryListComponent<TotalMarginData> {
 
@@ -39,12 +39,11 @@ export class TotalMarginRequirementHistoryComponent extends AbstractHistoryListC
 
 
     protected getTickFromRecord(record: TotalMarginData): any {
-        let tick = {
+        return {
             period: DATE_PIPE.transform(record.received, 'yyyy-MM-dd HH:mm:ss'),
             adjustedMargin: record.adjustedMargin,
             unadjustedMargin: record.unadjustedMargin
         };
-        return tick;
     }
 
     public get defaultOrdering(): string[] {

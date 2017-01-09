@@ -1,89 +1,67 @@
-<div class="row">
-    <div class="col-lg-12">
-        <h3>Risk Limits</h3>
-    </div>
-    <!-- /.col-lg-12 -->
-</div>
-<!-- /.row -->
-<div class="row">
-    <div class="col-lg-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <row-filter (filterChanged)="filter($event)"></row-filter>
-
-                <download-menu [columns]="exportKeys" [data]="data"
-                               filename="download.csv"></download-menu>
-
-                <bread-crumbs [routeParts]="routeParts"></bread-crumbs>
-            </div>
-
-            <initial-load *ngIf="initialLoad && !errorMessage"></initial-load>
-
-            <no-data *ngIf="!initialLoad && !errorMessage && data?.length < 1"></no-data>
-
-            <update-failed *ngIf="errorMessage" [message]="errorMessage"></update-failed>
-
-            <data-table [data]="data"
-                        [pageSize]="pageSize"
-                        [defaultOrdering]="defaultOrdering">
-                <column title="Member / Client"
-                        sortingKey="member">
-                    <template let-record="row" cell-template>
-                        <a [routerLink]="['/riskLimitLatest', record.clearer | nullvalue:'*', record.member | nullvalue:'*']">
-                            {{record.member}}
-                        </a>
-                    </template>
-                </column>
-                <column title="Maintainer"
-                        sortingKey="maintainer">
-                    <template let-record="row" cell-template>
-                        <a [routerLink]="['/riskLimitLatest', routeParams['clearer'] | nullvalue:'*', routeParams['member'] | nullvalue:'*', record.maintainer | nullvalue:'*']">
-                            {{record.maintainer}}
-                        </a>
-                    </template>
-                </column>
-                <column title="Type"
-                        sortingKey="limitType">
-                    <template let-record="row" cell-template>
-                        <a [routerLink]="['/riskLimitLatest', routeParams['clearer'] | nullvalue:'*', routeParams['member'] | nullvalue:'*', routeParams['maintainer'] | nullvalue:'*', record.limitType | nullvalue:'*']">
-                            {{record.limitType}}
-                        </a>
-                    </template>
-                </column>
-                <column title="Utilization"
-                        sortingKey="utilization">
-                    <template let-record="row" cell-template>
-                        {{record.utilization | number:'.2-2'}}
-                    </template>
-                </column>
-                <column title="Warning Level">
-                    <template let-record="row" cell-template>
-                        {{record.warningLevel | number:'.2-2'}}
-                    </template>
-                </column>
-                <column title="Throttle Level">
-                    <template let-record="row" cell-template>
-                        {{record.throttleLevel | number:'.2-2'}}
-                    </template>
-                </column>
-                <column title="Stop Level">
-                    <template let-record="row" cell-template>
-                        {{record.rejectLevel | number:'.2-2'}}
-                    </template>
-                </column>
-                <column>
-                    <template let-record="row" cell-template>
-                        <a [routerLink]="['/riskLimitHistory', record.clearer | nullvalue:'*', record.member | nullvalue:'*', record.maintainer | nullvalue:'*', record.limitType | nullvalue:'*']">
-                            <span class="fa fa-bar-chart-o" aria-hidden="true" title="Detail"></span>
-                        </a>
-                    </template>
-                </column>
-            </data-table>
-        </div>
-        <!-- /.panel -->
-    </div>
-    <!-- /.col-lg-12 -->
-</div>
+<list-content title="Risk Limits"
+              [routeParts]="routeParts"
+              [exportKeys]="exportKeys"
+              [data]="data"
+              [initialLoad]="initialLoad"
+              [errorMessage]="errorMessage"
+              (filterChanged)="filter($event)">
+    <data-table [data]="data"
+                [pageSize]="pageSize"
+                [defaultOrdering]="defaultOrdering">
+        <column title="Member / Client"
+                sortingKey="member">
+            <template let-record="row" cell-template>
+                <a [routerLink]="['/riskLimitLatest', record.clearer | nullvalue:'*', record.member | nullvalue:'*']">
+                    {{record.member}}
+                </a>
+            </template>
+        </column>
+        <column title="Maintainer"
+                sortingKey="maintainer">
+            <template let-record="row" cell-template>
+                <a [routerLink]="['/riskLimitLatest', routeParams['clearer'] | nullvalue:'*', routeParams['member'] | nullvalue:'*', record.maintainer | nullvalue:'*']">
+                    {{record.maintainer}}
+                </a>
+            </template>
+        </column>
+        <column title="Type"
+                sortingKey="limitType">
+            <template let-record="row" cell-template>
+                <a [routerLink]="['/riskLimitLatest', routeParams['clearer'] | nullvalue:'*', routeParams['member'] | nullvalue:'*', routeParams['maintainer'] | nullvalue:'*', record.limitType | nullvalue:'*']">
+                    {{record.limitType}}
+                </a>
+            </template>
+        </column>
+        <column title="Utilization"
+                sortingKey="utilization">
+            <template let-record="row" cell-template>
+                {{record.utilization | number:'.2-2'}}
+            </template>
+        </column>
+        <column title="Warning Level">
+            <template let-record="row" cell-template>
+                {{record.warningLevel | number:'.2-2'}}
+            </template>
+        </column>
+        <column title="Throttle Level">
+            <template let-record="row" cell-template>
+                {{record.throttleLevel | number:'.2-2'}}
+            </template>
+        </column>
+        <column title="Stop Level">
+            <template let-record="row" cell-template>
+                {{record.rejectLevel | number:'.2-2'}}
+            </template>
+        </column>
+        <column>
+            <template let-record="row" cell-template>
+                <a [routerLink]="['/riskLimitHistory', record.clearer | nullvalue:'*', record.member | nullvalue:'*', record.maintainer | nullvalue:'*', record.limitType | nullvalue:'*']">
+                    <span class="fa fa-bar-chart-o" aria-hidden="true" title="Detail"></span>
+                </a>
+            </template>
+        </column>
+    </data-table>
+</list-content>
 
 <!-- TODO: Rowspans/Colspans
           <table class="table table-striped table-bordered table-hover">

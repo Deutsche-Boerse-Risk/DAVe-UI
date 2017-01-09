@@ -24,7 +24,7 @@ const defaultOrdering = ['-absCompVar', 'clearer', 'member', 'account', 'symbol'
 @Component({
     moduleId: module.id,
     templateUrl: 'position.report.latest.component.html',
-    styleUrls: ['position.report.component.css']
+    styleUrls: ['../common.component.css']
 })
 export class PositionReportLatestComponent extends AbstractLatestListComponent<PositionReportData> {
 

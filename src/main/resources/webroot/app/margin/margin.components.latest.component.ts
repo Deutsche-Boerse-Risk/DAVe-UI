@@ -18,7 +18,7 @@ const defaultOrdering = ['-absAdditionalMargin', 'clearer', 'member', 'account',
 @Component({
     moduleId: module.id,
     templateUrl: 'margin.components.latest.component.html',
-    styleUrls: ['margin.components.component.css']
+    styleUrls: ['../common.component.css']
 })
 export class MarginComponentsLatestComponent extends AbstractLatestListComponent<MarginComponentsRowData> {
 

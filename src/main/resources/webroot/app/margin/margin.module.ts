@@ -1,9 +1,10 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
-import {FormsModule} from '@angular/forms';
 
 import {CommonModule} from '../common/common.module';
+import {DataTableModule} from '../datatable/data.table.module';
+import {ListModule} from '../list/list.module';
 
 import {MarginComponentsService} from './margin.components.service';
 
@@ -21,8 +22,9 @@ import {MarginShortfallSurplusHistoryComponent} from './margin.shortfall.surplus
     imports: [
         BrowserModule,
         RouterModule,
-        FormsModule,
-        CommonModule
+        CommonModule,
+        DataTableModule,
+        ListModule,
     ],
     declarations: [
         MarginComponentsAggregationComponent,

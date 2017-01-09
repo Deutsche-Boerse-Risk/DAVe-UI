@@ -17,7 +17,7 @@ const defaultOrdering = ['-rejectUtil', 'clearer', 'member', 'maintainer', 'limi
 @Component({
     moduleId: module.id,
     templateUrl: 'risk.limit.latest.component.html',
-    styleUrls: ['risk.limit.component.css']
+    styleUrls: ['../common.component.css']
 })
 export class RiskLimitLatestComponent extends AbstractLatestListComponent<RiskLimitsData> {
 

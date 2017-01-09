@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import {RouterModule} from '@angular/router';
 
 import {DataTableComponent} from './data.table.component';
 import {DataTableColumnDirective} from './data.table.column.directive';
@@ -14,8 +13,7 @@ import {DataTableExpandableDirective} from './data.table.expandable.directive';
 
 @NgModule({
     imports: [
-        BrowserModule,
-        RouterModule
+        BrowserModule
     ],
     declarations: [
         DataTableComponent,

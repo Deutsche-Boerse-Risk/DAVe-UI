@@ -17,7 +17,7 @@ const defaultOrdering = ['-adjustedMargin', 'clearer', 'pool', 'member', 'accoun
 @Component({
     moduleId: module.id,
     templateUrl: 'total.margin.requirement.latest.component.html',
-    styleUrls: ['total.margin.requirement.component.css']
+    styleUrls: ['../common.component.css']
 })
 export class TotalMarginRequirementLatestComponent extends AbstractLatestListComponent<TotalMarginData> {
 

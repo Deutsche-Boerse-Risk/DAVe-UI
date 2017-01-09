@@ -16,7 +16,7 @@ const defaultOrdering = ['-received'];
 @Component({
     moduleId: module.id,
     templateUrl: 'margin.shortfall.surplus.history.component.html',
-    styleUrls: ['margin.shortfall.surplus.component.css']
+    styleUrls: ['../common.component.css']
 })
 export class MarginShortfallSurplusHistoryComponent extends AbstractHistoryListComponent<MarginShortfallSurplusData> {
 
@@ -38,7 +38,7 @@ export class MarginShortfallSurplusHistoryComponent extends AbstractHistoryListC
     }
 
     protected getTickFromRecord(record: MarginShortfallSurplusData): any {
-        let tick = {
+        return {
             period: DATE_PIPE.transform(record.received, 'yyyy-MM-dd HH:mm:ss'),
             marginRequirement: record.marginRequirement,
             securityCollateral: record.securityCollateral,
@@ -46,7 +46,6 @@ export class MarginShortfallSurplusHistoryComponent extends AbstractHistoryListC
             shortfallSurplus: record.shortfallSurplus,
             marginCall: record.marginCall
         };
-        return tick;
     }
 
     public get defaultOrdering(): string[] {

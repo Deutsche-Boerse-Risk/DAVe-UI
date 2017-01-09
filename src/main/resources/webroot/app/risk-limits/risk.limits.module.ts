@@ -1,9 +1,10 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
-import {FormsModule} from '@angular/forms';
 
 import {CommonModule} from '../common/common.module';
+import {DataTableModule} from '../datatable/data.table.module';
+import {ListModule} from '../list/list.module';
 
 import {RiskLimitsService} from './risk.limits.service';
 
@@ -14,7 +15,8 @@ import {RiskLimitHistoryComponent} from './risk.limit.history.component';
     imports: [
         BrowserModule,
         RouterModule,
-        FormsModule,
+        DataTableModule,
+        ListModule,
         CommonModule
     ],
     declarations: [

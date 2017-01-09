@@ -1,75 +1,55 @@
-<div class="row">
-    <div class="col-lg-12">
-        <h3>Margin Component History</h3>
+<list-content [title]="rootRouteTitle"
+              [isHistory]="true"
+              [routeParts]="routeParts"
+              [exportKeys]="exportKeys"
+              [data]="data"
+              [initialLoad]="initialLoad"
+              [errorMessage]="errorMessage">
+    <div class="panel-body" ng-if="vm.chartData.length > 0">
+        <!--<div id="mcHistoryChart" line-chart line-data="vm.chartData" line-xkey='period'-->
+        <!--line-ykeys='["variLiqui", "premiumMargin", "spreadMargin", "additionalMargin"]'-->
+        <!--line-labels='["Variation / Liquidation Marign", "Premium Margin", "Spread Margin", "Additional Margin"]'-->
+        <!--line-colors='["#31C0BE", "#c7254e", "#800000", "#808000", "#FF00FF"]'></div>-->
     </div>
-    <!-- /.col-lg-12 -->
-</div>
-<!-- /.row -->
-<div class="row">
-    <div class="col-lg-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <download-menu [columns]="exportKeys" [data]="data"
-                               filename="download.csv"></download-menu>
 
-                <bread-crumbs [routeParts]="routeParts" [rootActive]="false"></bread-crumbs>
-            </div>
-
-            <initial-load *ngIf="initialLoad && !errorMessage"></initial-load>
-
-            <no-data *ngIf="!initialLoad && !errorMessage && data?.length < 1"></no-data>
-
-            <update-failed *ngIf="errorMessage" [message]="errorMessage"></update-failed>
-
-            <div class="panel-body" ng-if="vm.chartData.length > 0">
-                <!--<div id="mcHistoryChart" line-chart line-data="vm.chartData" line-xkey='period'-->
-                <!--line-ykeys='["variLiqui", "premiumMargin", "spreadMargin", "additionalMargin"]'-->
-                <!--line-labels='["Variation / Liquidation Marign", "Premium Margin", "Spread Margin", "Additional Margin"]'-->
-                <!--line-colors='["#31C0BE", "#c7254e", "#800000", "#808000", "#FF00FF"]'></div>-->
-            </div>
-
-            <data-table [data]="data"
-                        [pageSize]="pageSize"
-                        [defaultOrdering]="defaultOrdering">
-                <column title="Last update"
-                        sortingKey="received">
-                    <template let-record="row" cell-template>
-                        {{record.received | date:'HH:mm:ss'}}
-                    </template>
-                </column>
-                <column title="Variation Margin"
-                        sortingKey="variationMargin">
-                    <template let-record="row" cell-template>
-                        {{record.variationMargin | number:'.2-2'}}
-                    </template>
-                </column>
-                <column title="Liquidation Margin"
-                        sortingKey="liquiMargin">
-                    <template let-record="row" cell-template>
-                        {{record.liquiMargin | number:'.2-2'}}
-                    </template>
-                </column>
-                <column title="Premium Margin"
-                        sortingKey="premiumMargin">
-                    <template let-record="row" cell-template>
-                        {{record.premiumMargin | number:'.2-2'}}
-                    </template>
-                </column>
-                <column title="Spread Margin"
-                        sortingKey="spreadMargin">
-                    <template let-record="row" cell-template>
-                        {{record.spreadMargin | number:'.2-2'}}
-                    </template>
-                </column>
-                <column title="Total Margin"
-                        sortingKey="additionalMargin">
-                    <template let-record="row" cell-template>
-                        {{record.additionalMargin | number:'.2-2'}}
-                    </template>
-                </column>
-            </data-table>
-        </div>
-        <!-- /.panel -->
-    </div>
-    <!-- /.col-lg-12 -->
-</div>
+    <data-table [data]="data"
+                [pageSize]="pageSize"
+                [defaultOrdering]="defaultOrdering">
+        <column title="Last update"
+                sortingKey="received">
+            <template let-record="row" cell-template>
+                {{record.received | date:'HH:mm:ss'}}
+            </template>
+        </column>
+        <column title="Variation Margin"
+                sortingKey="variationMargin">
+            <template let-record="row" cell-template>
+                {{record.variationMargin | number:'.2-2'}}
+            </template>
+        </column>
+        <column title="Liquidation Margin"
+                sortingKey="liquiMargin">
+            <template let-record="row" cell-template>
+                {{record.liquiMargin | number:'.2-2'}}
+            </template>
+        </column>
+        <column title="Premium Margin"
+                sortingKey="premiumMargin">
+            <template let-record="row" cell-template>
+                {{record.premiumMargin | number:'.2-2'}}
+            </template>
+        </column>
+        <column title="Spread Margin"
+                sortingKey="spreadMargin">
+            <template let-record="row" cell-template>
+                {{record.spreadMargin | number:'.2-2'}}
+            </template>
+        </column>
+        <column title="Total Margin"
+                sortingKey="additionalMargin">
+            <template let-record="row" cell-template>
+                {{record.additionalMargin | number:'.2-2'}}
+            </template>
+        </column>
+    </data-table>
+</list-content>

@@ -6,7 +6,7 @@ import {AuthService} from './auth.service';
 @Component({
     moduleId: module.id,
     templateUrl: 'login.component.html',
-    styleUrls: ['login.component.css']
+    styleUrls: ['../common.component.css']
 })
 export class LoginComponent {
 
@@ -21,6 +21,10 @@ export class LoginComponent {
 
     public get authStatus(): boolean {
         return this.authService.isLoggedIn();
+    }
+
+    public get authUsername(): string {
+        return this.authService.getLoggedUser();
     }
 
     public login(): void {

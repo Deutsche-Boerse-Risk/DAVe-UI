@@ -16,7 +16,7 @@ const defaultOrdering = ['-rejectUtil', 'clearer', 'member', 'maintainer', 'limi
 @Component({
     moduleId: module.id,
     templateUrl: 'risk.limit.history.component.html',
-    styleUrls: ['risk.limit.component.css']
+    styleUrls: ['../common.component.css']
 })
 export class RiskLimitHistoryComponent extends AbstractHistoryListComponent<RiskLimitsData> {
 
@@ -38,14 +38,13 @@ export class RiskLimitHistoryComponent extends AbstractHistoryListComponent<Risk
     }
 
     protected getTickFromRecord(record: RiskLimitsData): any {
-        let tick = {
+        return {
             period: DATE_PIPE.transform(record.received, 'yyyy-MM-dd HH:mm:ss'),
             utilization: record.utilization,
             warningLevel: record.warningLevel,
             throttleLevel: record.throttleLevel,
             rejectLevel: record.rejectLevel
         };
-        return tick;
     }
 
     public get defaultOrdering(): string[] {

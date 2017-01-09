@@ -18,7 +18,7 @@ const defaultOrdering = ['shortfallSurplus', 'clearer', 'pool', 'member', 'clear
 @Component({
     moduleId: module.id,
     templateUrl: 'margin.shortfall.surplus.latest.component.html',
-    styleUrls: ['margin.shortfall.surplus.component.css']
+    styleUrls: ['../common.component.css']
 })
 export class MarginShortfallSurplusLatestComponent extends AbstractLatestListComponent<MarginShortfallSurplusData> {
 

@@ -19,8 +19,7 @@ const compVarNegativeLegend = 'Negative';
     moduleId: module.id,
     selector: 'position-report-bubblechart',
     templateUrl: 'position.report.bubblechart.component.html',
-    styleUrls: ['position.report.bubblechart.component.css'],
-    host: {}
+    styleUrls: ['../common.component.css']
 })
 export class PositionReportBubbleChartComponent extends AbstractComponentWithAutoRefresh {
 

@@ -16,7 +16,7 @@ const defaultOrdering = ['-received'];
 @Component({
     moduleId: module.id,
     templateUrl: 'position.report.history.component.html',
-    styleUrls: ['position.report.component.css']
+    styleUrls: ['../common.component.css']
 })
 export class PositionReportHistoryComponent extends AbstractHistoryListComponent<PositionReportData> {
 
@@ -41,7 +41,7 @@ export class PositionReportHistoryComponent extends AbstractHistoryListComponent
 
 
     protected getTickFromRecord(record: PositionReportData): any {
-        let tick = {
+        return {
             period: DATE_PIPE.transform(record.received, 'yyyy-MM-dd HH:mm:ss'),
             netLS: record.netLS,
             netEA: record.netEA,
@@ -50,7 +50,6 @@ export class PositionReportHistoryComponent extends AbstractHistoryListComponent
             delta: record.delta,
             compLiquidityAddOn: record.compLiquidityAddOn
         };
-        return tick;
     }
 
     public get defaultOrdering(): string[] {

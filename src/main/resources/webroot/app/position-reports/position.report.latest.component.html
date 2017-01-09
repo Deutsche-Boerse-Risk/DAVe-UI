@@ -1,241 +1,219 @@
-<div class="row">
-    <div class="col-lg-12">
-        <h3>Position Reports</h3>
-    </div>
-    <!-- /.col-lg-12 -->
-</div>
-<!-- /.row -->
-<div class="row">
-    <div class="col-lg-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <row-filter (filterChanged)="filter($event)"></row-filter>
-
-                <download-menu [columns]="exportKeys" [data]="data"
-                               filename="download.csv"></download-menu>
-
-                <bread-crumbs [routeParts]="routeParts"></bread-crumbs>
-            </div>
-
-            <initial-load *ngIf="initialLoad && !errorMessage"></initial-load>
-
-            <no-data *ngIf="!initialLoad && !errorMessage && data?.length < 1"></no-data>
-
-            <update-failed *ngIf="errorMessage" [message]="errorMessage"></update-failed>
-
-            <data-table [data]="data"
-                        [pageSize]="pageSize"
-                        [defaultOrdering]="defaultOrdering"
-                        [striped]="false">
-                <column title="Member / Client"
-                        sortingKey="member">
+<list-content title="Position Reports"
+              [routeParts]="routeParts"
+              [exportKeys]="exportKeys"
+              [data]="data"
+              [initialLoad]="initialLoad"
+              [errorMessage]="errorMessage"
+              (filterChanged)="filter($event)">
+    <data-table [data]="data"
+                [pageSize]="pageSize"
+                [defaultOrdering]="defaultOrdering"
+                [striped]="false">
+        <column title="Member / Client"
+                sortingKey="member">
+            <template let-record="row" cell-template>
+                <a [routerLink]="['/positionReportLatest', record.clearer | nullvalue:'*', record.member | nullvalue:'*']">
+                    {{record.member}}
+                </a>
+            </template>
+        </column>
+        <column title="Account"
+                sortingKey="account">
+            <template let-record="row" cell-template>
+                <a [routerLink]="['/positionReportLatest', record.clearer | nullvalue:'*', record.member | nullvalue:'*', record.account | nullvalue:'*']">
+                    {{record.account}}
+                </a>
+            </template>
+        </column>
+        <column title="Symbol"
+                tooltip="Product symbol"
+                sortingKey="symbol">
+            <template let-record="row" cell-template>
+                <a [routerLink]="['/positionReportLatest', routeParams['clearer'] | nullvalue:'*', routeParams['member'] | nullvalue:'*', routeParams['account'] | nullvalue:'*', record.class | nullvalue:'*', record.symbol | nullvalue:'*']">
+                    {{record.symbol}}
+                </a>
+            </template>
+        </column>
+        <column title="P/C"
+                tooltip="Put / Call flag (Options only)"
+                sortingKey="putCall">
+            <template let-record="row" cell-template>
+                <a [routerLink]="['/positionReportLatest', routeParams['clearer'] | nullvalue:'*', routeParams['member'] | nullvalue:'*', routeParams['account'] | nullvalue:'*', record.class | nullvalue:'*', record.symbol | nullvalue:'*', record.putCall | nullvalue:'*']">
+                    {{record.putCall}}
+                </a>
+            </template>
+        </column>
+        <column title="Strk"
+                tooltip="Strike (exercise) price (Options only)"
+                sortingKey="strikePrice">
+            <template let-record="row" cell-template>
+                <a [routerLink]="['/positionReportLatest', routeParams['clearer'] | nullvalue:'*', routeParams['member'] | nullvalue:'*', routeParams['account'] | nullvalue:'*', record.class | nullvalue:'*', record.symbol | nullvalue:'*', record.putCall | nullvalue:'*', record.strikePrice | nullvalue:'*']">
+                    {{record.strikePrice | number:'.2-2'}}
+                </a>
+            </template>
+        </column>
+        <column title="Opt"
+                tooltip="Version number (Options only)"
+                sortingKey="optAttribute">
+            <template let-record="row" cell-template>
+                <a [routerLink]="['/positionReportLatest', routeParams['clearer'] | nullvalue:'*', routeParams['member'] | nullvalue:'*', routeParams['account'] | nullvalue:'*', record.class | nullvalue:'*', record.symbol | nullvalue:'*', record.putCall | nullvalue:'*', record.strikePrice | nullvalue:'*', record.optAttribute | nullvalue:'*']">
+                    {{record.optAttribute}}
+                </a>
+            </template>
+        </column>
+        <column title="MMY"
+                tooltip="Maturity month and year"
+                sortingKey="maturityMonthYear">
+            <template let-record="row" cell-template>
+                <a [routerLink]="['/positionReportLatest', routeParams['clearer'] | nullvalue:'*', routeParams['member'] | nullvalue:'*', routeParams['account'] | nullvalue:'*', record.class | nullvalue:'*', record.symbol | nullvalue:'*', record.putCall | nullvalue:'*', record.strikePrice | nullvalue:'*', record.optAttribute | nullvalue:'*', record.maturityMonthYear | nullvalue:'*']">
+                    {{record.maturityMonthYear}}
+                </a>
+            </template>
+        </column>
+        <column title="NetLS"
+                tooltip="Net position"
+                sortingKey="netLS">
+            <template let-record="row" cell-template>
+                {{record.netLS | number:'.2-2'}}
+            </template>
+        </column>
+        <column title="Position VaR"
+                tooltip="PnL of the position when calculating portfolio VaR"
+                sortingKey="compVar">
+            <template let-record="row" cell-template>
+                {{record.compVar | number:'.2-2'}}
+            </template>
+        </column>
+        <column title="EuroDelta"
+                tooltip="Position sensibility to underlying move in Euro"
+                sortingKey="delta">
+            <template let-record="row" cell-template>
+                {{record.delta | number:'.2-2'}}
+            </template>
+        </column>
+        <column title="LA"
+                tooltip="Liquidity Addon of the position"
+                sortingKey="compLiquidityAddOn">
+            <template let-record="row" cell-template>
+                {{record.compLiquidityAddOn | number:'.2-2'}}
+            </template>
+        </column>
+        <column>
+            <template let-record="row" cell-template>
+                <row-detail-expander></row-detail-expander>
+                <a [routerLink]="['/positionReportHistory', record.clearer | nullvalue:'*', record.member | nullvalue:'*', record.account | nullvalue:'*', record.class | nullvalue:'*', record.symbol | nullvalue:'*', record.putCall | nullvalue:'*', record.strikePrice | nullvalue:'*', record.optAttribute | nullvalue:'*', record.maturityMonthYear | nullvalue:'*']">
+                    <span class="fa fa-bar-chart-o" aria-hidden="true" title="Detail"></span>
+                </a>
+            </template>
+        </column>
+        <!-- Sub detail -->
+        <row-detail>
+            <column-group>
+                <column title="Liqui Group / Margin Class">
                     <template let-record="row" cell-template>
-                        <a [routerLink]="['/positionReportLatest', record.clearer | nullvalue:'*', record.member | nullvalue:'*']">
-                            {{record.member}}
+                        <a [routerLink]="['/positionReportLatest', routeParams['clearer'] | nullvalue:'*', routeParams['member'] | nullvalue:'*', routeParams['record.account'] | nullvalue:'*', record.class | nullvalue:'*']">
+                            {{record.class}}
                         </a>
                     </template>
                 </column>
-                <column title="Account"
-                        sortingKey="account">
+                <column title="Clearing Ccy">
                     <template let-record="row" cell-template>
-                        <a [routerLink]="['/positionReportLatest', record.clearer | nullvalue:'*', record.member | nullvalue:'*', record.account | nullvalue:'*']">
-                            {{record.account}}
-                        </a>
+                        {{record.clearingCcy}}
                     </template>
                 </column>
-                <column title="Symbol"
-                        tooltip="Product symbol"
-                        sortingKey="symbol">
+                <column title="Product Ccy">
                     <template let-record="row" cell-template>
-                        <a [routerLink]="['/positionReportLatest', routeParams['clearer'] | nullvalue:'*', routeParams['member'] | nullvalue:'*', routeParams['account'] | nullvalue:'*', record.class | nullvalue:'*', record.symbol | nullvalue:'*']">
-                            {{record.symbol}}
-                        </a>
+                        {{record.productCcy}}
                     </template>
                 </column>
-                <column title="P/C"
-                        tooltip="Put / Call flag (Options only)"
-                        sortingKey="putCall">
+                <column title="CrMrgLQty">
                     <template let-record="row" cell-template>
-                        <a [routerLink]="['/positionReportLatest', routeParams['clearer'] | nullvalue:'*', routeParams['member'] | nullvalue:'*', routeParams['account'] | nullvalue:'*', record.class | nullvalue:'*', record.symbol | nullvalue:'*', record.putCall | nullvalue:'*']">
-                            {{record.putCall}}
-                        </a>
+                        {{record.crossMarginLongQty | number:'.2-2'}}
                     </template>
                 </column>
-                <column title="Strk"
-                        tooltip="Strike (exercise) price (Options only)"
-                        sortingKey="strikePrice">
+                <column title="CrMrgSQty">
                     <template let-record="row" cell-template>
-                        <a [routerLink]="['/positionReportLatest', routeParams['clearer'] | nullvalue:'*', routeParams['member'] | nullvalue:'*', routeParams['account'] | nullvalue:'*', record.class | nullvalue:'*', record.symbol | nullvalue:'*', record.putCall | nullvalue:'*', record.strikePrice | nullvalue:'*']">
-                            {{record.strikePrice | number:'.2-2'}}
-                        </a>
+                        {{record.crossMarginShortQty | number:'.2-2'}}
                     </template>
                 </column>
-                <column title="Opt"
-                        tooltip="Version number (Options only)"
-                        sortingKey="optAttribute">
+                <column title="NetEA">
                     <template let-record="row" cell-template>
-                        <a [routerLink]="['/positionReportLatest', routeParams['clearer'] | nullvalue:'*', routeParams['member'] | nullvalue:'*', routeParams['account'] | nullvalue:'*', record.class | nullvalue:'*', record.symbol | nullvalue:'*', record.putCall | nullvalue:'*', record.strikePrice | nullvalue:'*', record.optAttribute | nullvalue:'*']">
-                            {{record.optAttribute}}
-                        </a>
+                        {{record.netEA | number:'.2-2'}}
                     </template>
                 </column>
-                <column title="MMY"
-                        tooltip="Maturity month and year"
-                        sortingKey="maturityMonthYear">
+                <column title="OptExcQty">
                     <template let-record="row" cell-template>
-                        <a [routerLink]="['/positionReportLatest', routeParams['clearer'] | nullvalue:'*', routeParams['member'] | nullvalue:'*', routeParams['account'] | nullvalue:'*', record.class | nullvalue:'*', record.symbol | nullvalue:'*', record.putCall | nullvalue:'*', record.strikePrice | nullvalue:'*', record.optAttribute | nullvalue:'*', record.maturityMonthYear | nullvalue:'*']">
-                            {{record.maturityMonthYear}}
-                        </a>
+                        {{record.optionExcerciseQty | number:'.2-2'}}
                     </template>
                 </column>
-                <column title="NetLS"
-                        tooltip="Net position"
-                        sortingKey="netLS">
+                <column title="OptAssQty">
                     <template let-record="row" cell-template>
-                        {{record.netLS | number:'.2-2'}}
+                        {{record.optionAssignmentQty | number:'.2-2'}}
                     </template>
                 </column>
-                <column title="Position VaR"
-                        tooltip="PnL of the position when calculating portfolio VaR"
-                        sortingKey="compVar">
+                <column title="AllTrQty">
                     <template let-record="row" cell-template>
-                        {{record.compVar | number:'.2-2'}}
+                        {{record.allocationTradeQty | number:'.2-2'}}
                     </template>
                 </column>
-                <column title="EuroDelta"
-                        tooltip="Position sensibility to underlying move in Euro"
-                        sortingKey="delta">
+                <column title="DelNtQty">
                     <template let-record="row" cell-template>
-                        {{record.delta | number:'.2-2'}}
+                        {{record.deliveryNoticeQty | number:'.2-2'}}
                     </template>
                 </column>
-                <column title="LA"
-                        tooltip="Liquidity Addon of the position"
-                        sortingKey="compLiquidityAddOn">
+            </column-group>
+            <column-group>
+                <column title="CorrBreak">
                     <template let-record="row" cell-template>
-                        {{record.compLiquidityAddOn | number:'.2-2'}}
+                        {{record.compCorrelationBreak | number:'.2-2'}}
                     </template>
                 </column>
-                <column>
+                <column title="CopmError">
                     <template let-record="row" cell-template>
-                        <row-detail-expander></row-detail-expander>
-                        <a [routerLink]="['/positionReportHistory', record.clearer | nullvalue:'*', record.member | nullvalue:'*', record.account | nullvalue:'*', record.class | nullvalue:'*', record.symbol | nullvalue:'*', record.putCall | nullvalue:'*', record.strikePrice | nullvalue:'*', record.optAttribute | nullvalue:'*', record.maturityMonthYear | nullvalue:'*']">
-                            <span class="fa fa-bar-chart-o" aria-hidden="true" title="Detail"></span>
-                        </a>
+                        {{record.compCompressionError | number:'.2-2'}}
                     </template>
                 </column>
-                <!-- Sub detail -->
-                <row-detail>
-                    <column-group>
-                        <column title="Liqui Group / Margin Class">
-                            <template let-record="row" cell-template>
-                                <a [routerLink]="['/positionReportLatest', routeParams['clearer'] | nullvalue:'*', routeParams['member'] | nullvalue:'*', routeParams['record.account'] | nullvalue:'*', record.class | nullvalue:'*']">
-                                    {{record.class}}
-                                </a>
-                            </template>
-                        </column>
-                        <column title="Clearing Ccy">
-                            <template let-record="row" cell-template>
-                                {{record.clearingCcy}}
-                            </template>
-                        </column>
-                        <column title="Product Ccy">
-                            <template let-record="row" cell-template>
-                                {{record.productCcy}}
-                            </template>
-                        </column>
-                        <column title="CrMrgLQty">
-                            <template let-record="row" cell-template>
-                                {{record.crossMarginLongQty | number:'.2-2'}}
-                            </template>
-                        </column>
-                        <column title="CrMrgSQty">
-                            <template let-record="row" cell-template>
-                                {{record.crossMarginShortQty | number:'.2-2'}}
-                            </template>
-                        </column>
-                        <column title="NetEA">
-                            <template let-record="row" cell-template>
-                                {{record.netEA | number:'.2-2'}}
-                            </template>
-                        </column>
-                        <column title="OptExcQty">
-                            <template let-record="row" cell-template>
-                                {{record.optionExcerciseQty | number:'.2-2'}}
-                            </template>
-                        </column>
-                        <column title="OptAssQty">
-                            <template let-record="row" cell-template>
-                                {{record.optionAssignmentQty | number:'.2-2'}}
-                            </template>
-                        </column>
-                        <column title="AllTrQty">
-                            <template let-record="row" cell-template>
-                                {{record.allocationTradeQty | number:'.2-2'}}
-                            </template>
-                        </column>
-                        <column title="DelNtQty">
-                            <template let-record="row" cell-template>
-                                {{record.deliveryNoticeQty | number:'.2-2'}}
-                            </template>
-                        </column>
-                    </column-group>
-                    <column-group>
-                        <column title="CorrBreak">
-                            <template let-record="row" cell-template>
-                                {{record.compCorrelationBreak | number:'.2-2'}}
-                            </template>
-                        </column>
-                        <column title="CopmError">
-                            <template let-record="row" cell-template>
-                                {{record.compCompressionError | number:'.2-2'}}
-                            </template>
-                        </column>
-                        <column title="LonOptCredit">
-                            <template let-record="row" cell-template>
-                                {{record.compLongOptionCredit | number:'.2-2'}}
-                            </template>
-                        </column>
-                        <column title="PremPay">
-                            <template let-record="row" cell-template>
-                                {{record.variationMarginPremiumPayment | number:'.2-2'}}
-                            </template>
-                        </column>
-                        <column title="PremMrgn">
-                            <template let-record="row" cell-template>
-                                {{record.premiumMargin | number:'.2-2'}}
-                            </template>
-                        </column>
-                        <column title="Gamma">
-                            <template let-record="row" cell-template>
-                                {{record.gamma | number:'.2-2'}}
-                            </template>
-                        </column>
-                        <column title="Vega">
-                            <template let-record="row" cell-template>
-                                {{record.vega | number:'.2-2'}}
-                            </template>
-                        </column>
-                        <column title="Rho">
-                            <template let-record="row" cell-template>
-                                {{record.rho | number:'.2-2'}}
-                            </template>
-                        </column>
-                        <column title="Theta">
-                            <template let-record="row" cell-template>
-                                {{record.theta | number:'.2-2'}}
-                            </template>
-                        </column>
-                        <column title="MVar">
-                            <template let-record="row" cell-template>
-                                {{record.mVar | number:'.2-2'}}
-                            </template>
-                        </column>
-                    </column-group>
-                </row-detail>
-            </data-table>
-        </div>
-        <!-- /.panel -->
-    </div>
-    <!-- /.col-lg-12 -->
-</div>
+                <column title="LonOptCredit">
+                    <template let-record="row" cell-template>
+                        {{record.compLongOptionCredit | number:'.2-2'}}
+                    </template>
+                </column>
+                <column title="PremPay">
+                    <template let-record="row" cell-template>
+                        {{record.variationMarginPremiumPayment | number:'.2-2'}}
+                    </template>
+                </column>
+                <column title="PremMrgn">
+                    <template let-record="row" cell-template>
+                        {{record.premiumMargin | number:'.2-2'}}
+                    </template>
+                </column>
+                <column title="Gamma">
+                    <template let-record="row" cell-template>
+                        {{record.gamma | number:'.2-2'}}
+                    </template>
+                </column>
+                <column title="Vega">
+                    <template let-record="row" cell-template>
+                        {{record.vega | number:'.2-2'}}
+                    </template>
+                </column>
+                <column title="Rho">
+                    <template let-record="row" cell-template>
+                        {{record.rho | number:'.2-2'}}
+                    </template>
+                </column>
+                <column title="Theta">
+                    <template let-record="row" cell-template>
+                        {{record.theta | number:'.2-2'}}
+                    </template>
+                </column>
+                <column title="MVar">
+                    <template let-record="row" cell-template>
+                        {{record.mVar | number:'.2-2'}}
+                    </template>
+                </column>
+            </column-group>
+        </row-detail>
+    </data-table>
+</list-content>

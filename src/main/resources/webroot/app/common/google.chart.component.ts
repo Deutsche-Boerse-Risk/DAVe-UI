@@ -10,7 +10,7 @@ declare let googleLoaded: any;
     selector: 'google-chart',
     template: '<div [id]="id"></div>',
     styles: ['/deep/ google-chart > div { width: 100%; height: 100%; }'],
-    styleUrls: ['common.component.css']
+    styleUrls: ['../common.component.css']
 })
 export class GoogleChart implements OnInit, OnChanges {
 

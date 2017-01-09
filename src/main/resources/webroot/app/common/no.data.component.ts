@@ -6,7 +6,7 @@ import {Component} from '@angular/core';
     template: `<div class="panel-body">
                     <div class="alert alert-info" role="alert">No data available.</div>
                 </div>`,
-    styleUrls: ['common.component.css']
+    styleUrls: ['../common.component.css']
 })
 export class NoDataComponent {
 }

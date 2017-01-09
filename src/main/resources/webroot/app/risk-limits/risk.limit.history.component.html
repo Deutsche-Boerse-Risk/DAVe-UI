@@ -1,69 +1,49 @@
-<div class="row">
-    <div class="col-lg-12">
-        <h3>Risk Limits History</h3>
+<list-content [title]="rootRouteTitle"
+              [isHistory]="true"
+              [routeParts]="routeParts"
+              [exportKeys]="exportKeys"
+              [data]="data"
+              [initialLoad]="initialLoad"
+              [errorMessage]="errorMessage">
+    <div class="panel-body" ng-if="vm.chartData.length > 0">
+        <!--<div id="rlHistoryChart" line-chart line-data="vm.chartData" line-xkey='period'-->
+        <!--line-ykeys='["utilization", "warningLevel", "throttleLevel", "rejectLevel"]'-->
+        <!--line-labels='["Limit utilization", "Warning level", "Throttle level", "Stop level"]'-->
+        <!--line-colors='["#31C0BE", "#c7254e", "#800000", "#808000"]'></div>-->
     </div>
-    <!-- /.col-lg-12 -->
-</div>
-<!-- /.row -->
-<div class="row">
-    <div class="col-lg-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <download-menu [columns]="exportKeys" [data]="data"
-                               filename="download.csv"></download-menu>
 
-                <bread-crumbs [routeParts]="routeParts" [rootActive]="false"></bread-crumbs>
-            </div>
-
-            <initial-load *ngIf="initialLoad && !errorMessage"></initial-load>
-
-            <no-data *ngIf="!initialLoad && !errorMessage && data?.length < 1"></no-data>
-
-            <update-failed *ngIf="errorMessage" [message]="errorMessage"></update-failed>
-
-            <div class="panel-body" ng-if="vm.chartData.length > 0">
-                <!--<div id="rlHistoryChart" line-chart line-data="vm.chartData" line-xkey='period'-->
-                <!--line-ykeys='["utilization", "warningLevel", "throttleLevel", "rejectLevel"]'-->
-                <!--line-labels='["Limit utilization", "Warning level", "Throttle level", "Stop level"]'-->
-                <!--line-colors='["#31C0BE", "#c7254e", "#800000", "#808000"]'></div>-->
-            </div>
-
-            <data-table [data]="data"
-                        [pageSize]="pageSize"
-                        [defaultOrdering]="defaultOrdering">
-                <column title="Last update"
-                        sortingKey="received">
-                    <template let-record="row" cell-template>
-                        {{record.received | date:'HH:mm:ss'}}
-                    </template>
-                </column>
-                <column title="Limit utilization"
-                        sortingKey="utilization">
-                    <template let-record="row" cell-template>
-                        {{record.utilization | number:'.2-2'}}
-                    </template>
-                </column>
-                <column title="Warning Level">
-                    <template let-record="row" cell-template>
-                        {{record.warningLevel | number:'.2-2'}}
-                    </template>
-                </column>
-                <column title="Throttle Level">
-                    <template let-record="row" cell-template>
-                        {{record.throttleLevel | number:'.2-2'}}
-                    </template>
-                </column>
-                <column title="Stop Level">
-                    <template let-record="row" cell-template>
-                        {{record.rejectLevel | number:'.2-2'}}
-                    </template>
-                </column>
-            </data-table>
-        </div>
-        <!-- /.panel -->
-    </div>
-    <!-- /.col-lg-12 -->
-</div>
+    <data-table [data]="data"
+                [pageSize]="pageSize"
+                [defaultOrdering]="defaultOrdering">
+        <column title="Last update"
+                sortingKey="received">
+            <template let-record="row" cell-template>
+                {{record.received | date:'HH:mm:ss'}}
+            </template>
+        </column>
+        <column title="Limit utilization"
+                sortingKey="utilization">
+            <template let-record="row" cell-template>
+                {{record.utilization | number:'.2-2'}}
+            </template>
+        </column>
+        <column title="Warning Level">
+            <template let-record="row" cell-template>
+                {{record.warningLevel | number:'.2-2'}}
+            </template>
+        </column>
+        <column title="Throttle Level">
+            <template let-record="row" cell-template>
+                {{record.throttleLevel | number:'.2-2'}}
+            </template>
+        </column>
+        <column title="Stop Level">
+            <template let-record="row" cell-template>
+                {{record.rejectLevel | number:'.2-2'}}
+            </template>
+        </column>
+    </data-table>
+</list-content>
 
 <!-- TODO: Rowspans/Colspans
 <div class="panel-body" ng-if="vm.viewWindow.length > 0">
