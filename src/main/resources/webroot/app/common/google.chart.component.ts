@@ -1,4 +1,4 @@
-import {ElementRef, Input, Component, OnChanges, HostBinding, OnInit} from '@angular/core';
+import {ElementRef, Input, Component, OnChanges, HostBinding, OnInit, OnDestroy} from '@angular/core';
 
 import {ChartOptions, ChartData} from './chart.types';
 
@@ -12,7 +12,7 @@ declare let googleLoaded: any;
     styles: ['/deep/ google-chart > div { width: 100%; height: 100%; }'],
     styleUrls: ['../common.component.css']
 })
-export class GoogleChart implements OnInit, OnChanges {
+export class GoogleChart implements OnInit, OnChanges, OnDestroy {
 
     public _element: HTMLElement;
 
@@ -34,6 +34,8 @@ export class GoogleChart implements OnInit, OnChanges {
 
     private initialized: boolean = false;
 
+    private wrapper: any;
+
     constructor(public element: ElementRef) {
         this._element = this.element.nativeElement;
     }
@@ -49,6 +51,12 @@ export class GoogleChart implements OnInit, OnChanges {
         }
     }
 
+    public ngOnDestroy(): void {
+        if (this.wrapper) {
+            this.wrapper.clear();
+        }
+    }
+
     private reinitChart(): void {
         if (!googleLoaded) {
             googleLoaded = true;
@@ -60,16 +68,17 @@ export class GoogleChart implements OnInit, OnChanges {
     }
 
     private drawGraph(chartOptions: ChartOptions, chartType, chartData: ChartData, ele) {
-        google.charts.setOnLoadCallback(drawChart);
-        function drawChart() {
-            let wrapper = new google.visualization.ChartWrapper({
+        google.charts.setOnLoadCallback(() => {
+            this.ngOnDestroy();
+
+            this.wrapper = new google.visualization.ChartWrapper({
                 chartType: chartType,
                 dataTable: chartData,
                 options: chartOptions || {},
                 containerId: ele.id
             });
-            wrapper.draw();
-        }
+            this.wrapper.draw();
+        });
     }
 }
 
