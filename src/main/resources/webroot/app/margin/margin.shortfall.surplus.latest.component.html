@@ -78,12 +78,10 @@
         </column>
         <column>
             <template let-record="row" cell-template>
-                <a [routerLink]="['/totalMarginRequirementLatest', record.clearer | nullvalue:'*', record.pool | nullvalue:'*', '*', '*', record.ccy | nullvalue:'*']">
-                    <span class="fa fa-bullseye" aria-hidden="true" title="Drilldown"></span>
-                </a>
-                <a [routerLink]="['/marginShortfallSurplusHistory', record.clearer | nullvalue:'*', record.pool | nullvalue:'*', record.member | nullvalue:'*', record.clearingCcy | nullvalue:'*', record.ccy | nullvalue:'*']">
-                    <span class="fa fa-bar-chart-o" aria-hidden="true" title="Detail"></span>
-                </a>
+                <drilldown-row-button
+                        [routerLink]="['/totalMarginRequirementLatest', record.clearer | nullvalue:'*', record.pool | nullvalue:'*', '*', '*', record.ccy | nullvalue:'*']"></drilldown-row-button>
+                <detail-row-button
+                        [routerLink]="['/marginShortfallSurplusHistory', record.clearer | nullvalue:'*', record.pool | nullvalue:'*', record.member | nullvalue:'*', record.clearingCcy | nullvalue:'*', record.ccy | nullvalue:'*']"></detail-row-button>
             </template>
         </column>
     </data-table>

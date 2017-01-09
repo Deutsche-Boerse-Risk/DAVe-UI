@@ -101,9 +101,8 @@
         <column>
             <template let-record="row" cell-template>
                 <row-detail-expander></row-detail-expander>
-                <a [routerLink]="['/positionReportHistory', record.clearer | nullvalue:'*', record.member | nullvalue:'*', record.account | nullvalue:'*', record.class | nullvalue:'*', record.symbol | nullvalue:'*', record.putCall | nullvalue:'*', record.strikePrice | nullvalue:'*', record.optAttribute | nullvalue:'*', record.maturityMonthYear | nullvalue:'*']">
-                    <span class="fa fa-bar-chart-o" aria-hidden="true" title="Detail"></span>
-                </a>
+                <detail-row-button
+                        [routerLink]="['/positionReportHistory', record.clearer | nullvalue:'*', record.member | nullvalue:'*', record.account | nullvalue:'*', record.class | nullvalue:'*', record.symbol | nullvalue:'*', record.putCall | nullvalue:'*', record.strikePrice | nullvalue:'*', record.optAttribute | nullvalue:'*', record.maturityMonthYear | nullvalue:'*']"></detail-row-button>
             </template>
         </column>
         <!-- Sub detail -->

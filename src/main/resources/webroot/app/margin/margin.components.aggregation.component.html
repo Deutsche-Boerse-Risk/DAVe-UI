@@ -74,9 +74,8 @@
         </column>
         <column>
             <template let-record="row" cell-template>
-                <a [routerLink]="['/marginComponentLatest', record.clearer, record.member, record.account]">
-                    <span class="fa fa-bullseye" aria-hidden="true" title="Drilldown"></span>
-                </a>
+                <drilldown-row-button
+                        [routerLink]="['/marginComponentLatest', record.clearer, record.member, record.account]"></drilldown-row-button>
             </template>
         </column>
     </data-table>

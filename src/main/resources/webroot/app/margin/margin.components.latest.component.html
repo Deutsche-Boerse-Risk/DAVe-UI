@@ -70,12 +70,10 @@
         </column>
         <column>
             <template let-record="row" cell-template>
-                <a [routerLink]="['/positionReportLatest', record.clearer | nullvalue:'*', record.member | nullvalue:'*', record.account | nullvalue:'*', record.class | nullvalue:'*']">
-                    <span class="fa fa-bullseye" aria-hidden="true" title="Drilldown"></span>
-                </a>
-                <a [routerLink]="['/marginComponentHistory', record.clearer | nullvalue:'*', record.member | nullvalue:'*', record.account | nullvalue:'*', record.class | nullvalue:'*', record.ccy | nullvalue:'*']">
-                    <span class="fa fa-bar-chart-o" aria-hidden="true" title="Detail"></span>
-                </a>
+                <drilldown-row-button
+                        [routerLink]="['/positionReportLatest', record.clearer | nullvalue:'*', record.member | nullvalue:'*', record.account | nullvalue:'*', record.class | nullvalue:'*']"></drilldown-row-button>
+                <detail-row-button
+                        [routerLink]="['/marginComponentHistory', record.clearer | nullvalue:'*', record.member | nullvalue:'*', record.account | nullvalue:'*', record.class | nullvalue:'*', record.ccy | nullvalue:'*']"></detail-row-button>
             </template>
         </column>
     </data-table>

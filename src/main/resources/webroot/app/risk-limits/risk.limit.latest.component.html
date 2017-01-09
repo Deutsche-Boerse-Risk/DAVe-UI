@@ -55,9 +55,8 @@
         </column>
         <column>
             <template let-record="row" cell-template>
-                <a [routerLink]="['/riskLimitHistory', record.clearer | nullvalue:'*', record.member | nullvalue:'*', record.maintainer | nullvalue:'*', record.limitType | nullvalue:'*']">
-                    <span class="fa fa-bar-chart-o" aria-hidden="true" title="Detail"></span>
-                </a>
+                <detail-row-button
+                        [routerLink]="['/riskLimitHistory', record.clearer | nullvalue:'*', record.member | nullvalue:'*', record.maintainer | nullvalue:'*', record.limitType | nullvalue:'*']"></detail-row-button>
             </template>
         </column>
     </data-table>
