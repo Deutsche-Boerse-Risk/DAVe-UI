@@ -8,6 +8,7 @@ import {CommonModule} from '../common/common.module';
 import {DownloadMenuComponent} from './download.menu.component';
 import {BreadCrumbsComponent} from './bread.crumbs.component';
 import {ListComponent} from './list.component';
+import {DrilldownButtonComponent} from './drilldown.button.component';
 
 @NgModule({
     imports: [
@@ -19,7 +20,8 @@ import {ListComponent} from './list.component';
     declarations: [
         ListComponent,
         DownloadMenuComponent,
-        BreadCrumbsComponent
+        BreadCrumbsComponent,
+        DrilldownButtonComponent
     ],
     exports: [
         ListComponent

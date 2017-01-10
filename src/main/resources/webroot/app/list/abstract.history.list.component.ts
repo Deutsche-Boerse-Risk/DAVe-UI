@@ -50,7 +50,6 @@ export abstract class AbstractHistoryListComponent<T> extends AbstractListCompon
             left: '5%',
             width: '92%'
         },
-        curveType: 'function',
         legend: {position: 'none'},
         pointShape: 'circle',
         focusTarget: 'category',

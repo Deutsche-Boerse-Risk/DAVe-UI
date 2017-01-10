@@ -4,7 +4,8 @@
               [exportKeys]="exportKeys"
               [data]="data"
               [initialLoad]="initialLoad"
-              [errorMessage]="errorMessage">
+              [errorMessage]="errorMessage"
+              [drilldownRouterLink]="['/positionReportLatest', routeParams['clearer'] | nullvalue:'*', routeParams['member'] | nullvalue:'*', routeParams['account'] | nullvalue:'*', routeParams['class'] | nullvalue:'*']">
     <div class="panel-body" *ngIf="chartData?.rows?.length > 0">
         <google-chart id="historyChart"
                       chartType="LineChart"

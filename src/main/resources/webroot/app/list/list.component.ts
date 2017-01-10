@@ -32,6 +32,9 @@ export class ListComponent {
     public initialLoad: boolean;
 
     @Input()
+    public drilldownRouterLink: any[] | string;
+
+    @Input()
     public errorMessage: string;
 
     public filterQuery: string;
