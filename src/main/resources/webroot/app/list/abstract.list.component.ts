@@ -1,9 +1,9 @@
 import {OnInit} from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
 
-import {AbstractComponentWithAutoRefresh} from './abstract.component';
+import {AbstractComponentWithAutoRefresh} from '../abstract.component';
 
-import {RoutePart} from './list/bread.crumbs.component';
+import {RoutePart} from './bread.crumbs.component';
 
 export abstract class AbstractListComponent<T> extends AbstractComponentWithAutoRefresh implements OnInit {
 
@@ -41,18 +41,22 @@ export abstract class AbstractListComponent<T> extends AbstractComponentWithAuto
 
     private processRoute(pathParams: Params) {
         this.routeParams = pathParams;
-        this.routeParts = [{
-            title: this.rootRouteTitle,
-            routePart: this.rootRoutePath
-        }];
-        this.routingKeys.forEach((param: string) => {
+        this.routeParts = [
+            this.createRoutePart(this.rootRouteTitle, this.rootRoutePath, null, 0)
+        ];
+        this.routingKeys.forEach((param: string, index: number) => {
             if (pathParams[param]) {
-                this.routeParts.push({
-                    title: pathParams[param],
-                    routePart: pathParams[param]
-                });
+                this.routeParts.push(this.createRoutePart(pathParams[param], pathParams[param], param, index + 1));
             }
         });
+    }
+
+    protected createRoutePart(title: string, routePart: string, key: string, index: number): RoutePart {
+        return {
+            index: index,
+            title: title,
+            routePart: routePart
+        };
     }
 
     protected processData(data: T[]): void {

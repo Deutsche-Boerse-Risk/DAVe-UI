@@ -5,7 +5,7 @@ import {ErrorResponse} from '../abstract.http.service';
 import {PositionReportData} from './position.report.types';
 import {PositionReportsService} from './position.reports.service';
 
-import {AbstractLatestListComponent} from '../abstract.latest.list.component';
+import {AbstractLatestListComponent} from '../list/abstract.latest.list.component';
 
 export const routingKeys: string[] = ['clearer', 'member', 'account', 'class', 'symbol', 'putCall',
     'strikePrice', 'optAttribute', 'maturityMonthYear'];
@@ -15,8 +15,7 @@ export const exportKeys: string[] = ['clearer', 'member', 'account', 'bizDt', 's
     'optionAssignmentQty', 'allocationTradeQty', 'deliveryNoticeQty', 'clearingCcy', 'mVar', 'compVar',
     'compCorrelationBreak', 'compCompressionError', 'compLiquidityAddOn', 'compLongOptionCredit', 'productCcy',
     'variationMarginPremiumPayment', 'premiumMargin', 'delta', 'gamma', 'vega', 'rho', 'theta', 'received', 'class',
-    'underlying', 'netLS', 'netEA'
-];
+    'underlying', 'netLS', 'netEA'];
 
 const defaultOrdering = ['-absCompVar', 'clearer', 'member', 'account', 'symbol', 'putCall', 'strikePrice',
     'optAttribute', 'maturityMonthYear'];

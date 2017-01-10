@@ -5,7 +5,7 @@ import {ErrorResponse} from '../abstract.http.service';
 import {RiskLimitsService} from './risk.limits.service';
 import {RiskLimitsData} from './risk.limits.types';
 
-import {AbstractHistoryListComponent, LineChartColumn} from '../abstract.history.list.component';
+import {AbstractHistoryListComponent, LineChartColumn} from '../list/abstract.history.list.component';
 
 import {exportKeys, routingKeys} from './risk.limit.latest.component';
 

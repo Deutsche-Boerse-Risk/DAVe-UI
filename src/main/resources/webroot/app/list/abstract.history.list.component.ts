@@ -1,8 +1,10 @@
 import {AbstractListComponent} from './abstract.list.component';
 
-import {ChartData, ChartColumn, ChartRow, LineChartOptions} from './common/chart.types';
+import {ChartData, ChartColumn, LineChartOptions} from '../common/chart.types';
 
-import {DATE_PIPE, NUMBER_PIPE} from './common/common.module';
+import {DATE_PIPE, NUMBER_PIPE} from '../common/common.module';
+
+import {RoutePart} from './bread.crumbs.component';
 
 export interface LineChartColumn extends ChartColumn {
     value: any;
@@ -74,6 +76,15 @@ export abstract class AbstractHistoryListComponent<T> extends AbstractListCompon
             }
         }
     };
+
+    protected createRoutePart(title: string, routePath: string, key: string, index: number): RoutePart {
+        if (index === 0) {
+            let part: RoutePart = super.createRoutePart(title, routePath, key, index);
+            part.inactive = true;
+            return part;
+        }
+        return super.createRoutePart(title, routePath, key, index)
+    }
 
     protected processData(data: T[]): void {
         super.processData(data);

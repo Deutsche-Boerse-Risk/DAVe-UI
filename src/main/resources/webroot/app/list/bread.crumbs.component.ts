@@ -4,6 +4,7 @@ export interface RoutePart {
     title: string;
     routePart: string;
     index?: number;
+    inactive?: boolean;
 }
 
 @Component({
@@ -16,9 +17,6 @@ export class BreadCrumbsComponent implements OnChanges {
 
     @Input()
     public routeParts: RoutePart[];
-
-    @Input()
-    public rootActive: boolean = true;
 
     public filteredRouteParts: RoutePart[];
 

@@ -5,7 +5,7 @@ import {ErrorResponse} from '../abstract.http.service';
 import {TotalMarginService} from './total.margin.service';
 import {TotalMarginData} from './total.margin.types';
 
-import {AbstractHistoryListComponent, LineChartColumn} from '../abstract.history.list.component';
+import {AbstractHistoryListComponent, LineChartColumn} from '../list/abstract.history.list.component';
 
 import {exportKeys, routingKeys} from './total.margin.requirement.latest.component';
 

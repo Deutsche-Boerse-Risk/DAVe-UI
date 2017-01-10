@@ -5,7 +5,8 @@ import {ErrorResponse} from '../abstract.http.service';
 import {MarginShortfallSurplusService} from './margin.shortfall.surplus.service';
 import {MarginShortfallSurplusData} from './margin.types';
 
-import {AbstractHistoryListComponent, LineChartColumn} from '../abstract.history.list.component';
+import {AbstractHistoryListComponent, LineChartColumn} from '../list/abstract.history.list.component';
+import {RoutePart} from '../list/bread.crumbs.component';
 
 import {exportKeys, routingKeys} from './margin.shortfall.surplus.latest.component';
 
@@ -67,6 +68,15 @@ export class MarginShortfallSurplusHistoryComponent extends AbstractHistoryListC
                 value: record.marginCall,
             }
         ];
+    }
+
+    protected createRoutePart(title: string, routePath: string, key: string, index: number): RoutePart {
+        if (key === 'ccy') {
+            let part: RoutePart = super.createRoutePart(title, routePath, key, index);
+            part.inactive = true;
+            return part;
+        }
+        return super.createRoutePart(title, routePath, key, index)
     }
 
     public get defaultOrdering(): string[] {

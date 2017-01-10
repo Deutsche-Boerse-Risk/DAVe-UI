@@ -5,7 +5,7 @@ import {ErrorResponse} from '../abstract.http.service';
 import {PositionReportData} from './position.report.types';
 import {PositionReportsService} from './position.reports.service';
 
-import {AbstractHistoryListComponent, LineChartColumn} from '../abstract.history.list.component';
+import {AbstractHistoryListComponent, LineChartColumn} from '../list/abstract.history.list.component';
 
 import {exportKeys, routingKeys} from './position.report.latest.component';
 

@@ -5,13 +5,12 @@ import {ErrorResponse} from '../abstract.http.service';
 import {MarginShortfallSurplusService} from './margin.shortfall.surplus.service';
 import {MarginShortfallSurplusData} from './margin.types';
 
-import {AbstractLatestListComponent} from '../abstract.latest.list.component';
+import {AbstractLatestListComponent} from '../list/abstract.latest.list.component';
 
 export const routingKeys: string[] = ['clearer', 'pool', 'member', 'clearingCcy'];
 
-export const exportKeys: string[] = ['clearer', 'pool', 'poolType', 'member', 'clearingCcy', 'ccy', 'bizDt', 'marginRequirement',
-    'securityCollateral', 'cashBalance', 'shortfallSurplus', 'marginCall', 'received'
-];
+export const exportKeys: string[] = ['clearer', 'pool', 'poolType', 'member', 'clearingCcy', 'ccy', 'bizDt',
+    'marginRequirement', 'securityCollateral', 'cashBalance', 'shortfallSurplus', 'marginCall', 'received'];
 
 const defaultOrdering = ['shortfallSurplus', 'clearer', 'pool', 'member', 'clearingCcy', 'ccy'];
 

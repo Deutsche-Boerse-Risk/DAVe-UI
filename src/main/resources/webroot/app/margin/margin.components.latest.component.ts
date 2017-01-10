@@ -5,13 +5,12 @@ import {ErrorResponse} from '../abstract.http.service';
 import {MarginComponentsService} from './margin.components.service';
 import {MarginComponentsRowData} from './margin.types';
 
-import {AbstractLatestListComponent} from '../abstract.latest.list.component';
+import {AbstractLatestListComponent} from '../list/abstract.latest.list.component';
 
 export const routingKeys: string[] = ['clearer', 'member', 'account', 'class', 'ccy'];
 
-export const exportKeys: string[] = ['clearer', 'member', 'account', 'class', 'ccy', 'bizDt', 'variationMargin', 'premiumMargin',
-    'liquiMargin', 'spreadMargin', 'additionalMargin', 'variLiqui', 'received'
-];
+export const exportKeys: string[] = ['clearer', 'member', 'account', 'class', 'ccy', 'bizDt', 'variationMargin',
+    'premiumMargin', 'liquiMargin', 'spreadMargin', 'additionalMargin', 'variLiqui', 'received'];
 
 const defaultOrdering = ['-absAdditionalMargin', 'clearer', 'member', 'account', 'class', 'ccy'];
 

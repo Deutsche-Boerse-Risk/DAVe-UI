@@ -5,7 +5,7 @@ import {ErrorResponse} from '../abstract.http.service';
 import {TotalMarginService} from './total.margin.service';
 import {TotalMarginData} from './total.margin.types';
 
-import {AbstractLatestListComponent} from '../abstract.latest.list.component';
+import {AbstractLatestListComponent} from '../list/abstract.latest.list.component';
 
 export const routingKeys: string[] = ['clearer', 'pool', 'member', 'account', 'ccy'];
 
