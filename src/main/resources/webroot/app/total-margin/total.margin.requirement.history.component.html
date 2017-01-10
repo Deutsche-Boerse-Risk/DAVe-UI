@@ -5,10 +5,12 @@
               [data]="data"
               [initialLoad]="initialLoad"
               [errorMessage]="errorMessage">
-    <div class="panel-body" ng-if="vm.chartData.length > 0">
-        <!--<div id="tmrHistoryChart" line-chart line-data="vm.chartData" line-xkey='period'-->
-        <!--line-ykeys='["adjustedMargin", "unadjustedMargin"]'-->
-        <!--line-labels='["Adjusted Marign", "Unadjusted Margin"]' line-colors='["#31C0BE", "#c7254e"]'></div>-->
+    <div class="panel-body" *ngIf="chartData?.rows?.length > 0">
+        <google-chart id="historyChart"
+                      chartType="LineChart"
+                      [chartOptions]="chartOptions"
+                      [chartData]="chartData"
+                      height="377px"></google-chart>
     </div>
 
     <data-table [data]="data"

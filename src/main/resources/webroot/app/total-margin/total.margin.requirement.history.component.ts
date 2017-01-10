@@ -1,13 +1,11 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {DATE_PIPE} from '../common/common.module';
-
 import {ErrorResponse} from '../abstract.http.service';
 import {TotalMarginService} from './total.margin.service';
 import {TotalMarginData} from './total.margin.types';
 
-import {AbstractHistoryListComponent} from '../abstract.history.list.component';
+import {AbstractHistoryListComponent, LineChartColumn} from '../abstract.history.list.component';
 
 import {exportKeys, routingKeys} from './total.margin.requirement.latest.component';
 
@@ -38,12 +36,23 @@ export class TotalMarginRequirementHistoryComponent extends AbstractHistoryListC
     }
 
 
-    protected getTickFromRecord(record: TotalMarginData): any {
-        return {
-            period: DATE_PIPE.transform(record.received, 'yyyy-MM-dd HH:mm:ss'),
-            adjustedMargin: record.adjustedMargin,
-            unadjustedMargin: record.unadjustedMargin
-        };
+    protected getTickFromRecord(record: TotalMarginData): LineChartColumn[] {
+        return [
+            {
+                type: 'date',
+                value: record.received
+            },
+            {
+                label: 'Adjusted Marign',
+                type: 'number',
+                value: record.adjustedMargin,
+            },
+            {
+                label: 'Unadjusted Margin',
+                type: 'number',
+                value: record.unadjustedMargin,
+            }
+        ]
     }
 
     public get defaultOrdering(): string[] {

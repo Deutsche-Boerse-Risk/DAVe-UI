@@ -77,7 +77,7 @@ export class PositionReportsService extends AbstractHttpService<PositionReportSe
                             rho: record.rho,
                             theta: record.theta,
                             underlying: record.underlying,
-                            received: record.received
+                            received: new Date(record.received)
                         };
                         row.netLS = record.crossMarginLongQty - record.crossMarginShortQty;
                         row.netEA = (record.optionExcerciseQty - record.optionAssignmentQty) + (record.allocationTradeQty - record.deliveryNoticeQty);
@@ -150,7 +150,7 @@ export class PositionReportsService extends AbstractHttpService<PositionReportSe
                             rho: record.rho,
                             theta: record.theta,
                             underlying: record.underlying,
-                            received: record.received
+                            received: new Date(record.received)
                         };
                         row.netLS = record.crossMarginLongQty - record.crossMarginShortQty;
                         row.netEA = (record.optionExcerciseQty - record.optionAssignmentQty) + (record.allocationTradeQty - record.deliveryNoticeQty);

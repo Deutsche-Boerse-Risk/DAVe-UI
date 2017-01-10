@@ -36,5 +36,5 @@ export interface RiskLimitsData {
     throttleUtil?: number;
     rejectLevel: number;
     rejectUtil?: number;
-    received: string;
+    received: Date;
 }

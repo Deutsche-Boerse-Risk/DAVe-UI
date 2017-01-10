@@ -1,13 +1,11 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {DATE_PIPE} from '../common/common.module';
-
 import {ErrorResponse} from '../abstract.http.service';
 import {MarginComponentsService} from './margin.components.service';
 import {MarginComponentsRowData} from './margin.types';
 
-import {AbstractHistoryListComponent} from '../abstract.history.list.component';
+import {AbstractHistoryListComponent, LineChartColumn} from '../abstract.history.list.component';
 
 import {exportKeys, routingKeys} from './margin.components.latest.component';
 
@@ -37,14 +35,33 @@ export class MarginComponentsHistoryComponent extends AbstractHistoryListCompone
             });
     }
 
-    protected getTickFromRecord(record: MarginComponentsRowData): any {
-        return {
-            period: DATE_PIPE.transform(record.received, 'yyyy-MM-dd HH:mm:ss'),
-            variLiqui: record.variLiqui,
-            premiumMargin: record.premiumMargin,
-            spreadMargin: record.spreadMargin,
-            additionalMargin: record.additionalMargin
-        };
+    protected getTickFromRecord(record: MarginComponentsRowData): LineChartColumn[] {
+        return [
+            {
+                type: 'date',
+                value: record.received
+            },
+            {
+                label: 'Variation / Liquidation Marign',
+                type: 'number',
+                value: record.variLiqui,
+            },
+            {
+                label: 'Premium Margin',
+                type: 'number',
+                value: record.premiumMargin,
+            },
+            {
+                label: 'Spread Margin',
+                type: 'number',
+                value: record.spreadMargin,
+            },
+            {
+                label: 'Additional Margin',
+                type: 'number',
+                value: record.additionalMargin,
+            }
+        ];
     }
 
     public get defaultOrdering(): string[] {

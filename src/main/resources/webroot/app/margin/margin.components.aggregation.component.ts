@@ -16,7 +16,7 @@ const defaultOrdering = ['-absAdditionalMargin', 'clearer', 'member', 'account']
 })
 export class MarginComponentsAggregationComponent extends AbstractComponentWithAutoRefresh {
 
-    public initialLoad: boolean = false;
+    public initialLoad: boolean = true;
 
     public errorMessage: string;
 

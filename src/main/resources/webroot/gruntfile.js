@@ -102,7 +102,7 @@ module.exports = function (grunt) {
     grunt.initConfig({
         clean: {
             all: {
-                src: []// TODO enable once migrated [destination, 'ngFactories/'].concat(cssPattern).concat(compiledJSPattern)
+                src: [destination, 'ngFactories/'].concat(cssPattern).concat(compiledJSPattern)
             }
         },
         ts: {

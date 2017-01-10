@@ -140,13 +140,17 @@ export class PositionReportBubbleChartComponent extends AbstractComponentWithAut
                 c: [
                     {
                         v: bubbles[i].key
-                    }, {
+                    },
+                    {
                         v: series[hAxisKey]
-                    }, {
+                    },
+                    {
                         v: underlyings[vAxisKey]
-                    }, {
+                    },
+                    {
                         v: bubbles[i].radius >= 0 ? compVarPositiveLegend : compVarNegativeLegend
-                    }, {
+                    },
+                    {
                         v: Math.abs(bubbles[i].radius)
                     }
                 ]
@@ -225,7 +229,6 @@ export class PositionReportBubbleChartComponent extends AbstractComponentWithAut
                 color: 'green'
             }
         },
-        fontColor: 'black',
         sortBubblesBySize: true,
         titlePosition: 'none',
         titleTextStyle: {

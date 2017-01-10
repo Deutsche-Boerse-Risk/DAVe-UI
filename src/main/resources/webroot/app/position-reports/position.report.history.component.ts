@@ -1,13 +1,11 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {DATE_PIPE} from '../common/common.module';
-
 import {ErrorResponse} from '../abstract.http.service';
 import {PositionReportData} from './position.report.types';
 import {PositionReportsService} from './position.reports.service';
 
-import {AbstractHistoryListComponent} from '../abstract.history.list.component';
+import {AbstractHistoryListComponent, LineChartColumn} from '../abstract.history.list.component';
 
 import {exportKeys, routingKeys} from './position.report.latest.component';
 
@@ -40,16 +38,43 @@ export class PositionReportHistoryComponent extends AbstractHistoryListComponent
     }
 
 
-    protected getTickFromRecord(record: PositionReportData): any {
-        return {
-            period: DATE_PIPE.transform(record.received, 'yyyy-MM-dd HH:mm:ss'),
-            netLS: record.netLS,
-            netEA: record.netEA,
-            mVar: record.mVar,
-            compVar: record.compVar,
-            delta: record.delta,
-            compLiquidityAddOn: record.compLiquidityAddOn
-        };
+    protected getTickFromRecord(record: PositionReportData): LineChartColumn[] {
+        return [
+            {
+                type: 'date',
+                value: record.received
+            },
+            {
+                label: 'NetLS',
+                type: 'number',
+                value: record.netLS,
+            },
+            {
+                label: 'NetEA',
+                type: 'number',
+                value: record.netEA,
+            },
+            {
+                label: 'MVar',
+                type: 'number',
+                value: record.mVar,
+            },
+            {
+                label: 'CompVar',
+                type: 'number',
+                value: record.compVar,
+            },
+            {
+                label: 'Delta',
+                type: 'number',
+                value: record.delta,
+            },
+            {
+                label: 'LiquiAddOn',
+                type: 'number',
+                value: record.compLiquidityAddOn
+            }
+        ];
     }
 
     public get defaultOrdering(): string[] {

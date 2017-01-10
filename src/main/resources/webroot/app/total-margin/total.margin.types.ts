@@ -33,5 +33,5 @@ export interface TotalMarginData {
     adjustedMargin: number;
     unadjustedMargin: number;
     bizDt: string;
-    received: string;
+    received: Date;
 }

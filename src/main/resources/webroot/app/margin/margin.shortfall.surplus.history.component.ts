@@ -1,13 +1,11 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {DATE_PIPE} from '../common/common.module';
-
 import {ErrorResponse} from '../abstract.http.service';
 import {MarginShortfallSurplusService} from './margin.shortfall.surplus.service';
 import {MarginShortfallSurplusData} from './margin.types';
 
-import {AbstractHistoryListComponent} from '../abstract.history.list.component';
+import {AbstractHistoryListComponent, LineChartColumn} from '../abstract.history.list.component';
 
 import {exportKeys, routingKeys} from './margin.shortfall.surplus.latest.component';
 
@@ -27,7 +25,7 @@ export class MarginShortfallSurplusHistoryComponent extends AbstractHistoryListC
 
     protected loadData(): void {
         this.marginShortfallSurplusService.getShortfallSurplusHistory(this.routeParams['clearer'], this.routeParams['pool'],
-            this.routeParams['member'], this.routeParams['clearingCcy'])
+            this.routeParams['member'], this.routeParams['clearingCcy'], this.routeParams['ccy'])
             .then((rows: MarginShortfallSurplusData[]) => {
                 this.processData(rows);
             })
@@ -37,15 +35,38 @@ export class MarginShortfallSurplusHistoryComponent extends AbstractHistoryListC
             });
     }
 
-    protected getTickFromRecord(record: MarginShortfallSurplusData): any {
-        return {
-            period: DATE_PIPE.transform(record.received, 'yyyy-MM-dd HH:mm:ss'),
-            marginRequirement: record.marginRequirement,
-            securityCollateral: record.securityCollateral,
-            cashBalance: record.cashBalance,
-            shortfallSurplus: record.shortfallSurplus,
-            marginCall: record.marginCall
-        };
+    protected getTickFromRecord(record: MarginShortfallSurplusData): LineChartColumn[] {
+        return [
+            {
+                type: 'date',
+                value: record.received
+            },
+            {
+                label: 'Margin Requirement',
+                type: 'number',
+                value: record.marginRequirement,
+            },
+            {
+                label: 'Security Collateral',
+                type: 'number',
+                value: record.securityCollateral,
+            },
+            {
+                label: 'Cash Balance',
+                type: 'number',
+                value: record.cashBalance,
+            },
+            {
+                label: 'Shortfall Surplus',
+                type: 'number',
+                value: record.shortfallSurplus,
+            },
+            {
+                label: 'Margin Call',
+                type: 'number',
+                value: record.marginCall,
+            }
+        ];
     }
 
     public get defaultOrdering(): string[] {
@@ -57,7 +78,7 @@ export class MarginShortfallSurplusHistoryComponent extends AbstractHistoryListC
     }
 
     protected get routingKeys(): string[] {
-        return routingKeys;
+        return routingKeys.concat(['ccy']);
     }
 
     protected get rootRouteTitle(): string {

@@ -1,13 +1,11 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {DATE_PIPE} from '../common/common.module';
-
 import {ErrorResponse} from '../abstract.http.service';
 import {RiskLimitsService} from './risk.limits.service';
 import {RiskLimitsData} from './risk.limits.types';
 
-import {AbstractHistoryListComponent} from '../abstract.history.list.component';
+import {AbstractHistoryListComponent, LineChartColumn} from '../abstract.history.list.component';
 
 import {exportKeys, routingKeys} from './risk.limit.latest.component';
 
@@ -37,14 +35,33 @@ export class RiskLimitHistoryComponent extends AbstractHistoryListComponent<Risk
             });
     }
 
-    protected getTickFromRecord(record: RiskLimitsData): any {
-        return {
-            period: DATE_PIPE.transform(record.received, 'yyyy-MM-dd HH:mm:ss'),
-            utilization: record.utilization,
-            warningLevel: record.warningLevel,
-            throttleLevel: record.throttleLevel,
-            rejectLevel: record.rejectLevel
-        };
+    protected getTickFromRecord(record: RiskLimitsData): LineChartColumn[] {
+        return [
+            {
+                type: 'date',
+                value: record.received
+            },
+            {
+                label: 'Limit utilization',
+                type: 'number',
+                value: record.utilization,
+            },
+            {
+                label: 'Warning level',
+                type: 'number',
+                value: record.warningLevel,
+            },
+            {
+                label: 'Throttle level',
+                type: 'number',
+                value: record.throttleLevel,
+            },
+            {
+                label: 'Stop level',
+                type: 'number',
+                value: record.rejectLevel,
+            }
+        ];
     }
 
     public get defaultOrdering(): string[] {

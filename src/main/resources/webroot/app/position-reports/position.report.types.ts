@@ -96,7 +96,7 @@ export interface PositionReportData extends PositionReportBase {
     rho: number;
     theta: number;
     underlying: string;
-    received: string;
+    received: Date;
 }
 
 export type SelectValues = {

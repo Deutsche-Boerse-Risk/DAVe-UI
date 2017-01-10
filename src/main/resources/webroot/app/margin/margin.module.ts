@@ -9,13 +9,14 @@ import {ListModule} from '../list/list.module';
 import {MarginComponentsService} from './margin.components.service';
 
 import {MarginComponentsAggregationComponent} from './margin.components.aggregation.component';
+import {MarginComponentsTreemapComponent} from './margin.components.treemap.component';
 import {MarginComponentsLatestComponent} from './margin.components.latest.component';
+import {MarginComponentsHistoryComponent} from './margin.components.history.component';
 
 import {MarginShortfallSurplusService} from './margin.shortfall.surplus.service';
 
 import {MarginShortfallSurplusLatestSummaryComponent} from './margin.shortfall.surplus.latest.summary.component';
 import {MarginShortfallSurplusLatestComponent} from './margin.shortfall.surplus.latest.component';
-import {MarginComponentsHistoryComponent} from './margin.components.history.component';
 import {MarginShortfallSurplusHistoryComponent} from './margin.shortfall.surplus.history.component';
 
 @NgModule({
@@ -28,6 +29,7 @@ import {MarginShortfallSurplusHistoryComponent} from './margin.shortfall.surplus
     ],
     declarations: [
         MarginComponentsAggregationComponent,
+        MarginComponentsTreemapComponent,
         MarginComponentsLatestComponent,
         MarginComponentsHistoryComponent,
         MarginShortfallSurplusLatestSummaryComponent,
@@ -36,6 +38,7 @@ import {MarginShortfallSurplusHistoryComponent} from './margin.shortfall.surplus
     ],
     exports: [
         MarginComponentsAggregationComponent,
+        MarginComponentsTreemapComponent,
         MarginComponentsLatestComponent,
         MarginComponentsHistoryComponent,
         MarginShortfallSurplusLatestSummaryComponent,

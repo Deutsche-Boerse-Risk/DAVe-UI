@@ -46,7 +46,7 @@ export interface MarginShortfallSurplusData extends MarginShortfallSurplusBase {
     clearingCcy: string;
     ccy: string;
     bizDt: string;
-    received: string;
+    received: Date;
 }
 
 export interface MarginComponentsServerData {
@@ -101,7 +101,7 @@ export interface MarginComponentsRowData extends MarginComponentsBaseData {
     ccy: string;
     bizDt: string;
     variLiqui?: number;
-    received: string;
+    received: Date;
 }
 
 export interface MarginComponentsAggregationData {

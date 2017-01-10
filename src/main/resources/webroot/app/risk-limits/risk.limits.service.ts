@@ -40,7 +40,7 @@ export class RiskLimitsService extends AbstractHttpService<RiskLimitsServerData[
                             warningLevel: record.warningLevel,
                             throttleLevel: record.throttleLevel,
                             rejectLevel: record.rejectLevel,
-                            received: record.received
+                            received: new Date(record.received)
                         };
 
                         if (record.warningLevel > 0) {
@@ -89,7 +89,7 @@ export class RiskLimitsService extends AbstractHttpService<RiskLimitsServerData[
                             warningLevel: record.warningLevel,
                             throttleLevel: record.throttleLevel,
                             rejectLevel: record.rejectLevel,
-                            received: record.received
+                            received: new Date(record.received)
                         };
 
                         if (record.warningLevel > 0) {

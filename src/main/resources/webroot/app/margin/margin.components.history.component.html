@@ -5,11 +5,12 @@
               [data]="data"
               [initialLoad]="initialLoad"
               [errorMessage]="errorMessage">
-    <div class="panel-body" ng-if="vm.chartData.length > 0">
-        <!--<div id="mcHistoryChart" line-chart line-data="vm.chartData" line-xkey='period'-->
-        <!--line-ykeys='["variLiqui", "premiumMargin", "spreadMargin", "additionalMargin"]'-->
-        <!--line-labels='["Variation / Liquidation Marign", "Premium Margin", "Spread Margin", "Additional Margin"]'-->
-        <!--line-colors='["#31C0BE", "#c7254e", "#800000", "#808000", "#FF00FF"]'></div>-->
+    <div class="panel-body" *ngIf="chartData?.rows?.length > 0">
+        <google-chart id="historyChart"
+                      chartType="LineChart"
+                      [chartOptions]="chartOptions"
+                      [chartData]="chartData"
+                      height="377px"></google-chart>
     </div>
 
     <data-table [data]="data"

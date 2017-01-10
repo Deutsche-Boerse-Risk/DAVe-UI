@@ -14,7 +14,6 @@
                     <i class="fa fa-adjust" aria-hidden="true"></i> Position Level Risk
                 </a>
             </li>
-            <!--<li><a data-target="#tmr" (click)="setActiveTab('tmr')" data-toggle="tab"><i class="fa fa-th-list fa-fw"></i>Total Margin Requirement</a></li>-->
             <li>
                 <a data-target="#im" (click)="setActiveTab('im')" data-toggle="tab">
                     <i class="fa fa-th fa-fw"></i> Initial Margin
@@ -25,11 +24,8 @@
             <div class="tab-pane fade" id="cv" *ngIf="activeTab === 'cv'">
                 <position-report-bubblechart></position-report-bubblechart>
             </div>
-            <div class="tab-pane fade" id="tmr" *ngIf="activeTab === 'tmr'">
-                <!--TODO: <ng-include src="'app/total-margin/total-margin-treemap.html'"></ng-include>-->
-            </div>
             <div class="tab-pane fade" id="im" *ngIf="activeTab === 'im'">
-                <!--TODO: <ng-include src="'app/margin/margin-component-treemap.html'"></ng-include>-->
+                <margin-components-treemap></margin-components-treemap>
             </div>
             <div class="tab-pane fade in active" id="overview" *ngIf="activeTab === 'overview'">
                 <div class="panel panel-default" style="border-top: 0">

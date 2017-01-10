@@ -10,7 +10,7 @@ import {
 
 const marginShortfallSurplusURL: string = '/mss/latest';
 const marginShortfallSurplusLatestURL: string = '/mss/latest/:0/:1/:2/:3';
-const marginShortfallSurplusHistoryURL: string = '/mss/history/:0/:1/:2/:3';
+const marginShortfallSurplusHistoryURL: string = '/mss/history/:0/:1/:2/:3/:4';
 
 @Injectable()
 export class MarginShortfallSurplusService extends AbstractHttpService<MarginShortfallSurplusServerData[]> {
@@ -65,7 +65,7 @@ export class MarginShortfallSurplusService extends AbstractHttpService<MarginSho
                             clearer: record.clearer,
                             member: record.member,
                             bizDt: record.bizDt,
-                            received: record.received,
+                            received: new Date(record.received),
                             ccy: record.ccy,
                             cashBalance: record.cashBalance,
                             clearingCcy: record.clearingCcy,
@@ -87,7 +87,7 @@ export class MarginShortfallSurplusService extends AbstractHttpService<MarginSho
         });
     }
 
-    public getShortfallSurplusHistory(clearer: string, pool: string, member: string, clearingCcy: string): Promise<MarginShortfallSurplusData[]> {
+    public getShortfallSurplusHistory(clearer: string, pool: string, member: string, clearingCcy: string, ccy: string): Promise<MarginShortfallSurplusData[]> {
         return new Promise((resolve, reject) => {
             this.get({
                 resourceURL: marginShortfallSurplusHistoryURL,
@@ -95,7 +95,8 @@ export class MarginShortfallSurplusService extends AbstractHttpService<MarginSho
                     clearer,
                     pool,
                     member,
-                    clearingCcy
+                    clearingCcy,
+                    ccy
                 ]
             }).subscribe((data: MarginShortfallSurplusServerData[]) => {
                 let result: MarginShortfallSurplusData[] = [];
@@ -105,7 +106,7 @@ export class MarginShortfallSurplusService extends AbstractHttpService<MarginSho
                             clearer: record.clearer,
                             member: record.member,
                             bizDt: record.bizDt,
-                            received: record.received,
+                            received: new Date(record.received),
                             ccy: record.ccy,
                             cashBalance: record.cashBalance,
                             clearingCcy: record.clearingCcy,
