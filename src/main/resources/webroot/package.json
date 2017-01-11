@@ -26,8 +26,12 @@
     "web-animations-js": "^2.2.2",
     "systemjs": "^0.19.41",
     "zone.js": "^0.7.2",
-    "bootstrap-sass": "^3.3.7",
-    "angular2-jwt": "^0.1.27"
+    "angular2-jwt": "^0.1.27",
+    "jquery": "^3.1.0",
+    "bootstrap": "^3.3.7",
+    "sb-admin-2": "^3.3.7",
+    "font-awesome": "^4.6.3",
+    "metismenu": "^1.1.3"
   },
   "devDependencies": {
     "grunt": "^1.0.1",

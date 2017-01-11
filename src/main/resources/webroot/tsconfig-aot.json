@@ -1,28 +1,28 @@
 {
-    "compilerOptions": {
-        "target": "es5",
-        "module": "es2015",
-        "moduleResolution": "node",
-        "sourceMap": true,
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "lib": [
-            "es6",
-            "dom"
-        ],
-        "noImplicitAny": false,
-        "suppressImplicitAnyIndexErrors": true,
-        "outDir": "dist/"
-    },
-    "files": [
-        "app/app.module.ts",
-        "app/main.aot.ts"
+  "compilerOptions": {
+    "target": "es5",
+    "module": "es2015",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "lib": [
+      "es6",
+      "dom"
     ],
-    "exclude": [
-        "node_modules"
-    ],
-    "angularCompilerOptions": {
-        "genDir": "ngFactories/",
-        "skipMetadataEmit" : true
-    }
+    "noImplicitAny": false,
+    "suppressImplicitAnyIndexErrors": true,
+    "outDir": "dist/"
+  },
+  "files": [
+    "app/app.module.ts",
+    "app/main.aot.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
+  "angularCompilerOptions": {
+    "genDir": "ngFactories/",
+    "skipMetadataEmit": true
+  }
 }

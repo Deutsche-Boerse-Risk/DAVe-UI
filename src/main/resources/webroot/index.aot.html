@@ -12,25 +12,30 @@
     <title>DAVe</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="./vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- MetisMenu CSS -->
-    <link href="./vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+    <link href="./node_modules/metismenu/dist/metisMenu.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="./vendor/sb-admin-2/sb-admin-2.css" rel="stylesheet">
+    <link href="./node_modules/sb-admin-2/dist/css/sb-admin-2.css" rel="stylesheet">
 
     <!-- DAVe CSS -->
-    <link href="app/app.component.scss" rel="stylesheet">
+    <link href="app/styles.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="./vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="./node_modules/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Load libraries -->
+    <!-- Polyfill(s) for older browsers -->
+    <script src="node_modules/core-js/client/shim.min.js"></script>
+    <script src="node_modules/web-animations-js/web-animations.min.js"></script>
 
     <!-- jQuery -->
-    <script src="./vendor/jquery/jquery.min.js"></script>
+    <script src="./node_modules/jquery/dist/jquery.min.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="./vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 
     <!-- Google Charts -->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -38,10 +43,7 @@
         window.googleLoaded = false;
     </script>
 
-    <!-- Load libraries -->
-    <!-- Polyfill(s) for older browsers -->
-    <script src="node_modules/core-js/client/shim.min.js"></script>
-    <script src="node_modules/web-animations-js/web-animations.min.js"></script>
+    <!-- Angular required libs -->
     <script src="node_modules/zone.js/dist/zone.min.js"></script>
     <script>window.module = 'aot';</script>
 </head>
