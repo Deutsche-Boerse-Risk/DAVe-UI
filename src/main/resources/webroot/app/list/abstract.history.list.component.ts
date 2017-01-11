@@ -41,9 +41,6 @@ export abstract class AbstractHistoryListComponent<T> extends AbstractListCompon
                 }
             }
         },
-        explorer: {
-            actions: ['dragToZoom', 'rightClickToReset']
-        },
         chartArea: {
             top: '2%',
             height: '88%',

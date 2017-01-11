@@ -139,19 +139,23 @@ export class PositionReportBubbleChartComponent extends AbstractComponentWithAut
             rows.push({
                 c: [
                     {
-                        v: bubbles[i].key
+                        v: bubbles[i].key,
+                        f: ''
                     },
                     {
-                        v: series[hAxisKey]
+                        v: series[hAxisKey],
+                        f: hAxisKey
                     },
                     {
-                        v: underlyings[vAxisKey]
+                        v: underlyings[vAxisKey],
+                        f: vAxisKey
                     },
                     {
                         v: bubbles[i].radius >= 0 ? compVarPositiveLegend : compVarNegativeLegend
                     },
                     {
-                        v: Math.abs(bubbles[i].radius)
+                        v: Math.abs(bubbles[i].radius),
+                        f: NUMBER_PIPE.transform(bubbles[i].radius, '.2-2')
                     }
                 ]
             });
@@ -175,16 +179,20 @@ export class PositionReportBubbleChartComponent extends AbstractComponentWithAut
                 type: 'string'
             }, {
                 id: 'mmy',
-                type: 'number'
+                type: 'number',
+                label: 'Series-Maturity'
             }, {
                 id: 'underlying',
-                type: 'number'
+                type: 'number',
+                label: 'Underlying'
             }, {
                 id: 'offset',
-                type: 'string'
+                type: 'string',
+                label: 'Contributing'
             }, {
                 id: 'compVar',
-                type: 'number'
+                type: 'number',
+                label: 'Value at risk'
             }],
             rows: rows
         };
