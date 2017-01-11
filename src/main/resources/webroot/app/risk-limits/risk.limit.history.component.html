@@ -29,62 +29,46 @@
             </template>
         </column>
         <column title="Warning Level">
-            <template let-record="row" cell-template>
-                {{record.warningLevel | number:'.2-2'}}
-            </template>
+            <column title="Limit"
+                    sortingKey="warningLevel">
+                <template let-record="row" cell-template>
+                    {{record.warningLevel | number:'.2-2'}}
+                </template>
+            </column>
+            <column title="Utilization"
+                    sortingKey="warningUtil">
+                <template let-record="row" cell-template>
+                    {{record.warningUtil | percent:'.0-0'}}
+                </template>
+            </column>
         </column>
         <column title="Throttle Level">
-            <template let-record="row" cell-template>
-                {{record.throttleLevel | number:'.2-2'}}
-            </template>
+            <column title="Limit"
+                    sortingKey="throttleLevel">
+                <template let-record="row" cell-template>
+                    {{record.throttleLevel | number:'.2-2'}}
+                </template>
+            </column>
+            <column title="Utilization"
+                    sortingKey="throttleUtil">
+                <template let-record="row" cell-template>
+                    {{record.throttleUtil | percent:'.0-0'}}
+                </template>
+            </column>
         </column>
         <column title="Stop Level">
-            <template let-record="row" cell-template>
-                {{record.rejectLevel | number:'.2-2'}}
-            </template>
+            <column title="Limit"
+                    sortingKey="rejectLevel">
+                <template let-record="row" cell-template>
+                    {{record.rejectLevel | number:'.2-2'}}
+                </template>
+            </column>
+            <column title="Utilization"
+                    sortingKey="rejectUtil">
+                <template let-record="row" cell-template>
+                    {{record.rejectUtil | percent:'.0-0'}}
+                </template>
+            </column>
         </column>
     </data-table>
 </list-content>
-
-<!-- TODO: Rowspans/Colspans
-<div class="panel-body" ng-if="vm.viewWindow.length > 0">
-    <table class="table table-striped table-bordered table-hover">
-        <thead>
-        <tr>
-            <th rowspan="2">Last update <span class="fa fa-sort" aria-hidden="true"
-                                              ng-click="vm.sortRecords('received')"></span></th>
-            <th rowspan="2">Limit utilization <span class="fa fa-sort" aria-hidden="true"
-                                                    ng-click="vm.sortRecords('utilization')"></span></th>
-            <th colspan="2">Warning Level</th>
-            <th colspan="2">Throttle Level</th>
-            <th colspan="2">Stop Level</th>
-        </tr>
-        <tr>
-            <th>Limit <span class="fa fa-sort" aria-hidden="true"
-                            ng-click="vm.sortRecords('warningLevel')"></span></th>
-            <th>Utilization <span class="fa fa-sort" aria-hidden="true"
-                                  ng-click="vm.sortRecords('warningUtil')"></span></th>
-            <th>Limit <span class="fa fa-sort" aria-hidden="true"
-                            ng-click="vm.sortRecords('throttleLevel')"></span></th>
-            <th>Utilization <span class="fa fa-sort" aria-hidden="true"
-                                  ng-click="vm.sortRecords('throttleUtil')"></span></th>
-            <th>Limit <span class="fa fa-sort" aria-hidden="true"
-                            ng-click="vm.sortRecords('rejectLevel')"></span></th>
-            <th>Utilization <span class="fa fa-sort" aria-hidden="true"
-                                  ng-click="vm.sortRecords('rejectUtil')"></span></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="record in vm.viewWindow track by record.id.$oid" row-highlighter="record.id.$oid">
-            <td highlighter="record.received">{{record.received | date:'HH:mm:ss'}}</td>
-            <td highlighter="record.utilization">{{record.utilization | number:2}}</td>
-            <td highlighter="record.warningLevel">{{record.warningLevel | number:2}}</td>
-            <td highlighter="record.warningUtil">{{record.warningUtil | percentage:0}}</td>
-            <td highlighter="record.throttleLevel">{{record.throttleLevel | number:2}}</td>
-            <td highlighter="record.throttleUtil">{{record.throttleUtil | percentage:0}}</td>
-            <td highlighter="record.rejectLevel">{{record.rejectLevel | number:2}}</td>
-            <td highlighter="record.rejectUtil">{{record.rejectUtil | percentage:0}}</td>
-        </tr>
-        </tbody>
-    </table>
-</div> -->

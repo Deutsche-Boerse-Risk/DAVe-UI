@@ -1,8 +1,10 @@
 <div class="panel-body" *ngIf="data?.length">
     <table [class.table-striped]="striped" class="table table-bordered table-hover">
-        <thead *ngIf="hasHeader()">
-        <tr>
-            <th *ngFor="let column of columns">
+        <thead *ngIf="headerTemplates">
+        <tr *ngFor="let headerTemplate of headerTemplates">
+            <th *ngFor="let column of headerTemplate"
+                [attr.rowspan]="column.rowspan"
+                [attr.colspan]="column.colspan">
                 <template [ngIf]="column.title">{{column.title}}</template>
                 <i *ngIf="column.tooltip"
                    class="fa fa-question-circle"
@@ -17,22 +19,29 @@
             </th>
         </tr>
         </thead>
-        <tbody *ngIf="pageRows">
+        <tbody *ngIf="pageRows && rowsTemplates">
         <template ngFor let-row [ngForOf]="pageRows" expandable #expandable="expandable">
-            <tr (click)="expandable.expand(masterRow, !!rowDetailTemplate)" #masterRow>
-                <td *ngFor="let column of columns" highlighter="record.pool">
-                    <template [ngIf]="column.cellTemplate"
+            <tr *ngFor="let rowsTemplate of rowsTemplates"
+                (click)="expandable.expand(masterRow, !!detailRowGroups)"
+                #masterRow>
+                <td *ngFor="let column of rowsTemplate"
+                    highlighter="record.pool"
+                    [attr.rowspan]="column.rowspan"
+                    [attr.colspan]="column.colspan">
+                    <template *ngIf="column.cellTemplate"
                               [ngTemplateOutlet]="column.cellTemplate"
                               [ngOutletContext]="{ row: row }"></template>
                 </td>
             </tr>
-            <tr *ngIf="rowDetailTemplate" class="hidden">
-                <td [attr.colspan]="columns?.length">
+            <tr *ngIf="detailRowGroups" class="hidden">
+                <td [attr.colspan]="detailRowColspan">
                     <table class="table table-condensed">
-                        <template ngFor let-rowGroup [ngForOf]="rowDetailTemplate">
+                        <template ngFor let-rowGroup [ngForOf]="detailRowGroups">
                             <thead>
-                            <tr>
-                                <th *ngFor="let column of rowGroup">
+                            <tr *ngFor="let headerRow of rowGroup.headerTemplates">
+                                <th *ngFor="let column of headerRow"
+                                    [attr.rowspan]="column.rowspan"
+                                    [attr.colspan]="column.colspan">
                                     <template [ngIf]="column.title">{{column.title}}</template>
                                     <i *ngIf="column.tooltip"
                                        class="fa fa-question-circle"
@@ -48,9 +57,12 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr row-highlighter="record.functionalKey">
-                                <td *ngFor="let column of rowGroup" highlighter="record.pool">
-                                    <template [ngIf]="column.cellTemplate"
+                            <tr *ngFor="let bodyRow of rowGroup.rowsTemplates">
+                                <td *ngFor="let column of bodyRow"
+                                    highlighter="record.pool"
+                                    [attr.rowspan]="column.rowspan"
+                                    [attr.colspan]="column.colspan">
+                                    <template *ngIf="column.cellTemplate"
                                               [ngTemplateOutlet]="column.cellTemplate"
                                               [ngOutletContext]="{ row: row }"></template>
                                 </td>
@@ -62,10 +74,13 @@
             </tr>
         </template>
         </tbody>
-        <tfoot *ngIf="hasFooter()">
-        <tr>
-            <th *ngFor="let column of columns" highlighter="record.pool">
-                <template [ngIf]="column.footerTemplate"
+        <tfoot *ngIf="footerTemplates">
+        <tr *ngFor="let footerTemplate of footerTemplates">
+            <th *ngFor="let column of footerTemplate"
+                highlighter="record.pool"
+                [attr.rowspan]="column.rowspan"
+                [attr.colspan]="column.colspan">
+                <template *ngIf="column.footerTemplate"
                           [ngTemplateOutlet]="column.footerTemplate"
                           [ngOutletContext]="{ footer: footer }"></template>
             </th>

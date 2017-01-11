@@ -9,7 +9,7 @@ import {AbstractHistoryListComponent, LineChartColumn} from '../list/abstract.hi
 
 import {exportKeys, routingKeys} from './risk.limit.latest.component';
 
-const defaultOrdering = ['-rejectUtil', 'clearer', 'member', 'maintainer', 'limitType'];
+const defaultOrdering = ['-received'];
 
 @Component({
     moduleId: module.id,

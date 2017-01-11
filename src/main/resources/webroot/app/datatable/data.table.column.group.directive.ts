@@ -7,6 +7,6 @@ import {DataTableColumnDirective} from './data.table.column.directive';
 })
 export class DataTableColumnGroupDirective {
 
-    @ContentChildren(DataTableColumnDirective)
+    @ContentChildren(DataTableColumnDirective, {descendants: false})
     public columns: QueryList<DataTableColumnDirective>;
 }

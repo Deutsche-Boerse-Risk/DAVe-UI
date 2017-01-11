@@ -1,4 +1,4 @@
-import {Directive, Input, ContentChild, TemplateRef, QueryList, ContentChildren} from '@angular/core';
+import {Directive, Input, TemplateRef, QueryList, ContentChildren} from '@angular/core';
 
 import {DataTableColumnCellDirective} from './data.table.column.cell.directive';
 import {DataTableColumnFooterDirective} from './data.table.column.footer.directive';
@@ -17,12 +17,12 @@ export class DataTableColumnDirective {
     @Input()
     public tooltip: string;
 
-    @ContentChildren(DataTableColumnDirective)
+    @ContentChildren(DataTableColumnDirective, {descendants: false})
     public subColumns: QueryList<DataTableColumnDirective>;
 
-    @ContentChild(DataTableColumnCellDirective, {read: TemplateRef})
-    public cellTemplate: TemplateRef<any>;
+    @ContentChildren(DataTableColumnCellDirective, {read: TemplateRef, descendants: false})
+    public cellTemplate: QueryList<TemplateRef<any>>;
 
-    @ContentChild(DataTableColumnFooterDirective, {read: TemplateRef})
-    public footerTemplate: TemplateRef<any>;
+    @ContentChildren(DataTableColumnFooterDirective, {read: TemplateRef, descendants: false})
+    public footerTemplate: QueryList<TemplateRef<any>>;
 }
