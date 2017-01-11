@@ -68,7 +68,7 @@ export class MarginComponentsHistoryComponent extends AbstractHistoryListCompone
         return defaultOrdering;
     }
 
-    protected get exportKeys(): string[] {
+    public get exportKeys(): string[] {
         return exportKeys;
     }
 
@@ -76,7 +76,7 @@ export class MarginComponentsHistoryComponent extends AbstractHistoryListCompone
         return routingKeys;
     }
 
-    protected get rootRouteTitle(): string {
+    public get rootRouteTitle(): string {
         return 'Margin Components History';
     }
 

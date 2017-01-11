@@ -18,7 +18,7 @@ export class LoginMenuComponent {
     @HostBinding('class.navbar-nav')
     @HostBinding('class.navbar-top-links')
     @HostBinding('class.navbar-right')
-    private classes: boolean = true;
+    public _classes: boolean = true;
 
     constructor(private authService: AuthService) {
     }

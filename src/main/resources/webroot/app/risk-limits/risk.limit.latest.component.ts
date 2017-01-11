@@ -42,7 +42,7 @@ export class RiskLimitLatestComponent extends AbstractLatestListComponent<RiskLi
         return defaultOrdering;
     }
 
-    protected get exportKeys(): string[] {
+    public get exportKeys(): string[] {
         return exportKeys;
     }
 
@@ -50,7 +50,7 @@ export class RiskLimitLatestComponent extends AbstractLatestListComponent<RiskLi
         return routingKeys;
     }
 
-    protected get rootRouteTitle(): string {
+    public get rootRouteTitle(): string {
         return 'Risk Limits';
     }
 

@@ -1,17 +1,29 @@
 module.exports = function (grunt) {
     'use strict';
 
-    var fallback = require('connect-history-api-fallback'),
+    var // BrowserSync plugins to make logs better and to fallback to index.html
+        fallback = require('connect-history-api-fallback'),
         log = require('connect-logger'),
-        destination = 'dist/',
-        sassPattern, sassPatternWatch,
-        cssPattern, htmlPattern, tsPattern, compiledJSPattern, jsPattern, mockFiles,
-        images = ['images/**'],
-        appFolders = ['app'],
-        distTask = ['clean', 'sass', 'cssmin', 'ngc', 'copy', 'rollup'],
+
+        // Rollup plugins - used to create single bundle from all SystemJS
         nodeResolve = require('rollup-plugin-node-resolve'),
         commonjs = require('rollup-plugin-commonjs'),
-        uglify = require('rollup-plugin-uglify');
+        uglify = require('rollup-plugin-uglify'),
+
+        // Project paths
+        destination = 'dist/', // Destination folder for AoT version
+        sassPattern, cssPattern, // SASS and compiled CSS
+        htmlPattern, // HTML templates
+        tsPattern, jsPattern, jsToCleanPattern, // TypeScript, JavaScript and mapping files
+        appFolders = ['app'];
+
+    // Populate paths
+    sassPattern = addAppFolders('**/*.scss', 'styles.scss');
+    cssPattern = addAppFolders('**/*.css', 'styles.css');
+    htmlPattern = addAppFolders('**/*.html', 'index.html');
+    jsPattern = addAppFolders('**/*.js', 'systemjs.config.js');
+    jsToCleanPattern = addAppFolders('**/*.js').concat(addAppFolders('**/*.js.map'));
+    tsPattern = addAppFolders('**/*.ts');
 
     //<editor-fold desc="Task and function definition" defaultstate="collapsed">
     function runProcess(command, args) {
@@ -90,19 +102,13 @@ module.exports = function (grunt) {
 
     //</editor-fold>
 
-    sassPattern = addAppFolders('**/*.scss', 'styles.scss');
-    sassPatternWatch = sassPattern.concat(['_global.scss', '_component.scss']);
-    cssPattern = addAppFolders('**/*.css', 'styles.css');
-    htmlPattern = addAppFolders('**/*.html', 'index.html');
-    jsPattern = addAppFolders('**/*.js', 'systemjs.config.js');
-    compiledJSPattern = addAppFolders('**/*.js').concat(addAppFolders('**/*.js.map'));
-    tsPattern = addAppFolders('**/*.ts');
-    mockFiles = addAppFolders('**/*.json');
-
     grunt.initConfig({
-        clean: {
+        cleanup: {
             all: {
-                src: [destination, 'ngFactories/'].concat(cssPattern).concat(compiledJSPattern)
+                src: [destination, 'ngFactories/'].concat(cssPattern).concat(jsToCleanPattern)
+            },
+            postDist: {
+                src: [destination + 'app/', destination + 'ngFactories/', 'ngFactories/']
             }
         },
         ts: {
@@ -120,7 +126,8 @@ module.exports = function (grunt) {
                         nodeResolve({jsnext: true, module: true}),
                         commonjs({
                             include: [
-                                'node_modules/rxjs/**'
+                                'node_modules/rxjs/**',
+                                'node_modules/angular2-jwt/angular2-jwt.js'
                             ]
                         }),
                         uglify()
@@ -134,6 +141,31 @@ module.exports = function (grunt) {
             }
         },
         copy: {
+            jQuery: {
+                src: providedJS('node_modules/jquery/dist/jquery.min.js'),
+                dest: destination
+            },
+            Bootstrap: {
+                src: providedJS('node_modules/bootstrap/dist/css/bootstrap.min.css')
+                    .concat(providedJS('node_modules/bootstrap/dist/js/bootstrap.min.js'))
+                    .concat(['node_modules/bootstrap/dist/fonts/**/*']),
+                dest: destination
+            },
+            MetisMenu: {
+                src: 'node_modules/metismenu/dist/metisMenu.min.css',
+                dest: destination
+            },
+            'sb-admin-2': {
+                src: 'node_modules/sb-admin-2/dist/css/sb-admin-2.css',
+                dest: destination
+            },
+            'font-awesome': {
+                src: [
+                    'node_modules/font-awesome/css/font-awesome.min.css',
+                    'node_modules/font-awesome/fonts/**/*'
+                ],
+                dest: destination
+            },
             shim: {
                 src: providedJS('node_modules/core-js/client/shim.min.js'),
                 dest: destination
@@ -149,6 +181,10 @@ module.exports = function (grunt) {
             html: {
                 src: 'index.aot.html',
                 dest: destination + 'index.html'
+            },
+            css: {
+                src: 'styles.css',
+                dest: destination
             }
         },
         sass: {
@@ -180,7 +216,7 @@ module.exports = function (grunt) {
                 spawn: false
             },
             devSass: {
-                files: sassPatternWatch,
+                files: sassPattern,
                 tasks: ['sass']
             },
             devTs: {
@@ -188,8 +224,8 @@ module.exports = function (grunt) {
                 tasks: ['ts']
             },
             dist: {
-                files: sassPatternWatch.concat(tsPattern),
-                tasks: distTask,
+                files: sassPattern.concat(tsPattern),
+                tasks: ['dist'],
                 options: {
                     interrupt: true,
                     spawn: false
@@ -222,7 +258,7 @@ module.exports = function (grunt) {
             },
             dev: {
                 bsFiles: {
-                    src: cssPattern.concat(htmlPattern).concat(jsPattern).concat(images).concat(mockFiles)
+                    src: cssPattern.concat(htmlPattern).concat(jsPattern)
                 }
             },
             dist: {
@@ -258,6 +294,7 @@ module.exports = function (grunt) {
 
     // Build tools
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.renameTask('clean', 'cleanup');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-concurrent');
@@ -268,10 +305,10 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-browser-sync');
 
-
     // register at least this one task
-    grunt.registerTask('cleanBuild', ['clean', 'sass', 'ts']);
+    grunt.registerTask('clean', ['cleanup:all']);
+    grunt.registerTask('cleanBuild', ['cleanup:all', 'sass', 'ts']);
     grunt.registerTask('dev', ['cleanBuild', 'concurrent:dev']);
-    grunt.registerTask('testDist', distTask.concat(['concurrent:dist']));
-    grunt.registerTask('dist', distTask);
+    grunt.registerTask('dist', ['cleanup:all', 'sass', 'cssmin', 'ngc', 'copy', 'rollup', 'cleanup:postDist']);
+    grunt.registerTask('testDist', ['dist', 'concurrent:dist']);
 };

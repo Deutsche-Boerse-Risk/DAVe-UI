@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, QueryList, ContentChildren, TemplateRef} from '@angular/core';
+import {Component, Input, OnChanges, QueryList, ContentChildren, TemplateRef, SimpleChanges} from '@angular/core';
 
 import {DataTableColumnDirective} from './data.table.column.directive';
 import {DataTableRowDetailDirective} from './data.table.row.detail.directive';
@@ -62,7 +62,7 @@ export class DataTableComponent implements OnChanges {
 
     private rowDetailTableDefinitions: DataTableDefinition[];
 
-    public ngOnChanges(): void {
+    public ngOnChanges(changes: SimpleChanges): void {
         this.sort();
     }
 

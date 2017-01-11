@@ -59,7 +59,7 @@ export class TotalMarginRequirementHistoryComponent extends AbstractHistoryListC
         return defaultOrdering;
     }
 
-    protected get exportKeys(): string[] {
+    public get exportKeys(): string[] {
         return exportKeys;
     }
 
@@ -67,7 +67,7 @@ export class TotalMarginRequirementHistoryComponent extends AbstractHistoryListC
         return routingKeys;
     }
 
-    protected get rootRouteTitle(): string {
+    public get rootRouteTitle(): string {
         return 'Total Margin Requirement History';
     }
 

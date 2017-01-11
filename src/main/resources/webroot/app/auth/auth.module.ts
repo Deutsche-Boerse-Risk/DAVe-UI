@@ -3,13 +3,18 @@ import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
 import {FormsModule} from '@angular/forms';
 
-import {AUTH_PROVIDERS} from 'angular2-jwt';
+import {AuthHttp, AuthConfig} from 'angular2-jwt';
+import {RequestOptions, Http} from '@angular/http';
 
 import {AuthService} from './auth.service';
 import {AuthGuard} from './auth.routing.guard';
 
 import {LoginMenuComponent} from './login.menu.component';
 import {LoginComponent} from './login.component';
+
+export function AuthHttpFactory(http: Http, options: RequestOptions) {
+    return new AuthHttp(new AuthConfig(), http, options);
+}
 
 @NgModule({
     imports: [
@@ -19,7 +24,15 @@ import {LoginComponent} from './login.component';
     ],
     declarations: [LoginMenuComponent, LoginComponent],
     exports: [LoginMenuComponent],
-    providers: AUTH_PROVIDERS.concat([AuthService, AuthGuard])
+    providers: [
+        AuthService,
+        AuthGuard,
+        {
+            provide: AuthHttp,
+            deps: [Http, RequestOptions],
+            useFactory: AuthHttpFactory
+        }
+    ]
 })
 export class AuthModule {
 }

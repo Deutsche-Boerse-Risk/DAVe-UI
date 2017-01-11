@@ -83,7 +83,7 @@ export class MarginShortfallSurplusHistoryComponent extends AbstractHistoryListC
         return defaultOrdering;
     }
 
-    protected get exportKeys(): string[] {
+    public get exportKeys(): string[] {
         return exportKeys;
     }
 
@@ -91,7 +91,7 @@ export class MarginShortfallSurplusHistoryComponent extends AbstractHistoryListC
         return routingKeys.concat(['ccy']);
     }
 
-    protected get rootRouteTitle(): string {
+    public get rootRouteTitle(): string {
         return 'Margin Shortfall Surplus History';
     }
 

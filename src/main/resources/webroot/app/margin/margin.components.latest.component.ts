@@ -42,7 +42,7 @@ export class MarginComponentsLatestComponent extends AbstractLatestListComponent
         return defaultOrdering;
     }
 
-    protected get exportKeys(): string[] {
+    public get exportKeys(): string[] {
         return exportKeys;
     }
 
@@ -50,7 +50,7 @@ export class MarginComponentsLatestComponent extends AbstractLatestListComponent
         return routingKeys;
     }
 
-    protected get rootRouteTitle(): string {
+    public get rootRouteTitle(): string {
         return 'Latest Margin Components';
     }
 

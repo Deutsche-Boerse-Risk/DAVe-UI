@@ -50,7 +50,7 @@ export class PositionReportLatestComponent extends AbstractLatestListComponent<P
         return defaultOrdering;
     }
 
-    protected get exportKeys(): string[] {
+    public get exportKeys(): string[] {
         return exportKeys;
     }
 
@@ -58,7 +58,7 @@ export class PositionReportLatestComponent extends AbstractLatestListComponent<P
         return routingKeys;
     }
 
-    protected get rootRouteTitle(): string {
+    public get rootRouteTitle(): string {
         return 'Latest Position Reports';
     }
 

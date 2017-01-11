@@ -31,11 +31,11 @@ export abstract class AbstractListComponent<T> extends AbstractComponentWithAuto
 
     public abstract get defaultOrdering(): string[];
 
-    protected abstract get exportKeys(): string[];
+    public abstract get exportKeys(): string[];
 
     protected abstract get routingKeys(): string[];
 
-    protected abstract get rootRouteTitle(): string;
+    public abstract get rootRouteTitle(): string;
 
     protected abstract get rootRoutePath(): string;
 

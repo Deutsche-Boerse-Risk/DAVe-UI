@@ -1,4 +1,4 @@
-import {ElementRef, Input, Component, OnChanges, HostBinding, OnInit, OnDestroy} from '@angular/core';
+import {ElementRef, Input, Component, OnChanges, HostBinding, OnInit, OnDestroy, SimpleChanges} from '@angular/core';
 
 import {ChartOptions, ChartData} from './chart.types';
 
@@ -45,7 +45,7 @@ export class GoogleChart implements OnInit, OnChanges, OnDestroy {
         this.reinitChart();
     }
 
-    public ngOnChanges(): void {
+    public ngOnChanges(changes: SimpleChanges): void {
         if (this.initialized) {
             this.reinitChart();
         }

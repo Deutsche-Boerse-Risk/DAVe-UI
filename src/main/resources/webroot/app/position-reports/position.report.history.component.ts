@@ -81,7 +81,7 @@ export class PositionReportHistoryComponent extends AbstractHistoryListComponent
         return defaultOrdering;
     }
 
-    protected get exportKeys(): string[] {
+    public get exportKeys(): string[] {
         return exportKeys;
     }
 
@@ -89,7 +89,7 @@ export class PositionReportHistoryComponent extends AbstractHistoryListComponent
         return routingKeys;
     }
 
-    protected get rootRouteTitle(): string {
+    public get rootRouteTitle(): string {
         return 'Position Report History';
     }
 
