@@ -227,8 +227,7 @@ module.exports = function (grunt) {
                 files: sassPattern.concat(tsPattern),
                 tasks: ['dist'],
                 options: {
-                    interrupt: true,
-                    spawn: false
+                    interrupt: false
                 }
             }
         },
