@@ -1,3 +1,4 @@
+import {Injectable} from '@angular/core';
 import {Http, RequestOptions, Response, Headers} from '@angular/http';
 
 import {AuthHttp} from 'angular2-jwt';
@@ -5,6 +6,7 @@ import {AuthHttp} from 'angular2-jwt';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
+import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 
 export const defaultURL: string = 'https://demo.dave.dbg-devops.com/api/v1.0'; // 'http(s)://someUrl:port/path'
@@ -29,9 +31,8 @@ export interface ErrorResponse {
     message: string;
 }
 
-export abstract class AbstractHttpService<T> {
-
-    private cache: any = {};
+@Injectable()
+export class HttpService<T> {
 
     constructor(private http: Http, private authHttp: AuthHttp) {
     }
@@ -100,76 +101,27 @@ export abstract class AbstractHttpService<T> {
         }
     }
 
-    protected get(request: Request<T>, auth: boolean = true): Observable<T | ErrorResponse> {
+    public get(request: Request<T>, auth: boolean = true): Observable<T> {
         let http: Http | AuthHttp = auth ? this.authHttp : this.http;
-        let requestObservable: Observable<T> = http.get(this.constructURL(request), AbstractHttpService.getRequestOptions())
-            .map(AbstractHttpService.extractData);
+        let requestObservable: Observable<T> = http.get(this.constructURL(request), HttpService.getRequestOptions())
+            .map(HttpService.extractData);
         if (request.mapFunction) {
             requestObservable.map(request.mapFunction);
         }
-        return requestObservable.catch(AbstractHttpService.handleError);
+        requestObservable.catch(HttpService.handleError);
+        return requestObservable;
     }
 
-    protected post(request: PostRequest<T>, auth: boolean = true): Observable<T | ErrorResponse> {
+    public post(request: PostRequest<T>, auth: boolean = true): Observable<T> {
         let http: Http | AuthHttp = auth ? this.authHttp : this.http;
         let requestObservable: Observable<T> = http.post(this.constructURL(request),
             JSON.stringify(request.data),
-            AbstractHttpService.getRequestOptions())
-            .map(AbstractHttpService.extractData);
+            HttpService.getRequestOptions())
+            .map(HttpService.extractData);
         if (request.mapFunction) {
             requestObservable.map(request.mapFunction);
         }
-        return requestObservable.catch(AbstractHttpService.handleError);
-    }
-
-    protected getWithCache(request: Request<T>): Promise<T> {
-        if (!this.getCache(request)) {
-            return new Promise((resolve, reject) => {
-                this.get(request).subscribe(
-                    (data) => {
-                        this.setCache(data, request);
-                        resolve(data);
-                    }, reject);
-            });
-        }
-        return Promise.resolve(this.getCache(request));
-    }
-
-    private getCache(request?: Request<T>): any {
-        return this.findCache(request).value;
-    }
-
-    protected setCache(data: any, request?: Request<T>): void {
-        this.findCache(request).value = data;
-    }
-
-    public clearCache(request?: Request<T>): void {
-        let cache: any = this.findCache(request);
-        Object.keys(cache).forEach((k: string) => {
-            delete cache[k];
-        });
-    }
-
-    private findCache(request?: Request<T>): any {
-        let cache: any = this.cache;
-        if (request) {
-            if (request.params) {
-                Object.keys(request.params).forEach((key: string) => {
-                    if (!cache[request.params[key]]) {
-                        cache[request.params[key]] = {};
-                    }
-                    cache = cache[request.params[key]];
-                });
-            }
-            if (request.subParams) {
-                Object.keys(request.subParams).forEach((key: string) => {
-                    if (!cache[request.subParams[key]]) {
-                        cache[request.subParams[key]] = {};
-                    }
-                    cache = cache[request.subParams[key]];
-                });
-            }
-        }
-        return cache;
+        requestObservable.catch(HttpService.handleError);
+        return requestObservable;
     }
 }

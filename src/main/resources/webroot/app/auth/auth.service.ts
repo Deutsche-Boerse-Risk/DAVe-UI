@@ -1,9 +1,9 @@
 import {Injectable, EventEmitter} from '@angular/core';
-import {Http} from '@angular/http';
 
-import {AuthHttp, AuthConfigConsts, JwtHelper} from 'angular2-jwt'
+import {AuthConfigConsts, JwtHelper} from 'angular2-jwt'
 
-import {AbstractHttpService, ErrorResponse} from '../abstract.http.service';
+import {HttpService} from '../http.service';
+import {Observable} from 'rxjs/Observable';
 
 const url = {
     login: '/user/login',
@@ -26,7 +26,7 @@ interface TokenData {
 }
 
 @Injectable()
-export class AuthService extends AbstractHttpService<any> {
+export class AuthService {
 
     private jwtHelper: JwtHelper = new JwtHelper();
 
@@ -36,8 +36,7 @@ export class AuthService extends AbstractHttpService<any> {
 
     private tokenData: TokenData;
 
-    constructor(http: Http, authHttp: AuthHttp) {
-        super(http, authHttp);
+    constructor(private http: HttpService<any>) {
         let token = localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME);
         if (token) {
             if (!this.jwtHelper.isTokenExpired(token)) {
@@ -57,60 +56,56 @@ export class AuthService extends AbstractHttpService<any> {
         return this.tokenData.username;
     }
 
-    public login(username: string, password: string): Promise<boolean> {
-        return new Promise((resolve, reject) => {
-            this.post({
-                resourceURL: url.login,
-                data: {
-                    username: username,
-                    password: password
-                }
-            }, false).subscribe((response: AuthResponse) => {
-                this.processToken(response, username).then(resolve).catch(reject);
-            }, reject);
+    public login(username: string, password: string): Observable<boolean> {
+        return this.http.post({
+            resourceURL: url.login,
+            data: {
+                username: username,
+                password: password
+            }
+        }, false).flatMap((response: AuthResponse) => {
+            return this.processToken(response, username);
         });
     }
 
-    private processToken(response: AuthResponse, username: string): Promise<boolean> {
-        return new Promise((resolve, reject) => {
-            if (response.token) {
-                try {
-                    this.tokenData = this.jwtHelper.decodeToken(response.token);
-                    if (this.tokenData.username !== username) {
-                        delete this.tokenData;
-                        reject(<ErrorResponse>{
-                            status: 500,
-                            message: 'Invalid token generated!'
-                        });
-                    }
-
-                    if (this.jwtHelper.isTokenExpired(response.token)) {
-                        delete this.tokenData;
-                        reject(<ErrorResponse>{
-                            status: 500,
-                            message: 'Invalid token expiration!'
-                        });
-                    }
-                } catch (err) {
+    private processToken(response: AuthResponse, username: string): Observable<boolean> {
+        if (response.token) {
+            try {
+                this.tokenData = this.jwtHelper.decodeToken(response.token);
+                if (this.tokenData.username !== username) {
                     delete this.tokenData;
-                    reject(<ErrorResponse>{
+                    return Observable.throw({
                         status: 500,
-                        message: err ? err.toString() : 'Error parsing token from auth response!'
+                        message: 'Invalid token generated!'
                     });
                 }
-                // store username and token in local storage to keep user logged in between page refreshes
-                localStorage.setItem(AuthConfigConsts.DEFAULT_TOKEN_NAME, response.token);
 
-                this.loggedInChange.emit(true);
-
-                resolve(true);
-            } else {
-                reject(<ErrorResponse>{
-                    status: 401,
-                    message: 'Authentication failed. Server didn\'t generate a token.'
+                if (this.jwtHelper.isTokenExpired(response.token)) {
+                    delete this.tokenData;
+                    return Observable.throw({
+                        status: 500,
+                        message: 'Invalid token expiration!'
+                    });
+                }
+            } catch (err) {
+                delete this.tokenData;
+                return Observable.throw({
+                    status: 500,
+                    message: err ? err.toString() : 'Error parsing token from auth response!'
                 });
             }
-        });
+            // store username and token in local storage to keep user logged in between page refreshes
+            localStorage.setItem(AuthConfigConsts.DEFAULT_TOKEN_NAME, response.token);
+
+            this.loggedInChange.emit(true);
+
+            return Observable.of(true);
+        } else {
+            return Observable.throw({
+                status: 401,
+                message: 'Authentication failed. Server didn\'t generate a token.'
+            });
+        }
     }
 
     public logout(): void {
@@ -124,7 +119,7 @@ export class AuthService extends AbstractHttpService<any> {
         if (this.tokenData) {
             this.refreshTokenIfExpires();
             if (this.tokenData) {
-                this.get({
+                this.http.get({
                     resourceURL: url.status
                 }).subscribe((data: AuthStatusResponse) => {
                     if (!this.tokenData || this.tokenData.username !== data.username) {
@@ -148,10 +143,9 @@ export class AuthService extends AbstractHttpService<any> {
             expirationThreshold.setMinutes(expirationThreshold.getMinutes() + 10);
             let tokenExpires = this.jwtHelper.getTokenExpirationDate(token) < expirationThreshold;
             if (tokenExpires) {
-                this.get({
+                this.http.get({
                     resourceURL: url.refresh
                 }).subscribe((response: AuthResponse) => {
-                    //noinspection JSIgnoredPromiseFromCall
                     this.processToken(response, this.getLoggedUser());
                 }, () => {
                     this.logout();

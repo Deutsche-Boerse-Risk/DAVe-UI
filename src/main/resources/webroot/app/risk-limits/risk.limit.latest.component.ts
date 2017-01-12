@@ -1,7 +1,8 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {ErrorResponse} from '../abstract.http.service';
+import {ErrorResponse} from '../http.service';
+
 import {RiskLimitsService} from './risk.limits.service';
 import {RiskLimitsData} from './risk.limits.types';
 
@@ -29,13 +30,14 @@ export class RiskLimitLatestComponent extends AbstractLatestListComponent<RiskLi
     protected loadData(): void {
         this.riskLimitsService.getRiskLimitsLatest(this.routeParams['clearer'], this.routeParams['member'],
             this.routeParams['maintainer'], this.routeParams['limitType'])
-            .then((rows: RiskLimitsData[]) => {
-                this.processData(rows);
-            })
-            .catch((err: ErrorResponse) => {
-                this.errorMessage = 'Server returned status ' + err.status;
-                this.initialLoad = false;
-            });
+            .subscribe(
+                (rows: RiskLimitsData[]) => {
+                    this.processData(rows);
+                },
+                (err: ErrorResponse) => {
+                    this.errorMessage = 'Server returned status ' + err.status;
+                    this.initialLoad = false;
+                });
     }
 
     public get defaultOrdering(): string[] {

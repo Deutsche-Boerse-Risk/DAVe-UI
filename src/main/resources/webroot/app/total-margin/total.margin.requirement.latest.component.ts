@@ -1,7 +1,8 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {ErrorResponse} from '../abstract.http.service';
+import {ErrorResponse} from '../http.service';
+
 import {TotalMarginService} from './total.margin.service';
 import {TotalMarginData} from './total.margin.types';
 
@@ -29,13 +30,14 @@ export class TotalMarginRequirementLatestComponent extends AbstractLatestListCom
     protected loadData(): void {
         this.totalMarginService.getTotalMarginLatest(this.routeParams['clearer'], this.routeParams['pool'],
             this.routeParams['member'], this.routeParams['account'], this.routeParams['ccy'])
-            .then((rows: TotalMarginData[]) => {
-                this.processData(rows);
-            })
-            .catch((err: ErrorResponse) => {
-                this.errorMessage = 'Server returned status ' + err.status;
-                this.initialLoad = false;
-            });
+            .subscribe(
+                (rows: TotalMarginData[]) => {
+                    this.processData(rows);
+                },
+                (err: ErrorResponse) => {
+                    this.errorMessage = 'Server returned status ' + err.status;
+                    this.initialLoad = false;
+                });
     }
 
     public get defaultOrdering(): string[] {

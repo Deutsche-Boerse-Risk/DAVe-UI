@@ -1,7 +1,8 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {ErrorResponse} from '../abstract.http.service';
+import {ErrorResponse} from '../http.service';
+
 import {MarginComponentsService} from './margin.components.service';
 import {MarginComponentsRowData} from './margin.types';
 
@@ -29,13 +30,14 @@ export class MarginComponentsLatestComponent extends AbstractLatestListComponent
     protected loadData(): void {
         this.marginComponentsService.getMarginComponentsLatest(this.routeParams['clearer'], this.routeParams['member'],
             this.routeParams['account'], this.routeParams['class'], this.routeParams['ccy'])
-            .then((rows: MarginComponentsRowData[]) => {
-                this.processData(rows);
-            })
-            .catch((err: ErrorResponse) => {
-                this.errorMessage = 'Server returned status ' + err.status;
-                this.initialLoad = false;
-            });
+            .subscribe(
+                (rows: MarginComponentsRowData[]) => {
+                    this.processData(rows);
+                },
+                (err: ErrorResponse) => {
+                    this.errorMessage = 'Server returned status ' + err.status;
+                    this.initialLoad = false;
+                });
     }
 
     public get defaultOrdering(): string[] {

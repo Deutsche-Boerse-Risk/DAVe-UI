@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 
 import {AbstractComponentWithAutoRefresh} from '../abstract.component';
 
-import {TradingSessionService, TradingSessionStatus} from './trading.session.service';
+import {TradingSessionService, TradingSession} from './trading.session.service';
 
 @Component({
     moduleId: module.id,
@@ -12,17 +12,15 @@ import {TradingSessionService, TradingSessionStatus} from './trading.session.ser
 })
 export class TradingSessionStatusComponent extends AbstractComponentWithAutoRefresh {
 
-    public status: any;
+    public tradingSession: TradingSession;
 
     constructor(private tradingSessionService: TradingSessionService) {
         super();
     }
 
     protected loadData(): void {
-        this.tradingSessionService.getTradingSessionStatuses().then((tss: TradingSessionStatus[]) => {
-            if (tss && tss.length) {
-                this.status = tss[0];
-            }
+        this.tradingSessionService.getTradingSessionStatuses().subscribe((tradingSession: TradingSession) => {
+            this.tradingSession = tradingSession;
         });
     }
 

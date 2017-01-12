@@ -1,7 +1,8 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {ErrorResponse} from '../abstract.http.service';
+import {ErrorResponse} from '../http.service';
+
 import {PositionReportData} from './position.report.types';
 import {PositionReportsService} from './position.reports.service';
 
@@ -28,13 +29,14 @@ export class PositionReportHistoryComponent extends AbstractHistoryListComponent
             this.routeParams['account'], this.routeParams['class'], this.routeParams['symbol'],
             this.routeParams['putCall'], this.routeParams['strikePrice'], this.routeParams['optAttribute'],
             this.routeParams['maturityMonthYear'])
-            .then((rows: PositionReportData[]) => {
-                this.processData(rows);
-            })
-            .catch((err: ErrorResponse) => {
-                this.errorMessage = 'Server returned status ' + err.status;
-                this.initialLoad = false;
-            });
+            .subscribe(
+                (rows: PositionReportData[]) => {
+                    this.processData(rows);
+                },
+                (err: ErrorResponse) => {
+                    this.errorMessage = 'Server returned status ' + err.status;
+                    this.initialLoad = false;
+                });
     }
 
 

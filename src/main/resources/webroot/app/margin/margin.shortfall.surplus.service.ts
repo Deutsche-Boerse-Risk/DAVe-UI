@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
-import {AbstractHttpService} from '../abstract.http.service';
-import {Http} from '@angular/http';
 
-import {AuthHttp} from 'angular2-jwt';
+import {HttpService} from '../http.service';
+import {Observable} from 'rxjs/Observable';
 
 import {
     MarginShortfallSurplusServerData, MarginShortfallSurplusBase, MarginShortfallSurplusData
@@ -13,18 +12,16 @@ const marginShortfallSurplusLatestURL: string = '/mss/latest/:0/:1/:2/:3';
 const marginShortfallSurplusHistoryURL: string = '/mss/history/:0/:1/:2/:3/:4';
 
 @Injectable()
-export class MarginShortfallSurplusService extends AbstractHttpService<MarginShortfallSurplusServerData[]> {
+export class MarginShortfallSurplusService {
 
-    constructor(http: Http, authHttp: AuthHttp) {
-        super(http, authHttp);
+    constructor(private http: HttpService<MarginShortfallSurplusServerData[]>) {
     }
 
-    public getMarginShortfallSurplusData(): Promise<MarginShortfallSurplusBase> {
-        return new Promise((resolve, reject) => {
-            this.get({resourceURL: marginShortfallSurplusURL}).subscribe((data: MarginShortfallSurplusServerData[]) => {
+    public getMarginShortfallSurplusData(): Observable<MarginShortfallSurplusBase> {
+        return this.http.get({resourceURL: marginShortfallSurplusURL}).map(
+            (data: MarginShortfallSurplusServerData[]) => {
                 if (!data) {
-                    resolve({});
-                    return;
+                    return {};
                 }
                 let result: MarginShortfallSurplusBase = {
                     shortfallSurplus: 0,
@@ -41,90 +38,86 @@ export class MarginShortfallSurplusService extends AbstractHttpService<MarginSho
                     result.cashBalance += data[index].cashBalance;
                     result.marginCall += data[index].marginCall;
                 }
-                resolve(result);
-            }, reject);
-        });
+                return result;
+            });
     }
 
     public getShortfallSurplusLatest(clearer: string = '*', pool: string = '*', member: string = '*',
-                                     clearingCcy: string = '*'): Promise<MarginShortfallSurplusData[]> {
-        return new Promise((resolve, reject) => {
-            this.get({
-                resourceURL: marginShortfallSurplusLatestURL,
-                params: [
-                    clearer,
-                    pool,
-                    member,
-                    clearingCcy
-                ]
-            }).subscribe((data: MarginShortfallSurplusServerData[]) => {
-                let result: MarginShortfallSurplusData[] = [];
-                if (data) {
-                    data.forEach((record: MarginShortfallSurplusServerData) => {
-                        let row: MarginShortfallSurplusData = {
-                            clearer: record.clearer,
-                            member: record.member,
-                            bizDt: record.bizDt,
-                            received: new Date(record.received),
-                            ccy: record.ccy,
-                            cashBalance: record.cashBalance,
-                            clearingCcy: record.clearingCcy,
-                            marginCall: record.marginCall,
-                            marginRequirement: record.marginRequirement,
-                            pool: record.pool,
-                            poolType: record.poolType,
-                            shortfallSurplus: record.shortfallSurplus,
-                            securityCollateral: record.securityCollateral
-                        };
+                                     clearingCcy: string = '*'): Observable<MarginShortfallSurplusData[]> {
+        return this.http.get({
+            resourceURL: marginShortfallSurplusLatestURL,
+            params: [
+                clearer,
+                pool,
+                member,
+                clearingCcy
+            ]
+        }).map((data: MarginShortfallSurplusServerData[]) => {
+            let result: MarginShortfallSurplusData[] = [];
+            if (data) {
+                data.forEach((record: MarginShortfallSurplusServerData) => {
+                    let row: MarginShortfallSurplusData = {
+                        clearer: record.clearer,
+                        member: record.member,
+                        bizDt: record.bizDt,
+                        received: new Date(record.received),
+                        ccy: record.ccy,
+                        cashBalance: record.cashBalance,
+                        clearingCcy: record.clearingCcy,
+                        marginCall: record.marginCall,
+                        marginRequirement: record.marginRequirement,
+                        pool: record.pool,
+                        poolType: record.poolType,
+                        shortfallSurplus: record.shortfallSurplus,
+                        securityCollateral: record.securityCollateral
+                    };
 
-                        result.push(row);
-                    });
-                    resolve(result);
-                } else {
-                    resolve([]);
-                }
-            }, reject);
+                    result.push(row);
+                });
+                return result;
+            } else {
+                return [];
+            }
         });
     }
 
-    public getShortfallSurplusHistory(clearer: string, pool: string, member: string, clearingCcy: string, ccy: string): Promise<MarginShortfallSurplusData[]> {
-        return new Promise((resolve, reject) => {
-            this.get({
-                resourceURL: marginShortfallSurplusHistoryURL,
-                params: [
-                    clearer,
-                    pool,
-                    member,
-                    clearingCcy,
-                    ccy
-                ]
-            }).subscribe((data: MarginShortfallSurplusServerData[]) => {
-                let result: MarginShortfallSurplusData[] = [];
-                if (data) {
-                    data.forEach((record: MarginShortfallSurplusServerData) => {
-                        let row: MarginShortfallSurplusData = {
-                            clearer: record.clearer,
-                            member: record.member,
-                            bizDt: record.bizDt,
-                            received: new Date(record.received),
-                            ccy: record.ccy,
-                            cashBalance: record.cashBalance,
-                            clearingCcy: record.clearingCcy,
-                            marginCall: record.marginCall,
-                            marginRequirement: record.marginRequirement,
-                            pool: record.pool,
-                            poolType: record.poolType,
-                            shortfallSurplus: record.shortfallSurplus,
-                            securityCollateral: record.securityCollateral
-                        };
+    public getShortfallSurplusHistory(clearer: string, pool: string, member: string, clearingCcy: string,
+                                      ccy: string): Observable<MarginShortfallSurplusData[]> {
+        return this.http.get({
+            resourceURL: marginShortfallSurplusHistoryURL,
+            params: [
+                clearer,
+                pool,
+                member,
+                clearingCcy,
+                ccy
+            ]
+        }).map((data: MarginShortfallSurplusServerData[]) => {
+            let result: MarginShortfallSurplusData[] = [];
+            if (data) {
+                data.forEach((record: MarginShortfallSurplusServerData) => {
+                    let row: MarginShortfallSurplusData = {
+                        clearer: record.clearer,
+                        member: record.member,
+                        bizDt: record.bizDt,
+                        received: new Date(record.received),
+                        ccy: record.ccy,
+                        cashBalance: record.cashBalance,
+                        clearingCcy: record.clearingCcy,
+                        marginCall: record.marginCall,
+                        marginRequirement: record.marginRequirement,
+                        pool: record.pool,
+                        poolType: record.poolType,
+                        shortfallSurplus: record.shortfallSurplus,
+                        securityCollateral: record.securityCollateral
+                    };
 
-                        result.push(row);
-                    });
-                    resolve(result);
-                } else {
-                    resolve([]);
-                }
-            }, reject);
+                    result.push(row);
+                });
+                return result;
+            } else {
+                return [];
+            }
         });
     }
 }

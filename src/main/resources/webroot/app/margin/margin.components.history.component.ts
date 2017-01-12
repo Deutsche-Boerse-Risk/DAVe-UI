@@ -1,7 +1,8 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {ErrorResponse} from '../abstract.http.service';
+import {ErrorResponse} from '../http.service';
+
 import {MarginComponentsService} from './margin.components.service';
 import {MarginComponentsRowData} from './margin.types';
 
@@ -26,13 +27,13 @@ export class MarginComponentsHistoryComponent extends AbstractHistoryListCompone
     protected loadData(): void {
         this.marginComponentsService.getMarginComponentsHistory(this.routeParams['clearer'], this.routeParams['member'],
             this.routeParams['account'], this.routeParams['class'], this.routeParams['ccy'])
-            .then((rows: MarginComponentsRowData[]) => {
-                this.processData(rows);
-            })
-            .catch((err: ErrorResponse) => {
-                this.errorMessage = 'Server returned status ' + err.status;
-                this.initialLoad = false;
-            });
+            .subscribe(
+                (rows: MarginComponentsRowData[]) => {
+                    this.processData(rows);
+                }, (err: ErrorResponse) => {
+                    this.errorMessage = 'Server returned status ' + err.status;
+                    this.initialLoad = false;
+                });
     }
 
     protected getTickFromRecord(record: MarginComponentsRowData): LineChartColumn[] {

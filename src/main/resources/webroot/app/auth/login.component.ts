@@ -28,17 +28,19 @@ export class LoginComponent {
     }
 
     public login(): void {
-        this.authService.login(this.username, this.password).then((res: boolean) => {
-            if (res) {
-                if (this.authService.authRequestedPath) {
-                    this.router.navigateByUrl(this.authService.authRequestedPath);
+        this.authService.login(this.username, this.password).subscribe(
+            (res: boolean) => {
+                if (res) {
+                    if (this.authService.authRequestedPath) {
+                        this.router.navigateByUrl(this.authService.authRequestedPath);
+                    }
+                    this.router.navigate(['dashboard']);
+                } else {
+                    this.errorMessage = 'Authentication failed. Server didn\'t generate a token.';
                 }
-                this.router.navigate(['dashboard']);
-            } else {
-                this.errorMessage = 'Authentication failed. Server didn\'t generate a token.';
-            }
-        }).catch(() => {
-            this.errorMessage = 'Authentication failed. Is the username and password correct?';
-        });
+            },
+            () => {
+                this.errorMessage = 'Authentication failed. Is the username and password correct?';
+            });
     }
 }

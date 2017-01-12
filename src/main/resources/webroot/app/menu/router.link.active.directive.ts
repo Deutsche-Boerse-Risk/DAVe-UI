@@ -3,7 +3,9 @@ import {
     ElementRef, Renderer
 } from '@angular/core';
 import {Router, NavigationEnd, RouterLinkWithHref, RouterLink} from '@angular/router';
-import {Subscription} from 'rxjs';
+
+import {Subscription} from 'rxjs/Subscription';
+
 import {RouterSubLinkDirective} from './router.sub.link.directive';
 
 @Directive({

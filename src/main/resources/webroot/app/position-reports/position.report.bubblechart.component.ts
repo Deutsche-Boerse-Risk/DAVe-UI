@@ -1,7 +1,8 @@
 import {Component} from '@angular/core';
 
 import {AbstractComponentWithAutoRefresh} from '../abstract.component';
-import {ErrorResponse} from '../abstract.http.service';
+
+import {ErrorResponse} from '../http.service';
 
 import {NUMBER_PIPE} from '../common/common.module';
 import {BubbleChartOptions, ChartData, ChartRow} from '../common/chart.types';
@@ -35,11 +36,12 @@ export class PositionReportBubbleChartComponent extends AbstractComponentWithAut
 
     protected loadData(): void {
         this.positionReportsService.getPositionReportsChartData()
-            .then(this.processData.bind(this))
-            .catch((err: ErrorResponse) => {
-                this.errorMessage = 'Server returned status ' + err.status;
-                this.initialLoad = false;
-            });
+            .subscribe(
+                this.processData.bind(this),
+                (err: ErrorResponse) => {
+                    this.errorMessage = 'Server returned status ' + err.status;
+                    this.initialLoad = false;
+                });
     }
 
     private processData(chartData: PositionReportChartData[]): void {

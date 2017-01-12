@@ -1,13 +1,11 @@
 import {Injectable} from '@angular/core';
-import {Http} from '@angular/http';
 
-import {AuthHttp} from 'angular2-jwt';
-
-import {AbstractHttpService} from '../abstract.http.service';
+import {HttpService} from '../http.service';
+import {Observable} from 'rxjs/Observable';
 
 const url: string = '/tss/latest';
 
-export interface TradingSessionStatus {
+interface TradingSessionStatusServerData {
     _id: {
         sesId: string;
     };
@@ -22,16 +20,26 @@ export interface TradingSessionStatus {
     received: string;
 }
 
-@Injectable()
-export class TradingSessionService extends AbstractHttpService<TradingSessionStatus[]> {
+export interface TradingSession {
+    status: number;
+}
 
-    constructor(http: Http, authHttp: AuthHttp) {
-        super(http, authHttp);
+@Injectable()
+export class TradingSessionService {
+
+    constructor(private http: HttpService<TradingSessionStatusServerData[]>) {
     }
 
-    public getTradingSessionStatuses(): Promise<TradingSessionStatus[]> {
-        return new Promise((resolve, reject) => {
-            this.get({resourceURL: url}).subscribe(resolve, reject);
+    public getTradingSessionStatuses(): Observable<TradingSession> {
+        return this.http.get({resourceURL: url}).map((tss: TradingSessionStatusServerData[]) => {
+            if (tss && tss.length) {
+                return {
+                    status: tss[0].stat
+                };
+            }
+            return {
+                status: -1
+            }
         });
     }
 

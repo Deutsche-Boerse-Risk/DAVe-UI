@@ -21,7 +21,7 @@ export class MarginShortfallSurplusLatestSummaryComponent extends AbstractCompon
 
     protected loadData(): void {
         this.marginService.getMarginShortfallSurplusData()
-            .then((data: MarginShortfallSurplusBase) => {
+            .subscribe((data: MarginShortfallSurplusBase) => {
                 this.data = data;
             });
     }

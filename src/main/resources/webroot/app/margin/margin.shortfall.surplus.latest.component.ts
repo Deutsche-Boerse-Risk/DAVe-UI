@@ -1,7 +1,8 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {ErrorResponse} from '../abstract.http.service';
+import {ErrorResponse} from '../http.service';
+
 import {MarginShortfallSurplusService} from './margin.shortfall.surplus.service';
 import {MarginShortfallSurplusData} from './margin.types';
 
@@ -29,13 +30,14 @@ export class MarginShortfallSurplusLatestComponent extends AbstractLatestListCom
     protected loadData(): void {
         this.marginShortfallSurplusService.getShortfallSurplusLatest(this.routeParams['clearer'], this.routeParams['pool'],
             this.routeParams['member'], this.routeParams['clearingCcy'])
-            .then((rows: MarginShortfallSurplusData[]) => {
-                this.processData(rows);
-            })
-            .catch((err: ErrorResponse) => {
-                this.errorMessage = 'Server returned status ' + err.status;
-                this.initialLoad = false;
-            });
+            .subscribe(
+                (rows: MarginShortfallSurplusData[]) => {
+                    this.processData(rows);
+                },
+                (err: ErrorResponse) => {
+                    this.errorMessage = 'Server returned status ' + err.status;
+                    this.initialLoad = false;
+                });
     }
 
     public get defaultOrdering(): string[] {
