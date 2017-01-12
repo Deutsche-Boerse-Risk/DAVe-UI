@@ -185,6 +185,10 @@ module.exports = function (grunt) {
             css: {
                 src: 'styles.css',
                 dest: destination
+            },
+            favicon: {
+                src: 'favicon.ico',
+                dest: destination
             }
         },
         sass: {
