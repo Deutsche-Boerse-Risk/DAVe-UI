@@ -69,7 +69,7 @@ export class HttpService<T> {
         return body.data || body;
     }
 
-    private static handleError(error: Response | any): Observable<ErrorResponse> {
+    private static handleError(error: Response | any): Observable<any> {
         // In a real world app, we might use a remote logging infrastructure
         let errMsg: string, err: any, body: any;
         if (error.status === 401) {
@@ -108,8 +108,7 @@ export class HttpService<T> {
         if (request.mapFunction) {
             requestObservable.map(request.mapFunction);
         }
-        requestObservable.catch(HttpService.handleError);
-        return requestObservable;
+        return requestObservable.catch(HttpService.handleError);
     }
 
     public post(request: PostRequest<T>, auth: boolean = true): Observable<T> {
@@ -121,7 +120,6 @@ export class HttpService<T> {
         if (request.mapFunction) {
             requestObservable.map(request.mapFunction);
         }
-        requestObservable.catch(HttpService.handleError);
-        return requestObservable;
+        return requestObservable.catch(HttpService.handleError);
     }
 }
