@@ -88,22 +88,27 @@ export class DataTableComponent implements OnChanges {
             this.ordering = [];
         }
 
-        this.ordering.slice().reverse().forEach((sortingKey: string) => {
-            let direction = 1;
-            if (sortingKey.startsWith('-')) {
-                sortingKey = sortingKey.slice(1);
-                direction = -1
-            }
-            this.data.sort((a: any, b: any) => {
+        this.data.sort((a: any, b: any) => {
+            let comp: number = 0;
+            this.ordering.some((sortingKey: string) => {
+                let direction = 1;
+                if (sortingKey.startsWith('-')) {
+                    sortingKey = sortingKey.slice(1);
+                    direction = -1
+                }
                 let first = a[sortingKey];
                 let second = b[sortingKey];
 
-                if (first < second)
-                    return -1 * direction;
+                if (first < second) {
+                    comp = -1 * direction;
+                }
                 if (first > second)
-                    return direction;
-                return 0;
+                    comp = direction;
+
+                return comp !== 0;
+
             });
+            return comp;
         });
         this.updatePage(this.currentPage);
     }
