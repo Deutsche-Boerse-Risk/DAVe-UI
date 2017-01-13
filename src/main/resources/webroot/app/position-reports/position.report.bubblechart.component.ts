@@ -5,7 +5,7 @@ import {AbstractComponentWithAutoRefresh} from '../abstract.component';
 import {ErrorResponse} from '../http.service';
 
 import {NUMBER_PIPE} from '../common/common.module';
-import {BubbleChartOptions, ChartData, ChartRow} from '../common/chart.types';
+import {BubbleChartOptions, ChartData, ChartRow, ChartValue} from '../common/chart.types';
 
 import {PositionReportsService} from './position.reports.service';
 import {
@@ -110,13 +110,13 @@ export class PositionReportBubbleChartComponent extends AbstractComponentWithAut
     public accountSelectionChanged(): void {
         if (this.accountSelection === null) return;
 
-        let series = {};
-        let underlyings = {};
+        let series: any = {};
+        let underlyings: any = {};
         let hIndex = {optionsIndex: 0, futuresIndex: 0};
         let vIndex: number = 0;
         let rows: ChartRow[] = [];
-        let hTicks = [];
-        let vTicks = [];
+        let hTicks: ChartValue[] = [];
+        let vTicks: ChartValue[] = [];
         let bubbles: PositionReportBubble[] = this.getLargestBubbles(this.accountSelection);
         for (let i = 0; i < bubbles.length; i++) {
             let hAxisKey: string = bubbles[i].symbol + '-' + bubbles[i].maturityMonthYear;

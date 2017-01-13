@@ -105,7 +105,7 @@ export abstract class AbstractHistoryListComponent<T> extends AbstractListCompon
 
     protected prepareChartData(): ChartData {
         if (!this.rawChartData || !this.rawChartData.length) {
-            return;
+            return null;
         }
 
         let i = 0;

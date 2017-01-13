@@ -18,7 +18,7 @@ export class RouterSubLinkDirective {
         }
     }
 
-    get urlTree(): UrlTree {
+    public get urlTree(): UrlTree {
         return this.router.createUrlTree(this.commands, {
             relativeTo: this.route,
         });

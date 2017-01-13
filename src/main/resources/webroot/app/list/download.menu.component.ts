@@ -21,7 +21,7 @@ export class DownloadMenuComponent {
 
     //noinspection JSUnusedGlobalSymbols
     public downloadAsCsv(): void {
-        const processRow = (row) => {
+        const processRow = (row: any) => {
             const keys = Object.keys(row);
 
             let finalVal = '';
@@ -49,7 +49,7 @@ export class DownloadMenuComponent {
             return finalVal + '\n';
         };
 
-        const createHeader = (row) => {
+        const createHeader = (row: any) => {
             const keys = Object.keys(row);
             let finalVal = '';
             let first = true;

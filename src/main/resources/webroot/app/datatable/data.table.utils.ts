@@ -97,6 +97,7 @@ export abstract class DataTableUtils {
                 return templates;
             }
         }
+        return null;
     }
 
     private static computeRowSpans(columnDirectives: DataTableColumnDirective[]): DataTableCell[][] {
@@ -128,6 +129,7 @@ export abstract class DataTableUtils {
                 return templates;
             }
         }
+        return null;
     }
 
     private static computeFooterSpans(columnDirectives: DataTableColumnDirective[]): DataTableCell[][] {
@@ -159,6 +161,7 @@ export abstract class DataTableUtils {
                 return templates;
             }
         }
+        return null;
     }
 
     private static computeTemplate(columnDirectives: DataTableColumnDirective[],
@@ -180,7 +183,7 @@ export abstract class DataTableUtils {
         });
 
         if (!columnDirectives || !columnDirectives.length) {
-            return;
+            return null;
         }
 
         let result: DataTableCell[][] = [[]];
@@ -247,6 +250,7 @@ export abstract class DataTableUtils {
         if (result.length) {
             return result;
         }
+        return null;
     }
 
     private static  computeColspan(columnDirective: DataTableColumnDirective): number {
@@ -254,6 +258,7 @@ export abstract class DataTableUtils {
         if (subColumns.length > 1) {
             return subColumns.length;
         }
+        return null;
     }
 
     private static  computeRowspan(rowspan: number, flatSubColumns: DataTableCell[][]): number {
@@ -263,9 +268,10 @@ export abstract class DataTableUtils {
         if (rowspan > 1) {
             return rowspan;
         }
+        return null;
     }
 
-    private static changeColspan(template: DataTableCell[], diffColspan: number) {
+    private static changeColspan(template: DataTableCell[], diffColspan: number): void {
         if (template && template.length) {
             let lastCell: DataTableCell = template[template.length - 1];
             if (lastCell.colspan) {

@@ -37,7 +37,7 @@ export class PagingComponent implements OnChanges {
         }
     }
 
-    public goToPage(page: number) {
+    public goToPage(page: number): void {
         this.pages = [];
         if (page > 3) {
             this.pages.push(page - 3);

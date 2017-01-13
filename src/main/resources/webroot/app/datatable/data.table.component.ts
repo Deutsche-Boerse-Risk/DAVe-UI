@@ -32,6 +32,9 @@ export class DataTableComponent implements OnChanges {
     @Input()
     public showFooter: boolean = true;
 
+    @Input()
+    public trackByRowKey: (index: number, row: any) => any;
+
     public pageRows: any[];
 
     private currentPage: number = 1;
@@ -42,7 +45,7 @@ export class DataTableComponent implements OnChanges {
         this.sort();
     }
 
-    public updatePage(page: number) {
+    public updatePage(page: number): void {
         if (!this.data) {
             return;
         }

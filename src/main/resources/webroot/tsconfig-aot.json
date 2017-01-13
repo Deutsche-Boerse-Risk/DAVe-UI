@@ -10,8 +10,11 @@
       "es6",
       "dom"
     ],
-    "noImplicitAny": false,
-    "suppressImplicitAnyIndexErrors": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "listFiles": true,
     "outDir": "dist/"
   },
   "files": [

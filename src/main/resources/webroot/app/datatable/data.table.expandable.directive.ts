@@ -8,9 +8,6 @@ import {selector} from './data.table.row.detail.expander.component';
 })
 export class DataTableExpandableDirective {
 
-    constructor() {
-    };
-
     public expand(masterRow: HTMLElement, enabled: boolean): void {
         if (!enabled) {
             return;

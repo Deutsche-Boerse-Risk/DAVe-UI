@@ -14,7 +14,7 @@
     </template>
 </span>
 <template [ngIf]="filteredRouteParts?.length > 2">
-    <span *ngFor="let route of getAdditionalRoutes(); let i=index"> /
+    <span *ngFor="let route of getAdditionalRoutes(); let i=index; trackBy:trackByIndex"> /
         <a [routerLink]="getRoute(i + 2)" *ngIf="!filteredRouteParts[route].inactive">
             {{filteredRouteParts[route].title}}
         </a>

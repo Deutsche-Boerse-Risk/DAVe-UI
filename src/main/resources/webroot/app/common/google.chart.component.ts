@@ -1,4 +1,4 @@
-import {ElementRef, Input, Component, OnChanges, HostBinding, OnInit, OnDestroy, SimpleChanges} from '@angular/core';
+import {Input, Component, OnChanges, HostBinding, OnInit, OnDestroy, SimpleChanges} from '@angular/core';
 
 import {ChartOptions, ChartData} from './chart.types';
 
@@ -13,8 +13,6 @@ declare let googleLoaded: any;
     styleUrls: ['../common.component.css']
 })
 export class GoogleChart implements OnInit, OnChanges, OnDestroy {
-
-    public _element: HTMLElement;
 
     @Input()
     public id: string;
@@ -35,10 +33,6 @@ export class GoogleChart implements OnInit, OnChanges, OnDestroy {
     private initialized: boolean = false;
 
     private wrapper: any;
-
-    constructor(public element: ElementRef) {
-        this._element = this.element.nativeElement;
-    }
 
     public ngOnInit(): void {
         this.initialized = true;
@@ -63,11 +57,11 @@ export class GoogleChart implements OnInit, OnChanges, OnDestroy {
             google.charts.load('current', {'packages': ['corechart', 'gauge']});
         }
         setTimeout(() => {
-            this.drawGraph(this.chartOptions, this.chartType, this.chartData, this._element)
+            this.drawGraph(this.chartOptions, this.chartType, this.chartData, this.id)
         }, 0);
     }
 
-    private drawGraph(chartOptions: ChartOptions, chartType, chartData: ChartData, ele) {
+    private drawGraph(chartOptions: ChartOptions, chartType: string, chartData: ChartData, id: string): void {
         google.charts.setOnLoadCallback(() => {
             this.ngOnDestroy();
 
@@ -75,7 +69,7 @@ export class GoogleChart implements OnInit, OnChanges, OnDestroy {
                 chartType: chartType,
                 dataTable: chartData,
                 options: chartOptions || {},
-                containerId: ele.id
+                containerId: id
             });
             this.wrapper.draw();
         });

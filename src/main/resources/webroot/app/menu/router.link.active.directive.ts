@@ -1,6 +1,6 @@
 import {
     Directive, Input, AfterContentInit, OnDestroy, OnChanges, ContentChildren, QueryList,
-    ElementRef, Renderer
+    ElementRef, Renderer, SimpleChanges
 } from '@angular/core';
 import {Router, NavigationEnd, RouterLinkWithHref, RouterLink} from '@angular/router';
 
@@ -36,7 +36,7 @@ export class RouterLinkActiveDirective implements OnChanges, OnDestroy, AfterCon
         });
     }
 
-    ngAfterContentInit(): void {
+    public ngAfterContentInit(): void {
         this.links.changes.subscribe(s => this.update());
         this.linksWithHrefs.changes.subscribe(s => this.update());
         this.subLinks.changes.subscribe(s => this.update());
@@ -44,7 +44,7 @@ export class RouterLinkActiveDirective implements OnChanges, OnDestroy, AfterCon
     }
 
     @Input()
-    set routerLinkActive(data: string[]|string) {
+    public set routerLinkActive(data: string[]|string) {
         if (Array.isArray(data)) {
             this.classes = <any>data;
         } else {
@@ -52,11 +52,11 @@ export class RouterLinkActiveDirective implements OnChanges, OnDestroy, AfterCon
         }
     }
 
-    ngOnChanges(changes: {}): any {
+    public ngOnChanges(changes: SimpleChanges): void {
         this.update();
     }
 
-    ngOnDestroy(): any {
+    public ngOnDestroy(): void {
         this.subscription.unsubscribe();
     }
 

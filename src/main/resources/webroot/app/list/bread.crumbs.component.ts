@@ -45,4 +45,8 @@ export class BreadCrumbsComponent implements OnChanges {
         }
         return items;
     }
+
+    public trackByIndex(index: number, routePart: RoutePart): number {
+        return routePart.index;
+    }
 }

@@ -41,14 +41,14 @@ export class HttpService<T> {
         let resourceURL: string = request.resourceURL;
         let index: number = 0;
         if (request.params) {
-            Object.keys(request.params).forEach((key: string) => {
-                resourceURL = resourceURL.replace(':' + index, request.params[key]);
+            request.params.forEach((param: string) => {
+                resourceURL = resourceURL.replace(':' + index, param);
                 index += 1;
             });
         }
         if (request.subParams) {
-            Object.keys(request.subParams).forEach((key: string) => {
-                resourceURL = resourceURL.replace(':' + index, request.subParams[key]);
+            request.subParams.forEach((param: string) => {
+                resourceURL = resourceURL.replace(':' + index, param);
                 index += 1;
             });
         }

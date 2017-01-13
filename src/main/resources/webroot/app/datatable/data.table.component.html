@@ -20,7 +20,7 @@
         </tr>
         </thead>
         <tbody *ngIf="pageRows && rowsTemplates">
-        <template ngFor let-row [ngForOf]="pageRows" expandable #expandable="expandable">
+        <template ngFor let-row [ngForOf]="pageRows" [ngForTrackBy]="trackByRowKey" expandable #expandable="expandable">
             <tr *ngFor="let rowsTemplate of rowsTemplates"
                 (click)="expandable.expand(masterRow, !!detailRowGroups)"
                 #masterRow>

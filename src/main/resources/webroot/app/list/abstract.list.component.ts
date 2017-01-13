@@ -23,7 +23,7 @@ export abstract class AbstractListComponent<T> extends AbstractComponentWithAuto
         super();
     }
 
-    public ngOnInit() {
+    public ngOnInit(): void {
         this.route.params.forEach(this.processRoute.bind(this));
 
         super.ngOnInit();
@@ -60,7 +60,7 @@ export abstract class AbstractListComponent<T> extends AbstractComponentWithAuto
     }
 
     protected processData(data: T[]): void {
-        let index;
+        let index: number;
 
         this.data = [];
         for (index = 0; index < data.length; ++index) {

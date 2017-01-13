@@ -41,7 +41,7 @@ export class ListComponent {
 
     private filterTimeoutHandle: NodeJS.Timer;
 
-    public filterAfterTimeout() {
+    public filterAfterTimeout(): void {
         clearTimeout(this.filterTimeoutHandle);
         this.filterTimeoutHandle = setTimeout(() => {
             this.filterChanged.emit(this.filterQuery);

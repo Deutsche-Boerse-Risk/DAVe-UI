@@ -1,7 +1,5 @@
 import {Component, Input} from '@angular/core';
 
-declare let $: any;
-
 @Component({
     moduleId: module.id,
     selector: 'drilldown-button',
