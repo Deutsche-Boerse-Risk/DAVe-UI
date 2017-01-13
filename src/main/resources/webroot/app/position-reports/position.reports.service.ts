@@ -178,12 +178,17 @@ export class PositionReportsService {
     }
 
     private computeUID(data: PositionReportServerData): string {
-        return Object.keys(data._id).sort().map((key: string) => {
-            let value: any = (<any>data._id)[key];
-            if (!value) {
-                return '';
-            }
-            return value.toString().replace('\.', '');
-        }).join('-');
+        if (data._id) {
+            return Object.keys(data._id).sort().map((key: string) => {
+                let value: any = (<any>data._id)[key];
+                if (!value) {
+                    return '';
+                }
+                return value.toString().replace('\.', '');
+            }).join('-');
+        } else if (data.id && data.id.$oid) {
+            return data.id.$oid;
+        }
+        return null;
     }
 }

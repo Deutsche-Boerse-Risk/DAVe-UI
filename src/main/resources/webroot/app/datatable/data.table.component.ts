@@ -172,6 +172,10 @@ export class DataTableComponent implements OnChanges {
         return this.rowDetailTableDefinitions;
     }
 
+    public trackByIndex(index: number): number {
+        return index;
+    }
+
     //</editor-fold>
 }
 
