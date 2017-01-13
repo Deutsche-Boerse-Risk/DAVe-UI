@@ -46,6 +46,9 @@ export class AuthService {
             }
         }
         setInterval(this.checkAuth.bind(this), 60000);
+        http.unauthorized.subscribe(() => {
+            this.logout();
+        });
     }
 
     public isLoggedIn(): boolean {

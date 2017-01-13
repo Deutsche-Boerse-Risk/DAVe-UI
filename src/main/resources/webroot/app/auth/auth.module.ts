@@ -13,7 +13,7 @@ import {LoginMenuComponent} from './login.menu.component';
 import {LoginComponent} from './login.component';
 
 export function AuthHttpFactory(http: Http, options: RequestOptions) {
-    return new AuthHttp(new AuthConfig(), http, options);
+    return new AuthHttp(new AuthConfig({noJwtError: true}), http, options);
 }
 
 @NgModule({

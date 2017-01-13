@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, EventEmitter} from '@angular/core';
 import {Http, RequestOptions, Response, Headers} from '@angular/http';
 
 import {AuthHttp} from 'angular2-jwt';
@@ -33,6 +33,8 @@ export interface ErrorResponse {
 
 @Injectable()
 export class HttpService<T> {
+
+    public unauthorized: EventEmitter<ErrorResponse> = new EventEmitter();
 
     constructor(private http: Http, private authHttp: AuthHttp) {
     }
@@ -69,11 +71,15 @@ export class HttpService<T> {
         return body.data || body;
     }
 
-    private static handleError(error: Response | any): Observable<any> {
+    private handleError(error: Response | any): Observable<any> {
         // In a real world app, we might use a remote logging infrastructure
         let errMsg: string, err: any, body: any;
         if (error.status === 401) {
             // Not logged in - login first
+            this.unauthorized.emit({
+                status: error.status,
+                message: error.statusText
+            });
             return Observable.throw({
                 status: error.status,
                 message: error.statusText
@@ -107,7 +113,7 @@ export class HttpService<T> {
         if (request.mapFunction) {
             requestObservable.map(request.mapFunction);
         }
-        return requestObservable.catch(HttpService.handleError);
+        return requestObservable.catch(this.handleError.bind(this));
     }
 
     public post(request: PostRequest<T>, auth: boolean = true): Observable<T> {
@@ -119,6 +125,6 @@ export class HttpService<T> {
         if (request.mapFunction) {
             requestObservable.map(request.mapFunction);
         }
-        return requestObservable.catch(HttpService.handleError);
+        return requestObservable.catch(this.handleError.bind(this));
     }
 }
