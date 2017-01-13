@@ -8,7 +8,8 @@
     <data-table [data]="data"
                 [footer]="footer"
                 [defaultOrdering]="defaultOrdering"
-                [showFooter]="false">
+                [showFooter]="false"
+                [trackByRowKey]="trackByRowKey">
         <column title="Clearer"
                 sortingKey="clearer">
             <template let-record="row" cell-template>

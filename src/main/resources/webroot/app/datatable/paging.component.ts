@@ -68,4 +68,8 @@ export class PagingComponent implements OnChanges {
         this.currentPage = page;
         this.pageChanged.emit(this.currentPage);
     }
+
+    public trackByIndex(index: number): number {
+        return index;
+    }
 }

@@ -51,4 +51,8 @@ export class MarginComponentsAggregationComponent extends AbstractComponentWithA
                     this.initialLoad = false;
                 });
     }
+
+    public trackByRowKey(index: number, row: MarginComponentsBaseData): string {
+        return row.uid;
+    }
 }

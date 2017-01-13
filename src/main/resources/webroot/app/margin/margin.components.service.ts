@@ -28,6 +28,7 @@ export class MarginComponentsService {
                 }
                 let newViewWindow: {[key: string]: MarginComponentsBaseData} = {};
                 let footerData: MarginComponentsBaseData = {
+                    uid: null,
                     variationMargin: 0,
                     liquiMargin: 0,
                     premiumMargin: 0,
@@ -54,6 +55,7 @@ export class MarginComponentsService {
                         footerData.additionalMargin += record.additionalMargin;
                     } else {
                         newViewWindow[fKey] = {
+                            uid: this.computeUID(record),
                             clearer: record.clearer,
                             member: record.member,
                             account: record.account,
@@ -98,6 +100,7 @@ export class MarginComponentsService {
             if (data) {
                 data.forEach((record: MarginComponentsServerData) => {
                     let row: MarginComponentsRowData = {
+                        uid: this.computeUID(record),
                         clearer: record.clearer,
                         member: record.member,
                         account: record.account,
@@ -139,6 +142,7 @@ export class MarginComponentsService {
             if (data) {
                 data.forEach((record: MarginComponentsServerData) => {
                     let row: MarginComponentsRowData = {
+                        uid: this.computeUID(record),
                         clearer: record.clearer,
                         member: record.member,
                         account: record.account,
@@ -162,5 +166,15 @@ export class MarginComponentsService {
                 return [];
             }
         });
+    }
+
+    private computeUID(data: MarginComponentsServerData): string {
+        return Object.keys(data._id).sort().map((key: string) => {
+            let value: any = (<any>data._id)[key];
+            if (!value) {
+                return '';
+            }
+            return value.toString().replace('\.', '');
+        }).join('-');
     }
 }

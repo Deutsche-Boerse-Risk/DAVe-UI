@@ -11,7 +11,7 @@
             <span aria-hidden="true" class="fa fa-step-backward"></span>
         </a>
     </li>
-    <li *ngFor="let page of pages"
+    <li *ngFor="let page of pages; trackBy:trackByIndex"
         [class.active]="page === currentPage"
         (click)="goToPage(page)">
         <a [attr.aria-label]="'Page ' + page">{{page}}</a>

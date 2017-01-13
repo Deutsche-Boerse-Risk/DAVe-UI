@@ -25,6 +25,7 @@ export interface TotalMarginServerData {
 }
 
 export interface TotalMarginData {
+    uid: string;
     clearer: string;
     pool: string;
     member: string;

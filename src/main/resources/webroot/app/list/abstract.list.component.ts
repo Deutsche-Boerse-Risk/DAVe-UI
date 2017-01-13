@@ -71,4 +71,8 @@ export abstract class AbstractListComponent<T> extends AbstractComponentWithAuto
         this.initialLoad = false;
     }
 
+    public trackByRowKey(index: number, row: {uid: string}): string {
+        return row.uid;
+    }
+
 }

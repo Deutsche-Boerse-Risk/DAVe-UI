@@ -31,6 +31,7 @@ export interface MarginShortfallSurplusServerData {
 }
 
 export interface MarginShortfallSurplusBase {
+    uid: string;
     shortfallSurplus: number;
     marginRequirement: number;
     securityCollateral: number;
@@ -85,6 +86,7 @@ export interface MarginComponentsServerData {
 }
 
 export interface MarginComponentsBaseData {
+    uid: string;
     clearer?: string;
     member?: string;
     account?: string;

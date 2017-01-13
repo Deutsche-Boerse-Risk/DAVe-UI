@@ -15,7 +15,8 @@
 
     <data-table [data]="data"
                 [pageSize]="pageSize"
-                [defaultOrdering]="defaultOrdering">
+                [defaultOrdering]="defaultOrdering"
+                [trackByRowKey]="trackByRowKey">
         <column title="Last update"
                 sortingKey="received">
             <template let-record="row" cell-template>

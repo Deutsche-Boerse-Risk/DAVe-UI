@@ -24,6 +24,7 @@ export class MarginShortfallSurplusService {
                     return {};
                 }
                 let result: MarginShortfallSurplusBase = {
+                    uid: null,
                     shortfallSurplus: 0,
                     marginRequirement: 0,
                     securityCollateral: 0,
@@ -57,6 +58,7 @@ export class MarginShortfallSurplusService {
             if (data) {
                 data.forEach((record: MarginShortfallSurplusServerData) => {
                     let row: MarginShortfallSurplusData = {
+                        uid: this.computeUID(record),
                         clearer: record.clearer,
                         member: record.member,
                         bizDt: record.bizDt,
@@ -97,6 +99,7 @@ export class MarginShortfallSurplusService {
             if (data) {
                 data.forEach((record: MarginShortfallSurplusServerData) => {
                     let row: MarginShortfallSurplusData = {
+                        uid: this.computeUID(record),
                         clearer: record.clearer,
                         member: record.member,
                         bizDt: record.bizDt,
@@ -119,5 +122,15 @@ export class MarginShortfallSurplusService {
                 return [];
             }
         });
+    }
+
+    private computeUID(data: MarginShortfallSurplusServerData): string {
+        return Object.keys(data._id).sort().map((key: string) => {
+            let value: any = (<any>data._id)[key];
+            if (!value) {
+                return '';
+            }
+            return value.toString().replace('\.', '');
+        }).join('-');
     }
 }

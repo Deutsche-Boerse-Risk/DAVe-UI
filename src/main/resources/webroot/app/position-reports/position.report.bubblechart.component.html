@@ -5,7 +5,7 @@
             <select name="memberSelect" id="memberSelect"
                     [(ngModel)]="memberSelection"
                     (ngModelChange)="memberSelectionChanged(memberSelection)">
-                <option *ngFor="let option of selection.getOptions()" [ngValue]="option">
+                <option *ngFor="let option of selection.getOptions(); trackBy:trackByIndex" [ngValue]="option">
                     {{option.member}}
                 </option>
             </select>
@@ -13,7 +13,7 @@
             <select name="accountSelect" id="accountSelect"
                     [(ngModel)]="accountSelection"
                     (ngModelChange)="accountSelectionChanged(accountSelection)">
-                <option *ngFor="let option of selection.get(memberSelection?.clearer + '-' + memberSelection?.member)?.subRecords.getOptions()"
+                <option *ngFor="let option of selection.get(memberSelection?.clearer + '-' + memberSelection?.member)?.subRecords.getOptions(); trackBy:trackByIndex"
                         [ngValue]="option">
                     {{option.account}}
                 </option>
@@ -22,7 +22,7 @@
             <select name="bubblesCount" id="bubblesCount"
                     [(ngModel)]="topRecordsCount"
                     (ngModelChange)="accountSelectionChanged(accountSelection)">
-                <option *ngFor="let bubblesCount of topRecords" [ngValue]="bubblesCount">
+                <option *ngFor="let bubblesCount of topRecords; trackBy:trackByIndex" [ngValue]="bubblesCount">
                     {{bubblesCount}}
                 </option>
             </select>

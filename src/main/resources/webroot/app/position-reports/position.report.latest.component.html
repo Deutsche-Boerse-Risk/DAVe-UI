@@ -8,7 +8,8 @@
     <data-table [data]="data"
                 [pageSize]="pageSize"
                 [defaultOrdering]="defaultOrdering"
-                [striped]="false">
+                [striped]="false"
+                [trackByRowKey]="trackByRowKey">
         <column title="Member / Client"
                 sortingKey="member">
             <template let-record="row" cell-template>

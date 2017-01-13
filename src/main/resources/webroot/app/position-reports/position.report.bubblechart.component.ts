@@ -328,4 +328,8 @@ export class PositionReportBubbleChartComponent extends AbstractComponentWithAut
     }
 
     // </editor-fold>
+
+    public trackByIndex(index: number): number {
+        return index;
+    }
 }

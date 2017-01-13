@@ -30,6 +30,7 @@ export class TotalMarginService {
             if (data) {
                 data.forEach((record: TotalMarginServerData) => {
                     let row: TotalMarginData = {
+                        uid: this.computeUID(record),
                         clearer: record.clearer,
                         member: record.member,
                         account: record.account,
@@ -66,6 +67,7 @@ export class TotalMarginService {
             if (data) {
                 data.forEach((record: TotalMarginServerData) => {
                     let row: TotalMarginData = {
+                        uid: this.computeUID(record),
                         clearer: record.clearer,
                         member: record.member,
                         account: record.account,
@@ -84,5 +86,15 @@ export class TotalMarginService {
                 return [];
             }
         });
+    }
+
+    private computeUID(data: TotalMarginServerData): string {
+        return Object.keys(data._id).sort().map((key: string) => {
+            let value: any = (<any>data._id)[key];
+            if (!value) {
+                return '';
+            }
+            return value.toString().replace('\.', '');
+        }).join('-');
     }
 }

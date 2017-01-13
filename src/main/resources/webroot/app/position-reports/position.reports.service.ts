@@ -16,7 +16,25 @@ export class PositionReportsService {
     }
 
     public getPositionReportsChartData(): Observable<PositionReportChartData[]> {
-        return this.http.get({resourceURL: chartsURL});
+        return this.http.get({resourceURL: chartsURL}).map((data: PositionReportServerData[]) => {
+            let chartRecords: PositionReportChartData[] = [];
+            if (data) {
+                data.forEach((record: PositionReportServerData) => {
+                    chartRecords.push({
+                        uid: this.computeUID(record),
+                        clearer: record.clearer,
+                        member: record.member,
+                        account: record.account,
+                        symbol: record.symbol,
+                        putCall: record.putCall,
+                        maturityMonthYear: record.maturityMonthYear,
+                        compVar: record.compVar,
+                        underlying: record.underlying
+                    });
+                });
+            }
+            return chartRecords;
+        });
     }
 
     public getPositionReportLatest(clearer: string = '*', member: string = '*', account: string = '*',
@@ -41,6 +59,7 @@ export class PositionReportsService {
             if (data) {
                 data.forEach((record: PositionReportServerData) => {
                     let row: PositionReportData = {
+                        uid: this.computeUID(record),
                         clearer: record.clearer,
                         member: record.member,
                         account: record.account,
@@ -112,6 +131,7 @@ export class PositionReportsService {
             if (data) {
                 data.forEach((record: PositionReportServerData) => {
                     let row: PositionReportData = {
+                        uid: this.computeUID(record),
                         clearer: record.clearer,
                         member: record.member,
                         account: record.account,
@@ -155,5 +175,15 @@ export class PositionReportsService {
                 return [];
             }
         });
+    }
+
+    private computeUID(data: PositionReportServerData): string {
+        return Object.keys(data._id).sort().map((key: string) => {
+            let value: any = (<any>data._id)[key];
+            if (!value) {
+                return '';
+            }
+            return value.toString().replace('\.', '');
+        }).join('-');
     }
 }

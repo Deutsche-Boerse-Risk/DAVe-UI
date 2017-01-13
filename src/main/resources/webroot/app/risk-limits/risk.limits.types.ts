@@ -25,6 +25,7 @@ export interface RiskLimitsServerData {
 }
 
 export interface RiskLimitsData {
+    uid: string;
     clearer: string;
     member: string;
     maintainer: string;

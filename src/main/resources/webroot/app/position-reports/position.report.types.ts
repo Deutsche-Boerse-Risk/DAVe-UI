@@ -53,6 +53,7 @@ export interface PositionReportServerData {
 }
 
 export interface PositionReportBase {
+    uid: string;
     clearer: string;
     member: string;
     account: string;

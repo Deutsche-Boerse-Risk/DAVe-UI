@@ -29,6 +29,7 @@ export class RiskLimitsService {
             if (data) {
                 data.forEach((record: RiskLimitsServerData) => {
                     let row: RiskLimitsData = {
+                        uid: this.computeUID(record),
                         clearer: record.clearer,
                         member: record.member,
                         maintainer: record.maintainer,
@@ -76,6 +77,7 @@ export class RiskLimitsService {
             if (data) {
                 data.forEach((record: RiskLimitsServerData) => {
                     let row: RiskLimitsData = {
+                        uid: this.computeUID(record),
                         clearer: record.clearer,
                         member: record.member,
                         maintainer: record.maintainer,
@@ -107,5 +109,15 @@ export class RiskLimitsService {
                 return [];
             }
         });
+    }
+
+    private computeUID(data: RiskLimitsServerData): string {
+        return Object.keys(data._id).sort().map((key: string) => {
+            let value: any = (<any>data._id)[key];
+            if (!value) {
+                return '';
+            }
+            return value.toString().replace('\.', '');
+        }).join('-');
     }
 }
