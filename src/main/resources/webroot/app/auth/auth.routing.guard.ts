@@ -9,7 +9,6 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     constructor(private authService: AuthService, private router: Router) {
     }
 
-    //noinspection JSUnusedLocalSymbols
     public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
         if (this.authService.isLoggedIn()) {
             return true;

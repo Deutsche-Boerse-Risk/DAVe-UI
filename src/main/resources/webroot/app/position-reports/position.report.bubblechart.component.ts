@@ -60,7 +60,6 @@ export class PositionReportBubbleChartComponent extends AbstractComponentWithAut
 
     //<editor-fold defaultstate="collapsed" desc="Member/Account/Bubbles count selection">
 
-    //noinspection JSUnusedGlobalSymbols
     public topRecords: number[] = [10, 20, 30];
 
     public topRecordsCount: number = 20;
@@ -94,7 +93,6 @@ export class PositionReportBubbleChartComponent extends AbstractComponentWithAut
         }
     }
 
-    //noinspection JSUnusedGlobalSymbols
     public memberSelectionChanged(): void {
         let memberKey = this.memberSelection.clearer + '-' + this.memberSelection.member;
 

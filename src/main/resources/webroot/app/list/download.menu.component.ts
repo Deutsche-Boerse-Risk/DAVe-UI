@@ -19,7 +19,6 @@ export class DownloadMenuComponent {
     @Input()
     public filename: string;
 
-    //noinspection JSUnusedGlobalSymbols
     public downloadAsCsv(): void {
         const processRow = (row: any) => {
             const keys = Object.keys(row);

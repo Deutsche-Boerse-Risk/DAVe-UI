@@ -42,7 +42,7 @@ export abstract class DataTableUtils {
         }
     }
 
-    public static  getColumnsCountForTemplate(definition: DataTableDefinition): number {
+    public static getColumnsCountForTemplate(definition: DataTableDefinition): number {
         let template: DataTableCell[];
         if (definition.headerTemplates && definition.headerTemplates.length) {
             template = definition.headerTemplates[0];
@@ -253,15 +253,15 @@ export abstract class DataTableUtils {
         return null;
     }
 
-    private static  computeColspan(columnDirective: DataTableColumnDirective): number {
-        let subColumns: DataTableColumnDirective[] = columnDirective.subColumns.toArray().slice(1);
-        if (subColumns.length > 1) {
-            return subColumns.length;
+    private static computeColspan(columnDirective: DataTableColumnDirective): number {
+        let subColumns: number = columnDirective.subColumns.length - 1;
+        if (subColumns > 1) {
+            return subColumns;
         }
         return null;
     }
 
-    private static  computeRowspan(rowspan: number, flatSubColumns: DataTableCell[][]): number {
+    private static computeRowspan(rowspan: number, flatSubColumns: DataTableCell[][]): number {
         if (flatSubColumns) {
             rowspan = rowspan - flatSubColumns.length;
         }

@@ -80,7 +80,6 @@ export class HttpService<T> {
             });
         } else {
             if (error instanceof Response) {
-                //noinspection UnusedCatchParameterJS
                 try {
                     body = error.json() || '';
                     err = body.error || JSON.stringify(body);
