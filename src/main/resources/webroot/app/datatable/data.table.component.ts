@@ -41,6 +41,8 @@ export class DataTableComponent implements OnChanges {
 
     private ordering: string[];
 
+    public highlighterStorage: any = {};
+
     public ngOnChanges(changes: SimpleChanges): void {
         this.sort();
     }

@@ -20,12 +20,14 @@
         </tr>
         </thead>
         <tbody *ngIf="pageRows && rowsTemplates">
-        <template ngFor let-row [ngForOf]="pageRows" [ngForTrackBy]="trackByRowKey" expandable #expandable="expandable">
+        <template ngFor let-row [ngForOf]="pageRows" let-rowIndex="index" [ngForTrackBy]="trackByRowKey"
+                  expandable #expandable="expandable">
             <tr *ngFor="let rowsTemplate of rowsTemplates; trackBy:trackByIndex"
                 (click)="expandable.expand(masterRow, !!detailRowGroups)"
-                #masterRow>
+                #masterRow
+                [highlighter]="trackByRowKey"
+                [context]="{ row: row, storage: highlighterStorage, index: rowIndex}">
                 <td *ngFor="let column of rowsTemplate; trackBy:trackByIndex"
-                    highlighter="record.pool"
                     [attr.rowspan]="column.rowspan"
                     [attr.colspan]="column.colspan">
                     <template *ngIf="column.cellTemplate"
@@ -33,7 +35,10 @@
                               [ngOutletContext]="{ row: row }"></template>
                 </td>
             </tr>
-            <tr *ngIf="detailRowGroups" class="hidden">
+            <tr *ngIf="detailRowGroups"
+                class="hidden"
+                [highlighter]="trackByRowKey"
+                [context]="{ row: row, storage: highlighterStorage, index: rowIndex}">
                 <td [attr.colspan]="detailRowColspan">
                     <table class="table table-condensed">
                         <template ngFor let-rowGroup [ngForOf]="detailRowGroups" [ngForTrackBy]="trackByIndex">
@@ -59,7 +64,6 @@
                             <tbody>
                             <tr *ngFor="let bodyRow of rowGroup.rowsTemplates; trackBy:trackByIndex">
                                 <td *ngFor="let column of bodyRow; trackBy:trackByIndex"
-                                    highlighter="record.pool"
                                     [attr.rowspan]="column.rowspan"
                                     [attr.colspan]="column.colspan">
                                     <template *ngIf="column.cellTemplate"
@@ -77,7 +81,6 @@
         <tfoot *ngIf="footerTemplates">
         <tr *ngFor="let footerTemplate of footerTemplates; trackBy:trackByIndex">
             <th *ngFor="let column of footerTemplate; trackBy:trackByIndex"
-                highlighter="record.pool"
                 [attr.rowspan]="column.rowspan"
                 [attr.colspan]="column.colspan">
                 <template *ngIf="column.footerTemplate"
