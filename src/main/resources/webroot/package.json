@@ -25,7 +25,7 @@
     "rxjs": "^5.0.2",
     "web-animations-js": "^2.2.2",
     "systemjs": "^0.19.41",
-    "zone.js": "^0.7.2",
+    "zone.js": "^0.7.4",
     "angular2-jwt": "^0.1.27",
     "jquery": "^3.1.0",
     "bootstrap": "^3.3.7",

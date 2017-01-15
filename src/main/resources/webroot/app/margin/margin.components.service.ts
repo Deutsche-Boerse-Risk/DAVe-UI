@@ -10,7 +10,7 @@ import {
     MarginComponentsRowData
 } from './margin.types';
 
-const marginComponentsAggregationURL: string = '/mc/latest/';
+const marginComponentsAggregationURL: string = '/mc/latest';
 const marginComponentsLatestURL: string = '/mc/latest/:0/:1/:2/:3/:4';
 const marginComponentsHistoryURL: string = '/mc/history/:0/:1/:2/:3/:4';
 

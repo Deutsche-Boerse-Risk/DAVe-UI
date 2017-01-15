@@ -10,7 +10,7 @@ export interface LineChartColumn extends ChartColumn {
     value: any;
 }
 
-export abstract class AbstractHistoryListComponent<T> extends AbstractListComponent<T> {
+export abstract class AbstractHistoryListComponent<T extends {uid: string}> extends AbstractListComponent<T> {
 
     protected rawChartData: LineChartColumn[][];
 
@@ -97,7 +97,10 @@ export abstract class AbstractHistoryListComponent<T> extends AbstractListCompon
                 return 1;
             return 0;
         });
+
+        delete this.rawChartData;
         this.rawChartData = chartData;
+        delete this.chartData;
         this.chartData = this.prepareChartData();
     }
 

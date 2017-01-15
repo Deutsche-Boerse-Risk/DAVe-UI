@@ -1,6 +1,6 @@
 import {AbstractListComponent} from './abstract.list.component';
 
-export abstract class AbstractLatestListComponent<T> extends AbstractListComponent<T> {
+export abstract class AbstractLatestListComponent<T extends {uid: string}> extends AbstractListComponent<T> {
 
     public filterQuery: string;
 
@@ -9,6 +9,7 @@ export abstract class AbstractLatestListComponent<T> extends AbstractListCompone
     protected processData(data: T[]): void {
         super.processData(data);
 
+        delete this.sourceData;
         this.sourceData = this.data;
 
         this.filter();

@@ -37,8 +37,39 @@ export class MarginComponentsAggregationComponent extends AbstractComponentWithA
         this.marginComponentsService.getMarginComponentsAggregationData()
             .subscribe(
                 (data: MarginComponentsAggregationData) => {
-                    this.data = data.aggregatedRows;
-                    this.footer = data.summary;
+                    // Remember old data
+                    let oldData: {[key: string]: MarginComponentsBaseData} = {};
+                    if (this.data) {
+                        this.data.forEach((value: MarginComponentsBaseData) => {
+                            oldData[value.uid] = value;
+                        });
+                        delete this.data;
+                    }
+                    this.data = [];
+
+                    // Merge the new and old data into old array so angular is able to do change detection correctly
+                    for (let index: number = 0; index < data.aggregatedRows.length; ++index) {
+                        let newValue = data.aggregatedRows[index];
+                        let oldValue = oldData[newValue.uid];
+                        if (oldValue) {
+                            this.data.push(oldValue);
+                            Object.keys(oldValue).concat(Object.keys(newValue)).forEach((key: string) => {
+                                (<any>oldValue)[key] = (<any>newValue)[key];
+                            });
+                        } else {
+                            this.data.push(newValue);
+                        }
+                    }
+                    oldData = null;
+
+                    // Merge the new and old data into old array so angular is able to do change detection correctly
+                    if (this.footer) {
+                        Object.keys(this.footer).concat(Object.keys(data.summary)).forEach((key: string) => {
+                            (<any>this.footer)[key] = (<any>data.summary)[key];
+                        });
+                    } else {
+                        this.footer = data.summary;
+                    }
 
                     delete this.errorMessage;
                     this.initialLoad = false;

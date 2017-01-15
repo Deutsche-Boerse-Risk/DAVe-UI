@@ -5,7 +5,7 @@ import {AbstractComponentWithAutoRefresh} from '../abstract.component';
 
 import {RoutePart} from './bread.crumbs.component';
 
-export abstract class AbstractListComponent<T> extends AbstractComponentWithAutoRefresh implements OnInit {
+export abstract class AbstractListComponent<T extends {uid: string}> extends AbstractComponentWithAutoRefresh implements OnInit {
 
     public initialLoad: boolean = true;
 
@@ -62,16 +62,36 @@ export abstract class AbstractListComponent<T> extends AbstractComponentWithAuto
     protected processData(data: T[]): void {
         let index: number;
 
-        this.data = [];
-        for (index = 0; index < data.length; ++index) {
-            this.data.push(data[index]);
+        // Remember old data
+        let oldData: {[key: string]: T} = {};
+        if (this.data) {
+            this.data.forEach((value: T) => {
+                oldData[value.uid] = value;
+            });
+            delete this.data;
         }
+        this.data = [];
+
+        // Merge the new and old data into old array so angular is able to do change detection correctly
+        for (index = 0; index < data.length; ++index) {
+            let newValue = data[index];
+            let oldValue = oldData[newValue.uid];
+            if (oldValue) {
+                this.data.push(oldValue);
+                Object.keys(oldValue).concat(Object.keys(newValue)).forEach((key: string) => {
+                    (<any>oldValue)[key] = (<any>newValue)[key];
+                });
+            } else {
+                this.data.push(newValue);
+            }
+        }
+        oldData = null;
 
         delete this.errorMessage;
         this.initialLoad = false;
     }
 
-    public trackByRowKey(index: number, row: {uid: string}): string {
+    public trackByRowKey(index: number, row: T): string {
         return row.uid;
     }
 
