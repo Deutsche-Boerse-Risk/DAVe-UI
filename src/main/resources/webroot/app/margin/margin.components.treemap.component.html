@@ -12,11 +12,8 @@
                       chartType="TreeMap"
                       [chartOptions]="chartOptions"
                       [chartData]="chartData"
-                      height="345px"></google-chart>
-        <!--<div google-chart chart="chartObject" agc-on-select="selectHandler(selectedItem)"-->
-        <!--style="height:345px; width:100%;"-->
-        <!--ng-if="chartObject.data.rows.length > 1"></div>-->
-        <!--<br/>-->
+                      height="345px"
+                      (selected)="selectHandler($event)"></google-chart>
 
         <a routerLink="/marginComponentLatest" class="btn btn-default btn-block">View Details</a>
     </div>

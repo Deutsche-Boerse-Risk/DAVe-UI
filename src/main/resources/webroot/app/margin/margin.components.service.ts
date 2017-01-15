@@ -7,10 +7,11 @@ import {
     MarginComponentsServerData,
     MarginComponentsAggregationData,
     MarginComponentsBaseData,
-    MarginComponentsRowData
+    MarginComponentsRowData, MarginComponentsTree, MarginComponentsTreeNode
 } from './margin.types';
 
 const marginComponentsAggregationURL: string = '/mc/latest';
+const marginComponentsTreemapURL: string = '/mc/latest';
 const marginComponentsLatestURL: string = '/mc/latest/:0/:1/:2/:3/:4';
 const marginComponentsHistoryURL: string = '/mc/history/:0/:1/:2/:3/:4';
 
@@ -81,6 +82,104 @@ export class MarginComponentsService {
                     }),
                     summary: footerData
                 };
+            });
+    }
+
+    public getMarginComponentsTreeMapData(): Observable<MarginComponentsTree> {
+        return this.http.get({resourceURL: marginComponentsTreemapURL}).map(
+            (data: MarginComponentsServerData[]) => {
+                if (!data) {
+                    return {};
+                }
+                let members: {[key: string]: boolean} = {};
+                let accounts: {[key: string]: boolean} = {};
+                let classes: {[key: string]: boolean} = {};
+                let tree = new MarginComponentsTree({id: 'all', text: 'all', value: 0});
+
+                for (let index = 0; index < data.length; ++index) {
+                    if (data[index].additionalMargin === 0) continue;
+
+                    let clearer = data[index].clearer;
+                    let member = clearer + '-' + data[index].member;
+                    let account = member + '-' + data[index].account;
+                    let clss = account + '-' + data[index].clss;
+                    let ccy = clss + '-' + data[index].ccy;
+
+                    if (!(member in members)) {
+                        members[member] = true;
+                        tree.add({
+                            id: member,
+                            text: member.replace(/\w+-/, ''),
+                            value: 0,
+                            clearer: clearer,
+                            member: data[index].member
+                        }, 'all');
+                    }
+
+                    if (!(account in accounts)) {
+                        accounts[account] = true;
+                        tree.add({
+                            id: account,
+                            text: account.replace(/\w+-/, ''),
+                            value: 0,
+                            clearer: clearer,
+                            member: data[index].member,
+                            account: data[index].account
+                        }, member);
+                    }
+
+                    if (!(clss in classes)) {
+                        classes[clss] = true;
+                        tree.add({
+                            id: clss,
+                            text: clss.replace(/\w+-/, ''),
+                            value: 0,
+                            clearer: clearer,
+                            member: data[index].member,
+                            account: data[index].account,
+                            clss: data[index].clss
+                        }, account);
+                    }
+
+                    tree.add({
+                        id: ccy,
+                        text: ccy.replace(/\w+-/, ''),
+                        value: data[index].additionalMargin,
+                        leaf: true,
+                        clearer: clearer,
+                        member: data[index].member,
+                        account: data[index].account,
+                        clss: data[index].clss,
+                        ccy: data[index].ccy
+                    }, clss);
+                }
+                tree.traverseDF((node: MarginComponentsTreeNode) => {
+                    node.children.sort(function (a, b) {
+                        return b.data.value - a.data.value;
+                    });
+                });
+                tree.traverseBF((node: MarginComponentsTreeNode) => {
+                    let restNode = new MarginComponentsTreeNode({
+                        id: node.data.id + '-Rest',
+                        text: node.data.text + '-Rest',
+                        value: 0,
+                        clearer: node.data.clearer
+                    });
+                    restNode.parent = node;
+                    let aggregateCount = Math.max(node.children.length - 10, 0);
+                    for (let i = 0; i < aggregateCount; i++) {
+                        let smallNode = node.children.pop();
+                        restNode.data.value += smallNode.data.value;
+                        restNode.children = restNode.children.concat(smallNode.children);
+                        for (let j = 0; j < smallNode.children.length; j++) {
+                            smallNode.children[j].parent = restNode;
+                        }
+                    }
+                    if (aggregateCount > 0) {
+                        node.children.push(restNode);
+                    }
+                });
+                return tree;
             });
     }
 

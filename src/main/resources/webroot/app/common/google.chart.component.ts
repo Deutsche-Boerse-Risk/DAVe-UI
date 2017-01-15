@@ -1,6 +1,8 @@
-import {Input, Component, OnChanges, HostBinding, OnInit, OnDestroy, SimpleChanges} from '@angular/core';
+import {
+    Input, Component, OnChanges, HostBinding, OnInit, OnDestroy, SimpleChanges, Output, EventEmitter
+} from '@angular/core';
 
-import {ChartOptions, ChartData} from './chart.types';
+import {ChartOptions, ChartData, SelectionEvent} from './chart.types';
 
 declare let google: any;
 declare let googleLoaded: any;
@@ -26,6 +28,9 @@ export class GoogleChart implements OnInit, OnChanges, OnDestroy {
     @Input()
     public chartData: ChartData;
 
+    @Output()
+    public selected: EventEmitter<SelectionEvent> = new EventEmitter();
+
     @Input()
     @HostBinding('style.height')
     public height: any;
@@ -33,6 +38,8 @@ export class GoogleChart implements OnInit, OnChanges, OnDestroy {
     private initialized: boolean = false;
 
     private wrapper: any;
+
+    private _selectionHandle: any;
 
     public ngOnInit(): void {
         this.initialized = true;
@@ -47,6 +54,7 @@ export class GoogleChart implements OnInit, OnChanges, OnDestroy {
 
     public ngOnDestroy(): void {
         if (this.wrapper) {
+            google.visualization.events.removeListener(this._selectionHandle);
             this.wrapper.clear();
         }
     }
@@ -72,6 +80,11 @@ export class GoogleChart implements OnInit, OnChanges, OnDestroy {
                 containerId: id
             });
             this.wrapper.draw();
+
+            this._selectionHandle = google.visualization.events.addListener(this.wrapper, 'select',
+                () => {
+                    this.selected.emit(this.wrapper.getChart().getSelection());
+                });
         });
     }
 }

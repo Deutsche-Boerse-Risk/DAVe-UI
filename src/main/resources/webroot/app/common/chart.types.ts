@@ -1,4 +1,14 @@
-export interface ChartOptions {
+export interface CommonChartOptions {
+
+    fontSize?: number;
+
+    forceIFrame?: boolean;
+
+    title?: string;
+    titleTextStyle?: ChartTextStyle;
+}
+
+export interface ChartOptions extends CommonChartOptions {
     animation?: ChartAnimation;
 
     axisTitlesPosition?: 'in' | 'out' | 'none';
@@ -13,11 +23,7 @@ export interface ChartOptions {
 
     explorer?: ChartExplorer;
 
-    fontSize?: number;
-
     fontName?: string;
-
-    forceIFrame?: boolean;
 
     hAxis?: ChartAxis;
 
@@ -36,11 +42,7 @@ export interface ChartOptions {
 
     theme?: 'maximized';
 
-    title?: string;
-
     titlePosition?: 'in' | 'out' | 'none';
-
-    titleTextStyle?: ChartTextStyle;
 
     tooltip?: ChartTooltip;
 
@@ -107,8 +109,42 @@ export interface BubbleChartOptions extends ChartOptions {
     sortBubblesBySize?: boolean;
 }
 
-export interface TreeMapOptions extends ChartOptions {
+export interface TreeMapOptions extends CommonChartOptions {
+    fontColor?: string;
 
+    fontFamily?: string;
+
+    headerColor?: string;
+
+    headerHeight?: number;
+    headerHighlightColor?: string;
+
+    highlightOnMouseOver?: boolean;
+
+    hintOpacity?: number;
+
+    maxColor?: string;
+    maxDepth?: number;
+    maxHighlightColor?: string;
+    maxPostDepth?: number;
+    maxColorValue?: number;
+
+    midColor?: string;
+    midHighlightColor?: string;
+
+    minColor?: string;
+    minHighlightColor?: string;
+    minColorValue?: number;
+
+    noColor?: string;
+    noHighlightColor?: string;
+
+    showScale?: boolean;
+    showTooltips?: boolean;
+
+    textStyle?: ChartTextStyle;
+
+    useWeightedAverageForAggregation?: boolean;
 }
 
 export interface ChartTrendLine {
@@ -284,9 +320,17 @@ export interface ChartColumn {
 
 export interface ChartRow {
     c?: ChartValue[];
+    originalData?: any;
 }
 
 export interface ChartData {
     cols?: ChartColumn[];
     rows?: ChartRow[];
+}
+
+export type SelectionEvent = SelectedItem[];
+
+export interface SelectedItem {
+    row: number;
+    column: number;
 }
