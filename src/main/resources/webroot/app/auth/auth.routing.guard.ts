@@ -16,7 +16,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
 
         this.authService.authRequestedPath = state.url;
 
-        this.router.navigate(['login']);
+        this.router.navigate(['/login']);
         return false;
     }
 

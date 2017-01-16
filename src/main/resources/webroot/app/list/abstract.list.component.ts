@@ -4,6 +4,8 @@ import {ActivatedRoute, Params} from '@angular/router';
 import {AbstractComponentWithAutoRefresh} from '../abstract.component';
 
 import {RoutePart} from './bread.crumbs.component';
+import {ExportColumn} from './download.menu.component';
+import {OrderingCriteria, OrderingValueGetter} from '../datatable/data.table.column.directive';
 
 export abstract class AbstractListComponent<T extends {uid: string}> extends AbstractComponentWithAutoRefresh implements OnInit {
 
@@ -29,9 +31,9 @@ export abstract class AbstractListComponent<T extends {uid: string}> extends Abs
         super.ngOnInit();
     }
 
-    public abstract get defaultOrdering(): string[];
+    public abstract get defaultOrdering(): (OrderingCriteria<T> | OrderingValueGetter<T>)[];
 
-    public abstract get exportKeys(): string[];
+    public abstract get exportKeys(): ExportColumn<T>[];
 
     protected abstract get routingKeys(): string[];
 

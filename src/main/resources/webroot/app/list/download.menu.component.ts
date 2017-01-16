@@ -1,6 +1,9 @@
 import {Component, Input} from '@angular/core';
 
-declare let $: any;
+export interface ExportColumn<T> {
+    get: (row: T) => any;
+    header: string;
+}
 
 @Component({
     moduleId: module.id,
@@ -11,7 +14,7 @@ declare let $: any;
 export class DownloadMenuComponent {
 
     @Input()
-    public columns: string[];
+    public columns: ExportColumn<any>[];
 
     @Input()
     public data: any[];
@@ -21,60 +24,54 @@ export class DownloadMenuComponent {
 
     public downloadAsCsv(): void {
         const processRow = (row: any) => {
-            const keys = Object.keys(row);
-
             let finalVal = '';
             let first = true;
-            for (let j = 0; j < keys.length; j++) {
-                if ($.inArray(keys[j], this.columns) > -1) {
-                    let innerValue = row[keys[j]] === null ? '' : row[keys[j]].toString();
+            this.columns.forEach((column: ExportColumn<any>) => {
+                let value = column.get(row);
+                let innerValue = !value ? '' : value.toString();
 
-                    if (row[keys[j]] instanceof Date) {
-                        innerValue = row[keys[j]].toLocaleString();
-                    }
-
-                    let result = innerValue.replace(/"/g, '""');
-
-                    if (result.search(/("|,|\n)/g) >= 0)
-                        result = '"' + result + '"';
-
-                    if (!first)
-                        finalVal += ',';
-
-                    first = false;
-                    finalVal += result;
+                if (value instanceof Date) {
+                    innerValue = value.toLocaleString();
                 }
-            }
+
+                let result = innerValue.replace(/"/g, '""');
+
+                if (result.search(/("|,|\n)/g) >= 0)
+                    result = '"' + result + '"';
+
+                if (!first)
+                    finalVal += ',';
+
+                first = false;
+                finalVal += result;
+            });
             return finalVal + '\n';
         };
 
-        const createHeader = (row: any) => {
-            const keys = Object.keys(row);
+        const createHeader = () => {
             let finalVal = '';
             let first = true;
-            for (let j = 0; j < keys.length; j++) {
-                if ($.inArray(keys[j], this.columns) > -1) {
-                    const innerValue = keys[j] === null ? '' : keys[j].toString();
-                    let result = innerValue.replace(/"/g, '""');
-                    if (result.search(/("|,|\n)/g) >= 0)
-                        result = '"' + result + '"';
-                    if (!first)
-                        finalVal += ',';
-                    first = false;
-                    finalVal += result;
-                }
-            }
+            this.columns.forEach((column: ExportColumn<any>) => {
+                const innerValue = !column.header ? '' : column.header.toString();
+                let result = innerValue.replace(/"/g, '""');
+                if (result.search(/("|,|\n)/g) >= 0)
+                    result = '"' + result + '"';
+                if (!first)
+                    finalVal += ',';
+                first = false;
+                finalVal += result;
+            });
             return finalVal + '\n';
         };
 
         let csvFile = '';
 
-        if (this.data.length > 0) {
-            csvFile += createHeader(this.data[0])
-        }
+        if (this.columns) {
+            csvFile += createHeader();
 
-        for (let i = 0; i < this.data.length; i++) {
-            csvFile += processRow(this.data[i]);
+            for (let i = 0; i < this.data.length; i++) {
+                csvFile += processRow(this.data[i]);
+            }
         }
 
         const blob = new Blob([csvFile], {type: 'text/csv;charset=utf-8;'});

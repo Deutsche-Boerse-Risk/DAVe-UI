@@ -95,7 +95,6 @@ export class PositionReportsService {
                     };
                     row.netLS = record.crossMarginLongQty - record.crossMarginShortQty;
                     row.netEA = (record.optionExcerciseQty - record.optionAssignmentQty) + (record.allocationTradeQty - record.deliveryNoticeQty);
-                    row.absCompVar = Math.abs(record.compVar);
 
                     if (record.strikePrice) {
                         row.strikePrice = parseFloat(record.strikePrice);

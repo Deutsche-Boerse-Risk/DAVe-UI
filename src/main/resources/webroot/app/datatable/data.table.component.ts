@@ -1,6 +1,6 @@
 import {Component, Input, OnChanges, QueryList, ContentChildren, SimpleChanges} from '@angular/core';
 
-import {DataTableColumnDirective} from './data.table.column.directive';
+import {DataTableColumnDirective, OrderingValueGetter, OrderingCriteria} from './data.table.column.directive';
 import {DataTableRowDetailDirective} from './data.table.row.detail.directive';
 import {DataTableColumnGroupDirective} from './data.table.column.group.directive';
 
@@ -23,8 +23,7 @@ export class DataTableComponent implements OnChanges {
     @Input()
     public pageSize: number;
 
-    @Input()
-    public defaultOrdering: string[];
+    private _defaultOrdering: OrderingCriteria<any>[];
 
     @Input()
     public striped: boolean = true;
@@ -37,11 +36,14 @@ export class DataTableComponent implements OnChanges {
 
     public pageRows: any[];
 
+    public highlighterStorage: any = {};
+
     private currentPage: number = 1;
 
-    private ordering: string[];
+    private ordering: OrderingCriteria<any>[];
 
-    public highlighterStorage: any = {};
+    private descending: boolean;
+    private sortingKey: OrderingCriteria<any>;
 
     public ngOnChanges(changes: SimpleChanges): void {
         this.sort();
@@ -62,21 +64,45 @@ export class DataTableComponent implements OnChanges {
         this.pageRows = this.data.slice(firstIndex, lastIndex);
     }
 
-    public sortRecords(sortingKey: string): void {
+    @Input()
+    public set defaultOrdering(value: (OrderingCriteria<any> | OrderingValueGetter<any>)[]) {
+        this._defaultOrdering = [];
+        if (value) {
+            value.forEach((criteria: OrderingCriteria<any> | OrderingValueGetter<any>) => {
+                if (typeof criteria === "function") {
+                    this._defaultOrdering.push({
+                        get: criteria,
+                        descending: false
+                    });
+                } else {
+                    criteria.descending = !!criteria.descending;
+                    this._defaultOrdering.push(criteria);
+                }
+            });
+        }
+    }
+
+    public sortRecords(sortingKey: OrderingCriteria<any>): void {
         if (!this.ordering) {
             this.ordering = [];
         }
 
-        let defaultOrdering = this.defaultOrdering;
+        if (this.sortingKey !== sortingKey) {
+            this.sortingKey = sortingKey;
+            this.descending = !sortingKey.descending;
+        }
+
+        let defaultOrdering = this._defaultOrdering;
         if (!defaultOrdering) {
             defaultOrdering = [];
         }
 
-        if (this.ordering[0] == sortingKey) {
-            this.ordering = ['-' + sortingKey].concat(defaultOrdering);
-        } else {
-            this.ordering = [sortingKey].concat(defaultOrdering);
-        }
+        this.descending = !this.descending;
+        this.ordering = [<OrderingCriteria<any>>{
+            get: this.sortingKey.get,
+            descending: this.descending
+        }].concat(defaultOrdering);
+
         this.sort();
     }
 
@@ -86,7 +112,7 @@ export class DataTableComponent implements OnChanges {
         }
 
         if (!this.ordering) {
-            this.ordering = this.defaultOrdering;
+            this.ordering = this._defaultOrdering;
         }
 
         if (!this.ordering) {
@@ -95,14 +121,10 @@ export class DataTableComponent implements OnChanges {
 
         this.data.sort((a: any, b: any) => {
             let comp: number = 0;
-            this.ordering.some((sortingKey: string) => {
-                let direction = 1;
-                if (sortingKey.startsWith('-')) {
-                    sortingKey = sortingKey.slice(1);
-                    direction = -1
-                }
-                let first = a[sortingKey];
-                let second = b[sortingKey];
+            this.ordering.some((sortingKey: OrderingCriteria<any>) => {
+                let direction = sortingKey.descending ? -1 : 1;
+                let first = sortingKey.get(a);
+                let second = sortingKey.get(b);
 
                 if (first < second) {
                     comp = -1 * direction;

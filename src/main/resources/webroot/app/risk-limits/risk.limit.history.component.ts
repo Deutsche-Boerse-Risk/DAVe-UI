@@ -7,10 +7,10 @@ import {RiskLimitsService} from './risk.limits.service';
 import {RiskLimitsData} from './risk.limits.types';
 
 import {AbstractHistoryListComponent, LineChartColumn} from '../list/abstract.history.list.component';
+import {ExportColumn} from '../list/download.menu.component';
+import {OrderingCriteria, OrderingValueGetter} from '../datatable/data.table.column.directive';
 
-import {exportKeys, routingKeys} from './risk.limit.latest.component';
-
-const defaultOrdering = ['-received'];
+import {exportKeys, routingKeys, valueGetters} from './risk.limit.latest.component';
 
 @Component({
     moduleId: module.id,
@@ -66,11 +66,11 @@ export class RiskLimitHistoryComponent extends AbstractHistoryListComponent<Risk
         ];
     }
 
-    public get defaultOrdering(): string[] {
+    public get defaultOrdering(): (OrderingCriteria<RiskLimitsData> | OrderingValueGetter<RiskLimitsData>)[] {
         return defaultOrdering;
     }
 
-    public get exportKeys(): string[] {
+    public get exportKeys(): ExportColumn<RiskLimitsData>[] {
         return exportKeys;
     }
 
@@ -86,4 +86,16 @@ export class RiskLimitHistoryComponent extends AbstractHistoryListComponent<Risk
         return '/riskLimitLatest';
     }
 
+    public get valueGetters() {
+        return valueGetters;
+    }
 }
+
+//<editor-fold defaultstate="collapsed" desc="Value getters, default ordering, exported columns">
+
+const defaultOrdering: (OrderingCriteria<RiskLimitsData> | OrderingValueGetter<RiskLimitsData>)[] = [{
+    get: valueGetters.received,
+    descending: true
+}];
+
+//</editor-fold>

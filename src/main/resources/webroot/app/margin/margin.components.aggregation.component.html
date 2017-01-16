@@ -11,25 +11,25 @@
                 [showFooter]="false"
                 [trackByRowKey]="trackByRowKey">
         <column title="Clearer"
-                sortingKey="clearer">
+                [sortingKey]="valueGetters.clearer">
             <template let-record="row" cell-template>
                 <a [routerLink]="['/marginComponentLatest', record.clearer]">{{record.clearer}}</a>
             </template>
         </column>
         <column title="Member / Client"
-                sortingKey="member">
+                [sortingKey]="valueGetters.member">
             <template let-record="row" cell-template>
                 <a [routerLink]="['/marginComponentLatest', record.clearer, record.member]">{{record.member}}</a>
             </template>
         </column>
         <column title="Account"
-                sortingKey="account">
+                [sortingKey]="valueGetters.account">
             <template let-record="row" cell-template>
                 <a [routerLink]="['/marginComponentLatest', record.clearer, record.member, record.account]">{{record.account}}</a>
             </template>
         </column>
         <column title="Variation Margin"
-                sortingKey="variationMargin">
+                [sortingKey]="valueGetters.variationMargin">
             <template let-record="row" cell-template>
                 {{record.variationMargin | number:'.2-2'}}
             </template>
@@ -38,7 +38,7 @@
             </template>
         </column>
         <column title="Liquidation Margin"
-                sortingKey="liquiMargin">
+                [sortingKey]="valueGetters.liquiMargin">
             <template let-record="row" cell-template>
                 {{record.liquiMargin | number:'.2-2'}}
             </template>
@@ -47,7 +47,7 @@
             </template>
         </column>
         <column title="Premium Margin"
-                sortingKey="premiumMargin">
+                [sortingKey]="valueGetters.premiumMargin">
             <template let-record="row" cell-template>
                 {{record.premiumMargin | number:'.2-2'}}
             </template>
@@ -56,7 +56,7 @@
             </template>
         </column>
         <column title="Spread Margin"
-                sortingKey="spreadMargin">
+                [sortingKey]="valueGetters.spreadMargin">
             <template let-record="row" cell-template>
                 {{record.spreadMargin | number:'.2-2'}}
             </template>
@@ -65,7 +65,7 @@
             </template>
         </column>
         <column title="Total Margin"
-                sortingKey="additionalMargin">
+                [sortingKey]="valueGetters.additionalMargin">
             <template let-record="row" cell-template>
                 {{record.additionalMargin | number:'.2-2'}}
             </template>

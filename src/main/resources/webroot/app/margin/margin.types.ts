@@ -78,7 +78,6 @@ export interface MarginComponentsServerData {
     liquiMargin?: number;
     spreadMargin?: number;
     additionalMargin?: number;
-    absAdditionalMargin?: number;
     marketRisk?: number;
     longOptionCredit?: number;
     liquRisk?: number;
@@ -95,7 +94,6 @@ export interface MarginComponentsBaseData {
     premiumMargin: number;
     spreadMargin: number;
     additionalMargin: number;
-    absAdditionalMargin?: number;
 }
 
 export interface MarginComponentsRowData extends MarginComponentsBaseData {

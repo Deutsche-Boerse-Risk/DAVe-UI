@@ -77,7 +77,6 @@ export class MarginComponentsService {
 
                 return {
                     aggregatedRows: Object.keys(newViewWindow).map((key: string) => {
-                        newViewWindow[key].absAdditionalMargin = Math.abs(newViewWindow[key].additionalMargin);
                         return newViewWindow[key];
                     }),
                     summary: footerData
@@ -105,7 +104,7 @@ export class MarginComponentsService {
                     let clss = account + '-' + data[index].clss;
                     let ccy = clss + '-' + data[index].ccy;
 
-                    if (!(member in members)) {
+                    if (!members[member]) {
                         members[member] = true;
                         tree.add({
                             id: member,
@@ -116,7 +115,7 @@ export class MarginComponentsService {
                         }, 'all');
                     }
 
-                    if (!(account in accounts)) {
+                    if (!accounts[account]) {
                         accounts[account] = true;
                         tree.add({
                             id: account,
@@ -128,7 +127,7 @@ export class MarginComponentsService {
                         }, member);
                     }
 
-                    if (!(clss in classes)) {
+                    if (!classes[clss]) {
                         classes[clss] = true;
                         tree.add({
                             id: clss,
@@ -215,7 +214,6 @@ export class MarginComponentsService {
                     };
 
                     row.variLiqui = record.variationMargin + record.liquiMargin;
-                    row.absAdditionalMargin = Math.abs(record.additionalMargin);
 
                     result.push(row);
                 });

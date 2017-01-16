@@ -34,7 +34,7 @@ export class LoginComponent {
                     if (this.authService.authRequestedPath) {
                         this.router.navigateByUrl(this.authService.authRequestedPath);
                     }
-                    this.router.navigate(['dashboard']);
+                    this.router.navigate(['/dashboard']);
                 } else {
                     this.errorMessage = 'Authentication failed. Server didn\'t generate a token.';
                 }

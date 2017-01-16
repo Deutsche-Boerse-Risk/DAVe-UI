@@ -75,7 +75,6 @@ export interface PositionReportData extends PositionReportBase {
     delta: number;
     netLS?: number;
     netEA?: number;
-    absCompVar?: number;
     bizDt: string;
     crossMarginLongQty: number;
     crossMarginShortQty: number;

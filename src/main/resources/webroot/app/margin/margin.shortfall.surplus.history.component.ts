@@ -8,10 +8,10 @@ import {MarginShortfallSurplusData} from './margin.types';
 
 import {AbstractHistoryListComponent, LineChartColumn} from '../list/abstract.history.list.component';
 import {RoutePart} from '../list/bread.crumbs.component';
+import {ExportColumn} from '../list/download.menu.component';
+import {OrderingCriteria, OrderingValueGetter} from '../datatable/data.table.column.directive';
 
-import {exportKeys, routingKeys} from './margin.shortfall.surplus.latest.component';
-
-const defaultOrdering = ['-received'];
+import {exportKeys, routingKeys, valueGetters} from './margin.shortfall.surplus.latest.component';
 
 @Component({
     moduleId: module.id,
@@ -81,11 +81,11 @@ export class MarginShortfallSurplusHistoryComponent extends AbstractHistoryListC
         return super.createRoutePart(title, routePath, key, index)
     }
 
-    public get defaultOrdering(): string[] {
+    public get defaultOrdering(): (OrderingCriteria<MarginShortfallSurplusData> | OrderingValueGetter<MarginShortfallSurplusData>)[] {
         return defaultOrdering;
     }
 
-    public get exportKeys(): string[] {
+    public get exportKeys(): ExportColumn<MarginShortfallSurplusData>[] {
         return exportKeys;
     }
 
@@ -101,4 +101,16 @@ export class MarginShortfallSurplusHistoryComponent extends AbstractHistoryListC
         return '/marginShortfallSurplusLatest';
     }
 
+    public get valueGetters() {
+        return valueGetters;
+    }
 }
+
+//<editor-fold defaultstate="collapsed" desc="Value getters, default ordering, exported columns">
+
+const defaultOrdering: (OrderingCriteria<MarginShortfallSurplusData> | OrderingValueGetter<MarginShortfallSurplusData>)[] = [{
+    get: valueGetters.received,
+    descending: true
+}];
+
+//</editor-fold>

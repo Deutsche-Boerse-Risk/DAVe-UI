@@ -11,7 +11,7 @@
                 [striped]="false"
                 [trackByRowKey]="trackByRowKey">
         <column title="Member / Client"
-                sortingKey="member">
+                [sortingKey]="valueGetters.member">
             <template let-record="row" cell-template>
                 <a [routerLink]="['/positionReportLatest', record.clearer | nullvalue:'*', record.member | nullvalue:'*']">
                     {{record.member}}
@@ -19,7 +19,7 @@
             </template>
         </column>
         <column title="Account"
-                sortingKey="account">
+                [sortingKey]="valueGetters.account">
             <template let-record="row" cell-template>
                 <a [routerLink]="['/positionReportLatest', record.clearer | nullvalue:'*', record.member | nullvalue:'*', record.account | nullvalue:'*']">
                     {{record.account}}
@@ -28,7 +28,7 @@
         </column>
         <column title="Symbol"
                 tooltip="Product symbol"
-                sortingKey="symbol">
+                [sortingKey]="valueGetters.symbol">
             <template let-record="row" cell-template>
                 <a [routerLink]="['/positionReportLatest', routeParams['clearer'] | nullvalue:'*', routeParams['member'] | nullvalue:'*', routeParams['account'] | nullvalue:'*', record.class | nullvalue:'*', record.symbol | nullvalue:'*']">
                     {{record.symbol}}
@@ -37,7 +37,7 @@
         </column>
         <column title="P/C"
                 tooltip="Put / Call flag (Options only)"
-                sortingKey="putCall">
+                [sortingKey]="valueGetters.putCall">
             <template let-record="row" cell-template>
                 <a [routerLink]="['/positionReportLatest', routeParams['clearer'] | nullvalue:'*', routeParams['member'] | nullvalue:'*', routeParams['account'] | nullvalue:'*', record.class | nullvalue:'*', record.symbol | nullvalue:'*', record.putCall | nullvalue:'*']">
                     {{record.putCall}}
@@ -46,7 +46,7 @@
         </column>
         <column title="Strk"
                 tooltip="Strike (exercise) price (Options only)"
-                sortingKey="strikePrice">
+                [sortingKey]="valueGetters.strikePrice">
             <template let-record="row" cell-template>
                 <a [routerLink]="['/positionReportLatest', routeParams['clearer'] | nullvalue:'*', routeParams['member'] | nullvalue:'*', routeParams['account'] | nullvalue:'*', record.class | nullvalue:'*', record.symbol | nullvalue:'*', record.putCall | nullvalue:'*', record.strikePrice | nullvalue:'*']">
                     {{record.strikePrice | number:'.2-2'}}
@@ -55,7 +55,7 @@
         </column>
         <column title="Opt"
                 tooltip="Version number (Options only)"
-                sortingKey="optAttribute">
+                [sortingKey]="valueGetters.optAttribute">
             <template let-record="row" cell-template>
                 <a [routerLink]="['/positionReportLatest', routeParams['clearer'] | nullvalue:'*', routeParams['member'] | nullvalue:'*', routeParams['account'] | nullvalue:'*', record.class | nullvalue:'*', record.symbol | nullvalue:'*', record.putCall | nullvalue:'*', record.strikePrice | nullvalue:'*', record.optAttribute | nullvalue:'*']">
                     {{record.optAttribute}}
@@ -64,7 +64,7 @@
         </column>
         <column title="MMY"
                 tooltip="Maturity month and year"
-                sortingKey="maturityMonthYear">
+                [sortingKey]="valueGetters.maturityMonthYear">
             <template let-record="row" cell-template>
                 <a [routerLink]="['/positionReportLatest', routeParams['clearer'] | nullvalue:'*', routeParams['member'] | nullvalue:'*', routeParams['account'] | nullvalue:'*', record.class | nullvalue:'*', record.symbol | nullvalue:'*', record.putCall | nullvalue:'*', record.strikePrice | nullvalue:'*', record.optAttribute | nullvalue:'*', record.maturityMonthYear | nullvalue:'*']">
                     {{record.maturityMonthYear}}
@@ -73,28 +73,28 @@
         </column>
         <column title="NetLS"
                 tooltip="Net position"
-                sortingKey="netLS">
+                [sortingKey]="valueGetters.netLS">
             <template let-record="row" cell-template>
                 {{record.netLS | number:'.2-2'}}
             </template>
         </column>
         <column title="Position VaR"
                 tooltip="PnL of the position when calculating portfolio VaR"
-                sortingKey="compVar">
+                [sortingKey]="valueGetters.compVar">
             <template let-record="row" cell-template>
                 {{record.compVar | number:'.2-2'}}
             </template>
         </column>
         <column title="EuroDelta"
                 tooltip="Position sensibility to underlying move in Euro"
-                sortingKey="delta">
+                [sortingKey]="valueGetters.delta">
             <template let-record="row" cell-template>
                 {{record.delta | number:'.2-2'}}
             </template>
         </column>
         <column title="LA"
                 tooltip="Liquidity Addon of the position"
-                sortingKey="compLiquidityAddOn">
+                [sortingKey]="valueGetters.compLiquidityAddOn">
             <template let-record="row" cell-template>
                 {{record.compLiquidityAddOn | number:'.2-2'}}
             </template>

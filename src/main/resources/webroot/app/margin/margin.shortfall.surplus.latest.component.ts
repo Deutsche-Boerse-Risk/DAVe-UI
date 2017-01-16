@@ -7,13 +7,10 @@ import {MarginShortfallSurplusService} from './margin.shortfall.surplus.service'
 import {MarginShortfallSurplusData} from './margin.types';
 
 import {AbstractLatestListComponent} from '../list/abstract.latest.list.component';
+import {ExportColumn} from '../list/download.menu.component';
+import {OrderingCriteria, OrderingValueGetter} from '../datatable/data.table.column.directive';
 
 export const routingKeys: string[] = ['clearer', 'pool', 'member', 'clearingCcy'];
-
-export const exportKeys: string[] = ['clearer', 'pool', 'poolType', 'member', 'clearingCcy', 'ccy', 'bizDt',
-    'marginRequirement', 'securityCollateral', 'cashBalance', 'shortfallSurplus', 'marginCall', 'received'];
-
-const defaultOrdering = ['shortfallSurplus', 'clearer', 'pool', 'member', 'clearingCcy', 'ccy'];
 
 @Component({
     moduleId: module.id,
@@ -40,11 +37,11 @@ export class MarginShortfallSurplusLatestComponent extends AbstractLatestListCom
                 });
     }
 
-    public get defaultOrdering(): string[] {
+    public get defaultOrdering(): (OrderingCriteria<MarginShortfallSurplusData> | OrderingValueGetter<MarginShortfallSurplusData>)[] {
         return defaultOrdering;
     }
 
-    public get exportKeys(): string[] {
+    public get exportKeys(): ExportColumn<MarginShortfallSurplusData>[] {
         return exportKeys;
     }
 
@@ -60,4 +57,116 @@ export class MarginShortfallSurplusLatestComponent extends AbstractLatestListCom
         return '/marginShortfallSurplusLatest';
     }
 
+    public get valueGetters() {
+        return valueGetters;
+    }
 }
+
+//<editor-fold defaultstate="collapsed" desc="Value getters, default ordering, exported columns">
+
+export const valueGetters = {
+    clearer: (row: MarginShortfallSurplusData) => {
+        return row.clearer
+    },
+    pool: (row: MarginShortfallSurplusData) => {
+        return row.pool
+    },
+    poolType: (row: MarginShortfallSurplusData) => {
+        return row.poolType
+    },
+    member: (row: MarginShortfallSurplusData) => {
+        return row.member
+    },
+    clearingCcy: (row: MarginShortfallSurplusData) => {
+        return row.clearingCcy
+    },
+    ccy: (row: MarginShortfallSurplusData) => {
+        return row.ccy
+    },
+    shortfallSurplus: (row: MarginShortfallSurplusData) => {
+        return row.shortfallSurplus
+    },
+    marginRequirement: (row: MarginShortfallSurplusData) => {
+        return row.marginRequirement
+    },
+    securityCollateral: (row: MarginShortfallSurplusData) => {
+        return row.securityCollateral
+    },
+    cashBalance: (row: MarginShortfallSurplusData) => {
+        return row.cashBalance
+    },
+    marginCall: (row: MarginShortfallSurplusData) => {
+        return row.marginCall
+    },
+    received: (row: MarginShortfallSurplusData) => {
+        return row.received
+    }
+};
+
+const defaultOrdering: (OrderingCriteria<MarginShortfallSurplusData> | OrderingValueGetter<MarginShortfallSurplusData>)[] = [
+    valueGetters.shortfallSurplus,
+    valueGetters.clearer,
+    valueGetters.pool,
+    valueGetters.member,
+    valueGetters.clearingCcy,
+    valueGetters.ccy
+];
+
+export const exportKeys: ExportColumn<MarginShortfallSurplusData>[] = [
+    {
+        get: valueGetters.clearer,
+        header: 'Clearer'
+    },
+    {
+        get: valueGetters.pool,
+        header: 'Collateral Pool'
+    },
+    {
+        get: valueGetters.poolType,
+        header: 'Pool Type'
+    },
+    {
+        get: valueGetters.member,
+        header: 'Member / Client'
+    },
+    {
+        get: valueGetters.clearingCcy,
+        header: 'Clearing Ccy'
+    },
+    {
+        get: valueGetters.ccy,
+        header: 'Ccy'
+    },
+    {
+        get: (row: MarginShortfallSurplusData) => {
+            return row.bizDt
+        },
+        header: 'BizDt'
+    },
+    {
+        get: valueGetters.marginRequirement,
+        header: 'Margin Requirement'
+    },
+    {
+        get: valueGetters.securityCollateral,
+        header: 'Collateral'
+    },
+    {
+        get: valueGetters.cashBalance,
+        header: 'Cash Balance'
+    },
+    {
+        get: valueGetters.shortfallSurplus,
+        header: 'Shortfall / Surplus'
+    },
+    {
+        get: valueGetters.marginCall,
+        header: 'Margin Call'
+    },
+    {
+        get: valueGetters.received,
+        header: 'Last update'
+    }
+];
+
+//</editor-fold>

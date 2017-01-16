@@ -3,6 +3,13 @@ import {Directive, Input, TemplateRef, QueryList, ContentChildren} from '@angula
 import {DataTableColumnCellDirective} from './data.table.column.cell.directive';
 import {DataTableColumnFooterDirective} from './data.table.column.footer.directive';
 
+export type OrderingValueGetter<T> = (row: T) => any;
+
+export interface OrderingCriteria<T> {
+    get: OrderingValueGetter<T>;
+    descending?: boolean;
+}
+
 @Directive({
     selector: 'column'
 })
@@ -12,7 +19,7 @@ export class DataTableColumnDirective {
     public title: string;
 
     @Input()
-    public sortingKey: string;
+    public sortingKey: OrderingCriteria<any> | OrderingValueGetter<any>;
 
     @Input()
     public tooltip: string;

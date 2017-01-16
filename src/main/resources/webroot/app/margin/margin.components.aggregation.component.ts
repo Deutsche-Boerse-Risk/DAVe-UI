@@ -2,12 +2,12 @@ import {Component} from '@angular/core';
 
 import {AbstractComponentWithAutoRefresh} from '../abstract.component';
 
+import {OrderingCriteria, OrderingValueGetter} from '../datatable/data.table.column.directive';
+
 import {ErrorResponse} from '../http.service';
 
 import {MarginComponentsService} from './margin.components.service';
 import {MarginComponentsBaseData, MarginComponentsAggregationData} from './margin.types';
-
-const defaultOrdering = ['-absAdditionalMargin', 'clearer', 'member', 'account'];
 
 @Component({
     moduleId: module.id,
@@ -29,7 +29,7 @@ export class MarginComponentsAggregationComponent extends AbstractComponentWithA
         super();
     }
 
-    public get defaultOrdering(): string[] {
+    public get defaultOrdering(): (OrderingCriteria<MarginComponentsBaseData> | OrderingValueGetter<MarginComponentsBaseData>)[] {
         return defaultOrdering;
     }
 
@@ -86,4 +86,51 @@ export class MarginComponentsAggregationComponent extends AbstractComponentWithA
     public trackByRowKey(index: number, row: MarginComponentsBaseData): string {
         return row.uid;
     }
+
+    public get valueGetters() {
+        return valueGetters;
+    }
 }
+
+//<editor-fold defaultstate="collapsed" desc="Value getters, default ordering, exported columns">
+
+const valueGetters = {
+    clearer: (row: MarginComponentsBaseData) => {
+        return row.clearer
+    },
+    member: (row: MarginComponentsBaseData) => {
+        return row.member
+    },
+    account: (row: MarginComponentsBaseData) => {
+        return row.account
+    },
+    variationMargin: (row: MarginComponentsBaseData) => {
+        return row.variationMargin
+    },
+    liquiMargin: (row: MarginComponentsBaseData) => {
+        return row.liquiMargin
+    },
+    premiumMargin: (row: MarginComponentsBaseData) => {
+        return row.premiumMargin
+    },
+    spreadMargin: (row: MarginComponentsBaseData) => {
+        return row.spreadMargin
+    },
+    additionalMargin: (row: MarginComponentsBaseData) => {
+        return row.additionalMargin
+    },
+};
+
+const defaultOrdering: (OrderingCriteria<MarginComponentsBaseData> | OrderingValueGetter<MarginComponentsBaseData>)[] = [
+    {
+        get: (row: MarginComponentsBaseData) => {
+            return Math.abs(row.additionalMargin);
+        },
+        descending: true
+    },
+    valueGetters.clearer,
+    valueGetters.member,
+    valueGetters.account
+];
+
+//</editor-fold>

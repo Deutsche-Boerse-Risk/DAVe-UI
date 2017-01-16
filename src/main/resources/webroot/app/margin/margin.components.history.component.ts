@@ -7,10 +7,10 @@ import {MarginComponentsService} from './margin.components.service';
 import {MarginComponentsRowData} from './margin.types';
 
 import {AbstractHistoryListComponent, LineChartColumn} from '../list/abstract.history.list.component';
+import {ExportColumn} from '../list/download.menu.component';
+import {OrderingCriteria} from '../datatable/data.table.column.directive';
 
-import {exportKeys, routingKeys} from './margin.components.latest.component';
-
-const defaultOrdering = ['-received'];
+import {exportKeys, routingKeys, valueGetters} from './margin.components.latest.component';
 
 @Component({
     moduleId: module.id,
@@ -65,11 +65,11 @@ export class MarginComponentsHistoryComponent extends AbstractHistoryListCompone
         ];
     }
 
-    public get defaultOrdering(): string[] {
+    public get defaultOrdering(): OrderingCriteria<MarginComponentsRowData>[] {
         return defaultOrdering;
     }
 
-    public get exportKeys(): string[] {
+    public get exportKeys(): ExportColumn<MarginComponentsRowData>[] {
         return exportKeys;
     }
 
@@ -85,4 +85,16 @@ export class MarginComponentsHistoryComponent extends AbstractHistoryListCompone
         return '/marginComponentLatest';
     }
 
+    public get valueGetters() {
+        return valueGetters;
+    }
 }
+
+//<editor-fold defaultstate="collapsed" desc="Value getters, default ordering, exported columns">
+
+const defaultOrdering: OrderingCriteria<MarginComponentsRowData>[] = [{
+    get: valueGetters.received,
+    descending: true
+}];
+
+//</editor-fold>

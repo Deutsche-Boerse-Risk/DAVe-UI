@@ -17,26 +17,26 @@
                 [defaultOrdering]="defaultOrdering"
                 [trackByRowKey]="trackByRowKey">
         <column title="Last update"
-                sortingKey="received">
+                [sortingKey]="valueGetters.received">
             <template let-record="row" cell-template>
                 {{record.received | date:'HH:mm:ss'}}
             </template>
         </column>
         <column title="Limit utilization"
-                sortingKey="utilization">
+                [sortingKey]="valueGetters.utilization">
             <template let-record="row" cell-template>
                 {{record.utilization | number:'.2-2'}}
             </template>
         </column>
         <column title="Warning Level">
             <column title="Limit"
-                    sortingKey="warningLevel">
+                    [sortingKey]="valueGetters.warningLevel">
                 <template let-record="row" cell-template>
                     {{record.warningLevel | number:'.2-2'}}
                 </template>
             </column>
             <column title="Utilization"
-                    sortingKey="warningUtil">
+                    [sortingKey]="valueGetters.warningUtil">
                 <template let-record="row" cell-template>
                     {{record.warningUtil | percent:'.0-0'}}
                 </template>
@@ -44,13 +44,13 @@
         </column>
         <column title="Throttle Level">
             <column title="Limit"
-                    sortingKey="throttleLevel">
+                    [sortingKey]="valueGetters.throttleLevel">
                 <template let-record="row" cell-template>
                     {{record.throttleLevel | number:'.2-2'}}
                 </template>
             </column>
             <column title="Utilization"
-                    sortingKey="throttleUtil">
+                    [sortingKey]="valueGetters.throttleUtil">
                 <template let-record="row" cell-template>
                     {{record.throttleUtil | percent:'.0-0'}}
                 </template>
@@ -58,13 +58,13 @@
         </column>
         <column title="Stop Level">
             <column title="Limit"
-                    sortingKey="rejectLevel">
+                    [sortingKey]="valueGetters.rejectLevel">
                 <template let-record="row" cell-template>
                     {{record.rejectLevel | number:'.2-2'}}
                 </template>
             </column>
             <column title="Utilization"
-                    sortingKey="rejectUtil">
+                    [sortingKey]="valueGetters.rejectUtil">
                 <template let-record="row" cell-template>
                     {{record.rejectUtil | percent:'.0-0'}}
                 </template>

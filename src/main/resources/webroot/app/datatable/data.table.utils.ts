@@ -1,10 +1,10 @@
 import {TemplateRef} from '@angular/core';
 
-import {DataTableColumnDirective} from './data.table.column.directive';
+import {DataTableColumnDirective, OrderingCriteria} from './data.table.column.directive';
 
 export interface DataTableCell {
     title?: string;
-    sortingKey?: string;
+    sortingKey?: OrderingCriteria<any>;
     tooltip?: string;
     cellTemplate?: TemplateRef<{row: any}>,
     footerTemplate?: TemplateRef<{footer: any}>,
@@ -80,9 +80,28 @@ export abstract class DataTableUtils {
                 return !!columnDirective.title || !!columnDirective.sortingKey || !!columnDirective.tooltip;
             },
             (columnDirective: DataTableColumnDirective) => {
+                if (!columnDirective.sortingKey) {
+                    return {
+                        title: columnDirective.title,
+                        tooltip: columnDirective.tooltip
+                    };
+                }
+                if (typeof columnDirective.sortingKey === "function") {
+                    return {
+                        title: columnDirective.title,
+                        sortingKey: {
+                            get: columnDirective.sortingKey,
+                            descending: false
+                        },
+                        tooltip: columnDirective.tooltip
+                    }
+                }
                 return {
                     title: columnDirective.title,
-                    sortingKey: columnDirective.sortingKey,
+                    sortingKey: {
+                        get: columnDirective.sortingKey.get,
+                        descending: !!columnDirective.sortingKey.descending
+                    },
                     tooltip: columnDirective.tooltip
                 }
             });

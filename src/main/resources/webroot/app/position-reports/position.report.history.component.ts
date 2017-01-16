@@ -7,10 +7,10 @@ import {PositionReportData} from './position.report.types';
 import {PositionReportsService} from './position.reports.service';
 
 import {AbstractHistoryListComponent, LineChartColumn} from '../list/abstract.history.list.component';
+import {ExportColumn} from '../list/download.menu.component';
+import {OrderingCriteria, OrderingValueGetter} from '../datatable/data.table.column.directive';
 
-import {exportKeys, routingKeys} from './position.report.latest.component';
-
-const defaultOrdering = ['-received'];
+import {exportKeys, routingKeys, valueGetters} from './position.report.latest.component';
 
 @Component({
     moduleId: module.id,
@@ -79,11 +79,11 @@ export class PositionReportHistoryComponent extends AbstractHistoryListComponent
         ];
     }
 
-    public get defaultOrdering(): string[] {
+    public get defaultOrdering(): (OrderingCriteria<PositionReportData> | OrderingValueGetter<PositionReportData>)[] {
         return defaultOrdering;
     }
 
-    public get exportKeys(): string[] {
+    public get exportKeys(): ExportColumn<PositionReportData>[] {
         return exportKeys;
     }
 
@@ -99,4 +99,16 @@ export class PositionReportHistoryComponent extends AbstractHistoryListComponent
         return '/positionReportLatest';
     }
 
+    public get valueGetters() {
+        return valueGetters;
+    }
 }
+
+//<editor-fold defaultstate="collapsed" desc="Value getters, default ordering, exported columns">
+
+const defaultOrdering: (OrderingCriteria<PositionReportData> | OrderingValueGetter<PositionReportData>)[] = [{
+    get: valueGetters.received,
+    descending: true
+}];
+
+//</editor-fold>

@@ -19,35 +19,35 @@
                 [trackByRowKey]="trackByRowKey">
         <column title="Last update"
                 tooltip="Time of the last update"
-                sortingKey="received">
+                [sortingKey]="valueGetters.received">
             <template let-record="row" cell-template>
                 {{record.received | date:'HH:mm:ss'}}
             </template>
         </column>
         <column title="NetLS"
                 tooltip="Net position"
-                sortingKey="netLS">
+                [sortingKey]="valueGetters.netLS">
             <template let-record="row" cell-template>
                 {{record.netLS | number:'.2-2'}}
             </template>
         </column>
         <column title="Position VaR"
                 tooltip="PnL of the position when calculating portfolio VaR"
-                sortingKey="compVar">
+                [sortingKey]="valueGetters.compVar">
             <template let-record="row" cell-template>
                 {{record.compVar | number:'.2-2'}}
             </template>
         </column>
         <column title="EuroDelta"
                 tooltip="Position sensibility to underlying move in Euro"
-                sortingKey="delta">
+                [sortingKey]="valueGetters.delta">
             <template let-record="row" cell-template>
                 {{record.delta | number:'.2-2'}}
             </template>
         </column>
         <column title="LA"
                 tooltip="Liquidity Addon of the position"
-                sortingKey="compLiquidityAddOn">
+                [sortingKey]="valueGetters.compLiquidityAddOn">
             <template let-record="row" cell-template>
                 {{record.compLiquidityAddOn | number:'.2-2'}}
             </template>

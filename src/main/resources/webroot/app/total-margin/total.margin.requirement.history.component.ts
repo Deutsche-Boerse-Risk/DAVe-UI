@@ -7,10 +7,10 @@ import {TotalMarginService} from './total.margin.service';
 import {TotalMarginData} from './total.margin.types';
 
 import {AbstractHistoryListComponent, LineChartColumn} from '../list/abstract.history.list.component';
+import {ExportColumn} from '../list/download.menu.component';
+import {OrderingCriteria, OrderingValueGetter} from '../datatable/data.table.column.directive';
 
-import {exportKeys, routingKeys} from './total.margin.requirement.latest.component';
-
-const defaultOrdering = ['-received'];
+import {exportKeys, routingKeys, valueGetters} from './total.margin.requirement.latest.component';
 
 @Component({
     moduleId: module.id,
@@ -57,11 +57,11 @@ export class TotalMarginRequirementHistoryComponent extends AbstractHistoryListC
         ]
     }
 
-    public get defaultOrdering(): string[] {
+    public get defaultOrdering(): (OrderingCriteria<TotalMarginData> | OrderingValueGetter<TotalMarginData>)[] {
         return defaultOrdering;
     }
 
-    public get exportKeys(): string[] {
+    public get exportKeys(): ExportColumn<TotalMarginData>[] {
         return exportKeys;
     }
 
@@ -77,4 +77,16 @@ export class TotalMarginRequirementHistoryComponent extends AbstractHistoryListC
         return '/totalMarginRequirementLatest';
     }
 
+    public get valueGetters() {
+        return valueGetters;
+    }
 }
+
+//<editor-fold defaultstate="collapsed" desc="Value getters, default ordering, exported columns">
+
+const defaultOrdering: (OrderingCriteria<TotalMarginData> | OrderingValueGetter<TotalMarginData>)[] = [{
+    get: valueGetters.received,
+    descending: true
+}];
+
+//</editor-fold>

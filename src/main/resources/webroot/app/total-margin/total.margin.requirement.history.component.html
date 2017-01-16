@@ -19,21 +19,21 @@
                 [trackByRowKey]="trackByRowKey">
         <column title="Last update"
                 tooltip="Time of the last update"
-                sortingKey="received">
+                [sortingKey]="valueGetters.received">
             <template let-record="row" cell-template>
                 {{record.received | date:'HH:mm:ss'}}
             </template>
         </column>
         <column title="Adjusted Margin"
                 tooltip="Margin requirement excluding premium credit"
-                sortingKey="adjustedMargin">
+                [sortingKey]="valueGetters.adjustedMargin">
             <template let-record="row" cell-template>
                 {{record.adjustedMargin | number:'.2-2'}}
             </template>
         </column>
         <column title="Unadjusted Margin"
                 tooltip="Unadjusted margin requirement"
-                sortingKey="unadjustedMargin">
+                [sortingKey]="valueGetters.unadjustedMargin">
             <template let-record="row" cell-template>
                 {{record.unadjustedMargin | number:'.2-2'}}
             </template>
