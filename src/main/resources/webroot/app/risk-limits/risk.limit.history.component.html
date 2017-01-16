@@ -6,8 +6,7 @@
               [initialLoad]="initialLoad"
               [errorMessage]="errorMessage">
     <div class="panel-body" *ngIf="chartData?.rows?.length > 0">
-        <google-chart id="historyChart"
-                      chartType="LineChart"
+        <google-chart chartType="LineChart"
                       [chartOptions]="chartOptions"
                       [chartData]="chartData"
                       height="377px"></google-chart>

@@ -17,9 +17,6 @@ declare let googleLoaded: any;
 export class GoogleChart implements OnInit, OnChanges, OnDestroy {
 
     @Input()
-    public id: string;
-
-    @Input()
     public chartType: string;
 
     @Input()
@@ -41,9 +38,24 @@ export class GoogleChart implements OnInit, OnChanges, OnDestroy {
 
     private _selectionHandle: any;
 
+    private _uid: string = this.guid();
+
+    private _resizeHandle: () => any;
+
+    public get id(): string {
+        return this._uid;
+    }
+
+    constructor() {
+        this._resizeHandle = () => {
+            this.reinitChart();
+        };
+    }
+
     public ngOnInit(): void {
         this.initialized = true;
         this.reinitChart();
+        window.addEventListener("resize", this._resizeHandle, false);
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
@@ -53,6 +65,11 @@ export class GoogleChart implements OnInit, OnChanges, OnDestroy {
     }
 
     public ngOnDestroy(): void {
+        this.destroyChart();
+        window.removeEventListener("resize", this._resizeHandle, false);
+    }
+
+    private destroyChart(): void {
         if (this.wrapper) {
             google.visualization.events.removeListener(this._selectionHandle);
             this.wrapper.clear();
@@ -71,7 +88,7 @@ export class GoogleChart implements OnInit, OnChanges, OnDestroy {
 
     private drawGraph(chartOptions: ChartOptions, chartType: string, chartData: ChartData, id: string): void {
         google.charts.setOnLoadCallback(() => {
-            this.ngOnDestroy();
+            this.destroyChart();
 
             this.wrapper = new google.visualization.ChartWrapper({
                 chartType: chartType,
@@ -86,6 +103,17 @@ export class GoogleChart implements OnInit, OnChanges, OnDestroy {
                     this.selected.emit(this.wrapper.getChart().getSelection());
                 });
         });
+    }
+
+    private guid(): string {
+        let s4 = () => {
+            return Math.floor((1 + Math.random()) * 0x10000)
+                .toString(16)
+                .substring(1);
+        };
+
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+            s4() + '-' + s4() + s4() + s4();
     }
 }
 

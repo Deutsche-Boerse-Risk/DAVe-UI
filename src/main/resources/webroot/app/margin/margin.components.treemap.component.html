@@ -8,7 +8,6 @@
         <update-failed *ngIf="errorMessage" [message]="errorMessage"></update-failed>
 
         <google-chart *ngIf="chartData?.rows?.length > 0"
-                      id="treemapChart"
                       chartType="TreeMap"
                       [chartOptions]="chartOptions"
                       [chartData]="chartData"

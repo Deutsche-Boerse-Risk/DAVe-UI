@@ -42,10 +42,12 @@ export abstract class AbstractHistoryListComponent<T extends {uid: string}> exte
             }
         },
         chartArea: {
-            top: '2%',
-            height: '88%',
-            left: '5%',
-            width: '92%'
+            top: 4,
+            bottom: 16,
+            height: '100%',
+            left: 150,
+            right: 40,
+            width: '100%'
         },
         legend: {position: 'none'},
         pointShape: 'circle',

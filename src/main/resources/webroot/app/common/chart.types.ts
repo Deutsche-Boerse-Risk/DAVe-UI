@@ -292,6 +292,8 @@ export interface ChartAxis {
 export interface ChartArea {
     backgroundColor?: string | ChartBackgroundStyle;
     left?: number | string;
+    bottom?: number | string;
+    right?: number | string;
     top?: number | string;
     width?: number | string;
     height?: number | string;
