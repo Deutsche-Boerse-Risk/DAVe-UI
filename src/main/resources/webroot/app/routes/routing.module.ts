@@ -274,7 +274,7 @@ const ROUTES: Route[] = [
 
 @NgModule({
     imports: [
-        RouterModule.forRoot(ROUTES),
+        RouterModule.forRoot(ROUTES, {useHash: true}), // TODO remove hash once we support fallback to index.html
         AuthModule,
         DashboardModule,
         PositionReportsModule,
