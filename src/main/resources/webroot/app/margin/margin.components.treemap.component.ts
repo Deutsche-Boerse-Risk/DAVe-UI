@@ -89,11 +89,11 @@ export class MarginComponentsTreemapComponent extends AbstractComponentWithAutoR
             && node.parent && node.parent.data.text.indexOf("Rest") === -1) {
             this.router.navigate([
                 '/marginComponentLatest',
-                node.data.clearer || '*',
-                node.data.member || '*',
-                node.data.account || '*',
-                node.data.clss || '*',
-                node.data.ccy || '*'
+                node.parent.data.clearer || '*',
+                node.parent.data.member || '*',
+                node.parent.data.account || '*',
+                node.parent.data.clss || '*',
+                node.parent.data.ccy || '*'
             ]);
         }
     }
