@@ -310,8 +310,8 @@ module.exports = function (grunt) {
 
     // register at least this one task
     grunt.registerTask('clean', ['cleanup:all']);
-    grunt.registerTask('cleanBuild', ['cleanup:all', 'sass', 'ts']);
-    grunt.registerTask('dev', ['cleanBuild', 'concurrent:dev']);
+    grunt.registerTask('build', ['cleanup:all', 'sass', 'ts']);
+    grunt.registerTask('run', ['build', 'concurrent:dev']);
     grunt.registerTask('dist', ['cleanup:all', 'sass', 'cssmin', 'ngc', 'copy', 'rollup', 'cleanup:postDist']);
-    grunt.registerTask('testDist', ['dist', 'concurrent:dist']);
+    grunt.registerTask('dist-run', ['dist', 'concurrent:dist']);
 };

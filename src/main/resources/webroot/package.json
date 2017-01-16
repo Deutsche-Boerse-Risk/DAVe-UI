@@ -2,11 +2,11 @@
   "name": "DAVe",
   "version": "1.0.0",
   "scripts": {
-    "start": "npm run dev",
-    "dev": "grunt dev",
+    "start": "npm run run",
+    "run": "grunt run",
     "clean": "grunt clean",
-    "build": "grunt cleanBuild",
-    "testDist": "grunt testDist",
+    "build": "grunt build",
+    "dist-run": "grunt dist-run",
     "dist": "grunt dist",
     "ngc": "ngc -p ./tsconfig-aot.json"
   },
