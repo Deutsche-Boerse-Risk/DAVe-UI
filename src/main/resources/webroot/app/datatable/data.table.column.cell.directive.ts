@@ -5,6 +5,6 @@ import {Directive, TemplateRef} from '@angular/core';
 })
 export class DataTableColumnCellDirective {
 
-    constructor(public template: TemplateRef<any>) {
+    constructor(public template: TemplateRef<{row: any}>) {
     };
 }

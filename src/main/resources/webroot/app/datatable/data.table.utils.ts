@@ -6,8 +6,8 @@ export interface DataTableCell {
     title?: string;
     sortingKey?: string;
     tooltip?: string;
-    cellTemplate?: TemplateRef<any>,
-    footerTemplate?: TemplateRef<any>,
+    cellTemplate?: TemplateRef<{row: any}>,
+    footerTemplate?: TemplateRef<{footer: any}>,
     rowspan?: number;
     colspan?: number;
 }
@@ -103,14 +103,14 @@ export abstract class DataTableUtils {
     private static computeRowSpans(columnDirectives: DataTableColumnDirective[]): DataTableCell[][] {
         let templates: DataTableCell[][] = DataTableUtils.computeTemplate(columnDirectives,
             (columnDirective: DataTableColumnDirective) => {
-                let cellTemplate: TemplateRef<any>;
+                let cellTemplate: TemplateRef<{row: any}>;
                 if (columnDirective.cellTemplate && columnDirective.cellTemplate.length) {
                     cellTemplate = columnDirective.cellTemplate.first;
                 }
                 return !!cellTemplate;
             },
             (columnDirective: DataTableColumnDirective) => {
-                let cellTemplate: TemplateRef<any>;
+                let cellTemplate: TemplateRef<{row: any}>;
                 if (columnDirective.cellTemplate && columnDirective.cellTemplate.length) {
                     cellTemplate = columnDirective.cellTemplate.first;
                 }
@@ -135,14 +135,14 @@ export abstract class DataTableUtils {
     private static computeFooterSpans(columnDirectives: DataTableColumnDirective[]): DataTableCell[][] {
         let templates: DataTableCell[][] = DataTableUtils.computeTemplate(columnDirectives,
             (columnDirective: DataTableColumnDirective) => {
-                let footerTemplate: TemplateRef<any>;
+                let footerTemplate: TemplateRef<{footer: any}>;
                 if (columnDirective.footerTemplate && columnDirective.footerTemplate.length) {
                     footerTemplate = columnDirective.footerTemplate.first;
                 }
                 return !!footerTemplate;
             },
             (columnDirective: DataTableColumnDirective) => {
-                let footerTemplate: TemplateRef<any>;
+                let footerTemplate: TemplateRef<{footer: any}>;
                 if (columnDirective.footerTemplate && columnDirective.footerTemplate.length) {
                     footerTemplate = columnDirective.footerTemplate.first;
                 }

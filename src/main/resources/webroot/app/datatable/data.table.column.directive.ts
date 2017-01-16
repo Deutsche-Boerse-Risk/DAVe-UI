@@ -21,8 +21,8 @@ export class DataTableColumnDirective {
     public subColumns: QueryList<DataTableColumnDirective>;
 
     @ContentChildren(DataTableColumnCellDirective, {read: TemplateRef, descendants: false})
-    public cellTemplate: QueryList<TemplateRef<any>>;
+    public cellTemplate: QueryList<TemplateRef<{row: any}>>;
 
     @ContentChildren(DataTableColumnFooterDirective, {read: TemplateRef, descendants: false})
-    public footerTemplate: QueryList<TemplateRef<any>>;
+    public footerTemplate: QueryList<TemplateRef<{footer: any}>>;
 }

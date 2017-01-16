@@ -5,6 +5,6 @@ import {Directive, TemplateRef} from '@angular/core';
 })
 export class DataTableColumnFooterDirective {
 
-    constructor(public template: TemplateRef<any>) {
+    constructor(public template: TemplateRef<{footer: any}>) {
     };
 }
