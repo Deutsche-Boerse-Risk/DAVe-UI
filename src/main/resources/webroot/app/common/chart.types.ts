@@ -33,12 +33,7 @@ export interface ChartOptions extends CommonChartOptions {
 
     selectionMode?: 'single' | 'multiple';
 
-    series?: {
-        [key: string]: {
-            color?: string;
-            visibleInLegend?: boolean;
-        }
-    };
+    series?: Series[] | {[key: string]: Series};
 
     theme?: 'maximized';
 
@@ -76,14 +71,7 @@ export interface LineChartOptions extends ChartOptions {
 
     reverseCategories?: boolean;
 
-    series?: {
-        [key: string]: {
-            color?: string;
-            visibleInLegend?: boolean;
-            pointShape?: PointShapeType |  PointShapeWithSides |  PointShapeWithSidesAndDent |  PointShapeWithRotation
-            pointSize?: number;
-        }
-    };
+    series?: LineSeries[];
 
     trendlines?: {
         [key: number]: ChartTrendLine
@@ -98,6 +86,8 @@ export interface BubbleChartOptions extends ChartOptions {
         stroke?: string;
         textStyle?: ChartTextStyle;
     };
+
+    series?: {[key: string]: Series};
 
     sizeAxis?: {
         minSize?: number;
@@ -170,6 +160,16 @@ export interface ChartCrossHairProperties {
     color?: string;
     opacity?: number;
     orientation?: 'vertical' | 'horizontal' | 'both';
+}
+
+export interface Series {
+    color?: string;
+    visibleInLegend?: boolean;
+}
+
+export interface LineSeries extends Series {
+    pointShape?: PointShapeType |  PointShapeWithSides |  PointShapeWithSidesAndDent |  PointShapeWithRotation
+    pointSize?: number;
 }
 
 export type PointShapeType = 'circle' | 'triangle' | 'square' | 'diamond' | 'star' |'polygon';
@@ -335,4 +335,82 @@ export type SelectionEvent = SelectedItem[];
 export interface SelectedItem {
     row: number;
     column: number;
+}
+
+declare global {
+    module google {
+        module visualization {
+            class DataTable {
+                constructor(chartData: ChartData);
+
+                addColumn(type: string, label?: string, id?: string): number;
+                addColumn(description_object: IColumnDescription): number;
+
+                insertRows(atRowIndex: number, numOfRows: number): void;
+                insertRows(atRowIndex: number, populatedRows: any[]): void;
+
+                addRows(numOrArray: number | any[]): number;
+
+                addRow(cellArray?: ICell[]): number;
+            }
+
+            interface ICell {
+                v: string | number | Date;
+                f: string;
+                p: any;
+            }
+
+            interface IColumnDescription {
+                type: string;
+                label?: string;
+                id?: string;
+                role?: string;
+                pattern?: string;
+            }
+
+            class DataView {
+                constructor(dataTable: DataTable);
+
+                hideColumns(columnIndexes: number[]): void;
+
+                hideRows(min: number, max: number): void;
+                hideRows(rowIndexes: number[]): void;
+            }
+
+            class Chart {
+                getSelection(): SelectedItem[];
+
+                draw(dataTable: DataView | DataTable | ChartData, options: CommonChartOptions): void;
+            }
+
+            class ChartWrapper {
+                constructor(chart: {
+                    chartType: string;
+                    dataTable: DataView | DataTable | ChartData;
+                    options: CommonChartOptions;
+                    containerId: string;
+                });
+
+                draw(container?: HTMLElement | string): void;
+
+                getChart(): Chart;
+
+                clear(): void;
+            }
+
+            module events {
+                type EventListenerHandle = any;
+
+                function addListener(object: Chart | ChartWrapper, eventName: string, listener: () => any): EventListenerHandle;
+
+                function removeListener(handle: EventListenerHandle): void;
+            }
+        }
+
+        module charts {
+            function load(version: 'current' | 'upcoming', modules: {packages: string[]}): void;
+
+            function setOnLoadCallback(callback: () => any): void;
+        }
+    }
 }

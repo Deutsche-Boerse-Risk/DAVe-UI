@@ -1,18 +1,14 @@
-import {
-    Input, Component, OnChanges, HostBinding, OnInit, OnDestroy, SimpleChanges, Output, EventEmitter
-} from '@angular/core';
+import {Input, Component, OnChanges, OnInit, OnDestroy, SimpleChanges, Output, EventEmitter} from '@angular/core';
 
-import {ChartOptions, ChartData, SelectionEvent} from './chart.types';
+import {ChartData, SelectionEvent, CommonChartOptions} from './chart.types';
 
-declare let google: any;
 declare let googleLoaded: any;
 
 @Component({
     moduleId: module.id,
     selector: 'google-chart',
-    template: '<div [id]="id"></div>',
-    styles: ['/deep/ google-chart > div { width: 100%; height: 100%; }'],
-    styleUrls: ['../common.component.css']
+    template: '<div [id]="id" [style.height]="height"></div>',
+    styleUrls: ['google.chart.component.css']
 })
 export class GoogleChart implements OnInit, OnChanges, OnDestroy {
 
@@ -20,7 +16,7 @@ export class GoogleChart implements OnInit, OnChanges, OnDestroy {
     public chartType: string;
 
     @Input()
-    public chartOptions: ChartOptions;
+    public chartOptions: CommonChartOptions;
 
     @Input()
     public chartData: ChartData;
@@ -29,14 +25,13 @@ export class GoogleChart implements OnInit, OnChanges, OnDestroy {
     public selected: EventEmitter<SelectionEvent> = new EventEmitter();
 
     @Input()
-    @HostBinding('style.height')
     public height: any;
 
     private initialized: boolean = false;
 
-    private wrapper: any;
+    protected wrapper: google.visualization.ChartWrapper;
 
-    private _selectionHandle: any;
+    protected _selectionHandle: google.visualization.events.EventListenerHandle;
 
     private _uid: string = this.generateUID();
 
@@ -69,7 +64,7 @@ export class GoogleChart implements OnInit, OnChanges, OnDestroy {
         window.removeEventListener("resize", this._resizeHandle, false);
     }
 
-    private destroyChart(): void {
+    protected destroyChart(): void {
         if (this.wrapper) {
             google.visualization.events.removeListener(this._selectionHandle);
             this.wrapper.clear();
@@ -82,19 +77,19 @@ export class GoogleChart implements OnInit, OnChanges, OnDestroy {
             google.charts.load('current', {'packages': ['corechart', 'gauge']});
         }
         setTimeout(() => {
-            this.drawGraph(this.chartOptions, this.chartType, this.chartData, this.id)
+            this.drawGraph();
         }, 0);
     }
 
-    private drawGraph(chartOptions: ChartOptions, chartType: string, chartData: ChartData, id: string): void {
+    protected drawGraph(): void {
         google.charts.setOnLoadCallback(() => {
             this.destroyChart();
 
             this.wrapper = new google.visualization.ChartWrapper({
-                chartType: chartType,
-                dataTable: chartData,
-                options: chartOptions || {},
-                containerId: id
+                chartType: this.chartType,
+                dataTable: this.chartData,
+                options: this.chartOptions,
+                containerId: this.id
             });
             this.wrapper.draw();
 

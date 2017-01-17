@@ -1,0 +1,57 @@
+@import "../component";
+
+:host {
+    & > div {
+        width: 100%;
+        height: 100%;
+        clear: both;
+    }
+    .controls {
+        width: auto;
+        height: auto;
+        float: right;
+
+        padding-right: 40px;
+
+        button {
+            margin-left: 10px;
+
+            &:first-child {
+                margin-left: 5px;
+            }
+
+            &.btn.disabled {
+                cursor: pointer;
+                @include opacity(0.4);
+
+                &:hover, &:active, &:focus {
+                    background-color: #e6e6e6;
+                    border-color: #adadad;
+                }
+
+                &:active {
+                    background-image: none;
+                    outline: 0;
+                    @include box-shadow(inset 0 3px 5px rgba(0, 0, 0, .125));
+                }
+            }
+
+            &.btn.active.focus,
+            &.btn.active:focus,
+            &.btn.focus,
+            &.btn:active.focus,
+            &.btn:active:focus,
+            &.btn:focus {
+                outline: 0 none;
+            }
+
+            span {
+                display: inline-block;
+                line-height: 1.5em;
+                height: 1.5em;
+                width: 1.5em;
+                vertical-align: bottom;
+            }
+        }
+    }
+}

@@ -7,6 +7,7 @@ import {NoDataComponent} from './no.data.component';
 import {UpdateFailedComponent} from './update.failed.component';
 
 import {GoogleChart} from './google.chart.component';
+import {GoogleLineChart} from './google.line.chart.component';
 
 import {PercentPipe} from './percent.pipe';
 
@@ -20,6 +21,7 @@ export const DATE_PIPE = new DatePipe(navigator.language.split('-')[0]);
     ],
     declarations: [
         GoogleChart,
+        GoogleLineChart,
         InitialLoadComponent,
         NoDataComponent,
         UpdateFailedComponent,
@@ -27,6 +29,7 @@ export const DATE_PIPE = new DatePipe(navigator.language.split('-')[0]);
     ],
     exports: [
         GoogleChart,
+        GoogleLineChart,
         InitialLoadComponent,
         NoDataComponent,
         UpdateFailedComponent,

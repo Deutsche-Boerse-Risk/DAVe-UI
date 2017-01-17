@@ -53,26 +53,26 @@ export abstract class AbstractHistoryListComponent<T extends {uid: string}> exte
         pointShape: 'circle',
         focusTarget: 'category',
         pointSize: 5,
-        series: {
-            0: {
+        series: [
+            {
                 color: '#31C0BE'
             },
-            1: {
+            {
                 color: '#c7254e'
             },
-            2: {
+            {
                 color: '#800000'
             },
-            3: {
+            {
                 color: '#808000'
             },
-            4: {
+            {
                 color: '#FF00FF'
             },
-            5: {
+            {
                 color: '#006fff'
             }
-        }
+        ]
     };
 
     protected createRoutePart(title: string, routePath: string, key: string, index: number): RoutePart {

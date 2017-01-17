@@ -7,10 +7,10 @@
               [errorMessage]="errorMessage"
               [drilldownRouterLink]="['/marginComponentLatest', routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'], '*', routeParams['ccy'] || '*']">
     <div class="panel-body" *ngIf="chartData?.rows?.length > 0">
-        <google-chart chartType="LineChart"
-                      [chartOptions]="chartOptions"
-                      [chartData]="chartData"
-                      height="377px"></google-chart>
+        <google-line-chart [chartOptions]="chartOptions"
+                           [chartData]="chartData"
+                           height="377px"
+                           [showControls]="true"></google-line-chart>
     </div>
 
     <data-table [data]="data"
