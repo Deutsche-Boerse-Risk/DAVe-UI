@@ -3,17 +3,18 @@
         <div class="pull-right">
             <label for="memberSelect">Member:</label>
             <select name="memberSelect" id="memberSelect"
-                    [(ngModel)]="memberSelection"
-                    (ngModelChange)="memberSelectionChanged(memberSelection)">
-                <option *ngFor="let option of selection.getOptions(); trackBy:trackByIndex" [ngValue]="option">
+                    [(ngModel)]="sourceData.memberSelection"
+                    (ngModelChange)="memberSelectionChanged()">
+                <option *ngFor="let option of sourceData?.selection.getOptions(); trackBy:trackByKey"
+                        [ngValue]="option">
                     {{option.member}}
                 </option>
             </select>
             <label for="accountSelect">Account:</label>
             <select name="accountSelect" id="accountSelect"
-                    [(ngModel)]="accountSelection"
-                    (ngModelChange)="accountSelectionChanged(accountSelection)">
-                <option *ngFor="let option of selection.get(memberSelection?.clearer + '-' + memberSelection?.member)?.subRecords.getOptions(); trackBy:trackByIndex"
+                    [(ngModel)]="sourceData.accountSelection"
+                    (ngModelChange)="accountSelectionChanged()">
+                <option *ngFor="let option of sourceData?.selection.get(sourceData?.memberSelection?.memberKey)?.subRecords.getOptions(); trackBy:trackByKey"
                         [ngValue]="option">
                     {{option.account}}
                 </option>
@@ -21,7 +22,7 @@
             <label for="bubblesCount">Number of bubbles:</label>
             <select name="bubblesCount" id="bubblesCount"
                     [(ngModel)]="topRecordsCount"
-                    (ngModelChange)="accountSelectionChanged(accountSelection)">
+                    (ngModelChange)="accountSelectionChanged()">
                 <option *ngFor="let bubblesCount of topRecords; trackBy:trackByIndex" [ngValue]="bubblesCount">
                     {{bubblesCount}}
                 </option>

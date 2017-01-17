@@ -3,7 +3,10 @@ import {Injectable} from '@angular/core';
 import {HttpService} from '../http.service';
 import {Observable} from 'rxjs/Observable';
 
-import {PositionReportServerData, PositionReportChartData, PositionReportData} from './position.report.types';
+import {
+    PositionReportServerData, PositionReportData, PositionReportBubble, PositionReportChartData, SelectValues,
+    PositionReportChartDataSelect
+} from './position.report.types';
 
 const chartsURL: string = '/pr/latest';
 const latestURL: string = '/pr/latest/:0/:1/:2/:3/:4/:5/:6/:7/:8';
@@ -15,25 +18,71 @@ export class PositionReportsService {
     constructor(private http: HttpService<PositionReportServerData[]>) {
     }
 
-    public getPositionReportsChartData(): Observable<PositionReportChartData[]> {
+    public getPositionReportsChartData(): Observable<PositionReportChartData> {
         return this.http.get({resourceURL: chartsURL}).map((data: PositionReportServerData[]) => {
-            let chartRecords: PositionReportChartData[] = [];
+            let chartRecords: PositionReportBubble[] = [];
+            let selection: PositionReportChartDataSelect = new PositionReportChartDataSelect();
+            let memberSelection: PositionReportBubble = null;
+            let accountSelection: PositionReportBubble = null;
+
             if (data) {
+                let bubblesMap: Map<string, PositionReportBubble> = new Map();
+
                 data.forEach((record: PositionReportServerData) => {
-                    chartRecords.push({
-                        uid: this.computeUID(record),
+                    let memberKey = record.clearer + '-' + record.member;
+                    let bubbleKey: string = memberKey + '-' + record.account + '-' + record.symbol + '-'
+                        + record.maturityMonthYear;
+
+                    let bubble = {
+                        key: bubbleKey,
+                        memberKey: memberKey,
+                        hAxisKey: record.symbol + '-' + record.maturityMonthYear,
                         clearer: record.clearer,
                         member: record.member,
                         account: record.account,
                         symbol: record.symbol,
-                        putCall: record.putCall,
                         maturityMonthYear: record.maturityMonthYear,
-                        compVar: record.compVar,
-                        underlying: record.underlying
-                    });
+                        underlying: record.underlying,
+                        putCall: record.putCall,
+                        radius: record.compVar
+                    };
+
+                    if (bubbleKey in bubblesMap.keys()) {
+                        bubblesMap.get(bubbleKey).radius += record.compVar;
+                    } else {
+                        bubblesMap.set(bubbleKey, bubble);
+                    }
+
+                    let selectValues: SelectValues = selection.get(memberKey);
+
+                    if (!(selectValues)) {
+                        selectValues = selection.create(memberKey);
+                        selectValues.record = bubble;
+                        if (!memberSelection) {
+                            memberSelection = bubble;
+                        }
+                    }
+
+                    if (!(selectValues.subRecords.get(record.account))) {
+                        selectValues = selectValues.subRecords.create(record.account);
+                        selectValues.record = bubble;
+
+                        if (!accountSelection) {
+                            accountSelection = bubble;
+                        }
+                    }
+                });
+
+                bubblesMap.forEach((bubble: PositionReportBubble) => {
+                    chartRecords.push(bubble);
                 });
             }
-            return chartRecords;
+            return {
+                bubbles: chartRecords,
+                selection: selection,
+                memberSelection: memberSelection,
+                accountSelection: accountSelection
+            };
         });
     }
 

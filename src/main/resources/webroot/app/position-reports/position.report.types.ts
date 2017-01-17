@@ -62,11 +62,6 @@ export interface PositionReportBase {
     maturityMonthYear: string;
 }
 
-export interface PositionReportChartData extends PositionReportBase {
-    compVar: number;
-    underlying: string;
-}
-
 export interface PositionReportData extends PositionReportBase {
     class: string;
     strikePrice?: number;
@@ -100,7 +95,7 @@ export interface PositionReportData extends PositionReportBase {
 }
 
 export type SelectValues = {
-    record?: PositionReportChartData,
+    record?: PositionReportBubble,
     subRecords: PositionReportChartDataSelect
 }
 
@@ -113,7 +108,7 @@ export class PositionReportChartDataSelect {
     constructor(public key?: string) {
     }
 
-    public getOptions(): PositionReportChartData[] {
+    public getOptions(): PositionReportBubble[] {
         return Object.keys(this.options).map((key: string) => {
             return this.options[key].record;
         });
@@ -132,6 +127,8 @@ export class PositionReportChartDataSelect {
 
 export interface PositionReportBubble {
     key: string;
+    memberKey: string;
+    hAxisKey: string;
     clearer: string;
     member: string;
     account: string;
@@ -140,4 +137,11 @@ export interface PositionReportBubble {
     maturityMonthYear: string;
     underlying: string;
     radius: number;
+}
+
+export interface PositionReportChartData {
+    bubbles: PositionReportBubble[];
+    selection: PositionReportChartDataSelect;
+    memberSelection: PositionReportBubble;
+    accountSelection: PositionReportBubble;
 }
