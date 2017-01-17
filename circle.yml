@@ -6,8 +6,8 @@ machine:
 
 dependencies:
   pre:
-    - sudo npm install -g grunt-cli
-    - sudo npm install -g typescript
+    - npm install -g grunt-cli
+    - npm install -g typescript
   override:
     - cd src/main/resources/webroot && npm install
 
