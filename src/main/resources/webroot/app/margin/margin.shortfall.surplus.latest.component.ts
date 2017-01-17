@@ -144,6 +144,10 @@ export const exportKeys: ExportColumn<MarginShortfallSurplusData>[] = [
         header: 'BizDt'
     },
     {
+        get: valueGetters.shortfallSurplus,
+        header: 'Shortfall / Surplus'
+    },
+    {
         get: valueGetters.marginRequirement,
         header: 'Margin Requirement'
     },
@@ -154,10 +158,6 @@ export const exportKeys: ExportColumn<MarginShortfallSurplusData>[] = [
     {
         get: valueGetters.cashBalance,
         header: 'Cash Balance'
-    },
-    {
-        get: valueGetters.shortfallSurplus,
-        header: 'Shortfall / Surplus'
     },
     {
         get: valueGetters.marginCall,

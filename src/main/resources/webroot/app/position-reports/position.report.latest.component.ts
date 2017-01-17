@@ -154,16 +154,50 @@ export const exportKeys: ExportColumn<PositionReportData>[] = [
         header: 'P/C'
     },
     {
-        get: valueGetters.maturityMonthYear,
-        header: 'MMY'
-    },
-    {
         get: valueGetters.strikePrice,
         header: 'Strk'
     },
     {
         get: valueGetters.optAttribute,
         header: 'Opt'
+    },
+    {
+        get: valueGetters.maturityMonthYear,
+        header: 'MMY'
+    },
+    {
+        get: valueGetters.netLS,
+        header: 'NetLS'
+    },
+    {
+        get: valueGetters.compVar,
+        header: 'Position VaR'
+    },
+    {
+        get: valueGetters.delta,
+        header: 'EuroDelta'
+    },
+    {
+        get: valueGetters.compLiquidityAddOn,
+        header: 'LA'
+    },
+    {
+        get: (row: PositionReportData) => {
+            return row.class;
+        },
+        header: 'Liqui Group / Margin Class'
+    },
+    {
+        get: (row: PositionReportData) => {
+            return row.clearingCcy;
+        },
+        header: 'Clearing Ccy'
+    },
+    {
+        get: (row: PositionReportData) => {
+            return row.productCcy;
+        },
+        header: 'Product Ccy'
     },
     {
         get: (row: PositionReportData) => {
@@ -176,6 +210,12 @@ export const exportKeys: ExportColumn<PositionReportData>[] = [
             return row.crossMarginShortQty;
         },
         header: 'CrMrgSQty'
+    },
+    {
+        get: (row: PositionReportData) => {
+            return row.netEA;
+        },
+        header: 'NetEA'
     },
     {
         get: (row: PositionReportData) => {
@@ -203,22 +243,6 @@ export const exportKeys: ExportColumn<PositionReportData>[] = [
     },
     {
         get: (row: PositionReportData) => {
-            return row.clearingCcy;
-        },
-        header: 'Clearing Ccy'
-    },
-    {
-        get: (row: PositionReportData) => {
-            return row.mVar;
-        },
-        header: 'MVar'
-    },
-    {
-        get: valueGetters.compVar,
-        header: 'Position VaR'
-    },
-    {
-        get: (row: PositionReportData) => {
             return row.compCorrelationBreak;
         },
         header: 'CorrBreak'
@@ -230,20 +254,10 @@ export const exportKeys: ExportColumn<PositionReportData>[] = [
         header: 'CopmError'
     },
     {
-        get: valueGetters.compLiquidityAddOn,
-        header: 'LA'
-    },
-    {
         get: (row: PositionReportData) => {
             return row.compLongOptionCredit;
         },
         header: 'LonOptCredit'
-    },
-    {
-        get: (row: PositionReportData) => {
-            return row.productCcy;
-        },
-        header: 'Product Ccy'
     },
     {
         get: (row: PositionReportData) => {
@@ -256,10 +270,6 @@ export const exportKeys: ExportColumn<PositionReportData>[] = [
             return row.premiumMargin;
         },
         header: 'PremMrgn'
-    },
-    {
-        get: valueGetters.delta,
-        header: 'EuroDelta'
     },
     {
         get: (row: PositionReportData) => {
@@ -286,14 +296,10 @@ export const exportKeys: ExportColumn<PositionReportData>[] = [
         header: 'Theta'
     },
     {
-        get: valueGetters.received,
-        header: 'Last update'
-    },
-    {
         get: (row: PositionReportData) => {
-            return row.class;
+            return row.mVar;
         },
-        header: 'Liqui Group / Margin Class'
+        header: 'MVar'
     },
     {
         get: (row: PositionReportData) => {
@@ -302,14 +308,8 @@ export const exportKeys: ExportColumn<PositionReportData>[] = [
         header: 'Underlying'
     },
     {
-        get: valueGetters.netLS,
-        header: 'NetLS'
-    },
-    {
-        get: (row: PositionReportData) => {
-            return row.netEA;
-        },
-        header: 'NetEA'
+        get: valueGetters.received,
+        header: 'Last update'
     }
 ];
 

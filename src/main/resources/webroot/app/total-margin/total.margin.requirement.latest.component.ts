@@ -131,12 +131,12 @@ export const exportKeys: ExportColumn<TotalMarginData>[] = [
         header: 'BizDt'
     },
     {
-        get: valueGetters.unadjustedMargin,
-        header: 'Unadjusted Margin'
-    },
-    {
         get: valueGetters.adjustedMargin,
         header: 'Adjusted Margin'
+    },
+    {
+        get: valueGetters.unadjustedMargin,
+        header: 'Unadjusted Margin'
     },
     {
         get: valueGetters.received,

@@ -146,12 +146,12 @@ export const exportKeys: ExportColumn<MarginComponentsRowData>[] = [
         header: 'Variation Margin'
     },
     {
-        get: valueGetters.premiumMargin,
-        header: 'Premium Margin'
-    },
-    {
         get: valueGetters.liquiMargin,
         header: 'Liquidation Margin'
+    },
+    {
+        get: valueGetters.premiumMargin,
+        header: 'Premium Margin'
     },
     {
         get: valueGetters.spreadMargin,
