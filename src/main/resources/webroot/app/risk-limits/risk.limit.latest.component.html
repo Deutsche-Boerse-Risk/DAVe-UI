@@ -12,7 +12,7 @@
         <column title="Member / Client"
                 [sortingKey]="valueGetters.member">
             <template let-record="row" cell-template>
-                <a [routerLink]="['/riskLimitLatest', record.clearer | nullvalue:'*', record.member | nullvalue:'*']">
+                <a [routerLink]="['/riskLimitLatest', record.clearer || '*', record.member || '*']">
                     {{record.member}}
                 </a>
             </template>
@@ -20,7 +20,7 @@
         <column title="Maintainer"
                 [sortingKey]="valueGetters.maintainer">
             <template let-record="row" cell-template>
-                <a [routerLink]="['/riskLimitLatest', routeParams['clearer'] | nullvalue:'*', routeParams['member'] | nullvalue:'*', record.maintainer | nullvalue:'*']">
+                <a [routerLink]="['/riskLimitLatest', routeParams['clearer'] || '*', routeParams['member'] || '*', record.maintainer || '*']">
                     {{record.maintainer}}
                 </a>
             </template>
@@ -28,7 +28,7 @@
         <column title="Type"
                 [sortingKey]="valueGetters.limitType">
             <template let-record="row" cell-template>
-                <a [routerLink]="['/riskLimitLatest', routeParams['clearer'] | nullvalue:'*', routeParams['member'] | nullvalue:'*', routeParams['maintainer'] | nullvalue:'*', record.limitType | nullvalue:'*']">
+                <a [routerLink]="['/riskLimitLatest', routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['maintainer'] || '*', record.limitType || '*']">
                     {{record.limitType}}
                 </a>
             </template>
@@ -84,7 +84,7 @@
         <column>
             <template let-record="row" cell-template>
                 <detail-row-button
-                        [routerLink]="['/riskLimitHistory', record.clearer | nullvalue:'*', record.member | nullvalue:'*', record.maintainer | nullvalue:'*', record.limitType | nullvalue:'*']"></detail-row-button>
+                        [routerLink]="['/riskLimitHistory', record.clearer || '*', record.member || '*', record.maintainer || '*', record.limitType || '*']"></detail-row-button>
             </template>
         </column>
     </data-table>

@@ -13,7 +13,7 @@ export class HighlighterDirective implements OnInit, OnDestroy {
 
     private el: HTMLElement;
 
-    private _timoutRef: NodeJS.Timer;
+    private _timeoutRef: NodeJS.Timer;
 
     constructor(el: ElementRef) {
         this.el = el.nativeElement;
@@ -25,7 +25,7 @@ export class HighlighterDirective implements OnInit, OnDestroy {
             if (!this.context.storage[rowKey]) {
                 this.context.storage[rowKey] = true;
                 this.el.classList.add('bg-warning');
-                this._timoutRef = setTimeout(() => {
+                this._timeoutRef = setTimeout(() => {
                     this.el.classList.remove('bg-warning')
                 }, 15000);
             }
@@ -33,8 +33,8 @@ export class HighlighterDirective implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy(): void {
-        if (this._timoutRef) {
-            clearTimeout(this._timoutRef);
+        if (this._timeoutRef) {
+            clearTimeout(this._timeoutRef);
         }
     }
 }

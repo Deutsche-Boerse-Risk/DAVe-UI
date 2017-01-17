@@ -5,7 +5,7 @@
               [data]="data"
               [initialLoad]="initialLoad"
               [errorMessage]="errorMessage"
-              [drilldownRouterLink]="['/marginComponentLatest', routeParams['clearer'] | nullvalue:'*', routeParams['member'] | nullvalue:'*', routeParams['account'], '*', routeParams['ccy'] | nullvalue:'*']">
+              [drilldownRouterLink]="['/marginComponentLatest', routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'], '*', routeParams['ccy'] || '*']">
     <div class="panel-body" *ngIf="chartData?.rows?.length > 0">
         <google-chart chartType="LineChart"
                       [chartOptions]="chartOptions"

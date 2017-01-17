@@ -38,7 +38,7 @@ export class GoogleChart implements OnInit, OnChanges, OnDestroy {
 
     private _selectionHandle: any;
 
-    private _uid: string = this.guid();
+    private _uid: string = this.generateUID();
 
     private _resizeHandle: () => any;
 
@@ -48,19 +48,19 @@ export class GoogleChart implements OnInit, OnChanges, OnDestroy {
 
     constructor() {
         this._resizeHandle = () => {
-            this.reinitChart();
+            this.reinitializeChart();
         };
     }
 
     public ngOnInit(): void {
         this.initialized = true;
-        this.reinitChart();
+        this.reinitializeChart();
         window.addEventListener("resize", this._resizeHandle, false);
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
         if (this.initialized) {
-            this.reinitChart();
+            this.reinitializeChart();
         }
     }
 
@@ -76,7 +76,7 @@ export class GoogleChart implements OnInit, OnChanges, OnDestroy {
         }
     }
 
-    private reinitChart(): void {
+    private reinitializeChart(): void {
         if (!googleLoaded) {
             googleLoaded = true;
             google.charts.load('current', {'packages': ['corechart', 'gauge']});
@@ -105,7 +105,7 @@ export class GoogleChart implements OnInit, OnChanges, OnDestroy {
         });
     }
 
-    private guid(): string {
+    private generateUID(): string {
         let s4 = () => {
             return Math.floor((1 + Math.random()) * 0x10000)
                 .toString(16)
