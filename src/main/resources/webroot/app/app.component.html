@@ -1,0 +1,30 @@
+<div id="wrapper">
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header" style="margin-right: 25px;">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" routerLink="/"><span class="glyphicon glyphicon-fire"></span> DAVe</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" *ngIf="authStatus">
+            <ul class="nav navbar-nav navbar-top-links navbar-right">
+                <trading-session-status></trading-session-status>
+                <login-menu></login-menu>
+            </ul>
+
+            <app-menu *ngIf="authStatus"></app-menu>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div id="page-wrapper">
+        <router-outlet></router-outlet>
+    </div>
+    <!-- /#page-wrapper -->
+
+</div>

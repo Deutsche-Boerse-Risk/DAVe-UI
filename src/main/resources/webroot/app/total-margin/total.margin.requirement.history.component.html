@@ -1,0 +1,42 @@
+<list-content [title]="rootRouteTitle"
+              [isHistory]="true"
+              [routeParts]="routeParts"
+              [exportKeys]="exportKeys"
+              [data]="data"
+              [initialLoad]="initialLoad"
+              [errorMessage]="errorMessage"
+              [drilldownRouterLink]="['/marginComponentLatest', routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'], '*', routeParams['ccy'] || '*']">
+    <div class="panel-body" *ngIf="chartData?.rows?.length > 0">
+        <google-chart chartType="LineChart"
+                      [chartOptions]="chartOptions"
+                      [chartData]="chartData"
+                      height="377px"></google-chart>
+    </div>
+
+    <data-table [data]="data"
+                [pageSize]="pageSize"
+                [defaultOrdering]="defaultOrdering"
+                [trackByRowKey]="trackByRowKey">
+        <column title="Last update"
+                tooltip="Time of the last update"
+                [sortingKey]="valueGetters.received">
+            <template let-record="row" cell-template>
+                {{record.received | date:'HH:mm:ss'}}
+            </template>
+        </column>
+        <column title="Adjusted Margin"
+                tooltip="Margin requirement excluding premium credit"
+                [sortingKey]="valueGetters.adjustedMargin">
+            <template let-record="row" cell-template>
+                {{record.adjustedMargin | number:'.2-2'}}
+            </template>
+        </column>
+        <column title="Unadjusted Margin"
+                tooltip="Unadjusted margin requirement"
+                [sortingKey]="valueGetters.unadjustedMargin">
+            <template let-record="row" cell-template>
+                {{record.unadjustedMargin | number:'.2-2'}}
+            </template>
+        </column>
+    </data-table>
+</list-content>

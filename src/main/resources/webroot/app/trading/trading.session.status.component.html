@@ -1,0 +1,11 @@
+<li>
+    <p class="navbar-text" *ngIf="tradingSession">
+        <span *ngIf="tradingSession.status == 2" class="label label-success">ERS Status: Online</span>
+        <span *ngIf="tradingSession.status == 1" class="label label-danger">ERS Status: Halted</span>
+        <span *ngIf="tradingSession.status == 3" class="label label-danger">ERS Status: Closed</span>
+        <span *ngIf="tradingSession.status != 3 && tradingSession.status != 1 && tradingSession.status !=2 "
+              class="label label-warning">
+            ERS Status: Unknown
+        </span>
+    </p>
+</li>

@@ -1,0 +1,11 @@
+@import "../component";
+
+:host {
+    float: right;
+
+    margin-top: -4px;
+
+    & > .pull-right {
+        @include clearfix;
+    }
+}

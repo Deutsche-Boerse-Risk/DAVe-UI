@@ -1,0 +1,89 @@
+<list-content title="Margin Shortfall Surplus"
+              [routeParts]="routeParts"
+              [exportKeys]="exportKeys"
+              [data]="data"
+              [initialLoad]="initialLoad"
+              [errorMessage]="errorMessage"
+              (filterChanged)="filter($event)">
+    <data-table [data]="data"
+                [pageSize]="pageSize"
+                [defaultOrdering]="defaultOrdering"
+                [trackByRowKey]="trackByRowKey">
+        <column title="Collateral Pool"
+                [sortingKey]="valueGetters.pool">
+            <template let-record="row" cell-template>
+                <a [routerLink]="['/marginShortfallSurplusLatest', record.clearer || '*', record.pool || '*']">
+                    {{record.pool}}
+                </a>
+            </template>
+        </column>
+        <column title="Pool Type"
+                [sortingKey]="valueGetters.poolType">
+            <template let-record="row" cell-template>
+                <a [routerLink]="['/marginShortfallSurplusLatest', record.clearer || '*', record.pool || '*']">
+                    {{record.poolType}}
+                </a>
+            </template>
+        </column>
+        <column title="Member / Client"
+                [sortingKey]="valueGetters.member">
+            <template let-record="row" cell-template>
+                <a [routerLink]="['/marginShortfallSurplusLatest', record.clearer || '*', record.pool || '*', record.member || '*']">
+                    {{record.member}}
+                </a>
+            </template>
+        </column>
+        <column title="Clearing Ccy"
+                [sortingKey]="valueGetters.clearingCcy">
+            <template let-record="row" cell-template>
+                <a [routerLink]="['/marginShortfallSurplusLatest', record.clearer || '*', record.pool || '*', record.member || '*', record.clearingCcy || '*']">
+                    {{record.clearingCcy}}
+                </a>
+            </template>
+        </column>
+        <column title="Ccy"
+                [sortingKey]="valueGetters.ccy">
+            <template let-record="row" cell-template>
+                {{record.ccy}}
+            </template>
+        </column>
+        <column title="Shortfall / Surplus"
+                [sortingKey]="valueGetters.shortfallSurplus">
+            <template let-record="row" cell-template>
+                {{record.shortfallSurplus | number:'.2-2'}}
+            </template>
+        </column>
+        <column title="Margin Requirement"
+                [sortingKey]="valueGetters.marginRequirement">
+            <template let-record="row" cell-template>
+                {{record.marginRequirement | number:'.2-2'}}
+            </template>
+        </column>
+        <column title="Collateral"
+                [sortingKey]="valueGetters.securityCollateral">
+            <template let-record="row" cell-template>
+                {{record.securityCollateral | number:'.2-2'}}
+            </template>
+        </column>
+        <column title="Cash Balance"
+                [sortingKey]="valueGetters.cashBalance">
+            <template let-record="row" cell-template>
+                {{record.cashBalance | number:'.2-2'}}
+            </template>
+        </column>
+        <column title="Margin Call"
+                [sortingKey]="valueGetters.marginCall">
+            <template let-record="row" cell-template>
+                {{record.marginCall | number:'.2-2'}}
+            </template>
+        </column>
+        <column>
+            <template let-record="row" cell-template>
+                <drilldown-row-button
+                        [routerLink]="['/totalMarginRequirementLatest', record.clearer || '*', record.pool || '*', '*', '*', record.ccy || '*']"></drilldown-row-button>
+                <detail-row-button
+                        [routerLink]="['/marginShortfallSurplusHistory', record.clearer || '*', record.pool || '*', record.member || '*', record.clearingCcy || '*', record.ccy || '*']"></detail-row-button>
+            </template>
+        </column>
+    </data-table>
+</list-content>

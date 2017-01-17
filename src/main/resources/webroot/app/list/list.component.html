@@ -1,0 +1,44 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h3>{{title}}</h3>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div *ngIf="!isHistory" class="pull-right col-lg-2 filter">
+                    <div class="input-group input-group-sm">
+                        <input type="text" class="form-control"
+                               placeholder="Filter ..." [(ngModel)]="filterQuery"
+                               (ngModelChange)="filterAfterTimeout()">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" (click)="filter()">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+
+                <drilldown-button *ngIf="drilldownRouterLink" [routerLink]="drilldownRouterLink"></drilldown-button>
+
+                <download-menu [columns]="exportKeys" [data]="data"
+                               filename="download.csv"></download-menu>
+
+                <bread-crumbs [routeParts]="routeParts"></bread-crumbs>
+            </div>
+
+            <initial-load *ngIf="initialLoad && !errorMessage"></initial-load>
+
+            <no-data *ngIf="!initialLoad && !errorMessage && data?.length < 1"></no-data>
+
+            <update-failed *ngIf="errorMessage" [message]="errorMessage"></update-failed>
+
+            <ng-content></ng-content>
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
+</div>

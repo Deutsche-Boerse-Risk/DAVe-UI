@@ -1,0 +1,163 @@
+<list-content [title]="rootRouteTitle"
+              [isHistory]="true"
+              [routeParts]="routeParts"
+              [exportKeys]="exportKeys"
+              [data]="data"
+              [initialLoad]="initialLoad"
+              [errorMessage]="errorMessage">
+    <div class="panel-body" *ngIf="chartData?.rows?.length > 0">
+        <google-chart chartType="LineChart"
+                      [chartOptions]="chartOptions"
+                      [chartData]="chartData"
+                      height="377px"></google-chart>
+    </div>
+
+    <data-table [data]="data"
+                [pageSize]="pageSize"
+                [defaultOrdering]="defaultOrdering"
+                [striped]="false"
+                [trackByRowKey]="trackByRowKey">
+        <column title="Last update"
+                tooltip="Time of the last update"
+                [sortingKey]="valueGetters.received">
+            <template let-record="row" cell-template>
+                {{record.received | date:'HH:mm:ss'}}
+            </template>
+        </column>
+        <column title="NetLS"
+                tooltip="Net position"
+                [sortingKey]="valueGetters.netLS">
+            <template let-record="row" cell-template>
+                {{record.netLS | number:'.2-2'}}
+            </template>
+        </column>
+        <column title="Position VaR"
+                tooltip="PnL of the position when calculating portfolio VaR"
+                [sortingKey]="valueGetters.compVar">
+            <template let-record="row" cell-template>
+                {{record.compVar | number:'.2-2'}}
+            </template>
+        </column>
+        <column title="EuroDelta"
+                tooltip="Position sensibility to underlying move in Euro"
+                [sortingKey]="valueGetters.delta">
+            <template let-record="row" cell-template>
+                {{record.delta | number:'.2-2'}}
+            </template>
+        </column>
+        <column title="LA"
+                tooltip="Liquidity Addon of the position"
+                [sortingKey]="valueGetters.compLiquidityAddOn">
+            <template let-record="row" cell-template>
+                {{record.compLiquidityAddOn | number:'.2-2'}}
+            </template>
+        </column>
+        <column>
+            <template let-record="row" cell-template>
+                <row-detail-expander></row-detail-expander>
+            </template>
+        </column>
+        <!-- Sub detail -->
+        <row-detail>
+            <column-group>
+                <column title="Clearing Ccy">
+                    <template let-record="row" cell-template>
+                        {{record.clearingCcy}}
+                    </template>
+                </column>
+                <column title="Product Ccy">
+                    <template let-record="row" cell-template>
+                        {{record.productCcy}}
+                    </template>
+                </column>
+                <column title="CrMrgLQty">
+                    <template let-record="row" cell-template>
+                        {{record.crossMarginLongQty | number:'.2-2'}}
+                    </template>
+                </column>
+                <column title="CrMrgSQty">
+                    <template let-record="row" cell-template>
+                        {{record.crossMarginShortQty | number:'.2-2'}}
+                    </template>
+                </column>
+                <column title="NetEA">
+                    <template let-record="row" cell-template>
+                        {{record.netEA | number:'.2-2'}}
+                    </template>
+                </column>
+                <column title="OptExcQty">
+                    <template let-record="row" cell-template>
+                        {{record.optionExcerciseQty | number:'.2-2'}}
+                    </template>
+                </column>
+                <column title="OptAssQty">
+                    <template let-record="row" cell-template>
+                        {{record.optionAssignmentQty | number:'.2-2'}}
+                    </template>
+                </column>
+                <column title="AllTrQty">
+                    <template let-record="row" cell-template>
+                        {{record.allocationTradeQty | number:'.2-2'}}
+                    </template>
+                </column>
+                <column title="DelNtQty">
+                    <template let-record="row" cell-template>
+                        {{record.deliveryNoticeQty | number:'.2-2'}}
+                    </template>
+                </column>
+            </column-group>
+            <column-group>
+                <column title="CorrBreak">
+                    <template let-record="row" cell-template>
+                        {{record.compCorrelationBreak | number:'.2-2'}}
+                    </template>
+                </column>
+                <column title="CopmError">
+                    <template let-record="row" cell-template>
+                        {{record.compCompressionError | number:'.2-2'}}
+                    </template>
+                </column>
+                <column title="LonOptCredit">
+                    <template let-record="row" cell-template>
+                        {{record.compLongOptionCredit | number:'.2-2'}}
+                    </template>
+                </column>
+                <column title="PremPay">
+                    <template let-record="row" cell-template>
+                        {{record.variationMarginPremiumPayment | number:'.2-2'}}
+                    </template>
+                </column>
+                <column title="PremMrgn">
+                    <template let-record="row" cell-template>
+                        {{record.premiumMargin | number:'.2-2'}}
+                    </template>
+                </column>
+                <column title="Gamma">
+                    <template let-record="row" cell-template>
+                        {{record.gamma | number:'.2-2'}}
+                    </template>
+                </column>
+                <column title="Vega">
+                    <template let-record="row" cell-template>
+                        {{record.vega | number:'.2-2'}}
+                    </template>
+                </column>
+                <column title="Rho">
+                    <template let-record="row" cell-template>
+                        {{record.rho | number:'.2-2'}}
+                    </template>
+                </column>
+                <column title="Theta">
+                    <template let-record="row" cell-template>
+                        {{record.theta | number:'.2-2'}}
+                    </template>
+                </column>
+                <column title="MVar">
+                    <template let-record="row" cell-template>
+                        {{record.mVar | number:'.2-2'}}
+                    </template>
+                </column>
+            </column-group>
+        </row-detail>
+    </data-table>
+</list-content>
