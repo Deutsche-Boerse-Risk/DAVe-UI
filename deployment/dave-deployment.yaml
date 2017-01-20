@@ -31,16 +31,11 @@ spec:
                 configMapKeyRef:
                   name: dave-config
                   key: db.name
-            - name: DAVE_DB_HOSTNAME
+            - name: DAVE_DB_URL
               valueFrom:
                 configMapKeyRef:
                   name: dave-config
-                  key: db.hostname
-            - name: DAVE_DB_PORT
-              valueFrom:
-                configMapKeyRef:
-                  name: dave-config
-                  key: db.port
+                  key: db.connection_url
             - name: DAVE_HTTP_ENABLE
               valueFrom:
                 configMapKeyRef:
