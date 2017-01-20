@@ -1,0 +1,101 @@
+<div class="panel-body" *ngIf="data?.length">
+    <table [class.table-striped]="striped" class="table table-bordered table-hover">
+        <thead *ngIf="headerTemplates">
+        <tr *ngFor="let headerTemplate of headerTemplates; trackBy:trackByIndex">
+            <th *ngFor="let column of headerTemplate; trackBy:trackByIndex"
+                [attr.rowspan]="column.rowspan"
+                [attr.colspan]="column.colspan">
+                <template [ngIf]="column.title">{{column.title}}</template>
+                <i *ngIf="column.tooltip"
+                   class="fa fa-question-circle"
+                   data-toggle="tooltip"
+                   data-placement="top"
+                   [title]="column.tooltip"
+                   aria-hidden="true"></i>
+                <span *ngIf="column.sortingKey"
+                      class="fa fa-sort"
+                      aria-hidden="true"
+                      (click)="sortRecords(column.sortingKey)"></span>
+            </th>
+        </tr>
+        </thead>
+        <tbody *ngIf="pageRows && rowsTemplates">
+        <template ngFor let-row [ngForOf]="pageRows" let-rowIndex="index" [ngForTrackBy]="trackByRowKey"
+                  expandable #expandable="expandable">
+            <tr *ngFor="let rowsTemplate of rowsTemplates; trackBy:trackByIndex"
+                (click)="expandable.expand(masterRow, !!detailRowGroups)"
+                #masterRow
+                [highlighter]="trackByRowKey"
+                [context]="{ row: row, storage: highlighterStorage, index: rowIndex}">
+                <td *ngFor="let column of rowsTemplate; trackBy:trackByIndex"
+                    [attr.rowspan]="column.rowspan"
+                    [attr.colspan]="column.colspan">
+                    <template *ngIf="column.cellTemplate"
+                              [ngTemplateOutlet]="column.cellTemplate"
+                              [ngOutletContext]="{ row: row }"></template>
+                </td>
+            </tr>
+            <tr *ngIf="detailRowGroups"
+                class="hidden"
+                [highlighter]="trackByRowKey"
+                [context]="{ row: row, storage: highlighterStorage, index: rowIndex}">
+                <td [attr.colspan]="detailRowColspan">
+                    <table class="table table-condensed">
+                        <template ngFor let-rowGroup [ngForOf]="detailRowGroups" [ngForTrackBy]="trackByIndex">
+                            <thead>
+                            <tr *ngFor="let headerRow of rowGroup.headerTemplates; trackBy:trackByIndex">
+                                <th *ngFor="let column of headerRow; trackBy:trackByIndex"
+                                    [attr.rowspan]="column.rowspan"
+                                    [attr.colspan]="column.colspan">
+                                    <template [ngIf]="column.title">{{column.title}}</template>
+                                    <i *ngIf="column.tooltip"
+                                       class="fa fa-question-circle"
+                                       data-toggle="tooltip"
+                                       data-placement="top"
+                                       [title]="column.tooltip"
+                                       aria-hidden="true"></i>
+                                    <span *ngIf="column.sortingKey"
+                                          class="fa fa-sort"
+                                          aria-hidden="true"
+                                          (click)="sortRecords(column.sortingKey)"></span>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let bodyRow of rowGroup.rowsTemplates; trackBy:trackByIndex">
+                                <td *ngFor="let column of bodyRow; trackBy:trackByIndex"
+                                    [attr.rowspan]="column.rowspan"
+                                    [attr.colspan]="column.colspan">
+                                    <template *ngIf="column.cellTemplate"
+                                              [ngTemplateOutlet]="column.cellTemplate"
+                                              [ngOutletContext]="{ row: row }"></template>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </template>
+                    </table>
+                </td>
+            </tr>
+        </template>
+        </tbody>
+        <tfoot *ngIf="footerTemplates">
+        <tr *ngFor="let footerTemplate of footerTemplates; trackBy:trackByIndex">
+            <th *ngFor="let column of footerTemplate; trackBy:trackByIndex"
+                [attr.rowspan]="column.rowspan"
+                [attr.colspan]="column.colspan">
+                <template *ngIf="column.footerTemplate"
+                          [ngTemplateOutlet]="column.footerTemplate"
+                          [ngOutletContext]="{ footer: footer }"></template>
+            </th>
+        </tr>
+        </tfoot>
+    </table>
+</div>
+
+<div class="panel-footer" *ngIf="showFooter && data?.length">
+    Showing {{pageRows?.length}} records out of {{data?.length}}
+
+    <paging *ngIf="pageSize && data?.length / pageSize > 1" [pageSize]="pageSize"
+            [totalRecords]="data?.length"
+            (pageChanged)="updatePage($event)"></paging>
+</div>

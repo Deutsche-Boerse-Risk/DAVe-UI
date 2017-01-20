@@ -1,0 +1,12 @@
+<div *ngIf="showControls && chartData" class="controls">
+    <button class="btn btn-sm btn-default"
+            type="button"
+            *ngFor="let column of chartData.cols.slice(1); let i = index"
+            [class.disabled]="_hiddenColumns.indexOf(i + 1) !== -1"
+            (click)="hideColumn(i + 1)">
+                <span *ngIf="chartOptions?.series[i]?.color"
+                      [style.background]="chartOptions.series[i].color"></span>
+        {{column.label}}
+    </button>
+</div>
+<div [id]="id" [style.height]="height"></div>

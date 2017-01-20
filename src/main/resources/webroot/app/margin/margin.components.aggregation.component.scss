@@ -1,0 +1,5 @@
+@import "../component";
+
+:host data-table /deep/ .panel-body {
+    padding: 0;
+}

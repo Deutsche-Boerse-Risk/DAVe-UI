@@ -1,0 +1,81 @@
+<list-content title="Margin Components"
+              [routeParts]="routeParts"
+              [exportKeys]="exportKeys"
+              [data]="data"
+              [initialLoad]="initialLoad"
+              [errorMessage]="errorMessage"
+              (filterChanged)="filter($event)">
+    <data-table [data]="data"
+                [pageSize]="pageSize"
+                [defaultOrdering]="defaultOrdering"
+                [trackByRowKey]="trackByRowKey">
+        <column title="Member / Client"
+                [sortingKey]="valueGetters.member">
+            <template let-record="row" cell-template>
+                <a [routerLink]="['/marginComponentLatest', record.clearer || '*', record.member || '*']">
+                    {{record.member}}
+                </a>
+            </template>
+        </column>
+        <column title="Account"
+                [sortingKey]="valueGetters.account">
+            <template let-record="row" cell-template>
+                <a [routerLink]="['/marginComponentLatest', record.clearer || '*', record.member || '*', record.account || '*']">
+                    {{record.account}}
+                </a>
+            </template>
+        </column>
+        <column title="Liq Grp / Margin Class"
+                [sortingKey]="valueGetters.class">
+            <template let-record="row" cell-template>
+                <a [routerLink]="['/marginComponentLatest', routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', record.class || '*']">
+                    {{record.class}}
+                </a>
+            </template>
+        </column>
+        <column title="Ccy"
+                [sortingKey]="valueGetters.ccy">
+            <template let-record="row" cell-template>
+                {{record.ccy}}
+            </template>
+        </column>
+        <column title="Variation Margin"
+                [sortingKey]="valueGetters.variationMargin">
+            <template let-record="row" cell-template>
+                {{record.variationMargin | number:'.2-2'}}
+            </template>
+        </column>
+        <column title="Liquidation Margin"
+                [sortingKey]="valueGetters.liquiMargin">
+            <template let-record="row" cell-template>
+                {{record.liquiMargin | number:'.2-2'}}
+            </template>
+        </column>
+        <column title="Premium Margin"
+                [sortingKey]="valueGetters.premiumMargin">
+            <template let-record="row" cell-template>
+                {{record.premiumMargin | number:'.2-2'}}
+            </template>
+        </column>
+        <column title="Spread Margin"
+                [sortingKey]="valueGetters.spreadMargin">
+            <template let-record="row" cell-template>
+                {{record.spreadMargin | number:'.2-2'}}
+            </template>
+        </column>
+        <column title="Total Margin"
+                [sortingKey]="valueGetters.additionalMargin">
+            <template let-record="row" cell-template>
+                {{record.additionalMargin | number:'.2-2'}}
+            </template>
+        </column>
+        <column>
+            <template let-record="row" cell-template>
+                <drilldown-row-button
+                        [routerLink]="['/positionReportLatest', record.clearer || '*', record.member || '*', record.account || '*', record.class || '*']"></drilldown-row-button>
+                <detail-row-button
+                        [routerLink]="['/marginComponentHistory', record.clearer || '*', record.member || '*', record.account || '*', record.class || '*', record.ccy || '*']"></detail-row-button>
+            </template>
+        </column>
+    </data-table>
+</list-content>

@@ -1,0 +1,85 @@
+<div>
+    <initial-load *ngIf="initialLoad && !errorMessage"></initial-load>
+
+    <no-data *ngIf="!initialLoad && !errorMessage && data?.length < 1"></no-data>
+
+    <update-failed *ngIf="errorMessage" [message]="errorMessage"></update-failed>
+
+    <data-table [data]="data"
+                [footer]="footer"
+                [defaultOrdering]="defaultOrdering"
+                [showFooter]="false"
+                [trackByRowKey]="trackByRowKey">
+        <column title="Clearer"
+                [sortingKey]="valueGetters.clearer">
+            <template let-record="row" cell-template>
+                <a [routerLink]="['/marginComponentLatest', record.clearer]">{{record.clearer}}</a>
+            </template>
+        </column>
+        <column title="Member / Client"
+                [sortingKey]="valueGetters.member">
+            <template let-record="row" cell-template>
+                <a [routerLink]="['/marginComponentLatest', record.clearer, record.member]">{{record.member}}</a>
+            </template>
+        </column>
+        <column title="Account"
+                [sortingKey]="valueGetters.account">
+            <template let-record="row" cell-template>
+                <a [routerLink]="['/marginComponentLatest', record.clearer, record.member, record.account]">{{record.account}}</a>
+            </template>
+        </column>
+        <column title="Variation Margin"
+                [sortingKey]="valueGetters.variationMargin">
+            <template let-record="row" cell-template>
+                {{record.variationMargin | number:'.2-2'}}
+            </template>
+            <template let-footer="footer" footer-template>
+                {{footer.variationMargin | number:'.2-2'}}
+            </template>
+        </column>
+        <column title="Liquidation Margin"
+                [sortingKey]="valueGetters.liquiMargin">
+            <template let-record="row" cell-template>
+                {{record.liquiMargin | number:'.2-2'}}
+            </template>
+            <template let-footer="footer" footer-template>
+                {{footer.liquiMargin | number:'.2-2'}}
+            </template>
+        </column>
+        <column title="Premium Margin"
+                [sortingKey]="valueGetters.premiumMargin">
+            <template let-record="row" cell-template>
+                {{record.premiumMargin | number:'.2-2'}}
+            </template>
+            <template let-footer="footer" footer-template>
+                {{footer.premiumMargin | number:'.2-2'}}
+            </template>
+        </column>
+        <column title="Spread Margin"
+                [sortingKey]="valueGetters.spreadMargin">
+            <template let-record="row" cell-template>
+                {{record.spreadMargin | number:'.2-2'}}
+            </template>
+            <template let-footer="footer" footer-template>
+                {{footer.spreadMargin | number:'.2-2'}}
+            </template>
+        </column>
+        <column title="Total Margin"
+                [sortingKey]="valueGetters.additionalMargin">
+            <template let-record="row" cell-template>
+                {{record.additionalMargin | number:'.2-2'}}
+            </template>
+            <template let-footer="footer" footer-template>
+                {{footer.additionalMargin | number:'.2-2'}}
+            </template>
+        </column>
+        <column>
+            <template let-record="row" cell-template>
+                <drilldown-row-button
+                        [routerLink]="['/marginComponentLatest', record.clearer, record.member, record.account]"></drilldown-row-button>
+            </template>
+        </column>
+    </data-table>
+
+    <a routerLink="/marginComponentLatest" class="btn btn-default btn-block">View Details</a>
+</div>

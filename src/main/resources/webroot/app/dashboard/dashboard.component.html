@@ -1,0 +1,42 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h3>Dashboard</h3>
+    </div>
+    <div class="col-lg-12">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a data-target="#overview" (click)="setActiveTab('overview')" data-toggle="tab">
+                    <i class="fa fa-table" aria-hidden="true"></i> Margin Requirement Overview
+                </a>
+            </li>
+            <li>
+                <a data-target="#cv" (click)="setActiveTab('cv')" data-toggle="tab">
+                    <i class="fa fa-adjust" aria-hidden="true"></i> Position Level Risk
+                </a>
+            </li>
+            <li>
+                <a data-target="#im" (click)="setActiveTab('im')" data-toggle="tab">
+                    <i class="fa fa-th fa-fw"></i> Initial Margin
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade" id="cv" *ngIf="activeTab === 'cv'">
+                <position-report-bubblechart></position-report-bubblechart>
+            </div>
+            <div class="tab-pane fade" id="im" *ngIf="activeTab === 'im'">
+                <margin-components-treemap></margin-components-treemap>
+            </div>
+            <div class="tab-pane fade in active" id="overview" *ngIf="activeTab === 'overview'">
+                <div class="panel panel-default" style="border-top: 0">
+                    <div class="panel-body">
+                        <margin-shortfall-surplus-summary></margin-shortfall-surplus-summary>
+                        <margin-components-aggregation></margin-components-aggregation>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /.col-lg-12 -->
+</div>

@@ -1,0 +1,19 @@
+<div class="panel panel-default" style="border-top: 0">
+    <div class="panel-body">
+
+        <initial-load *ngIf="initialLoad && !errorMessage"></initial-load>
+
+        <no-data *ngIf="!initialLoad && !errorMessage && chartData?.rows?.length < 1"></no-data>
+
+        <update-failed *ngIf="errorMessage" [message]="errorMessage"></update-failed>
+
+        <google-chart *ngIf="chartData?.rows?.length > 0"
+                      chartType="TreeMap"
+                      [chartOptions]="chartOptions"
+                      [chartData]="chartData"
+                      height="345px"
+                      (selected)="selectHandler($event)"></google-chart>
+        <br>
+        <a routerLink="/marginComponentLatest" class="btn btn-default btn-block">View Details</a>
+    </div>
+</div>

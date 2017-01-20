@@ -1,0 +1,63 @@
+<list-content [title]="rootRouteTitle"
+              [isHistory]="true"
+              [routeParts]="routeParts"
+              [exportKeys]="exportKeys"
+              [data]="data"
+              [initialLoad]="initialLoad"
+              [errorMessage]="errorMessage"
+              [drilldownRouterLink]="['/totalMarginRequirementLatest', routeParams['clearer'] || '*', routeParams['pool'] || '*', '*', '*', routeParams['ccy'] || '*']">
+    <div class="panel-body" *ngIf="chartData?.rows?.length > 0">
+        <google-line-chart [chartOptions]="chartOptions"
+                           [chartData]="chartData"
+                           height="377px"
+                           [showControls]="true"></google-line-chart>
+    </div>
+
+    <data-table [data]="data"
+                [pageSize]="pageSize"
+                [defaultOrdering]="defaultOrdering"
+                [trackByRowKey]="trackByRowKey">
+        <column title="Last update"
+                [sortingKey]="valueGetters.received">
+            <template let-record="row" cell-template>
+                {{record.received | date:'HH:mm:ss'}}
+            </template>
+        </column>
+        <column title="Pool Type"
+                [sortingKey]="valueGetters.poolType">
+            <template let-record="row" cell-template>
+                {{record.poolType}}
+            </template>
+        </column>
+        <column title="Shortfall / Surplus"
+                [sortingKey]="valueGetters.shortfallSurplus">
+            <template let-record="row" cell-template>
+                {{record.shortfallSurplus | number:'.2-2'}}
+            </template>
+        </column>
+        <column title="Requirement"
+                [sortingKey]="valueGetters.marginRequirement">
+            <template let-record="row" cell-template>
+                {{record.marginRequirement | number:'.2-2'}}
+            </template>
+        </column>
+        <column title="Collateral"
+                [sortingKey]="valueGetters.securityCollateral">
+            <template let-record="row" cell-template>
+                {{record.securityCollateral | number:'.2-2'}}
+            </template>
+        </column>
+        <column title="Cash Balance"
+                [sortingKey]="valueGetters.cashBalance">
+            <template let-record="row" cell-template>
+                {{record.cashBalance | number:'.2-2'}}
+            </template>
+        </column>
+        <column title="Margin Call"
+                [sortingKey]="valueGetters.marginCall">
+            <template let-record="row" cell-template>
+                {{record.marginCall | number:'.2-2'}}
+            </template>
+        </column>
+    </data-table>
+</list-content>
