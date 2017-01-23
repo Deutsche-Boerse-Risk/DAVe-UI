@@ -19,7 +19,7 @@ export class GoogleChart implements OnInit, OnChanges, OnDestroy {
     public chartOptions: CommonChartOptions;
 
     @Input()
-    public chartData: ChartData;
+    public chartData: ChartData | google.visualization.DataTable | google.visualization.DataView;
 
     @Output()
     public selected: EventEmitter<SelectionEvent> = new EventEmitter();
@@ -60,15 +60,11 @@ export class GoogleChart implements OnInit, OnChanges, OnDestroy {
     }
 
     public ngOnDestroy(): void {
-        this.destroyChart();
-        window.removeEventListener("resize", this._resizeHandle, false);
-    }
-
-    protected destroyChart(): void {
         if (this.wrapper) {
             google.visualization.events.removeListener(this._selectionHandle);
             this.wrapper.clear();
         }
+        window.removeEventListener("resize", this._resizeHandle, false);
     }
 
     private reinitializeChart(): void {
@@ -83,21 +79,31 @@ export class GoogleChart implements OnInit, OnChanges, OnDestroy {
 
     protected drawGraph(): void {
         google.charts.setOnLoadCallback(() => {
-            this.destroyChart();
-
-            this.wrapper = new google.visualization.ChartWrapper({
-                chartType: this.chartType,
-                dataTable: this.chartData,
-                options: this.chartOptions,
-                containerId: this.id
-            });
-            this.wrapper.draw();
-
-            this._selectionHandle = google.visualization.events.addListener(this.wrapper, 'select',
-                () => {
-                    this.selected.emit(this.wrapper.getChart().getSelection());
+            if (!this.wrapper) {
+                this.wrapper = new google.visualization.ChartWrapper({
+                    chartType: this.chartType,
+                    dataTable: this.getChartData(),
+                    options: this.getChartOptions(),
+                    containerId: this.id
                 });
+                this.wrapper.draw();
+
+                this._selectionHandle = google.visualization.events.addListener(this.wrapper, 'select',
+                    () => {
+                        this.selected.emit(this.wrapper.getChart().getSelection());
+                    });
+            } else {
+                this.wrapper.getChart().draw(this.getChartData(), this.getChartOptions());
+            }
         });
+    }
+
+    public getChartOptions(): CommonChartOptions {
+        return this.chartOptions;
+    }
+
+    protected getChartData(): ChartData | google.visualization.DataTable | google.visualization.DataView {
+        return this.chartData;
     }
 
     private generateUID(): string {

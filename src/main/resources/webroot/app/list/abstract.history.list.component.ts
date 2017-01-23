@@ -17,6 +17,11 @@ export abstract class AbstractHistoryListComponent<T extends {uid: string}> exte
     public chartData: ChartData;
 
     public chartOptions: LineChartOptions = {
+        animation: {
+            startup: true,
+            duration: 300,
+            easing: 'inAndOut'
+        },
         vAxis: {
             textStyle: {
                 color: 'gray',

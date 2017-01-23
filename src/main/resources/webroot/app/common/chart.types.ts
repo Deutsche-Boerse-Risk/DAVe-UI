@@ -352,6 +352,8 @@ declare global {
                 addRows(numOrArray: number | any[]): number;
 
                 addRow(cellArray?: ICell[]): number;
+
+                toJSON(): string;
             }
 
             interface ICell {
@@ -375,12 +377,16 @@ declare global {
 
                 hideRows(min: number, max: number): void;
                 hideRows(rowIndexes: number[]): void;
+
+                toDataTable(): DataTable;
+
+                toJSON(): string;
             }
 
             class Chart {
                 getSelection(): SelectedItem[];
 
-                draw(dataTable: DataView | DataTable | ChartData, options: CommonChartOptions): void;
+                draw(dataTable?: DataView | DataTable | ChartData, options?: CommonChartOptions): void;
             }
 
             class ChartWrapper {
@@ -408,7 +414,7 @@ declare global {
         }
 
         module charts {
-            function load(version: 'current' | 'upcoming', modules: {packages: string[]}): void;
+            function load(version: 'current' | 'upcoming' | '45' | '44' | '43' | '42' | '41', modules: {packages: string[]}): void;
 
             function setOnLoadCallback(callback: () => any): void;
         }
