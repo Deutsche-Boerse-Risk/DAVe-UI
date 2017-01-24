@@ -9,9 +9,7 @@ import 'rxjs/add/observable/throw';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 
-// export const defaultURL: string = 'https://ttsave.snapshot.dave.dbg-devops.com/api/v1.0'; // 'http(s)://someUrl:port/path'
-// export const defaultURL: string = 'https://demo.dave.dbg-devops.com/api/v1.0'; // 'http(s)://someUrl:port/path'
-export const defaultURL: string = '/api/v1.0'; // 'http(s)://someUrl:port/path'
+export const defaultURL: string = (<any>window).baseRestURL;
 
 export interface Request<T> {
     resourceURL: string;
@@ -20,7 +18,6 @@ export interface Request<T> {
 
     mapFunction?: (value: any, index: number) => T;
 }
-
 
 export interface PostRequest<T> extends Request<T> {
     data: any;

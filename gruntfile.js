@@ -178,6 +178,10 @@ module.exports = function (grunt) {
                 src: 'node_modules/zone.js/dist/zone.min.js',
                 dest: destination
             },
+            RestURL: {
+                src: 'restUrl.js',
+                dest: destination
+            },
             html: {
                 src: 'index.aot.html',
                 dest: destination + 'index.html'
