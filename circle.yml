@@ -1,6 +1,4 @@
 machine:
-  java:
-    version: oraclejdk8
   services:
     - docker
 
@@ -9,25 +7,15 @@ dependencies:
     - npm install -g grunt-cli
     - npm install -g typescript
   override:
-    - cd src/main/resources/webroot && npm install
+    - npm install
 
 test:
   override:
-    - cd src/main/resources/webroot && grunt dist
-    - mvn -Ddocker.keepContainer clean verify
-  post:
-    - mkdir -p $CIRCLE_TEST_REPORTS/junit/
-    - find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
-    - find . -type f -regex ".*/target/failsafe-reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
+    - grunt dist
 
 deployment:
   staging:
     branch: master
-    commands:
-      - ./dockerfile/create_docker.sh
-      - ./deployment/kube_deploy.sh
-  ttsave:
-    branch: ttsave
     commands:
       - ./dockerfile/create_docker.sh
       - ./deployment/kube_deploy.sh
