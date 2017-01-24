@@ -34,6 +34,7 @@ npm run dist
  - Install [prerequisites](#build).
  - Point your UI to the host, where the back-end for DAVe is running
    - see `app/http.service.ts` file, section `export const defaultURL`.
+ - Update development and runtime dependencies by calling `npm update`.
  - Run `grunt run` or `npm start` to start the simple web server. A Chrome browser will be started automatically. If you don't want to use Chrome for whatever reason you need to modify `gruntfile.js` and following section: 
  
  ```
