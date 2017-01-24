@@ -1,30 +1,14 @@
-logs
-project/project
-project/target
-target
-tmp
-.history
-./dist
-/.idea
-/*.iml
-/out
-/.idea_modules
-/.classpath
-/.project
-/RUNNING_PID
-/.settings
-/db/*
-/old-play-framework/db/*
-/.vertx
+.DS_Store/
+.idea/workspace.xml
 
-/src/main/resources/webroot/node_modules/
+node_modules/
 *.css
 *.js
+*.js.map
 !gruntfile.js
 !systemjs.config.js
-*.js.map
 npm-debug.log
-/src/main/resources/webroot/dist/
-/src/main/resources/webroot/.DS_Store/
-/src/main/resources/webroot/ngFactories/
+
+dist/
+ngFactories/
 
