@@ -85,13 +85,85 @@ module.exports = function (grunt) {
         // Rollup plugins - used to create single bundle from all SystemJS
         nodeResolve = require('rollup-plugin-node-resolve'),
         commonjs = require('rollup-plugin-commonjs'),
-        uglify = require('rollup-plugin-uglify'),
+        rollup_uglify = require('rollup-plugin-uglify'),
+        uglify = require('uglify-js'),
 
         // Project paths
         destination = 'dist/', // Destination folder for AoT version
         sassPattern, cssPattern, // SASS and compiled CSS
         htmlPattern, // HTML templates
-        tsPattern, jsPattern, jsToCleanPattern; // TypeScript, JavaScript and mapping files
+        tsPattern, jsPattern, jsToCleanPattern, // TypeScript, JavaScript and mapping files
+
+        // Key words to exclued from uglifyJS when mangling properties
+        javascriptKeywordList = [
+            // Object.defineProperty
+            'enumerable',
+            'configurable',
+            //Reflect.js
+            'Reflect',
+            'defineMetadata',
+            'defineProperty',
+            'deleteMetadata',
+            'deleteProperty',
+            'enumerate',
+            'getMetadata',
+            'getMetadataKeys',
+            'getOwnMetadata',
+            'getOwnMetadataKeys',
+            'getOwnPropertyDescriptor',
+            'getPrototypeOf',
+            'hasMetadata',
+            'hasOwnMetadata',
+            'isExtensible',
+            'metadata',
+            'ownKeys',
+            'preventExtensions',
+            'setPrototypeOf',
+            // Zone.js
+            'Zone',
+            'current',
+            'scheduleMicroTask',
+            'assertZonePatched',
+            'wtfZoneSpec',
+            'longStackTraceZoneSpec',
+            'fork',
+            'forkInnerZoneWithAngularBehavior',
+            'run',
+            'runGuarded',
+            //
+            'wtf',
+            'class',
+            'innerHtml',
+            'readonly',
+            'tabindex',
+            '\b',
+            '\t',
+            'Del',
+            'Esc',
+            'Left',
+            'Right',
+            'Up',
+            'Down',
+            'Menu',
+            'Scroll',
+            'Win',
+            'A',
+            'B',
+            'C',
+            'D',
+            'E',
+            'F',
+            'G',
+            'H',
+            'I',
+            'J',
+            'K',
+            'M',
+            'N',
+            'O',
+            '`',
+            ''
+        ];
 
     grunt.appFolders = ['app'];
 
@@ -131,7 +203,34 @@ module.exports = function (grunt) {
                                 'node_modules/angular2-jwt/angular2-jwt.js'
                             ]
                         }),
-                        uglify()
+                        rollup_uglify({
+                            // compress: {
+                            //     sequences: true,
+                            //     dead_code: true,
+                            //     conditionals: true,
+                            //     booleans: true,
+                            //     unused: true,
+                            //     if_return: true,
+                            //     join_vars: true,
+                            //
+                            //     properties: true,  // optimize property access: a["foo"] → a.foo
+                            //     drop_debugger: true,  // discard “debugger” statements
+                            //     unsafe: false, // some unsafe optimizations (see below)
+                            //     comparisons: true,  // optimize comparisons
+                            //     evaluate: true,  // evaluate constant expressions
+                            //     loops: true,  // optimize loops
+                            //     hoist_funs: true,  // hoist function declarations
+                            //     hoist_vars: true, // hoist variable declarations
+                            //     cascade: true,  // try to cascade `right` into `left` in sequences
+                            //     side_effects: true,  // drop side-effect-free statements
+                            //     warnings: false
+                            // },
+                            mangleProperties: {
+                                // regex: new RegExp(regexKeywordsToExclude, 'i'),
+                                reserved: uglify.readDefaultReservedFile().props.concat(javascriptKeywordList),
+                                debug: '_oldProp'
+                            }
+                        })
                     ];
                 }
             },
