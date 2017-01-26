@@ -1,14 +1,24 @@
 #!/usr/bin/env bash
 
-CIRCLE_SHA1=1_0
+DOCKER_ORG_NAME=dbg
+DOCKER_IMAGE_NAME=dave-ui
+CIRCLE_SHA1=1.0.0
+
+# Get current location and dave-ui root
+WHEREAMI=`dirname "${0}"`
+if [ -z "${DAVE_UI_ROOT}" ]; then
+    export DAVE_UI_ROOT=`cd "${WHEREAMI}/../" && pwd`
+fi
 
 # Copy the DAVe binaries
-cp -r -v ./dist ./dockerfile
+cp -r ${DAVE_UI_ROOT}/dist ${DAVE_UI_ROOT}/dockerfile
 
-# Delete the prefilled
 # docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-docker build -t wg379/dave-ui:${CIRCLE_SHA1} ./dockerfile/
-#docker tag -f wg379/dave-ui:${CIRCLE_SHA1} docker.io/wg379/dave-ui:${CIRCLE_SHA1}
-#docker push scholzj/dave:${CIRCLE_SHA1}
-#docker tag -f scholzj/dave:${CIRCLE_SHA1} docker.io/scholzj/dave:${CIRCLE_BRANCH}
-#docker push scholzj/dave:${CIRCLE_BRANCH}
+docker build -t ${DOCKER_ORG_NAME}/${DOCKER_IMAGE_NAME}:${CIRCLE_SHA1} ${DAVE_UI_ROOT}/dockerfile/
+docker tag -f ${DOCKER_ORG_NAME}/${DOCKER_IMAGE_NAME}:${CIRCLE_SHA1} docker.io/${DOCKER_ORG_NAME}/${DOCKER_IMAGE_NAME}:${CIRCLE_SHA1}
+#docker push ${DOCKER_ORG_NAME}/${DOCKER_IMAGE_NAME}:${CIRCLE_SHA1}
+#docker tag -f ${DOCKER_ORG_NAME}/${DOCKER_IMAGE_NAME}:${CIRCLE_SHA1} docker.io/${DOCKER_ORG_NAME}/${DOCKER_IMAGE_NAME}:${CIRCLE_BRANCH}
+#docker push ${DOCKER_ORG_NAME}/${DOCKER_IMAGE_NAME}:${CIRCLE_BRANCH}
+
+# Clean-up
+rm -rf ${DAVE_UI_ROOT}/dockerfile/dist
