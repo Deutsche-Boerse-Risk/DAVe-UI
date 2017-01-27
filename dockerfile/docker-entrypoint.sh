@@ -68,12 +68,17 @@ EOF
     echo "$DAVE_HTTP_SSL_SERVER_PUBLIC_KEY" > ${certDir}/nginx.crt
     echo "$DAVE_HTTP_SSL_SERVER_PRIVATE_KEY" > ${certDir}/nginx.pem
 
+    # Set default port if not provided
+    if [ -z "$DAVE_HTTPS_REDIRECT_PORT" ]; then
+        DAVE_HTTPS_REDIRECT_PORT=443
+    fi
+
     # Append HTTP->HTTPS redirect, certificates and ssl config.
     cat >> ${configFile} <<EOF
     server {
         listen 80;
         server_name localhost;
-        return 301 https://\$host\$request_uri;
+        return 301 https://\$host:${DAVE_HTTPS_REDIRECT_PORT}\$request_uri;
     }
 
     server {
@@ -96,7 +101,9 @@ EOF
 EOF
 
     if [ "$DAVE_HTTP_SSL_TRUSTED_CA" ]; then
-      echo "$DAVE_HTTP_SSL_TRUSTED_CA" > ${certDir}/trustchain.crt
+      echo "$DAVE_HTTP_SSL_TRUSTED_CA" > ${certDir}/trusted.ca
+
+      cat ${certDir}/nginx.crt ${certDir}/trusted.ca > ${certDir}/trustchain.crt
 
       cat >> ${configFile} <<EOF
         ssl_stapling on;
