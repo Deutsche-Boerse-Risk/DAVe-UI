@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 
 import {HttpService} from '../http.service';
 import {Observable} from 'rxjs/Observable';
+import {UIDUtils} from "../uid.utils";
 
 import {
     MarginShortfallSurplusServerData, MarginShortfallSurplusBase, MarginShortfallSurplusData
@@ -53,34 +54,7 @@ export class MarginShortfallSurplusService {
                 member,
                 clearingCcy
             ]
-        }).map((data: MarginShortfallSurplusServerData[]) => {
-            let result: MarginShortfallSurplusData[] = [];
-            if (data) {
-                data.forEach((record: MarginShortfallSurplusServerData) => {
-                    let row: MarginShortfallSurplusData = {
-                        uid: this.computeUID(record),
-                        clearer: record.clearer,
-                        member: record.member,
-                        bizDt: record.bizDt,
-                        received: new Date(record.received),
-                        ccy: record.ccy,
-                        cashBalance: record.cashBalance,
-                        clearingCcy: record.clearingCcy,
-                        marginCall: record.marginCall,
-                        marginRequirement: record.marginRequirement,
-                        pool: record.pool,
-                        poolType: record.poolType,
-                        shortfallSurplus: record.shortfallSurplus,
-                        securityCollateral: record.securityCollateral
-                    };
-
-                    result.push(row);
-                });
-                return result;
-            } else {
-                return [];
-            }
-        });
+        }).map(MarginShortfallSurplusService.processShortfallSurplusData);
     }
 
     public getShortfallSurplusHistory(clearer: string, pool: string, member: string, clearingCcy: string,
@@ -94,48 +68,35 @@ export class MarginShortfallSurplusService {
                 clearingCcy,
                 ccy
             ]
-        }).map((data: MarginShortfallSurplusServerData[]) => {
-            let result: MarginShortfallSurplusData[] = [];
-            if (data) {
-                data.forEach((record: MarginShortfallSurplusServerData) => {
-                    let row: MarginShortfallSurplusData = {
-                        uid: this.computeUID(record),
-                        clearer: record.clearer,
-                        member: record.member,
-                        bizDt: record.bizDt,
-                        received: new Date(record.received),
-                        ccy: record.ccy,
-                        cashBalance: record.cashBalance,
-                        clearingCcy: record.clearingCcy,
-                        marginCall: record.marginCall,
-                        marginRequirement: record.marginRequirement,
-                        pool: record.pool,
-                        poolType: record.poolType,
-                        shortfallSurplus: record.shortfallSurplus,
-                        securityCollateral: record.securityCollateral
-                    };
-
-                    result.push(row);
-                });
-                return result;
-            } else {
-                return [];
-            }
-        });
+        }).map(MarginShortfallSurplusService.processShortfallSurplusData);
     }
 
-    private computeUID(data: MarginShortfallSurplusServerData): string {
-        if (data._id) {
-            return Object.keys(data._id).sort().map((key: string) => {
-                let value: any = (<any>data._id)[key];
-                if (!value) {
-                    return '';
-                }
-                return value.toString().replace('\.', '');
-            }).join('-');
-        } else if (data.id && data.id.$oid) {
-            return data.id.$oid;
+    private static processShortfallSurplusData(data: MarginShortfallSurplusServerData[]): MarginShortfallSurplusData[] {
+        let result: MarginShortfallSurplusData[] = [];
+        if (data) {
+            data.forEach((record: MarginShortfallSurplusServerData) => {
+                let row: MarginShortfallSurplusData = {
+                    uid: UIDUtils.computeUID(record),
+                    clearer: record.clearer,
+                    member: record.member,
+                    bizDt: record.bizDt,
+                    received: new Date(record.received),
+                    ccy: record.ccy,
+                    cashBalance: record.cashBalance,
+                    clearingCcy: record.clearingCcy,
+                    marginCall: record.marginCall,
+                    marginRequirement: record.marginRequirement,
+                    pool: record.pool,
+                    poolType: record.poolType,
+                    shortfallSurplus: record.shortfallSurplus,
+                    securityCollateral: record.securityCollateral
+                };
+
+                result.push(row);
+            });
+            return result;
+        } else {
+            return [];
         }
-        return null;
     }
 }

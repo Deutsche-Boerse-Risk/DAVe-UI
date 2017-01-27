@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 
 import {HttpService} from '../http.service';
 import {Observable} from 'rxjs/Observable';
+import {UIDUtils} from "../uid.utils";
 
 import {
     PositionReportServerData, PositionReportData, PositionReportBubble, PositionReportChartData, SelectValues,
@@ -107,47 +108,12 @@ export class PositionReportsService {
             let result: PositionReportData[] = [];
             if (data) {
                 data.forEach((record: PositionReportServerData) => {
-                    let row: PositionReportData = {
-                        uid: this.computeUID(record),
-                        clearer: record.clearer,
-                        member: record.member,
-                        account: record.account,
-                        class: record.clss,
-                        symbol: record.symbol,
-                        putCall: record.putCall,
-                        maturityMonthYear: record.maturityMonthYear,
-                        optAttribute: record.optAttribute,
-                        compLiquidityAddOn: record.compLiquidityAddOn,
-                        delta: record.delta,
-                        bizDt: record.bizDt,
-                        crossMarginLongQty: record.crossMarginLongQty,
-                        crossMarginShortQty: record.crossMarginShortQty,
-                        optionExcerciseQty: record.optionExcerciseQty,
-                        optionAssignmentQty: record.optionAssignmentQty,
-                        allocationTradeQty: record.allocationTradeQty,
-                        deliveryNoticeQty: record.deliveryNoticeQty,
-                        clearingCcy: record.clearingCcy,
-                        mVar: record.mVar,
-                        compVar: record.compVar,
-                        compCorrelationBreak: record.compCorrelationBreak,
-                        compCompressionError: record.compCompressionError,
-                        compLongOptionCredit: record.compLongOptionCredit,
-                        productCcy: record.productCcy,
-                        variationMarginPremiumPayment: record.variationMarginPremiumPayment,
-                        premiumMargin: record.premiumMargin,
-                        gamma: record.gamma,
-                        vega: record.vega,
-                        rho: record.rho,
-                        theta: record.theta,
-                        underlying: record.underlying,
-                        received: new Date(record.received)
-                    };
-                    row.netLS = record.crossMarginLongQty - record.crossMarginShortQty;
-                    row.netEA = (record.optionExcerciseQty - record.optionAssignmentQty) + (record.allocationTradeQty - record.deliveryNoticeQty);
+                    let row = PositionReportsService.processPositionReportsDataRow(record);
 
                     if (record.strikePrice) {
                         row.strikePrice = parseFloat(record.strikePrice);
                     }
+
                     result.push(row);
                 });
                 return result;
@@ -178,45 +144,7 @@ export class PositionReportsService {
             let result: PositionReportData[] = [];
             if (data) {
                 data.forEach((record: PositionReportServerData) => {
-                    let row: PositionReportData = {
-                        uid: this.computeUID(record),
-                        clearer: record.clearer,
-                        member: record.member,
-                        account: record.account,
-                        class: record.clss,
-                        symbol: record.symbol,
-                        putCall: record.putCall,
-                        maturityMonthYear: record.maturityMonthYear,
-                        optAttribute: record.optAttribute,
-                        compLiquidityAddOn: record.compLiquidityAddOn,
-                        delta: record.delta,
-                        bizDt: record.bizDt,
-                        crossMarginLongQty: record.crossMarginLongQty,
-                        crossMarginShortQty: record.crossMarginShortQty,
-                        optionExcerciseQty: record.optionExcerciseQty,
-                        optionAssignmentQty: record.optionAssignmentQty,
-                        allocationTradeQty: record.allocationTradeQty,
-                        deliveryNoticeQty: record.deliveryNoticeQty,
-                        clearingCcy: record.clearingCcy,
-                        mVar: record.mVar,
-                        compVar: record.compVar,
-                        compCorrelationBreak: record.compCorrelationBreak,
-                        compCompressionError: record.compCompressionError,
-                        compLongOptionCredit: record.compLongOptionCredit,
-                        productCcy: record.productCcy,
-                        variationMarginPremiumPayment: record.variationMarginPremiumPayment,
-                        premiumMargin: record.premiumMargin,
-                        gamma: record.gamma,
-                        vega: record.vega,
-                        rho: record.rho,
-                        theta: record.theta,
-                        underlying: record.underlying,
-                        received: new Date(record.received)
-                    };
-                    row.netLS = record.crossMarginLongQty - record.crossMarginShortQty;
-                    row.netEA = (record.optionExcerciseQty - record.optionAssignmentQty) + (record.allocationTradeQty - record.deliveryNoticeQty);
-
-                    result.push(row);
+                    result.push(PositionReportsService.processPositionReportsDataRow(record));
                 });
                 return result;
             } else {
@@ -225,18 +153,45 @@ export class PositionReportsService {
         });
     }
 
-    private computeUID(data: PositionReportServerData): string {
-        if (data._id) {
-            return Object.keys(data._id).sort().map((key: string) => {
-                let value: any = (<any>data._id)[key];
-                if (!value) {
-                    return '';
-                }
-                return value.toString().replace('\.', '');
-            }).join('-');
-        } else if (data.id && data.id.$oid) {
-            return data.id.$oid;
-        }
-        return null;
+    private static processPositionReportsDataRow(record: PositionReportServerData): PositionReportData {
+        let row: PositionReportData = {
+            uid: UIDUtils.computeUID(record),
+            clearer: record.clearer,
+            member: record.member,
+            account: record.account,
+            class: record.clss,
+            symbol: record.symbol,
+            putCall: record.putCall,
+            maturityMonthYear: record.maturityMonthYear,
+            optAttribute: record.optAttribute,
+            compLiquidityAddOn: record.compLiquidityAddOn,
+            delta: record.delta,
+            bizDt: record.bizDt,
+            crossMarginLongQty: record.crossMarginLongQty,
+            crossMarginShortQty: record.crossMarginShortQty,
+            optionExcerciseQty: record.optionExcerciseQty,
+            optionAssignmentQty: record.optionAssignmentQty,
+            allocationTradeQty: record.allocationTradeQty,
+            deliveryNoticeQty: record.deliveryNoticeQty,
+            clearingCcy: record.clearingCcy,
+            mVar: record.mVar,
+            compVar: record.compVar,
+            compCorrelationBreak: record.compCorrelationBreak,
+            compCompressionError: record.compCompressionError,
+            compLongOptionCredit: record.compLongOptionCredit,
+            productCcy: record.productCcy,
+            variationMarginPremiumPayment: record.variationMarginPremiumPayment,
+            premiumMargin: record.premiumMargin,
+            gamma: record.gamma,
+            vega: record.vega,
+            rho: record.rho,
+            theta: record.theta,
+            underlying: record.underlying,
+            received: new Date(record.received)
+        };
+        row.netLS = record.crossMarginLongQty - record.crossMarginShortQty;
+        row.netEA = (record.optionExcerciseQty - record.optionAssignmentQty)
+            + (record.allocationTradeQty - record.deliveryNoticeQty);
+        return row;
     }
 }
