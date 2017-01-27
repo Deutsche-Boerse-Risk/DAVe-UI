@@ -23,58 +23,13 @@ export class DownloadMenuComponent {
     public filename: string;
 
     public downloadAsCsv(): void {
-        const processRow = (row: any) => {
-            let finalVal = '';
-            let first = true;
-            this.columns.forEach((column: ExportColumn<any>) => {
-                let value = column.get(row);
-                let innerValue = value ? value.toString() : '';
-
-                if (value instanceof Date) {
-                    innerValue = value.toLocaleString();
-                }
-
-                let result = innerValue.replace(/"/g, '""');
-
-                if (result.search(/("|,|\n)/g) >= 0) {
-                    result = '"' + result + '"';
-                }
-
-                if (!first) {
-                    finalVal += ',';
-                }
-
-                first = false;
-                finalVal += result;
-            });
-            return finalVal + '\n';
-        };
-
-        const createHeader = () => {
-            let finalVal = '';
-            let first = true;
-            this.columns.forEach((column: ExportColumn<any>) => {
-                const innerValue = column.header ? column.header.toString() : '';
-                let result = innerValue.replace(/"/g, '""');
-                if (result.search(/("|,|\n)/g) >= 0) {
-                    result = '"' + result + '"';
-                }
-                if (!first) {
-                    finalVal += ',';
-                }
-                first = false;
-                finalVal += result;
-            });
-            return finalVal + '\n';
-        };
-
         let csvFile = '';
 
         if (this.columns) {
-            csvFile += createHeader();
+            csvFile += this.createHeader();
 
             for (let i = 0; i < this.data.length; i++) {
-                csvFile += processRow(this.data[i]);
+                csvFile += this.processRow(this.data[i]);
             }
         }
 
@@ -95,4 +50,49 @@ export class DownloadMenuComponent {
             }
         }
     }
+
+    private processRow(row: any): string {
+        let finalVal = '';
+        let first = true;
+        this.columns.forEach((column: ExportColumn<any>) => {
+            let value = column.get(row);
+            let innerValue = value ? value.toString() : '';
+
+            if (value instanceof Date) {
+                innerValue = value.toLocaleString();
+            }
+
+            let result = innerValue.replace(/"/g, '""');
+
+            if (result.search(/("|,|\n)/g) >= 0) {
+                result = '"' + result + '"';
+            }
+
+            if (!first) {
+                finalVal += ',';
+            }
+
+            first = false;
+            finalVal += result;
+        });
+        return finalVal + '\n';
+    }
+
+    private createHeader(): string {
+        let finalVal = '';
+        let first = true;
+        this.columns.forEach((column: ExportColumn<any>) => {
+            const innerValue = column.header ? column.header.toString() : '';
+            let result = innerValue.replace(/"/g, '""');
+            if (result.search(/("|,|\n)/g) >= 0) {
+                result = '"' + result + '"';
+            }
+            if (!first) {
+                finalVal += ',';
+            }
+            first = false;
+            finalVal += result;
+        });
+        return finalVal + '\n';
+    };
 }
