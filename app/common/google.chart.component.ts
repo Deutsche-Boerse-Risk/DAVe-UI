@@ -93,7 +93,7 @@ export class GoogleChart implements OnInit, OnChanges, OnDestroy {
                         this.selected.emit(this.wrapper.getChart().getSelection());
                     });
             } else {
-                this.wrapper.getChart().draw(this.getChartData(), this.getChartOptions());
+                this.wrapper.getChart().draw(GoogleChart.prepareDataTableOrDataView(this.getChartData()), this.getChartOptions());
             }
         });
     }
@@ -104,6 +104,18 @@ export class GoogleChart implements OnInit, OnChanges, OnDestroy {
 
     protected getChartData(): ChartData | google.visualization.DataTable | google.visualization.DataView {
         return this.chartData;
+    }
+
+    protected static prepareDataTableOrDataView(originalChartData: ChartData | google.visualization.DataTable | google.visualization.DataView): google.visualization.DataTable | google.visualization.DataView {
+        let convertedChartData: google.visualization.DataTable | google.visualization.DataView;
+        if (originalChartData instanceof google.visualization.DataView) {
+            convertedChartData = <google.visualization.DataView>originalChartData;
+        } else if (originalChartData instanceof google.visualization.DataTable) {
+            convertedChartData = <google.visualization.DataTable>originalChartData;
+        } else {
+            convertedChartData = new google.visualization.DataTable(<ChartData>originalChartData);
+        }
+        return convertedChartData;
     }
 
     private generateUID(): string {

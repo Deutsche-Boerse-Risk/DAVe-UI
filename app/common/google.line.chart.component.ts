@@ -37,7 +37,7 @@ export class GoogleLineChart extends GoogleChart {
         return options;
     }
 
-    public getChartData(): google.visualization.DataTable {
+    public getChartData(): ChartData | google.visualization.DataTable | google.visualization.DataView {
         // let chartData: google.visualization.DataView = new google.visualization.DataView(
         //     new google.visualization.DataTable(this.convertToChartData()));
         // chartData.hideColumns(this.hiddenColumns);
@@ -61,7 +61,7 @@ export class GoogleLineChart extends GoogleChart {
         });
         // TODO: END of the block above
 
-        return new google.visualization.DataTable(chartData);
+        return GoogleChart.prepareDataTableOrDataView(chartData);
     }
 
     private convertToChartData() {
@@ -108,7 +108,7 @@ export class GoogleLineChart extends GoogleChart {
         }
 
         if (this.wrapper) {
-            this.wrapper.getChart().draw(this.getChartData(), this.getChartOptions());
+            this.wrapper.getChart().draw(GoogleChart.prepareDataTableOrDataView(this.getChartData()), this.getChartOptions());
         }
     }
 }
