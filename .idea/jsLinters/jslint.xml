@@ -4,7 +4,7 @@
     <option for="true" />
     <option maxerr="50" />
     <option multivar="true" />
-    <option globals="define, Promise, require, System, Image, setTimeout, setInterval, clearInterval, document, window" />
+    <option globals="define, Promise, require, System, Image, setTimeout, setInterval, clearInterval, document, window, module" />
     <option single="true" />
     <option this="true" />
     <option white="true" />

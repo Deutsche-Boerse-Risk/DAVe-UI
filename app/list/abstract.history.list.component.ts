@@ -98,10 +98,12 @@ export abstract class AbstractHistoryListComponent<T extends {uid: string}> exte
             chartData.push(this.getTickFromRecord(data[index]));
         }
         chartData.sort((tick1: LineChartColumn[], tick2: LineChartColumn[]) => {
-            if (tick1[0].value < tick2[0].value)
+            if (tick1[0].value < tick2[0].value) {
                 return -1;
-            if (tick1[0].value > tick2[0].value)
+            }
+            if (tick1[0].value > tick2[0].value) {
                 return 1;
+            }
             return 0;
         });
 
@@ -120,7 +122,7 @@ export abstract class AbstractHistoryListComponent<T extends {uid: string}> exte
 
         let i = 0;
         this.rawChartData[0].forEach((value: LineChartColumn) => {
-            value.id = i++ + ''
+            value.id = (i++) + '';
         });
 
         let chartData: ChartData = {

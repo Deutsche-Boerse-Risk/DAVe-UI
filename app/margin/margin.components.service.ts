@@ -97,7 +97,9 @@ export class MarginComponentsService {
                 let tree = new MarginComponentsTree({id: 'all', text: 'all', value: 0});
 
                 for (let index = 0; index < data.length; ++index) {
-                    if (data[index].additionalMargin === 0) continue;
+                    if (data[index].additionalMargin === 0) {
+                        continue;
+                    }
 
                     let clearer = data[index].clearer;
                     let member = clearer + '-' + data[index].member;

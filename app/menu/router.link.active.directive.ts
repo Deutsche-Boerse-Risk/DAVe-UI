@@ -61,7 +61,9 @@ export class RouterLinkActiveDirective implements OnChanges, OnDestroy, AfterCon
     }
 
     private update(): void {
-        if (!this.links || !this.linksWithHrefs || !this.subLinks || !this.router.navigated) return;
+        if (!this.links || !this.linksWithHrefs || !this.subLinks || !this.router.navigated) {
+            return;
+        }
 
         const isActive = this.hasActiveLink();
         this.classes.forEach(c => {

@@ -1,30 +1,6 @@
 module.exports = function (grunt) {
     'use strict';
 
-    var // BrowserSync plugins to make logs better and to fallback to index.html
-        fallback = require('connect-history-api-fallback'),
-        log = require('connect-logger'),
-
-        // Rollup plugins - used to create single bundle from all SystemJS
-        nodeResolve = require('rollup-plugin-node-resolve'),
-        commonjs = require('rollup-plugin-commonjs'),
-        uglify = require('rollup-plugin-uglify'),
-
-        // Project paths
-        destination = 'dist/', // Destination folder for AoT version
-        sassPattern, cssPattern, // SASS and compiled CSS
-        htmlPattern, // HTML templates
-        tsPattern, jsPattern, jsToCleanPattern, // TypeScript, JavaScript and mapping files
-        appFolders = ['app'];
-
-    // Populate paths
-    sassPattern = addAppFolders('**/*.scss', 'styles.scss');
-    cssPattern = addAppFolders('**/*.css', 'styles.css');
-    htmlPattern = addAppFolders('**/*.html', 'index.html');
-    jsPattern = addAppFolders('**/*.js', 'systemjs.config.js');
-    jsToCleanPattern = addAppFolders('**/*.js').concat(addAppFolders('**/*.js.map'));
-    tsPattern = addAppFolders('**/*.ts');
-
     //<editor-fold desc="Task and function definition" defaultstate="collapsed">
     function runProcess(command, args) {
         return function () {
@@ -89,7 +65,7 @@ module.exports = function (grunt) {
 
     function addAppFolders(pattern) {
         var i, paths = [];
-        appFolders.forEach(function (item) {
+        grunt.appFolders.forEach(function (item) {
             paths.push(item + '/' + pattern);
         });
         if (arguments.length > 1) {
@@ -101,6 +77,31 @@ module.exports = function (grunt) {
     }
 
     //</editor-fold>
+
+    var // BrowserSync plugins to make logs better and to fallback to index.html
+        fallback = require('connect-history-api-fallback'),
+        log = require('connect-logger'),
+
+        // Rollup plugins - used to create single bundle from all SystemJS
+        nodeResolve = require('rollup-plugin-node-resolve'),
+        commonjs = require('rollup-plugin-commonjs'),
+        uglify = require('rollup-plugin-uglify'),
+
+        // Project paths
+        destination = 'dist/', // Destination folder for AoT version
+        sassPattern, cssPattern, // SASS and compiled CSS
+        htmlPattern, // HTML templates
+        tsPattern, jsPattern, jsToCleanPattern; // TypeScript, JavaScript and mapping files
+
+    grunt.appFolders = ['app'];
+
+    // Populate paths
+    sassPattern = addAppFolders('**/*.scss', 'styles.scss');
+    cssPattern = addAppFolders('**/*.css', 'styles.css');
+    htmlPattern = addAppFolders('**/*.html', 'index.html');
+    jsPattern = addAppFolders('**/*.js', 'systemjs.config.js');
+    jsToCleanPattern = addAppFolders('**/*.js').concat(addAppFolders('**/*.js.map'));
+    tsPattern = addAppFolders('**/*.ts');
 
     grunt.initConfig({
         cleanup: {

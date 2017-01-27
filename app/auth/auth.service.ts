@@ -39,10 +39,10 @@ export class AuthService {
     constructor(private http: HttpService<any>) {
         let token = localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME);
         if (token) {
-            if (!this.jwtHelper.isTokenExpired(token)) {
-                this.tokenData = this.jwtHelper.decodeToken(token);
-            } else {
+            if (this.jwtHelper.isTokenExpired(token)) {
                 localStorage.removeItem(AuthConfigConsts.DEFAULT_TOKEN_NAME);
+            } else {
+                this.tokenData = this.jwtHelper.decodeToken(token);
             }
         }
         setInterval(this.checkAuth.bind(this), 60000);

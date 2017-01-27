@@ -344,7 +344,7 @@ declare global {
                 constructor(chartData: ChartData);
 
                 addColumn(type: string, label?: string, id?: string): number;
-                addColumn(description_object: IColumnDescription): number;
+                addColumn(descriptionObject: IColumnDescription): number;
 
                 insertRows(atRowIndex: number, numOfRows: number): void;
                 insertRows(atRowIndex: number, populatedRows: any[]): void;

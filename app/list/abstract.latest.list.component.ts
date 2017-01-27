@@ -36,7 +36,7 @@ export abstract class AbstractLatestListComponent<T extends {uid: string}> exten
                     }
                 }
 
-                if (match == true) {
+                if (match) {
                     filteredItems.push(this.sourceData[index]);
                 }
             }

@@ -11,7 +11,7 @@ export class RouterSubLinkDirective {
 
     @Input()
     public set routerSubLink(commands: any[] | string) {
-        if (commands != null) {
+        if (commands) {
             this.commands = Array.isArray(commands) ? commands : [commands];
         } else {
             this.commands = [];

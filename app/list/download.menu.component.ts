@@ -28,7 +28,7 @@ export class DownloadMenuComponent {
             let first = true;
             this.columns.forEach((column: ExportColumn<any>) => {
                 let value = column.get(row);
-                let innerValue = !value ? '' : value.toString();
+                let innerValue = value ? value.toString() : '';
 
                 if (value instanceof Date) {
                     innerValue = value.toLocaleString();
@@ -36,11 +36,13 @@ export class DownloadMenuComponent {
 
                 let result = innerValue.replace(/"/g, '""');
 
-                if (result.search(/("|,|\n)/g) >= 0)
+                if (result.search(/("|,|\n)/g) >= 0) {
                     result = '"' + result + '"';
+                }
 
-                if (!first)
+                if (!first) {
                     finalVal += ',';
+                }
 
                 first = false;
                 finalVal += result;
@@ -52,12 +54,14 @@ export class DownloadMenuComponent {
             let finalVal = '';
             let first = true;
             this.columns.forEach((column: ExportColumn<any>) => {
-                const innerValue = !column.header ? '' : column.header.toString();
+                const innerValue = column.header ? column.header.toString() : '';
                 let result = innerValue.replace(/"/g, '""');
-                if (result.search(/("|,|\n)/g) >= 0)
+                if (result.search(/("|,|\n)/g) >= 0) {
                     result = '"' + result + '"';
-                if (!first)
+                }
+                if (!first) {
                     finalVal += ',';
+                }
                 first = false;
                 finalVal += result;
             });

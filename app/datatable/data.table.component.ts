@@ -83,19 +83,14 @@ export class DataTableComponent implements OnChanges {
     }
 
     public sortRecords(sortingKey: OrderingCriteria<any>): void {
-        if (!this.ordering) {
-            this.ordering = [];
-        }
+        this.ordering = this.ordering || [];
 
         if (this.sortingKey !== sortingKey) {
             this.sortingKey = sortingKey;
             this.descending = !sortingKey.descending;
         }
 
-        let defaultOrdering = this._defaultOrdering;
-        if (!defaultOrdering) {
-            defaultOrdering = [];
-        }
+        let defaultOrdering = this._defaultOrdering || [];
 
         this.descending = !this.descending;
         this.ordering = [<OrderingCriteria<any>>{
@@ -129,8 +124,9 @@ export class DataTableComponent implements OnChanges {
                 if (first < second) {
                     comp = -1 * direction;
                 }
-                if (first > second)
+                if (first > second) {
                     comp = direction;
+                }
 
                 return comp !== 0;
 
@@ -185,12 +181,12 @@ export class DataTableComponent implements OnChanges {
                 maxColspan = Math.max(maxColspan, DataTableUtils.getColumnsCountForTemplate(definition));
                 rowDetailTableDefinitions.push(definition);
             });
-            if (!rowDetailTableDefinitions.length) {
-                delete this.rowDetailTableDefinitions;
-            } else {
+            if (rowDetailTableDefinitions.length) {
                 DataTableUtils.fixColspans(rowDetailTableDefinitions, maxColspan);
 
                 this.rowDetailTableDefinitions = rowDetailTableDefinitions;
+            } else {
+                delete this.rowDetailTableDefinitions;
             }
         }
         return this.rowDetailTableDefinitions;

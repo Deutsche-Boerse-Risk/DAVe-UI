@@ -239,7 +239,7 @@ export abstract class DataTableUtils {
         // Fix rowspans after merging cells
         result[0].forEach((cell: DataTableCell) => {
             if (cell.rowspan) {
-                cell.rowspan = cell.rowspan - (maxDepth - newDepth);
+                cell.rowspan -= (maxDepth - newDepth);
                 if (cell.rowspan < 1) {
                     cell.rowspan = null;
                 }
@@ -282,7 +282,7 @@ export abstract class DataTableUtils {
 
     private static computeRowspan(rowspan: number, flatSubColumns: DataTableCell[][]): number {
         if (flatSubColumns) {
-            rowspan = rowspan - flatSubColumns.length;
+            rowspan -= flatSubColumns.length;
         }
         if (rowspan > 1) {
             return rowspan;

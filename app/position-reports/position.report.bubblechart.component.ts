@@ -171,10 +171,12 @@ export class PositionReportBubbleChartComponent extends AbstractComponentWithAut
         bubbles.sort((a: PositionReportBubble, b: PositionReportBubble) => {
             let first = a.hAxisKey;
             let second = b.hAxisKey;
-            if (first < second)
+            if (first < second) {
                 return -1;
-            if (first > second)
+            }
+            if (first > second) {
                 return 1;
+            }
             return 0;
         });
 
@@ -205,7 +207,7 @@ export class PositionReportBubbleChartComponent extends AbstractComponentWithAut
             let hAxisKey: string = bubbles[i].hAxisKey;
             let vAxisKey: string = bubbles[i].underlying;
             if (!(hAxisKey in series)) {
-                if (bubbles[i].putCall && 0 !== bubbles[i].putCall.length) {
+                if (bubbles[i].putCall && bubbles[i].putCall.length !== 0) {
                     hIndex.optionsIndex++;
                     hTicks.push({v: hIndex.optionsIndex, f: hAxisKey});
                     series[hAxisKey] = hIndex.optionsIndex;

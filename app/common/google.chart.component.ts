@@ -79,7 +79,9 @@ export class GoogleChart implements OnInit, OnChanges, OnDestroy {
 
     protected drawGraph(): void {
         google.charts.setOnLoadCallback(() => {
-            if (!this.wrapper) {
+            if (this.wrapper) {
+                this.wrapper.getChart().draw(GoogleChart.prepareDataTableOrDataView(this.getChartData()), this.getChartOptions());
+            } else {
                 this.wrapper = new google.visualization.ChartWrapper({
                     chartType: this.chartType,
                     dataTable: this.getChartData(),
@@ -92,8 +94,6 @@ export class GoogleChart implements OnInit, OnChanges, OnDestroy {
                     () => {
                         this.selected.emit(this.wrapper.getChart().getSelection());
                     });
-            } else {
-                this.wrapper.getChart().draw(GoogleChart.prepareDataTableOrDataView(this.getChartData()), this.getChartOptions());
             }
         });
     }
