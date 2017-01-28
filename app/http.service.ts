@@ -39,20 +39,20 @@ export class HttpService<T> {
     protected constructURL(request: Request<T>): string {
         let resourceURL: string = request.resourceURL;
         let index: number = 0;
-        if (request.params) {
-            request.params.forEach((param: string) => {
-                resourceURL = resourceURL.replace(':' + index, param);
-                index += 1;
-            });
-        }
-        if (request.subParams) {
-            request.subParams.forEach((param: string) => {
-                resourceURL = resourceURL.replace(':' + index, param);
-                index += 1;
-            });
-        }
+        let replaceParams = (param: string) => {
+            resourceURL = resourceURL.replace(':' + index, param);
+            index += 1;
+        };
+        HttpService.processParams(request.params, replaceParams);
+        HttpService.processParams(request.subParams, replaceParams);
         return defaultURL + resourceURL;
     }
+
+    private static processParams(params: string[], callback: (param: string) => void): void {
+        if (params) {
+            params.forEach(callback);
+        }
+    };
 
     private static getRequestOptions(): RequestOptions {
         let headers: Headers = new Headers();
