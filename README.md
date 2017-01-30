@@ -1,5 +1,6 @@
 [![CircleCI](https://circleci.com/gh/Deutsche-Boerse-Risk/DAVe-UI.svg?style=shield)](https://circleci.com/gh/Deutsche-Boerse-Risk/DAVe-UI)
 [![codebeat badge](https://codebeat.co/badges/00b6a48f-2424-4a89-a3bb-6c37495fe1df)](https://codebeat.co/projects/github-com-deutsche-boerse-risk-dave-ui)
+[![Dependency Status](https://dependencyci.com/github/Deutsche-Boerse-Risk/DAVe-UI/badge)](https://dependencyci.com/github/Deutsche-Boerse-Risk/DAVe-UI)
 
 # DAVe - Front-end
 
