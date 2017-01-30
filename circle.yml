@@ -18,3 +18,4 @@ deployment:
     branch: master
     commands:
       - ./dockerfile/create_docker.sh
+      - ./deployment/kube_deploy.sh
