@@ -49,4 +49,4 @@ npm run dist
  - Whenever there is a change to the files related to the UI, the server gets notified immediately - no restart is needed.
 
 # Docker image to run standalone UI
-[Docker image](dockerfile)
+[DAVe-UI Docker image](dockerfile)
