@@ -47,7 +47,7 @@ export class PositionReportBubbleChartComponent extends AbstractComponentWithAut
             height: '50%'
         },
         backgroundColor: {
-            fill: 'transparent'
+            fill: 'white'
         },
         bubble: {
             textStyle: {
