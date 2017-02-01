@@ -7,6 +7,7 @@
       <sourceFolder url="file://$MODULE_DIR$/app" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/doc" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/dockerfile" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/deployment" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/dist" />
       <excludeFolder url="file://$MODULE_DIR$/ngFactories" />
