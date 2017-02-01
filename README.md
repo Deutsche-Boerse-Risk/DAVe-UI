@@ -35,7 +35,7 @@ npm run dist
 
 ## Run in development
 
- - Install [prerequisites](#build).
+ - Install [prerequisites](#prerequisites-for-the-first-time-only).
  - Point your UI to the host, where the back-end for DAVe is running
    - see `restUrl.js` file
  - Update development and runtime dependencies by calling `npm update`.
