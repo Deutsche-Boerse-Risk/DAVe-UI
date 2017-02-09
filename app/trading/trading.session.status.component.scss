@@ -1,9 +1,0 @@
-@import "../component";
-
-:host {
-    float: left;
-
-    & > li {
-        margin-right: 0;
-    }
-}
