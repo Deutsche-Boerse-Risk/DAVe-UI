@@ -58,7 +58,7 @@ export class MarginComponentsHistoryComponent extends AbstractHistoryListCompone
                 value: record.spreadMargin,
             },
             {
-                label: 'Additional Margin',
+                label: 'Total Margin',
                 type: 'number',
                 value: record.additionalMargin,
             }
