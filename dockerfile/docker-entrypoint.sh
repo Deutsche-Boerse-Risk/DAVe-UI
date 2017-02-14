@@ -34,7 +34,7 @@ EOF
 
 if [ "$1" == "nginx" ]; then
   if [ "$DAVE_REST_URL" ]; then
-    echo "window.baseRestURL = '${DAVE_REST_URL}/api/v1.0';" > /usr/share/nginx/html/restUrl.js
+    echo "window.baseRestURL = '${DAVE_REST_URL}';" > /usr/share/nginx/html/restUrl.js
   fi
 
   #####

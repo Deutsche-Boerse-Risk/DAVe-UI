@@ -9,7 +9,7 @@ import 'rxjs/add/observable/throw';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 
-export const defaultURL: string = (<any>window).baseRestURL;
+export const defaultURL: string = (<any>window).baseRestURL + '/api/v1.0';
 
 export interface Request<T> {
     resourceURL: string;
