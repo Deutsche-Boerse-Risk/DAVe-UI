@@ -13,6 +13,7 @@ test:
   pre:
     - grunt test
   override:
+    - mkdir -p $CIRCLE_TEST_REPORTS/karma/
     - find . -type f -regex ".*/reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/karma/ \;
   post:
     - grunt dist
