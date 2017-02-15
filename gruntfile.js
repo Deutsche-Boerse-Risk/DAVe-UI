@@ -219,6 +219,18 @@ module.exports = function (grunt) {
                 }]
             }
         },
+        karma: {
+            options: {
+                configFile: 'karma.conf.js',
+                reporters: ['progress', 'kjhtml', 'junit'],
+                junitReporter: {
+                    outputDir: 'reports'
+                }
+            },
+            unit: {
+                singleRun: true
+            }
+        },
         watch: {
             options: {
                 interrupt: true,
@@ -231,6 +243,10 @@ module.exports = function (grunt) {
             devTs: {
                 files: tsPattern,
                 tasks: ['ts']
+            },
+            karma: {
+                files: ['app/**/*.js'],
+                tasks: ['karma:unit']
             },
             dist: {
                 files: sassPattern.concat(tsPattern),
@@ -292,7 +308,7 @@ module.exports = function (grunt) {
                 logConcurrentOutput: true
             },
             dev: {
-                tasks: ['browserSync:dev', 'watch:devSass', 'watch:devTs']
+                tasks: ['browserSync:dev', 'watch:devSass', 'watch:devTs', 'watch:karma']
             },
             dist: {
                 tasks: ['browserSync:dist', 'watch:dist']
@@ -312,11 +328,13 @@ module.exports = function (grunt) {
     // Dev run tools
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-browser-sync');
+    grunt.loadNpmTasks('grunt-karma');
 
     // register at least this one task
     grunt.registerTask('clean', ['cleanup:all']);
     grunt.registerTask('build', ['cleanup:all', 'sass', 'ts']);
-    grunt.registerTask('run', ['build', 'concurrent:dev']);
+    grunt.registerTask('run', ['build', 'karma:unit', 'concurrent:dev']);
     grunt.registerTask('dist', ['cleanup:all', 'sass', 'cssmin', 'ngc', 'copy', 'rollup', 'cleanup:postDist']);
     grunt.registerTask('dist-run', ['dist', 'concurrent:dist']);
+    grunt.registerTask('test', ['build', 'karma:unit']);
 };

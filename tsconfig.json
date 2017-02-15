@@ -16,6 +16,9 @@
         "noUnusedLocals": true,
         "listFiles": true
     },
+    "include": [
+        "app/**/*.spec.ts"
+    ],
     "files": [
         "app/app.module.ts",
         "app/main.ts"
