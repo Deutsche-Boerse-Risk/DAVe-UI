@@ -106,7 +106,7 @@ module.exports = function (grunt) {
     grunt.initConfig({
         cleanup: {
             all: {
-                src: [destination, 'ngFactories/'].concat(cssPattern).concat(jsToCleanPattern)
+                src: [destination, 'ngFactories/', 'coverage/', 'reports/'].concat(cssPattern).concat(jsToCleanPattern)
             },
             postDist: {
                 src: [destination + 'app/', destination + 'ngFactories/', 'ngFactories/']
@@ -222,7 +222,7 @@ module.exports = function (grunt) {
         karma: {
             options: {
                 configFile: 'karma.conf.js',
-                reporters: ['progress', 'kjhtml', 'junit'],
+                reporters: ['progress', 'kjhtml', 'junit', 'coverage'],
                 junitReporter: {
                     outputDir: 'reports'
                 }

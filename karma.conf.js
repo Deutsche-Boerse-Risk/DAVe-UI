@@ -10,7 +10,8 @@ module.exports = function (config) {
             require('karma-jasmine'),
             require('karma-chrome-launcher'),
             require('karma-jasmine-html-reporter'),
-            require('karma-junit-reporter')
+            require('karma-junit-reporter'),
+            require('karma-coverage')
         ],
 
         client: {
@@ -77,7 +78,16 @@ module.exports = function (config) {
         },
 
         exclude: [],
-        preprocessors: {},
+        preprocessors: {
+            // source files, that you wanna generate coverage for
+            // do not include tests or libraries
+            // (these files will be instrumented by Istanbul)
+            'app/**/!(*.spec).js': ['coverage']
+        },
+
+        coverageReporter: {
+            includeAllSources: true
+        },
 
         port: 9876,
         colors: true,
