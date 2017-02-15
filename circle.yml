@@ -11,6 +11,10 @@ dependencies:
 
 test:
   override:
+   - grunt test
+
+compile:
+  override:
     - grunt dist
 
 deployment:
