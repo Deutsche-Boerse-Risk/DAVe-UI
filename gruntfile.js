@@ -222,10 +222,7 @@ module.exports = function (grunt) {
         karma: {
             options: {
                 configFile: 'karma.conf.js',
-                reporters: ['progress', 'kjhtml', 'junit'],
-                junitReporter: {
-                    outputDir: 'reports'
-                }
+                reporters: ['progress', 'kjhtml']
             },
             unit: {
                 singleRun: true
