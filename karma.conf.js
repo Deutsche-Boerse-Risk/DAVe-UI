@@ -9,7 +9,8 @@ module.exports = function (config) {
         plugins: [
             require('karma-jasmine'),
             require('karma-chrome-launcher'),
-            require('karma-jasmine-html-reporter')
+            require('karma-jasmine-html-reporter'),
+            require('karma-junit-reporter')
         ],
 
         client: {

@@ -10,8 +10,11 @@ dependencies:
     - npm install
 
 test:
-  override:
+  pre:
     - grunt test
+  override:
+    - find . -type f -regex ".*/reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/karma/ \;
+  post:
     - grunt dist
 
 deployment:
