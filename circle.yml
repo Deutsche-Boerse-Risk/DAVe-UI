@@ -9,11 +9,9 @@ dependencies:
   override:
     - npm install
 
-test:
-  override:
-   - grunt test
-
 compile:
+  pre:
+    - grunt test
   override:
     - grunt dist
 
