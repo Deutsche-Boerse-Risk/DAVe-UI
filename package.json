@@ -74,6 +74,7 @@
         "karma-jasmine-html-reporter": "^0.2.2",
         "karma-junit-reporter": "^1.2.0",
         "karma-coverage": "^1.1.1",
+        "karma-coveralls": "^1.1.2",
         "@types/jasmine": "2.5.36"
     }
 }

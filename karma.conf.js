@@ -11,7 +11,8 @@ module.exports = function (config) {
             require('karma-chrome-launcher'),
             require('karma-jasmine-html-reporter'),
             require('karma-junit-reporter'),
-            require('karma-coverage')
+            require('karma-coverage'),
+            require('karma-coveralls')
         ],
 
         client: {
@@ -86,9 +87,16 @@ module.exports = function (config) {
         },
 
         coverageReporter: {
-            includeAllSources: true
+            includeAllSources: true,
+            type: 'lcov', // lcov or lcovonly are required for generating lcov.info files
+            dir: 'coverage/'
         },
 
+        junitReporter: {
+            outputDir: 'reports'
+        },
+
+        reporters: ['progress', 'kjhtml', 'junit', 'coverage', 'coveralls'],
         port: 9876,
         colors: true,
         logLevel: config.LOG_INFO,
