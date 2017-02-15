@@ -37,4 +37,22 @@ describe('UID generation test', () => {
             $oid: 'uniqueString'
         }
     })).toBe('uniqueString'));
+
+    it('UID for null values in "_id" contains empty strings', () => expect(UIDUtils.computeUID({
+        _id: {
+            testKey1: 'testValue',
+            testKey2: null,
+            testKey3: 'testValue2',
+            testKey4: null
+        }
+    })).toBe('testValue--testValue2-'));
+
+    it('UID for undefined values in "_id" contains empty strings', () => expect(UIDUtils.computeUID({
+        _id: {
+            testKey1: 'testValue',
+            testKey2: undefined,
+            testKey3: 'testValue2',
+            testKey4: undefined
+        }
+    })).toBe('testValue--testValue2-'));
 });
