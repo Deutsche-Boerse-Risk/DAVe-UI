@@ -9,6 +9,9 @@ module.exports = function (config) {
         plugins: [
             require('karma-jasmine'),
             require('karma-chrome-launcher'),
+            require('karma-ie-launcher'),
+            require('karma-firefox-launcher'),
+            require('karma-browserstack-launcher'),
             require('karma-jasmine-html-reporter'),
             require('karma-junit-reporter'),
             require('karma-coverage'),
@@ -21,17 +24,75 @@ module.exports = function (config) {
         },
 
         customLaunchers: {
-            // From the CLI. Not used here but interesting
-            // chrome setup for travis CI using chromium
-            Chrome_travis_ci: {
-                base: 'Chrome',
-                flags: ['--no-sandbox']
+            bs_chrome_windows_10: {
+                base: 'BrowserStack',
+                browser: 'Chrome',
+                browser_version: '56.0',
+                os: 'Windows',
+                os_version: '10'
+            },
+            bs_firefox_windows_10: {
+                base: 'BrowserStack',
+                browser: 'Firefox',
+                browser_version: '51.0',
+                os: 'Windows',
+                os_version: '10'
+            },
+            bs_ie_windows_10: {
+                base: 'BrowserStack',
+                browser: 'IE',
+                browser_version: '11.0',
+                os: 'Windows',
+                os_version: '10'
+            },
+            bs_chrome_windows_7: {
+                base: 'BrowserStack',
+                browser: 'Chrome',
+                browser_version: '56.0',
+                os: 'Windows',
+                os_version: '7'
+            },
+            bs_firefox_windows_7: {
+                base: 'BrowserStack',
+                browser: 'Firefox',
+                browser_version: '51.0',
+                os: 'Windows',
+                os_version: '7'
+            },
+            bs_ie_windows_7: {
+                base: 'BrowserStack',
+                browser: 'IE',
+                browser_version: '11.0',
+                os: 'Windows',
+                os_version: '7'
+            },
+            bs_chrome_mac_sierra: {
+                base: 'BrowserStack',
+                browser: 'Chrome',
+                browser_version: '56.0',
+                os: 'OS X',
+                os_version: 'Sierra'
+            },
+            bs_firefox_mac_sierra: {
+                base: 'BrowserStack',
+                browser: 'Firefox',
+                browser_version: '51.0',
+                os: 'OS X',
+                os_version: 'Sierra'
+            },
+            bs_safari_mac_sierra: {
+                base: 'BrowserStack',
+                browser: 'Safari',
+                browser_version: '10.0',
+                os: 'OS X',
+                os_version: 'Sierra'
             }
         },
 
         files: [
             // System.js for module loading
             'node_modules/systemjs/dist/system.src.js',
+            'node_modules/systemjs/dist/system-polyfills.js',
 
             // Polyfills
             'node_modules/core-js/client/shim.js',
@@ -95,11 +156,18 @@ module.exports = function (config) {
         junitReporter: {
             outputDir: 'reports'
         },
+        // global config of your BrowserStack account
+        browserStack: {
+            binaryBasePath: 'browserStackBin/'
+        },
 
-        reporters: ['progress', 'kjhtml', 'junit', 'coverage', 'coveralls'],
         port: 9876,
         colors: true,
+        singleRun: true,
         logLevel: config.LOG_INFO,
-        browsers: ['Chrome']
+        captureTimeout: 60000,
+        browserDisconnectTimeout : 10000,
+        browserDisconnectTolerance : 1,
+        browserNoActivityTimeout : 60000
     })
 };

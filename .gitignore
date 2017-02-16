@@ -22,3 +22,6 @@ dist/
 ngFactories/
 reports/
 coverage/
+
+# BrowserStack tunel binaries
+browserStackBin/

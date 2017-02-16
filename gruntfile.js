@@ -1,6 +1,8 @@
 module.exports = function (grunt) {
     'use strict';
 
+    var proxy_parts = (process.env.http_proxy || '').match(/^((https?\:)\/\/)?(([^:\/?#]*)(?:\:([0-9]+))?)([\/]{0,1}[^?#]*)(\?[^#]*|)(#.*|)$/) || [];
+
     //<editor-fold desc="Task and function definition" defaultstate="collapsed">
     function runProcess(command, args) {
         return function () {
@@ -221,10 +223,65 @@ module.exports = function (grunt) {
         },
         karma: {
             options: {
-                configFile: 'karma.conf.js'
+                configFile: 'karma.conf.js',
+                reporters: ['progress', 'kjhtml', 'junit', 'coverage', 'coveralls']
             },
-            unit: {
-                singleRun: true
+            dev: {
+                browsers: ['Chrome','Firefox', 'IE']
+            },
+            devChrome: {
+                browsers: ['Chrome']
+            },
+            devFirefox: {
+                browsers: ['Firefox']
+            },
+            devIE: {
+                browsers: ['IE']
+            },
+            devBrowserStack: {
+                browsers: [
+                    'bs_chrome_windows_10',
+                    'bs_firefox_windows_10',
+                    'bs_ie_windows_10',
+                    'bs_chrome_windows_7',
+                    'bs_firefox_windows_7',
+                    'bs_ie_windows_7',
+                    'bs_chrome_mac_sierra',
+                    'bs_firefox_mac_sierra',
+                    'bs_safari_mac_sierra'
+                ]
+            },
+            devBrowserStackProxy: {
+                browsers: [
+                    'bs_chrome_windows_10',
+                    'bs_firefox_windows_10',
+                    'bs_ie_windows_10',
+                    'bs_chrome_windows_7',
+                    'bs_firefox_windows_7',
+                    'bs_ie_windows_7',
+                    'bs_chrome_mac_sierra',
+                    'bs_firefox_mac_sierra',
+                    'bs_safari_mac_sierra'
+                ],
+                browserStack: {
+                    proxyHost: proxy_parts[4],
+                    proxyPort: proxy_parts[5] || 8080,
+                    proxyProtocol: proxy_parts[2] || 'http'
+                }
+            },
+            circleCI: {
+                reporters: ['progress', 'kjhtml', 'junit', 'coverage', 'coveralls', 'BrowserStack'],
+                browsers: [
+                    'bs_chrome_windows_10',
+                    'bs_firefox_windows_10',
+                    'bs_ie_windows_10',
+                    'bs_chrome_windows_7',
+                    'bs_firefox_windows_7',
+                    'bs_ie_windows_7',
+                    'bs_chrome_mac_sierra',
+                    'bs_firefox_mac_sierra',
+                    'bs_safari_mac_sierra'
+                ]
             }
         },
         watch: {
@@ -332,5 +389,13 @@ module.exports = function (grunt) {
     grunt.registerTask('run', ['build', 'karma:unit', 'concurrent:dev']);
     grunt.registerTask('dist', ['cleanup:all', 'sass', 'cssmin', 'ngc', 'copy', 'rollup', 'cleanup:postDist']);
     grunt.registerTask('dist-run', ['dist', 'concurrent:dist']);
-    grunt.registerTask('test', ['build', 'karma:unit']);
+
+    // Test tasks
+    grunt.registerTask('test', ['build', 'karma:dev']);
+    grunt.registerTask('testChrome', ['build', 'karma:devChrome']);
+    grunt.registerTask('testFirefox', ['build', 'karma:devFirefox']);
+    grunt.registerTask('testIE', ['build', 'karma:devIE']);
+    grunt.registerTask('testBrowserStack', ['build', 'karma:devBrowserStack']);
+    grunt.registerTask('testBrowserStackProxy', ['build', 'karma:devBrowserStackProxy']);
+    grunt.registerTask('testCircleCI', ['build', 'karma:circleCI']);
 };
