@@ -10,9 +10,8 @@ dependencies:
     - npm install
 
 test:
-  pre:
-    - grunt test
   override:
+    - grunt testChrome
     - mkdir -p $CIRCLE_TEST_REPORTS/karma/
     - find . -type f -regex ".*/reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/karma/ \;
     - mkdir -p $CIRCLE_TEST_REPORTS/coverage/
