@@ -299,7 +299,7 @@ module.exports = function (grunt) {
             },
             karma: {
                 files: ['app/**/*.js'],
-                tasks: ['karma:unit']
+                tasks: ['karma:testChrome']
             },
             dist: {
                 files: sassPattern.concat(tsPattern),
@@ -386,12 +386,12 @@ module.exports = function (grunt) {
     // register at least this one task
     grunt.registerTask('clean', ['cleanup:all']);
     grunt.registerTask('build', ['cleanup:all', 'sass', 'ts']);
-    grunt.registerTask('run', ['build', 'karma:unit', 'concurrent:dev']);
+    grunt.registerTask('run', ['build', 'concurrent:dev']);
     grunt.registerTask('dist', ['cleanup:all', 'sass', 'cssmin', 'ngc', 'copy', 'rollup', 'cleanup:postDist']);
     grunt.registerTask('dist-run', ['dist', 'concurrent:dist']);
 
     // Test tasks
-    grunt.registerTask('test', ['build', 'karma:dev']);
+    grunt.registerTask('', ['build', 'karma:dev']);
     grunt.registerTask('testChrome', ['build', 'karma:devChrome']);
     grunt.registerTask('testFirefox', ['build', 'karma:devFirefox']);
     grunt.registerTask('testIE', ['build', 'karma:devIE']);
