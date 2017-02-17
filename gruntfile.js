@@ -391,7 +391,7 @@ module.exports = function (grunt) {
     grunt.registerTask('dist-run', ['dist', 'concurrent:dist']);
 
     // Test tasks
-    grunt.registerTask('', ['build', 'karma:dev']);
+    grunt.registerTask('test', ['build', 'karma:dev']);
     grunt.registerTask('testChrome', ['build', 'karma:devChrome']);
     grunt.registerTask('testFirefox', ['build', 'karma:devFirefox']);
     grunt.registerTask('testIE', ['build', 'karma:devIE']);

@@ -1,5 +1,7 @@
 module.exports = function (config) {
 
+    var debugTests = false;
+
     var appBase = 'app/';       // transpiled app JS and map files
 
     // Testing helpers (optional) are conventionally in a folder called `testing`
@@ -154,7 +156,7 @@ module.exports = function (config) {
             // source files, that you wanna generate coverage for
             // do not include tests or libraries
             // (these files will be instrumented by Istanbul)
-            'app/**/!(*.spec|*.types|*.module).js': ['coverage']
+            'app/**/!(*.spec|*.types|*.module).js': debugTests ? [] : ['coverage']
         },
 
         coverageReporter: {
@@ -173,7 +175,7 @@ module.exports = function (config) {
 
         port: 9876,
         colors: true,
-        singleRun: true,
+        singleRun: !debugTests,
         logLevel: config.LOG_INFO,
         captureTimeout: 60000,
         browserDisconnectTimeout: 10000,
