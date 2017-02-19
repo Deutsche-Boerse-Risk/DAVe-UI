@@ -2,16 +2,10 @@ import {Router, RouterStateSnapshot} from "@angular/router";
 import {TestBed, inject, async} from "@angular/core/testing";
 
 import {RouterStub} from "../../testing/router.stub";
+import {AuthServiceStub} from "../../testing/auth.service.stub";
 
 import {AuthGuard} from "./auth.routing.guard";
 import {AuthService} from "./auth.service";
-
-class AuthStubService {
-
-    public isLoggedIn(): boolean {
-        return false;
-    }
-}
 
 describe('Auth routing guard', () => {
     beforeEach(() => {
@@ -19,7 +13,7 @@ describe('Auth routing guard', () => {
             providers: [
                 AuthGuard,
                 {
-                    provide: AuthService, useClass: AuthStubService
+                    provide: AuthService, useClass: AuthServiceStub
                 },
                 {
                     provide: Router, useClass: RouterStub
