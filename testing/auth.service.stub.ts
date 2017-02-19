@@ -5,7 +5,7 @@ export class AuthServiceStub {
     private user: string;
 
     public isLoggedIn(): boolean {
-        return false;
+        return !!this.user;
     }
 
     public getLoggedUser(): string {
@@ -15,5 +15,9 @@ export class AuthServiceStub {
     public login(username: string, password: string): Observable<boolean> {
         this.user = username;
         return Observable.of(true);
+    }
+
+    public logout() {
+        delete this.user;
     }
 }
