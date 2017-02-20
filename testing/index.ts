@@ -64,12 +64,8 @@ export function waitForChart(chart: GoogleChart, done: () => any) {
     let drawFunction: () => void = (chart as any).drawGraph;
     (chart as any).drawGraph = () => {
         let wrapper = (chart as any).wrapper;
-        if (wrapper) {
-            let handle = google.visualization.events.addListener(wrapper, 'ready', function () {
-                google.visualization.events.removeListener(handle);
-                done();
-            });
-        } else {
+        waitForChartRedraw(chart, done);
+        if (!wrapper) {
             google.charts.setOnLoadCallback(() => {
                 let drawProto = google.visualization.ChartWrapper.prototype.draw;
                 google.visualization.ChartWrapper.prototype.draw = function () {
@@ -87,5 +83,15 @@ export function waitForChart(chart: GoogleChart, done: () => any) {
         (chart as any).drawGraph = drawFunction;
         drawFunction.bind(chart)();
     };
+}
+
+export function waitForChartRedraw(chart: GoogleChart, done: () => any) {
+    let wrapper = (chart as any).wrapper;
+    if (wrapper) {
+        let handle = google.visualization.events.addListener(wrapper, 'ready', function () {
+            google.visualization.events.removeListener(handle);
+            done();
+        });
+    }
 }
 

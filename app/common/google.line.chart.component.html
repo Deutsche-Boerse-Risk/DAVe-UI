@@ -8,10 +8,10 @@
     </button>
     <button class="btn btn-sm btn-default"
             type="button"
-            *ngFor="let column of chartData.cols.slice(1); let i = index"
+            *ngFor="let column of convertToChartData().cols.slice(1); let i = index"
             [class.disabled]="hiddenColumns.indexOf(i + 1) !== -1 || (singleLineSelection && hiddenColumns.length === 0)"
             (click)="hideColumn(i + 1)">
-                <span *ngIf="chartOptions?.series[i]?.color"
+                <span *ngIf="chartOptions?.series && chartOptions?.series[i]?.color"
                       [style.background]="chartOptions.series[i].color"></span>
         {{column.label}}
     </button>

@@ -64,7 +64,7 @@ export class GoogleLineChart extends GoogleChart {
         return GoogleChart.prepareDataTableOrDataView(chartData);
     }
 
-    private convertToChartData() {
+    public convertToChartData() {
         let originalChartData: ChartData | google.visualization.DataTable | google.visualization.DataView = super.getChartData();
         let convertedChartData: ChartData;
         if (originalChartData instanceof google.visualization.DataView) {
