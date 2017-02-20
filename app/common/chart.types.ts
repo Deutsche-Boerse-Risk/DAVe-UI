@@ -341,6 +341,8 @@ declare global {
     module google {
         module visualization {
             class DataTable {
+                constructor();
+
                 constructor(chartData: ChartData);
 
                 addColumn(type: string, label?: string, id?: string): number;
@@ -382,6 +384,8 @@ declare global {
 
                 toJSON(): string;
             }
+
+            function arrayToDataTable(array: any[][]): DataTable;
 
             class Chart {
                 getSelection(): SelectedItem[];

@@ -101,6 +101,7 @@ module.exports = function (config) {
 
             // Polyfills
             'node_modules/core-js/client/shim.js',
+            'node_modules/web-animations-js/web-animations.min.js',
 
             // zone.js
             'node_modules/zone.js/dist/zone.js',
@@ -123,6 +124,9 @@ module.exports = function (config) {
             // Angular itself
             {pattern: 'node_modules/@angular/**/*.js', included: false, watched: false},
             {pattern: 'node_modules/@angular/**/*.js.map', included: false, watched: false},
+
+            // Load google charts
+            'https://www.gstatic.com/charts/loader.js',
 
             {pattern: 'systemjs.config.js', included: false, watched: false},
             'karma-test-shim.js', // optionally extend SystemJS mapping e.g., with barrels
@@ -175,6 +179,7 @@ module.exports = function (config) {
 
         port: 9876,
         colors: true,
+        crossOriginAttribute: false,
         singleRun: !debugTests,
         logLevel: config.LOG_INFO,
         captureTimeout: 60000,
