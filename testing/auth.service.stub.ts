@@ -4,6 +4,8 @@ export class AuthServiceStub {
 
     private user: string;
 
+    public authRequestedPath: string;
+
     public isLoggedIn(): boolean {
         return !!this.user;
     }

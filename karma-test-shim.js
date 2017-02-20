@@ -9,9 +9,12 @@ jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000;
 // builtPaths: root paths for output ("built") files
 // get from karma.config.js, then prefix with '/base/' (default is '')
 var builtPaths = (__karma__.config.builtPaths || [''])
-    .map(function(p) { return '/base/'+p;});
+    .map(function (p) {
+        return '/base/' + p;
+    });
 
-__karma__.loaded = function () { };
+__karma__.loaded = function () {
+};
 
 function isJsFile(path) {
     return path.slice(-3) == '.js';
@@ -24,7 +27,7 @@ function isSpecFile(path) {
 // Is a "built" file if is JavaScript file in one of the "built" folders
 function isBuiltFile(path) {
     return isJsFile(path) &&
-        builtPaths.reduce(function(keep, bp) {
+        builtPaths.reduce(function (keep, bp) {
             return keep || (path.substr(0, bp.length) === bp);
         }, false);
 }
@@ -37,7 +40,12 @@ System.config({
     // Base URL for System.js calls. 'base/' is where Karma serves files from.
     baseURL: 'base/',
     // Extend usual application package list with test folder
-    packages: { 'testing': { main: 'index.js', defaultExtension: 'js' } },
+    packages: {
+        'testing': {
+            main: 'index.js',
+            defaultExtension: 'js'
+        }
+    },
 
     // Assume npm: is set in `paths` in systemjs.config
     // Map the angular testing umd bundles
@@ -58,14 +66,14 @@ System.import('systemjs.config.js')
     .then(initTesting);
 
 
-function initTestBed(){
+function initTestBed() {
     return Promise.all([
         System.import('@angular/core/testing'),
         System.import('@angular/platform-browser-dynamic/testing')
     ])
 
         .then(function (providers) {
-            var coreTesting    = providers[0];
+            var coreTesting = providers[0];
             var browserTesting = providers[1];
 
             coreTesting.TestBed.initTestEnvironment(
@@ -75,7 +83,7 @@ function initTestBed(){
 }
 
 // Import all spec files and start karma
-function initTesting () {
+function initTesting() {
     return Promise.all(
         allSpecFiles.map(function (moduleName) {
             return System.import(moduleName);
