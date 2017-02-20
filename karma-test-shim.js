@@ -1,6 +1,9 @@
 // /*global jasmine, __karma__, window*/
 Error.stackTraceLimit = 0; // "No stacktrace"" is usually best for app testing.
 
+// Force 'en' locale for testing fomats.
+window.testLanguage = 'en';
+
 // Uncomment to get full stacktrace output. Sometimes helpful, usually not.
 // Error.stackTraceLimit = Infinity; //
 

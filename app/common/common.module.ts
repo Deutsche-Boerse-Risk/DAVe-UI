@@ -11,9 +11,11 @@ import {GoogleLineChart} from './google.line.chart.component';
 
 import {PercentPipe} from './percent.pipe';
 
-export const NUMBER_PIPE = new DecimalPipe('en');
+declare let testLanguage: string;
 
-export const DATE_PIPE = new DatePipe('en');
+export const NUMBER_PIPE = new DecimalPipe(testLanguage || navigator.language.split('-')[0]);
+
+export const DATE_PIPE = new DatePipe(testLanguage ||navigator.language.split('-')[0]);
 
 @NgModule({
     imports: [
