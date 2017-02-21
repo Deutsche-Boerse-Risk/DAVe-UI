@@ -8,6 +8,7 @@ import {OrderingValueGetter, OrderingCriteria} from "./data.table.column.directi
 import {DataTableComponent} from "./data.table.component";
 import {click} from "../../testing/index";
 import {DataTableRowDetailExpander} from "./data.table.row.detail.expander.component";
+import {PagingComponent} from "./paging.component";
 
 describe('DataTable component', () => {
 
@@ -288,6 +289,148 @@ describe('DataTable component', () => {
             return item.descending
         })).toEqual([false, true, false]);
     });
+
+    it('shows pager', () => {
+        expect(page.pager.debugElement).not.toBeNull('Is shown.');
+
+        // Check button states for first page
+        expect(page.pager.pageButtons.length).toBe(8, 'To display first and last two + 4 with numbers.');
+        page.pager.expectLeadingButtonsDisabled();
+        page.pager.expectTrailingButtonsNotDisabled();
+        page.pager.expectButtonNumbers([1, 2, 3, 4]);
+        page.pager.expectButtonActive(2);
+
+        // Go to next
+        page.pager.click(6);
+
+        // Check button states
+        expect(page.pager.pageButtons.length).toBe(9, 'To display first and last two + 5 with numbers.');
+        page.pager.expectLeadingButtonsNotDisabled();
+        page.pager.expectTrailingButtonsNotDisabled();
+        page.pager.expectButtonNumbers([1, 2, 3, 4, 5]);
+        page.pager.expectButtonActive(3);
+
+        // Go to next
+        page.pager.click(7);
+
+        // Check button states
+        expect(page.pager.pageButtons.length).toBe(10, 'To display first and last two + 6 with numbers.');
+        page.pager.expectLeadingButtonsNotDisabled();
+        page.pager.expectTrailingButtonsNotDisabled();
+        page.pager.expectButtonNumbers([1, 2, 3, 4, 5, 6]);
+        page.pager.expectButtonActive(4);
+
+        // Go to next
+        page.pager.click(8);
+
+        // Check button states
+        expect(page.pager.pageButtons.length).toBe(11, 'To display first and last two + 7 with numbers.');
+        page.pager.expectLeadingButtonsNotDisabled();
+        page.pager.expectTrailingButtonsNotDisabled();
+        page.pager.expectButtonNumbers([1, 2, 3, 4, 5, 6, 7]);
+        page.pager.expectButtonActive(5);
+
+        // Go to next
+        page.pager.click(9);
+
+        // Check button states
+        expect(page.pager.pageButtons.length).toBe(11, 'To display first and last two + 7 with numbers.');
+        page.pager.expectLeadingButtonsNotDisabled();
+        page.pager.expectTrailingButtonsNotDisabled();
+        page.pager.expectButtonNumbers([2, 3, 4, 5, 6, 7, 8]);
+        page.pager.expectButtonActive(5);
+
+        // Go to next
+        page.pager.click(8);
+
+        // Check button states
+        expect(page.pager.pageButtons.length).toBe(11, 'To display first and last two + 7 with numbers.');
+        page.pager.expectLeadingButtonsNotDisabled();
+        page.pager.expectTrailingButtonsNotDisabled();
+        page.pager.expectButtonNumbers([5, 6, 7, 8, 9, 10, 11]);
+        page.pager.expectButtonActive(5);
+
+        // Go to last
+        page.pager.click(10);
+
+        // Check button states for last page
+        expect(page.pager.pageButtons.length).toBe(8, 'To display first and last two + 4 with numbers.');
+        page.pager.expectLeadingButtonsNotDisabled();
+        page.pager.expectTrailingButtonsDisabled();
+        page.pager.expectButtonNumbers([22, 23, 24, 25]);
+        page.pager.expectButtonActive(5);
+
+        // Go to previous
+        page.pager.click(1);
+
+        // Check button states
+        expect(page.pager.pageButtons.length).toBe(9, 'To display first and last two + 5 with numbers.');
+        page.pager.expectLeadingButtonsNotDisabled();
+        page.pager.expectTrailingButtonsNotDisabled();
+        page.pager.expectButtonNumbers([21, 22, 23, 24, 25]);
+        page.pager.expectButtonActive(5);
+
+        // Go to previous
+        page.pager.click(1);
+
+        // Check button states
+        expect(page.pager.pageButtons.length).toBe(10, 'To display first and last two + 6 with numbers.');
+        page.pager.expectLeadingButtonsNotDisabled();
+        page.pager.expectTrailingButtonsNotDisabled();
+        page.pager.expectButtonNumbers([20, 21, 22, 23, 24, 25]);
+        page.pager.expectButtonActive(5);
+
+        // Go to previous
+        page.pager.click(1);
+
+        // Check button states
+        expect(page.pager.pageButtons.length).toBe(11, 'To display first and last two + 7 with numbers.');
+        page.pager.expectLeadingButtonsNotDisabled();
+        page.pager.expectTrailingButtonsNotDisabled();
+        page.pager.expectButtonNumbers([19, 20, 21, 22, 23, 24, 25]);
+        page.pager.expectButtonActive(5);
+
+        // Go to previous
+        page.pager.click(1);
+
+        // Check button states
+        expect(page.pager.pageButtons.length).toBe(11, 'To display first and last two + 7 with numbers.');
+        page.pager.expectLeadingButtonsNotDisabled();
+        page.pager.expectTrailingButtonsNotDisabled();
+        page.pager.expectButtonNumbers([18, 19, 20, 21, 22, 23, 24]);
+        page.pager.expectButtonActive(5);
+
+        // Go to first
+        page.pager.click(0);
+
+        // Check button states for first page
+        expect(page.pager.pageButtons.length).toBe(8, 'To display first and last two + 4 with numbers.');
+        page.pager.expectLeadingButtonsDisabled();
+        page.pager.expectTrailingButtonsNotDisabled();
+        page.pager.expectButtonNumbers([1, 2, 3, 4]);
+        page.pager.expectButtonActive(2);
+
+        // Go to last
+        page.pager.click(7);
+
+        // Check button states for last page
+        expect(page.pager.pageButtons.length).toBe(8, 'To display first and last two + 4 with numbers.');
+        page.pager.expectLeadingButtonsNotDisabled();
+        page.pager.expectTrailingButtonsDisabled();
+        page.pager.expectButtonNumbers([22, 23, 24, 25]);
+        page.pager.expectButtonActive(5);
+
+        // Go to first
+        page.pager.click(0);
+
+        // Check button states for first page
+        expect(page.pager.pageButtons.length).toBe(8, 'To display first and last two + 4 with numbers.');
+        page.pager.expectLeadingButtonsDisabled();
+        page.pager.expectTrailingButtonsNotDisabled();
+        page.pager.expectButtonNumbers([1, 2, 3, 4]);
+        page.pager.expectButtonActive(2);
+
+    });
 });
 
 class DataTablePage {
@@ -358,6 +501,73 @@ class DataTablePage {
 
     public get recordsCountMessage(): string {
         return this.recordsCountElement.nativeElement.textContent;
+    }
+
+    public get pager(): Pager {
+        return new Pager(this.fixture);
+    }
+}
+
+class Pager {
+
+    public hostComponent: TestHostComponent;
+    public hostDebugElement: DebugElement;
+
+    constructor(public fixture: ComponentFixture<TestHostComponent>) {
+        this.hostComponent = this.fixture.componentInstance;
+        this.hostDebugElement = this.fixture.debugElement;
+    }
+
+    public get debugElement(): DebugElement {
+        return this.hostDebugElement.query(By.directive(PagingComponent));
+    }
+
+    public get pagerComponent(): PagingComponent {
+        return this.debugElement.componentInstance;
+    }
+
+    public get pageButtons(): DebugElement[] {
+        return this.debugElement.queryAll(By.css('li'));
+    }
+
+    public expectLeadingButtonsDisabled() {
+        for (let i = 0; i < 2; i++) {
+            expect(this.pageButtons[i].nativeElement.classList).toContain('disabled', 'First two are disabled.');
+        }
+    }
+
+    public expectLeadingButtonsNotDisabled() {
+        for (let i = 0; i < 2; i++) {
+            expect(this.pageButtons[i].nativeElement.classList).not.toContain('disabled', 'First two are not disabled.');
+        }
+    }
+
+    public expectTrailingButtonsDisabled() {
+        for (let i = this.pageButtons.length - 1; i > this.pageButtons.length - 3; i--) {
+            expect(this.pageButtons[i].nativeElement.classList).toContain('disabled', 'Last two are disabled.');
+        }
+    }
+
+    public expectTrailingButtonsNotDisabled() {
+        for (let i = this.pageButtons.length - 1; i > this.pageButtons.length - 3; i--) {
+            expect(this.pageButtons[i].nativeElement.classList).not.toContain('disabled', 'Last two are not disabled.');
+        }
+    }
+
+    public expectButtonNumbers(numbers: number[]) {
+        for (let i = 0; i < numbers.length; i++) {
+            expect(this.pageButtons[i + 2].query(By.css('a')).nativeElement.textContent)
+                .toEqual(numbers[i] + '', 'Button numbers are correct');
+        }
+    }
+
+    public expectButtonActive(index: number) {
+        expect(this.pageButtons[index].nativeElement.classList).toContain('active', 'Button is active.');
+    }
+
+    public click(index: number) {
+        click(this.pageButtons[index]);
+        this.fixture.detectChanges();
     }
 }
 
