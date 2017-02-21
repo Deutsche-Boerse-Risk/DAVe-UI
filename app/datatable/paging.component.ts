@@ -30,11 +30,13 @@ export class PagingComponent implements OnChanges {
 
         this.lastPage = Math.ceil(this.totalRecords / this.pageSize);
 
-        if (this.currentPage > this.lastPage) {
-            this.goToPage(this.lastPage);
-        } else {
-            this.goToPage(this.currentPage)
-        }
+        setTimeout(() => {
+            if (this.currentPage > this.lastPage) {
+                this.goToPage(this.lastPage);
+            } else {
+                this.goToPage(this.currentPage)
+            }
+        }, 0);
     }
 
     public goToPage(page: number): void {

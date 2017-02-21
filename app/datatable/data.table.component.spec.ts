@@ -49,23 +49,23 @@ describe('DataTable component', () => {
         expect(page.recordsCountElement).toBeNull('Not shown.');
     });
 
-    // it('is has correct header', () => {
-    //     expect(page.tableElement).not.toBeNull('Table is shown');
-    //
-    //     page.dataTableComponent.data = null;
-    //     page.fixture.detectChanges();
-    //
-    //     expect(page.tableElement).toBeNull('Not shown.');
-    // });
-    //
-    // it('is has correct body', () => {
-    //     expect(page.tableElement).not.toBeNull('Table is shown');
-    //
-    //     page.dataTableComponent.data = null;
-    //     page.fixture.detectChanges();
-    //
-    //     expect(page.tableElement).toBeNull('Not shown.');
-    // });
+    xit('has correct header', () => {
+        expect(page.tableElement).not.toBeNull('Table is shown');
+
+        page.dataTableComponent.data = null;
+        page.fixture.detectChanges();
+
+        expect(page.tableElement).toBeNull('Not shown.');
+    });
+
+    xit('has correct body', () => {
+        expect(page.tableElement).not.toBeNull('Table is shown');
+
+        page.dataTableComponent.data = null;
+        page.fixture.detectChanges();
+
+        expect(page.tableElement).toBeNull('Not shown.');
+    });
 
     it('can open/close row detail', () => {
         expect(page.tableElement).not.toBeNull('Table is shown');
@@ -91,14 +91,14 @@ describe('DataTable component', () => {
         expect(page.getTableRowExpanderElement(0).nativeElement.classList).toContain('fa-chevron-circle-down');
     });
 
-    // it('is has correct footer', () => {
-    //     expect(page.tableElement).not.toBeNull('Table is shown');
-    //
-    //     page.dataTableComponent.data = null;
-    //     page.fixture.detectChanges();
-    //
-    //     expect(page.tableElement).toBeNull('Not shown.');
-    // });
+    xit('has correct footer', () => {
+        expect(page.tableElement).not.toBeNull('Table is shown');
+
+        page.dataTableComponent.data = null;
+        page.fixture.detectChanges();
+
+        expect(page.tableElement).toBeNull('Not shown.');
+    });
 
     it('can be sorted', () => {
         expect(page.tableElement).not.toBeNull('Table is shown');
@@ -290,7 +290,7 @@ describe('DataTable component', () => {
         })).toEqual([false, true, false]);
     });
 
-    it('shows pager', () => {
+    it('shows pager and correctly navigates to next page', () => {
         expect(page.pager.debugElement).not.toBeNull('Is shown.');
 
         // Check button states for first page
@@ -349,9 +349,20 @@ describe('DataTable component', () => {
         page.pager.expectTrailingButtonsNotDisabled();
         page.pager.expectButtonNumbers([5, 6, 7, 8, 9, 10, 11]);
         page.pager.expectButtonActive(5);
+    });
+
+    it('shows pager and correctly navigates to previous page', () => {
+        expect(page.pager.debugElement).not.toBeNull('Is shown.');
+
+        // Check button states for first page
+        expect(page.pager.pageButtons.length).toBe(8, 'To display first and last two + 4 with numbers.');
+        page.pager.expectLeadingButtonsDisabled();
+        page.pager.expectTrailingButtonsNotDisabled();
+        page.pager.expectButtonNumbers([1, 2, 3, 4]);
+        page.pager.expectButtonActive(2);
 
         // Go to last
-        page.pager.click(10);
+        page.pager.click(7);
 
         // Check button states for last page
         expect(page.pager.pageButtons.length).toBe(8, 'To display first and last two + 4 with numbers.');
@@ -399,6 +410,26 @@ describe('DataTable component', () => {
         page.pager.expectTrailingButtonsNotDisabled();
         page.pager.expectButtonNumbers([18, 19, 20, 21, 22, 23, 24]);
         page.pager.expectButtonActive(5);
+    });
+
+    it('shows pager and correctly navigates to first and last page', () => {
+        expect(page.pager.debugElement).not.toBeNull('Is shown.');
+
+        // Check button states for first page
+        expect(page.pager.pageButtons.length).toBe(8, 'To display first and last two + 4 with numbers.');
+        page.pager.expectLeadingButtonsDisabled();
+        page.pager.expectTrailingButtonsNotDisabled();
+        page.pager.expectButtonNumbers([1, 2, 3, 4]);
+        page.pager.expectButtonActive(2);
+
+        // Go to some page
+        page.pager.click(5);
+
+        // Check button states
+        page.pager.expectLeadingButtonsNotDisabled();
+        page.pager.expectTrailingButtonsNotDisabled();
+        page.pager.expectButtonNumbers([1, 2, 3, 4, 5, 6, 7]);
+        page.pager.expectButtonActive(5);
 
         // Go to first
         page.pager.click(0);
@@ -431,6 +462,39 @@ describe('DataTable component', () => {
         page.pager.expectButtonActive(2);
 
     });
+
+    it('shows pager and correctly changes page size whenever data size is changed', fakeAsync(() => {
+        expect(page.pager.debugElement).not.toBeNull('Is shown.');
+
+        // Check button states for first page
+        expect(page.pager.pageButtons.length).toBe(8, 'To display first and last two + 4 with numbers.');
+        page.pager.expectLeadingButtonsDisabled();
+        page.pager.expectTrailingButtonsNotDisabled();
+        page.pager.expectButtonNumbers([1, 2, 3, 4]);
+        page.pager.expectButtonActive(2);
+
+        // Go to last page
+        page.pager.click(7);
+
+        // Check button states for last page
+        expect(page.pager.pageButtons.length).toBe(8, 'To display first and last two + 4 with numbers.');
+        page.pager.expectLeadingButtonsNotDisabled();
+        page.pager.expectTrailingButtonsDisabled();
+        page.pager.expectButtonNumbers([22, 23, 24, 25]);
+        page.pager.expectButtonActive(5);
+
+        // Remove 300 rows
+        page.dataTableComponent.data = page.tableData.slice(300);
+        page.fixture.detectChanges();
+        tick();
+
+        // Check button states for last page have changed
+        expect(page.pager.pageButtons.length).toBe(8, 'To display first and last two + 4 with numbers.');
+        page.pager.expectLeadingButtonsNotDisabled();
+        page.pager.expectTrailingButtonsDisabled();
+        page.pager.expectButtonNumbers([7, 8, 9, 10]);
+        page.pager.expectButtonActive(5);
+    }));
 });
 
 class DataTablePage {
