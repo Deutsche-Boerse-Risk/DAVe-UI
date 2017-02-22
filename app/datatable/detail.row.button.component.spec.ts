@@ -27,8 +27,6 @@ describe('DetailRowButtonComponent', () => {
         fixture = TestBed.createComponent(DetailRowButtonComponent);
 
         comp = fixture.componentInstance;
-
-        // query for the title by CSS element selector
         de = fixture.debugElement.query(By.directive(RouterLinkStubDirective));
     });
 

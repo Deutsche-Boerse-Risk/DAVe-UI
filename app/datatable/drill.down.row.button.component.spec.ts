@@ -27,8 +27,6 @@ describe('DrillDownRowButtonComponent', () => {
         fixture = TestBed.createComponent(DrillDownRowButtonComponent);
 
         comp = fixture.componentInstance;
-
-        // query for the title by CSS element selector
         de = fixture.debugElement.query(By.directive(RouterLinkStubDirective));
     });
 

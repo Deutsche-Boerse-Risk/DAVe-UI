@@ -19,7 +19,6 @@ describe('Login menu', () => {
     let linkStub: RouterLinkStubDirective;
 
     function searchForLink() {
-        // query for the title by CSS element selector
         de = fixture.debugElement.query(By.directive(RouterLinkStubDirective));
         el = de.nativeElement;
 
