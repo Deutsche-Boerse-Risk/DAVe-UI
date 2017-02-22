@@ -1,4 +1,4 @@
-import {TestBed, inject} from "@angular/core/testing";
+import {TestBed, inject, fakeAsync, discardPeriodicTasks} from "@angular/core/testing";
 
 import {HttpServiceStub} from "../../testing/http.service.stub";
 import {encodeTestToken} from "angular2-jwt/angular2-jwt-test-helpers";
@@ -26,120 +26,143 @@ describe('Auth service: nothing in the local storage:', () => {
         });
     });
 
-    it('isLoggedIn has to return false and getLoggedUser has to fail',
+    it('isLoggedIn has to return false and getLoggedUser has to fail', fakeAsync(
         inject([AuthService], (authService: AuthService) => {
             expect(authService.isLoggedIn()).toBeFalsy();
             expect(() => authService.getLoggedUser()).toThrow();
             expect(localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME)).toBeNull();
-        })
+
+            // Clean up periodic tasks (checkAuth)
+            discardPeriodicTasks();
+        }))
     );
 
     it('login will throw error if no token was provided by server', (done: DoneFn) => {
-        inject([AuthService, HttpService], (authService: AuthService, http: HttpServiceStub<any>) => {
-            http.returnValue({});
+        fakeAsync(
+            inject([AuthService, HttpService], (authService: AuthService, http: HttpServiceStub<any>) => {
+                http.returnValue({});
 
-            let postSpy = spyOn(http, 'post').and.callThrough();
-            let username = 'UserA';
+                let postSpy = spyOn(http, 'post').and.callThrough();
+                let username = 'UserA';
 
-            authService.login(username, 'password').subscribe(() => {
-                done.fail();
-            }, (fail: ErrorResponse) => {
-                expect(fail.status).toBe(401);
-                expect(postSpy.calls.mostRecent().args[0].data.username).toBe(username);
-                done();
-            });
-        })();
+                authService.login(username, 'password').subscribe(() => {
+                    done.fail();
+                }, (fail: ErrorResponse) => {
+                    expect(fail.status).toBe(401);
+                    expect(postSpy.calls.mostRecent().args[0].data.username).toBe(username);
+                    done();
+                });
+
+                // Clean up periodic tasks (checkAuth)
+                discardPeriodicTasks();
+            }))();
     });
 
     it('login will throw error if invalid token was provided by server', (done: DoneFn) => {
-        inject([AuthService, HttpService], (authService: AuthService, http: HttpServiceStub<any>) => {
-            http.returnValue({
-                token: 'invalidString'
-            });
+        fakeAsync(
+            inject([AuthService, HttpService], (authService: AuthService, http: HttpServiceStub<any>) => {
+                http.returnValue({
+                    token: 'invalidString'
+                });
 
-            let postSpy = spyOn(http, 'post').and.callThrough();
-            let username = 'UserA';
+                let postSpy = spyOn(http, 'post').and.callThrough();
+                let username = 'UserA';
 
-            authService.login(username, 'password').subscribe(() => {
-                done.fail();
-            }, (fail: ErrorResponse) => {
-                expect(fail.status).toBe(500);
-                expect(postSpy.calls.mostRecent().args[0].data.username).toBe(username);
-                done();
-            });
-        })();
+                authService.login(username, 'password').subscribe(() => {
+                    done.fail();
+                }, (fail: ErrorResponse) => {
+                    expect(fail.status).toBe(500);
+                    expect(postSpy.calls.mostRecent().args[0].data.username).toBe(username);
+                    done();
+                });
+
+                // Clean up periodic tasks (checkAuth)
+                discardPeriodicTasks();
+            }))();
     });
 
     it('login will throw error if token with different username was provided by server', (done: DoneFn) => {
-        inject([AuthService, HttpService], (authService: AuthService, http: HttpServiceStub<any>) => {
-            http.returnValue({
-                token: encodeTestToken({
-                    username: 'UserB'
-                })
-            });
+        fakeAsync(
+            inject([AuthService, HttpService], (authService: AuthService, http: HttpServiceStub<any>) => {
+                http.returnValue({
+                    token: encodeTestToken({
+                        username: 'UserB'
+                    })
+                });
 
-            let postSpy = spyOn(http, 'post').and.callThrough();
-            let username = 'UserA';
+                let postSpy = spyOn(http, 'post').and.callThrough();
+                let username = 'UserA';
 
-            authService.login(username, 'password').subscribe(() => {
-                done.fail();
-            }, (fail: ErrorResponse) => {
-                expect(fail.status).toBe(500);
-                expect(postSpy.calls.mostRecent().args[0].data.username).toBe(username);
-                done();
-            });
-        })();
+                authService.login(username, 'password').subscribe(() => {
+                    done.fail();
+                }, (fail: ErrorResponse) => {
+                    expect(fail.status).toBe(500);
+                    expect(postSpy.calls.mostRecent().args[0].data.username).toBe(username);
+                    done();
+                });
+
+                // Clean up periodic tasks (checkAuth)
+                discardPeriodicTasks();
+            }))();
     });
 
     it('login will throw error if already expired token was provided by server', (done: DoneFn) => {
-        inject([AuthService, HttpService], (authService: AuthService, http: HttpServiceStub<any>) => {
-            let postSpy = spyOn(http, 'post').and.callThrough();
-            let username = 'UserA';
+        fakeAsync(
+            inject([AuthService, HttpService], (authService: AuthService, http: HttpServiceStub<any>) => {
+                let postSpy = spyOn(http, 'post').and.callThrough();
+                let username = 'UserA';
 
-            http.returnValue({
-                token: encodeTestToken({
-                    username: username,
-                    exp: addMinutes(-1)
-                })
-            });
+                http.returnValue({
+                    token: encodeTestToken({
+                        username: username,
+                        exp: addMinutes(-1)
+                    })
+                });
 
-            authService.login(username, 'password').subscribe(() => {
-                done.fail();
-            }, (fail: ErrorResponse) => {
-                expect(fail.status).toBe(500);
-                expect(postSpy.calls.mostRecent().args[0].data.username).toBe(username);
-                done();
-            });
-        })();
+                authService.login(username, 'password').subscribe(() => {
+                    done.fail();
+                }, (fail: ErrorResponse) => {
+                    expect(fail.status).toBe(500);
+                    expect(postSpy.calls.mostRecent().args[0].data.username).toBe(username);
+                    done();
+                });
+
+                // Clean up periodic tasks (checkAuth)
+                discardPeriodicTasks();
+            }))();
     });
 
     it('login will return true if anything is fine', (done: DoneFn) => {
-        inject([AuthService, HttpService], (authService: AuthService, http: HttpServiceStub<any>) => {
-            let postSpy = spyOn(http, 'post').and.callThrough();
-            let username = 'UserA';
-            let loggedInChangeSpy = spyOn(authService.loggedInChange, 'emit');
+        fakeAsync(
+            inject([AuthService, HttpService], (authService: AuthService, http: HttpServiceStub<any>) => {
+                let postSpy = spyOn(http, 'post').and.callThrough();
+                let username = 'UserA';
+                let loggedInChangeSpy = spyOn(authService.loggedInChange, 'emit');
 
-            let token = {
-                token: encodeTestToken({
-                    username: username,
-                    exp: addMinutes(15)
-                })
-            };
-            http.returnValue(token);
+                let token = {
+                    token: encodeTestToken({
+                        username: username,
+                        exp: addMinutes(15)
+                    })
+                };
+                http.returnValue(token);
 
-            authService.login(username, 'password').subscribe((status: boolean) => {
-                expect(status).toBeTruthy();
-                expect(postSpy.calls.mostRecent().args[0].data.username).toBe(username);
-                expect(loggedInChangeSpy.calls.mostRecent().args[0]).toBeTruthy();
-                expect(localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME)).toEqual(token.token);
-                expect(authService.isLoggedIn()).toBeTruthy();
-                let loggedUser = authService.getLoggedUser();
-                expect(loggedUser).toEqual(username);
-                done();
-            }, () => {
-                done.fail();
-            });
-        })();
+                authService.login(username, 'password').subscribe((status: boolean) => {
+                    expect(status).toBeTruthy();
+                    expect(postSpy.calls.mostRecent().args[0].data.username).toBe(username);
+                    expect(loggedInChangeSpy.calls.mostRecent().args[0]).toBeTruthy();
+                    expect(localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME)).toEqual(token.token);
+                    expect(authService.isLoggedIn()).toBeTruthy();
+                    let loggedUser = authService.getLoggedUser();
+                    expect(loggedUser).toEqual(username);
+                    done();
+                }, () => {
+                    done.fail();
+                });
+
+                // Clean up periodic tasks (checkAuth)
+                discardPeriodicTasks();
+            }))();
     });
 });
 
@@ -163,12 +186,15 @@ describe('Auth service: invalid token in the local storage:', () => {
         });
     });
 
-    it('isLoggedIn has to return false and getLoggedUser has to fail',
+    it('isLoggedIn has to return false and getLoggedUser has to fail', fakeAsync(
         inject([AuthService], (authService: AuthService) => {
             expect(authService.isLoggedIn()).toBeFalsy();
             expect(() => authService.getLoggedUser()).toThrow();
             expect(localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME)).toBeNull();
-        })
+
+            // Clean up periodic tasks (checkAuth)
+            discardPeriodicTasks();
+        }))
     );
 });
 
@@ -192,16 +218,19 @@ describe('Auth service: valid token in the local storage:', () => {
         });
     });
 
-    it('isLoggedIn has to return true and getLoggedUser has to return correct user',
+    it('isLoggedIn has to return true and getLoggedUser has to return correct user', fakeAsync(
         inject([AuthService], (authService: AuthService) => {
             expect(authService.isLoggedIn()).toBeTruthy();
             let username = authService.getLoggedUser();
             expect(username).toEqual(tokenData.username);
             expect(localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME)).toEqual(token);
-        })
+
+            // Clean up periodic tasks (checkAuth)
+            discardPeriodicTasks();
+        }))
     );
 
-    it('logout will cleanup/revert all resources',
+    it('logout will cleanup/revert all resources', fakeAsync(
         inject([AuthService], (authService: AuthService) => {
             let loggedInChangeSpy = spyOn(authService.loggedInChange, 'emit');
 
@@ -211,10 +240,13 @@ describe('Auth service: valid token in the local storage:', () => {
             expect(loggedInChangeSpy.calls.mostRecent().args[0]).toBeFalsy();
             expect(() => authService.getLoggedUser()).toThrow();
             expect(localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME)).toBeNull();
-        })
+
+            // Clean up periodic tasks (checkAuth)
+            discardPeriodicTasks();
+        }))
     );
 
-    it('checkAuth will do logout if username do not match our',
+    it('checkAuth will do logout if username do not match our', fakeAsync(
         inject([AuthService, HttpService], (authService: AuthService, http: HttpServiceStub<any>) => {
             let loggedInChangeSpy = spyOn(authService.loggedInChange, 'emit');
             let logoutSpy = spyOn(authService, 'logout').and.callThrough();
@@ -230,10 +262,13 @@ describe('Auth service: valid token in the local storage:', () => {
             expect(() => authService.getLoggedUser()).toThrow();
             expect(localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME)).toBeNull();
             expect(logoutSpy.calls.any()).toBeTruthy();
-        })
+
+            // Clean up periodic tasks (checkAuth)
+            discardPeriodicTasks();
+        }))
     );
 
-    it('checkAuth will do logout if http returns error',
+    it('checkAuth will do logout if http returns error', fakeAsync(
         inject([AuthService, HttpService], (authService: AuthService, http: HttpServiceStub<any>) => {
             let loggedInChangeSpy = spyOn(authService.loggedInChange, 'emit');
             let logoutSpy = spyOn(authService, 'logout').and.callThrough();
@@ -250,7 +285,10 @@ describe('Auth service: valid token in the local storage:', () => {
             expect(() => authService.getLoggedUser()).toThrow();
             expect(localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME)).toBeNull();
             expect(logoutSpy.calls.any()).toBeTruthy();
-        })
+
+            // Clean up periodic tasks (checkAuth)
+            discardPeriodicTasks();
+        }))
     );
 });
 
@@ -274,16 +312,19 @@ describe('Auth service: valid token (but almost expired) in the local storage:',
         });
     });
 
-    it('isLoggedIn has to return true and getLoggedUser has to return correct user',
+    it('isLoggedIn has to return true and getLoggedUser has to return correct user', fakeAsync(
         inject([AuthService], (authService: AuthService) => {
             expect(authService.isLoggedIn()).toBeTruthy();
             let username = authService.getLoggedUser();
             expect(username).toEqual(tokenData.username);
             expect(localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME)).toEqual(token);
-        })
+
+            // Clean up periodic tasks (checkAuth)
+            discardPeriodicTasks();
+        }))
     );
 
-    it('checkAuth will do logout for expired token',
+    it('checkAuth will do logout for expired token', fakeAsync(
         inject([AuthService, HttpService], (authService: AuthService, http: HttpServiceStub<any>) => {
             let loggedInChangeSpy = spyOn(authService.loggedInChange, 'emit');
             let logoutSpy = spyOn(authService, 'logout').and.callThrough();
@@ -300,10 +341,13 @@ describe('Auth service: valid token (but almost expired) in the local storage:',
             expect(() => authService.getLoggedUser()).toThrow();
             expect(localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME)).toBeNull();
             expect(logoutSpy.calls.any()).toBeTruthy();
-        })
+
+            // Clean up periodic tasks (checkAuth)
+            discardPeriodicTasks();
+        }))
     );
 
-    it('checkAuth will do logout for missing token',
+    it('checkAuth will do logout for missing token', fakeAsync(
         inject([AuthService], (authService: AuthService) => {
             let loggedInChangeSpy = spyOn(authService.loggedInChange, 'emit');
             let logoutSpy = spyOn(authService, 'logout').and.callThrough();
@@ -317,10 +361,13 @@ describe('Auth service: valid token (but almost expired) in the local storage:',
             expect(() => authService.getLoggedUser()).toThrow();
             expect(localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME)).toBeNull();
             expect(logoutSpy.calls.any()).toBeTruthy();
-        })
+
+            // Clean up periodic tasks (checkAuth)
+            discardPeriodicTasks();
+        }))
     );
 
-    it('checkAuth will renew token',
+    it('checkAuth will renew token', fakeAsync(
         inject([AuthService, HttpService], (authService: AuthService, http: HttpServiceStub<any>) => {
             let loggedInChangeSpy = spyOn(authService.loggedInChange, 'emit');
 
@@ -342,6 +389,9 @@ describe('Auth service: valid token (but almost expired) in the local storage:',
             expect(username).toEqual(tokenData.username);
             expect(localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME)).toEqual(newToken);
             expect(loggedInChangeSpy.calls.mostRecent().args[0]).toBeTruthy();
-        })
+
+            // Clean up periodic tasks (checkAuth)
+            discardPeriodicTasks();
+        }))
     );
 });
