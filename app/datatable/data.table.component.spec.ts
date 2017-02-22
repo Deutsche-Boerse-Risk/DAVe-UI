@@ -7,7 +7,7 @@ import {DataTableModule} from "./data.table.module";
 import {OrderingCriteria} from "./data.table.column.directive";
 
 
-xdescribe('DataTable component', () => {
+describe('DataTable component', () => {
 
     let table: DataTableDef;
 
