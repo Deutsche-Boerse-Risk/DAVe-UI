@@ -1,4 +1,4 @@
-import {TestBed, inject, fakeAsync, discardPeriodicTasks} from "@angular/core/testing";
+import {TestBed, inject, fakeAsync, discardPeriodicTasks, tick} from "@angular/core/testing";
 
 import {HttpServiceStub} from "../../testing/http.service.stub";
 import {encodeTestToken} from "angular2-jwt/angular2-jwt-test-helpers";
@@ -256,6 +256,28 @@ describe('Auth service: valid token in the local storage:', () => {
             });
 
             (authService as any).checkAuth();
+
+            expect(authService.isLoggedIn()).toBeFalsy();
+            expect(loggedInChangeSpy.calls.mostRecent().args[0]).toBeFalsy();
+            expect(() => authService.getLoggedUser()).toThrow();
+            expect(localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME)).toBeNull();
+            expect(logoutSpy.calls.any()).toBeTruthy();
+
+            // Clean up periodic tasks (checkAuth)
+            discardPeriodicTasks();
+        }))
+    );
+
+    it('whenever HttpService emits "unauthorized" we have to call logout', fakeAsync(
+        inject([AuthService, HttpService], (authService: AuthService, http: HttpServiceStub<any>) => {
+            let loggedInChangeSpy = spyOn(authService.loggedInChange, 'emit');
+            let logoutSpy = spyOn(authService, 'logout').and.callThrough();
+
+            http.unauthorized.emit({
+                status: 401,
+                message: 'Unauthorized'
+            });
+            tick();
 
             expect(authService.isLoggedIn()).toBeFalsy();
             expect(loggedInChangeSpy.calls.mostRecent().args[0]).toBeFalsy();
