@@ -108,7 +108,7 @@ export class HttpService<T> {
         let requestObservable: Observable<T> = http.get(this.constructURL(request), HttpService.getRequestOptions())
             .map(HttpService.extractData);
         if (request.mapFunction) {
-            requestObservable.map(request.mapFunction);
+            requestObservable = requestObservable.map(request.mapFunction);
         }
         return requestObservable.catch(this.handleError.bind(this));
     }
@@ -120,7 +120,7 @@ export class HttpService<T> {
             HttpService.getRequestOptions())
             .map(HttpService.extractData);
         if (request.mapFunction) {
-            requestObservable.map(request.mapFunction);
+            requestObservable = requestObservable.map(request.mapFunction);
         }
         return requestObservable.catch(this.handleError.bind(this));
     }
