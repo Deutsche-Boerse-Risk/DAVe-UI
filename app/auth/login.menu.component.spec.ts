@@ -1,5 +1,6 @@
 import {DebugElement} from "@angular/core";
 import {By} from "@angular/platform-browser";
+
 import {ComponentFixture, TestBed, async, ComponentFixtureAutoDetect, inject} from "@angular/core/testing";
 
 import {AuthServiceStub} from "../../testing/auth.service.stub";

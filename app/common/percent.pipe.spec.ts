@@ -1,6 +1,6 @@
 import {PercentPipe} from "./percent.pipe";
 
-describe('UID generation test', () => {
+describe('Percent pipe with', () => {
     let pipe: PercentPipe;
     beforeEach(() => {
         pipe = new PercentPipe();

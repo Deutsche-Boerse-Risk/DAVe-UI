@@ -2,6 +2,7 @@ import {DebugElement} from "@angular/core";
 import {Router} from "@angular/router";
 import {FormsModule} from "@angular/forms";
 import {By, BrowserModule} from "@angular/platform-browser";
+
 import {ComponentFixture, TestBed, async, ComponentFixtureAutoDetect, fakeAsync, tick} from "@angular/core/testing";
 
 import {AuthServiceStub} from "../../testing/auth.service.stub";
@@ -60,7 +61,7 @@ class LoginPage {
     }
 }
 
-describe('Login component test', () => {
+describe('Login component', () => {
     let page: LoginPage;
 
     beforeEach(async(() => {

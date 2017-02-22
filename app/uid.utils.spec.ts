@@ -1,6 +1,6 @@
 import {UIDUtils} from "./uid.utils";
 
-describe('UID generation test', () => {
+describe('UID generation with', () => {
 
     it('UID based on "_id" only is correct', () => expect(UIDUtils.computeUID({
         _id: {

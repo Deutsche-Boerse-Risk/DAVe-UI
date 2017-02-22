@@ -1,10 +1,11 @@
 import {DebugElement} from "@angular/core";
 import {By} from "@angular/platform-browser";
+
 import {ComponentFixture, TestBed, async} from "@angular/core/testing";
 
 import {InitialLoadComponent} from "./initial.load.component";
 
-describe('InitialLoadComponent test', () => {
+describe('InitialLoadComponent', () => {
 
     let comp: InitialLoadComponent;
     let fixture: ComponentFixture<InitialLoadComponent>;

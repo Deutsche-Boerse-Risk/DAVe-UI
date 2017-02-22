@@ -1,10 +1,11 @@
 import {DebugElement, Component} from "@angular/core";
 import {By} from "@angular/platform-browser";
+
 import {ComponentFixture, TestBed, async, ComponentFixtureAutoDetect} from "@angular/core/testing";
 
 import {UpdateFailedComponent} from "./update.failed.component";
 
-describe('UpdateFailedComponent test', () => {
+describe('UpdateFailedComponent', () => {
 
     let comp: UpdateFailedComponent;
     let fixture: ComponentFixture<UpdateFailedComponent>;
@@ -46,7 +47,7 @@ class TestHostComponent {
     public errorMessage: string = 'custom error message';
 }
 
-describe('UpdateFailedComponent hosted test', () => {
+describe('UpdateFailedComponent hosted', () => {
 
     let hostComp: TestHostComponent;
     let hostFixture: ComponentFixture<TestHostComponent>;

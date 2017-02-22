@@ -1,10 +1,11 @@
 import {DebugElement} from "@angular/core";
 import {By} from "@angular/platform-browser";
+
 import {ComponentFixture, TestBed, async} from "@angular/core/testing";
 
 import {NoDataComponent} from "./no.data.component";
 
-describe('NoDataComponent test', () => {
+describe('NoDataComponent', () => {
 
     let comp: NoDataComponent;
     let fixture: ComponentFixture<NoDataComponent>;
