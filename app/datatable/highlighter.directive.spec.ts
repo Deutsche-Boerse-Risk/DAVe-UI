@@ -1,7 +1,9 @@
 import {Component, DebugElement} from "@angular/core";
-import {async, TestBed, ComponentFixtureAutoDetect, ComponentFixture, fakeAsync, tick} from "@angular/core/testing";
-import {HighlighterDirective} from "./highlighter.directive";
 import {By} from "@angular/platform-browser";
+
+import {async, TestBed, ComponentFixtureAutoDetect, ComponentFixture, fakeAsync, tick} from "@angular/core/testing";
+
+import {HighlighterDirective} from "./highlighter.directive";
 
 @Component({
     template: `<div [highlighter]="trackBy" [context]="context"></div>`
