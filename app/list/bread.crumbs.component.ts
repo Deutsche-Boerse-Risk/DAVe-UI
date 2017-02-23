@@ -21,10 +21,12 @@ export class BreadCrumbsComponent implements OnChanges {
     public filteredRouteParts: RoutePart[];
 
     public ngOnChanges(changes: SimpleChanges): void {
-        this.filteredRouteParts = this.routeParts.filter((part: RoutePart, index: number) => {
-            part.index = index;
-            return part.title !== '*';
-        });
+        if (this.routeParts) {
+            this.filteredRouteParts = this.routeParts.filter((part: RoutePart, index: number) => {
+                part.index = index;
+                return part.title !== '*';
+            });
+        }
     }
 
     public getRoute(index: number): string[] {
