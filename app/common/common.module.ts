@@ -1,4 +1,4 @@
-import {DecimalPipe, DatePipe} from '@angular/common';
+import {DatePipe} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
@@ -10,10 +10,9 @@ import {GoogleChart} from './google.chart.component';
 import {GoogleLineChart} from './google.line.chart.component';
 
 import {PercentPipe} from './percent.pipe';
+export {NUMBER_PIPE} from './percent.pipe';
 
 declare let testLanguage: string;
-
-export const NUMBER_PIPE = new DecimalPipe(testLanguage || navigator.language.split('-')[0]);
 
 export const DATE_PIPE = new DatePipe(testLanguage ||navigator.language.split('-')[0]);
 

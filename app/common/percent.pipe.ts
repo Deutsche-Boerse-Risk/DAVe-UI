@@ -1,6 +1,9 @@
+import {DecimalPipe} from "@angular/common";
 import {Pipe, PipeTransform} from '@angular/core';
 
-import {NUMBER_PIPE} from './common.module';
+declare let testLanguage: string;
+
+export const NUMBER_PIPE = new DecimalPipe(testLanguage || navigator.language.split('-')[0]);
 
 @Pipe({
     name: 'percent'
