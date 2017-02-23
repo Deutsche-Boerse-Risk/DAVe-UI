@@ -111,7 +111,10 @@ describe('Download menu', () => {
         expect(blobSpy.calls.mostRecent().args[0][0])
             .toContain('"' + comp.data[16].col1.replace(/"/g, '""') + '",' + comp.data[16].col2);
         expect(blobSpy.calls.mostRecent().args[0][0])
-            .toContain(comp.data[17].col1 + ',"' + comp.data[17].col2.toLocaleString() + '"');
+            .toContain(comp.data[17].col1 + ','
+                + (comp.data[17].col2.toLocaleString().search(/("|,|\n)/g) >= 0 ? '"' : '')
+                + comp.data[17].col2.toLocaleString()
+                + (comp.data[17].col2.toLocaleString().search(/("|,|\n)/g) >= 0 ? '"' : ''));
 
         expect(saveBlobSpy).toHaveBeenCalled();
 
