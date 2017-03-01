@@ -5,7 +5,7 @@
             <th *ngFor="let column of headerTemplate; trackBy:trackByIndex"
                 [attr.rowspan]="column.rowspan"
                 [attr.colspan]="column.colspan">
-                <template [ngIf]="column.title">{{column.title}}</template>
+                <ng-template [ngIf]="column.title">{{column.title}}</ng-template>
                 <i *ngIf="column.tooltip"
                    class="fa fa-question-circle"
                    data-toggle="tooltip"
@@ -20,7 +20,7 @@
         </tr>
         </thead>
         <tbody *ngIf="pageRows && rowsTemplates">
-        <template ngFor let-row [ngForOf]="pageRows" let-rowIndex="index" [ngForTrackBy]="trackByRowKey"
+        <ng-template ngFor let-row [ngForOf]="pageRows" let-rowIndex="index" [ngForTrackBy]="trackByRowKey"
                   expandable #expandable="expandable">
             <tr *ngFor="let rowsTemplate of rowsTemplates; trackBy:trackByIndex"
                 (click)="expandable.expand(masterRow, !!detailRowGroups)"
@@ -30,9 +30,9 @@
                 <td *ngFor="let column of rowsTemplate; trackBy:trackByIndex"
                     [attr.rowspan]="column.rowspan"
                     [attr.colspan]="column.colspan">
-                    <template *ngIf="column.cellTemplate"
+                    <ng-template *ngIf="column.cellTemplate"
                               [ngTemplateOutlet]="column.cellTemplate"
-                              [ngOutletContext]="{ row: row }"></template>
+                              [ngTemplateOutletContext]="{ row: row }"></ng-template>
                 </td>
             </tr>
             <tr *ngIf="detailRowGroups"
@@ -41,13 +41,13 @@
                 [context]="{ row: row, storage: highlighterStorage, index: rowIndex}">
                 <td [attr.colspan]="detailRowColspan">
                     <table class="table table-condensed">
-                        <template ngFor let-rowGroup [ngForOf]="detailRowGroups" [ngForTrackBy]="trackByIndex">
+                        <ng-template ngFor let-rowGroup [ngForOf]="detailRowGroups" [ngForTrackBy]="trackByIndex">
                             <thead>
                             <tr *ngFor="let headerRow of rowGroup.headerTemplates; trackBy:trackByIndex">
                                 <th *ngFor="let column of headerRow; trackBy:trackByIndex"
                                     [attr.rowspan]="column.rowspan"
                                     [attr.colspan]="column.colspan">
-                                    <template [ngIf]="column.title">{{column.title}}</template>
+                                    <ng-template [ngIf]="column.title">{{column.title}}</ng-template>
                                     <i *ngIf="column.tooltip"
                                        class="fa fa-question-circle"
                                        data-toggle="tooltip"
@@ -66,26 +66,26 @@
                                 <td *ngFor="let column of bodyRow; trackBy:trackByIndex"
                                     [attr.rowspan]="column.rowspan"
                                     [attr.colspan]="column.colspan">
-                                    <template *ngIf="column.cellTemplate"
+                                    <ng-template *ngIf="column.cellTemplate"
                                               [ngTemplateOutlet]="column.cellTemplate"
-                                              [ngOutletContext]="{ row: row }"></template>
+                                              [ngTemplateOutletContext]="{ row: row }"></ng-template>
                                 </td>
                             </tr>
                             </tbody>
-                        </template>
+                        </ng-template>
                     </table>
                 </td>
             </tr>
-        </template>
+        </ng-template>
         </tbody>
         <tfoot *ngIf="footerTemplates">
         <tr *ngFor="let footerTemplate of footerTemplates; trackBy:trackByIndex">
             <th *ngFor="let column of footerTemplate; trackBy:trackByIndex"
                 [attr.rowspan]="column.rowspan"
                 [attr.colspan]="column.colspan">
-                <template *ngIf="column.footerTemplate"
+                <ng-template *ngIf="column.footerTemplate"
                           [ngTemplateOutlet]="column.footerTemplate"
-                          [ngOutletContext]="{ footer: footer }"></template>
+                          [ngTemplateOutletContext]="{ footer: footer }"></ng-template>
             </th>
         </tr>
         </tfoot>

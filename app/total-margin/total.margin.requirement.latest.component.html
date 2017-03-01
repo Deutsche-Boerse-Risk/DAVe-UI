@@ -11,55 +11,55 @@
                 [trackByRowKey]="trackByRowKey">
         <column title="Collateral Pool"
                 [sortingKey]="valueGetters.pool">
-            <template let-record="row" cell-template>
+            <ng-template let-record="row" cell-template>
                 <a [routerLink]="['/totalMarginRequirementLatest', record.clearer || '*', record.pool || '*']">
                     {{record.pool}}
                 </a>
-            </template>
+            </ng-template>
         </column>
         <column title="Member / Client"
                 [sortingKey]="valueGetters.member">
-            <template let-record="row" cell-template>
+            <ng-template let-record="row" cell-template>
                 <a [routerLink]="['/totalMarginRequirementLatest', record.clearer || '*', record.pool || '*', record.member || '*']">
                     {{record.member}}
                 </a>
-            </template>
+            </ng-template>
         </column>
         <column title="Account"
                 [sortingKey]="valueGetters.account">
-            <template let-record="row" cell-template>
+            <ng-template let-record="row" cell-template>
                 <a [routerLink]="['/totalMarginRequirementLatest', record.clearer || '*', record.pool || '*', record.member || '*', record.account || '*']">
                     {{record.account}}
                 </a>
-            </template>
+            </ng-template>
         </column>
         <column title="Ccy"
                 [sortingKey]="valueGetters.ccy">
-            <template let-record="row" cell-template>
+            <ng-template let-record="row" cell-template>
                 {{record.ccy}}
-            </template>
+            </ng-template>
         </column>
         <column title="Adjusted Margin"
                 tooltip="Margin requirement excluding premium credit"
                 [sortingKey]="valueGetters.adjustedMargin">
-            <template let-record="row" cell-template>
+            <ng-template let-record="row" cell-template>
                 {{record.adjustedMargin | number:'.2-2'}}
-            </template>
+            </ng-template>
         </column>
         <column title="Unadjusted Margin"
                 tooltip="Unadjusted margin requirement"
                 [sortingKey]="valueGetters.unadjustedMargin">
-            <template let-record="row" cell-template>
+            <ng-template let-record="row" cell-template>
                 {{record.unadjustedMargin | number:'.2-2'}}
-            </template>
+            </ng-template>
         </column>
         <column>
-            <template let-record="row" cell-template>
+            <ng-template let-record="row" cell-template>
                 <drilldown-row-button
                         [routerLink]="['/marginComponentLatest', record.clearer || '*', record.member || '*', record.account || '*', '*', record.ccy || '*']"></drilldown-row-button>
                 <detail-row-button
                         [routerLink]="['/totalMarginRequirementHistory', record.clearer || '*', record.pool || '*', record.member || '*', record.account || '*', record.ccy || '*']"></detail-row-button>
-            </template>
+            </ng-template>
         </column>
     </data-table>
 </list-content>

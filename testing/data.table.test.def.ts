@@ -188,38 +188,38 @@ export class Pager {
             [striped]="true">
     <column title="Test Column 1"
             [sortingKey]="valueGetter">
-        <template let-record="row" cell-template>
+        <ng-template let-record="row" cell-template>
             {{record.value1}}
-        </template>
+        </ng-template>
     </column>
     <column>
-        <template let-record="row" cell-template>
+        <ng-template let-record="row" cell-template>
             <row-detail-expander></row-detail-expander>
-        </template>
-        <template let-footer="footer" footer-template>
+        </ng-template>
+        <ng-template let-footer="footer" footer-template>
             {{footer.value1}}
-        </template>
+        </ng-template>
     </column>
     <!-- Sub detail -->
     <row-detail>
         <column-group>
             <column title="Test Detail Column 1"
                     [sortingKey]="valueGetter">
-                <template let-record="row" cell-template>
+                <ng-template let-record="row" cell-template>
                     {{record.value1}}
-                </template>
+                </ng-template>
             </column>
         </column-group>
         <column-group>
             <column title="Test Detail Column 2">
-                <template let-record="row" cell-template>
+                <ng-template let-record="row" cell-template>
                     {{record.value2}}
-                </template>
+                </ng-template>
             </column>
             <column title="Test Detail Column 3">
-                <template let-record="row" cell-template>
+                <ng-template let-record="row" cell-template>
                     {{record.value3}}
-                </template>
+                </ng-template>
             </column>
         </column-group>
         <column-group></column-group>
