@@ -4,6 +4,7 @@ machine:
 
 dependencies:
   pre:
+    - npm install -g npm@3
     - npm install -g grunt-cli
     - npm install -g typescript
   override:
