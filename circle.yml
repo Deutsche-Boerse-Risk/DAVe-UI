@@ -29,4 +29,4 @@ deployment:
     branch: demo
     commands:
       - ./dockerfile/create_docker.sh
-      #- ./deployment/kube_deploy.sh
+      - ./deployment/kube_deploy.sh
