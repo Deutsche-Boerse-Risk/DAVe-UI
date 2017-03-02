@@ -55,4 +55,10 @@ describe('UID generation with', () => {
             testKey4: undefined
         }
     })).toBe('testValue--testValue2-'));
+
+    it('random UID do not equal', () => {
+        for (let i = 0; i < 100; i++) {
+            expect(UIDUtils.generateUID()).not.toBe(UIDUtils.generateUID())
+        }
+    });
 });

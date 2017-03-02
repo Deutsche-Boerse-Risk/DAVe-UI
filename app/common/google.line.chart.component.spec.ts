@@ -6,6 +6,7 @@ import {waitForChart, waitForChartRedraw} from "../../testing/index";
 
 import {GoogleLineChart} from "./google.line.chart.component";
 import {ChartData, SelectionEvent, LineChartOptions, ChartColumn} from "./chart.types";
+import {GoogleChart} from "./google.chart.component";
 
 @Component({
     template: ` <google-line-chart *ngIf="chartData"
@@ -16,7 +17,6 @@ import {ChartData, SelectionEvent, LineChartOptions, ChartColumn} from "./chart.
                       [showControls]="true"></google-line-chart>`
 })
 class TestHostComponent {
-    public chartType: string;
     public chartOptions: LineChartOptions;
     public chartData: ChartData | google.visualization.DataTable | google.visualization.DataView;
 
@@ -38,11 +38,16 @@ class ChartPage {
         return this.hostDebugElement.query(By.directive(GoogleLineChart));
     }
 
-    public get chartComponent(): GoogleLineChart {
+    public get lineChartComponent(): GoogleLineChart {
         return this.debugElement.componentInstance;
     }
+
+    public get chartComponent(): GoogleChart {
+        return this.debugElement.query(By.directive(GoogleChart)).componentInstance;
+    }
+
     public get displayedColumns(): ChartColumn[] {
-        return JSON.parse((this.chartComponent.getChartData() as google.visualization.DataTable).toJSON()).cols;
+        return JSON.parse((this.lineChartComponent.chartData as google.visualization.DataTable).toJSON()).cols;
     }
 }
 
@@ -135,13 +140,13 @@ const chartOptions: LineChartOptions = {
     ]
 };
 
-describe('GoogleCharts component', () => {
+describe('GoogleLineChart component', () => {
 
     let page: ChartPage;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [GoogleLineChart, TestHostComponent],
+            declarations: [GoogleLineChart, GoogleChart, TestHostComponent],
             providers: [
                 {provide: ComponentFixtureAutoDetect, useValue: true}
             ]
@@ -154,14 +159,23 @@ describe('GoogleCharts component', () => {
         tick();
     }));
 
+    it('is line chart',  (done: DoneFn) => {
+        page.hostComponent.chartOptions = chartOptions;
+        page.hostComponent.chartData = dummyChartData;
+
+        page.fixture.detectChanges();
+        expect(page.chartComponent.chartType).toEqual('LineChart');
+
+        done();
+    });
+
     it('is rendering chart and does re-render on changes', (done: DoneFn) => {
-        page.hostComponent.chartType = 'LineChart';
         page.hostComponent.chartOptions = chartOptions;
         page.hostComponent.chartData = dummyChartData;
 
         page.fixture.detectChanges();
         waitForChart(page.chartComponent, () => {
-            expect(page.chartComponent.getChartOptions()).toEqual(chartOptions);
+            expect(page.chartComponent.chartOptions).toEqual(chartOptions);
 
             let chartDiv = page.debugElement.query(By.css('div[id="' + page.chartComponent.id + '"]'));
             expect(chartDiv).not.toBeNull();
@@ -183,20 +197,19 @@ describe('GoogleCharts component', () => {
                         done();
                     });
 
-                    page.chartComponent.singleLineSelection = true;
-                    page.chartComponent.hideColumn(2);
+                    page.lineChartComponent.singleLineSelection = true;
+                    page.lineChartComponent.hideColumn(2);
                 });
 
-                page.chartComponent.hideColumn(1);
+                page.lineChartComponent.hideColumn(1);
             });
 
-            page.chartComponent.hideColumn(1);
+            page.lineChartComponent.hideColumn(1);
         });
     }, 15000 /** Timeout 15s; charts are slow */);
 
     it('accepts DataTable', (done: DoneFn) => {
         google.charts.setOnLoadCallback(() => {
-            page.hostComponent.chartType = 'LineChart';
             page.hostComponent.chartOptions = chartOptions;
             page.hostComponent.chartData = new google.visualization.DataTable(dummyChartData);
 
@@ -248,7 +261,6 @@ describe('GoogleCharts component', () => {
 
     it('accepts DataView', (done: DoneFn) => {
         google.charts.setOnLoadCallback(() => {
-            page.hostComponent.chartType = 'LineChart';
             page.hostComponent.chartOptions = chartOptions;
             page.hostComponent.chartData = new google.visualization.DataView(new google.visualization.DataTable(dummyChartData));
 

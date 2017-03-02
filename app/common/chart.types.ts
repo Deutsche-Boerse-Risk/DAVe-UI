@@ -339,6 +339,8 @@ export interface SelectedItem {
 
 declare global {
     module google {
+        let loaded: boolean;
+
         module visualization {
             class DataTable {
                 constructor();
@@ -422,5 +424,23 @@ declare global {
 
             function setOnLoadCallback(callback: () => any): void;
         }
+    }
+}
+
+declare let googleLoaded: any;
+
+export function loadGoogleCharts(callback: () => void) {
+    if (!googleLoaded) {
+        googleLoaded = true;
+        google.charts.load('current', {'packages': ['corechart', 'gauge']});
+    }
+
+    if (google.loaded) {
+        callback();
+    } else {
+        google.charts.setOnLoadCallback(() => {
+            callback();
+            google.loaded = true;
+        });
     }
 }
