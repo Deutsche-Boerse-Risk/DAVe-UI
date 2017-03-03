@@ -297,10 +297,6 @@ module.exports = function (grunt) {
                 files: tsPattern,
                 tasks: ['ts']
             },
-            karma: {
-                files: ['app/**/*.js'],
-                tasks: ['karma:testChrome']
-            },
             dist: {
                 files: sassPattern.concat(tsPattern),
                 tasks: ['dist'],
@@ -361,7 +357,7 @@ module.exports = function (grunt) {
                 logConcurrentOutput: true
             },
             dev: {
-                tasks: ['browserSync:dev', 'watch:devSass', 'watch:devTs', 'watch:karma']
+                tasks: ['browserSync:dev', 'watch:devSass', 'watch:devTs']
             },
             dist: {
                 tasks: ['browserSync:dist', 'watch:dist']

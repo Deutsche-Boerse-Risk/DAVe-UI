@@ -1,6 +1,6 @@
 import {Input, Component} from '@angular/core';
 
-import {Series, LineChartOptions, ChartData, ChartColumn, ChartRow, ChartValue} from './chart.types';
+import {Series, LineChartOptions, ChartData, ChartColumn, ChartRow, ChartValue, loadGoogleCharts} from './chart.types';
 import {GoogleChart} from './google.chart.component';
 
 @Component({
@@ -9,7 +9,7 @@ import {GoogleChart} from './google.chart.component';
     templateUrl: 'google.line.chart.component.html',
     styleUrls: ['google.chart.component.css']
 })
-export class GoogleLineChart extends GoogleChart {
+export class GoogleLineChart {
 
     @Input()
     public showControls: boolean = false;
@@ -17,55 +17,82 @@ export class GoogleLineChart extends GoogleChart {
     @Input()
     public singleLineSelection: boolean = false;
 
+    @Input()
+    public height: any;
+
     private hiddenColumns: number[] = [];
 
-    constructor() {
-        super();
-    }
+    private _chartOptions: LineChartOptions;
+    public originalChartOptions: LineChartOptions;
 
     @Input()
-    public chartOptions: LineChartOptions;
+    public set chartOptions(options: LineChartOptions) {
+        this.originalChartOptions = options;
+        this.filterChartOptions();
+    }
 
-    public getChartOptions(): LineChartOptions {
-        let options: LineChartOptions = JSON.parse(JSON.stringify(this.chartOptions || {}));
+    public get chartOptions(): LineChartOptions {
+        return this._chartOptions;
+    }
+
+    private filterChartOptions(): void {
+        let options: LineChartOptions = JSON.parse(JSON.stringify(this.originalChartOptions || {}));
         if (options.series && this.hiddenColumns) {
             options.series = options.series
                 .filter((val: Series, index: number) => {
                     return this.hiddenColumns.indexOf(index + 1) === -1;
                 });
         }
-        return options;
+        this._chartOptions = options;
     }
 
-    public getChartData(): ChartData | google.visualization.DataTable | google.visualization.DataView {
-        // let chartData: google.visualization.DataView = new google.visualization.DataView(
-        //     new google.visualization.DataTable(this.convertToChartData()));
-        // chartData.hideColumns(this.hiddenColumns);
-        // TODO: https://github.com/google/google-visualization-issues/issues/2406
-        // Method above does not work with animations...once fixed replace the manual change with data view.
-        let chartData: ChartData = {};
-        let convertedChartData = this.convertToChartData();
+    private _chartData: google.visualization.DataTable | google.visualization.DataView;
+    private _originalChartData: ChartData | google.visualization.DataTable | google.visualization.DataView;
 
-        chartData.cols = convertedChartData.cols.filter((column: ChartColumn, index: number) => {
-            return this.hiddenColumns.indexOf(index) === -1;
-        });
-        chartData.rows = [];
-        convertedChartData.rows.forEach((row: ChartRow) => {
-            chartData.rows.push({
-                c: row.c.filter((rowData: ChartValue, index: number) => {
-                    return this.hiddenColumns.indexOf(index) === -1;
-                }),
-                originalData: row.originalData
+    @Input()
+    public set chartData(data: ChartData | google.visualization.DataTable | google.visualization.DataView) {
+        this._originalChartData = data;
+        this.filterChartData();
+    }
+
+    public get chartData(): ChartData | google.visualization.DataTable | google.visualization.DataView {
+        return this._chartData;
+    }
+
+    private filterChartData(): void {
+        loadGoogleCharts(() => {
+            // let chartData: google.visualization.DataView = new google.visualization.DataView(
+            //     new google.visualization.DataTable(this.convertToChartData()));
+            // chartData.hideColumns(this.hiddenColumns);
+            // TODO: https://github.com/google/google-visualization-issues/issues/2406
+            // Method above does not work with animations...once fixed replace the manual change with data view.
+            let chartData: ChartData = {};
+            let convertedChartData = this.convertToChartData();
+            if (!convertedChartData) {
+                return;
+            }
+
+            chartData.cols = convertedChartData.cols.filter((column: ChartColumn, index: number) => {
+                return this.hiddenColumns.indexOf(index) === -1;
             });
+            chartData.rows = [];
+            convertedChartData.rows.forEach((row: ChartRow) => {
+                chartData.rows.push({
+                    c: row.c.filter((rowData: ChartValue, index: number) => {
+                        return this.hiddenColumns.indexOf(index) === -1;
+                    }),
+                    originalData: row.originalData
+                });
 
+            });
+            // TODO: END of the block above
+
+            this._chartData = GoogleChart.prepareDataTableOrDataView(chartData);
         });
-        // TODO: END of the block above
-
-        return GoogleChart.prepareDataTableOrDataView(chartData);
     }
 
-    public convertToChartData() {
-        let originalChartData: ChartData | google.visualization.DataTable | google.visualization.DataView = super.getChartData();
+    private convertToChartData(): ChartData {
+        let originalChartData: ChartData | google.visualization.DataTable | google.visualization.DataView = this._originalChartData;
         let convertedChartData: ChartData;
         if (originalChartData instanceof google.visualization.DataView) {
             convertedChartData = <ChartData>JSON.parse((<google.visualization.DataView>originalChartData).toDataTable().toJSON());
@@ -75,14 +102,6 @@ export class GoogleLineChart extends GoogleChart {
             convertedChartData = <ChartData>originalChartData;
         }
         return convertedChartData;
-    }
-
-    public get chartType(): string {
-        return 'LineChart';
-    }
-
-    public set chartType(type: string) {
-        throw new Error('Chart type for google-line-chart is fixed to \'LineChart\' and can\'t be changed!');
     }
 
     public hideColumn(index: number): void {
@@ -107,9 +126,8 @@ export class GoogleLineChart extends GoogleChart {
             }
         }
 
-        if (this.wrapper) {
-            this.wrapper.getChart().draw(GoogleChart.prepareDataTableOrDataView(this.getChartData()), this.getChartOptions());
-        }
+        this.filterChartOptions();
+        this.filterChartData();
     }
 }
 

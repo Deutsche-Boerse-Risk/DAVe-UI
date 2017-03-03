@@ -104,7 +104,7 @@ const dummyChartData: ChartData = {
     ]
 };
 
-describe('GoogleCharts component', () => {
+describe('GoogleChart component', () => {
 
     let page: ChartPage;
 
@@ -135,7 +135,7 @@ describe('GoogleCharts component', () => {
 
         page.fixture.detectChanges();
         waitForChart(page.chartComponent, () => {
-            expect(page.chartComponent.getChartOptions()).toEqual(chartOptions);
+            expect(page.chartComponent.chartOptions).toEqual(chartOptions);
 
             let chartDiv = page.debugElement.query(By.css('div[id="' + page.chartComponent.id + '"]'));
             expect(chartDiv).not.toBeNull();
@@ -151,7 +151,7 @@ describe('GoogleCharts component', () => {
             let drawGraphSpy = spyOn(page.chartComponent, 'drawGraph').and.callThrough();
 
             waitForChart(page.chartComponent, () => {
-                expect(page.chartComponent.getChartOptions()).toEqual(chartOptions);
+                expect(page.chartComponent.chartOptions).toEqual(chartOptions);
                 expect(prepareDataTableOrDataViewSpy).toHaveBeenCalled();
                 expect(drawGraphSpy).toHaveBeenCalled();
 

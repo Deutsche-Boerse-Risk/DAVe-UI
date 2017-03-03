@@ -9,9 +9,9 @@ import {
     PositionReportChartDataSelect
 } from './position.report.types';
 
-const chartsURL: string = '/pr/latest';
-const latestURL: string = '/pr/latest/:0/:1/:2/:3/:4/:5/:6/:7/:8';
-const historyURL: string = '/pr/history/:0/:1/:2/:3/:4/:5/:6/:7/:8';
+export const chartsURL: string = '/pr/latest';
+export const latestURL: string = '/pr/latest/:0/:1/:2/:3/:4/:5/:6/:7/:8';
+export const historyURL: string = '/pr/history/:0/:1/:2/:3/:4/:5/:6/:7/:8';
 
 @Injectable()
 export class PositionReportsService {
@@ -48,7 +48,7 @@ export class PositionReportsService {
                         radius: record.compVar
                     };
 
-                    if (bubbleKey in bubblesMap.keys()) {
+                    if (bubblesMap.has(bubbleKey)) {
                         bubblesMap.get(bubbleKey).radius += record.compVar;
                     } else {
                         bubblesMap.set(bubbleKey, bubble);

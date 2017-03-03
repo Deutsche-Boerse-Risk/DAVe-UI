@@ -7,13 +7,21 @@ import 'rxjs/add/observable/of';
 
 export class HttpServiceStub<T> {
 
-    private value: any[] = [];
+    private value: T[] = [];
     private error: ErrorResponse[] = [];
 
     public unauthorized: EventEmitter<ErrorResponse> = new EventEmitter();
 
-    public returnValue(value: any) {
+    public returnValue(value: T) {
         this.value.push(value);
+    }
+
+    public popReturnValue(): T {
+        return this.value.pop();
+    }
+
+    public shiftReturnValue(): T {
+        return this.value.shift();
     }
 
     public throwError(value: ErrorResponse) {
@@ -25,7 +33,7 @@ export class HttpServiceStub<T> {
             let error = this.error.shift();
             return Observable.throw(error);
         }
-        let value = this.value.shift();
+        let value: T = this.value.shift();
         return Observable.of(value);
     }
 
