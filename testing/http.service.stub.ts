@@ -16,6 +16,14 @@ export class HttpServiceStub<T> {
         this.value.push(value);
     }
 
+    public popReturnValue(): T {
+        return this.value.pop();
+    }
+
+    public shiftReturnValue(): T {
+        return this.value.shift();
+    }
+
     public throwError(value: ErrorResponse) {
         this.error.push(value);
     }
