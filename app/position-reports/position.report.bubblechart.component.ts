@@ -162,10 +162,10 @@ export class PositionReportBubbleChartComponent extends AbstractComponentWithAut
         });
         totalCompVar = totalPositiveCompVar - totalNegativeCompVar;
         if (totalPositiveCompVar > 0) {
-            positiveCoveragePerc = (topNPositiveCompVar / totalCompVar) * 100;
+            positiveCoveragePerc = (topNPositiveCompVar / (totalCompVar || 1)) * 100;
         }
         if (totalNegativeCompVar > 0) {
-            negativeCoveragePerc = (topNNegativeCompVar / totalNegativeCompVar) * 100;
+            negativeCoveragePerc = (topNNegativeCompVar / (totalNegativeCompVar || 1)) * 100;
         }
         let bubbles: PositionReportBubble[] = negativeBubbles.concat(positiveBubbles);
         bubbles.sort((a: PositionReportBubble, b: PositionReportBubble) => {

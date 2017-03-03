@@ -39,7 +39,7 @@ describe('PositionReportsService', () => {
                 expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL).toBe(latestURL);
                 expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params).toEqual(['*', '*', '*', '*', '*',
                     '*', '*', '*', '*']);
-                expect(data.length).toBe(Math.pow(3, 9));
+                expect(data.length).toBe(Math.pow(3, 8));
                 data.forEach((val: PositionReportData) => {
                     expect(val.strikePrice).toBeDefined();
                     expect(typeof val.strikePrice).toBe('number');
@@ -71,7 +71,7 @@ describe('PositionReportsService', () => {
                     expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL).toBe(historyURL);
                     expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params).toEqual(['a', 'b', 'c', 'd', 'e',
                         'f', 'g', 'h', 'i']);
-                    expect(data.length).toBe(Math.pow(3, 9));
+                    expect(data.length).toBe(Math.pow(3, 8));
                     data.forEach((val: PositionReportData) => {
                         expect(val.strikePrice).not.toBeDefined();
                         expect(val.netLS).toBe(val.crossMarginLongQty - val.crossMarginShortQty);
