@@ -39,7 +39,7 @@ describe('PositionReportsService', () => {
                 expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL).toBe(latestURL);
                 expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params).toEqual(['*', '*', '*', '*', '*',
                     '*', '*', '*', '*']);
-                expect(data.length).toBe(Math.pow(3, 8));
+                expect(data.length).toBe(Math.pow(3, 7));
                 data.forEach((val: PositionReportData) => {
                     expect(val.strikePrice).toBeDefined();
                     expect(typeof val.strikePrice).toBe('number');
@@ -71,7 +71,7 @@ describe('PositionReportsService', () => {
                     expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL).toBe(historyURL);
                     expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params).toEqual(['a', 'b', 'c', 'd', 'e',
                         'f', 'g', 'h', 'i']);
-                    expect(data.length).toBe(Math.pow(3, 8));
+                    expect(data.length).toBe(Math.pow(3, 7));
                     data.forEach((val: PositionReportData) => {
                         expect(val.strikePrice).not.toBeDefined();
                         expect(val.netLS).toBe(val.crossMarginLongQty - val.crossMarginShortQty);
@@ -105,15 +105,15 @@ describe('PositionReportsService', () => {
                     expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params).toBeUndefined();
 
                     expect(data.bubbles).toBeDefined();
-                    expect(data.bubbles.length).toBe(Math.pow(3, 5));
+                    expect(data.bubbles.length).toBe(Math.pow(3, 4));
 
                     let originalRadius = 0;
-                    rawData.forEach((row:PositionReportServerData) => {
+                    rawData.forEach((row: PositionReportServerData) => {
                         originalRadius += row.compVar;
                     });
 
                     let bubbleRadius = 0;
-                    data.bubbles.forEach((row:PositionReportBubble) => {
+                    data.bubbles.forEach((row: PositionReportBubble) => {
                         bubbleRadius += row.radius;
                     });
 
@@ -124,15 +124,15 @@ describe('PositionReportsService', () => {
 
     it('chart data contain select items',
         inject([PositionReportsService], (positionReportsService: PositionReportsService) => {
-            let expectSelectItems = function (data: PositionReportChartData, clearer: string, member: string,
+            let expectSelectItems = function (data: PositionReportChartData, member: string,
                                               account: string) {
-                expect(data.selection.get(clearer + '-' + member).subRecords).toBeDefined();
-                expect(data.selection.get(clearer + '-' + member).subRecords.getOptions()).toBeDefined();
-                expect(data.selection.get(clearer + '-' + member).subRecords.getOptions().length).toBe(3);
-                expect(data.selection.get(clearer + '-' + member).subRecords.get(account)).toBeDefined();
-                expect(data.selection.get(clearer + '-' + member).subRecords.get(account).record.clearer).toBe(clearer);
-                expect(data.selection.get(clearer + '-' + member).subRecords.get(account).record.member).toBe(member);
-                expect(data.selection.get(clearer + '-' + member).subRecords.get(account).record.account).toBe(account);
+                expect(data.selection.get(member + '-' + member).subRecords).toBeDefined();
+                expect(data.selection.get(member + '-' + member).subRecords.getOptions()).toBeDefined();
+                expect(data.selection.get(member + '-' + member).subRecords.getOptions().length).toBe(3);
+                expect(data.selection.get(member + '-' + member).subRecords.get(account)).toBeDefined();
+                expect(data.selection.get(member + '-' + member).subRecords.get(account).record.clearer).toBe(member);
+                expect(data.selection.get(member + '-' + member).subRecords.get(account).record.member).toBe(member);
+                expect(data.selection.get(member + '-' + member).subRecords.get(account).record.account).toBe(account);
             };
             positionReportsService.getPositionReportsChartData()
                 .subscribe((data: PositionReportChartData) => {
@@ -141,10 +141,12 @@ describe('PositionReportsService', () => {
                     expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params).toBeUndefined();
 
                     expect(data.selection.getOptions()).toBeDefined();
-                    expect(data.selection.getOptions().length).toBe(Math.pow(3, 2));
-                    expectSelectItems(data, 'A', 'C', 'B');
-                    expectSelectItems(data, 'C', 'B', 'A');
-                    expectSelectItems(data, 'B', 'C', 'B');
+                    expect(data.selection.getOptions().length).toBe(3);
+                    expectSelectItems(data, 'A', 'B');
+                    expectSelectItems(data, 'B', 'A');
+                    expectSelectItems(data, 'B', 'C');
+                    expectSelectItems(data, 'C', 'A');
+                    expectSelectItems(data, 'C', 'B');
 
                     expect(data.memberSelection.clearer).toBe('A');
                     expect(data.memberSelection.member).toBe('A');

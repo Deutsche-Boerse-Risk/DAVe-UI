@@ -3,7 +3,7 @@ import {EventEmitter} from "@angular/core";
 import {ErrorResponse, Request, PostRequest} from "../app/http.service";
 
 import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
+import {Subscriber} from 'rxjs/Subscriber';
 
 export class HttpServiceStub<T> {
 
@@ -39,5 +39,36 @@ export class HttpServiceStub<T> {
 
     public post(request: PostRequest<T>, auth: boolean = true): Observable<T> {
         return this.get(request, auth);
+    }
+}
+
+export class HttpAsyncServiceStub<T> extends HttpServiceStub<T> {
+
+    public get(request: Request<T>, auth: boolean = true): Observable<T> {
+        return Observable.create((observer: Subscriber<any>) => {
+            setTimeout(() => {
+                super.get(request, auth).subscribe((data) => {
+                    observer.next(data);
+                }, (err) => {
+                    observer.error(err);
+                }, () => {
+                    observer.complete();
+                });
+            }, 1000);
+        });
+    }
+
+    public post(request: PostRequest<T>, auth: boolean = true): Observable<T> {
+        return Observable.create((observer: Subscriber<any>) => {
+            setTimeout(() => {
+                super.post(request, auth).subscribe((data) => {
+                    observer.next(data);
+                }, (err) => {
+                    observer.error(err);
+                }, () => {
+                    observer.complete();
+                });
+            }, 1000);
+        });
     }
 }

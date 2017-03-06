@@ -17,8 +17,11 @@ export function click(el: DebugElement | HTMLElement, eventObj: any = ButtonClic
     }
 }
 
-export function advance(fixture: ComponentFixture<any>): void {
-    tick();
+export function advance(fixture: ComponentFixture<any>, millis: number = 0): void {
+    tick(millis);
+    if (millis > 0) {
+        tick();
+    }
     fixture.detectChanges();
 }
 
@@ -30,6 +33,19 @@ export function setNgModelValue(element: DebugElement, value: string, realAsync:
     input.value = value;
 
     dispatchEvent(input, 'input'); // tell Angular
+    if (!realAsync) {
+        tick();
+    }
+}
+
+export function setNgModelSelectValue(element: DebugElement, selectedIndex: number, realAsync: boolean = false): void {
+    if (!(element.nativeElement instanceof HTMLSelectElement)) {
+        throw 'Not an instance of HTMLInputElement';
+    }
+    let input: HTMLSelectElement = element.nativeElement;
+    input.selectedIndex = selectedIndex;
+
+    dispatchEvent(input, 'change'); // tell Angular
     if (!realAsync) {
         tick();
     }
