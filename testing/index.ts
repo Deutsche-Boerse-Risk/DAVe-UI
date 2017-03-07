@@ -4,6 +4,7 @@ import {GoogleChart} from "../app/common/google.chart.component";
 export * from './definitions/data.table.definition';
 export * from './definitions/list.page';
 
+export * from './mock/margin.components.generator';
 export * from './mock/position.reports.generator';
 
 export * from './stubs/auth.service.stub';

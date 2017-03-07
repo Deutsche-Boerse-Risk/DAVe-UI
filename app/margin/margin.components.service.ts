@@ -11,10 +11,10 @@ import {
     MarginComponentsRowData, MarginComponentsTree, MarginComponentsTreeNode
 } from './margin.types';
 
-const marginComponentsAggregationURL: string = '/mc/latest';
-const marginComponentsTreemapURL: string = '/mc/latest';
-const marginComponentsLatestURL: string = '/mc/latest/:0/:1/:2/:3/:4';
-const marginComponentsHistoryURL: string = '/mc/history/:0/:1/:2/:3/:4';
+export const marginComponentsAggregationURL: string = '/mc/latest';
+export const marginComponentsTreemapURL: string = '/mc/latest';
+export const marginComponentsLatestURL: string = '/mc/latest/:0/:1/:2/:3/:4';
+export const marginComponentsHistoryURL: string = '/mc/history/:0/:1/:2/:3/:4';
 
 @Injectable()
 export class MarginComponentsService {
