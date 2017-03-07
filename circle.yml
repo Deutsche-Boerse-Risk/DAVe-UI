@@ -9,6 +9,9 @@ dependencies:
     - npm install -g codeclimate-test-reporter
   override:
     - npm install
+  post:
+    - npm list
+    - npm list -g
 
 test:
   override:
