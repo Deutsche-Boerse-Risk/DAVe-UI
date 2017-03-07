@@ -156,7 +156,7 @@ export class MarginComponentsService {
                     }, clss);
                 }
                 tree.traverseDF((node: MarginComponentsTreeNode) => {
-                    node.children.sort(function (a, b) {
+                    node.children.sort((a, b) => {
                         return b.data.value - a.data.value;
                     });
                 });

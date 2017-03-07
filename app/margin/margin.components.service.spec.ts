@@ -11,7 +11,7 @@ import {
 } from "./margin.components.service";
 import {
     MarginComponentsServerData, MarginComponentsRowData, MarginComponentsAggregationData,
-    MarginComponentsBaseData, MarginComponentsTree
+    MarginComponentsBaseData, MarginComponentsTree, MarginComponentsTreeNode
 } from "./margin.types";
 
 describe('MarginComponentsService', () => {
@@ -162,17 +162,33 @@ describe('MarginComponentsService', () => {
         })
     );
 
-    xit('tree map data are correctly processed',
+    it('tree map data are correctly processed',
         inject([MarginComponentsService, HttpService], (positionReportsService: MarginComponentsService,
                                                         http: HttpServiceStub<MarginComponentsServerData[]>) => {
-            let originalData = http.popReturnValue();
-            http.returnValue(originalData);
+            http.popReturnValue();
+            http.returnValue(generateMarginComponents(1, 15, 2, 15));
             positionReportsService.getMarginComponentsTreeMapData().subscribe((data: MarginComponentsTree) => {
                 expect(httpSyp).toHaveBeenCalledTimes(1);
                 expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL)
                     .toBe(marginComponentsTreemapURL);
                 expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params).not.toBeDefined();
+                let nodesCount = 0;
+                data.traverseDF((node: MarginComponentsTreeNode) => {
+                    nodesCount++;
 
+                    if(node.data.leaf) {
+                        expect(node.children.length).toBe(0);
+                    }
+                    if (node.parent && node.children.length) {
+                        let value = 0;
+                        node.children.forEach((childNode: MarginComponentsTreeNode) => {
+                            value += childNode.data.value;
+                            expect(childNode.data.id).toMatch('^' + node.data.id.replace(/Rest/, ''));
+                        });
+                        expect(value).toBe(node.data.value);
+                    }
+                });
+                expect(nodesCount).toBe(373);
             });
 
             http.returnValue(null);
@@ -182,6 +198,8 @@ describe('MarginComponentsService', () => {
                     expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL)
                         .toBe(marginComponentsTreemapURL);
                     expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params).not.toBeDefined();
+
+                    expect((data as any)._root).not.toBeDefined();
                 });
         })
     );
