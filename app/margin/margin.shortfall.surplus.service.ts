@@ -8,9 +8,9 @@ import {
     MarginShortfallSurplusServerData, MarginShortfallSurplusBase, MarginShortfallSurplusData
 } from './margin.types';
 
-const marginShortfallSurplusURL: string = '/mss/latest';
-const marginShortfallSurplusLatestURL: string = '/mss/latest/:0/:1/:2/:3';
-const marginShortfallSurplusHistoryURL: string = '/mss/history/:0/:1/:2/:3/:4';
+export const marginShortfallSurplusURL: string = '/mss/latest';
+export const marginShortfallSurplusLatestURL: string = '/mss/latest/:0/:1/:2/:3';
+export const marginShortfallSurplusHistoryURL: string = '/mss/history/:0/:1/:2/:3/:4';
 
 @Injectable()
 export class MarginShortfallSurplusService {
