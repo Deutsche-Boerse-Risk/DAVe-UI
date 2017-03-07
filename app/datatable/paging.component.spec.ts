@@ -1,13 +1,13 @@
 import {async, TestBed, ComponentFixtureAutoDetect, fakeAsync, tick} from "@angular/core/testing";
 
-import {TestHostComponent, DataTableDef} from "../../testing/data.table.test.def";
+import {TestHostComponent, DataTableDefinitionHosted} from "../../testing/data.table.test.def";
 
 import {DataTableModule} from "./data.table.module";
 
 
 describe('DataTable component shows pager ', () => {
 
-    let table: DataTableDef;
+    let table: DataTableDefinitionHosted;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -20,7 +20,7 @@ describe('DataTable component shows pager ', () => {
     }));
 
     beforeEach(fakeAsync(() => {
-        table = new DataTableDef(TestBed.createComponent(TestHostComponent));
+        table = new DataTableDefinitionHosted(TestBed.createComponent(TestHostComponent));
         table.fixture.detectChanges();
         tick();
     }));

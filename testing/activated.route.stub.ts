@@ -5,12 +5,12 @@ import {Injectable} from "@angular/core";
 @Injectable()
 export class ActivatedRouteStub {
 
+    // Test parameters
+    private _testParams: {} = {};
+
     // ActivatedRoute.params is Observable
     private subject = new BehaviorSubject(this.testParams);
     params = this.subject.asObservable();
-
-    // Test parameters
-    private _testParams: {};
     get testParams() {
         return this._testParams;
     }

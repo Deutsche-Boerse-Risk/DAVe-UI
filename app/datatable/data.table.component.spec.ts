@@ -1,7 +1,7 @@
 import {async, TestBed, ComponentFixtureAutoDetect, fakeAsync, tick} from "@angular/core/testing";
 import {click} from "../../testing/index";
 
-import {TestHostComponent, DataTableDef} from "../../testing/data.table.test.def";
+import {TestHostComponent, DataTableDefinitionHosted} from "../../testing/data.table.test.def";
 
 import {DataTableModule} from "./data.table.module";
 import {OrderingCriteria} from "./data.table.column.directive";
@@ -9,7 +9,7 @@ import {OrderingCriteria} from "./data.table.column.directive";
 
 describe('DataTable component', () => {
 
-    let table: DataTableDef;
+    let table: DataTableDefinitionHosted;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -22,7 +22,7 @@ describe('DataTable component', () => {
     }));
 
     beforeEach(fakeAsync(() => {
-        table = new DataTableDef(TestBed.createComponent(TestHostComponent));
+        table = new DataTableDefinitionHosted(TestBed.createComponent(TestHostComponent));
         table.fixture.detectChanges();
         tick();
     }));

@@ -5,6 +5,7 @@ import {NgModel} from "@angular/forms";
 import {ComponentFixture, tick} from "@angular/core/testing";
 
 import {setNgModelValue} from "./index";
+import {DataTableDefinition} from "./data.table.test.def";
 
 import {ListComponent} from "../app/list/list.component";
 import {DrilldownButtonComponent} from "../app/list/drilldown.button.component";
@@ -92,8 +93,8 @@ export class LatestListPage<T> extends ListPage<T> {
         super(fixture);
     }
 
-    public dataTable(): DebugElement {
-        return this.listElement.query(By.directive(DataTableComponent));
+    public get dataTable(): DataTableDefinition {
+        return new DataTableDefinition(this.listElement.query(By.directive(DataTableComponent)), this.fixture);
     }
 }
 
@@ -103,7 +104,7 @@ export class HistoryListPage<T> extends LatestListPage<T> {
         super(fixture);
     }
 
-    public lineChart(): DebugElement {
+    public get lineChart(): DebugElement {
         return this.listElement.query(By.directive(GoogleLineChart))
             || this.listElement.query(By.css('google-line-chart'));
     }

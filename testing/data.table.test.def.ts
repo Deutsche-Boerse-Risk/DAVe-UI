@@ -9,18 +9,9 @@ import {PagingComponent} from "../app/datatable/paging.component";
 
 import {click} from './index';
 
-export class DataTableDef {
+export class DataTableDefinition {
 
-    public hostComponent: TestHostComponent;
-    public hostDebugElement: DebugElement;
-
-    constructor(public fixture: ComponentFixture<TestHostComponent>) {
-        this.hostComponent = this.fixture.componentInstance;
-        this.hostDebugElement = this.fixture.debugElement;
-    }
-
-    public get debugElement(): DebugElement {
-        return this.hostDebugElement.query(By.directive(DataTableComponent));
+    constructor(public debugElement: DebugElement, public fixture: ComponentFixture<any>) {
     }
 
     public get dataTableComponent(): DataTableComponent {
@@ -53,6 +44,22 @@ export class DataTableDef {
 
     public get pager(): Pager {
         return new Pager(this.fixture);
+    }
+}
+
+export class DataTableDefinitionHosted extends DataTableDefinition {
+
+    public hostComponent: TestHostComponent;
+    public hostDebugElement: DebugElement;
+
+    constructor(fixture: ComponentFixture<TestHostComponent>) {
+        super(fixture.debugElement.query(By.directive(DataTableComponent)), fixture);
+        this.hostComponent = this.fixture.componentInstance;
+        this.hostDebugElement = this.fixture.debugElement;
+    }
+
+    public get debugElement(): DebugElement {
+        return this.hostDebugElement.query(By.directive(DataTableComponent));
     }
 }
 export class TableHeader {
