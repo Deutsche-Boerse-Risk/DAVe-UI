@@ -57,10 +57,6 @@ export class DataTableDefinitionHosted extends DataTableDefinition {
         this.hostComponent = this.fixture.componentInstance;
         this.hostDebugElement = this.fixture.debugElement;
     }
-
-    public get debugElement(): DebugElement {
-        return this.hostDebugElement.query(By.directive(DataTableComponent));
-    }
 }
 export class TableHeader {
 
