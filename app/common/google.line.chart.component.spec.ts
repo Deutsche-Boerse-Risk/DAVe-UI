@@ -2,7 +2,8 @@ import {Component, DebugElement} from "@angular/core";
 import {By} from "@angular/platform-browser";
 
 import {fakeAsync, tick, ComponentFixture, TestBed, async, ComponentFixtureAutoDetect} from "@angular/core/testing";
-import {waitForChart, waitForChartRedraw} from "../../testing/index";
+
+import {waitForChart, waitForChartRedraw} from "../../testing";
 
 import {GoogleLineChart} from "./google.line.chart.component";
 import {ChartData, SelectionEvent, LineChartOptions, ChartColumn} from "./chart.types";
@@ -159,7 +160,7 @@ describe('GoogleLineChart component', () => {
         tick();
     }));
 
-    it('is line chart',  (done: DoneFn) => {
+    it('is line chart', (done: DoneFn) => {
         page.hostComponent.chartOptions = chartOptions;
         page.hostComponent.chartData = dummyChartData;
 

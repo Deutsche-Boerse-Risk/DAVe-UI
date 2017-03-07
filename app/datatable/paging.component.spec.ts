@@ -1,6 +1,6 @@
 import {async, TestBed, ComponentFixtureAutoDetect, fakeAsync, tick} from "@angular/core/testing";
 
-import {TestHostComponent, DataTableDefinitionHosted} from "../../testing/data.table.test.def";
+import {TestHostComponent, DataTableDefinitionHosted} from "../../testing";
 
 import {DataTableModule} from "./data.table.module";
 

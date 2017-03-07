@@ -5,9 +5,7 @@ import {By, BrowserModule} from "@angular/platform-browser";
 
 import {ComponentFixture, TestBed, async, ComponentFixtureAutoDetect, fakeAsync, tick} from "@angular/core/testing";
 
-import {AuthServiceStub} from "../../testing/auth.service.stub";
-import {RouterStub} from "../../testing/router.stub";
-import {click, setNgModelValue, advance} from "../../testing/index";
+import {AuthServiceStub, RouterStub, click, setNgModelValue, advance} from "../../testing";
 
 import {LoginComponent} from "./login.component";
 import {AuthService} from "./auth.service";

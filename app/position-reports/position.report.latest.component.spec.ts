@@ -3,13 +3,16 @@ import {Router, ActivatedRoute} from "@angular/router";
 
 import {async, TestBed, fakeAsync, inject, tick} from "@angular/core/testing";
 
-import {RouterStub, LocationStrategyStub} from "../../testing/router.stub";
-import {ActivatedRouteStub} from "../../testing/activated.route.stub";
-import {LatestListPage} from "../../testing/list.page";
-import {RouterLinkStubDirective} from "../../testing/router.link.stub";
-import {HttpAsyncServiceStub} from "../../testing/http.service.stub";
-import {generatePositionReports} from "../../testing/mock/position.reports.generator";
-import {advance} from "../../testing/index";
+import {
+    RouterStub,
+    LocationStrategyStub,
+    ActivatedRouteStub,
+    LatestListPage,
+    RouterLinkStubDirective,
+    HttpAsyncServiceStub,
+    generatePositionReports,
+    advance
+} from "../../testing";
 
 import {PositionReportServerData} from "./position.report.types";
 import {PositionReportsService} from "./position.reports.service";
@@ -124,4 +127,22 @@ describe('Position reports latest component', () => {
         // Fire highlighters
         tick(15000);
     }));
+
+    xit('data correctly displayed', () => {
+    });
+
+    xit('filtering works', () => {
+    });
+
+    xit('breadcrumbs navigation works', () => {
+    });
+
+    xit('row navigation works', () => {
+    });
+
+    xit('download works', () => {
+    });
+
+    xit('sorting works', () => {
+    });
 });

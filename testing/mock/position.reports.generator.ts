@@ -79,3 +79,78 @@ export function generatePositionReports(members: number = 3, accounts: number = 
 
     return data;
 }
+
+export function generatePositionReportsHistory(): PositionReportServerData[] {
+
+    let data: PositionReportServerData[] = [];
+    for (let i = 0; i < 16; i++) {
+        let id = {
+            _id: {
+                clearer: ALPHABET.charAt(0),
+                member: ALPHABET.charAt(0),
+                account: ALPHABET.charAt(0),
+                clss: ALPHABET.charAt(0),
+                symbol: ALPHABET.charAt(0),
+                putCall: PUT_CALL[0],
+                strikePrice: '0',
+                maturityMonthYear: '0',
+                optAttribute: '0'
+            }
+        };
+
+        data.push({
+            ...id._id,
+            id: {
+                $oid: UIDUtils.generateUID()
+            },
+            clearingCcy: CURRENCIES[0],
+            productCcy: CURRENCIES[1],
+            crossMarginLongQty: random(i),
+            crossMarginShortQty: random(i),
+            mVar: random(i),
+            compVar: random(i),
+            compCorrelationBreak: random(i),
+            compCompressionError: random(i),
+            compLiquidityAddOn: random(i),
+            compLongOptionCredit: random(i),
+            variationMarginPremiumPayment: random(i),
+            premiumMargin: random(i),
+            delta: random(i),
+            gamma: random(i),
+            vega: random(i),
+            rho: random(i),
+            theta: random(i),
+            underlying: UNDERLYINGS[0],
+            //Not changing
+            reqId: null,
+            bizDt: "2016-11-22",
+            rptId: "13198434645154",
+            lastReportRequested: null,
+            sesId: null,
+            received: '2016-11-22T' + align(i + 8) + ':00:00.000Z',
+            optionExcerciseQty: 0,
+            optionAssignmentQty: 0,
+            allocationTradeQty: 0,
+            deliveryNoticeQty: 0,
+        });
+    }
+    return data;
+}
+
+function align(i: number): string {
+    if (i < 10) {
+        return '0' + i;
+    }
+    return i + '';
+}
+
+function random(i: number, modulo: number = 100): number {
+    let val = i * Math.random() + (Math.random() * 100) - 50;
+    while (val > modulo) {
+        val -= modulo;
+    }
+    while (val < -modulo) {
+        val += modulo;
+    }
+    return val;
+}

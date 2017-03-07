@@ -5,9 +5,7 @@ import {Router, ActivatedRoute} from "@angular/router";
 
 import {TestBed, ComponentFixtureAutoDetect, async, ComponentFixture, inject} from "@angular/core/testing";
 
-import {RouterStub, LocationStrategyStub} from "../../testing/router.stub";
-import {ActivatedRouteStub} from "../../testing/activated.route.stub";
-import {click} from "../../testing/index";
+import {click, RouterStub, ActivatedRouteStub, LocationStrategyStub} from "../../testing";
 
 import {MenuModule} from "./menu.module";
 import {MenuComponent} from "./menu.component";

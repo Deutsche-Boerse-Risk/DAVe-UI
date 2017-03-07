@@ -1,15 +1,19 @@
 import {LocationStrategy} from "@angular/common";
+import {NO_ERRORS_SCHEMA, DebugElement} from "@angular/core";
 import {Router, ActivatedRoute} from "@angular/router";
 
 import {async, TestBed, fakeAsync, inject, tick} from "@angular/core/testing";
 
-import {RouterStub, LocationStrategyStub} from "../../testing/router.stub";
-import {ActivatedRouteStub} from "../../testing/activated.route.stub";
-import {HistoryListPage} from "../../testing/list.page";
-import {RouterLinkStubDirective} from "../../testing/router.link.stub";
-import {HttpAsyncServiceStub} from "../../testing/http.service.stub";
-import {generatePositionReports} from "../../testing/mock/position.reports.generator";
-import {advance} from "../../testing/index";
+import {
+    RouterStub,
+    LocationStrategyStub,
+    ActivatedRouteStub,
+    HistoryListPage,
+    RouterLinkStubDirective,
+    HttpAsyncServiceStub,
+    generatePositionReportsHistory,
+    advance
+} from "../../testing";
 
 import {PositionReportServerData} from "./position.report.types";
 import {PositionReportsService} from "./position.reports.service";
@@ -18,7 +22,7 @@ import {HttpService} from "../http.service";
 import {PositionReportHistoryComponent} from "./position.report.history.component";
 import {ListModule} from "../list/list.module";
 import {DataTableModule} from "../datatable/data.table.module";
-import {NO_ERRORS_SCHEMA} from "@angular/core";
+import {HIGHLIGHTER_CLASS} from "../datatable/highlighter.directive";
 
 describe('Position reports history component', () => {
     let page: HistoryListPage<PositionReportHistoryComponent>;
@@ -46,12 +50,27 @@ describe('Position reports history component', () => {
         }).compileComponents();
     }));
 
-    beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<PositionReportServerData[]>) => {
-        // Generate test data
-        http.returnValue(generatePositionReports());
-        // Create component
-        page = new HistoryListPage<PositionReportHistoryComponent>(TestBed.createComponent(PositionReportHistoryComponent));
-    })));
+    beforeEach(fakeAsync(inject([HttpService, ActivatedRoute],
+        (http: HttpAsyncServiceStub<PositionReportServerData[]>, activatedRoute: ActivatedRouteStub) => {
+            // Generate test data
+            http.returnValue(generatePositionReportsHistory());
+
+            // Set input parameters
+            activatedRoute.testParams = {
+                clearer: 'A',
+                member: 'A',
+                account: 'B',
+                class: 'C',
+                symbol: '*',
+                putCall: 'P',
+                strikePrice: '152',
+                optAttribute: '*',
+                maturityMonthYear: '201211'
+            };
+
+            // Create component
+            page = new HistoryListPage<PositionReportHistoryComponent>(TestBed.createComponent(PositionReportHistoryComponent));
+        })));
 
     it('displays error correctly', fakeAsync(inject([HttpService],
         (http: HttpAsyncServiceStub<PositionReportServerData[]>) => {
@@ -132,4 +151,69 @@ describe('Position reports history component', () => {
         // Fire highlighters
         tick(15000);
     }));
+
+    it('data correctly refreshed', fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<PositionReportServerData[]>) => {
+        // Init component
+        page.detectChanges();
+        // Return data
+        advance(page.fixture, 1000);
+        tick();
+
+        expect(page.initialLoadComponent).toBeNull('Initial load component not visible.');
+        expect(page.noDataComponent).toBeNull('No data component not visible.');
+        expect(page.updateFailedComponent).toBeNull('Update failed component not visible.');
+        expect(page.dataTable.tableElement).not.toBeNull('Data table visible.');
+        expect(page.lineChart).not.toBeNull('Chart visible.');
+
+        expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
+            return row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+        })).toBeTruthy('All rows are highlighted');
+
+        // Fire highlighters
+        tick(15000);
+
+        expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
+            return !row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+        })).toBeTruthy('No rows are highlighted');
+
+        // Push new data
+        http.returnValue(generatePositionReportsHistory());
+        // Trigger reload
+        advance(page.fixture, 44000);
+        // Return the data
+        advance(page.fixture, 1000);
+        tick();
+
+        expect(page.dataTable.tableElement).not.toBeNull('Data table visible.');
+        expect(page.lineChart).not.toBeNull('Chart visible.');
+
+        expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
+            return row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+        })).toBeTruthy('All rows are highlighted');
+
+        // Fire highlighters
+        tick(15000);
+
+        expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
+            return !row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+        })).toBeTruthy('No rows are highlighted');
+
+        // Do not trigger periodic interval
+        clearInterval((page.component as any).intervalHandle);
+    })));
+
+    xit('data correctly displayed', () => {
+    });
+
+    xit('chart data correctly processed', () => {
+    });
+
+    xit('breadcrumbs navigation works', () => {
+    });
+
+    xit('download works', () => {
+    });
+
+    xit('sorting works', () => {
+    });
 });

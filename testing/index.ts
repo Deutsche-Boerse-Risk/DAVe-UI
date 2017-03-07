@@ -1,21 +1,19 @@
-import {DebugElement} from "@angular/core";
 import {ComponentFixture, tick} from "@angular/core/testing";
 import {GoogleChart} from "../app/common/google.chart.component";
 
-/** Button events to pass to `DebugElement.triggerEventHandler` for RouterLink event handler */
-export const ButtonClickEvents = {
-    left: {button: 0},
-    right: {button: 2}
-};
+export * from './definitions/data.table.definition';
+export * from './definitions/list.page';
 
-/** Simulate element click. Defaults to mouse left-button click event. */
-export function click(el: DebugElement | HTMLElement, eventObj: any = ButtonClickEvents.left): void {
-    if (el instanceof HTMLElement) {
-        el.click();
-    } else {
-        el.triggerEventHandler('click', eventObj);
-    }
-}
+export * from './mock/position.reports.generator';
+
+export * from './stubs/auth.service.stub';
+export * from './stubs/http.service.stub';
+
+export * from './stubs/router/activated.route.stub';
+export * from './stubs/router/router.link.stub';
+export * from './stubs/router/router.stub';
+
+export * from './events';
 
 export function advance(fixture: ComponentFixture<any>, millis: number = 0): void {
     tick(millis);
@@ -23,54 +21,6 @@ export function advance(fixture: ComponentFixture<any>, millis: number = 0): voi
         tick();
     }
     fixture.detectChanges();
-}
-
-export function setNgModelValue(element: DebugElement, value: string, realAsync: boolean = false): void {
-    if (!(element.nativeElement instanceof HTMLInputElement)) {
-        throw 'Not an instance of HTMLInputElement';
-    }
-    let input: HTMLInputElement = element.nativeElement;
-    input.value = value;
-
-    dispatchEvent(input, 'input'); // tell Angular
-    if (!realAsync) {
-        tick();
-    }
-}
-
-export function setNgModelSelectValue(element: DebugElement, selectedIndex: number, realAsync: boolean = false): void {
-    if (!(element.nativeElement instanceof HTMLSelectElement)) {
-        throw 'Not an instance of HTMLInputElement';
-    }
-    let input: HTMLSelectElement = element.nativeElement;
-    input.selectedIndex = selectedIndex;
-
-    dispatchEvent(input, 'change'); // tell Angular
-    if (!realAsync) {
-        tick();
-    }
-}
-
-export function dispatchEvent(element: DebugElement | HTMLElement | Window, eventName: string) {
-    if (element instanceof HTMLElement) {
-        element.dispatchEvent(newEvent(eventName));
-    } else if (element instanceof Window) {
-        element.dispatchEvent(newEvent(eventName));
-    } else {
-        element.nativeElement.dispatchEvent(newEvent(eventName));
-    }
-}
-
-/**
- * Create custom DOM event the old fashioned way
- *
- * https://developer.mozilla.org/en-US/docs/Web/API/Event/initEvent
- * Although officially deprecated, some browsers (phantom) don't accept the preferred "new Event(eventName)"
- */
-export function newEvent(eventName: string, bubbles = false, cancelable = false) {
-    let evt = document.createEvent('CustomEvent');  // MUST be 'CustomEvent'
-    evt.initCustomEvent(eventName, bubbles, cancelable, null);
-    return evt;
 }
 
 /**

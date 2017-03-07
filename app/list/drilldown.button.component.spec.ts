@@ -3,8 +3,7 @@ import {By} from "@angular/platform-browser";
 
 import {ComponentFixture, TestBed, async, ComponentFixtureAutoDetect, fakeAsync} from "@angular/core/testing";
 
-import {click} from "../../testing/index";
-import {RouterLinkStubDirective} from "../../testing/router.link.stub";
+import {click, RouterLinkStubDirective} from "../../testing";
 
 import {DrilldownButtonComponent} from "./drilldown.button.component";
 

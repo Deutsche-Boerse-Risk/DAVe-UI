@@ -1,7 +1,6 @@
 import {async, TestBed, ComponentFixtureAutoDetect, fakeAsync, tick} from "@angular/core/testing";
-import {click} from "../../testing/index";
 
-import {TestHostComponent, DataTableDefinitionHosted} from "../../testing/data.table.test.def";
+import {click, TestHostComponent, DataTableDefinitionHosted} from "../../testing";
 
 import {DataTableModule} from "./data.table.module";
 import {OrderingCriteria} from "./data.table.column.directive";

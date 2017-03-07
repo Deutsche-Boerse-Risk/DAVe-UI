@@ -2,7 +2,8 @@ import {Component, DebugElement} from "@angular/core";
 import {By} from "@angular/platform-browser";
 
 import {fakeAsync, tick, ComponentFixture, TestBed, async, ComponentFixtureAutoDetect} from "@angular/core/testing";
-import {waitForChart, dispatchEvent} from "../../testing/index";
+
+import {waitForChart, dispatchEvent} from "../../testing";
 
 import {GoogleChart} from "./google.chart.component";
 import {CommonChartOptions, ChartData, SelectionEvent, LineChartOptions} from "./chart.types";

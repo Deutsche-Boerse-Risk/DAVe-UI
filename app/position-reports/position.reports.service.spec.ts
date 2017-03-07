@@ -1,7 +1,6 @@
 import {TestBed, inject} from "@angular/core/testing";
 
-import {HttpServiceStub} from "../../testing/http.service.stub";
-import {generatePositionReports} from "../../testing/mock/position.reports.generator";
+import {HttpServiceStub, generatePositionReports} from "../../testing";
 import Spy = jasmine.Spy;
 
 import {HttpService, Request} from "../http.service";

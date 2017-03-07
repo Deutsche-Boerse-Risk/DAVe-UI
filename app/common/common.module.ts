@@ -14,7 +14,7 @@ export {NUMBER_PIPE} from './percent.pipe';
 
 declare let testLanguage: string;
 
-export const DATE_PIPE = new DatePipe(testLanguage ||navigator.language.split('-')[0]);
+export const DATE_PIPE = new DatePipe(testLanguage || navigator.language.split('-')[0]);
 
 @NgModule({
     imports: [

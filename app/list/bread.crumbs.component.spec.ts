@@ -3,8 +3,7 @@ import {By, BrowserModule} from "@angular/platform-browser";
 
 import {ComponentFixture, TestBed, async, ComponentFixtureAutoDetect} from "@angular/core/testing";
 
-import {click} from "../../testing/index";
-import {RouterLinkStubDirective} from "../../testing/router.link.stub";
+import {click, RouterLinkStubDirective} from "../../testing";
 
 import {BreadCrumbsComponent, RoutePart} from "./bread.crumbs.component";
 

@@ -4,10 +4,14 @@ import {FormsModule} from "@angular/forms";
 
 import {ComponentFixture, async, TestBed, fakeAsync, tick, inject} from "@angular/core/testing";
 
-import {click, advance, setNgModelSelectValue} from "../../testing/index";
-import {RouterLinkStubDirective} from "../../testing/router.link.stub";
-import {HttpAsyncServiceStub} from "../../testing/http.service.stub";
-import {generatePositionReports} from "../../testing/mock/position.reports.generator";
+import {
+    click,
+    advance,
+    setNgModelSelectValue,
+    RouterLinkStubDirective,
+    HttpAsyncServiceStub,
+    generatePositionReports
+} from "../../testing";
 
 import {HttpService} from "../http.service";
 import {PositionReportsService} from "./position.reports.service";

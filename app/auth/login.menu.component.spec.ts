@@ -3,9 +3,7 @@ import {By} from "@angular/platform-browser";
 
 import {ComponentFixture, TestBed, async, ComponentFixtureAutoDetect, inject} from "@angular/core/testing";
 
-import {AuthServiceStub} from "../../testing/auth.service.stub";
-import {RouterLinkStubDirective} from "../../testing/router.link.stub";
-import {click} from "../../testing/index";
+import {AuthServiceStub, RouterLinkStubDirective, click} from "../../testing";
 
 import {AuthService} from "./auth.service";
 import {LoginMenuComponent} from "./login.menu.component";

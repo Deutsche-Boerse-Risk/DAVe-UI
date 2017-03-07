@@ -2,7 +2,8 @@ import {DebugElement} from "@angular/core";
 import {By} from "@angular/platform-browser";
 
 import {TestBed, ComponentFixtureAutoDetect, async, ComponentFixture} from "@angular/core/testing";
-import {click} from "../../testing/index";
+
+import {click} from "../../testing";
 
 import {DownloadMenuComponent} from "./download.menu.component";
 

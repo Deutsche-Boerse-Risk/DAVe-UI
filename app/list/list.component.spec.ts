@@ -4,8 +4,7 @@ import {RouterModule} from "@angular/router";
 
 import {TestBed, async, ComponentFixtureAutoDetect, fakeAsync} from "@angular/core/testing";
 
-import {RouterLinkStubDirective} from "../../testing/router.link.stub";
-import {ListPage} from "../../testing/list.page";
+import {RouterLinkStubDirective, ListPage} from "../../testing";
 
 import {ListModule} from "./list.module";
 import {RoutePart} from "./bread.crumbs.component";

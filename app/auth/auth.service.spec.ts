@@ -1,6 +1,7 @@
 import {TestBed, inject, fakeAsync, discardPeriodicTasks, tick} from "@angular/core/testing";
 
-import {HttpServiceStub} from "../../testing/http.service.stub";
+import {HttpServiceStub} from "../../testing";
+
 import {encodeTestToken} from "angular2-jwt/angular2-jwt-test-helpers";
 
 import {AuthConfigConsts} from "angular2-jwt";
