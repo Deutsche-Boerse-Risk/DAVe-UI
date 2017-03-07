@@ -1,20 +1,14 @@
-import {DebugElement, Component} from "@angular/core";
+import {Component} from "@angular/core";
 import {By} from "@angular/platform-browser";
 import {RouterModule} from "@angular/router";
 
-import {ComponentFixture, TestBed, async, ComponentFixtureAutoDetect, fakeAsync, tick} from "@angular/core/testing";
+import {TestBed, async, ComponentFixtureAutoDetect, fakeAsync} from "@angular/core/testing";
 
 import {RouterLinkStubDirective} from "../../testing/router.link.stub";
-import {setNgModelValue} from "../../testing/index";
+import {ListPage} from "../../testing/list.page";
 
 import {ListModule} from "./list.module";
-import {ListComponent} from "./list.component";
-import {RoutePart, BreadCrumbsComponent} from "./bread.crumbs.component";
-import {DrilldownButtonComponent} from "./drilldown.button.component";
-import {DownloadMenuComponent} from "./download.menu.component";
-import {InitialLoadComponent} from "../common/initial.load.component";
-import {NoDataComponent} from "../common/no.data.component";
-import {UpdateFailedComponent} from "../common/update.failed.component";
+import {RoutePart} from "./bread.crumbs.component";
 
 @Component({
     template: `
@@ -47,10 +41,7 @@ class TestComponent {
 
 describe('ListComponent', () => {
 
-    let hostComp: TestComponent;
-    let comp: ListComponent;
-    let fixture: ComponentFixture<TestComponent>;
-    let de: DebugElement;
+    let page: ListPage<TestComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -68,117 +59,112 @@ describe('ListComponent', () => {
     }));
 
     beforeEach(fakeAsync(() => {
-        fixture = TestBed.createComponent(TestComponent);
+        page = new ListPage<TestComponent>(TestBed.createComponent(TestComponent));
 
-        hostComp = fixture.componentInstance;
-        de = fixture.debugElement.query(By.directive(ListComponent));
-        comp = de.injector.get(ListComponent);
-        fixture.detectChanges();
-        tick();
+        page.detectChanges();
     }));
 
     it('has correct title', () => {
-        expect(de.query(By.css('h3')).nativeElement.textContent).toBe(hostComp.rootRouteTitle);
+        expect(page.title).toBe(page.component.rootRouteTitle);
     });
 
     it('displays filter and filter works correctly', fakeAsync(() => {
-        expect(de.query(By.css('.panel-heading')).query(By.css('.input-group'))).not.toBeNull('Filter is shown');
+        expect(page.filterShown).toBeTruthy('Filter is shown');
 
-        let filterSpy = spyOn(hostComp, 'filtered');
+        let filterSpy = spyOn(page.component, 'filtered');
 
-        setNgModelValue(de.query(By.css('.form-control')), 'Filter query');
-        tick(100);
+        page.filter('Filter query');
 
         expect(filterSpy).toHaveBeenCalledWith('Filter query');
 
-        hostComp.isHistory = true;
-        fixture.detectChanges();
+        page.component.isHistory = true;
+        page.detectChanges();
 
-        expect(de.query(By.css('.input-group'))).toBeNull('Filter is not shown');
+        expect(page.filterShown).toBeFalsy('Filter is not shown');
     }));
 
-    it('displays drilldown-button', () => {
-        expect(de.query(By.css('.panel-heading')).query(By.directive(DrilldownButtonComponent))).toBeNull('Not shown');
+    it('displays drilldown-button', fakeAsync(() => {
+        expect(page.drilldownButton).toBeNull('Not shown');
 
-        hostComp.drilldownRouterLink = ['/positionReportLatest', 'clearer'];
-        fixture.detectChanges();
+        page.component.drilldownRouterLink = ['/positionReportLatest', 'clearer'];
+        page.detectChanges();
 
-        expect(de.query(By.css('.panel-heading')).query(By.directive(DrilldownButtonComponent))).not.toBeNull('Is shown');
-    });
+        expect(page.drilldownButton).not.toBeNull('Is shown');
+    }));
 
     it('has download menu', () => {
-        expect(de.query(By.css('.panel-heading')).query(By.directive(DownloadMenuComponent))).not.toBeNull('Is shown');
+        expect(page.downloadMenu).not.toBeNull('Is shown');
     });
 
     it('has bread crumbs', () => {
-        expect(de.query(By.css('.panel-heading')).query(By.directive(BreadCrumbsComponent))).not.toBeNull('Is shown');
+        expect(page.breadCrumbs).not.toBeNull('Is shown');
     });
 
-    it('initial load message works as expected', () => {
-        expect(de.query(By.directive(InitialLoadComponent))).toBeNull('Not shown');
+    it('initial load message works as expected', fakeAsync(() => {
+        expect(page.initialLoadComponent).toBeNull('Not shown');
 
-        hostComp.initialLoad = true;
-        fixture.detectChanges();
+        page.component.initialLoad = true;
+        page.detectChanges();
 
-        expect(de.query(By.directive(InitialLoadComponent))).not.toBeNull('Is shown');
+        expect(page.initialLoadComponent).not.toBeNull('Is shown');
 
-        hostComp.errorMessage = 'Error';
-        fixture.detectChanges();
+        page.component.errorMessage = 'Error';
+        page.detectChanges();
 
-        expect(de.query(By.directive(InitialLoadComponent))).toBeNull('Not shown');
-    });
+        expect(page.initialLoadComponent).toBeNull('Not shown');
+    }));
 
-    it('no data message works as expected', () => {
-        expect(de.query(By.directive(NoDataComponent))).not.toBeNull('Is shown');
+    it('no data message works as expected', fakeAsync(() => {
+        expect(page.noDataComponent).not.toBeNull('Is shown');
 
-        hostComp.initialLoad = true;
-        fixture.detectChanges();
+        page.component.initialLoad = true;
+        page.detectChanges();
 
-        expect(de.query(By.directive(NoDataComponent))).toBeNull('Not shown');
+        expect(page.noDataComponent).toBeNull('Not shown');
 
-        hostComp.initialLoad = false;
-        hostComp.errorMessage = 'Error';
-        fixture.detectChanges();
+        page.component.initialLoad = false;
+        page.component.errorMessage = 'Error';
+        page.detectChanges();
 
-        expect(de.query(By.directive(NoDataComponent))).toBeNull('Not shown');
+        expect(page.noDataComponent).toBeNull('Not shown');
 
-        hostComp.initialLoad = false;
-        delete hostComp.errorMessage;
-        fixture.detectChanges();
+        page.component.initialLoad = false;
+        delete page.component.errorMessage;
+        page.detectChanges();
 
-        expect(de.query(By.directive(NoDataComponent))).not.toBeNull('Is shown');
+        expect(page.noDataComponent).not.toBeNull('Is shown');
 
-        hostComp.data = [1, 2, 3, 4, 5];
-        fixture.detectChanges();
+        page.component.data = [1, 2, 3, 4, 5];
+        page.detectChanges();
 
-        expect(de.query(By.directive(NoDataComponent))).toBeNull('Not shown');
-    });
+        expect(page.noDataComponent).toBeNull('Not shown');
+    }));
 
-    it('error message works as expected', () => {
-        expect(de.query(By.directive(UpdateFailedComponent))).toBeNull('Not shown');
+    it('error message works as expected', fakeAsync(() => {
+        expect(page.updateFailedComponent).toBeNull('Not shown');
 
-        hostComp.initialLoad = true;
-        fixture.detectChanges();
+        page.component.initialLoad = true;
+        page.detectChanges();
 
-        expect(de.query(By.directive(UpdateFailedComponent))).toBeNull('Not shown');
+        expect(page.updateFailedComponent).toBeNull('Not shown');
 
-        hostComp.errorMessage = 'Error';
-        fixture.detectChanges();
+        page.component.errorMessage = 'Error';
+        page.detectChanges();
 
-        expect(de.query(By.directive(UpdateFailedComponent))).not.toBeNull('Is shown');
+        expect(page.updateFailedComponent).not.toBeNull('Is shown');
 
-        hostComp.initialLoad = false;
-        fixture.detectChanges();
+        page.component.initialLoad = false;
+        page.detectChanges();
 
-        expect(de.query(By.directive(UpdateFailedComponent))).not.toBeNull('Is shown');
+        expect(page.updateFailedComponent).not.toBeNull('Is shown');
 
-        hostComp.data = [1, 2, 3, 4, 5];
-        fixture.detectChanges();
+        page.component.data = [1, 2, 3, 4, 5];
+        page.detectChanges();
 
-        expect(de.query(By.directive(UpdateFailedComponent))).not.toBeNull('Is shown');
-    });
+        expect(page.updateFailedComponent).not.toBeNull('Is shown');
+    }));
 
     it('has content', () => {
-        expect(de.query(By.css('.testContent'))).not.toBeNull('Is shown');
+        expect(page.listElement.query(By.css('.testContent'))).not.toBeNull('Is shown');
     });
 });
