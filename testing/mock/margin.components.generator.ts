@@ -59,12 +59,12 @@ export function generateMarginComponentsHistory(): MarginComponentsServerData[] 
     for (let i = 0; i < 16; i++) {
         let id = {
             _id: {
-                clearer: ALPHABET.charAt(0),
-                member: ALPHABET.charAt(0),
-                account: ALPHABET.charAt(0),
-                clss: ALPHABET.charAt(0),
-                symbol: ALPHABET.charAt(0),
-                ccy: CURRENCIES[0]
+                clearer: ALPHABET.charAt(16),
+                member: ALPHABET.charAt(16),
+                account: ALPHABET.charAt(16),
+                clss: ALPHABET.charAt(16),
+                symbol: ALPHABET.charAt(16),
+                ccy: CURRENCIES[16]
             }
         };
 

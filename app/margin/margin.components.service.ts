@@ -57,7 +57,7 @@ export class MarginComponentsService {
                         footerData.additionalMargin += record.additionalMargin;
                     } else {
                         newViewWindow[fKey] = {
-                            uid: UIDUtils.computeUID(record),
+                            uid: fKey,
                             clearer: record.clearer,
                             member: record.member,
                             account: record.account,
