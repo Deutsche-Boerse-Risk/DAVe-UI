@@ -2,7 +2,7 @@ import {LocationStrategy} from "@angular/common";
 import {NO_ERRORS_SCHEMA, DebugElement} from "@angular/core";
 import {Router, ActivatedRoute} from "@angular/router";
 
-import {async, TestBed, fakeAsync, inject, tick} from "@angular/core/testing";
+import {async, TestBed, fakeAsync, inject} from "@angular/core/testing";
 
 import {
     RouterStub,
@@ -11,8 +11,7 @@ import {
     HistoryListPage,
     RouterLinkStubDirective,
     HttpAsyncServiceStub,
-    generatePositionReportsHistory,
-    advance
+    generatePositionReportsHistory
 } from "../../testing";
 
 import {PositionReportServerData} from "./position.report.types";
@@ -82,7 +81,7 @@ describe('Position reports history component', () => {
             expect(page.initialLoadComponent).not.toBeNull('Initial load component visible.');
             expect(page.noDataComponent).toBeNull('No data component not visible.');
             expect(page.updateFailedComponent).toBeNull('Update failed component not visible.');
-            expect(page.dataTable.tableElement).toBeNull('Data table not visible.');
+            expect(page.dataTable.element).toBeNull('Data table not visible.');
             expect(page.lineChart).toBeNull('Chart not visible.');
 
             // Return error
@@ -90,13 +89,12 @@ describe('Position reports history component', () => {
                 status: 500,
                 message: 'Error message'
             });
-            advance(page.fixture, 1000);
-            tick();
+            page.advance(1000);
 
             expect(page.initialLoadComponent).toBeNull('Initial load component not visible.');
             expect(page.noDataComponent).toBeNull('No data component not visible.');
             expect(page.updateFailedComponent).not.toBeNull('Update failed component visible.');
-            expect(page.dataTable.tableElement).toBeNull('Data table not visible.');
+            expect(page.dataTable.element).toBeNull('Data table not visible.');
             expect(page.lineChart).toBeNull('Chart not visible.');
         })));
 
@@ -110,19 +108,18 @@ describe('Position reports history component', () => {
             expect(page.initialLoadComponent).not.toBeNull('Initial load component visible.');
             expect(page.noDataComponent).toBeNull('No data component not visible.');
             expect(page.updateFailedComponent).toBeNull('Update failed component not visible.');
-            expect(page.dataTable.tableElement).toBeNull('Data table not visible.');
+            expect(page.dataTable.element).toBeNull('Data table not visible.');
             expect(page.lineChart).toBeNull('Chart not visible.');
 
             // Return no data
             http.popReturnValue(); // Remove from queue
             http.returnValue([]); // Push empty array
-            advance(page.fixture, 1000);
-            tick();
+            page.advance(1000);
 
             expect(page.initialLoadComponent).toBeNull('Initial load component not visible.');
             expect(page.noDataComponent).not.toBeNull('No data component visible.');
             expect(page.updateFailedComponent).toBeNull('Update failed component not visible.');
-            expect(page.dataTable.tableElement).toBeNull('Data table not visible.');
+            expect(page.dataTable.element).toBeNull('Data table not visible.');
             expect(page.lineChart).toBeNull('Chart not visible.');
         })));
 
@@ -135,34 +132,32 @@ describe('Position reports history component', () => {
         expect(page.initialLoadComponent).not.toBeNull('Initial load component visible.');
         expect(page.noDataComponent).toBeNull('No data component not visible.');
         expect(page.updateFailedComponent).toBeNull('Update failed component not visible.');
-        expect(page.dataTable.tableElement).toBeNull('Data table not visible.');
+        expect(page.dataTable.element).toBeNull('Data table not visible.');
         expect(page.lineChart).toBeNull('Chart not visible.');
 
         // Return data
-        advance(page.fixture, 1000);
-        tick();
+        page.advance(1000);
 
         expect(page.initialLoadComponent).toBeNull('Initial load component not visible.');
         expect(page.noDataComponent).toBeNull('No data component not visible.');
         expect(page.updateFailedComponent).toBeNull('Update failed component not visible.');
-        expect(page.dataTable.tableElement).not.toBeNull('Data table visible.');
+        expect(page.dataTable.element).not.toBeNull('Data table visible.');
         expect(page.lineChart).not.toBeNull('Chart visible.');
 
         // Fire highlighters
-        tick(15000);
+        page.advance(15000);
     }));
 
     it('data correctly refreshed', fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<PositionReportServerData[]>) => {
         // Init component
         page.detectChanges();
         // Return data
-        advance(page.fixture, 1000);
-        tick();
+        page.advance(1000);
 
         expect(page.initialLoadComponent).toBeNull('Initial load component not visible.');
         expect(page.noDataComponent).toBeNull('No data component not visible.');
         expect(page.updateFailedComponent).toBeNull('Update failed component not visible.');
-        expect(page.dataTable.tableElement).not.toBeNull('Data table visible.');
+        expect(page.dataTable.element).not.toBeNull('Data table visible.');
         expect(page.lineChart).not.toBeNull('Chart visible.');
 
         expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
@@ -170,7 +165,7 @@ describe('Position reports history component', () => {
         })).toBeTruthy('All rows are highlighted');
 
         // Fire highlighters
-        tick(15000);
+        page.advance(15000);
 
         expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
             return !row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
@@ -179,12 +174,11 @@ describe('Position reports history component', () => {
         // Push new data
         http.returnValue(generatePositionReportsHistory());
         // Trigger reload
-        advance(page.fixture, 44000);
+        page.advance(44000);
         // Return the data
-        advance(page.fixture, 1000);
-        tick();
+        page.advance(1000);
 
-        expect(page.dataTable.tableElement).not.toBeNull('Data table visible.');
+        expect(page.dataTable.element).not.toBeNull('Data table visible.');
         expect(page.lineChart).not.toBeNull('Chart visible.');
 
         expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
@@ -192,7 +186,7 @@ describe('Position reports history component', () => {
         })).toBeTruthy('All rows are highlighted');
 
         // Fire highlighters
-        tick(15000);
+        page.advance(15000);
 
         expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
             return !row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)

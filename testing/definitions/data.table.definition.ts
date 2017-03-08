@@ -8,34 +8,35 @@ import {DataTableRowDetailExpander} from "../../app/datatable/data.table.row.det
 import {PagingComponent} from "../../app/datatable/paging.component";
 
 import {click} from '../events';
+import {Page} from "./page.base";
 
 export class DataTableDefinition {
 
     constructor(public debugElement: DebugElement, public fixture: ComponentFixture<any>) {
     }
 
-    public get dataTableComponent(): DataTableComponent {
+    public get component(): DataTableComponent {
         return this.debugElement.componentInstance;
     }
 
-    public get tableData(): any[] {
-        return this.dataTableComponent.data;
+    public get data(): any[] {
+        return this.component.data;
     }
 
-    public get tableElement(): DebugElement {
+    public get element(): DebugElement {
         return this.debugElement.query(By.css('.table.table-bordered.table-hover'));
     }
 
     public get header(): TableHeader {
-        return new TableHeader(this.tableElement);
+        return new TableHeader(this.element);
     }
 
     public get sorting(): TableSorting {
-        return new TableSorting(this.tableElement, this.dataTableComponent);
+        return new TableSorting(this.element, this.component);
     }
 
     public get body(): TableBody {
-        return new TableBody(this.tableElement);
+        return new TableBody(this.element);
     }
 
     public get recordsCount(): RecordsCount {
@@ -47,17 +48,17 @@ export class DataTableDefinition {
     }
 }
 
-export class DataTableDefinitionHosted extends DataTableDefinition {
-
-    public hostComponent: TestHostComponent;
-    public hostDebugElement: DebugElement;
+export class DataTableDefinitionHosted extends Page<TestHostComponent> {
 
     constructor(fixture: ComponentFixture<TestHostComponent>) {
-        super(fixture.debugElement.query(By.directive(DataTableComponent)), fixture);
-        this.hostComponent = this.fixture.componentInstance;
-        this.hostDebugElement = this.fixture.debugElement;
+        super(fixture);
+    }
+
+    public get dataTable(): DataTableDefinition {
+        return new DataTableDefinition(this.debugElement.query(By.directive(DataTableComponent)), this.fixture);
     }
 }
+
 export class TableHeader {
 
     constructor(public tableElement: DebugElement) {

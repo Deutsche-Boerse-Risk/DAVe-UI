@@ -1,7 +1,7 @@
 import {LocationStrategy} from "@angular/common";
 import {Router, ActivatedRoute} from "@angular/router";
 
-import {async, TestBed, fakeAsync, inject, tick} from "@angular/core/testing";
+import {async, TestBed, fakeAsync, inject} from "@angular/core/testing";
 
 import {
     RouterStub,
@@ -10,8 +10,7 @@ import {
     LatestListPage,
     RouterLinkStubDirective,
     HttpAsyncServiceStub,
-    generatePositionReports,
-    advance
+    generatePositionReports
 } from "../../testing";
 
 import {PositionReportServerData} from "./position.report.types";
@@ -64,20 +63,19 @@ describe('Position reports latest component', () => {
             expect(page.initialLoadComponent).not.toBeNull('Initial load component visible.');
             expect(page.noDataComponent).toBeNull('No data component not visible.');
             expect(page.updateFailedComponent).toBeNull('Update failed component not visible.');
-            expect(page.dataTable.tableElement).toBeNull('Data table not visible.');
+            expect(page.dataTable.element).toBeNull('Data table not visible.');
 
             // Return error
             http.throwError({
                 status: 500,
                 message: 'Error message'
             });
-            advance(page.fixture, 1000);
-            tick();
+            page.advance(1000);
 
             expect(page.initialLoadComponent).toBeNull('Initial load component not visible.');
             expect(page.noDataComponent).toBeNull('No data component not visible.');
             expect(page.updateFailedComponent).not.toBeNull('Update failed component visible.');
-            expect(page.dataTable.tableElement).toBeNull('Data table not visible.');
+            expect(page.dataTable.element).toBeNull('Data table not visible.');
         })));
 
     it('displays no-data correctly', fakeAsync(inject([HttpService],
@@ -90,18 +88,17 @@ describe('Position reports latest component', () => {
             expect(page.initialLoadComponent).not.toBeNull('Initial load component visible.');
             expect(page.noDataComponent).toBeNull('No data component not visible.');
             expect(page.updateFailedComponent).toBeNull('Update failed component not visible.');
-            expect(page.dataTable.tableElement).toBeNull('Data table not visible.');
+            expect(page.dataTable.element).toBeNull('Data table not visible.');
 
             // Return no data
             http.popReturnValue(); // Remove from queue
             http.returnValue([]); // Push empty array
-            advance(page.fixture, 1000);
-            tick();
+            page.advance(1000);
 
             expect(page.initialLoadComponent).toBeNull('Initial load component not visible.');
             expect(page.noDataComponent).not.toBeNull('No data component visible.');
             expect(page.updateFailedComponent).toBeNull('Update failed component not visible.');
-            expect(page.dataTable.tableElement).toBeNull('Data table not visible.');
+            expect(page.dataTable.element).toBeNull('Data table not visible.');
         })));
 
     it('displays data table', fakeAsync(() => {
@@ -113,19 +110,18 @@ describe('Position reports latest component', () => {
         expect(page.initialLoadComponent).not.toBeNull('Initial load component visible.');
         expect(page.noDataComponent).toBeNull('No data component not visible.');
         expect(page.updateFailedComponent).toBeNull('Update failed component not visible.');
-        expect(page.dataTable.tableElement).toBeNull('Data table not visible.');
+        expect(page.dataTable.element).toBeNull('Data table not visible.');
 
         // Return data
-        advance(page.fixture, 1000);
-        tick();
+        page.advance(1000);
 
         expect(page.initialLoadComponent).toBeNull('Initial load component not visible.');
         expect(page.noDataComponent).toBeNull('No data component not visible.');
         expect(page.updateFailedComponent).toBeNull('Update failed component not visible.');
-        expect(page.dataTable.tableElement).not.toBeNull('Data table visible.');
+        expect(page.dataTable.element).not.toBeNull('Data table visible.');
 
         // Fire highlighters
-        tick(15000);
+        page.advance(15000);
     }));
 
     xit('data correctly displayed', () => {

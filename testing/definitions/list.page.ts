@@ -5,7 +5,9 @@ import {NgModel} from "@angular/forms";
 import {ComponentFixture, tick} from "@angular/core/testing";
 
 import {setNgModelValue} from "../events";
+import {PageWithLoading} from "./page.base";
 import {DataTableDefinition} from "./data.table.definition";
+
 
 import {ListComponent} from "../../app/list/list.component";
 import {DrilldownButtonComponent} from "../../app/list/drilldown.button.component";
@@ -17,7 +19,7 @@ import {UpdateFailedComponent} from "../../app/common/update.failed.component";
 import {GoogleLineChart} from "../../app/common/google.line.chart.component";
 import {DataTableComponent} from "../../app/datatable/data.table.component";
 
-export class ListPage<T> {
+export class ListPage<T> extends PageWithLoading<T> {
 
     public debugElement: DebugElement;
     public component: T;
@@ -25,16 +27,10 @@ export class ListPage<T> {
     public listElement: DebugElement;
     private listComponent: ListComponent;
 
-    constructor(public fixture: ComponentFixture<T>) {
-        this.debugElement = fixture.debugElement;
-        this.component = this.debugElement.componentInstance;
+    constructor(fixture: ComponentFixture<T>) {
+        super(fixture);
         this.listElement = this.debugElement.query(By.directive(ListComponent));
         this.listComponent = this.listElement.componentInstance;
-    }
-
-    public detectChanges(millis: number = 0): void {
-        this.fixture.detectChanges();
-        tick(millis);
     }
 
     public get title(): string {

@@ -1,16 +1,12 @@
-import {DebugElement, Component} from "@angular/core";
-import {By} from "@angular/platform-browser";
+import {TestBed, async, ComponentFixtureAutoDetect, fakeAsync} from "@angular/core/testing";
 
-import {ComponentFixture, TestBed, async, ComponentFixtureAutoDetect} from "@angular/core/testing";
+import {UpdateFailedPage, UpdateFailedHostedPage, TestUpdateFailedHostComponent} from "../../testing";
 
 import {UpdateFailedComponent} from "./update.failed.component";
 
 describe('UpdateFailedComponent', () => {
 
-    let comp: UpdateFailedComponent;
-    let fixture: ComponentFixture<UpdateFailedComponent>;
-    let de: DebugElement;
-    let el: HTMLElement;
+    let page: UpdateFailedPage;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -21,63 +17,42 @@ describe('UpdateFailedComponent', () => {
         }).compileComponents();
     }));
 
-    beforeEach(() => {
-        fixture = TestBed.createComponent(UpdateFailedComponent);
+    beforeEach(fakeAsync(() => {
+        page = new UpdateFailedPage(TestBed.createComponent(UpdateFailedComponent));
+        page.detectChanges();
+    }));
 
-        comp = fixture.componentInstance;
-
-        // query for the title by CSS element selector
-        de = fixture.debugElement.query(By.css('.alert'));
-        el = de.nativeElement;
-    });
-
-    it('has correct text', () => {
-
-        expect(el.textContent).toContain('Failed to update the data: .');
-        comp.error = 'custom error message';
-        fixture.detectChanges();
-        expect(el.textContent).toContain('Failed to update the data: ' + comp.error + '.');
-    });
+    it('has correct text', fakeAsync(() => {
+        expect(page.text).toContain('Failed to update the data: .');
+        page.component.error = 'custom error message';
+        page.detectChanges();
+        expect(page.text).toContain('Failed to update the data: ' + page.component.error + '.');
+    }));
 });
-
-@Component({
-    template: '<update-failed [message]="errorMessage"></update-failed>'
-})
-class TestHostComponent {
-    public errorMessage: string = 'custom error message';
-}
 
 describe('UpdateFailedComponent hosted', () => {
 
-    let hostComp: TestHostComponent;
-    let hostFixture: ComponentFixture<TestHostComponent>;
-    let de: DebugElement;
-    let el: HTMLElement;
+    let page: UpdateFailedHostedPage;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [UpdateFailedComponent, TestHostComponent],
+            declarations: [UpdateFailedComponent, TestUpdateFailedHostComponent],
             providers: [
                 {provide: ComponentFixtureAutoDetect, useValue: true}
             ]
         }).compileComponents();
     }));
 
-    beforeEach(() => {
-        hostFixture = TestBed.createComponent(TestHostComponent);
+    beforeEach(fakeAsync(() => {
+        page = new UpdateFailedHostedPage(TestBed.createComponent(TestUpdateFailedHostComponent));
+        page.detectChanges();
+    }));
 
-        hostComp = hostFixture.componentInstance;
-
-        // query for the title by CSS element selector
-        de = hostFixture.debugElement.query(By.css('.alert'));
-        el = de.nativeElement;
-    });
-
-    it('has correct text whenever hosted', () => {
+    it('has correct text whenever hosted', fakeAsync(() => {
         // Test
-        expect(el.textContent).toContain('Failed to update the data: custom error message.');
-        hostComp.errorMessage = 'new custom error message';
-        hostFixture.detectChanges();
-        expect(el.textContent).toContain('Failed to update the data: ' + hostComp.errorMessage + '.');
-    });
+        expect(page.text).toContain('Failed to update the data: custom error message.');
+        page.component.errorMessage = 'new custom error message';
+        page.detectChanges();
+        expect(page.text).toContain('Failed to update the data: ' + page.component.errorMessage + '.');
+    }));
 });
