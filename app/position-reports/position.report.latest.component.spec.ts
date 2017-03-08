@@ -1,4 +1,5 @@
 import {LocationStrategy} from "@angular/common";
+import {DebugElement} from "@angular/core";
 import {Router, ActivatedRoute} from "@angular/router";
 
 import {async, TestBed, fakeAsync, inject} from "@angular/core/testing";
@@ -10,7 +11,8 @@ import {
     LatestListPage,
     RouterLinkStubDirective,
     HttpAsyncServiceStub,
-    generatePositionReports
+    generatePositionReports,
+    generatePositionReportsHistory
 } from "../../testing";
 
 import {PositionReportServerData} from "./position.report.types";
@@ -20,6 +22,7 @@ import {HttpService} from "../http.service";
 import {PositionReportLatestComponent} from "./position.report.latest.component";
 import {ListModule} from "../list/list.module";
 import {DataTableModule} from "../datatable/data.table.module";
+import {HIGHLIGHTER_CLASS} from "../datatable/highlighter.directive";
 
 describe('Position reports latest component', () => {
     let page: LatestListPage<PositionReportLatestComponent>;
@@ -50,7 +53,8 @@ describe('Position reports latest component', () => {
         // Generate test data
         http.returnValue(generatePositionReports());
         // Create component
-        page = new LatestListPage<PositionReportLatestComponent>(TestBed.createComponent(PositionReportLatestComponent));
+        page = new LatestListPage<PositionReportLatestComponent>(
+            TestBed.createComponent(PositionReportLatestComponent));
     })));
 
     it('displays error correctly', fakeAsync(inject([HttpService],
@@ -123,6 +127,53 @@ describe('Position reports latest component', () => {
         // Fire highlighters
         page.advance(15000);
     }));
+
+    it('data correctly refreshed', fakeAsync(inject([HttpService],
+        (http: HttpAsyncServiceStub<PositionReportServerData[]>) => {
+            // Init component
+            page.detectChanges();
+            // Return data
+            page.advance(1000);
+
+            expect(page.initialLoadComponent).toBeNull('Initial load component not visible.');
+            expect(page.noDataComponent).toBeNull('No data component not visible.');
+            expect(page.updateFailedComponent).toBeNull('Update failed component not visible.');
+            expect(page.dataTable.element).not.toBeNull('Data table visible.');
+
+            expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
+                return row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+            })).toBeTruthy('All rows are highlighted');
+
+            // Fire highlighters
+            page.advance(15000);
+
+            expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
+                return !row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+            })).toBeTruthy('No rows are highlighted');
+
+            // Push new data
+            http.returnValue(generatePositionReportsHistory());
+            // Trigger reload
+            page.advance(44000);
+            // Return the data
+            page.advance(1000);
+
+            expect(page.dataTable.element).not.toBeNull('Data table visible.');
+
+            expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
+                return row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+            })).toBeTruthy('All rows are highlighted');
+
+            // Fire highlighters
+            page.advance(15000);
+
+            expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
+                return !row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+            })).toBeTruthy('No rows are highlighted');
+
+            // Do not trigger periodic interval
+            clearInterval((page.component as any).intervalHandle);
+        })));
 
     xit('data correctly displayed', () => {
     });

@@ -68,7 +68,8 @@ describe('Position reports history component', () => {
             };
 
             // Create component
-            page = new HistoryListPage<PositionReportHistoryComponent>(TestBed.createComponent(PositionReportHistoryComponent));
+            page = new HistoryListPage<PositionReportHistoryComponent>(
+                TestBed.createComponent(PositionReportHistoryComponent));
         })));
 
     it('displays error correctly', fakeAsync(inject([HttpService],
@@ -148,53 +149,54 @@ describe('Position reports history component', () => {
         page.advance(15000);
     }));
 
-    it('data correctly refreshed', fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<PositionReportServerData[]>) => {
-        // Init component
-        page.detectChanges();
-        // Return data
-        page.advance(1000);
+    it('data correctly refreshed', fakeAsync(inject([HttpService],
+        (http: HttpAsyncServiceStub<PositionReportServerData[]>) => {
+            // Init component
+            page.detectChanges();
+            // Return data
+            page.advance(1000);
 
-        expect(page.initialLoadComponent).toBeNull('Initial load component not visible.');
-        expect(page.noDataComponent).toBeNull('No data component not visible.');
-        expect(page.updateFailedComponent).toBeNull('Update failed component not visible.');
-        expect(page.dataTable.element).not.toBeNull('Data table visible.');
-        expect(page.lineChart).not.toBeNull('Chart visible.');
+            expect(page.initialLoadComponent).toBeNull('Initial load component not visible.');
+            expect(page.noDataComponent).toBeNull('No data component not visible.');
+            expect(page.updateFailedComponent).toBeNull('Update failed component not visible.');
+            expect(page.dataTable.element).not.toBeNull('Data table visible.');
+            expect(page.lineChart).not.toBeNull('Chart visible.');
 
-        expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
-            return row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
-        })).toBeTruthy('All rows are highlighted');
+            expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
+                return row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+            })).toBeTruthy('All rows are highlighted');
 
-        // Fire highlighters
-        page.advance(15000);
+            // Fire highlighters
+            page.advance(15000);
 
-        expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
-            return !row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
-        })).toBeTruthy('No rows are highlighted');
+            expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
+                return !row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+            })).toBeTruthy('No rows are highlighted');
 
-        // Push new data
-        http.returnValue(generatePositionReportsHistory());
-        // Trigger reload
-        page.advance(44000);
-        // Return the data
-        page.advance(1000);
+            // Push new data
+            http.returnValue(generatePositionReportsHistory());
+            // Trigger reload
+            page.advance(44000);
+            // Return the data
+            page.advance(1000);
 
-        expect(page.dataTable.element).not.toBeNull('Data table visible.');
-        expect(page.lineChart).not.toBeNull('Chart visible.');
+            expect(page.dataTable.element).not.toBeNull('Data table visible.');
+            expect(page.lineChart).not.toBeNull('Chart visible.');
 
-        expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
-            return row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
-        })).toBeTruthy('All rows are highlighted');
+            expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
+                return row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+            })).toBeTruthy('All rows are highlighted');
 
-        // Fire highlighters
-        page.advance(15000);
+            // Fire highlighters
+            page.advance(15000);
 
-        expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
-            return !row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
-        })).toBeTruthy('No rows are highlighted');
+            expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
+                return !row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+            })).toBeTruthy('No rows are highlighted');
 
-        // Do not trigger periodic interval
-        clearInterval((page.component as any).intervalHandle);
-    })));
+            // Do not trigger periodic interval
+            clearInterval((page.component as any).intervalHandle);
+        })));
 
     xit('data correctly displayed', () => {
     });
