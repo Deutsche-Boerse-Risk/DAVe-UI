@@ -1,17 +1,12 @@
-import {DebugElement} from '@angular/core';
-import {By} from '@angular/platform-browser';
+import {TestBed, ComponentFixtureAutoDetect, async, fakeAsync} from '@angular/core/testing';
 
-import {TestBed, ComponentFixtureAutoDetect, async, ComponentFixture} from '@angular/core/testing';
-
-import {click} from '../../testing';
+import {DownloadMenuPage} from '../../testing';
 
 import {DownloadMenuComponent} from './download.menu.component';
 
 describe('Download menu', () => {
 
-    let comp: DownloadMenuComponent;
-    let fixture: ComponentFixture<DownloadMenuComponent>;
-    let de: DebugElement;
+    let page: DownloadMenuPage;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -22,15 +17,11 @@ describe('Download menu', () => {
         }).compileComponents();
     }));
 
-    beforeEach(() => {
-        fixture = TestBed.createComponent(DownloadMenuComponent);
-
-        comp = fixture.componentInstance;
-
-        de = fixture.debugElement.query(By.css('a'));
+    beforeEach(fakeAsync(() => {
+        page = new DownloadMenuPage(TestBed.createComponent(DownloadMenuComponent));
 
         // Generate testing data
-        comp.columns = [
+        page.component.columns = [
             {
                 header: 'Column 1',
                 get: (row: any) => row.col1
@@ -56,30 +47,30 @@ describe('Download menu', () => {
                 get: (row: any) => row.col2
             }
         ];
-        comp.data = [];
+        page.component.data = [];
         for (let i = 0; i < 15; i++) {
-            comp.data.push({
+            page.component.data.push({
                 col1: 'column1-row' + i,
                 col2: 'column2-row' + i
             });
         }
-        comp.data.push({
+        page.component.data.push({
             col1: 'with\nnewline',
             col2: 'with,comma'
         });
-        comp.data.push({
+        page.component.data.push({
             col1: 'with"double quote',
             col2: 'with space'
         });
-        comp.data.push({
+        page.component.data.push({
             col1: 'with date',
             col2: new Date()
         });
-        comp.filename = 'testFile';
-        fixture.detectChanges();
-    });
+        page.component.filename = 'testFile';
+        page.detectChanges();
+    }));
 
-    it('generates a correct file once clicked', () => {
+    it('generates a correct file once clicked', fakeAsync(() => {
         let blobConstructor = Blob;
         let blobSpy = spyOn(window, 'Blob').and
             .callFake((blobParts?: any[], options?: BlobPropertyBag) => new blobConstructor(blobParts, options));
@@ -92,37 +83,38 @@ describe('Download menu', () => {
             spyOn(HTMLAnchorElement.prototype, 'click');
         }
 
-        click(de);
-        fixture.detectChanges();
+        page.clickDownloadLink();
 
         expect(blobSpy.calls.mostRecent().args[0][0])
-            .toContain(comp.columns[0].header + ',' + comp.columns[1].header + ',"'
-                + comp.columns[2].header + '","' + comp.columns[3].header + '","'
-                + comp.columns[4].header.replace(/"/g, '""') + '",' + comp.columns[5].header + '\n');
+            .toContain(page.component.columns[0].header + ',' + page.component.columns[1].header + ',"'
+                + page.component.columns[2].header + '","' + page.component.columns[3].header + '","'
+                + page.component.columns[4].header.replace(/"/g, '""') + '",' + page.component.columns[5].header
+                + '\n');
 
         expect(blobSpy.calls.mostRecent().args[0][0])
-            .toContain(comp.data[0].col1 + ',' + comp.data[0].col2);
+            .toContain(page.component.data[0].col1 + ',' + page.component.data[0].col2);
         expect(blobSpy.calls.mostRecent().args[0][0])
-            .toContain(comp.data[7].col1 + ',' + comp.data[7].col2);
+            .toContain(page.component.data[7].col1 + ',' + page.component.data[7].col2);
         expect(blobSpy.calls.mostRecent().args[0][0])
-            .toContain(comp.data[14].col1 + ',' + comp.data[14].col2);
+            .toContain(page.component.data[14].col1 + ',' + page.component.data[14].col2);
 
         expect(blobSpy.calls.mostRecent().args[0][0])
-            .toContain('"' + comp.data[15].col1 + '","' + comp.data[15].col2 + '",');
+            .toContain('"' + page.component.data[15].col1 + '","' + page.component.data[15].col2 + '",');
         expect(blobSpy.calls.mostRecent().args[0][0])
-            .toContain('"' + comp.data[16].col1.replace(/"/g, '""') + '",' + comp.data[16].col2);
+            .toContain('"' + page.component.data[16].col1.replace(/"/g, '""') + '",'
+                + page.component.data[16].col2);
         expect(blobSpy.calls.mostRecent().args[0][0])
-            .toContain(comp.data[17].col1 + ','
-                + (comp.data[17].col2.toLocaleString().search(/("|,|\n)/g) >= 0 ? '"' : '')
-                + comp.data[17].col2.toLocaleString()
-                + (comp.data[17].col2.toLocaleString().search(/("|,|\n)/g) >= 0 ? '"' : ''));
+            .toContain(page.component.data[17].col1 + ','
+                + (page.component.data[17].col2.toLocaleString().search(/("|,|\n)/g) >= 0 ? '"' : '')
+                + page.component.data[17].col2.toLocaleString()
+                + (page.component.data[17].col2.toLocaleString().search(/("|,|\n)/g) >= 0 ? '"' : ''));
 
         expect(saveBlobSpy).toHaveBeenCalled();
 
         if (navigator.msSaveBlob) { // IE 10+
-            expect(saveBlobSpy.calls.mostRecent().args[1]).toBe(comp.filename);
+            expect(saveBlobSpy.calls.mostRecent().args[1]).toBe(page.component.filename);
         } else {
-            expect(saveBlobSpy.calls.mostRecent().args[0].getAttribute('download')).toBe(comp.filename);
+            expect(saveBlobSpy.calls.mostRecent().args[0].getAttribute('download')).toBe(page.component.filename);
         }
-    });
+    }));
 });

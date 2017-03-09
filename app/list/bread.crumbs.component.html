@@ -1,25 +1,29 @@
-<a *ngIf="filteredRouteParts?.length > 0 && !filteredRouteParts[0].inactive"
-   [routerLink]="getRoute(0)">
-    {{filteredRouteParts[0].title}}
-</a>
-<template [ngIf]="filteredRouteParts?.length > 0 && filteredRouteParts[0].inactive">
-    {{filteredRouteParts[0].title}}
+<template [ngIf]="filteredRouteParts?.length > 0">
+    <a *ngIf="!filteredRouteParts[0].inactive"
+       [routerLink]="getRoute(0)">
+        {{filteredRouteParts[0].title}}
+    </a>
+    <span *ngIf="filteredRouteParts[0].inactive">
+        {{filteredRouteParts[0].title}}
+    </span>
 </template>
-<span *ngIf="filteredRouteParts?.length > 1">:
-    <a [routerLink]="getRoute(1)" *ngIf="!filteredRouteParts[1].inactive">
+<template [ngIf]="filteredRouteParts?.length > 1">:
+    <a [routerLink]="getRoute(1)"
+       *ngIf="!filteredRouteParts[1].inactive">
         {{filteredRouteParts[1].title}}
     </a>
-    <template [ngIf]="filteredRouteParts[1].inactive">
+    <span *ngIf="filteredRouteParts[1].inactive">
         {{filteredRouteParts[1].title}}
-    </template>
-</span>
+    </span>
+</template>
 <template [ngIf]="filteredRouteParts?.length > 2">
-    <span *ngFor="let route of getAdditionalRoutes(); let i=index; trackBy:trackByIndex"> /
-        <a [routerLink]="getRoute(i + 2)" *ngIf="!filteredRouteParts[route].inactive">
+    <template ngFor let-route [ngForOf]="getAdditionalRoutes()" let-i="index" [ngForTrackBy]="trackByIndex"> /
+        <a [routerLink]="getRoute(i + 2)"
+           *ngIf="!filteredRouteParts[route].inactive">
             {{filteredRouteParts[route].title}}
         </a>
-        <template [ngIf]="filteredRouteParts[route].inactive">
+        <span *ngIf="filteredRouteParts[route].inactive">
             {{filteredRouteParts[route].title}}
-        </template>
-    </span>
+        </span>
+    </template>
 </template>

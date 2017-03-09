@@ -3,14 +3,13 @@ import {By} from '@angular/platform-browser';
 
 import {ComponentFixture} from '@angular/core/testing';
 
-import {Page} from './page.base';
-import {RouterLinkStubDirective} from '../stubs/router/router.link.stub';
+import {LinkOnlyPage} from './link.only.page';
 import {setNgModelSelectValue} from '../events';
 
 import {PositionReportBubbleChartComponent} from '../../app/position-reports/position.report.bubblechart.component';
 import {PositionReportBubble} from '../../app/position-reports/position.report.types';
 
-export class BubbleChartPage extends Page<PositionReportBubbleChartComponent> {
+export class BubbleChartPage extends LinkOnlyPage<PositionReportBubbleChartComponent> {
 
     constructor(fixture: ComponentFixture<PositionReportBubbleChartComponent>) {
         super(fixture);
@@ -90,14 +89,6 @@ export class BubbleChartPage extends Page<PositionReportBubbleChartComponent> {
 
     public get googleChartVisible(): boolean {
         return this.debugElement.query(By.css('google-chart')) !== null;
-    }
-
-    public get viewDetails(): DebugElement {
-        return this.debugElement.query(By.directive(RouterLinkStubDirective));
-    }
-
-    public get viewDetailsStub(): RouterLinkStubDirective {
-        return this.debugElement.query(By.directive(RouterLinkStubDirective)).injector.get(RouterLinkStubDirective);
     }
 
     public expectStatesMatch(member: string, account: string, records: number) {

@@ -63,3 +63,8 @@ export function newEvent(eventName: string, bubbles = false, cancelable = false)
     evt.initCustomEvent(eventName, bubbles, cancelable, null);
     return evt;
 }
+
+export function windowResize(page: {detectChanges: () => void}) {
+    dispatchEvent(window, 'resize');
+    page.detectChanges();
+}

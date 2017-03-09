@@ -90,7 +90,7 @@ export class LatestListPage<T> extends ListPage<T> {
     }
 
     public get dataTable(): DataTableDefinition {
-        return new DataTableDefinition(this.listElement.query(By.directive(DataTableComponent)), this.fixture);
+        return new DataTableDefinition(this.listElement.query(By.directive(DataTableComponent)), this);
     }
 }
 

@@ -1,17 +1,12 @@
-import {DebugElement} from '@angular/core';
-import {By} from '@angular/platform-browser';
+import {TestBed, async, ComponentFixtureAutoDetect, fakeAsync} from '@angular/core/testing';
 
-import {ComponentFixture, TestBed, async, ComponentFixtureAutoDetect, fakeAsync} from '@angular/core/testing';
-
-import {click, RouterLinkStubDirective} from '../../testing';
+import {LinkOnlyPage, RouterLinkStubDirective} from '../../testing';
 
 import {DetailRowButtonComponent} from './detail.row.button.component';
 
 describe('DetailRowButtonComponent', () => {
 
-    let comp: DetailRowButtonComponent;
-    let fixture: ComponentFixture<DetailRowButtonComponent>;
-    let de: DebugElement;
+    let page: LinkOnlyPage<DetailRowButtonComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -23,22 +18,18 @@ describe('DetailRowButtonComponent', () => {
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(DetailRowButtonComponent);
-
-        comp = fixture.componentInstance;
-        de = fixture.debugElement.query(By.directive(RouterLinkStubDirective));
+        page = new LinkOnlyPage<DetailRowButtonComponent>(TestBed.createComponent(DetailRowButtonComponent));
     });
 
     it('navigates correctly', fakeAsync(() => {
-        comp.routerLink = ['/test', 'url'];
-        fixture.detectChanges();
+        page.component.routerLink = ['/test', 'url'];
+        page.detectChanges();
 
-        let routerLink: RouterLinkStubDirective = de.injector.get(RouterLinkStubDirective);
-        let navigateSpy = spyOn(routerLink, 'onClick').and.callThrough();
+        let navigateSpy = spyOn(page.link.stub, 'onClick').and.callThrough();
 
-        click(de);
+        page.link.click();
 
         expect(navigateSpy).toHaveBeenCalled();
-        expect(routerLink.navigatedTo).toEqual(['/test', 'url']);
+        expect(page.link.stub.navigatedTo).toEqual(['/test', 'url']);
     }));
 });

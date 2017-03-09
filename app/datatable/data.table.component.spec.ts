@@ -1,6 +1,6 @@
 import {async, TestBed, ComponentFixtureAutoDetect, fakeAsync} from '@angular/core/testing';
 
-import {click, TestHostComponent, DataTableDefinitionHosted} from '../../testing';
+import {TestHostComponent, DataTableDefinitionHosted} from '../../testing';
 
 import {DataTableModule} from './data.table.module';
 import {OrderingCriteria} from './data.table.column.directive';
@@ -71,8 +71,7 @@ describe('DataTable component', () => {
             .toContain('fa-chevron-circle-down');
 
         // Click master row
-        click(table.dataTable.body.tableRowElements[0]);
-        table.detectChanges();
+        table.dataTable.body.expandRow(0);
 
         // Detail shown
         expect(table.dataTable.body.tableRowDetailsElements[0].nativeElement.classList).not.toContain('hidden');
@@ -80,8 +79,7 @@ describe('DataTable component', () => {
             .toContain('fa-chevron-circle-up');
 
         // Click master row
-        click(table.dataTable.body.tableRowElements[0]);
-        table.detectChanges();
+        table.dataTable.body.expandRow(0);
 
         // Detail hidden
         expect(table.dataTable.body.tableRowDetailsElements[0].nativeElement.classList).toContain('hidden');
@@ -114,7 +112,7 @@ describe('DataTable component', () => {
         })).toEqual([true, false]);
 
         // Click handle 0
-        click(table.dataTable.sorting.handles[0]);
+        table.dataTable.sorting.handles[0].click();
         table.detectChanges();
 
         // Check whether new criteria are in line
@@ -127,7 +125,7 @@ describe('DataTable component', () => {
         table.dataTable.sorting.checkSorting(250);
 
         // Click handle 0
-        click(table.dataTable.sorting.handles[0]);
+        table.dataTable.sorting.handles[0].click();
         table.detectChanges();
 
         // Check current ordering
@@ -140,7 +138,7 @@ describe('DataTable component', () => {
         })).toEqual([true, true, false]);
 
         // Click handle 0
-        click(table.dataTable.sorting.handles[0]);
+        table.dataTable.sorting.handles[0].click();
         table.detectChanges();
 
         // Check current ordering
@@ -169,7 +167,7 @@ describe('DataTable component', () => {
         })).toEqual([true, false]);
 
         // Click handle 1
-        click(table.dataTable.sorting.detailRowHandles[0]);
+        table.dataTable.sorting.detailRowHandles[0].click();
         table.detectChanges();
 
         // Check whether new criteria are in line
@@ -182,7 +180,7 @@ describe('DataTable component', () => {
         table.dataTable.sorting.checkSorting(250);
 
         // Click handle 1
-        click(table.dataTable.sorting.detailRowHandles[0]);
+        table.dataTable.sorting.detailRowHandles[0].click();
         table.detectChanges();
 
         // Check current ordering
@@ -195,7 +193,7 @@ describe('DataTable component', () => {
         })).toEqual([true, true, false]);
 
         // Click handle 1
-        click(table.dataTable.sorting.detailRowHandles[0]);
+        table.dataTable.sorting.detailRowHandles[0].click();
         table.detectChanges();
 
         // Check current ordering

@@ -1,12 +1,12 @@
 import {TestBed, async, ComponentFixtureAutoDetect, inject, fakeAsync} from '@angular/core/testing';
 
-import {AuthServiceStub, RouterLinkStubDirective, LoginMenuPage} from '../../testing';
+import {AuthServiceStub, RouterLinkStubDirective, LinkOnlyPage} from '../../testing';
 
 import {AuthService} from './auth.service';
 import {LoginMenuComponent} from './login.menu.component';
 
 describe('Login menu', () => {
-    let page: LoginMenuPage;
+    let page: LinkOnlyPage<LoginMenuComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -24,29 +24,29 @@ describe('Login menu', () => {
     }));
 
     beforeEach(fakeAsync(() => {
-        page = new LoginMenuPage(TestBed.createComponent(LoginMenuComponent));
+        page = new LinkOnlyPage<LoginMenuComponent>(TestBed.createComponent(LoginMenuComponent));
         page.detectChanges();
     }));
 
     it('works as expected', fakeAsync(inject([AuthService], (auth: AuthServiceStub) => {
         let clickSpy = spyOn(page.component, 'logout').and.callThrough();
 
-        expect(page.linkText).toContain('Login');
+        expect(page.link.text).toContain('Login');
 
-        page.clickLink();
+        page.link.click();
 
         expect(clickSpy).not.toHaveBeenCalled();
-        expect(page.linkStub.navigatedTo).toContain('/login');
+        expect(page.link.stub.navigatedTo).toContain('/login');
 
-        page.linkStub.navigatedTo = null;
+        page.link.stub.navigatedTo = null;
 
         auth.login('testUser', 'somePassword');
         page.detectChanges();
 
-        expect(page.linkText).toContain('Logout');
+        expect(page.link.text).toContain('Logout');
 
-        let stub = page.linkStub;
-        page.clickLink();
+        let stub = page.link.stub;
+        page.link.click();
 
         expect(clickSpy).toHaveBeenCalled();
         expect(stub.navigatedTo).toContain('/login');

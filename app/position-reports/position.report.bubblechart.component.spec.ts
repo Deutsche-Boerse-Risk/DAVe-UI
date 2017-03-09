@@ -5,7 +5,6 @@ import {FormsModule} from '@angular/forms';
 import {async, TestBed, fakeAsync, inject} from '@angular/core/testing';
 
 import {
-    click,
     RouterLinkStubDirective,
     HttpAsyncServiceStub,
     BubbleChartPage,
@@ -178,18 +177,18 @@ describe('Position reports bubble chart component', () => {
 
 
         //Does not exists, yet
-        expect(() => click(page.viewDetails)).toThrow();
+        expect(() => page.link.click()).toThrow();
 
         // Return data
         page.advance(1000);
 
         // Already shown
-        let navigateSpy = spyOn(page.viewDetailsStub, 'onClick').and.callThrough();
-        expect(() => click(page.viewDetails)).not.toThrow();
+        let navigateSpy = spyOn(page.link.stub, 'onClick').and.callThrough();
+        expect(() => page.link.click()).not.toThrow();
 
         // Clicked correctly
         expect(navigateSpy).toHaveBeenCalled();
-        expect(page.viewDetailsStub.navigatedTo).toEqual('/positionReportLatest');
+        expect(page.link.stub.navigatedTo).toEqual('/positionReportLatest');
     }));
 
     it('check data', fakeAsync(() => {

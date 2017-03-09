@@ -1,6 +1,6 @@
 import {fakeAsync, TestBed, async, ComponentFixtureAutoDetect} from '@angular/core/testing';
 
-import {dispatchEvent, ChartPage, TestChartHostComponent} from '../../testing';
+import {windowResize, ChartPage, TestChartHostComponent} from '../../testing';
 
 import {GoogleChart} from './google.chart.component';
 import {ChartData, LineChartOptions} from './chart.types';
@@ -117,8 +117,7 @@ describe('GoogleChart component', () => {
             expect(prepareDataTableOrDataViewSpy).toHaveBeenCalled();
             expect(drawGraphSpy).toHaveBeenCalled();
 
-            dispatchEvent(window, 'resize');
-            page.detectChanges();
+            windowResize(page);
 
             expect(prepareDataTableOrDataViewSpy).toHaveBeenCalledTimes(2);
             expect(drawGraphSpy).toHaveBeenCalledTimes(2);

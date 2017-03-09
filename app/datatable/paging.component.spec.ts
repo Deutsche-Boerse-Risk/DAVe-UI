@@ -24,7 +24,7 @@ describe('DataTable component shows pager ', () => {
         table.detectChanges();
     }));
 
-    it('and correctly navigates to next page', () => {
+    it('and correctly navigates to next page', fakeAsync(() => {
         expect(table.dataTable.pager.debugElement).not.toBeNull('Is shown.');
 
         // Check button states for first page
@@ -83,9 +83,9 @@ describe('DataTable component shows pager ', () => {
         table.dataTable.pager.expectTrailingButtonsNotDisabled();
         table.dataTable.pager.expectButtonNumbers([5, 6, 7, 8, 9, 10, 11]);
         table.dataTable.pager.expectButtonActive(5);
-    });
+    }));
 
-    it('and correctly navigates to previous page', () => {
+    it('and correctly navigates to previous page', fakeAsync(() => {
         expect(table.dataTable.pager.debugElement).not.toBeNull('Is shown.');
 
         // Check button states for first page
@@ -144,9 +144,9 @@ describe('DataTable component shows pager ', () => {
         table.dataTable.pager.expectTrailingButtonsNotDisabled();
         table.dataTable.pager.expectButtonNumbers([18, 19, 20, 21, 22, 23, 24]);
         table.dataTable.pager.expectButtonActive(5);
-    });
+    }));
 
-    it('and correctly navigates to first and last page', () => {
+    it('and correctly navigates to first and last page', fakeAsync(() => {
         expect(table.dataTable.pager.debugElement).not.toBeNull('Is shown.');
 
         // Check button states for first page
@@ -195,7 +195,7 @@ describe('DataTable component shows pager ', () => {
         table.dataTable.pager.expectButtonNumbers([1, 2, 3, 4]);
         table.dataTable.pager.expectButtonActive(2);
 
-    });
+    }));
 
     it('and correctly changes page size whenever data size is changed', fakeAsync(() => {
         expect(table.dataTable.pager.debugElement).not.toBeNull('Is shown.');

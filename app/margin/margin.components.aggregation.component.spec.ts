@@ -1,9 +1,8 @@
 import {LocationStrategy} from '@angular/common';
 import {DebugElement} from '@angular/core';
-import {By} from '@angular/platform-browser';
 import {Router, ActivatedRoute} from '@angular/router';
 
-import {async, TestBed, fakeAsync, inject, ComponentFixture} from '@angular/core/testing';
+import {async, TestBed, fakeAsync, inject} from '@angular/core/testing';
 
 import {
     RouterStub,
@@ -11,11 +10,10 @@ import {
     ActivatedRouteStub,
     RouterLinkStubDirective,
     HttpAsyncServiceStub,
-    PageWithLoading,
-    DataTableDefinition,
     generateMarginComponents,
     generateMarginComponentsHistory,
-    chceckSorting
+    chceckSorting,
+    AggregationPage
 } from '../../testing';
 
 import {MarginComponentsService} from './margin.components.service';
@@ -24,21 +22,10 @@ import {HttpService} from '../http.service';
 
 import {CommonModule} from '../common/common.module';
 import {DataTableModule} from '../datatable/data.table.module';
-import {DataTableComponent} from '../datatable/data.table.component';
 import {HIGHLIGHTER_CLASS} from '../datatable/highlighter.directive';
 
 import {MarginComponentsAggregationComponent, valueGetters} from './margin.components.aggregation.component';
 
-class AggregationPage extends PageWithLoading<MarginComponentsAggregationComponent> {
-
-    constructor(fixture: ComponentFixture<MarginComponentsAggregationComponent>) {
-        super(fixture);
-    }
-
-    public get dataTable(): DataTableDefinition {
-        return new DataTableDefinition(this.debugElement.query(By.directive(DataTableComponent)), this.fixture);
-    }
-}
 
 describe('Margin components aggregation component', () => {
     let page: AggregationPage;
@@ -236,6 +223,24 @@ describe('Margin components aggregation component', () => {
         clearInterval((page.component as any).intervalHandle);
 
         expect(page.dataTable.pager.debugElement).toBeNull('Pager not visible');
+
+        // Fire highlighters
+        page.advance(15000);
+    }));
+
+    it('navigates using "View Details" correctly', fakeAsync(() => {
+        // Init component
+        page.detectChanges();
+        // Return data
+        page.advance(1000);
+        // Do not trigger periodic interval
+        clearInterval((page.component as any).intervalHandle);
+
+        let clickSpy = spyOn(page.link.stub, 'onClick').and.callThrough();
+        page.link.click();
+
+        expect(clickSpy).toHaveBeenCalled();
+        expect(page.link.stub.navigatedTo).toContain('/marginComponentLatest');
 
         // Fire highlighters
         page.advance(15000);
