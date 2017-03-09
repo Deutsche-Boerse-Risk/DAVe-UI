@@ -102,17 +102,10 @@ describe('DataTable component', () => {
         expect(table.dataTable.element).not.toBeNull('Table is shown');
 
         expect(table.dataTable.sorting.handles).not.toBeNull('Handles available');
-        expect(table.dataTable.sorting.handles.length).not.toBe(2, 'Exactly 2 handles');
+        expect(table.dataTable.sorting.handles.length).toBe(1, 'Exactly 1 handle');
 
         // Check default ordering
-        for (let i = 1; i < 500; i++) {
-            expect(table.dataTable.data[i - 1].value3 >= table.dataTable.data[i].value3).toBeTruthy('Expect: '
-                + table.dataTable.data[i - 1].value3 + ' >= ' + table.dataTable.data[i].value3);
-            if (table.dataTable.data[i - 1].value3 === table.dataTable.data[i].value3) {
-                expect(table.dataTable.data[i - 1].value2 <= table.dataTable.data[i].value2).toBeTruthy('Expect: '
-                    + table.dataTable.data[i - 1].value2 + ' <= ' + table.dataTable.data[i].value2);
-            }
-        }
+        table.dataTable.sorting.checkSorting(250);
 
         // Check if we are in line with default criteria
         // Compare at least descending flags
@@ -131,38 +124,14 @@ describe('DataTable component', () => {
         })).toEqual([false, true, false]);
 
         // Check current ordering
-        for (let i = 1; i < 500; i++) {
-            expect(table.dataTable.data[i - 1].value1 <= table.dataTable.data[i].value1).toBeTruthy('Expect: '
-                + table.dataTable.data[i - 1].value1 + ' <= ' + table.dataTable.data[i].value1);
-            if (table.dataTable.data[i - 1].value1 === table.dataTable.data[i].value1) {
-                expect(table.dataTable.data[i - 1].value3 >= table.dataTable.data[i].value3).toBeTruthy('Expect: '
-                    + table.dataTable.data[i - 1].value3 + ' >= ' + table.dataTable.data[i].value3);
-                if (table.dataTable.data[i - 1].value3 === table.dataTable.data[i].value3) {
-                    expect(table.dataTable.data[i - 1].value2 <= table.dataTable.data[i].value2)
-                        .toBeTruthy('Expect: ' + table.dataTable.data[i - 1].value2 + ' <= '
-                            + table.dataTable.data[i].value2);
-                }
-            }
-        }
+        table.dataTable.sorting.checkSorting(250);
 
         // Click handle 0
         click(table.dataTable.sorting.handles[0]);
         table.detectChanges();
 
         // Check current ordering
-        for (let i = 1; i < 500; i++) {
-            expect(table.dataTable.data[i - 1].value1 >= table.dataTable.data[i].value1).toBeTruthy('Expect: '
-                + table.dataTable.data[i - 1].value1 + ' >= ' + table.dataTable.data[i].value1);
-            if (table.dataTable.data[i - 1].value1 === table.dataTable.data[i].value1) {
-                expect(table.dataTable.data[i - 1].value3 >= table.dataTable.data[i].value3).toBeTruthy('Expect: '
-                    + table.dataTable.data[i - 1].value3 + ' >= ' + table.dataTable.data[i].value3);
-                if (table.dataTable.data[i - 1].value3 === table.dataTable.data[i].value3) {
-                    expect(table.dataTable.data[i - 1].value2 <= table.dataTable.data[i].value2)
-                        .toBeTruthy('Expect: ' + table.dataTable.data[i - 1].value2 + ' <= '
-                            + table.dataTable.data[i].value2);
-                }
-            }
-        }
+        table.dataTable.sorting.checkSorting(250);
 
         // Check whether new criteria are in line
         expect(table.dataTable.sorting.currentOrdering.length).toBe(3);
@@ -175,19 +144,7 @@ describe('DataTable component', () => {
         table.detectChanges();
 
         // Check current ordering
-        for (let i = 1; i < 500; i++) {
-            expect(table.dataTable.data[i - 1].value1 <= table.dataTable.data[i].value1).toBeTruthy('Expect: '
-                + table.dataTable.data[i - 1].value1 + ' <= ' + table.dataTable.data[i].value1);
-            if (table.dataTable.data[i - 1].value1 === table.dataTable.data[i].value1) {
-                expect(table.dataTable.data[i - 1].value3 >= table.dataTable.data[i].value3).toBeTruthy('Expect: '
-                    + table.dataTable.data[i - 1].value3 + ' >= ' + table.dataTable.data[i].value3);
-                if (table.dataTable.data[i - 1].value3 === table.dataTable.data[i].value3) {
-                    expect(table.dataTable.data[i - 1].value2 <= table.dataTable.data[i].value2)
-                        .toBeTruthy('Expect: ' + table.dataTable.data[i - 1].value2 + ' <= '
-                            + table.dataTable.data[i].value2);
-                }
-            }
-        }
+        table.dataTable.sorting.checkSorting(250);
 
         // Check whether new criteria are in line
         expect(table.dataTable.sorting.currentOrdering.length).toBe(3);
@@ -199,19 +156,11 @@ describe('DataTable component', () => {
     it('can be sorted from header in row detail', fakeAsync(() => {
         expect(table.dataTable.element).not.toBeNull('Table is shown');
 
-        expect(table.dataTable.sorting.handles).not.toBeNull('Handles available');
-        expect(table.dataTable.sorting.handles.length).not.toBe(2, 'Exactly 2 handles');
+        expect(table.dataTable.sorting.detailRowHandles).not.toBeNull('Handles available');
+        expect(table.dataTable.sorting.detailRowHandles.length).toBe(1, 'Exactly 1 handle');
 
         // Check default ordering
-        for (let i = 1; i < 500; i++) {
-            expect(table.dataTable.data[i - 1].value3 >= table.dataTable.data[i].value3).toBeTruthy('Expect: '
-                + table.dataTable.data[i - 1].value3 + ' >= ' + table.dataTable.data[i].value3);
-            if (table.dataTable.data[i - 1].value3 === table.dataTable.data[i].value3) {
-                expect(table.dataTable.data[i - 1].value2 <= table.dataTable.data[i].value2)
-                    .toBeTruthy('Expect: ' + table.dataTable.data[i - 1].value2 + ' <= '
-                        + table.dataTable.data[i].value2);
-            }
-        }
+        table.dataTable.sorting.checkSorting(250);
 
         // Check if we are in line with default criteria
         // Compare at least descending flags
@@ -220,7 +169,7 @@ describe('DataTable component', () => {
         })).toEqual([true, false]);
 
         // Click handle 1
-        click(table.dataTable.sorting.handles[1]);
+        click(table.dataTable.sorting.detailRowHandles[0]);
         table.detectChanges();
 
         // Check whether new criteria are in line
@@ -230,38 +179,14 @@ describe('DataTable component', () => {
         })).toEqual([false, true, false]);
 
         // Check current ordering
-        for (let i = 1; i < 500; i++) {
-            expect(table.dataTable.data[i - 1].value1 <= table.dataTable.data[i].value1).toBeTruthy('Expect: '
-                + table.dataTable.data[i - 1].value1 + ' <= ' + table.dataTable.data[i].value1);
-            if (table.dataTable.data[i - 1].value1 === table.dataTable.data[i].value1) {
-                expect(table.dataTable.data[i - 1].value3 >= table.dataTable.data[i].value3).toBeTruthy('Expect: '
-                    + table.dataTable.data[i - 1].value3 + ' >= ' + table.dataTable.data[i].value3);
-                if (table.dataTable.data[i - 1].value3 === table.dataTable.data[i].value3) {
-                    expect(table.dataTable.data[i - 1].value2 <= table.dataTable.data[i].value2)
-                        .toBeTruthy('Expect: ' + table.dataTable.data[i - 1].value2 + ' <= '
-                            + table.dataTable.data[i].value2);
-                }
-            }
-        }
+        table.dataTable.sorting.checkSorting(250);
 
         // Click handle 1
-        click(table.dataTable.sorting.handles[1]);
+        click(table.dataTable.sorting.detailRowHandles[0]);
         table.detectChanges();
 
         // Check current ordering
-        for (let i = 1; i < 500; i++) {
-            expect(table.dataTable.data[i - 1].value1 >= table.dataTable.data[i].value1).toBeTruthy('Expect: '
-                + table.dataTable.data[i - 1].value1 + ' >= ' + table.dataTable.data[i].value1);
-            if (table.dataTable.data[i - 1].value1 === table.dataTable.data[i].value1) {
-                expect(table.dataTable.data[i - 1].value3 >= table.dataTable.data[i].value3).toBeTruthy('Expect: '
-                    + table.dataTable.data[i - 1].value3 + ' >= ' + table.dataTable.data[i].value3);
-                if (table.dataTable.data[i - 1].value3 === table.dataTable.data[i].value3) {
-                    expect(table.dataTable.data[i - 1].value2 <= table.dataTable.data[i].value2)
-                        .toBeTruthy('Expect: ' + table.dataTable.data[i - 1].value2 + ' <= '
-                            + table.dataTable.data[i].value2);
-                }
-            }
-        }
+        table.dataTable.sorting.checkSorting(250);
 
         // Check whether new criteria are in line
         expect(table.dataTable.sorting.currentOrdering.length).toBe(3);
@@ -270,23 +195,11 @@ describe('DataTable component', () => {
         })).toEqual([true, true, false]);
 
         // Click handle 1
-        click(table.dataTable.sorting.handles[1]);
+        click(table.dataTable.sorting.detailRowHandles[0]);
         table.detectChanges();
 
         // Check current ordering
-        for (let i = 1; i < 500; i++) {
-            expect(table.dataTable.data[i - 1].value1 <= table.dataTable.data[i].value1).toBeTruthy('Expect: '
-                + table.dataTable.data[i - 1].value1 + ' <= ' + table.dataTable.data[i].value1);
-            if (table.dataTable.data[i - 1].value1 === table.dataTable.data[i].value1) {
-                expect(table.dataTable.data[i - 1].value3 >= table.dataTable.data[i].value3).toBeTruthy('Expect: '
-                    + table.dataTable.data[i - 1].value3 + ' >= ' + table.dataTable.data[i].value3);
-                if (table.dataTable.data[i - 1].value3 === table.dataTable.data[i].value3) {
-                    expect(table.dataTable.data[i - 1].value2 <= table.dataTable.data[i].value2)
-                        .toBeTruthy('Expect: ' + table.dataTable.data[i - 1].value2 + ' <= '
-                            + table.dataTable.data[i].value2);
-                }
-            }
-        }
+        table.dataTable.sorting.checkSorting(250);
 
         // Check whether new criteria are in line
         expect(table.dataTable.sorting.currentOrdering.length).toBe(3);

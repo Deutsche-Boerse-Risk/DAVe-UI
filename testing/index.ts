@@ -1,3 +1,10 @@
+import {DebugElement} from "@angular/core";
+
+import {OrderingValueGetter} from "../app/datatable/data.table.column.directive";
+
+import {click} from "./events";
+import {DataTableDefinition} from "./definitions/data.table.definition";
+
 export * from './definitions/bubble.chart.page';
 export * from './definitions/chart.page';
 export * from './definitions/data.table.definition';
@@ -23,3 +30,28 @@ export * from './stubs/router/router.stub';
 
 export * from './events';
 
+export function chceckSorting(page: {detectChanges: () => void, dataTable: DataTableDefinition},
+                              criteria: OrderingValueGetter<any>[]) {
+    page.dataTable.sorting.checkSorting(150);
+
+    page.dataTable.sorting.handles.forEach((handle: DebugElement, index: number) => {
+        // Tigger sort based on a handle
+        click(handle);
+        page.detectChanges();
+
+        // Check the sorting
+        page.dataTable.sorting.checkSorting(150, {
+            get: criteria[index]
+        });
+
+        // Tigger sort based on a handle
+        click(handle);
+        page.detectChanges();
+
+        // Check the sorting
+        page.dataTable.sorting.checkSorting(150, {
+            get: criteria[index],
+            descending: true
+        });
+    });
+}

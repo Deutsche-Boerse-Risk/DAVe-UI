@@ -32,7 +32,7 @@ export class DataTableDefinition {
     }
 
     public get sorting(): TableSorting {
-        return new TableSorting(this.element, this.component);
+        return new TableSorting(this, this.element, this.component);
     }
 
     public get body(): TableBody {
@@ -71,15 +71,47 @@ export class TableHeader {
 
 export class TableSorting {
 
-    constructor(private tableElement: DebugElement, private dataTableComponent: DataTableComponent) {
+    constructor(private table: DataTableDefinition, private tableElement: DebugElement,
+                private dataTableComponent: DataTableComponent) {
     }
 
     public get handles(): DebugElement[] {
-        return this.tableElement.queryAll(By.css('thead .fa-sort'));
+        return this.tableElement.query(de => de.references['mainHeader']).queryAll(By.css('.fa-sort'));
+    }
+
+    public get detailRowHandles(): DebugElement[] {
+        return this.tableElement.query(By.css('.table-condensed')).queryAll(By.css('thead .fa-sort'));
     }
 
     public get currentOrdering(): OrderingCriteria<any>[] {
         return (this.dataTableComponent as any).ordering;
+    }
+
+    public checkSorting(firstNRows: number = this.table.data.length, criterium?: OrderingCriteria<any>): void {
+        let ordering: OrderingCriteria<any>[];
+        if (criterium) {
+            ordering = [criterium].concat((this.dataTableComponent as any)._defaultOrdering);
+        } else {
+            ordering = this.currentOrdering;
+        }
+        for (let i = 1; i < Math.min(this.table.data.length, firstNRows); i++) {
+            ordering.some((criteria: OrderingCriteria<any>) => {
+                //noinspection EqualityComparisonWithCoercionJS
+                if(criteria.get(this.table.data[i - 1]) != null && criteria.get(this.table.data[i]) != null) {
+                    if (criteria.descending) {
+                        expect(criteria.get(this.table.data[i - 1]) >= criteria.get(this.table.data[i]))
+                            .toBeTruthy('Expect: ' + criteria.get(this.table.data[i - 1]) + ' >= '
+                                + criteria.get(this.table.data[i]))
+                    } else {
+                        expect(criteria.get(this.table.data[i - 1]) <= criteria.get(this.table.data[i]))
+                            .toBeTruthy('Expect: ' + criteria.get(this.table.data[i - 1]) + ' <= '
+                                + criteria.get(this.table.data[i]))
+                    }
+                    return criteria.get(this.table.data[i - 1]) !== criteria.get(this.table.data[i]);
+                }
+                return false;
+            });
+        }
     }
 }
 

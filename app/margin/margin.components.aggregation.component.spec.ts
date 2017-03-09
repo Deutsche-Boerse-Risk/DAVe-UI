@@ -14,7 +14,8 @@ import {
     PageWithLoading,
     DataTableDefinition,
     generateMarginComponents,
-    generateMarginComponentsHistory
+    generateMarginComponentsHistory,
+    chceckSorting
 } from "../../testing";
 
 import {MarginComponentsService} from "./margin.components.service";
@@ -26,7 +27,7 @@ import {DataTableModule} from "../datatable/data.table.module";
 import {DataTableComponent} from "../datatable/data.table.component";
 import {HIGHLIGHTER_CLASS} from "../datatable/highlighter.directive";
 
-import {MarginComponentsAggregationComponent} from "./margin.components.aggregation.component";
+import {MarginComponentsAggregationComponent, valueGetters} from "./margin.components.aggregation.component";
 
 class AggregationPage extends PageWithLoading<MarginComponentsAggregationComponent> {
 
@@ -166,7 +167,8 @@ describe('Margin components aggregation component', () => {
             })).toBeTruthy('No rows are highlighted');
 
             // Push new data
-            http.returnValue(generateMarginComponentsHistory());
+            let newData = generateMarginComponentsHistory();
+            http.returnValue(newData);
             // Trigger reload
             page.advance(44000);
             // Return the data
@@ -185,6 +187,17 @@ describe('Margin components aggregation component', () => {
                 return !row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
             })).toBeTruthy('No rows are highlighted');
 
+            // Return the same data
+            http.returnValue(newData);
+            // Trigger reload
+            page.advance(44000);
+            // Return the data
+            page.advance(1000);
+
+            expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
+                return !row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+            })).toBeTruthy('No rows are highlighted');
+
             // Do not trigger periodic interval
             clearInterval((page.component as any).intervalHandle);
         })));
@@ -195,8 +208,21 @@ describe('Margin components aggregation component', () => {
     xit('row navigation works', () => {
     });
 
-    xit('sorting works', () => {
-    });
+    it('sorting works', fakeAsync(() => {
+        // Init component
+        page.detectChanges();
+        // Return data
+        page.advance(1000);
+        // Do not trigger periodic interval
+        clearInterval((page.component as any).intervalHandle);
+
+        chceckSorting(page, [valueGetters.clearer, valueGetters.member, valueGetters.account,
+            valueGetters.variationMargin, valueGetters.liquiMargin, valueGetters.premiumMargin,
+            valueGetters.spreadMargin, valueGetters.additionalMargin]);
+
+        // Fire highlighters
+        page.advance(15000);
+    }));
 
     xit('footer displays correct data', () => {
     });

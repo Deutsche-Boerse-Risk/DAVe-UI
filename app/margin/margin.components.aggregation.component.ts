@@ -94,7 +94,7 @@ export class MarginComponentsAggregationComponent extends AbstractComponentWithA
 
 //<editor-fold defaultstate="collapsed" desc="Value getters, default ordering, exported columns">
 
-const valueGetters = {
+export const valueGetters = {
     clearer: (row: MarginComponentsBaseData) => {
         return row.clearer
     },

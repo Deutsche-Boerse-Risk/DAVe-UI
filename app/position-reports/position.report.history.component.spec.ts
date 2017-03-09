@@ -11,13 +11,15 @@ import {
     HistoryListPage,
     RouterLinkStubDirective,
     HttpAsyncServiceStub,
-    generatePositionReportsHistory
+    generatePositionReportsHistory,
+    chceckSorting
 } from "../../testing";
 
 import {PositionReportServerData} from "./position.report.types";
 import {PositionReportsService} from "./position.reports.service";
 import {HttpService} from "../http.service";
 
+import {valueGetters} from "./position.report.latest.component";
 import {PositionReportHistoryComponent} from "./position.report.history.component";
 import {ListModule} from "../list/list.module";
 import {DataTableModule} from "../datatable/data.table.module";
@@ -174,7 +176,8 @@ describe('Position reports history component', () => {
             })).toBeTruthy('No rows are highlighted');
 
             // Push new data
-            http.returnValue(generatePositionReportsHistory());
+            let newData = generatePositionReportsHistory();
+            http.returnValue(newData);
             // Trigger reload
             page.advance(44000);
             // Return the data
@@ -189,6 +192,17 @@ describe('Position reports history component', () => {
 
             // Fire highlighters
             page.advance(15000);
+
+            expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
+                return !row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+            })).toBeTruthy('No rows are highlighted');
+
+            // Return the same data
+            http.returnValue(newData);
+            // Trigger reload
+            page.advance(44000);
+            // Return the data
+            page.advance(1000);
 
             expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
                 return !row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
@@ -210,6 +224,18 @@ describe('Position reports history component', () => {
     xit('download works', () => {
     });
 
-    xit('sorting works', () => {
-    });
+    it('sorting works', fakeAsync(() => {
+        // Init component
+        page.detectChanges();
+        // Return data
+        page.advance(1000);
+        // Do not trigger periodic interval
+        clearInterval((page.component as any).intervalHandle);
+
+        chceckSorting(page, [valueGetters.received, valueGetters.netLS, valueGetters.compVar,
+            valueGetters.delta, valueGetters.compLiquidityAddOn]);
+
+        // Fire highlighters
+        page.advance(15000);
+    }));
 });

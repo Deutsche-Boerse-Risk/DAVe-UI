@@ -1,6 +1,6 @@
 <div class="panel-body" *ngIf="data?.length">
     <table [class.table-striped]="striped" class="table table-bordered table-hover">
-        <thead *ngIf="headerTemplates">
+        <thead *ngIf="headerTemplates" #mainHeader>
         <tr *ngFor="let headerTemplate of headerTemplates; trackBy:trackByIndex">
             <th *ngFor="let column of headerTemplate; trackBy:trackByIndex"
                 [attr.rowspan]="column.rowspan"
