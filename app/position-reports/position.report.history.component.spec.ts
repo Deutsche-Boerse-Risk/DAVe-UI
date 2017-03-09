@@ -1,8 +1,8 @@
-import {LocationStrategy} from "@angular/common";
-import {NO_ERRORS_SCHEMA, DebugElement} from "@angular/core";
-import {Router, ActivatedRoute} from "@angular/router";
+import {LocationStrategy} from '@angular/common';
+import {NO_ERRORS_SCHEMA, DebugElement} from '@angular/core';
+import {Router, ActivatedRoute} from '@angular/router';
 
-import {async, TestBed, fakeAsync, inject} from "@angular/core/testing";
+import {async, TestBed, fakeAsync, inject} from '@angular/core/testing';
 
 import {
     RouterStub,
@@ -13,17 +13,17 @@ import {
     HttpAsyncServiceStub,
     generatePositionReportsHistory,
     chceckSorting
-} from "../../testing";
+} from '../../testing';
 
-import {PositionReportServerData} from "./position.report.types";
-import {PositionReportsService} from "./position.reports.service";
-import {HttpService} from "../http.service";
+import {PositionReportServerData} from './position.report.types';
+import {PositionReportsService} from './position.reports.service';
+import {HttpService} from '../http.service';
 
-import {valueGetters} from "./position.report.latest.component";
-import {PositionReportHistoryComponent} from "./position.report.history.component";
-import {ListModule} from "../list/list.module";
-import {DataTableModule} from "../datatable/data.table.module";
-import {HIGHLIGHTER_CLASS} from "../datatable/highlighter.directive";
+import {valueGetters} from './position.report.latest.component';
+import {PositionReportHistoryComponent} from './position.report.history.component';
+import {ListModule} from '../list/list.module';
+import {DataTableModule} from '../datatable/data.table.module';
+import {HIGHLIGHTER_CLASS} from '../datatable/highlighter.directive';
 
 describe('Position reports history component', () => {
     let page: HistoryListPage<PositionReportHistoryComponent>;

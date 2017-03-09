@@ -1,8 +1,8 @@
-import {async, TestBed, ComponentFixtureAutoDetect, fakeAsync} from "@angular/core/testing";
+import {async, TestBed, ComponentFixtureAutoDetect, fakeAsync} from '@angular/core/testing';
 
-import {TestHostComponent, DataTableDefinitionHosted} from "../../testing";
+import {TestHostComponent, DataTableDefinitionHosted} from '../../testing';
 
-import {DataTableModule} from "./data.table.module";
+import {DataTableModule} from './data.table.module';
 
 
 describe('DataTable component shows pager ', () => {

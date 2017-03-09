@@ -1,23 +1,23 @@
-import {DebugElement} from "@angular/core";
-import {By} from "@angular/platform-browser";
-import {NgModel} from "@angular/forms";
+import {DebugElement} from '@angular/core';
+import {By} from '@angular/platform-browser';
+import {NgModel} from '@angular/forms';
 
-import {ComponentFixture, tick} from "@angular/core/testing";
+import {ComponentFixture, tick} from '@angular/core/testing';
 
-import {setNgModelValue} from "../events";
-import {PageWithLoading} from "./page.base";
-import {DataTableDefinition} from "./data.table.definition";
+import {setNgModelValue} from '../events';
+import {PageWithLoading} from './page.base';
+import {DataTableDefinition} from './data.table.definition';
 
 
-import {ListComponent} from "../../app/list/list.component";
-import {DrilldownButtonComponent} from "../../app/list/drilldown.button.component";
-import {DownloadMenuComponent} from "../../app/list/download.menu.component";
-import {BreadCrumbsComponent} from "../../app/list/bread.crumbs.component";
-import {InitialLoadComponent} from "../../app/common/initial.load.component";
-import {NoDataComponent} from "../../app/common/no.data.component";
-import {UpdateFailedComponent} from "../../app/common/update.failed.component";
-import {GoogleLineChart} from "../../app/common/google.line.chart.component";
-import {DataTableComponent} from "../../app/datatable/data.table.component";
+import {ListComponent} from '../../app/list/list.component';
+import {DrilldownButtonComponent} from '../../app/list/drilldown.button.component';
+import {DownloadMenuComponent} from '../../app/list/download.menu.component';
+import {BreadCrumbsComponent} from '../../app/list/bread.crumbs.component';
+import {InitialLoadComponent} from '../../app/common/initial.load.component';
+import {NoDataComponent} from '../../app/common/no.data.component';
+import {UpdateFailedComponent} from '../../app/common/update.failed.component';
+import {GoogleLineChart} from '../../app/common/google.line.chart.component';
+import {DataTableComponent} from '../../app/datatable/data.table.component';
 
 export class ListPage<T> extends PageWithLoading<T> {
 

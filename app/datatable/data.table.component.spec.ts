@@ -1,9 +1,9 @@
-import {async, TestBed, ComponentFixtureAutoDetect, fakeAsync} from "@angular/core/testing";
+import {async, TestBed, ComponentFixtureAutoDetect, fakeAsync} from '@angular/core/testing';
 
-import {click, TestHostComponent, DataTableDefinitionHosted} from "../../testing";
+import {click, TestHostComponent, DataTableDefinitionHosted} from '../../testing';
 
-import {DataTableModule} from "./data.table.module";
-import {OrderingCriteria} from "./data.table.column.directive";
+import {DataTableModule} from './data.table.module';
+import {OrderingCriteria} from './data.table.column.directive';
 
 
 describe('DataTable component', () => {

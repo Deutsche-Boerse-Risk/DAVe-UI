@@ -1,4 +1,4 @@
-import {Directive, ElementRef, OnInit, Input, OnDestroy} from "@angular/core";
+import {Directive, ElementRef, OnInit, Input, OnDestroy} from '@angular/core';
 
 export const HIGHLIGHTER_CLASS = 'bg-warning';
 

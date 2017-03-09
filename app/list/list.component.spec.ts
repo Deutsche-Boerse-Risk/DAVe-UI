@@ -1,13 +1,13 @@
-import {Component} from "@angular/core";
-import {By} from "@angular/platform-browser";
-import {RouterModule} from "@angular/router";
+import {Component} from '@angular/core';
+import {By} from '@angular/platform-browser';
+import {RouterModule} from '@angular/router';
 
-import {TestBed, async, ComponentFixtureAutoDetect, fakeAsync} from "@angular/core/testing";
+import {TestBed, async, ComponentFixtureAutoDetect, fakeAsync} from '@angular/core/testing';
 
-import {RouterLinkStubDirective, ListPage} from "../../testing";
+import {RouterLinkStubDirective, ListPage} from '../../testing';
 
-import {ListModule} from "./list.module";
-import {RoutePart} from "./bread.crumbs.component";
+import {ListModule} from './list.module';
+import {RoutePart} from './bread.crumbs.component';
 
 @Component({
     template: `

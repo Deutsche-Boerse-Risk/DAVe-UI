@@ -1,8 +1,8 @@
-import {NO_ERRORS_SCHEMA} from "@angular/core";
-import {BrowserModule} from "@angular/platform-browser";
-import {FormsModule} from "@angular/forms";
+import {NO_ERRORS_SCHEMA} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {FormsModule} from '@angular/forms';
 
-import {async, TestBed, fakeAsync, inject} from "@angular/core/testing";
+import {async, TestBed, fakeAsync, inject} from '@angular/core/testing';
 
 import {
     click,
@@ -10,16 +10,16 @@ import {
     HttpAsyncServiceStub,
     BubbleChartPage,
     generatePositionReports
-} from "../../testing";
+} from '../../testing';
 
-import {HttpService} from "../http.service";
-import {PositionReportsService} from "./position.reports.service";
+import {HttpService} from '../http.service';
+import {PositionReportsService} from './position.reports.service';
 
 import {
     PositionReportBubbleChartComponent, compVarPositiveLegend, compVarNegativeLegend
-} from "./position.report.bubblechart.component";
-import {PositionReportServerData} from "./position.report.types";
-import {ChartRow} from "../common/chart.types";
+} from './position.report.bubblechart.component';
+import {PositionReportServerData} from './position.report.types';
+import {ChartRow} from '../common/chart.types';
 
 describe('Position reports bubble chart component', () => {
     let page: BubbleChartPage;

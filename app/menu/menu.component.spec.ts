@@ -1,15 +1,15 @@
-import {DebugElement} from "@angular/core";
-import {LocationStrategy} from "@angular/common";
-import {By} from "@angular/platform-browser";
-import {Router, ActivatedRoute} from "@angular/router";
+import {DebugElement} from '@angular/core';
+import {LocationStrategy} from '@angular/common';
+import {By} from '@angular/platform-browser';
+import {Router, ActivatedRoute} from '@angular/router';
 
-import {TestBed, ComponentFixtureAutoDetect, async, ComponentFixture, inject} from "@angular/core/testing";
+import {TestBed, ComponentFixtureAutoDetect, async, ComponentFixture, inject} from '@angular/core/testing';
 
-import {click, RouterStub, ActivatedRouteStub, LocationStrategyStub} from "../../testing";
+import {click, RouterStub, ActivatedRouteStub, LocationStrategyStub} from '../../testing';
 
-import {MenuModule} from "./menu.module";
-import {MenuComponent} from "./menu.component";
-import {RouterLinkActiveDirective} from "./router.link.active.directive";
+import {MenuModule} from './menu.module';
+import {MenuComponent} from './menu.component';
+import {RouterLinkActiveDirective} from './router.link.active.directive';
 
 describe('Menu component', () => {
 

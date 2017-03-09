@@ -1,5 +1,5 @@
-import {PositionReportServerData} from "../../app/position-reports/position.report.types";
-import {UIDUtils} from "../../app/uid.utils";
+import {PositionReportServerData} from '../../app/position-reports/position.report.types';
+import {UIDUtils} from '../../app/uid.utils';
 
 const ALPHABET = 'ABCDEFGHIJKLMNOQPRSTUVWXYZ0123456789';
 const CURRENCIES = ['EUR', 'CZK', 'CHF'];
@@ -59,11 +59,11 @@ export function generatePositionReports(members: number = 3, accounts: number = 
                                     underlying: UNDERLYINGS[m % UNDERLYINGS.length],
                                     //Not changing
                                     reqId: null,
-                                    bizDt: "2016-11-22",
-                                    rptId: "13198434645154",
+                                    bizDt: '2016-11-22',
+                                    rptId: '13198434645154',
                                     lastReportRequested: null,
                                     sesId: null,
-                                    received: "2016-11-22T11:00:00.000Z",
+                                    received: '2016-11-22T11:00:00.000Z',
                                     optionExcerciseQty: 0,
                                     optionAssignmentQty: 0,
                                     allocationTradeQty: 0,
@@ -123,8 +123,8 @@ export function generatePositionReportsHistory(): PositionReportServerData[] {
             underlying: UNDERLYINGS[0],
             //Not changing
             reqId: null,
-            bizDt: "2016-11-22",
-            rptId: "13198434645154",
+            bizDt: '2016-11-22',
+            rptId: '13198434645154',
             lastReportRequested: null,
             sesId: null,
             received: '2016-11-22T' + align(i + 8) + ':00:00.000Z',

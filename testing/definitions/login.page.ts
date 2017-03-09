@@ -1,12 +1,12 @@
-import {DebugElement} from "@angular/core";
-import {By} from "@angular/platform-browser";
+import {DebugElement} from '@angular/core';
+import {By} from '@angular/platform-browser';
 
-import {ComponentFixture, tick} from "@angular/core/testing";
+import {ComponentFixture, tick} from '@angular/core/testing';
 
-import {click, setNgModelValue} from "../events";
-import {Page} from "./page.base";
+import {click, setNgModelValue} from '../events';
+import {Page} from './page.base';
 
-import {LoginComponent} from "../../app/auth/login.component";
+import {LoginComponent} from '../../app/auth/login.component';
 
 export class LoginPage extends Page<LoginComponent> {
 

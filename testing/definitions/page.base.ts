@@ -1,11 +1,11 @@
-import {DebugElement} from "@angular/core";
-import {By} from "@angular/platform-browser";
+import {DebugElement} from '@angular/core';
+import {By} from '@angular/platform-browser';
 
-import {ComponentFixture, tick} from "@angular/core/testing";
+import {ComponentFixture, tick} from '@angular/core/testing';
 
-import {InitialLoadComponent} from "../../app/common/initial.load.component";
-import {NoDataComponent} from "../../app/common/no.data.component";
-import {UpdateFailedComponent} from "../../app/common/update.failed.component";
+import {InitialLoadComponent} from '../../app/common/initial.load.component';
+import {NoDataComponent} from '../../app/common/no.data.component';
+import {UpdateFailedComponent} from '../../app/common/update.failed.component';
 
 export class Page<T> {
 

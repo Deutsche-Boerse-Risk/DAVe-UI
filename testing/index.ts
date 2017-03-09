@@ -1,9 +1,9 @@
-import {DebugElement} from "@angular/core";
+import {DebugElement} from '@angular/core';
 
-import {OrderingValueGetter} from "../app/datatable/data.table.column.directive";
+import {OrderingValueGetter} from '../app/datatable/data.table.column.directive';
 
-import {click} from "./events";
-import {DataTableDefinition} from "./definitions/data.table.definition";
+import {click} from './events';
+import {DataTableDefinition} from './definitions/data.table.definition';
 
 export * from './definitions/bubble.chart.page';
 export * from './definitions/chart.page';

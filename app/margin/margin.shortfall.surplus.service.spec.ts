@@ -1,15 +1,15 @@
-import {TestBed, inject} from "@angular/core/testing";
+import {TestBed, inject} from '@angular/core/testing';
 
-import {HttpServiceStub, generateShortfallSurplusLatest} from "../../testing";
+import {HttpServiceStub, generateShortfallSurplusLatest} from '../../testing';
 import Spy = jasmine.Spy;
 
-import {HttpService, Request} from "../http.service";
+import {HttpService, Request} from '../http.service';
 
 import {
     MarginShortfallSurplusService, marginShortfallSurplusHistoryURL,
     marginShortfallSurplusLatestURL, marginShortfallSurplusURL
-} from "./margin.shortfall.surplus.service";
-import {MarginShortfallSurplusData, MarginShortfallSurplusServerData, MarginShortfallSurplusBase} from "./margin.types";
+} from './margin.shortfall.surplus.service';
+import {MarginShortfallSurplusData, MarginShortfallSurplusServerData, MarginShortfallSurplusBase} from './margin.types';
 
 describe('MarginShortfallSurplusService', () => {
     let httpSyp: Spy;

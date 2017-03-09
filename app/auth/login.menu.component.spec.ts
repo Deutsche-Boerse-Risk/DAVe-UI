@@ -1,9 +1,9 @@
-import {TestBed, async, ComponentFixtureAutoDetect, inject, fakeAsync} from "@angular/core/testing";
+import {TestBed, async, ComponentFixtureAutoDetect, inject, fakeAsync} from '@angular/core/testing';
 
-import {AuthServiceStub, RouterLinkStubDirective, LoginMenuPage} from "../../testing";
+import {AuthServiceStub, RouterLinkStubDirective, LoginMenuPage} from '../../testing';
 
-import {AuthService} from "./auth.service";
-import {LoginMenuComponent} from "./login.menu.component";
+import {AuthService} from './auth.service';
+import {LoginMenuComponent} from './login.menu.component';
 
 describe('Login menu', () => {
     let page: LoginMenuPage;

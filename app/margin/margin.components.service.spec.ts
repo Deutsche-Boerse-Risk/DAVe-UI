@@ -1,18 +1,18 @@
-import {TestBed, inject} from "@angular/core/testing";
+import {TestBed, inject} from '@angular/core/testing';
 
-import {HttpServiceStub, generateMarginComponents} from "../../testing";
+import {HttpServiceStub, generateMarginComponents} from '../../testing';
 import Spy = jasmine.Spy;
 
-import {HttpService, Request} from "../http.service";
+import {HttpService, Request} from '../http.service';
 
 import {
     MarginComponentsService, marginComponentsLatestURL,
     marginComponentsHistoryURL, marginComponentsAggregationURL, marginComponentsTreemapURL
-} from "./margin.components.service";
+} from './margin.components.service';
 import {
     MarginComponentsServerData, MarginComponentsRowData, MarginComponentsAggregationData,
     MarginComponentsBaseData, MarginComponentsTree, MarginComponentsTreeNode
-} from "./margin.types";
+} from './margin.types';
 
 describe('MarginComponentsService', () => {
     let httpSyp: Spy;

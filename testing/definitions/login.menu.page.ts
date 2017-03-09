@@ -1,13 +1,13 @@
-import {DebugElement} from "@angular/core";
-import {By} from "@angular/platform-browser";
+import {DebugElement} from '@angular/core';
+import {By} from '@angular/platform-browser';
 
-import {ComponentFixture} from "@angular/core/testing";
+import {ComponentFixture} from '@angular/core/testing';
 
-import {Page} from "./page.base";
-import {click} from "../events";
-import {RouterLinkStubDirective} from "../stubs/router/router.link.stub";
+import {Page} from './page.base';
+import {click} from '../events';
+import {RouterLinkStubDirective} from '../stubs/router/router.link.stub';
 
-import {LoginMenuComponent} from "../../app/auth/login.menu.component";
+import {LoginMenuComponent} from '../../app/auth/login.menu.component';
 
 export class LoginMenuPage extends Page<LoginMenuComponent> {
 

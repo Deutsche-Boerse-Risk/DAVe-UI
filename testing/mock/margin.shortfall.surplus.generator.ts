@@ -1,5 +1,5 @@
-import {UIDUtils} from "../../app/uid.utils";
-import {MarginShortfallSurplusServerData} from "../../app/margin/margin.types";
+import {UIDUtils} from '../../app/uid.utils';
+import {MarginShortfallSurplusServerData} from '../../app/margin/margin.types';
 
 const ALPHABET = 'ABCDEFGHIJKLMNOQPRSTUVWXYZ0123456789';
 const CURRENCIES = ['EUR', 'CZK', 'CHF'];

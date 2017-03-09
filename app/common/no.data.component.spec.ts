@@ -1,8 +1,8 @@
-import {TestBed, async, fakeAsync} from "@angular/core/testing";
+import {TestBed, async, fakeAsync} from '@angular/core/testing';
 
-import {NoDataPage} from "../../testing";
+import {NoDataPage} from '../../testing';
 
-import {NoDataComponent} from "./no.data.component";
+import {NoDataComponent} from './no.data.component';
 
 describe('NoDataComponent', () => {
 

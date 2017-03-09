@@ -1,16 +1,16 @@
-import {Component, DebugElement} from "@angular/core";
-import {By} from "@angular/platform-browser";
+import {Component, DebugElement} from '@angular/core';
+import {By} from '@angular/platform-browser';
 
-import {ComponentFixture} from "@angular/core/testing";
+import {ComponentFixture} from '@angular/core/testing';
 
-import {Page} from "./page.base";
+import {Page} from './page.base';
 
-import {GoogleChart} from "../../app/common/google.chart.component";
-import {GoogleLineChart} from "../../app/common/google.line.chart.component";
+import {GoogleChart} from '../../app/common/google.chart.component';
+import {GoogleLineChart} from '../../app/common/google.line.chart.component';
 import {
     CommonChartOptions, ChartData, SelectionEvent, LineChartOptions,
     ChartColumn
-} from "../../app/common/chart.types";
+} from '../../app/common/chart.types';
 
 @Component({
     template: ` <google-chart

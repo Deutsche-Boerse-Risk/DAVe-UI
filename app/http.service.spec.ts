@@ -1,11 +1,11 @@
-import {TestBed, inject} from "@angular/core/testing";
-import {Http, RequestOptionsArgs, Response, Headers, ResponseOptions} from "@angular/http";
+import {TestBed, inject} from '@angular/core/testing';
+import {Http, RequestOptionsArgs, Response, Headers, ResponseOptions} from '@angular/http';
 
-import {AuthHttp} from "angular2-jwt";
+import {AuthHttp} from 'angular2-jwt';
 
-import {Observable} from "rxjs/Observable";
+import {Observable} from 'rxjs/Observable';
 
-import {HttpService, ErrorResponse, defaultURL} from "./http.service";
+import {HttpService, ErrorResponse, defaultURL} from './http.service';
 
 describe('HTTPService', () => {
 

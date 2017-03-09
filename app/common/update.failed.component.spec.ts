@@ -1,8 +1,8 @@
-import {TestBed, async, ComponentFixtureAutoDetect, fakeAsync} from "@angular/core/testing";
+import {TestBed, async, ComponentFixtureAutoDetect, fakeAsync} from '@angular/core/testing';
 
-import {UpdateFailedPage, UpdateFailedHostedPage, TestUpdateFailedHostComponent} from "../../testing";
+import {UpdateFailedPage, UpdateFailedHostedPage, TestUpdateFailedHostComponent} from '../../testing';
 
-import {UpdateFailedComponent} from "./update.failed.component";
+import {UpdateFailedComponent} from './update.failed.component';
 
 describe('UpdateFailedComponent', () => {
 

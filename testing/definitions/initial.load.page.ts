@@ -1,10 +1,10 @@
-import {By} from "@angular/platform-browser";
+import {By} from '@angular/platform-browser';
 
-import {ComponentFixture} from "@angular/core/testing";
+import {ComponentFixture} from '@angular/core/testing';
 
-import {Page} from "./page.base";
+import {Page} from './page.base';
 
-import {InitialLoadComponent} from "../../app/common/initial.load.component";
+import {InitialLoadComponent} from '../../app/common/initial.load.component';
 
 export class InitialLoadPage extends Page<InitialLoadComponent> {
 

@@ -1,15 +1,15 @@
-import {TestBed, inject} from "@angular/core/testing";
+import {TestBed, inject} from '@angular/core/testing';
 
-import {HttpServiceStub, generatePositionReports} from "../../testing";
+import {HttpServiceStub, generatePositionReports} from '../../testing';
 import Spy = jasmine.Spy;
 
-import {HttpService, Request} from "../http.service";
+import {HttpService, Request} from '../http.service';
 
-import {PositionReportsService, historyURL, latestURL, chartsURL} from "./position.reports.service";
+import {PositionReportsService, historyURL, latestURL, chartsURL} from './position.reports.service';
 import {
     PositionReportServerData, PositionReportData, PositionReportChartData,
     PositionReportBubble
-} from "./position.report.types";
+} from './position.report.types';
 
 describe('PositionReportsService', () => {
     let httpSyp: Spy;

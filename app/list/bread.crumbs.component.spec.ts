@@ -1,11 +1,11 @@
-import {DebugElement, Component} from "@angular/core";
-import {By, BrowserModule} from "@angular/platform-browser";
+import {DebugElement, Component} from '@angular/core';
+import {By, BrowserModule} from '@angular/platform-browser';
 
-import {ComponentFixture, TestBed, async, ComponentFixtureAutoDetect} from "@angular/core/testing";
+import {ComponentFixture, TestBed, async, ComponentFixtureAutoDetect} from '@angular/core/testing';
 
-import {click, RouterLinkStubDirective} from "../../testing";
+import {click, RouterLinkStubDirective} from '../../testing';
 
-import {BreadCrumbsComponent, RoutePart} from "./bread.crumbs.component";
+import {BreadCrumbsComponent, RoutePart} from './bread.crumbs.component';
 
 @Component({
     template: '<bread-crumbs [routeParts]="routeParts"></bread-crumbs>'

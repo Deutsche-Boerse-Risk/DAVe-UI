@@ -86,7 +86,7 @@ export abstract class DataTableUtils {
                         tooltip: columnDirective.tooltip
                     };
                 }
-                if (typeof columnDirective.sortingKey === "function") {
+                if (typeof columnDirective.sortingKey === 'function') {
                     return {
                         title: columnDirective.title,
                         sortingKey: {

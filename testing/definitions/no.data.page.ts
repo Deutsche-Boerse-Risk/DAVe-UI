@@ -1,10 +1,10 @@
-import {By} from "@angular/platform-browser";
+import {By} from '@angular/platform-browser';
 
-import {ComponentFixture} from "@angular/core/testing";
+import {ComponentFixture} from '@angular/core/testing';
 
-import {Page} from "./page.base";
+import {Page} from './page.base';
 
-import {NoDataComponent} from "../../app/common/no.data.component";
+import {NoDataComponent} from '../../app/common/no.data.component';
 
 export class NoDataPage extends Page<NoDataComponent> {
 

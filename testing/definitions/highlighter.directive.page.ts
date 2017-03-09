@@ -1,11 +1,11 @@
-import {Component, DebugElement} from "@angular/core";
-import {By} from "@angular/platform-browser";
+import {Component, DebugElement} from '@angular/core';
+import {By} from '@angular/platform-browser';
 
-import {ComponentFixture} from "@angular/core/testing";
+import {ComponentFixture} from '@angular/core/testing';
 
-import {Page} from "./page.base";
+import {Page} from './page.base';
 
-import {HighlighterDirective} from "../../app/datatable/highlighter.directive";
+import {HighlighterDirective} from '../../app/datatable/highlighter.directive';
 
 @Component({
     template: `<div [highlighter]="trackBy" [context]="context"></div>`

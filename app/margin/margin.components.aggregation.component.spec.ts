@@ -1,9 +1,9 @@
-import {LocationStrategy} from "@angular/common";
-import {DebugElement} from "@angular/core";
-import {By} from "@angular/platform-browser";
-import {Router, ActivatedRoute} from "@angular/router";
+import {LocationStrategy} from '@angular/common';
+import {DebugElement} from '@angular/core';
+import {By} from '@angular/platform-browser';
+import {Router, ActivatedRoute} from '@angular/router';
 
-import {async, TestBed, fakeAsync, inject, ComponentFixture} from "@angular/core/testing";
+import {async, TestBed, fakeAsync, inject, ComponentFixture} from '@angular/core/testing';
 
 import {
     RouterStub,
@@ -16,18 +16,18 @@ import {
     generateMarginComponents,
     generateMarginComponentsHistory,
     chceckSorting
-} from "../../testing";
+} from '../../testing';
 
-import {MarginComponentsService} from "./margin.components.service";
-import {MarginComponentsServerData} from "./margin.types";
-import {HttpService} from "../http.service";
+import {MarginComponentsService} from './margin.components.service';
+import {MarginComponentsServerData} from './margin.types';
+import {HttpService} from '../http.service';
 
-import {CommonModule} from "../common/common.module";
-import {DataTableModule} from "../datatable/data.table.module";
-import {DataTableComponent} from "../datatable/data.table.component";
-import {HIGHLIGHTER_CLASS} from "../datatable/highlighter.directive";
+import {CommonModule} from '../common/common.module';
+import {DataTableModule} from '../datatable/data.table.module';
+import {DataTableComponent} from '../datatable/data.table.component';
+import {HIGHLIGHTER_CLASS} from '../datatable/highlighter.directive';
 
-import {MarginComponentsAggregationComponent, valueGetters} from "./margin.components.aggregation.component";
+import {MarginComponentsAggregationComponent, valueGetters} from './margin.components.aggregation.component';
 
 class AggregationPage extends PageWithLoading<MarginComponentsAggregationComponent> {
 

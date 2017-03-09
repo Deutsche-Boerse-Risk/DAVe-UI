@@ -69,7 +69,7 @@ export class DataTableComponent implements OnChanges {
         this._defaultOrdering = [];
         if (value) {
             value.forEach((criteria: OrderingCriteria<any> | OrderingValueGetter<any>) => {
-                if (typeof criteria === "function") {
+                if (typeof criteria === 'function') {
                     this._defaultOrdering.push({
                         get: criteria,
                         descending: false

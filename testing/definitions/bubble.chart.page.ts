@@ -1,14 +1,14 @@
-import {DebugElement} from "@angular/core";
-import {By} from "@angular/platform-browser";
+import {DebugElement} from '@angular/core';
+import {By} from '@angular/platform-browser';
 
-import {ComponentFixture} from "@angular/core/testing";
+import {ComponentFixture} from '@angular/core/testing';
 
-import {Page} from "./page.base";
-import {RouterLinkStubDirective} from "../stubs/router/router.link.stub";
-import {setNgModelSelectValue} from "../events";
+import {Page} from './page.base';
+import {RouterLinkStubDirective} from '../stubs/router/router.link.stub';
+import {setNgModelSelectValue} from '../events';
 
-import {PositionReportBubbleChartComponent} from "../../app/position-reports/position.report.bubblechart.component";
-import {PositionReportBubble} from "../../app/position-reports/position.report.types";
+import {PositionReportBubbleChartComponent} from '../../app/position-reports/position.report.bubblechart.component';
+import {PositionReportBubble} from '../../app/position-reports/position.report.types';
 
 export class BubbleChartPage extends Page<PositionReportBubbleChartComponent> {
 

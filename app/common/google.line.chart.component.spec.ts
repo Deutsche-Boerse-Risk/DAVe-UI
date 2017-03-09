@@ -1,10 +1,10 @@
-import {fakeAsync, TestBed, async, ComponentFixtureAutoDetect} from "@angular/core/testing";
+import {fakeAsync, TestBed, async, ComponentFixtureAutoDetect} from '@angular/core/testing';
 
-import {LineChartPage, TestLineChartHostComponent} from "../../testing";
+import {LineChartPage, TestLineChartHostComponent} from '../../testing';
 
-import {GoogleLineChart} from "./google.line.chart.component";
-import {ChartData, LineChartOptions} from "./chart.types";
-import {GoogleChart} from "./google.chart.component";
+import {GoogleLineChart} from './google.line.chart.component';
+import {ChartData, LineChartOptions} from './chart.types';
+import {GoogleChart} from './google.chart.component';
 
 const dummyChartData: ChartData = {
     cols: [

@@ -1,11 +1,11 @@
-import {DebugElement} from "@angular/core";
-import {By} from "@angular/platform-browser";
+import {DebugElement} from '@angular/core';
+import {By} from '@angular/platform-browser';
 
-import {ComponentFixture, TestBed, async, ComponentFixtureAutoDetect, fakeAsync} from "@angular/core/testing";
+import {ComponentFixture, TestBed, async, ComponentFixtureAutoDetect, fakeAsync} from '@angular/core/testing';
 
-import {click, RouterLinkStubDirective} from "../../testing";
+import {click, RouterLinkStubDirective} from '../../testing';
 
-import {DrillDownRowButtonComponent} from "./drill.down.row.button.component";
+import {DrillDownRowButtonComponent} from './drill.down.row.button.component';
 
 describe('DrillDownRowButtonComponent', () => {
 

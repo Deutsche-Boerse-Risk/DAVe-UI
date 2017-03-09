@@ -1,11 +1,11 @@
-import {By} from "@angular/platform-browser";
+import {By} from '@angular/platform-browser';
 
-import {ComponentFixture} from "@angular/core/testing";
+import {ComponentFixture} from '@angular/core/testing';
 
-import {Page} from "./page.base";
+import {Page} from './page.base';
 
-import {UpdateFailedComponent} from "../../app/common/update.failed.component";
-import {Component} from "@angular/core";
+import {UpdateFailedComponent} from '../../app/common/update.failed.component';
+import {Component} from '@angular/core';
 
 export class UpdateFailedPage extends Page<UpdateFailedComponent> {
 

@@ -1,5 +1,5 @@
-import {EventEmitter, Injectable} from "@angular/core";
-import {NavigationExtras, NavigationEnd, UrlTree, UrlSegmentGroup, UrlSegment} from "@angular/router";
+import {EventEmitter, Injectable} from '@angular/core';
+import {NavigationExtras, NavigationEnd, UrlTree, UrlSegmentGroup, UrlSegment} from '@angular/router';
 
 @Injectable()
 export class RouterStub {

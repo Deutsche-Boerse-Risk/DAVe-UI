@@ -1,8 +1,8 @@
-import {async, TestBed, ComponentFixtureAutoDetect, fakeAsync} from "@angular/core/testing";
+import {async, TestBed, ComponentFixtureAutoDetect, fakeAsync} from '@angular/core/testing';
 
-import {HighLighterDirectivePage, HighLighterDirectiveTestComponent} from "../../testing";
+import {HighLighterDirectivePage, HighLighterDirectiveTestComponent} from '../../testing';
 
-import {HighlighterDirective} from "./highlighter.directive";
+import {HighlighterDirective} from './highlighter.directive';
 
 describe('Highlighter directive', () => {
     let page: HighLighterDirectivePage;

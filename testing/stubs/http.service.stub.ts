@@ -1,6 +1,6 @@
-import {EventEmitter, Injectable} from "@angular/core";
+import {EventEmitter, Injectable} from '@angular/core';
 
-import {ErrorResponse, Request, PostRequest} from "../../app/http.service";
+import {ErrorResponse, Request, PostRequest} from '../../app/http.service';
 
 import {Observable} from 'rxjs/Observable';
 import {Subscriber} from 'rxjs/Subscriber';

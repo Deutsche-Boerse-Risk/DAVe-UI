@@ -1,14 +1,14 @@
-import {Component, DebugElement} from "@angular/core";
-import {ComponentFixture} from "@angular/core/testing";
-import {By} from "@angular/platform-browser";
+import {Component, DebugElement} from '@angular/core';
+import {ComponentFixture} from '@angular/core/testing';
+import {By} from '@angular/platform-browser';
 
-import {OrderingValueGetter, OrderingCriteria} from "../../app/datatable/data.table.column.directive";
-import {DataTableComponent} from "../../app/datatable/data.table.component";
-import {DataTableRowDetailExpander} from "../../app/datatable/data.table.row.detail.expander.component";
-import {PagingComponent} from "../../app/datatable/paging.component";
+import {OrderingValueGetter, OrderingCriteria} from '../../app/datatable/data.table.column.directive';
+import {DataTableComponent} from '../../app/datatable/data.table.component';
+import {DataTableRowDetailExpander} from '../../app/datatable/data.table.row.detail.expander.component';
+import {PagingComponent} from '../../app/datatable/paging.component';
 
 import {click} from '../events';
-import {Page} from "./page.base";
+import {Page} from './page.base';
 
 export class DataTableDefinition {
 

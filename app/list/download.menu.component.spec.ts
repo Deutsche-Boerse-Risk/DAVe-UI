@@ -1,11 +1,11 @@
-import {DebugElement} from "@angular/core";
-import {By} from "@angular/platform-browser";
+import {DebugElement} from '@angular/core';
+import {By} from '@angular/platform-browser';
 
-import {TestBed, ComponentFixtureAutoDetect, async, ComponentFixture} from "@angular/core/testing";
+import {TestBed, ComponentFixtureAutoDetect, async, ComponentFixture} from '@angular/core/testing';
 
-import {click} from "../../testing";
+import {click} from '../../testing';
 
-import {DownloadMenuComponent} from "./download.menu.component";
+import {DownloadMenuComponent} from './download.menu.component';
 
 describe('Download menu', () => {
 

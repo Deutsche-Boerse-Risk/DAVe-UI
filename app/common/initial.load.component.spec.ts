@@ -1,8 +1,8 @@
-import {TestBed, async, fakeAsync} from "@angular/core/testing";
+import {TestBed, async, fakeAsync} from '@angular/core/testing';
 
-import {InitialLoadPage} from "../../testing";
+import {InitialLoadPage} from '../../testing';
 
-import {InitialLoadComponent} from "./initial.load.component";
+import {InitialLoadComponent} from './initial.load.component';
 
 describe('InitialLoadComponent', () => {
 

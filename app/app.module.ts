@@ -7,7 +7,7 @@ import {HttpService} from './http.service';
 import {AppComponent} from './app.component';
 
 import {AuthModule} from './auth/auth.module';
-import {AuthHttp} from "angular2-jwt";
+import {AuthHttp} from 'angular2-jwt';
 
 import {MenuModule} from './menu/menu.module';
 import {RoutingModule} from './routes/routing.module';

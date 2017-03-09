@@ -62,7 +62,7 @@ module.exports = function (grunt) {
     grunt.registerMultiTask('ngc', 'Run Angular 2 compiler', runProcess('npm', ['run', 'ngc']));
 
     function providedJS(file) {
-        return [file, file + ".map"];
+        return [file, file + '.map'];
     }
 
     function addAppFolders(pattern) {
@@ -173,7 +173,7 @@ module.exports = function (grunt) {
                 src: providedJS('node_modules/core-js/client/shim.min.js'),
                 dest: destination
             },
-            "web-animations-js": {
+            'web-animations-js': {
                 src: providedJS('node_modules/web-animations-js/web-animations.min.js'),
                 dest: destination
             },

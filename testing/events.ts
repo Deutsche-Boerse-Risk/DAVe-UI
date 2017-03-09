@@ -1,6 +1,6 @@
-import {DebugElement} from "@angular/core";
+import {DebugElement} from '@angular/core';
 
-import {tick} from "@angular/core/testing";
+import {tick} from '@angular/core/testing';
 
 /** Button events to pass to `DebugElement.triggerEventHandler` for RouterLink event handler */
 export const ButtonClickEvents = {
