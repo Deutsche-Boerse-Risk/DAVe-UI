@@ -27,6 +27,7 @@ import {HIGHLIGHTER_CLASS} from '../datatable/highlighter.directive';
 
 describe('Position reports history component', () => {
     let page: HistoryListPage<PositionReportHistoryComponent>;
+    let testingParams = ['A', 'A', 'B', 'C', '*', 'P', '152', '*', '201211'];
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -58,15 +59,15 @@ describe('Position reports history component', () => {
 
             // Set input parameters
             activatedRoute.testParams = {
-                clearer: 'A',
-                member: 'A',
-                account: 'B',
-                class: 'C',
-                symbol: '*',
-                putCall: 'P',
-                strikePrice: '152',
-                optAttribute: '*',
-                maturityMonthYear: '201211'
+                clearer: testingParams[0],
+                member: testingParams[1],
+                account: testingParams[2],
+                class: testingParams[3],
+                symbol: testingParams[4],
+                putCall: testingParams[5],
+                strikePrice: testingParams[6],
+                optAttribute: testingParams[7],
+                maturityMonthYear: testingParams[8]
             };
 
             // Create component
@@ -126,30 +127,35 @@ describe('Position reports history component', () => {
             expect(page.lineChart).toBeNull('Chart not visible.');
         })));
 
-    it('refresh data correctly', fakeAsync(() => {
-        // Init component
-        page.detectChanges();
-        // Do not trigger periodic interval
-        clearInterval((page.component as any).intervalHandle);
+    it('displays data correctly', fakeAsync(inject([HttpService],
+        (http: HttpAsyncServiceStub<PositionReportServerData[]>) => {
+            let httpSpy = spyOn(http, 'get').and.callThrough();
+            // Init component
+            page.detectChanges();
+            // Do not trigger periodic interval
+            clearInterval((page.component as any).intervalHandle);
 
-        expect(page.initialLoadComponent).not.toBeNull('Initial load component visible.');
-        expect(page.noDataComponent).toBeNull('No data component not visible.');
-        expect(page.updateFailedComponent).toBeNull('Update failed component not visible.');
-        expect(page.dataTable.element).toBeNull('Data table not visible.');
-        expect(page.lineChart).toBeNull('Chart not visible.');
+            expect(page.initialLoadComponent).not.toBeNull('Initial load component visible.');
+            expect(page.noDataComponent).toBeNull('No data component not visible.');
+            expect(page.updateFailedComponent).toBeNull('Update failed component not visible.');
+            expect(page.dataTable.element).toBeNull('Data table not visible.');
+            expect(page.lineChart).toBeNull('Chart not visible.');
 
-        // Return data
-        page.advance(1000);
+            // Return data
+            page.advance(1000);
 
-        expect(page.initialLoadComponent).toBeNull('Initial load component not visible.');
-        expect(page.noDataComponent).toBeNull('No data component not visible.');
-        expect(page.updateFailedComponent).toBeNull('Update failed component not visible.');
-        expect(page.dataTable.element).not.toBeNull('Data table visible.');
-        expect(page.lineChart).not.toBeNull('Chart visible.');
+            expect(httpSpy).toHaveBeenCalled();
+            expect(httpSpy.calls.mostRecent().args[0].params).toEqual(testingParams);
 
-        // Fire highlighters
-        page.advance(15000);
-    }));
+            expect(page.initialLoadComponent).toBeNull('Initial load component not visible.');
+            expect(page.noDataComponent).toBeNull('No data component not visible.');
+            expect(page.updateFailedComponent).toBeNull('Update failed component not visible.');
+            expect(page.dataTable.element).not.toBeNull('Data table visible.');
+            expect(page.lineChart).not.toBeNull('Chart visible.');
+
+            // Fire highlighters
+            page.advance(15000);
+        })));
 
     it('data correctly refreshed', fakeAsync(inject([HttpService],
         (http: HttpAsyncServiceStub<PositionReportServerData[]>) => {
