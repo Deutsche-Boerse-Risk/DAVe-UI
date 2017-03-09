@@ -143,7 +143,7 @@ describe('Margin components aggregation component', () => {
         page.advance(15000);
     }));
 
-    it('data correctly refreshed', fakeAsync(inject([HttpService],
+    it('refresh data correctly', fakeAsync(inject([HttpService],
         (http: HttpAsyncServiceStub<MarginComponentsServerData[]>) => {
             // Init component
             page.detectChanges();
@@ -202,13 +202,13 @@ describe('Margin components aggregation component', () => {
             clearInterval((page.component as any).intervalHandle);
         })));
 
-    xit('data correctly displayed', () => {
-    });
+    xit('displays data correctly', fakeAsync(() => {
+    }));
 
-    xit('row navigation works', () => {
-    });
+    xit('has correct row navigation', fakeAsync(() => {
+    }));
 
-    it('sorting works', fakeAsync(() => {
+    it('can be sorted correctly', fakeAsync(() => {
         // Init component
         page.detectChanges();
         // Return data
@@ -224,6 +224,20 @@ describe('Margin components aggregation component', () => {
         page.advance(15000);
     }));
 
-    xit('footer displays correct data', () => {
-    });
+    xit('displays correct data in the footer', fakeAsync(() => {
+    }));
+
+    it('has pager disabled', fakeAsync(() => {
+        // Init component
+        page.detectChanges();
+        // Return data
+        page.advance(1000);
+        // Do not trigger periodic interval
+        clearInterval((page.component as any).intervalHandle);
+
+        expect(page.dataTable.pager.debugElement).toBeNull('Pager not visible');
+
+        // Fire highlighters
+        page.advance(15000);
+    }));
 });

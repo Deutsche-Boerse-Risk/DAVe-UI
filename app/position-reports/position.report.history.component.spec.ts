@@ -126,7 +126,7 @@ describe('Position reports history component', () => {
             expect(page.lineChart).toBeNull('Chart not visible.');
         })));
 
-    it('displays data table', fakeAsync(() => {
+    it('refresh data correctly', fakeAsync(() => {
         // Init component
         page.detectChanges();
         // Do not trigger periodic interval
@@ -212,19 +212,19 @@ describe('Position reports history component', () => {
             clearInterval((page.component as any).intervalHandle);
         })));
 
-    xit('data correctly displayed', () => {
-    });
+    xit('displays data correctly', fakeAsync(() => {
+    }));
 
-    xit('chart data correctly processed', () => {
-    });
+    xit('has chart data correctly processed', fakeAsync(() => {
+    }));
 
-    xit('breadcrumbs navigation works', () => {
-    });
+    xit('has correct breadcrumbs navigation', fakeAsync(() => {
+    }));
 
-    xit('download works', () => {
-    });
+    xit('has download working', fakeAsync(() => {
+    }));
 
-    it('sorting works', fakeAsync(() => {
+    it('can be sorted correctly', fakeAsync(() => {
         // Init component
         page.detectChanges();
         // Return data
@@ -237,5 +237,8 @@ describe('Position reports history component', () => {
 
         // Fire highlighters
         page.advance(15000);
+    }));
+
+    xit('has correct pager', fakeAsync(() => {
     }));
 });

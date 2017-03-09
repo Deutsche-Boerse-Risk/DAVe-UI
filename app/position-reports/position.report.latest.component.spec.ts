@@ -129,7 +129,7 @@ describe('Position reports latest component', () => {
         page.advance(15000);
     }));
 
-    it('data correctly refreshed', fakeAsync(inject([HttpService],
+    it('refresh data correctly', fakeAsync(inject([HttpService],
         (http: HttpAsyncServiceStub<PositionReportServerData[]>) => {
             // Init component
             page.detectChanges();
@@ -188,22 +188,22 @@ describe('Position reports latest component', () => {
             clearInterval((page.component as any).intervalHandle);
         })));
 
-    xit('data correctly displayed', () => {
-    });
+    xit('displays data correctly', fakeAsync(() => {
+    }));
 
-    xit('filtering works', () => {
-    });
+    xit('has filtering working', fakeAsync(() => {
+    }));
 
-    xit('breadcrumbs navigation works', () => {
-    });
+    xit('has correct breadcrumbs navigation', fakeAsync(() => {
+    }));
 
-    xit('row navigation works', () => {
-    });
+    xit('has correct row navigation', fakeAsync(() => {
+    }));
 
-    xit('download works', () => {
-    });
+    xit('has download working', fakeAsync(() => {
+    }));
 
-    it('sorting works', fakeAsync(() => {
+    it('can be sorted correctly', fakeAsync(() => {
         // Init component
         page.detectChanges();
         // Return data
@@ -218,5 +218,8 @@ describe('Position reports latest component', () => {
 
         // Fire highlighters
         page.advance(15000);
+    }));
+
+    xit('has correct pager', fakeAsync(() => {
     }));
 });
