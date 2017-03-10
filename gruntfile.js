@@ -224,10 +224,10 @@ module.exports = function (grunt) {
         karma: {
             options: {
                 configFile: 'karma.conf.js',
-                reporters: ['progress', 'kjhtml', 'junit', 'coverage', 'coveralls']
+                reporters: ['progress', 'kjhtml', 'junit', 'coverage']
             },
             dev: {
-                browsers: ['Chrome','Firefox', 'IE']
+                browsers: ['Chrome', 'Firefox', 'IE']
             },
             devChrome: {
                 browsers: ['Chrome']
@@ -270,7 +270,7 @@ module.exports = function (grunt) {
                 }
             },
             circleCI: {
-                reporters: ['progress', 'kjhtml', 'junit', 'coverage', 'coveralls', 'BrowserStack'],
+                reporters: ['progress', 'kjhtml', 'junit', 'coverage', 'BrowserStack'],
                 browsers: [
                     'bs_chrome_windows_10',
                     'bs_firefox_windows_10',
@@ -282,6 +282,25 @@ module.exports = function (grunt) {
                     'bs_firefox_mac_sierra',
                     'bs_safari_mac_sierra'
                 ]
+            }
+        },
+        remapIstanbul: {
+            build: {
+                src: 'coverage/**/coverage-final.json',
+                options: {
+                    reports: {
+                        'html': 'coverage/html-report/',
+                        'lcovonly': 'coverage/lcov.info'
+                    }
+                }
+            }
+        },
+        coveralls: {
+            options: {
+                force: true
+            },
+            report: {
+                src: 'coverage/lcov.info'
             }
         },
         watch: {
@@ -373,6 +392,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-concurrent');
     grunt.loadNpmTasks('grunt-rollup');
     grunt.loadNpmTasks('grunt-sass');
+    grunt.loadNpmTasks('grunt-coveralls');
+    grunt.loadNpmTasks('remap-istanbul');
 
     // Dev run tools
     grunt.loadNpmTasks('grunt-contrib-watch');
@@ -387,11 +408,11 @@ module.exports = function (grunt) {
     grunt.registerTask('dist-run', ['dist', 'concurrent:dist']);
 
     // Test tasks
-    grunt.registerTask('test', ['build', 'karma:dev']);
-    grunt.registerTask('testChrome', ['build', 'karma:devChrome']);
-    grunt.registerTask('testFirefox', ['build', 'karma:devFirefox']);
-    grunt.registerTask('testIE', ['build', 'karma:devIE']);
-    grunt.registerTask('testBrowserStack', ['build', 'karma:devBrowserStack']);
-    grunt.registerTask('testBrowserStackProxy', ['build', 'karma:devBrowserStackProxy']);
-    grunt.registerTask('testCircleCI', ['build', 'karma:circleCI']);
+    grunt.registerTask('test', ['build', 'karma:dev', 'remapIstanbul', 'coveralls']);
+    grunt.registerTask('testChrome', ['build', 'karma:devChrome', 'remapIstanbul', 'coveralls']);
+    grunt.registerTask('testFirefox', ['build', 'karma:devFirefox', 'remapIstanbul', 'coveralls']);
+    grunt.registerTask('testIE', ['build', 'karma:devIE', 'remapIstanbul', 'coveralls']);
+    grunt.registerTask('testBrowserStack', ['build', 'karma:devBrowserStack', 'remapIstanbul', 'coveralls']);
+    grunt.registerTask('testBrowserStackProxy', ['build', 'karma:devBrowserStackProxy', 'remapIstanbul', 'coveralls']);
+    grunt.registerTask('testCircleCI', ['build', 'karma:circleCI', 'remapIstanbul', 'coveralls']);
 };

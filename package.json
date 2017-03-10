@@ -77,7 +77,8 @@
         "karma-jasmine-html-reporter": "^0.2.2",
         "karma-junit-reporter": "^1.2.0",
         "karma-coverage": "^1.1.1",
-        "karma-coveralls": "^1.1.2",
+        "grunt-coveralls": "^1.0.1",
+        "remap-istanbul": "^0.9.1",
         "@types/jasmine": "2.5.36"
     }
 }
