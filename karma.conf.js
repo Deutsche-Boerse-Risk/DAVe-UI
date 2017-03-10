@@ -164,7 +164,12 @@ module.exports = function (config) {
 
         coverageReporter: {
             includeAllSources: true,
-            type: 'json',
+            reporters: [
+                // Generate HTML based output for generated JS files
+                {type: 'lcov'},
+                // Generate JSON based output for generated JS files, this is used to remap back to TypeScript
+                {type: 'json'}
+            ],
             dir: 'coverage/'
         },
 
