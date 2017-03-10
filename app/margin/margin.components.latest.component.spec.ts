@@ -25,7 +25,7 @@ import {ListModule} from '../list/list.module';
 import {DataTableModule} from '../datatable/data.table.module';
 import {HIGHLIGHTER_CLASS} from '../datatable/highlighter.directive';
 
-describe('Position reports latest component', () => {
+describe('Margin components latest component', () => {
     let page: LatestListPage<MarginComponentsLatestComponent>;
 
     beforeEach(async(() => {

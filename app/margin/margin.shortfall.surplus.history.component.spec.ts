@@ -25,7 +25,7 @@ import {ListModule} from '../list/list.module';
 import {DataTableModule} from '../datatable/data.table.module';
 import {HIGHLIGHTER_CLASS} from '../datatable/highlighter.directive';
 
-describe('Position reports history component', () => {
+describe('Margin shortfall-surplus history component', () => {
     let page: HistoryListPage<MarginShortfallSurplusHistoryComponent>;
     let testingParams = ['A', '*', 'B', 'C', '*'];
 

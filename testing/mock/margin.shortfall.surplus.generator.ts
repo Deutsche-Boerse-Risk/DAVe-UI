@@ -29,11 +29,11 @@ export function generateShortfallSurplusLatest(members: number = 3, pools: numbe
                         id: {
                             $oid: UIDUtils.computeUID(id)
                         },
-                        marginRequirement: (j - k) / (l || 1),//number;
-                        securityCollateral: (k - l) / (m || 1),//number;
-                        cashBalance: (l - m) / (j || 1),//number;
-                        shortfallSurplus: (m - j) / (k || 1),//number;
-                        marginCall: (j - k + l - m) / ((l + m) || 1),//number;
+                        marginRequirement: (j - k + 1) / (l + 15 || 1),//number;
+                        securityCollateral: (k - l + 2) / (m - 8 || 1),//number;
+                        cashBalance: (l - m + 5) * 100 / (j + 123 || 1),//number;
+                        shortfallSurplus: (m - j + 15) / (k + 1 || 1),//number;
+                        marginCall: (j - k + l - m - 10) / ((l + m - 26)  || 1),//number;
                         txnTm: time,//string;
                         received: time,//string;
                         // Not changing

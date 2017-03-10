@@ -86,7 +86,7 @@ describe('MarginShortfallSurplusService', () => {
             })
     );
 
-    it('history data are correctly processed',
+    it('summary data are correctly processed',
         inject([MarginShortfallSurplusService, HttpService],
             (marginShortfallSurplusService: MarginShortfallSurplusService,
              http: HttpServiceStub<MarginShortfallSurplusServerData[]>) => {
