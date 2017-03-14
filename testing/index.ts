@@ -23,6 +23,7 @@ export * from './definitions/update.failed.page';
 export * from './mock/margin.components.generator';
 export * from './mock/margin.shortfall.surplus.generator';
 export * from './mock/position.reports.generator';
+export * from './mock/risk.limits.generator';
 export * from './mock/total.margin.generator';
 
 export * from './stubs/auth.service.stub';

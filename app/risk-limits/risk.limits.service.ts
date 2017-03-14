@@ -6,8 +6,8 @@ import {UIDUtils} from '../uid.utils';
 
 import {RiskLimitsServerData, RiskLimitsData} from './risk.limits.types';
 
-const riskLimitsLatestURL: string = '/rl/latest/:0/:1/:2/:3';
-const riskLimitsHistoryURL: string = '/rl/history/:0/:1/:2/:3';
+export const riskLimitsLatestURL: string = '/rl/latest/:0/:1/:2/:3';
+export const riskLimitsHistoryURL: string = '/rl/history/:0/:1/:2/:3';
 
 @Injectable()
 export class RiskLimitsService {
