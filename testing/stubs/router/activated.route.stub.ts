@@ -1,16 +1,17 @@
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {Injectable} from '@angular/core';
 
-import {Injectable} from "@angular/core";
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class ActivatedRouteStub {
+
+    // Test parameters
+    private _testParams: {} = {};
 
     // ActivatedRoute.params is Observable
     private subject = new BehaviorSubject(this.testParams);
     params = this.subject.asObservable();
 
-    // Test parameters
-    private _testParams: {};
     get testParams() {
         return this._testParams;
     }

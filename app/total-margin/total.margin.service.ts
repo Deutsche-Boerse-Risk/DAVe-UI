@@ -2,12 +2,12 @@ import {Injectable} from '@angular/core';
 
 import {HttpService} from '../http.service';
 import {Observable} from 'rxjs/Observable';
-import {UIDUtils} from "../uid.utils";
+import {UIDUtils} from '../uid.utils';
 
 import {TotalMarginServerData, TotalMarginData} from './total.margin.types';
 
-const totalMarginLatestURL: string = '/tmr/latest/:0/:1/:2/:3/:4';
-const totalMarginHistoryURL: string = '/tmr/history/:0/:1/:2/:3/:4';
+export const totalMarginLatestURL: string = '/tmr/latest/:0/:1/:2/:3/:4';
+export const totalMarginHistoryURL: string = '/tmr/history/:0/:1/:2/:3/:4';
 
 @Injectable()
 export class TotalMarginService {

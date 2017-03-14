@@ -1,46 +1,16 @@
-import {DebugElement} from "@angular/core";
-import {LocationStrategy} from "@angular/common";
-import {By} from "@angular/platform-browser";
-import {Router, ActivatedRoute} from "@angular/router";
+import {LocationStrategy} from '@angular/common';
+import {Router, ActivatedRoute} from '@angular/router';
 
-import {TestBed, ComponentFixtureAutoDetect, async, ComponentFixture, inject} from "@angular/core/testing";
+import {TestBed, ComponentFixtureAutoDetect, async, inject, fakeAsync} from '@angular/core/testing';
 
-import {RouterStub, LocationStrategyStub} from "../../testing/router.stub";
-import {ActivatedRouteStub} from "../../testing/activated.route.stub";
-import {click} from "../../testing/index";
+import {MenuPage, RouterStub, ActivatedRouteStub, LocationStrategyStub} from '../../testing';
 
-import {MenuModule} from "./menu.module";
-import {MenuComponent} from "./menu.component";
-import {RouterLinkActiveDirective} from "./router.link.active.directive";
+import {MenuModule} from './menu.module';
+import {MenuComponent} from './menu.component';
 
 describe('Menu component', () => {
 
-    let comp: MenuComponent;
-    let fixture: ComponentFixture<MenuComponent>;
-    let links: DebugElement[];
-
-    function isActive(...args: string[]) {
-        let activeLinkLabels: string[] = links.filter((link: DebugElement) => {
-            return link.nativeElement.classList.contains('active');
-        }).map((link: DebugElement) => {
-            return link.query(By.css('a')).nativeElement.textContent.trim();
-        });
-
-        expect(activeLinkLabels.length).toBe(args.length);
-
-        args.forEach((linkLabel: string) => {
-            expect(activeLinkLabels).toContain(linkLabel);
-        });
-    }
-
-    function clickLink(linkLabel: string) {
-        let link: DebugElement = links.find((link: DebugElement) => {
-            return link.query(By.css('a')).nativeElement.textContent.trim() === linkLabel;
-        });
-
-        click(link.query(By.css('a')));
-        fixture.detectChanges();
-    }
+    let page: MenuPage;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -54,58 +24,55 @@ describe('Menu component', () => {
         }).compileComponents();
     }));
 
-    beforeEach(() => {
-        fixture = TestBed.createComponent(MenuComponent);
+    beforeEach(fakeAsync(() => {
+        page = new MenuPage(TestBed.createComponent(MenuComponent));
+    }));
 
-        comp = fixture.componentInstance;
-        links = fixture.debugElement.queryAll(By.directive(RouterLinkActiveDirective));
-    });
+    it('has "Dashboard" active', fakeAsync(() => {
+        page.isActive('Dashboard');
+    }));
 
-    it('has "Dashboard" active', () => {
-        isActive('Dashboard');
-    });
+    it('click on links works', fakeAsync(() => {
+        page.clickLink('Position Reports');
+        page.isActive('Position Reports', 'Margin Requirement');
 
-    it('click on links works', () => {
-        clickLink('Position Reports');
-        isActive('Position Reports', 'Margin Requirement');
+        page.clickLink('Margin Components');
+        page.isActive('Margin Components', 'Margin Requirement');
 
-        clickLink('Margin Components');
-        isActive('Margin Components', 'Margin Requirement');
+        page.clickLink('Total Margin Requirements');
+        page.isActive('Total Margin Requirements', 'Margin Requirement');
 
-        clickLink('Total Margin Requirements');
-        isActive('Total Margin Requirements', 'Margin Requirement');
+        page.clickLink('Margin Shortfall Surplus');
+        page.isActive('Margin Shortfall Surplus', 'Margin Requirement');
 
-        clickLink('Margin Shortfall Surplus');
-        isActive('Margin Shortfall Surplus', 'Margin Requirement');
+        page.clickLink('Risk Limits');
+        page.isActive('Risk Limits');
 
-        clickLink('Risk Limits');
-        isActive('Risk Limits');
+        page.clickLink('Dashboard');
+        page.isActive('Dashboard');
+    }));
 
-        clickLink('Dashboard');
-        isActive('Dashboard');
-    });
-
-    it('navigation to sub-links works', inject([Router], (router: RouterStub) => {
+    it('navigation to sub-links works', fakeAsync(inject([Router], (router: RouterStub) => {
         router.navigateByUrl('/positionReportHistory');
-        fixture.detectChanges();
-        isActive('Position Reports', 'Margin Requirement');
+        page.detectChanges();
+        page.isActive('Position Reports', 'Margin Requirement');
 
         router.navigateByUrl('/marginComponentHistory');
-        fixture.detectChanges();
-        isActive('Margin Components', 'Margin Requirement');
+        page.detectChanges();
+        page.isActive('Margin Components', 'Margin Requirement');
 
         router.navigateByUrl('/totalMarginRequirementHistory');
-        fixture.detectChanges();
-        isActive('Total Margin Requirements', 'Margin Requirement');
+        page.detectChanges();
+        page.isActive('Total Margin Requirements', 'Margin Requirement');
 
         router.navigateByUrl('/marginShortfallSurplusHistory');
-        fixture.detectChanges();
-        isActive('Margin Shortfall Surplus', 'Margin Requirement');
+        page.detectChanges();
+        page.isActive('Margin Shortfall Surplus', 'Margin Requirement');
 
-        clickLink('Risk Limits');
-        isActive('Risk Limits');
+        page.clickLink('Risk Limits');
+        page.isActive('Risk Limits');
 
-        clickLink('Dashboard');
-        isActive('Dashboard');
-    }));
+        page.clickLink('Dashboard');
+        page.isActive('Dashboard');
+    })));
 });

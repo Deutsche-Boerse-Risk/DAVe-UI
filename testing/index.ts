@@ -1,97 +1,63 @@
-import {DebugElement} from "@angular/core";
-import {ComponentFixture, tick} from "@angular/core/testing";
-import {GoogleChart} from "../app/common/google.chart.component";
+import {OrderingValueGetter} from '../app/datatable/data.table.column.directive';
 
-/** Button events to pass to `DebugElement.triggerEventHandler` for RouterLink event handler */
-export const ButtonClickEvents = {
-    left: {button: 0},
-    right: {button: 2}
-};
+import {DataTableDefinition, SortingHandle} from './definitions/data.table.definition';
 
-/** Simulate element click. Defaults to mouse left-button click event. */
-export function click(el: DebugElement | HTMLElement, eventObj: any = ButtonClickEvents.left): void {
-    if (el instanceof HTMLElement) {
-        el.click();
-    } else {
-        el.triggerEventHandler('click', eventObj);
-    }
-}
+export * from './definitions/bread.crumbs.page';
+export * from './definitions/bubble.chart.page';
+export * from './definitions/chart.page';
+export * from './definitions/dashboard.page';
+export * from './definitions/download.menu.page';
+export * from './definitions/data.table.definition';
+export * from './definitions/highlighter.directive.page';
+export * from './definitions/initial.load.page';
+export * from './definitions/link.definition';
+export * from './definitions/link.only.page';
+export * from './definitions/list.page';
+export * from './definitions/login.page';
+export * from './definitions/margin.components.aggregation.page';
+export * from './definitions/menu.page';
+export * from './definitions/no.data.page';
+export * from './definitions/page.base';
+export * from './definitions/shorfall.surplus.summary.page';
+export * from './definitions/update.failed.page';
 
-export function advance(fixture: ComponentFixture<any>): void {
-    tick();
-    fixture.detectChanges();
-}
+export * from './mock/margin.components.generator';
+export * from './mock/margin.shortfall.surplus.generator';
+export * from './mock/position.reports.generator';
+export * from './mock/risk.limits.generator';
+export * from './mock/total.margin.generator';
 
-export function setNgModelValue(element: DebugElement, value: string, realAsync: boolean = false): void {
-    if (!(element.nativeElement instanceof HTMLInputElement)) {
-        throw 'Not an instance of HTMLInputElement';
-    }
-    let input: HTMLInputElement = element.nativeElement;
-    input.value = value;
+export * from './stubs/auth.service.stub';
+export * from './stubs/http.service.stub';
 
-    dispatchEvent(input, 'input'); // tell Angular
-    if (!realAsync) {
-        tick();
-    }
-}
+export * from './stubs/router/activated.route.stub';
+export * from './stubs/router/router.link.stub';
+export * from './stubs/router/router.stub';
 
-export function dispatchEvent(element: DebugElement | HTMLElement | Window, eventName: string) {
-    if (element instanceof HTMLElement) {
-        element.dispatchEvent(newEvent(eventName));
-    } else if (element instanceof Window) {
-        element.dispatchEvent(newEvent(eventName));
-    } else {
-        element.nativeElement.dispatchEvent(newEvent(eventName));
-    }
-}
+export {windowResize} from './events';
 
-/**
- * Create custom DOM event the old fashioned way
- *
- * https://developer.mozilla.org/en-US/docs/Web/API/Event/initEvent
- * Although officially deprecated, some browsers (phantom) don't accept the preferred "new Event(eventName)"
- */
-export function newEvent(eventName: string, bubbles = false, cancelable = false) {
-    let evt = document.createEvent('CustomEvent');  // MUST be 'CustomEvent'
-    evt.initCustomEvent(eventName, bubbles, cancelable, null);
-    return evt;
-}
+export function chceckSorting(page: {detectChanges: () => void, dataTable: DataTableDefinition},
+                              criteria: OrderingValueGetter<any>[]) {
+    page.dataTable.sorting.checkSorting(150);
 
-/**
- * Special function that allows us to bind events so we can wait for chart rendering.
- */
-export function waitForChart(chart: GoogleChart, done: () => any) {
-    let drawFunction: () => void = (chart as any).drawGraph;
-    (chart as any).drawGraph = () => {
-        let wrapper = (chart as any).wrapper;
-        waitForChartRedraw(chart, done);
-        if (!wrapper) {
-            google.charts.setOnLoadCallback(() => {
-                let drawProto = google.visualization.ChartWrapper.prototype.draw;
-                google.visualization.ChartWrapper.prototype.draw = function () {
-                    wrapper = (chart as any).wrapper;
-                    google.visualization.ChartWrapper.prototype.draw = drawProto;
-                    let handle = google.visualization.events.addListener(wrapper, 'ready', function () {
-                        google.visualization.events.removeListener(handle);
-                        done();
-                    });
-                    drawProto.bind(wrapper)();
-                };
-            });
-        }
+    page.dataTable.sorting.handles.forEach((handle: SortingHandle, index: number) => {
+        // Tigger sort based on a handle
+        handle.click();
+        page.detectChanges();
 
-        (chart as any).drawGraph = drawFunction;
-        drawFunction.bind(chart)();
-    };
-}
-
-export function waitForChartRedraw(chart: GoogleChart, done: () => any) {
-    let wrapper = (chart as any).wrapper;
-    if (wrapper) {
-        let handle = google.visualization.events.addListener(wrapper, 'ready', function () {
-            google.visualization.events.removeListener(handle);
-            done();
+        // Check the sorting
+        page.dataTable.sorting.checkSorting(150, {
+            get: criteria[index]
         });
-    }
-}
 
+        // Tigger sort based on a handle
+        handle.click();
+        page.detectChanges();
+
+        // Check the sorting
+        page.dataTable.sorting.checkSorting(150, {
+            get: criteria[index],
+            descending: true
+        });
+    });
+}

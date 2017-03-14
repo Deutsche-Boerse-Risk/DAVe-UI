@@ -10,8 +10,8 @@ import {BubbleChartOptions, ChartData, ChartRow, ChartValue} from '../common/cha
 import {PositionReportsService} from './position.reports.service';
 import {PositionReportChartData, PositionReportBubble, SelectValues} from './position.report.types';
 
-const compVarPositiveLegend = 'Positive';
-const compVarNegativeLegend = 'Negative';
+export const compVarPositiveLegend = 'Positive';
+export const compVarNegativeLegend = 'Negative';
 
 @Component({
     moduleId: module.id,
@@ -89,7 +89,32 @@ export class PositionReportBubbleChartComponent extends AbstractComponentWithAut
     }
 
     private processData(chartData: PositionReportChartData): void {
-        this.sourceData = chartData;
+        // Clone safe so we do not lost the current selection on periodic reload of data.
+        if (this.sourceData) {
+            this.sourceData.bubbles = chartData.bubbles;
+            this.sourceData.selection = chartData.selection;
+            if (!this.sourceData.memberSelection || !this.sourceData.selection
+                    .getOptions().some((option: PositionReportBubble) => {
+                        return option.memberKey === this.sourceData.memberSelection.memberKey;
+                    })) {
+                this.sourceData.memberSelection = chartData.memberSelection;
+            }
+
+            if (this.sourceData.memberSelection) {
+                let selectValues: SelectValues = this.sourceData.selection.get(this.sourceData.memberSelection.memberKey);
+                if (!this.sourceData.accountSelection || !selectValues.subRecords
+                        .getOptions().some((option: PositionReportBubble) => {
+                            return option.memberKey === this.sourceData.accountSelection.memberKey
+                                && option.account === this.sourceData.accountSelection.account;
+                        })) {
+                    this.sourceData.accountSelection = selectValues.subRecords.getOptions()[0];
+                }
+            } else {
+                delete this.sourceData.accountSelection;
+            }
+        } else {
+            this.sourceData = chartData;
+        }
         this.accountSelectionChanged();
 
         delete this.errorMessage;
@@ -130,8 +155,8 @@ export class PositionReportBubbleChartComponent extends AbstractComponentWithAut
         let topNNegativeCompVar: number = 0;
         let totalNegativeCompVar: number = 0;
         let totalCompVar: number;
-        let positiveCoveragePerc: number;
-        let negativeCoveragePerc: number;
+        let positiveCoveragePerc: number = 0;
+        let negativeCoveragePerc: number = 0;
         let positiveBubbles: PositionReportBubble[] = [];
         let negativeBubbles: PositionReportBubble[] = [];
         this.sourceData.bubbles.forEach((bubble: PositionReportBubble) => {
@@ -162,10 +187,10 @@ export class PositionReportBubbleChartComponent extends AbstractComponentWithAut
         });
         totalCompVar = totalPositiveCompVar - totalNegativeCompVar;
         if (totalPositiveCompVar > 0) {
-            positiveCoveragePerc = (topNPositiveCompVar / totalCompVar) * 100;
+            positiveCoveragePerc = (topNPositiveCompVar / (totalCompVar || 1)) * 100;
         }
         if (totalNegativeCompVar > 0) {
-            negativeCoveragePerc = (topNNegativeCompVar / totalNegativeCompVar) * 100;
+            negativeCoveragePerc = (topNNegativeCompVar / (totalNegativeCompVar || 1)) * 100;
         }
         let bubbles: PositionReportBubble[] = negativeBubbles.concat(positiveBubbles);
         bubbles.sort((a: PositionReportBubble, b: PositionReportBubble) => {

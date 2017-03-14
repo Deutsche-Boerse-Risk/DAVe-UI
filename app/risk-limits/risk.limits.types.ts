@@ -1,5 +1,5 @@
 export interface RiskLimitsServerData {
-    _id: {
+    _id?: {
         clearer: string;
         member: string;
         maintainer: string;

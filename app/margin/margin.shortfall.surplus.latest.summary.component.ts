@@ -4,6 +4,7 @@ import {AbstractComponentWithAutoRefresh} from '../abstract.component';
 
 import {MarginShortfallSurplusService} from './margin.shortfall.surplus.service';
 import {MarginShortfallSurplusBase} from './margin.types';
+import {ErrorResponse} from '../http.service';
 
 @Component({
     moduleId: module.id,
@@ -23,6 +24,8 @@ export class MarginShortfallSurplusLatestSummaryComponent extends AbstractCompon
         this.marginService.getMarginShortfallSurplusData()
             .subscribe((data: MarginShortfallSurplusBase) => {
                 this.data = data;
+            }, (error: ErrorResponse) => {
+                console.error(error);
             });
     }
 }

@@ -10,6 +10,11 @@ dependencies:
     - npm install -g codeclimate-test-reporter
   override:
     - npm install
+    - npm update
+    - npm prune
+  post:
+    - npm list
+    - npm list -g
 
 test:
   override:
@@ -17,7 +22,7 @@ test:
     - mkdir -p $CIRCLE_TEST_REPORTS/karma/
     - find . -type f -regex ".*/reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/karma/ \;
     - find . -type f -regex "\./coverage/.*lcov.info" -exec sh -c 'codeclimate-test-reporter < "{}"' \;
-    - mkdir -p $CIRCLE_TEST_REPORTS/coverage/
+    - mkdir -p $CIRCLE_ARTIFACTS/coverage/
     - mv coverage/* $CIRCLE_ARTIFACTS/coverage/
   post:
     - grunt dist

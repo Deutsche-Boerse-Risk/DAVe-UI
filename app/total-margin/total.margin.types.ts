@@ -1,5 +1,5 @@
 export interface TotalMarginServerData {
-    _id: {
+    _id?: {
         clearer: string;
         pool: string;
         member: string;

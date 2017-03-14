@@ -1,50 +1,42 @@
-import {Component, DebugElement} from "@angular/core";
-import {ComponentFixture} from "@angular/core/testing";
-import {By} from "@angular/platform-browser";
+import {Component, DebugElement} from '@angular/core';
+import {ComponentFixture} from '@angular/core/testing';
+import {By} from '@angular/platform-browser';
 
-import {OrderingValueGetter, OrderingCriteria} from "../app/datatable/data.table.column.directive";
-import {DataTableComponent} from "../app/datatable/data.table.component";
-import {DataTableRowDetailExpander} from "../app/datatable/data.table.row.detail.expander.component";
-import {PagingComponent} from "../app/datatable/paging.component";
+import {OrderingValueGetter, OrderingCriteria} from '../../app/datatable/data.table.column.directive';
+import {DataTableComponent} from '../../app/datatable/data.table.component';
+import {DataTableRowDetailExpander} from '../../app/datatable/data.table.row.detail.expander.component';
+import {PagingComponent} from '../../app/datatable/paging.component';
 
-import {click} from './index';
+import {click} from '../events';
+import {Page} from './page.base';
 
-export class DataTableDef {
+export class DataTableDefinition {
 
-    public hostComponent: TestHostComponent;
-    public hostDebugElement: DebugElement;
-
-    constructor(public fixture: ComponentFixture<TestHostComponent>) {
-        this.hostComponent = this.fixture.componentInstance;
-        this.hostDebugElement = this.fixture.debugElement;
+    constructor(public debugElement: DebugElement, private page: {detectChanges: () => void}) {
     }
 
-    public get debugElement(): DebugElement {
-        return this.hostDebugElement.query(By.directive(DataTableComponent));
-    }
-
-    public get dataTableComponent(): DataTableComponent {
+    public get component(): DataTableComponent {
         return this.debugElement.componentInstance;
     }
 
-    public get tableData(): any[] {
-        return this.dataTableComponent.data;
+    public get data(): any[] {
+        return this.component.data;
     }
 
-    public get tableElement(): DebugElement {
+    public get element(): DebugElement {
         return this.debugElement.query(By.css('.table.table-bordered.table-hover'));
     }
 
     public get header(): TableHeader {
-        return new TableHeader(this.tableElement);
+        return new TableHeader(this.element);
     }
 
     public get sorting(): TableSorting {
-        return new TableSorting(this.tableElement, this.dataTableComponent);
+        return new TableSorting(this, this.element, this.component, this.page);
     }
 
     public get body(): TableBody {
-        return new TableBody(this.tableElement);
+        return new TableBody(this.page, this.element);
     }
 
     public get recordsCount(): RecordsCount {
@@ -52,9 +44,21 @@ export class DataTableDef {
     }
 
     public get pager(): Pager {
-        return new Pager(this.fixture);
+        return new Pager(this.debugElement, this.page);
     }
 }
+
+export class DataTableDefinitionHosted extends Page<TestHostComponent> {
+
+    constructor(fixture: ComponentFixture<TestHostComponent>) {
+        super(fixture);
+    }
+
+    public get dataTable(): DataTableDefinition {
+        return new DataTableDefinition(this.debugElement.query(By.directive(DataTableComponent)), this);
+    }
+}
+
 export class TableHeader {
 
     constructor(public tableElement: DebugElement) {
@@ -67,21 +71,76 @@ export class TableHeader {
 
 export class TableSorting {
 
-    constructor(private tableElement: DebugElement, private dataTableComponent: DataTableComponent) {
+    constructor(private table: DataTableDefinition, private tableElement: DebugElement,
+                private dataTableComponent: DataTableComponent, private page: {detectChanges: () => void}) {
     }
 
-    public get handles(): DebugElement[] {
-        return this.tableElement.queryAll(By.css('thead .fa-sort'));
+    public get handles(): SortingHandle[] {
+        let handles = this.tableElement.query(de => de.references['mainHeader']).queryAll(By.css('.fa-sort'));
+        if (!handles) {
+            return null;
+        }
+        return handles.map((handle: DebugElement) => {
+            return new SortingHandle(this.page, handle);
+        });
+    }
+
+    public get detailRowHandles(): SortingHandle[] {
+        let handles = this.tableElement.query(By.css('.table-condensed')).queryAll(By.css('thead .fa-sort'))
+        if (!handles) {
+            return null;
+        }
+        return handles.map((handle: DebugElement) => {
+            return new SortingHandle(this.page, handle);
+        });
     }
 
     public get currentOrdering(): OrderingCriteria<any>[] {
         return (this.dataTableComponent as any).ordering;
     }
+
+    public checkSorting(firstNRows: number = this.table.data.length, criterium?: OrderingCriteria<any>): void {
+        let ordering: OrderingCriteria<any>[];
+        if (criterium) {
+            ordering = [criterium].concat((this.dataTableComponent as any)._defaultOrdering);
+        } else {
+            ordering = this.currentOrdering;
+        }
+        for (let i = 1; i < Math.min(this.table.data.length, firstNRows); i++) {
+            ordering.some((criteria: OrderingCriteria<any>) => {
+                //noinspection EqualityComparisonWithCoercionJS
+                if (criteria.get(this.table.data[i - 1]) != null && criteria.get(this.table.data[i]) != null) {
+                    if (criteria.descending) {
+                        expect(criteria.get(this.table.data[i - 1]) >= criteria.get(this.table.data[i]))
+                            .toBeTruthy('Expect: ' + criteria.get(this.table.data[i - 1]) + ' >= '
+                                + criteria.get(this.table.data[i]))
+                    } else {
+                        expect(criteria.get(this.table.data[i - 1]) <= criteria.get(this.table.data[i]))
+                            .toBeTruthy('Expect: ' + criteria.get(this.table.data[i - 1]) + ' <= '
+                                + criteria.get(this.table.data[i]))
+                    }
+                    return criteria.get(this.table.data[i - 1]) !== criteria.get(this.table.data[i]);
+                }
+                return false;
+            });
+        }
+    }
+}
+
+export class SortingHandle {
+
+    constructor(private page: {detectChanges: () => void}, private handle: DebugElement) {
+    }
+
+    public click() {
+        click(this.handle);
+        this.page.detectChanges();
+    }
 }
 
 export class TableBody {
 
-    constructor(private tableElement: DebugElement) {
+    constructor(private page: {detectChanges: () => void}, private tableElement: DebugElement) {
     }
 
 
@@ -91,6 +150,11 @@ export class TableBody {
 
     public get tableRowElements(): DebugElement[] {
         return this.tableBodyElement.queryAll(de => de.references['masterRow']);
+    }
+
+    public expandRow(index: number): void {
+        click(this.tableRowElements[index]);
+        this.page.detectChanges();
     }
 
     public getTableRowExpanderElement(rowIndex: number): DebugElement {
@@ -122,16 +186,11 @@ export class RecordsCount {
 
 export class Pager {
 
-    private hostComponent: TestHostComponent;
-    private hostDebugElement: DebugElement;
-
-    constructor(private fixture: ComponentFixture<TestHostComponent>) {
-        this.hostComponent = this.fixture.componentInstance;
-        this.hostDebugElement = this.fixture.debugElement;
+    constructor(private tableElement: DebugElement, private page: {detectChanges: () => void}) {
     }
 
     public get debugElement(): DebugElement {
-        return this.hostDebugElement.query(By.directive(PagingComponent));
+        return this.tableElement.query(By.directive(PagingComponent));
     }
 
     public get pageButtons(): DebugElement[] {
@@ -175,7 +234,7 @@ export class Pager {
 
     public click(index: number) {
         click(this.pageButtons[index]);
-        this.fixture.detectChanges();
+        this.page.detectChanges();
     }
 }
 

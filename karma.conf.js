@@ -19,8 +19,7 @@ module.exports = function (config) {
             require('karma-browserstack-launcher'),
             require('karma-jasmine-html-reporter'),
             require('karma-junit-reporter'),
-            require('karma-coverage'),
-            require('karma-coveralls')
+            require('karma-coverage')
         ],
 
         client: {
@@ -165,7 +164,12 @@ module.exports = function (config) {
 
         coverageReporter: {
             includeAllSources: true,
-            type: 'lcov', // lcov or lcovonly are required for generating lcov.info files
+            reporters: [
+                // Generate HTML based output for generated JS files
+                {type: 'lcov'},
+                // Generate JSON based output for generated JS files, this is used to remap back to TypeScript
+                {type: 'json'}
+            ],
             dir: 'coverage/'
         },
 
@@ -185,6 +189,6 @@ module.exports = function (config) {
         captureTimeout: 60000,
         browserDisconnectTimeout: 10000,
         browserDisconnectTolerance: 1,
-        browserNoActivityTimeout: 60000
+        browserNoActivityTimeout: 120000
     })
 };

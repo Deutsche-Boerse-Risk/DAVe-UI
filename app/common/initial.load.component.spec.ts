@@ -1,16 +1,12 @@
-import {DebugElement} from "@angular/core";
-import {By} from "@angular/platform-browser";
+import {TestBed, async, fakeAsync} from '@angular/core/testing';
 
-import {ComponentFixture, TestBed, async} from "@angular/core/testing";
+import {InitialLoadPage} from '../../testing';
 
-import {InitialLoadComponent} from "./initial.load.component";
+import {InitialLoadComponent} from './initial.load.component';
 
 describe('InitialLoadComponent', () => {
 
-    let comp: InitialLoadComponent;
-    let fixture: ComponentFixture<InitialLoadComponent>;
-    let de: DebugElement;
-    let el: HTMLElement;
+    let page: InitialLoadPage;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -18,17 +14,12 @@ describe('InitialLoadComponent', () => {
         }).compileComponents();
     }));
 
-    beforeEach(() => {
-        fixture = TestBed.createComponent(InitialLoadComponent);
+    beforeEach(fakeAsync(() => {
+        page = new InitialLoadPage(TestBed.createComponent(InitialLoadComponent));
+        page.detectChanges();
+    }));
 
-        comp = fixture.componentInstance;
-
-        // query for the title by CSS element selector
-        de = fixture.debugElement.query(By.css('.alert'));
-        el = de.nativeElement;
-    });
-
-    it('has correct text', () => {
-        expect(el.textContent).toContain('Loading ...');
-    });
+    it('has correct text', fakeAsync(() => {
+        expect(page.text).toContain('Loading ...');
+    }));
 });

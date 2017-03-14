@@ -1,12 +1,13 @@
-import {TestBed, inject, fakeAsync, discardPeriodicTasks, tick} from "@angular/core/testing";
+import {TestBed, inject, fakeAsync, discardPeriodicTasks, tick} from '@angular/core/testing';
 
-import {HttpServiceStub} from "../../testing/http.service.stub";
-import {encodeTestToken} from "angular2-jwt/angular2-jwt-test-helpers";
+import {HttpServiceStub} from '../../testing';
 
-import {AuthConfigConsts} from "angular2-jwt";
+import {encodeTestToken} from 'angular2-jwt/angular2-jwt-test-helpers';
 
-import {AuthService} from "./auth.service";
-import {HttpService, ErrorResponse} from "../http.service";
+import {AuthConfigConsts} from 'angular2-jwt';
+
+import {AuthService} from './auth.service';
+import {HttpService, ErrorResponse} from '../http.service';
 
 function addMinutes(minutes: number): number {
     return new Date(Date.now() + minutes * 60000).getTime() / 1000;

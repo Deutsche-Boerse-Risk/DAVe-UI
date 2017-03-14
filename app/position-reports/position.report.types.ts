@@ -1,5 +1,5 @@
 export interface PositionReportServerData {
-    _id: {
+    _id?: {
         clearer: string;
         member: string;
         account: string;

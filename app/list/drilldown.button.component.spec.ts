@@ -1,18 +1,12 @@
-import {DebugElement} from "@angular/core";
-import {By} from "@angular/platform-browser";
+import {TestBed, async, ComponentFixtureAutoDetect, fakeAsync} from '@angular/core/testing';
 
-import {ComponentFixture, TestBed, async, ComponentFixtureAutoDetect, fakeAsync} from "@angular/core/testing";
+import {LinkOnlyPage, RouterLinkStubDirective} from '../../testing';
 
-import {click} from "../../testing/index";
-import {RouterLinkStubDirective} from "../../testing/router.link.stub";
-
-import {DrilldownButtonComponent} from "./drilldown.button.component";
+import {DrilldownButtonComponent} from './drilldown.button.component';
 
 describe('DrilldownButtonComponent', () => {
 
-    let comp: DrilldownButtonComponent;
-    let fixture: ComponentFixture<DrilldownButtonComponent>;
-    let de: DebugElement;
+    let page: LinkOnlyPage<DrilldownButtonComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -24,22 +18,18 @@ describe('DrilldownButtonComponent', () => {
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(DrilldownButtonComponent);
-
-        comp = fixture.componentInstance;
-        de = fixture.debugElement.query(By.directive(RouterLinkStubDirective));
+        page = new LinkOnlyPage<DrilldownButtonComponent>(TestBed.createComponent(DrilldownButtonComponent));
     });
 
     it('navigates correctly', fakeAsync(() => {
-        comp.routerLink = ['/test', 'url'];
-        fixture.detectChanges();
+        page.component.routerLink = ['/test', 'url'];
+        page.detectChanges();
 
-        let routerLink: RouterLinkStubDirective = de.injector.get(RouterLinkStubDirective);
-        let navigateSpy = spyOn(routerLink, 'onClick').and.callThrough();
+        let navigateSpy = spyOn(page.link.stub, 'onClick').and.callThrough();
 
-        click(de);
+        page.link.click();
 
         expect(navigateSpy).toHaveBeenCalled();
-        expect(routerLink.navigatedTo).toEqual(['/test', 'url']);
+        expect(page.link.stub.navigatedTo).toEqual(['/test', 'url']);
     }));
 });

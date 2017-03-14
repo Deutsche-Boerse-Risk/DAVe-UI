@@ -1,129 +1,165 @@
-import {DebugElement, Component} from "@angular/core";
-import {By, BrowserModule} from "@angular/platform-browser";
+import {BrowserModule} from '@angular/platform-browser';
 
-import {ComponentFixture, TestBed, async, ComponentFixtureAutoDetect} from "@angular/core/testing";
+import {TestBed, async, ComponentFixtureAutoDetect, fakeAsync} from '@angular/core/testing';
 
-import {click} from "../../testing/index";
-import {RouterLinkStubDirective} from "../../testing/router.link.stub";
+import {
+    BreadCrumbsPage,
+    TestBreadCrumbsComponent,
+    RouterLinkStubDirective,
+    Crumb,
+    LinkDefinition
+} from '../../testing';
 
-import {BreadCrumbsComponent, RoutePart} from "./bread.crumbs.component";
+import {BreadCrumbsComponent} from './bread.crumbs.component';
 
-@Component({
-    template: '<bread-crumbs [routeParts]="routeParts"></bread-crumbs>'
-})
-class TestComponent {
-    public routeParts: RoutePart[];
-}
 describe('BreadCrumbsComponent', () => {
 
-    let hostComp: TestComponent;
-    let comp: BreadCrumbsComponent;
-    let fixture: ComponentFixture<TestComponent>;
-    let de: DebugElement;
+    let page: BreadCrumbsPage;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [BrowserModule],
-            declarations: [TestComponent, BreadCrumbsComponent, RouterLinkStubDirective],
+            declarations: [TestBreadCrumbsComponent, BreadCrumbsComponent, RouterLinkStubDirective],
             providers: [
                 {provide: ComponentFixtureAutoDetect, useValue: true}
             ]
         }).compileComponents();
     }));
 
-    beforeEach(() => {
-        fixture = TestBed.createComponent(TestComponent);
+    beforeEach(fakeAsync(() => {
+        page = new BreadCrumbsPage(TestBed.createComponent(TestBreadCrumbsComponent));
+    }));
 
-        hostComp = fixture.componentInstance;
-        de = fixture.debugElement.query(By.directive(BreadCrumbsComponent));
-        comp = de.injector.get(BreadCrumbsComponent);
-        //.query(By.directive(RouterLinkStubDirective));
-    });
-
-    it('displays correct bread crumbs and filteres correctly', () => {
-        expect(de.children.length).toBe(0, 'Nothing displayed.');
+    it('displays correct bread crumbs and filteres correctly', fakeAsync(() => {
+        let breadCrumbs = page.breadCrumbs;
+        let crumbs = breadCrumbs.crumbs;
+        expect(crumbs.length).toBe(0, 'Nothing displayed.');
 
         // Add Root item
-        hostComp.routeParts = [
+        page.component.routeParts = [
             {
                 title: 'RootItem',
                 routePart: '/root'
             }
         ];
-        fixture.detectChanges();
-        expect(de.children.length).toBe(1, 'First displayed.');
-        expect(de.queryAll(By.css('a'))[0].nativeElement.textContent.trim()).toEqual('RootItem', 'Title of first item is correct.');
+        page.detectChanges();
+
+        breadCrumbs = page.breadCrumbs;
+        crumbs = breadCrumbs.crumbs;
+        expect(crumbs.length).toBe(1, 'First displayed.');
+        expect(crumbs[0].text).toEqual('RootItem', 'Title of first item is correct.');
+        expect(crumbs[0].active).toBeTruthy('First item is active.');
+        expect(crumbs[0].separatorAfter).toBeUndefined('Separator not visible');
 
         // Add Item 1
-        hostComp.routeParts = hostComp.routeParts.concat({
+        page.component.routeParts = page.component.routeParts.concat({
             title: 'Item1',
             routePart: 'item1'
         });
-        fixture.detectChanges();
-        expect(de.children.length).toBe(2, 'First two displayed.');
-        expect(de.queryAll(By.css('a'))[0].nativeElement.textContent.trim()).toEqual('RootItem', 'Title of first item is correct.');
-        expect(de.queryAll(By.css('span'))[0].nativeElement.textContent.trim()).toMatch(/:\s+Item1/, 'Separator visible');
-        expect(de.queryAll(By.css('a'))[1].nativeElement.textContent.trim()).toEqual('Item1', 'Title of second item is correct.');
+        page.detectChanges();
+
+        breadCrumbs = page.breadCrumbs;
+        crumbs = breadCrumbs.crumbs;
+        expect(crumbs.length).toBe(2, 'First two displayed.');
+        expect(crumbs[0].text).toEqual('RootItem', 'Title of first item is correct.');
+        expect(crumbs[0].active).toBeTruthy('First item is active.');
+        expect(crumbs[0].separatorAfter).toEqual(':', 'Separator visible');
+        expect(crumbs[1].text).toEqual('Item1', 'Title of second item is correct.');
+        expect(crumbs[1].active).toBeTruthy('Second item is active.');
+        expect(crumbs[1].separatorAfter).toBeUndefined('Separator not visible');
 
         // Add Item 2
-        hostComp.routeParts = hostComp.routeParts.concat({
+        page.component.routeParts = page.component.routeParts.concat({
             title: 'Item2',
             routePart: 'item2'
         });
-        fixture.detectChanges();
-        expect(de.children.length).toBe(3, 'First three displayed.');
-        expect(de.queryAll(By.css('a'))[0].nativeElement.textContent.trim()).toEqual('RootItem', 'Title of first item is correct.');
-        expect(de.queryAll(By.css('span'))[0].nativeElement.textContent.trim()).toMatch(/:\s+Item1/, 'Separator visible');
-        expect(de.queryAll(By.css('a'))[1].nativeElement.textContent.trim()).toEqual('Item1', 'Title of second item is correct.');
-        expect(de.queryAll(By.css('span'))[1].nativeElement.textContent.trim()).toMatch(/\/\s+Item2/, 'Separator visible');
-        expect(de.queryAll(By.css('a'))[2].nativeElement.textContent.trim()).toEqual('Item2', 'Title of third item is correct.');
+        page.detectChanges();
+
+        breadCrumbs = page.breadCrumbs;
+        crumbs = breadCrumbs.crumbs;
+        expect(crumbs.length).toBe(3, 'First three displayed.');
+        expect(crumbs[0].text).toEqual('RootItem', 'Title of first item is correct.');
+        expect(crumbs[0].active).toBeTruthy('First item is active.');
+        expect(crumbs[0].separatorAfter).toEqual(':', 'Separator visible');
+        expect(crumbs[1].text).toEqual('Item1', 'Title of second item is correct.');
+        expect(crumbs[1].active).toBeTruthy('Second item is active.');
+        expect(crumbs[1].separatorAfter).toEqual('/', 'Separator visible');
+        expect(crumbs[2].text).toEqual('Item2', 'Title of third item is correct.');
+        expect(crumbs[2].active).toBeTruthy('Third item is active.');
+        expect(crumbs[2].separatorAfter).toBeUndefined('Separator not visible');
 
         // Add Item 3
-        hostComp.routeParts = hostComp.routeParts.concat({
+        page.component.routeParts = page.component.routeParts.concat({
             title: 'Item3',
             routePart: 'item3'
         });
-        fixture.detectChanges();
-        expect(de.children.length).toBe(4, 'First four displayed.');
-        expect(de.queryAll(By.css('a'))[0].nativeElement.textContent.trim()).toEqual('RootItem', 'Title of first item is correct.');
-        expect(de.queryAll(By.css('span'))[0].nativeElement.textContent.trim()).toMatch(/:\s+Item1/, 'Separator visible');
-        expect(de.queryAll(By.css('a'))[1].nativeElement.textContent.trim()).toEqual('Item1', 'Title of second item is correct.');
-        expect(de.queryAll(By.css('span'))[1].nativeElement.textContent.trim()).toMatch(/\/\s+Item2/, 'Separator visible');
-        expect(de.queryAll(By.css('a'))[2].nativeElement.textContent.trim()).toEqual('Item2', 'Title of third item is correct.');
-        expect(de.queryAll(By.css('span'))[2].nativeElement.textContent.trim()).toMatch(/\/\s+Item3/, 'Separator visible');
-        expect(de.queryAll(By.css('a'))[3].nativeElement.textContent.trim()).toEqual('Item3', 'Title of fourth item is correct.');
+        page.detectChanges();
+
+        breadCrumbs = page.breadCrumbs;
+        crumbs = breadCrumbs.crumbs;
+        expect(crumbs.length).toBe(4, 'First four displayed.');
+        expect(crumbs[0].text).toEqual('RootItem', 'Title of first item is correct.');
+        expect(crumbs[0].active).toBeTruthy('First item is active.');
+        expect(crumbs[0].separatorAfter).toEqual(':', 'Separator visible');
+        expect(crumbs[1].text).toEqual('Item1', 'Title of second item is correct.');
+        expect(crumbs[1].active).toBeTruthy('Second item is active.');
+        expect(crumbs[1].separatorAfter).toEqual('/', 'Separator visible');
+        expect(crumbs[2].text).toEqual('Item2', 'Title of third item is correct.');
+        expect(crumbs[2].active).toBeTruthy('Third item is active.');
+        expect(crumbs[2].separatorAfter).toEqual('/', 'Separator visible');
+        expect(crumbs[3].text).toEqual('Item3', 'Title of fourth item is correct.');
+        expect(crumbs[3].active).toBeTruthy('Fourth item is active.');
+        expect(crumbs[3].separatorAfter).toBeUndefined('Separator not visible');
 
         // Filter out Item 1
-        hostComp.routeParts = hostComp.routeParts.slice();
-        hostComp.routeParts[1].title = '*';
-        fixture.detectChanges();
-        expect(de.children.length).toBe(3, 'First three displayed.');
-        expect(de.queryAll(By.css('a'))[0].nativeElement.textContent.trim()).toEqual('RootItem', 'Title of first item is correct.');
-        expect(de.queryAll(By.css('span'))[0].nativeElement.textContent.trim()).toMatch(/:\s+Item2/, 'Separator visible');
-        expect(de.queryAll(By.css('a'))[1].nativeElement.textContent.trim()).toEqual('Item2', 'Title of second item is correct.');
-        expect(de.queryAll(By.css('span'))[1].nativeElement.textContent.trim()).toMatch(/\/\s+Item3/, 'Separator visible');
-        expect(de.queryAll(By.css('a'))[2].nativeElement.textContent.trim()).toEqual('Item3', 'Title of third item is correct.');
+        page.component.routeParts = page.component.routeParts.slice();
+        page.component.routeParts[1].title = '*';
+        page.detectChanges();
+
+        breadCrumbs = page.breadCrumbs;
+        crumbs = breadCrumbs.crumbs;
+        expect(crumbs.length).toBe(3, 'First three displayed.');
+        expect(crumbs[0].text).toEqual('RootItem', 'Title of first item is correct.');
+        expect(crumbs[0].active).toBeTruthy('First item is active.');
+        expect(crumbs[0].separatorAfter).toEqual(':', 'Separator visible');
+        expect(crumbs[1].text).toEqual('Item2', 'Title of second item is correct.');
+        expect(crumbs[1].active).toBeTruthy('Second item is active.');
+        expect(crumbs[1].separatorAfter).toEqual('/', 'Separator visible');
+        expect(crumbs[2].text).toEqual('Item3', 'Title of third item is correct.');
+        expect(crumbs[2].active).toBeTruthy('Third item is active.');
+        expect(crumbs[2].separatorAfter).toBeUndefined('Separator not visible');
 
         // Filter out Item 3
-        hostComp.routeParts = hostComp.routeParts.slice();
-        hostComp.routeParts[3].title = '*';
-        fixture.detectChanges();
-        expect(de.children.length).toBe(2, 'First two displayed.');
-        expect(de.queryAll(By.css('a'))[0].nativeElement.textContent.trim()).toEqual('RootItem', 'Title of first item is correct.');
-        expect(de.queryAll(By.css('span'))[0].nativeElement.textContent.trim()).toMatch(/:\s+Item2/, 'Separator visible');
-        expect(de.queryAll(By.css('a'))[1].nativeElement.textContent.trim()).toEqual('Item2', 'Title of second item is correct.');
+        page.component.routeParts = page.component.routeParts.slice();
+        page.component.routeParts[3].title = '*';
+        page.detectChanges();
+
+        breadCrumbs = page.breadCrumbs;
+        crumbs = breadCrumbs.crumbs;
+        expect(crumbs.length).toBe(2, 'First two displayed.');
+        expect(crumbs[0].text).toEqual('RootItem', 'Title of first item is correct.');
+        expect(crumbs[0].active).toBeTruthy('First item is active.');
+        expect(crumbs[0].separatorAfter).toEqual(':', 'Separator visible');
+        expect(crumbs[1].text).toEqual('Item2', 'Title of second item is correct.');
+        expect(crumbs[1].active).toBeTruthy('Second item is active.');
+        expect(crumbs[1].separatorAfter).toBeUndefined('Separator not visible');
 
         // Filter out Root item
-        hostComp.routeParts = hostComp.routeParts.slice();
-        hostComp.routeParts[0].title = '*';
-        fixture.detectChanges();
-        expect(de.children.length).toBe(1, 'First displayed.');
-        expect(de.queryAll(By.css('a'))[0].nativeElement.textContent.trim()).toEqual('Item2', 'Title of first item is correct.');
-    });
+        page.component.routeParts = page.component.routeParts.slice();
+        page.component.routeParts[0].title = '*';
+        page.detectChanges();
 
-    it('displays inactive items', () => {
+        breadCrumbs = page.breadCrumbs;
+        crumbs = breadCrumbs.crumbs;
+        expect(crumbs.length).toBe(1, 'First displayed.');
+        expect(crumbs[0].text).toEqual('Item2', 'Title of first item is correct.');
+        expect(crumbs[0].active).toBeTruthy('First item is active.');
+        expect(crumbs[0].separatorAfter).toBeUndefined('Separator not visible');
+    }));
+
+    it('displays inactive items', fakeAsync(() => {
         // Add Root item
-        hostComp.routeParts = [
+        page.component.routeParts = [
             {
                 title: 'RootItem',
                 routePart: '/root'
@@ -141,72 +177,127 @@ describe('BreadCrumbsComponent', () => {
                 routePart: 'item3'
             }
         ];
-        fixture.detectChanges();
-        expect(de.children.length).toBe(4, 'First four displayed.');
-        expect(de.queryAll(By.css('a'))[0].nativeElement.textContent.trim()).toEqual('RootItem', 'Title of first item is correct.');
-        expect(de.queryAll(By.css('span'))[0].nativeElement.textContent.trim()).toMatch(/:\s+Item1/, 'Separator visible');
-        expect(de.queryAll(By.css('a'))[1].nativeElement.textContent.trim()).toEqual('Item1', 'Title of second item is correct.');
-        expect(de.queryAll(By.css('span'))[1].nativeElement.textContent.trim()).toMatch(/\/\s+Item2/, 'Separator visible');
-        expect(de.queryAll(By.css('a'))[2].nativeElement.textContent.trim()).toEqual('Item2', 'Title of third item is correct.');
-        expect(de.queryAll(By.css('span'))[2].nativeElement.textContent.trim()).toMatch(/\/\s+Item3/, 'Separator visible');
-        expect(de.queryAll(By.css('a'))[3].nativeElement.textContent.trim()).toEqual('Item3', 'Title of fourth item is correct.');
+        page.detectChanges();
+
+        let breadCrumbs = page.breadCrumbs;
+        let crumbs = breadCrumbs.crumbs;
+        expect(crumbs.length).toBe(4, 'First four displayed.');
+        expect(breadCrumbs.inactive.length).toBe(0, '0 inactive');
+        expect(breadCrumbs.active.length).toBe(4, '4 active');
+
+        expect(crumbs[0].text).toEqual('RootItem', 'Title of first item is correct.');
+        expect(crumbs[0].separatorAfter).toEqual(':', 'Separator visible');
+        expect(crumbs[0].active).toBeTruthy('First item is active.');
+        expect(crumbs[1].text).toEqual('Item1', 'Title of second item is correct.');
+        expect(crumbs[1].separatorAfter).toEqual('/', 'Separator visible');
+        expect(crumbs[1].active).toBeTruthy('Second item is active.');
+        expect(crumbs[2].text).toEqual('Item2', 'Title of third item is correct.');
+        expect(crumbs[2].separatorAfter).toEqual('/', 'Separator visible');
+        expect(crumbs[2].active).toBeTruthy('Third item is active.');
+        expect(crumbs[3].text).toEqual('Item3', 'Title of fourth item is correct.');
+        expect(crumbs[3].separatorAfter).toBeUndefined('Separator not visible');
+        expect(crumbs[3].active).toBeTruthy('Fourth item is active.');
 
         // Set Root as inactive
-        hostComp.routeParts = hostComp.routeParts.slice();
-        hostComp.routeParts[0].inactive = true;
-        fixture.detectChanges();
-        expect(de.children.length).toBe(3, 'First three displayed.');
-        expect(de.nativeElement.textContent.trim()).toMatch(/^RootItem\s+/, 'Title of first item is correct.');
-        expect(de.queryAll(By.css('span'))[0].nativeElement.textContent.trim()).toMatch(/:\s+Item1/, 'Separator visible');
-        expect(de.queryAll(By.css('a'))[0].nativeElement.textContent.trim()).toEqual('Item1', 'Title of second item is correct.');
-        expect(de.queryAll(By.css('span'))[1].nativeElement.textContent.trim()).toMatch(/\/\s+Item2/, 'Separator visible');
-        expect(de.queryAll(By.css('a'))[1].nativeElement.textContent.trim()).toEqual('Item2', 'Title of third item is correct.');
-        expect(de.queryAll(By.css('span'))[2].nativeElement.textContent.trim()).toMatch(/\/\s+Item3/, 'Separator visible');
-        expect(de.queryAll(By.css('a'))[2].nativeElement.textContent.trim()).toEqual('Item3', 'Title of fourth item is correct.');
+        page.component.routeParts = page.component.routeParts.slice();
+        page.component.routeParts[0].inactive = true;
+        page.detectChanges();
+
+        breadCrumbs = page.breadCrumbs;
+        crumbs = breadCrumbs.crumbs;
+        expect(crumbs.length).toBe(4, 'First four displayed.');
+        expect(breadCrumbs.inactive.length).toBe(1, '1 inactive');
+        expect(breadCrumbs.active.length).toBe(3, '3 active');
+
+        expect(crumbs[0].text).toEqual('RootItem', 'Title of first item is correct.');
+        expect(crumbs[0].separatorAfter).toEqual(':', 'Separator visible');
+        expect(crumbs[0].active).toBeFalsy('First item is inactive.');
+        expect(crumbs[1].text).toEqual('Item1', 'Title of second item is correct.');
+        expect(crumbs[1].separatorAfter).toEqual('/', 'Separator visible');
+        expect(crumbs[1].active).toBeTruthy('Second item is active.');
+        expect(crumbs[2].text).toEqual('Item2', 'Title of third item is correct.');
+        expect(crumbs[2].separatorAfter).toEqual('/', 'Separator visible');
+        expect(crumbs[2].active).toBeTruthy('Third item is active.');
+        expect(crumbs[3].text).toEqual('Item3', 'Title of fourth item is correct.');
+        expect(crumbs[3].separatorAfter).toBeUndefined('Separator not visible');
+        expect(crumbs[3].active).toBeTruthy('Fourth item is active.');
 
         // Set First item as inactive
-        hostComp.routeParts = hostComp.routeParts.slice();
-        hostComp.routeParts[1].inactive = true;
-        fixture.detectChanges();
-        expect(de.children.length).toBe(3, 'First three displayed.');
-        expect(de.nativeElement.textContent.trim()).toMatch(/^RootItem\s+/, 'Title of first item is correct.');
-        expect(de.queryAll(By.css('span'))[0].nativeElement.textContent.trim()).toMatch(/:\s+Item1/, 'Separator and title visible');
-        expect(de.queryAll(By.css('span'))[0].query(By.css('a'))).toBeNull('No link shown');
-        expect(de.queryAll(By.css('span'))[1].nativeElement.textContent.trim()).toMatch(/\/\s+Item2/, 'Separator visible');
-        expect(de.queryAll(By.css('a'))[0].nativeElement.textContent.trim()).toEqual('Item2', 'Title of third item is correct.');
-        expect(de.queryAll(By.css('span'))[2].nativeElement.textContent.trim()).toMatch(/\/\s+Item3/, 'Separator visible');
-        expect(de.queryAll(By.css('a'))[1].nativeElement.textContent.trim()).toEqual('Item3', 'Title of fourth item is correct.');
+        page.component.routeParts = page.component.routeParts.slice();
+        page.component.routeParts[1].inactive = true;
+        page.detectChanges();
+
+        breadCrumbs = page.breadCrumbs;
+        crumbs = breadCrumbs.crumbs;
+        expect(crumbs.length).toBe(4, 'First four displayed.');
+        expect(breadCrumbs.inactive.length).toBe(2, '2 inactive');
+        expect(breadCrumbs.active.length).toBe(2, '2 active');
+
+        expect(crumbs[0].text).toEqual('RootItem', 'Title of first item is correct.');
+        expect(crumbs[0].separatorAfter).toEqual(':', 'Separator visible');
+        expect(crumbs[0].active).toBeFalsy('First item is inactive.');
+        expect(crumbs[1].text).toEqual('Item1', 'Title of second item is correct.');
+        expect(crumbs[1].separatorAfter).toEqual('/', 'Separator visible');
+        expect(crumbs[1].active).toBeFalsy('Second item is inactive.');
+        expect(crumbs[2].text).toEqual('Item2', 'Title of third item is correct.');
+        expect(crumbs[2].separatorAfter).toEqual('/', 'Separator visible');
+        expect(crumbs[2].active).toBeTruthy('Third item is active.');
+        expect(crumbs[3].text).toEqual('Item3', 'Title of fourth item is correct.');
+        expect(crumbs[3].separatorAfter).toBeUndefined('Separator not visible');
+        expect(crumbs[3].active).toBeTruthy('Fourth item is active.');
 
         // Set Second item as inactive
-        hostComp.routeParts = hostComp.routeParts.slice();
-        hostComp.routeParts[2].inactive = true;
-        fixture.detectChanges();
-        expect(de.children.length).toBe(3, 'First three displayed.');
-        expect(de.nativeElement.textContent.trim()).toMatch(/^RootItem\s+/, 'Title of first item is correct.');
-        expect(de.queryAll(By.css('span'))[0].nativeElement.textContent.trim()).toMatch(/:\s+Item1/, 'Separator and title visible');
-        expect(de.queryAll(By.css('span'))[0].query(By.css('a'))).toBeNull('No link shown');
-        expect(de.queryAll(By.css('span'))[1].nativeElement.textContent.trim()).toMatch(/\/\s+Item2/, 'Separator visible');
-        expect(de.queryAll(By.css('span'))[1].query(By.css('a'))).toBeNull('No link shown');
-        expect(de.queryAll(By.css('span'))[2].nativeElement.textContent.trim()).toMatch(/\/\s+Item3/, 'Separator visible');
-        expect(de.queryAll(By.css('a'))[0].nativeElement.textContent.trim()).toEqual('Item3', 'Title of fourth item is correct.');
+        page.component.routeParts = page.component.routeParts.slice();
+        page.component.routeParts[2].inactive = true;
+        page.detectChanges();
+
+        breadCrumbs = page.breadCrumbs;
+        crumbs = breadCrumbs.crumbs;
+        expect(crumbs.length).toBe(4, 'First four displayed.');
+        expect(breadCrumbs.inactive.length).toBe(3, '3 inactive');
+        expect(breadCrumbs.active.length).toBe(1, '1 active');
+
+        expect(crumbs[0].text).toEqual('RootItem', 'Title of first item is correct.');
+        expect(crumbs[0].separatorAfter).toEqual(':', 'Separator visible');
+        expect(crumbs[0].active).toBeFalsy('First item is inactive.');
+        expect(crumbs[1].text).toEqual('Item1', 'Title of second item is correct.');
+        expect(crumbs[1].separatorAfter).toEqual('/', 'Separator visible');
+        expect(crumbs[1].active).toBeFalsy('Second item is inactive.');
+        expect(crumbs[2].text).toEqual('Item2', 'Title of third item is correct.');
+        expect(crumbs[2].separatorAfter).toEqual('/', 'Separator visible');
+        expect(crumbs[2].active).toBeFalsy('Third item is inactive.');
+        expect(crumbs[3].text).toEqual('Item3', 'Title of fourth item is correct.');
+        expect(crumbs[3].separatorAfter).toBeUndefined('Separator not visible');
+        expect(crumbs[3].active).toBeTruthy('Fourth item is active.');
 
         // Set Second item as inactive
-        hostComp.routeParts = hostComp.routeParts.slice();
-        hostComp.routeParts[3].inactive = true;
-        fixture.detectChanges();
-        expect(de.children.length).toBe(3, 'First three displayed.');
-        expect(de.nativeElement.textContent.trim()).toMatch(/^RootItem\s+/, 'Title of first item is correct.');
-        expect(de.queryAll(By.css('span'))[0].nativeElement.textContent.trim()).toMatch(/:\s+Item1/, 'Separator and title visible');
-        expect(de.queryAll(By.css('span'))[0].query(By.css('a'))).toBeNull('No link shown');
-        expect(de.queryAll(By.css('span'))[1].nativeElement.textContent.trim()).toMatch(/\/\s+Item2/, 'Separator visible');
-        expect(de.queryAll(By.css('span'))[1].query(By.css('a'))).toBeNull('No link shown');
-        expect(de.queryAll(By.css('span'))[2].nativeElement.textContent.trim()).toMatch(/\/\s+Item3/, 'Separator visible');
-        expect(de.queryAll(By.css('span'))[2].query(By.css('a'))).toBeNull('No link shown');
-    });
+        page.component.routeParts = page.component.routeParts.slice();
+        page.component.routeParts[3].inactive = true;
+        page.detectChanges();
 
-    it('navigates correctly', () => {
+        breadCrumbs = page.breadCrumbs;
+        crumbs = breadCrumbs.crumbs;
+        expect(crumbs.length).toBe(4, 'First four displayed.');
+        expect(breadCrumbs.inactive.length).toBe(4, '4 inactive');
+        expect(breadCrumbs.active.length).toBe(0, '0 active');
+
+        expect(crumbs[0].text).toEqual('RootItem', 'Title of first item is correct.');
+        expect(crumbs[0].separatorAfter).toEqual(':', 'Separator visible');
+        expect(crumbs[0].active).toBeFalsy('First item is inactive.');
+        expect(crumbs[1].text).toEqual('Item1', 'Title of second item is correct.');
+        expect(crumbs[1].separatorAfter).toEqual('/', 'Separator visible');
+        expect(crumbs[1].active).toBeFalsy('Second item is inactive.');
+        expect(crumbs[2].text).toEqual('Item2', 'Title of third item is correct.');
+        expect(crumbs[2].separatorAfter).toEqual('/', 'Separator visible');
+        expect(crumbs[2].active).toBeFalsy('Third item is inactive.');
+        expect(crumbs[3].text).toEqual('Item3', 'Title of fourth item is correct.');
+        expect(crumbs[3].separatorAfter).toBeUndefined('Separator not visible');
+        expect(crumbs[3].active).toBeFalsy('Fourth item is inactive.');
+    }));
+
+    it('navigates correctly', fakeAsync(() => {
         // Add Root item
-        hostComp.routeParts = [
+        page.component.routeParts = [
             {
                 title: 'RootItem',
                 routePart: '/root'
@@ -224,16 +315,17 @@ describe('BreadCrumbsComponent', () => {
                 routePart: 'item3'
             }
         ];
-        fixture.detectChanges();
+        page.detectChanges();
 
-        let links: DebugElement[] = de.queryAll(By.directive(RouterLinkStubDirective));
-        for (let i = 0; i < links.length; i++) {
-            let routerLink: RouterLinkStubDirective = links[i].injector.get(RouterLinkStubDirective);
+        let breadCrumbs = page.breadCrumbs;
+        let crumbs = breadCrumbs.crumbs;
+        expect(breadCrumbs.active.length).toBe(4, '4 active');
+        expect(breadCrumbs.inactive.length).toBe(0, '0 inactive');
+        crumbs.map((item: Crumb) => item.link).forEach((link: LinkDefinition, index: number) => {
+            link.click();
 
-            click(links[i]);
-
-            expect(routerLink.navigatedTo.length).toBe(i + 1);
-            expect(routerLink.navigatedTo[i]).toEqual(hostComp.routeParts[i].routePart);
-        }
-    });
+            expect(link.stub.navigatedTo.length).toBe(index + 1);
+            expect(link.stub.navigatedTo[index]).toEqual(page.component.routeParts[index].routePart);
+        });
+    }));
 });

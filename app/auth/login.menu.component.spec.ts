@@ -1,29 +1,12 @@
-import {DebugElement} from "@angular/core";
-import {By} from "@angular/platform-browser";
+import {TestBed, async, ComponentFixtureAutoDetect, inject, fakeAsync} from '@angular/core/testing';
 
-import {ComponentFixture, TestBed, async, ComponentFixtureAutoDetect, inject} from "@angular/core/testing";
+import {AuthServiceStub, RouterLinkStubDirective, LinkOnlyPage} from '../../testing';
 
-import {AuthServiceStub} from "../../testing/auth.service.stub";
-import {RouterLinkStubDirective} from "../../testing/router.link.stub";
-import {click} from "../../testing/index";
-
-import {AuthService} from "./auth.service";
-import {LoginMenuComponent} from "./login.menu.component";
+import {AuthService} from './auth.service';
+import {LoginMenuComponent} from './login.menu.component';
 
 describe('Login menu', () => {
-
-    let comp: LoginMenuComponent;
-    let fixture: ComponentFixture<LoginMenuComponent>;
-    let de: DebugElement;
-    let el: HTMLElement;
-    let linkStub: RouterLinkStubDirective;
-
-    function searchForLink() {
-        de = fixture.debugElement.query(By.directive(RouterLinkStubDirective));
-        el = de.nativeElement;
-
-        linkStub = de.injector.get(RouterLinkStubDirective) as RouterLinkStubDirective;
-    }
+    let page: LinkOnlyPage<LoginMenuComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -40,37 +23,32 @@ describe('Login menu', () => {
         }).compileComponents();
     }));
 
-    beforeEach(() => {
-        fixture = TestBed.createComponent(LoginMenuComponent);
+    beforeEach(fakeAsync(() => {
+        page = new LinkOnlyPage<LoginMenuComponent>(TestBed.createComponent(LoginMenuComponent));
+        page.detectChanges();
+    }));
 
-        comp = fixture.componentInstance;
-    });
+    it('works as expected', fakeAsync(inject([AuthService], (auth: AuthServiceStub) => {
+        let clickSpy = spyOn(page.component, 'logout').and.callThrough();
 
-    it('works as expected', inject([AuthService], (auth: AuthServiceStub) => {
+        expect(page.link.text).toContain('Login');
 
-        searchForLink();
-
-        let clickSpy = spyOn(comp, 'logout').and.callThrough();
-
-        expect(el.textContent).toContain('Login');
-
-        click(de);
+        page.link.click();
 
         expect(clickSpy).not.toHaveBeenCalled();
-        expect(linkStub.navigatedTo).toContain('/login');
+        expect(page.link.stub.navigatedTo).toContain('/login');
 
-        linkStub.navigatedTo = null;
+        page.link.stub.navigatedTo = null;
 
         auth.login('testUser', 'somePassword');
-        fixture.detectChanges();
+        page.detectChanges();
 
-        searchForLink();
+        expect(page.link.text).toContain('Logout');
 
-        expect(el.textContent).toContain('Logout');
-
-        click(el);
+        let stub = page.link.stub;
+        page.link.click();
 
         expect(clickSpy).toHaveBeenCalled();
-        expect(linkStub.navigatedTo).toContain('/login');
-    }));
+        expect(stub.navigatedTo).toContain('/login');
+    })));
 });

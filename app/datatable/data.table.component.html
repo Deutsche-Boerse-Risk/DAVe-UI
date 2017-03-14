@@ -1,6 +1,6 @@
 <div class="panel-body" *ngIf="data?.length">
     <table [class.table-striped]="striped" class="table table-bordered table-hover">
-        <thead *ngIf="headerTemplates">
+        <thead *ngIf="headerTemplates" #mainHeader>
         <tr *ngFor="let headerTemplate of headerTemplates; trackBy:trackByIndex">
             <th *ngFor="let column of headerTemplate; trackBy:trackByIndex"
                 [attr.rowspan]="column.rowspan"
@@ -21,7 +21,7 @@
         </thead>
         <tbody *ngIf="pageRows && rowsTemplates">
         <ng-template ngFor let-row [ngForOf]="pageRows" let-rowIndex="index" [ngForTrackBy]="trackByRowKey"
-                  expandable #expandable="expandable">
+                     expandable #expandable="expandable">
             <tr *ngFor="let rowsTemplate of rowsTemplates; trackBy:trackByIndex"
                 (click)="expandable.expand(masterRow, !!detailRowGroups)"
                 #masterRow
@@ -31,8 +31,8 @@
                     [attr.rowspan]="column.rowspan"
                     [attr.colspan]="column.colspan">
                     <ng-template *ngIf="column.cellTemplate"
-                              [ngTemplateOutlet]="column.cellTemplate"
-                              [ngTemplateOutletContext]="{ row: row }"></ng-template>
+                                 [ngTemplateOutlet]="column.cellTemplate"
+                                 [ngTemplateOutletContext]="{ row: row }"></ng-template>
                 </td>
             </tr>
             <tr *ngIf="detailRowGroups"
@@ -67,8 +67,8 @@
                                     [attr.rowspan]="column.rowspan"
                                     [attr.colspan]="column.colspan">
                                     <ng-template *ngIf="column.cellTemplate"
-                                              [ngTemplateOutlet]="column.cellTemplate"
-                                              [ngTemplateOutletContext]="{ row: row }"></ng-template>
+                                                 [ngTemplateOutlet]="column.cellTemplate"
+                                                 [ngTemplateOutletContext]="{ row: row }"></ng-template>
                                 </td>
                             </tr>
                             </tbody>
@@ -84,8 +84,8 @@
                 [attr.rowspan]="column.rowspan"
                 [attr.colspan]="column.colspan">
                 <ng-template *ngIf="column.footerTemplate"
-                          [ngTemplateOutlet]="column.footerTemplate"
-                          [ngTemplateOutletContext]="{ footer: footer }"></ng-template>
+                             [ngTemplateOutlet]="column.footerTemplate"
+                             [ngTemplateOutletContext]="{ footer: footer }"></ng-template>
             </th>
         </tr>
         </tfoot>
