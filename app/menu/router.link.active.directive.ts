@@ -1,6 +1,6 @@
 import {
     Directive, Input, AfterContentInit, OnDestroy, OnChanges, ContentChildren, QueryList,
-    ElementRef, RendererV2, SimpleChanges
+    ElementRef, Renderer2, SimpleChanges
 } from '@angular/core';
 import {Router, NavigationEnd, RouterLinkWithHref, RouterLink} from '@angular/router';
 
@@ -28,7 +28,7 @@ export class RouterLinkActiveDirective implements OnChanges, OnDestroy, AfterCon
     @Input()
     public routerLinkActiveOptions: {exact: boolean} = {exact: false};
 
-    constructor(private router: Router, private element: ElementRef, private renderer: RendererV2) {
+    constructor(private router: Router, private element: ElementRef, private renderer: Renderer2) {
         this.subscription = router.events.subscribe(s => {
             if (s instanceof NavigationEnd) {
                 this.update();
