@@ -13,8 +13,8 @@ dependencies:
     - npm update
     - npm prune
   post:
-    - npm list
-    - npm list -g
+    - npm list || true
+    - npm list -g || true
 
 test:
   override:
