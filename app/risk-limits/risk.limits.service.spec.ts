@@ -38,7 +38,7 @@ describe('RiskLimitsService', () => {
                             .toBe(riskLimitsLatestURL);
                         expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params)
                             .toEqual(['*', '*', '*', '*']);
-                        expect(data.length).toBe(Math.pow(3, 4));
+                        expect(data.length).toBe(Math.pow(3, 3));
                         data.forEach((row: RiskLimitsData) => {
                             if (row.warningLevel > 0) {
                                 expect(row.warningUtil).toBe(row.utilization / row.warningLevel * 100);
@@ -83,7 +83,7 @@ describe('RiskLimitsService', () => {
                             .toBe(riskLimitsHistoryURL);
                         expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params)
                             .toEqual(['*', '*', '*', '*']);
-                        expect(data.length).toBe(Math.pow(3, 4));
+                        expect(data.length).toBe(Math.pow(3, 3));
                         data.forEach((row: RiskLimitsData) => {
                             if (row.warningLevel > 0) {
                                 expect(row.warningUtil).toBe(row.utilization / row.warningLevel * 100);
