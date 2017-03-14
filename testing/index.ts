@@ -5,6 +5,7 @@ import {DataTableDefinition, SortingHandle} from './definitions/data.table.defin
 export * from './definitions/bread.crumbs.page';
 export * from './definitions/bubble.chart.page';
 export * from './definitions/chart.page';
+export * from './definitions/dashboard.page';
 export * from './definitions/download.menu.page';
 export * from './definitions/data.table.definition';
 export * from './definitions/highlighter.directive.page';
