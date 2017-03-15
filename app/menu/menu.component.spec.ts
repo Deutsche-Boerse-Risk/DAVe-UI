@@ -1,7 +1,7 @@
 import {LocationStrategy} from '@angular/common';
 import {Router, ActivatedRoute} from '@angular/router';
 
-import {TestBed, ComponentFixtureAutoDetect, async, inject, fakeAsync} from '@angular/core/testing';
+import {TestBed, async, inject, fakeAsync} from '@angular/core/testing';
 
 import {MenuPage, RouterStub, ActivatedRouteStub, LocationStrategyStub} from '../../testing';
 
@@ -18,14 +18,14 @@ describe('Menu component', () => {
             providers: [
                 {provide: Router, useClass: RouterStub},
                 {provide: ActivatedRoute, useClass: ActivatedRouteStub},
-                {provide: LocationStrategy, useClass: LocationStrategyStub},
-                {provide: ComponentFixtureAutoDetect, useValue: true}
+                {provide: LocationStrategy, useClass: LocationStrategyStub}
             ]
         }).compileComponents();
     }));
 
     beforeEach(fakeAsync(() => {
         page = new MenuPage(TestBed.createComponent(MenuComponent));
+        page.detectChanges();
     }));
 
     it('has "Dashboard" active', fakeAsync(() => {

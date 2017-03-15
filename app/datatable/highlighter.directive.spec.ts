@@ -1,4 +1,4 @@
-import {async, TestBed, ComponentFixtureAutoDetect, fakeAsync} from '@angular/core/testing';
+import {async, TestBed, fakeAsync} from '@angular/core/testing';
 
 import {HighLighterDirectivePage, HighLighterDirectiveTestComponent} from '../../testing';
 
@@ -9,10 +9,7 @@ describe('Highlighter directive', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [HighLighterDirectiveTestComponent, HighlighterDirective],
-            providers: [
-                {provide: ComponentFixtureAutoDetect, useValue: true}
-            ]
+            declarations: [HighLighterDirectiveTestComponent, HighlighterDirective]
         }).compileComponents();
     }));
 

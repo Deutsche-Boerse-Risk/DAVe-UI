@@ -1,4 +1,4 @@
-import {fakeAsync, TestBed, async, ComponentFixtureAutoDetect} from '@angular/core/testing';
+import {fakeAsync, TestBed, async} from '@angular/core/testing';
 
 import {windowResize, ChartPage, TestChartHostComponent} from '../../testing';
 
@@ -72,10 +72,7 @@ describe('GoogleChart component', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [GoogleChart, TestChartHostComponent],
-            providers: [
-                {provide: ComponentFixtureAutoDetect, useValue: true}
-            ]
+            declarations: [GoogleChart, TestChartHostComponent]
         }).compileComponents();
     }));
 

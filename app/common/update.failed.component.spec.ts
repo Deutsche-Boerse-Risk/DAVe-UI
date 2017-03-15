@@ -1,4 +1,4 @@
-import {TestBed, async, ComponentFixtureAutoDetect, fakeAsync} from '@angular/core/testing';
+import {TestBed, async, fakeAsync} from '@angular/core/testing';
 
 import {UpdateFailedPage, UpdateFailedHostedPage, TestUpdateFailedHostComponent} from '../../testing';
 
@@ -10,10 +10,7 @@ describe('UpdateFailedComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [UpdateFailedComponent],
-            providers: [
-                {provide: ComponentFixtureAutoDetect, useValue: true}
-            ]
+            declarations: [UpdateFailedComponent]
         }).compileComponents();
     }));
 
@@ -36,10 +33,7 @@ describe('UpdateFailedComponent hosted', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [UpdateFailedComponent, TestUpdateFailedHostComponent],
-            providers: [
-                {provide: ComponentFixtureAutoDetect, useValue: true}
-            ]
+            declarations: [UpdateFailedComponent, TestUpdateFailedHostComponent]
         }).compileComponents();
     }));
 

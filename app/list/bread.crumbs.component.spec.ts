@@ -1,6 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 
-import {TestBed, async, ComponentFixtureAutoDetect, fakeAsync} from '@angular/core/testing';
+import {TestBed, async, fakeAsync} from '@angular/core/testing';
 
 import {
     BreadCrumbsPage,
@@ -19,15 +19,13 @@ describe('BreadCrumbsComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [BrowserModule],
-            declarations: [TestBreadCrumbsComponent, BreadCrumbsComponent, RouterLinkStubDirective],
-            providers: [
-                {provide: ComponentFixtureAutoDetect, useValue: true}
-            ]
+            declarations: [TestBreadCrumbsComponent, BreadCrumbsComponent, RouterLinkStubDirective]
         }).compileComponents();
     }));
 
     beforeEach(fakeAsync(() => {
         page = new BreadCrumbsPage(TestBed.createComponent(TestBreadCrumbsComponent));
+        page.detectChanges();
     }));
 
     it('displays correct bread crumbs and filteres correctly', fakeAsync(() => {

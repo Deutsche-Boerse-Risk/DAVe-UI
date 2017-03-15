@@ -1,4 +1,4 @@
-import {fakeAsync, TestBed, async, ComponentFixtureAutoDetect} from '@angular/core/testing';
+import {fakeAsync, TestBed, async} from '@angular/core/testing';
 
 import {LineChartPage, TestLineChartHostComponent} from '../../testing';
 
@@ -101,10 +101,7 @@ describe('GoogleLineChart component', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [GoogleLineChart, GoogleChart, TestLineChartHostComponent],
-            providers: [
-                {provide: ComponentFixtureAutoDetect, useValue: true}
-            ]
+            declarations: [GoogleLineChart, GoogleChart, TestLineChartHostComponent]
         }).compileComponents();
     }));
 

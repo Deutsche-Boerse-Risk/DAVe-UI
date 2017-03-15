@@ -1,21 +1,18 @@
 import {NO_ERRORS_SCHEMA} from '@angular/core';
 
-import {TestBed, async, ComponentFixtureAutoDetect, fakeAsync} from '@angular/core/testing';
+import {TestBed, async, fakeAsync} from '@angular/core/testing';
 
 import {DashboardPage, Tab} from '../../testing';
 
 import {DashboardComponent} from './dashboard.component';
 
-describe('UpdateFailedComponent', () => {
+describe('DashboardComponent', () => {
 
     let page: DashboardPage;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [DashboardComponent],
-            providers: [
-                {provide: ComponentFixtureAutoDetect, useValue: true}
-            ],
             schemas: [NO_ERRORS_SCHEMA]
         }).compileComponents();
     }));

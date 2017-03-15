@@ -1,4 +1,4 @@
-import {async, TestBed, ComponentFixtureAutoDetect, fakeAsync} from '@angular/core/testing';
+import {async, TestBed, fakeAsync} from '@angular/core/testing';
 
 import {TestHostComponent, DataTableDefinitionHosted} from '../../testing';
 
@@ -13,10 +13,7 @@ describe('DataTable component', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [DataTableModule],
-            declarations: [TestHostComponent],
-            providers: [
-                {provide: ComponentFixtureAutoDetect, useValue: true}
-            ]
+            declarations: [TestHostComponent]
         }).compileComponents();
     }));
 

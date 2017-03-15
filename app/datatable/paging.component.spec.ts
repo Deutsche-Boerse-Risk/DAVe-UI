@@ -1,21 +1,18 @@
-import {async, TestBed, ComponentFixtureAutoDetect, fakeAsync} from '@angular/core/testing';
+import {async, TestBed, fakeAsync} from '@angular/core/testing';
 
 import {TestHostComponent, DataTableDefinitionHosted} from '../../testing';
 
 import {DataTableModule} from './data.table.module';
 
 
-describe('DataTable component shows pager ', () => {
+describe('DataTable component shows pager', () => {
 
     let table: DataTableDefinitionHosted;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [DataTableModule],
-            declarations: [TestHostComponent],
-            providers: [
-                {provide: ComponentFixtureAutoDetect, useValue: true}
-            ]
+            declarations: [TestHostComponent]
         }).compileComponents();
     }));
 

@@ -57,6 +57,12 @@ export class DataTableDefinitionHosted extends Page<TestHostComponent> {
     public get dataTable(): DataTableDefinition {
         return new DataTableDefinition(this.debugElement.query(By.directive(DataTableComponent)), this);
     }
+
+    public detectChanges(millis: number = 0): void {
+        super.detectChanges(millis);
+        // Check again as the table changes may change something in the pager as well.
+        super.detectChanges();
+    }
 }
 
 export class TableHeader {

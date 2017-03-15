@@ -1,4 +1,4 @@
-import {TestBed, async, ComponentFixtureAutoDetect, fakeAsync} from '@angular/core/testing';
+import {TestBed, async, fakeAsync} from '@angular/core/testing';
 
 import {LinkOnlyPage, RouterLinkStubDirective} from '../../testing';
 
@@ -10,16 +10,14 @@ describe('DetailRowButtonComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [DetailRowButtonComponent, RouterLinkStubDirective],
-            providers: [
-                {provide: ComponentFixtureAutoDetect, useValue: true}
-            ]
+            declarations: [DetailRowButtonComponent, RouterLinkStubDirective]
         }).compileComponents();
     }));
 
-    beforeEach(() => {
+    beforeEach(fakeAsync(() => {
         page = new LinkOnlyPage<DetailRowButtonComponent>(TestBed.createComponent(DetailRowButtonComponent));
-    });
+        page.detectChanges();
+    }));
 
     it('navigates correctly', fakeAsync(() => {
         page.component.routerLink = ['/test', 'url'];
