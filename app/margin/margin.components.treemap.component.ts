@@ -62,9 +62,11 @@ export class MarginComponentsTreemapComponent extends AbstractComponentWithAutoR
                         c: [
                             {
                                 v: node.data.text
-                            }, {
+                            },
+                            {
                                 v: node.parent ? node.parent.data.text : null
-                            }, {
+                            },
+                            {
                                 v: node.children.length > 0 ? 0 : node.data.value
                             }
                         ],

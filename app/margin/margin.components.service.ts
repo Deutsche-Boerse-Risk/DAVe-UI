@@ -88,8 +88,10 @@ export class MarginComponentsService {
     public getMarginComponentsTreeMapData(): Observable<MarginComponentsTree> {
         return this.http.get({resourceURL: marginComponentsTreemapURL}).map(
             (data: MarginComponentsServerData[]) => {
-                if (!data) {
-                    return {};
+                if (!data || !data.length) {
+                    return {
+                        traverseDF: () => {}
+                    };
                 }
                 let members: {[key: string]: boolean} = {};
                 let accounts: {[key: string]: boolean} = {};

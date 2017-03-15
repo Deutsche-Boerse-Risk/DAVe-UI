@@ -213,6 +213,17 @@ describe('MarginComponentsService', () => {
 
                         expect((data as any)._root).not.toBeDefined();
                     });
+
+                http.returnValue([]);
+                marginComponentsService.getMarginComponentsTreeMapData()
+                    .subscribe((data: MarginComponentsTree) => {
+                        expect(httpSyp).toHaveBeenCalledTimes(3);
+                        expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL)
+                            .toBe(marginComponentsTreemapURL);
+                        expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params).not.toBeDefined();
+
+                        expect((data as any)._root).not.toBeDefined();
+                    });
             })
     );
 });

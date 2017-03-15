@@ -20,6 +20,7 @@ export * from './definitions/menu.page';
 export * from './definitions/no.data.page';
 export * from './definitions/page.base';
 export * from './definitions/shorfall.surplus.summary.page';
+export * from './definitions/treemap.page';
 export * from './definitions/update.failed.page';
 
 export * from './mock/margin.components.generator';
