@@ -95,7 +95,7 @@ module.exports = function (grunt) {
         htmlPattern, // HTML templates
         tsPattern, jsPattern, jsToCleanPattern; // TypeScript, JavaScript and mapping files
 
-    grunt.appFolders = ['app'];
+    grunt.appFolders = ['app', 'testing'];
 
     // Populate paths
     sassPattern = addAppFolders('**/*.scss', 'styles.scss');
