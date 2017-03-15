@@ -110,11 +110,11 @@ export class TableHeaderCell {
         return this.element.nativeElement.textContent.trim();
     }
 
-    public get colspan(): string {
+    public get colspan(): number {
         return this.element.nativeElement.colspan;
     }
 
-    public get rowspan(): string {
+    public get rowspan(): number {
         return this.element.nativeElement.rowspan;
     }
 
@@ -256,11 +256,11 @@ export class TableBodyCell {
     constructor(public element: DebugElement) {
     }
 
-    public get colspan(): string {
+    public get colspan(): number {
         return this.element.nativeElement.colspan;
     }
 
-    public get rowspan(): string {
+    public get rowspan(): number {
         return this.element.nativeElement.rowspan;
     }
 }
@@ -292,7 +292,7 @@ export class TableBodyDetail {
         return this.element.nativeElement.classList.contains(HIGHLIGHTER_CLASS);
     }
 
-    public get colspan(): string {
+    public get colspan(): number {
         return this.element.children[0].nativeElement.colspan;
     }
 }
