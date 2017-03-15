@@ -1,5 +1,5 @@
 import {LocationStrategy} from '@angular/common';
-import {NO_ERRORS_SCHEMA, DebugElement} from '@angular/core';
+import {NO_ERRORS_SCHEMA} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 
 import {async, TestBed, fakeAsync, inject} from '@angular/core/testing';
@@ -9,6 +9,7 @@ import {
     LocationStrategyStub,
     ActivatedRouteStub,
     HistoryListPage,
+    TableBodyRow,
     RouterLinkStubDirective,
     HttpAsyncServiceStub,
     generatePositionReportsHistory,
@@ -23,7 +24,6 @@ import {valueGetters} from './position.report.latest.component';
 import {PositionReportHistoryComponent} from './position.report.history.component';
 import {ListModule} from '../list/list.module';
 import {DataTableModule} from '../datatable/data.table.module';
-import {HIGHLIGHTER_CLASS} from '../datatable/highlighter.directive';
 
 describe('Position reports history component', () => {
     let page: HistoryListPage<PositionReportHistoryComponent>;
@@ -127,7 +127,7 @@ describe('Position reports history component', () => {
             expect(page.lineChart).toBeNull('Chart not visible.');
         })));
 
-    it('displays data correctly', fakeAsync(inject([HttpService],
+    it('displays data table', fakeAsync(inject([HttpService],
         (http: HttpAsyncServiceStub<PositionReportServerData[]>) => {
             let httpSpy = spyOn(http, 'get').and.callThrough();
             // Init component
@@ -170,15 +170,15 @@ describe('Position reports history component', () => {
             expect(page.dataTable.element).not.toBeNull('Data table visible.');
             expect(page.lineChart).not.toBeNull('Chart visible.');
 
-            expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
-                return row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+            expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
+                return row.highlighted;
             })).toBeTruthy('All rows are highlighted');
 
             // Fire highlighters
             page.advance(15000);
 
-            expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
-                return !row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+            expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
+                return !row.highlighted;
             })).toBeTruthy('No rows are highlighted');
 
             // Push new data
@@ -192,15 +192,15 @@ describe('Position reports history component', () => {
             expect(page.dataTable.element).not.toBeNull('Data table visible.');
             expect(page.lineChart).not.toBeNull('Chart visible.');
 
-            expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
-                return row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+            expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
+                return row.highlighted;
             })).toBeTruthy('All rows are highlighted');
 
             // Fire highlighters
             page.advance(15000);
 
-            expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
-                return !row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+            expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
+                return !row.highlighted;
             })).toBeTruthy('No rows are highlighted');
 
             // Return the same data
@@ -210,8 +210,8 @@ describe('Position reports history component', () => {
             // Return the data
             page.advance(1000);
 
-            expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
-                return !row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+            expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
+                return !row.highlighted;
             })).toBeTruthy('No rows are highlighted');
 
             // Do not trigger periodic interval

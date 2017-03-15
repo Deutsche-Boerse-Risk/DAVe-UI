@@ -1,5 +1,4 @@
 import {LocationStrategy} from '@angular/common';
-import {DebugElement} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 
 import {async, TestBed, fakeAsync, inject} from '@angular/core/testing';
@@ -13,7 +12,8 @@ import {
     generateMarginComponents,
     generateMarginComponentsHistory,
     chceckSorting,
-    AggregationPage
+    AggregationPage,
+    TableBodyRow
 } from '../../testing';
 
 import {MarginComponentsService} from './margin.components.service';
@@ -22,7 +22,6 @@ import {HttpService} from '../http.service';
 
 import {CommonModule} from '../common/common.module';
 import {DataTableModule} from '../datatable/data.table.module';
-import {HIGHLIGHTER_CLASS} from '../datatable/highlighter.directive';
 
 import {MarginComponentsAggregationComponent, valueGetters} from './margin.components.aggregation.component';
 
@@ -142,15 +141,15 @@ describe('Margin components aggregation component', () => {
             expect(page.updateFailedComponent).toBeNull('Update failed component not visible.');
             expect(page.dataTable.element).not.toBeNull('Data table visible.');
 
-            expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
-                return row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+            expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
+                return row.highlighted;
             })).toBeTruthy('All rows are highlighted');
 
             // Fire highlighters
             page.advance(15000);
 
-            expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
-                return !row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+            expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
+                return !row.highlighted;
             })).toBeTruthy('No rows are highlighted');
 
             // Push new data
@@ -163,15 +162,15 @@ describe('Margin components aggregation component', () => {
 
             expect(page.dataTable.element).not.toBeNull('Data table visible.');
 
-            expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
-                return row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+            expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
+                return row.highlighted;
             })).toBeTruthy('All rows are highlighted');
 
             // Fire highlighters
             page.advance(15000);
 
-            expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
-                return !row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+            expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
+                return !row.highlighted;
             })).toBeTruthy('No rows are highlighted');
 
             // Return the same data
@@ -181,8 +180,8 @@ describe('Margin components aggregation component', () => {
             // Return the data
             page.advance(1000);
 
-            expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
-                return !row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+            expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
+                return !row.highlighted;
             })).toBeTruthy('No rows are highlighted');
 
             // Do not trigger periodic interval
@@ -222,7 +221,7 @@ describe('Margin components aggregation component', () => {
         // Do not trigger periodic interval
         clearInterval((page.component as any).intervalHandle);
 
-        expect(page.dataTable.pager.debugElement).toBeNull('Pager not visible');
+        expect(page.dataTable.pager.element).toBeNull('Pager not visible');
 
         // Fire highlighters
         page.advance(15000);

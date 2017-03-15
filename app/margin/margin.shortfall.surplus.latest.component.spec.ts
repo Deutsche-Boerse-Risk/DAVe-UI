@@ -1,5 +1,4 @@
 import {LocationStrategy} from '@angular/common';
-import {DebugElement} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 
 import {async, TestBed, fakeAsync, inject} from '@angular/core/testing';
@@ -9,6 +8,7 @@ import {
     LocationStrategyStub,
     ActivatedRouteStub,
     LatestListPage,
+    TableBodyRow,
     RouterLinkStubDirective,
     HttpAsyncServiceStub,
     generateShortfallSurplusLatest,
@@ -23,7 +23,6 @@ import {HttpService} from '../http.service';
 import {MarginShortfallSurplusLatestComponent, valueGetters} from './margin.shortfall.surplus.latest.component';
 import {ListModule} from '../list/list.module';
 import {DataTableModule} from '../datatable/data.table.module';
-import {HIGHLIGHTER_CLASS} from '../datatable/highlighter.directive';
 
 describe('Margin shortfall-surplus latest component', () => {
     let page: LatestListPage<MarginShortfallSurplusLatestComponent>;
@@ -141,15 +140,15 @@ describe('Margin shortfall-surplus latest component', () => {
             expect(page.updateFailedComponent).toBeNull('Update failed component not visible.');
             expect(page.dataTable.element).not.toBeNull('Data table visible.');
 
-            expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
-                return row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+            expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
+                return row.highlighted;
             })).toBeTruthy('All rows are highlighted');
 
             // Fire highlighters
             page.advance(15000);
 
-            expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
-                return !row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+            expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
+                return !row.highlighted;
             })).toBeTruthy('No rows are highlighted');
 
             // Push new data
@@ -162,15 +161,15 @@ describe('Margin shortfall-surplus latest component', () => {
 
             expect(page.dataTable.element).not.toBeNull('Data table visible.');
 
-            expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
-                return row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+            expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
+                return row.highlighted;
             })).toBeTruthy('All rows are highlighted');
 
             // Fire highlighters
             page.advance(15000);
 
-            expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
-                return !row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+            expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
+                return !row.highlighted;
             })).toBeTruthy('No rows are highlighted');
 
             // Return the same data
@@ -180,8 +179,8 @@ describe('Margin shortfall-surplus latest component', () => {
             // Return the data
             page.advance(1000);
 
-            expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
-                return !row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+            expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
+                return !row.highlighted;
             })).toBeTruthy('No rows are highlighted');
 
             // Do not trigger periodic interval
