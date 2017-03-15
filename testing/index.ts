@@ -2,6 +2,7 @@ import {OrderingValueGetter} from '../app/datatable/data.table.column.directive'
 
 import {DataTableDefinition, SortingHandle} from './definitions/data.table.definition';
 
+export * from './definitions/app.component.page';
 export * from './definitions/bread.crumbs.page';
 export * from './definitions/bubble.chart.page';
 export * from './definitions/chart.page';
