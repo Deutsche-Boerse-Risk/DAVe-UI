@@ -1,15 +1,8 @@
-import {LocationStrategy} from '@angular/common';
-import {Router, ActivatedRoute} from '@angular/router';
-
 import {async, TestBed, fakeAsync, inject} from '@angular/core/testing';
 
 import {
-    RouterStub,
-    LocationStrategyStub,
-    ActivatedRouteStub,
     LatestListPage,
     TableBodyRow,
-    RouterLinkStubDirective,
     HttpAsyncServiceStub,
     generateRiskLimits,
     generateRiskLimitsHistory,
@@ -21,32 +14,12 @@ import {RiskLimitsService} from './risk.limits.service';
 import {HttpService} from '../http.service';
 
 import {RiskLimitLatestComponent, valueGetters} from './risk.limit.latest.component';
-import {ListModule} from '../list/list.module';
-import {DataTableModule} from '../datatable/data.table.module';
 
 describe('Risk limit latest component', () => {
     let page: LatestListPage<RiskLimitLatestComponent>;
 
     beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                ListModule,
-                DataTableModule
-            ],
-            declarations: [
-                RiskLimitLatestComponent,
-                RouterLinkStubDirective
-            ],
-            providers: [
-                RiskLimitsService,
-                {
-                    provide: HttpService, useClass: HttpAsyncServiceStub
-                },
-                {provide: Router, useClass: RouterStub},
-                {provide: ActivatedRoute, useClass: ActivatedRouteStub},
-                {provide: LocationStrategy, useClass: LocationStrategyStub}
-            ]
-        }).compileComponents();
+        LatestListPage.initTestBed(RiskLimitLatestComponent, RiskLimitsService);
     }));
 
     beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<RiskLimitsServerData[]>) => {

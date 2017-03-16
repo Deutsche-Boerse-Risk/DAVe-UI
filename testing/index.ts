@@ -30,11 +30,13 @@ export * from './mock/risk.limits.generator';
 export * from './mock/total.margin.generator';
 
 export * from './stubs/auth.service.stub';
+export * from './stubs/google.chart.component.stub';
 export * from './stubs/http.service.stub';
 
 export * from './stubs/router/activated.route.stub';
 export * from './stubs/router/router.link.stub';
 export * from './stubs/router/router.stub';
+export * from './stubs/router/router.module.stub';
 
 export {windowResize} from './events';
 

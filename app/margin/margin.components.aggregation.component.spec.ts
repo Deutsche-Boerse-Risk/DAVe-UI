@@ -1,13 +1,9 @@
-import {LocationStrategy} from '@angular/common';
-import {Router, ActivatedRoute} from '@angular/router';
+import {RouterModule} from '@angular/router';
 
 import {async, TestBed, fakeAsync, inject} from '@angular/core/testing';
 
 import {
-    RouterStub,
-    LocationStrategyStub,
-    ActivatedRouteStub,
-    RouterLinkStubDirective,
+    stubRouter,
     HttpAsyncServiceStub,
     generateMarginComponents,
     generateMarginComponentsHistory,
@@ -33,22 +29,20 @@ describe('Margin components aggregation component', () => {
         TestBed.configureTestingModule({
             imports: [
                 CommonModule,
-                DataTableModule
+                DataTableModule,
+                RouterModule
             ],
             declarations: [
-                MarginComponentsAggregationComponent,
-                RouterLinkStubDirective
+                MarginComponentsAggregationComponent
             ],
             providers: [
                 MarginComponentsService,
                 {
                     provide: HttpService, useClass: HttpAsyncServiceStub
-                },
-                {provide: Router, useClass: RouterStub},
-                {provide: ActivatedRoute, useClass: ActivatedRouteStub},
-                {provide: LocationStrategy, useClass: LocationStrategyStub}
+                }
             ]
-        }).compileComponents();
+        });
+        stubRouter().compileComponents();
     }));
 
     beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<MarginComponentsServerData[]>) => {
@@ -188,12 +182,6 @@ describe('Margin components aggregation component', () => {
             clearInterval((page.component as any).intervalHandle);
         })));
 
-    xit('displays data correctly', fakeAsync(() => {
-    }));
-
-    xit('has correct row navigation', fakeAsync(() => {
-    }));
-
     it('can be sorted correctly', fakeAsync(() => {
         // Init component
         page.detectChanges();
@@ -210,38 +198,38 @@ describe('Margin components aggregation component', () => {
         page.advance(15000);
     }));
 
-    xit('displays correct data in the footer', fakeAsync(() => {
-    }));
+    describe('(after data are ready)', () => {
+        beforeEach(fakeAsync(() => {
+            // Init component
+            page.detectChanges();
+            // Return data
+            page.advance(1000);
+            // Do not trigger periodic interval
+            clearInterval((page.component as any).intervalHandle);
 
-    it('has pager disabled', fakeAsync(() => {
-        // Init component
-        page.detectChanges();
-        // Return data
-        page.advance(1000);
-        // Do not trigger periodic interval
-        clearInterval((page.component as any).intervalHandle);
+            // Fire highlighters
+            page.advance(15000);
+        }));
 
-        expect(page.dataTable.pager.element).toBeNull('Pager not visible');
+        xit('displays data correctly', fakeAsync(() => {
+        }));
 
-        // Fire highlighters
-        page.advance(15000);
-    }));
+        xit('has correct row navigation', fakeAsync(() => {
+        }));
 
-    it('navigates using "View Details" correctly', fakeAsync(() => {
-        // Init component
-        page.detectChanges();
-        // Return data
-        page.advance(1000);
-        // Do not trigger periodic interval
-        clearInterval((page.component as any).intervalHandle);
+        xit('displays correct data in the footer', fakeAsync(() => {
+        }));
 
-        let clickSpy = spyOn(page.link.stub, 'onClick').and.callThrough();
-        page.link.click();
+        it('has pager disabled', fakeAsync(() => {
+            expect(page.dataTable.pager.element).toBeNull('Pager not visible');
+        }));
 
-        expect(clickSpy).toHaveBeenCalled();
-        expect(page.link.stub.navigatedTo).toContain('/marginComponentLatest');
+        it('navigates using "View Details" correctly', fakeAsync(() => {
+            let clickSpy = spyOn(page.link.stub, 'onClick').and.callThrough();
+            page.link.click();
 
-        // Fire highlighters
-        page.advance(15000);
-    }));
+            expect(clickSpy).toHaveBeenCalled();
+            expect(page.link.stub.navigatedTo).toContain('/marginComponentLatest');
+        }));
+    });
 });

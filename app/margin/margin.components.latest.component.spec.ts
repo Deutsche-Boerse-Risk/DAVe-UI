@@ -1,15 +1,8 @@
-import {LocationStrategy} from '@angular/common';
-import {Router, ActivatedRoute} from '@angular/router';
-
 import {async, TestBed, fakeAsync, inject} from '@angular/core/testing';
 
 import {
-    RouterStub,
-    LocationStrategyStub,
-    ActivatedRouteStub,
     LatestListPage,
     TableBodyRow,
-    RouterLinkStubDirective,
     HttpAsyncServiceStub,
     generateMarginComponents,
     generateMarginComponentsHistory,
@@ -21,32 +14,12 @@ import {MarginComponentsService} from './margin.components.service';
 import {HttpService} from '../http.service';
 
 import {MarginComponentsLatestComponent, valueGetters} from './margin.components.latest.component';
-import {ListModule} from '../list/list.module';
-import {DataTableModule} from '../datatable/data.table.module';
 
 describe('Margin components latest component', () => {
     let page: LatestListPage<MarginComponentsLatestComponent>;
 
     beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                ListModule,
-                DataTableModule
-            ],
-            declarations: [
-                MarginComponentsLatestComponent,
-                RouterLinkStubDirective
-            ],
-            providers: [
-                MarginComponentsService,
-                {
-                    provide: HttpService, useClass: HttpAsyncServiceStub
-                },
-                {provide: Router, useClass: RouterStub},
-                {provide: ActivatedRoute, useClass: ActivatedRouteStub},
-                {provide: LocationStrategy, useClass: LocationStrategyStub}
-            ]
-        }).compileComponents();
+        LatestListPage.initTestBed(MarginComponentsLatestComponent, MarginComponentsService);
     }));
 
     beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<MarginComponentsServerData[]>) => {

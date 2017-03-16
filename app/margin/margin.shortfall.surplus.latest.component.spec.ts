@@ -1,15 +1,8 @@
-import {LocationStrategy} from '@angular/common';
-import {Router, ActivatedRoute} from '@angular/router';
-
 import {async, TestBed, fakeAsync, inject} from '@angular/core/testing';
 
 import {
-    RouterStub,
-    LocationStrategyStub,
-    ActivatedRouteStub,
     LatestListPage,
     TableBodyRow,
-    RouterLinkStubDirective,
     HttpAsyncServiceStub,
     generateShortfallSurplusLatest,
     generateMarginShortfallSurplusHistory,
@@ -21,32 +14,12 @@ import {MarginShortfallSurplusService} from './margin.shortfall.surplus.service'
 import {HttpService} from '../http.service';
 
 import {MarginShortfallSurplusLatestComponent, valueGetters} from './margin.shortfall.surplus.latest.component';
-import {ListModule} from '../list/list.module';
-import {DataTableModule} from '../datatable/data.table.module';
 
 describe('Margin shortfall-surplus latest component', () => {
     let page: LatestListPage<MarginShortfallSurplusLatestComponent>;
 
     beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                ListModule,
-                DataTableModule
-            ],
-            declarations: [
-                MarginShortfallSurplusLatestComponent,
-                RouterLinkStubDirective
-            ],
-            providers: [
-                MarginShortfallSurplusService,
-                {
-                    provide: HttpService, useClass: HttpAsyncServiceStub
-                },
-                {provide: Router, useClass: RouterStub},
-                {provide: ActivatedRoute, useClass: ActivatedRouteStub},
-                {provide: LocationStrategy, useClass: LocationStrategyStub}
-            ]
-        }).compileComponents();
+        LatestListPage.initTestBed(MarginShortfallSurplusLatestComponent, MarginShortfallSurplusService);
     }));
 
     beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<MarginShortfallSurplusServerData[]>) => {

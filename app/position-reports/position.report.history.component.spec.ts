@@ -1,5 +1,4 @@
-import {NO_ERRORS_SCHEMA} from '@angular/core';
-import {ActivatedRoute, RouterModule} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 
 import {async, TestBed, fakeAsync, inject} from '@angular/core/testing';
 
@@ -7,7 +6,6 @@ import {
     ActivatedRouteStub,
     HistoryListPage,
     TableBodyRow,
-    RouterLinkStubDirective,
     HttpAsyncServiceStub,
     generatePositionReportsHistory,
     chceckSorting
@@ -19,38 +17,13 @@ import {HttpService} from '../http.service';
 
 import {valueGetters} from './position.report.latest.component';
 import {PositionReportHistoryComponent} from './position.report.history.component';
-import {ListModule} from '../list/list.module';
-import {DataTableModule} from '../datatable/data.table.module';
 
 describe('Position reports history component', () => {
     let page: HistoryListPage<PositionReportHistoryComponent>;
     let testingParams = ['A', 'A', 'B', 'C', '*', 'P', '152', '*', '201211'];
 
     beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                ListModule,
-                DataTableModule
-            ],
-            declarations: [
-                PositionReportHistoryComponent
-            ],
-            providers: [
-                PositionReportsService,
-                {
-                    provide: HttpService, useClass: HttpAsyncServiceStub
-                },
-                {provide: ActivatedRoute, useClass: ActivatedRouteStub}
-            ],
-            schemas: [NO_ERRORS_SCHEMA]
-        }).overrideModule(ListModule, {
-            remove: {
-                imports: [RouterModule]
-            },
-            add: {
-                declarations: [RouterLinkStubDirective]
-            }
-        }).compileComponents();
+        HistoryListPage.initTestBed(PositionReportHistoryComponent, PositionReportsService);
     }));
 
     beforeEach(fakeAsync(inject([HttpService, ActivatedRoute],

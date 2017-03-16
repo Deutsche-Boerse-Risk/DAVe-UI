@@ -1,15 +1,8 @@
-import {LocationStrategy} from '@angular/common';
-import {Router, ActivatedRoute} from '@angular/router';
-
 import {async, TestBed, fakeAsync, inject} from '@angular/core/testing';
 
 import {
-    RouterStub,
-    LocationStrategyStub,
-    ActivatedRouteStub,
     LatestListPage,
     TableBodyRow,
-    RouterLinkStubDirective,
     HttpAsyncServiceStub,
     generateTotalMargin,
     generateTotalMarginHistory,
@@ -21,32 +14,12 @@ import {TotalMarginService} from './total.margin.service';
 import {HttpService} from '../http.service';
 
 import {TotalMarginRequirementLatestComponent, valueGetters} from './total.margin.requirement.latest.component';
-import {ListModule} from '../list/list.module';
-import {DataTableModule} from '../datatable/data.table.module';
 
 describe('Total margin latest component', () => {
     let page: LatestListPage<TotalMarginRequirementLatestComponent>;
 
     beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                ListModule,
-                DataTableModule
-            ],
-            declarations: [
-                TotalMarginRequirementLatestComponent,
-                RouterLinkStubDirective
-            ],
-            providers: [
-                TotalMarginService,
-                {
-                    provide: HttpService, useClass: HttpAsyncServiceStub
-                },
-                {provide: Router, useClass: RouterStub},
-                {provide: ActivatedRoute, useClass: ActivatedRouteStub},
-                {provide: LocationStrategy, useClass: LocationStrategyStub}
-            ]
-        }).compileComponents();
+        LatestListPage.initTestBed(TotalMarginRequirementLatestComponent, TotalMarginService);
     }));
 
     beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<TotalMarginServerData[]>) => {

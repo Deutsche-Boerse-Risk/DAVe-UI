@@ -1,15 +1,8 @@
-import {LocationStrategy} from '@angular/common';
-import {Router, ActivatedRoute} from '@angular/router';
-
 import {async, TestBed, fakeAsync, inject} from '@angular/core/testing';
 
 import {
-    RouterStub,
-    LocationStrategyStub,
-    ActivatedRouteStub,
     LatestListPage,
     TableBodyRow,
-    RouterLinkStubDirective,
     HttpAsyncServiceStub,
     generatePositionReports,
     generatePositionReportsHistory,
@@ -21,32 +14,12 @@ import {PositionReportsService} from './position.reports.service';
 import {HttpService} from '../http.service';
 
 import {PositionReportLatestComponent, valueGetters} from './position.report.latest.component';
-import {ListModule} from '../list/list.module';
-import {DataTableModule} from '../datatable/data.table.module';
 
 describe('Position reports latest component', () => {
     let page: LatestListPage<PositionReportLatestComponent>;
 
     beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                ListModule,
-                DataTableModule
-            ],
-            declarations: [
-                PositionReportLatestComponent,
-                RouterLinkStubDirective
-            ],
-            providers: [
-                PositionReportsService,
-                {
-                    provide: HttpService, useClass: HttpAsyncServiceStub
-                },
-                {provide: Router, useClass: RouterStub},
-                {provide: ActivatedRoute, useClass: ActivatedRouteStub},
-                {provide: LocationStrategy, useClass: LocationStrategyStub}
-            ]
-        }).compileComponents();
+        LatestListPage.initTestBed(PositionReportLatestComponent, PositionReportsService);
     }));
 
     beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<PositionReportServerData[]>) => {

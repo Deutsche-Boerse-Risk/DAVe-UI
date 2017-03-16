@@ -74,7 +74,7 @@ export class RouterLinkActiveDirective implements OnChanges, OnDestroy, AfterCon
     }
 
     private isLinkActive(router: Router): (link: (RouterSubLinkDirective | RouterLink | RouterLinkWithHref)) => boolean {
-        return (link: RouterSubLinkDirective) =>
+        return (link: RouterSubLinkDirective | RouterLink | RouterLinkWithHref) =>
             router.isActive(link.urlTree, this.routerLinkActiveOptions.exact);
     }
 

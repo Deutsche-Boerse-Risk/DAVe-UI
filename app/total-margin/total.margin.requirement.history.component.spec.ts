@@ -1,5 +1,4 @@
-import {NO_ERRORS_SCHEMA} from '@angular/core';
-import {ActivatedRoute, RouterModule} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 
 import {async, TestBed, fakeAsync, inject} from '@angular/core/testing';
 
@@ -7,7 +6,6 @@ import {
     ActivatedRouteStub,
     HistoryListPage,
     TableBodyRow,
-    RouterLinkStubDirective,
     HttpAsyncServiceStub,
     generateTotalMarginHistory,
     chceckSorting
@@ -19,38 +17,13 @@ import {HttpService} from '../http.service';
 
 import {valueGetters} from './total.margin.requirement.latest.component';
 import {TotalMarginRequirementHistoryComponent} from './total.margin.requirement.history.component';
-import {ListModule} from '../list/list.module';
-import {DataTableModule} from '../datatable/data.table.module';
 
 describe('Total margin history component', () => {
     let page: HistoryListPage<TotalMarginRequirementHistoryComponent>;
     let testingParams = ['A', '*', 'B', 'C', '*'];
 
     beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                ListModule,
-                DataTableModule
-            ],
-            declarations: [
-                TotalMarginRequirementHistoryComponent
-            ],
-            providers: [
-                TotalMarginService,
-                {
-                    provide: HttpService, useClass: HttpAsyncServiceStub
-                },
-                {provide: ActivatedRoute, useClass: ActivatedRouteStub}
-            ],
-            schemas: [NO_ERRORS_SCHEMA]
-        }).overrideModule(ListModule, {
-            remove: {
-                imports: [RouterModule]
-            },
-            add: {
-                declarations: [RouterLinkStubDirective]
-            }
-        }).compileComponents();
+        HistoryListPage.initTestBed(TotalMarginRequirementHistoryComponent, TotalMarginService);
     }));
 
     beforeEach(fakeAsync(inject([HttpService, ActivatedRoute],

@@ -1,13 +1,23 @@
-import {DebugElement} from '@angular/core';
+import {DebugElement, Type,} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {NgModel} from '@angular/forms';
+import {RouterModule} from '@angular/router';
 
-import {ComponentFixture, tick} from '@angular/core/testing';
+import {ComponentFixture, tick, TestBed} from '@angular/core/testing';
 
 import {setNgModelValue} from '../events';
 import {PageWithLoading} from './page.base';
 import {DataTableDefinition} from './data.table.definition';
+import {BreadCrumbsDefinition} from './bread.crumbs.page';
 
+import {stubRouter} from '../stubs/router/router.module.stub';
+import {HttpAsyncServiceStub} from '../stubs/http.service.stub';
+import {GoogleLineChartStub} from '../stubs/google.chart.component.stub';
+
+import {DataTableModule} from '../../app/datatable/data.table.module';
+import {ListModule} from '../../app/list/list.module';
+
+import {HttpService} from '../../app/http.service';
 
 import {ListComponent} from '../../app/list/list.component';
 import {DrilldownButtonComponent} from '../../app/list/drilldown.button.component';
@@ -16,9 +26,7 @@ import {BreadCrumbsComponent} from '../../app/list/bread.crumbs.component';
 import {InitialLoadComponent} from '../../app/common/initial.load.component';
 import {NoDataComponent} from '../../app/common/no.data.component';
 import {UpdateFailedComponent} from '../../app/common/update.failed.component';
-import {GoogleLineChart} from '../../app/common/google.line.chart.component';
 import {DataTableComponent} from '../../app/datatable/data.table.component';
-import {BreadCrumbsDefinition} from './bread.crumbs.page';
 
 export class ListPage<T> extends PageWithLoading<T> {
 
@@ -94,6 +102,26 @@ export class LatestListPage<T> extends ListPage<T> {
         super(fixture);
     }
 
+    static initTestBed(component: Type<any>, service: Type<any>) {
+        TestBed.configureTestingModule({
+            imports: [
+                ListModule,
+                DataTableModule,
+                RouterModule
+            ],
+            declarations: [
+                component
+            ],
+            providers: [
+                service,
+                {
+                    provide: HttpService, useClass: HttpAsyncServiceStub
+                }
+            ]
+        });
+        stubRouter().compileComponents();
+    }
+
     public get dataTable(): DataTableDefinition {
         return new DataTableDefinition(this.listElement.query(By.directive(DataTableComponent)), this);
     }
@@ -147,8 +175,28 @@ export class HistoryListPage<T> extends LatestListPage<T> {
         super(fixture);
     }
 
+    static initTestBed(component: Type<any>, service: Type<any>) {
+        TestBed.configureTestingModule({
+            imports: [
+                ListModule,
+                DataTableModule
+            ],
+            declarations: [
+                GoogleLineChartStub,
+                component
+            ],
+            providers: [
+                service,
+                {
+                    provide: HttpService, useClass: HttpAsyncServiceStub
+                }
+            ],
+            // schemas: [NO_ERRORS_SCHEMA]
+        });
+        stubRouter().compileComponents();
+    }
+
     public get lineChart(): DebugElement {
-        return this.listElement.query(By.directive(GoogleLineChart))
-            || this.listElement.query(By.css('google-line-chart'));
+        return this.listElement.query(By.directive(GoogleLineChartStub));
     }
 }
