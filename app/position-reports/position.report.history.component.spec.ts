@@ -218,33 +218,76 @@ describe('Position reports history component', () => {
             clearInterval((page.component as any).intervalHandle);
         })));
 
-    xit('displays data correctly', fakeAsync(() => {
-    }));
-
-    xit('has chart data correctly processed', fakeAsync(() => {
-    }));
-
-    xit('has correct breadcrumbs navigation', fakeAsync(() => {
-    }));
-
-    xit('has download working', fakeAsync(() => {
-    }));
-
-    it('can be sorted correctly', fakeAsync(() => {
+    it('has correct pager', fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<PositionReportServerData[]>) => {
         // Init component
         page.detectChanges();
         // Return data
         page.advance(1000);
-        // Do not trigger periodic interval
-        clearInterval((page.component as any).intervalHandle);
+        // Fire highlighters
+        page.advance(15000);
 
-        chceckSorting(page, [valueGetters.received, valueGetters.netLS, valueGetters.compVar,
-            valueGetters.delta, valueGetters.compLiquidityAddOn]);
+        expect(page.dataTable.pager.element).toBeNull('Pager not visible');
+        expect(page.dataTable.recordsCount.message).toContain('Showing 16 records out of 16');
+
+        let newData = generatePositionReportsHistory()
+            .concat(generatePositionReportsHistory())
+            .concat(generatePositionReportsHistory());
+        http.returnValue(newData);
+        // Trigger reload
+        page.advance(44000);
+        // Return the data
+        page.advance(1000);
+        page.detectChanges();
+
+        expect(page.dataTable.pager.element).not.toBeNull('Pager visible');
+        expect(page.dataTable.recordsCount.message).toContain('Showing 20 records out of ' + 3 * 16);
+
+        page.dataTable.pager.expectButtonNumbers([1, 2, 3]);
+        page.dataTable.pager.expectButtonActive(2);
+        page.dataTable.pager.expectLeadingButtonsDisabled();
+        page.dataTable.pager.expectTrailingButtonsNotDisabled();
+
+        page.dataTable.pager.click(4);
+
+        page.dataTable.pager.expectButtonNumbers([1, 2, 3]);
+        page.dataTable.pager.expectButtonActive(4);
+        page.dataTable.pager.expectLeadingButtonsNotDisabled();
+        page.dataTable.pager.expectTrailingButtonsDisabled();
 
         // Fire highlighters
         page.advance(15000);
-    }));
+        // Do not trigger periodic interval
+        clearInterval((page.component as any).intervalHandle);
+    })));
 
-    xit('has correct pager', fakeAsync(() => {
-    }));
+    describe('(after data are ready)', () => {
+        beforeEach(fakeAsync(() => {
+            // Init component
+            page.detectChanges();
+            // Return data
+            page.advance(1000);
+            // Do not trigger periodic interval
+            clearInterval((page.component as any).intervalHandle);
+
+            // Fire highlighters
+            page.advance(15000);
+        }));
+
+        xit('displays data correctly', fakeAsync(() => {
+        }));
+
+        xit('has chart data correctly processed', fakeAsync(() => {
+        }));
+
+        xit('has correct breadcrumbs navigation', fakeAsync(() => {
+        }));
+
+        xit('has download working', fakeAsync(() => {
+        }));
+
+        it('can be sorted correctly', fakeAsync(() => {
+            chceckSorting(page, [valueGetters.received, valueGetters.netLS, valueGetters.compVar,
+                valueGetters.delta, valueGetters.compLiquidityAddOn]);
+        }));
+    });
 });
