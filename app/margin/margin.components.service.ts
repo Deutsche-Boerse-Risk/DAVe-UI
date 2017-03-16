@@ -90,7 +90,8 @@ export class MarginComponentsService {
             (data: MarginComponentsServerData[]) => {
                 if (!data || !data.length) {
                     return {
-                        traverseDF: () => {}
+                        traverseDF: () => {
+                        }
                     };
                 }
                 let members: {[key: string]: boolean} = {};

@@ -187,38 +187,80 @@ describe('Margin shortfall-surplus latest component', () => {
             clearInterval((page.component as any).intervalHandle);
         })));
 
-    xit('displays data correctly', fakeAsync(() => {
-    }));
-
-    xit('has filtering working', fakeAsync(() => {
-    }));
-
-    xit('has correct breadcrumbs navigation', fakeAsync(() => {
-    }));
-
-    xit('has correct row navigation', fakeAsync(() => {
-    }));
-
-    xit('has download working', fakeAsync(() => {
-    }));
-
-    it('can be sorted correctly', fakeAsync(() => {
+    it('has correct pager', fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<MarginShortfallSurplusServerData[]>) => {
         // Init component
         page.detectChanges();
         // Return data
         page.advance(1000);
-        // Do not trigger periodic interval
-        clearInterval((page.component as any).intervalHandle);
+        // Fire highlighters
+        page.advance(15000);
 
-        chceckSorting(page, [valueGetters.pool, valueGetters.poolType, valueGetters.member,
-            valueGetters.clearingCcy, valueGetters.ccy, valueGetters.shortfallSurplus,
-            valueGetters.marginRequirement, valueGetters.securityCollateral, valueGetters.cashBalance,
-            valueGetters.marginCall]);
+        expect(page.dataTable.pager.element).not.toBeNull('Pager visible');
+        expect(page.dataTable.recordsCount.message).toContain('Showing 20 records out of ' + Math.pow(3, 4));
+
+        page.dataTable.pager.expectButtonNumbers([1, 2, 3, 4]);
+        page.dataTable.pager.expectButtonActive(2);
+        page.dataTable.pager.expectLeadingButtonsDisabled();
+        page.dataTable.pager.expectTrailingButtonsNotDisabled();
+
+        page.dataTable.pager.click(4);
+
+        page.dataTable.pager.expectButtonNumbers([1, 2, 3, 4, 5]);
+        page.dataTable.pager.expectButtonActive(4);
+        page.dataTable.pager.expectLeadingButtonsNotDisabled();
+        page.dataTable.pager.expectTrailingButtonsNotDisabled();
+
+        http.returnValue(generateMarginShortfallSurplusHistory());
+        // Trigger reload
+        page.advance(44000);
+        // Return the data
+        page.advance(1000);
+
+        expect(page.dataTable.pager.element).toBeNull('Pager not visible');
+        expect(page.dataTable.recordsCount.message).toContain('Showing 16 records out of 16');
 
         // Fire highlighters
         page.advance(15000);
-    }));
+        // Do not trigger periodic interval
+        clearInterval((page.component as any).intervalHandle);
+    })));
 
-    xit('has correct pager', fakeAsync(() => {
-    }));
+    describe('(after data are ready)', () => {
+        beforeEach(fakeAsync(() => {
+            // Init component
+            page.detectChanges();
+            // Return data
+            page.advance(1000);
+            // Do not trigger periodic interval
+            clearInterval((page.component as any).intervalHandle);
+
+            // Fire highlighters
+            page.advance(15000);
+        }));
+
+        xit('displays data correctly', fakeAsync(() => {
+        }));
+
+        xit('has filtering working', fakeAsync(() => {
+        }));
+
+        xit('has correct breadcrumbs navigation', fakeAsync(() => {
+        }));
+
+        xit('has correct row navigation', fakeAsync(() => {
+        }));
+
+        xit('has download working', fakeAsync(() => {
+        }));
+
+        it('can be sorted correctly', fakeAsync(() => {
+            chceckSorting(page, [valueGetters.pool, valueGetters.poolType, valueGetters.member,
+                valueGetters.clearingCcy, valueGetters.ccy, valueGetters.shortfallSurplus,
+                valueGetters.marginRequirement, valueGetters.securityCollateral, valueGetters.cashBalance,
+                valueGetters.marginCall]);
+
+            // Fire highlighters
+            page.advance(15000);
+        }));
+    });
 });
