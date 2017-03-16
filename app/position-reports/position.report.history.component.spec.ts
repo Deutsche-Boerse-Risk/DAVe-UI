@@ -1,12 +1,9 @@
-import {LocationStrategy} from '@angular/common';
 import {NO_ERRORS_SCHEMA} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterModule} from '@angular/router';
 
 import {async, TestBed, fakeAsync, inject} from '@angular/core/testing';
 
 import {
-    RouterStub,
-    LocationStrategyStub,
     ActivatedRouteStub,
     HistoryListPage,
     TableBodyRow,
@@ -36,19 +33,23 @@ describe('Position reports history component', () => {
                 DataTableModule
             ],
             declarations: [
-                PositionReportHistoryComponent,
-                RouterLinkStubDirective
+                PositionReportHistoryComponent
             ],
             providers: [
                 PositionReportsService,
                 {
                     provide: HttpService, useClass: HttpAsyncServiceStub
                 },
-                {provide: Router, useClass: RouterStub},
-                {provide: ActivatedRoute, useClass: ActivatedRouteStub},
-                {provide: LocationStrategy, useClass: LocationStrategyStub}
+                {provide: ActivatedRoute, useClass: ActivatedRouteStub}
             ],
             schemas: [NO_ERRORS_SCHEMA]
+        }).overrideModule(ListModule, {
+            remove: {
+                imports: [RouterModule]
+            },
+            add: {
+                declarations: [RouterLinkStubDirective]
+            }
         }).compileComponents();
     }));
 
@@ -279,8 +280,29 @@ describe('Position reports history component', () => {
         xit('has chart data correctly processed', fakeAsync(() => {
         }));
 
-        xit('has correct breadcrumbs navigation', fakeAsync(() => {
-        }));
+        it('has correct breadcrumbs navigation', fakeAsync(inject([ActivatedRoute],
+            (activatedRoute: ActivatedRouteStub) => {
+                page.checkBreadCrumbs(testingParams, '/positionReportLatest',
+                    'Position Report History', false);
+
+                let routeParams = ['A', 'A', 'B', 'C', 'D', 'P', '152', '0', '201211'];
+
+                activatedRoute.testParams = {
+                    clearer: routeParams[0],
+                    member: routeParams[1],
+                    account: routeParams[2],
+                    class: routeParams[3],
+                    symbol: routeParams[4],
+                    putCall: routeParams[5],
+                    strikePrice: routeParams[6],
+                    optAttribute: routeParams[7],
+                    maturityMonthYear: routeParams[8]
+                };
+                page.detectChanges();
+
+                page.checkBreadCrumbs(routeParams, '/positionReportLatest',
+                    'Position Report History', false);
+            })));
 
         xit('has download working', fakeAsync(() => {
         }));

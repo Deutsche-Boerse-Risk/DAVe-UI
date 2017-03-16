@@ -1,12 +1,9 @@
-import {LocationStrategy} from '@angular/common';
 import {NO_ERRORS_SCHEMA} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterModule} from '@angular/router';
 
 import {async, TestBed, fakeAsync, inject} from '@angular/core/testing';
 
 import {
-    RouterStub,
-    LocationStrategyStub,
     ActivatedRouteStub,
     HistoryListPage,
     TableBodyRow,
@@ -36,19 +33,23 @@ describe('Risk limit history component', () => {
                 DataTableModule
             ],
             declarations: [
-                RiskLimitHistoryComponent,
-                RouterLinkStubDirective
+                RiskLimitHistoryComponent
             ],
             providers: [
                 RiskLimitsService,
                 {
                     provide: HttpService, useClass: HttpAsyncServiceStub
                 },
-                {provide: Router, useClass: RouterStub},
-                {provide: ActivatedRoute, useClass: ActivatedRouteStub},
-                {provide: LocationStrategy, useClass: LocationStrategyStub}
+                {provide: ActivatedRoute, useClass: ActivatedRouteStub}
             ],
             schemas: [NO_ERRORS_SCHEMA]
+        }).overrideModule(ListModule, {
+            remove: {
+                imports: [RouterModule]
+            },
+            add: {
+                declarations: [RouterLinkStubDirective]
+            }
         }).compileComponents();
     }));
 
@@ -274,8 +275,24 @@ describe('Risk limit history component', () => {
         xit('has chart data correctly processed', fakeAsync(() => {
         }));
 
-        xit('has correct breadcrumbs navigation', fakeAsync(() => {
-        }));
+        it('has correct breadcrumbs navigation', fakeAsync(inject([ActivatedRoute],
+            (activatedRoute: ActivatedRouteStub) => {
+                page.checkBreadCrumbs(testingParams, '/riskLimitLatest',
+                    'Risk Limit History', false);
+
+                let routeParams = ['A', 'B', 'C', 'D'];
+
+                activatedRoute.testParams = {
+                    clearer: routeParams[0],
+                    member: routeParams[1],
+                    maintainer: routeParams[2],
+                    limitType: routeParams[3]
+                };
+                page.detectChanges();
+
+                page.checkBreadCrumbs(routeParams, '/riskLimitLatest',
+                    'Risk Limit History', false);
+            })));
 
         xit('has download working', fakeAsync(() => {
         }));

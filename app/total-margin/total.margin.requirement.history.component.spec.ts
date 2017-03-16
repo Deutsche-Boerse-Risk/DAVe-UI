@@ -1,12 +1,9 @@
-import {LocationStrategy} from '@angular/common';
 import {NO_ERRORS_SCHEMA} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterModule} from '@angular/router';
 
 import {async, TestBed, fakeAsync, inject} from '@angular/core/testing';
 
 import {
-    RouterStub,
-    LocationStrategyStub,
     ActivatedRouteStub,
     HistoryListPage,
     TableBodyRow,
@@ -36,19 +33,23 @@ describe('Total margin history component', () => {
                 DataTableModule
             ],
             declarations: [
-                TotalMarginRequirementHistoryComponent,
-                RouterLinkStubDirective
+                TotalMarginRequirementHistoryComponent
             ],
             providers: [
                 TotalMarginService,
                 {
                     provide: HttpService, useClass: HttpAsyncServiceStub
                 },
-                {provide: Router, useClass: RouterStub},
-                {provide: ActivatedRoute, useClass: ActivatedRouteStub},
-                {provide: LocationStrategy, useClass: LocationStrategyStub}
+                {provide: ActivatedRoute, useClass: ActivatedRouteStub}
             ],
             schemas: [NO_ERRORS_SCHEMA]
+        }).overrideModule(ListModule, {
+            remove: {
+                imports: [RouterModule]
+            },
+            add: {
+                declarations: [RouterLinkStubDirective]
+            }
         }).compileComponents();
     }));
 
@@ -275,8 +276,25 @@ describe('Total margin history component', () => {
         xit('has chart data correctly processed', fakeAsync(() => {
         }));
 
-        xit('has correct breadcrumbs navigation', fakeAsync(() => {
-        }));
+        it('has correct breadcrumbs navigation', fakeAsync(inject([ActivatedRoute],
+            (activatedRoute: ActivatedRouteStub) => {
+                page.checkBreadCrumbs(testingParams, '/totalMarginRequirementLatest',
+                    'Total Margin Requirement History', false);
+
+                let routeParams = ['A', 'B', 'C', 'D', 'E'];
+
+                activatedRoute.testParams = {
+                    clearer: routeParams[0],
+                    pool: routeParams[1],
+                    member: routeParams[2],
+                    account: routeParams[3],
+                    ccy: routeParams[4]
+                };
+                page.detectChanges();
+
+                page.checkBreadCrumbs(routeParams, '/totalMarginRequirementLatest',
+                    'Total Margin Requirement History', false);
+            })));
 
         xit('has download working', fakeAsync(() => {
         }));

@@ -1,12 +1,9 @@
-import {LocationStrategy} from '@angular/common';
 import {NO_ERRORS_SCHEMA} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterModule} from '@angular/router';
 
 import {async, TestBed, fakeAsync, inject} from '@angular/core/testing';
 
 import {
-    RouterStub,
-    LocationStrategyStub,
     ActivatedRouteStub,
     HistoryListPage,
     TableBodyRow,
@@ -36,19 +33,23 @@ describe('Margin components history component', () => {
                 DataTableModule
             ],
             declarations: [
-                MarginComponentsHistoryComponent,
-                RouterLinkStubDirective
+                MarginComponentsHistoryComponent
             ],
             providers: [
                 MarginComponentsService,
                 {
                     provide: HttpService, useClass: HttpAsyncServiceStub
                 },
-                {provide: Router, useClass: RouterStub},
-                {provide: ActivatedRoute, useClass: ActivatedRouteStub},
-                {provide: LocationStrategy, useClass: LocationStrategyStub}
+                {provide: ActivatedRoute, useClass: ActivatedRouteStub}
             ],
             schemas: [NO_ERRORS_SCHEMA]
+        }).overrideModule(ListModule, {
+            remove: {
+                imports: [RouterModule]
+            },
+            add: {
+                declarations: [RouterLinkStubDirective]
+            }
         }).compileComponents();
     }));
 
@@ -275,8 +276,25 @@ describe('Margin components history component', () => {
         xit('has chart data correctly processed', fakeAsync(() => {
         }));
 
-        xit('has correct breadcrumbs navigation', fakeAsync(() => {
-        }));
+        it('has correct breadcrumbs navigation', fakeAsync(inject([ActivatedRoute],
+            (activatedRoute: ActivatedRouteStub) => {
+                page.checkBreadCrumbs(testingParams, '/marginComponentLatest',
+                    'Margin Components History', false);
+
+                let routeParams = ['A', 'A', 'B', 'C', 'D'];
+
+                activatedRoute.testParams = {
+                    clearer: routeParams[0],
+                    member: routeParams[1],
+                    account: routeParams[2],
+                    class: routeParams[3],
+                    ccy: routeParams[4]
+                };
+                page.detectChanges();
+
+                page.checkBreadCrumbs(routeParams, '/marginComponentLatest',
+                    'Margin Components History', false);
+            })));
 
         xit('has download working', fakeAsync(() => {
         }));
