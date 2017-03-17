@@ -4,7 +4,7 @@ machine:
 
 dependencies:
   pre:
-    - npm install -g npm@3
+    - npm install -g npm@4
     - npm install -g grunt-cli
     - npm install -g typescript
     - npm install -g codeclimate-test-reporter
