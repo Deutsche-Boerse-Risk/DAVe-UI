@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
 
-import {TestBed, async, ComponentFixtureAutoDetect, fakeAsync} from '@angular/core/testing';
+import {TestBed, async, fakeAsync} from '@angular/core/testing';
 
 import {RouterLinkStubDirective, ListPage} from '../../testing';
 
@@ -45,10 +45,7 @@ describe('ListComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [ListModule],
-            declarations: [TestComponent],
-            providers: [
-                {provide: ComponentFixtureAutoDetect, useValue: true}
-            ]
+            declarations: [TestComponent]
         }).overrideModule(RouterModule, {
             set: {
                 declarations: [RouterLinkStubDirective],
@@ -59,7 +56,6 @@ describe('ListComponent', () => {
 
     beforeEach(fakeAsync(() => {
         page = new ListPage<TestComponent>(TestBed.createComponent(TestComponent));
-
         page.detectChanges();
     }));
 

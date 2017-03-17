@@ -1,15 +1,11 @@
-import {LocationStrategy} from '@angular/common';
-import {NO_ERRORS_SCHEMA, DebugElement} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 
 import {async, TestBed, fakeAsync, inject} from '@angular/core/testing';
 
 import {
-    RouterStub,
-    LocationStrategyStub,
     ActivatedRouteStub,
     HistoryListPage,
-    RouterLinkStubDirective,
+    TableBodyRow,
     HttpAsyncServiceStub,
     generatePositionReportsHistory,
     chceckSorting
@@ -21,35 +17,13 @@ import {HttpService} from '../http.service';
 
 import {valueGetters} from './position.report.latest.component';
 import {PositionReportHistoryComponent} from './position.report.history.component';
-import {ListModule} from '../list/list.module';
-import {DataTableModule} from '../datatable/data.table.module';
-import {HIGHLIGHTER_CLASS} from '../datatable/highlighter.directive';
 
 describe('Position reports history component', () => {
     let page: HistoryListPage<PositionReportHistoryComponent>;
     let testingParams = ['A', 'A', 'B', 'C', '*', 'P', '152', '*', '201211'];
 
     beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                ListModule,
-                DataTableModule
-            ],
-            declarations: [
-                PositionReportHistoryComponent,
-                RouterLinkStubDirective
-            ],
-            providers: [
-                PositionReportsService,
-                {
-                    provide: HttpService, useClass: HttpAsyncServiceStub
-                },
-                {provide: Router, useClass: RouterStub},
-                {provide: ActivatedRoute, useClass: ActivatedRouteStub},
-                {provide: LocationStrategy, useClass: LocationStrategyStub}
-            ],
-            schemas: [NO_ERRORS_SCHEMA]
-        }).compileComponents();
+        HistoryListPage.initTestBed(PositionReportHistoryComponent, PositionReportsService);
     }));
 
     beforeEach(fakeAsync(inject([HttpService, ActivatedRoute],
@@ -127,7 +101,7 @@ describe('Position reports history component', () => {
             expect(page.lineChart).toBeNull('Chart not visible.');
         })));
 
-    it('displays data correctly', fakeAsync(inject([HttpService],
+    it('displays data table', fakeAsync(inject([HttpService],
         (http: HttpAsyncServiceStub<PositionReportServerData[]>) => {
             let httpSpy = spyOn(http, 'get').and.callThrough();
             // Init component
@@ -170,15 +144,15 @@ describe('Position reports history component', () => {
             expect(page.dataTable.element).not.toBeNull('Data table visible.');
             expect(page.lineChart).not.toBeNull('Chart visible.');
 
-            expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
-                return row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+            expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
+                return row.highlighted;
             })).toBeTruthy('All rows are highlighted');
 
             // Fire highlighters
             page.advance(15000);
 
-            expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
-                return !row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+            expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
+                return !row.highlighted;
             })).toBeTruthy('No rows are highlighted');
 
             // Push new data
@@ -192,15 +166,15 @@ describe('Position reports history component', () => {
             expect(page.dataTable.element).not.toBeNull('Data table visible.');
             expect(page.lineChart).not.toBeNull('Chart visible.');
 
-            expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
-                return row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+            expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
+                return row.highlighted;
             })).toBeTruthy('All rows are highlighted');
 
             // Fire highlighters
             page.advance(15000);
 
-            expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
-                return !row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+            expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
+                return !row.highlighted;
             })).toBeTruthy('No rows are highlighted');
 
             // Return the same data
@@ -210,41 +184,105 @@ describe('Position reports history component', () => {
             // Return the data
             page.advance(1000);
 
-            expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
-                return !row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+            expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
+                return !row.highlighted;
             })).toBeTruthy('No rows are highlighted');
 
             // Do not trigger periodic interval
             clearInterval((page.component as any).intervalHandle);
         })));
 
-    xit('displays data correctly', fakeAsync(() => {
-    }));
-
-    xit('has chart data correctly processed', fakeAsync(() => {
-    }));
-
-    xit('has correct breadcrumbs navigation', fakeAsync(() => {
-    }));
-
-    xit('has download working', fakeAsync(() => {
-    }));
-
-    it('can be sorted correctly', fakeAsync(() => {
+    it('has correct pager', fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<PositionReportServerData[]>) => {
         // Init component
         page.detectChanges();
         // Return data
         page.advance(1000);
-        // Do not trigger periodic interval
-        clearInterval((page.component as any).intervalHandle);
+        // Fire highlighters
+        page.advance(15000);
 
-        chceckSorting(page, [valueGetters.received, valueGetters.netLS, valueGetters.compVar,
-            valueGetters.delta, valueGetters.compLiquidityAddOn]);
+        expect(page.dataTable.pager.element).toBeNull('Pager not visible');
+        expect(page.dataTable.recordsCount.message).toContain('Showing 16 records out of 16');
+
+        let newData = generatePositionReportsHistory()
+            .concat(generatePositionReportsHistory())
+            .concat(generatePositionReportsHistory());
+        http.returnValue(newData);
+        // Trigger reload
+        page.advance(44000);
+        // Return the data
+        page.advance(1000);
+        page.detectChanges();
+
+        expect(page.dataTable.pager.element).not.toBeNull('Pager visible');
+        expect(page.dataTable.recordsCount.message).toContain('Showing 20 records out of ' + 3 * 16);
+
+        page.dataTable.pager.expectButtonNumbers([1, 2, 3]);
+        page.dataTable.pager.expectButtonActive(2);
+        page.dataTable.pager.expectLeadingButtonsDisabled();
+        page.dataTable.pager.expectTrailingButtonsNotDisabled();
+
+        page.dataTable.pager.click(4);
+
+        page.dataTable.pager.expectButtonNumbers([1, 2, 3]);
+        page.dataTable.pager.expectButtonActive(4);
+        page.dataTable.pager.expectLeadingButtonsNotDisabled();
+        page.dataTable.pager.expectTrailingButtonsDisabled();
 
         // Fire highlighters
         page.advance(15000);
-    }));
+        // Do not trigger periodic interval
+        clearInterval((page.component as any).intervalHandle);
+    })));
 
-    xit('has correct pager', fakeAsync(() => {
-    }));
+    describe('(after data are ready)', () => {
+        beforeEach(fakeAsync(() => {
+            // Init component
+            page.detectChanges();
+            // Return data
+            page.advance(1000);
+            // Do not trigger periodic interval
+            clearInterval((page.component as any).intervalHandle);
+
+            // Fire highlighters
+            page.advance(15000);
+        }));
+
+        xit('displays data correctly', fakeAsync(() => {
+        }));
+
+        xit('has chart data correctly processed', fakeAsync(() => {
+        }));
+
+        it('has correct breadcrumbs navigation', fakeAsync(inject([ActivatedRoute],
+            (activatedRoute: ActivatedRouteStub) => {
+                page.checkBreadCrumbs(testingParams, '/positionReportLatest',
+                    'Position Report History', false);
+
+                let routeParams = ['A', 'A', 'B', 'C', 'D', 'P', '152', '0', '201211'];
+
+                activatedRoute.testParams = {
+                    clearer: routeParams[0],
+                    member: routeParams[1],
+                    account: routeParams[2],
+                    class: routeParams[3],
+                    symbol: routeParams[4],
+                    putCall: routeParams[5],
+                    strikePrice: routeParams[6],
+                    optAttribute: routeParams[7],
+                    maturityMonthYear: routeParams[8]
+                };
+                page.detectChanges();
+
+                page.checkBreadCrumbs(routeParams, '/positionReportLatest',
+                    'Position Report History', false);
+            })));
+
+        xit('has download working', fakeAsync(() => {
+        }));
+
+        it('can be sorted correctly', fakeAsync(() => {
+            chceckSorting(page, [valueGetters.received, valueGetters.netLS, valueGetters.compVar,
+                valueGetters.delta, valueGetters.compLiquidityAddOn]);
+        }));
+    });
 });

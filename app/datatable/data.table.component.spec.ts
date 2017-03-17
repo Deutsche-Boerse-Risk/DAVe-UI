@@ -1,4 +1,4 @@
-import {async, TestBed, ComponentFixtureAutoDetect, fakeAsync} from '@angular/core/testing';
+import {async, TestBed, fakeAsync} from '@angular/core/testing';
 
 import {TestHostComponent, DataTableDefinitionHosted} from '../../testing';
 
@@ -13,10 +13,7 @@ describe('DataTable component', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [DataTableModule],
-            declarations: [TestHostComponent],
-            providers: [
-                {provide: ComponentFixtureAutoDetect, useValue: true}
-            ]
+            declarations: [TestHostComponent]
         }).compileComponents();
     }));
 
@@ -44,56 +41,54 @@ describe('DataTable component', () => {
         expect(table.dataTable.recordsCount.element).toBeNull('Not shown.');
     }));
 
-    xit('has correct header', fakeAsync(() => {
+    it('has no table if data are not defined or empty', fakeAsync(() => {
         expect(table.dataTable.element).not.toBeNull('Table is shown');
 
         table.dataTable.component.data = null;
+        table.detectChanges();
+
+        expect(table.dataTable.element).toBeNull('Not shown.');
+
+        table.dataTable.component.data = [];
         table.detectChanges();
 
         expect(table.dataTable.element).toBeNull('Not shown.');
     }));
 
+    xit('has correct header', fakeAsync(() => {
+        expect(table.dataTable.element).not.toBeNull('Table is shown');
+    }));
+
     xit('has correct body', fakeAsync(() => {
         expect(table.dataTable.element).not.toBeNull('Table is shown');
-
-        table.dataTable.component.data = null;
-        table.detectChanges();
-
-        expect(table.dataTable.element).toBeNull('Not shown.');
     }));
 
     it('can open/close row detail', fakeAsync(() => {
         expect(table.dataTable.element).not.toBeNull('Table is shown');
 
+        let row = table.dataTable.body.rows[0];
+
         // Detail hidden
-        expect(table.dataTable.body.tableRowDetailsElements[0].nativeElement.classList).toContain('hidden');
-        expect(table.dataTable.body.getTableRowExpanderElement(0).nativeElement.classList)
-            .toContain('fa-chevron-circle-down');
+        expect(row.rowDetail.expanded).toBeFalsy('Is hidden');
+        expect(row.expander.nativeElement.classList).toContain('fa-chevron-circle-down');
 
         // Click master row
-        table.dataTable.body.expandRow(0);
+        row.expandRow();
 
         // Detail shown
-        expect(table.dataTable.body.tableRowDetailsElements[0].nativeElement.classList).not.toContain('hidden');
-        expect(table.dataTable.body.getTableRowExpanderElement(0).nativeElement.classList)
-            .toContain('fa-chevron-circle-up');
+        expect(row.rowDetail.expanded).toBeTruthy('Is shown');
+        expect(row.expander.nativeElement.classList).toContain('fa-chevron-circle-up');
 
         // Click master row
-        table.dataTable.body.expandRow(0);
+        row.expandRow();
 
         // Detail hidden
-        expect(table.dataTable.body.tableRowDetailsElements[0].nativeElement.classList).toContain('hidden');
-        expect(table.dataTable.body.getTableRowExpanderElement(0).nativeElement.classList)
-            .toContain('fa-chevron-circle-down');
+        expect(row.rowDetail.expanded).toBeFalsy('Is hidden');
+        expect(row.expander.nativeElement.classList).toContain('fa-chevron-circle-down');
     }));
 
     xit('has correct footer', fakeAsync(() => {
         expect(table.dataTable.element).not.toBeNull('Table is shown');
-
-        table.dataTable.component.data = null;
-        table.detectChanges();
-
-        expect(table.dataTable.element).toBeNull('Not shown.');
     }));
 
     it('can be sorted', fakeAsync(() => {

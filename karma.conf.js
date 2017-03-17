@@ -19,6 +19,7 @@ module.exports = function (config) {
             require('karma-browserstack-launcher'),
             require('karma-jasmine-html-reporter'),
             require('karma-junit-reporter'),
+            require('karma-spec-reporter'),
             require('karma-coverage')
         ],
 
@@ -176,9 +177,13 @@ module.exports = function (config) {
         junitReporter: {
             outputDir: 'reports'
         },
-        // global config of your BrowserStack account
+
         browserStack: {
             binaryBasePath: 'browserStackBin/'
+        },
+
+        specReporter: {
+            showSpecTiming: true      // print the time elapsed for each spec
         },
 
         port: 9876,

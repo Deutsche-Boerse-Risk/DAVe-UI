@@ -1,4 +1,4 @@
-import {TestBed, ComponentFixtureAutoDetect, async, fakeAsync} from '@angular/core/testing';
+import {TestBed, async, fakeAsync} from '@angular/core/testing';
 
 import {DownloadMenuPage} from '../../testing';
 
@@ -10,10 +10,7 @@ describe('Download menu', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [DownloadMenuComponent],
-            providers: [
-                {provide: ComponentFixtureAutoDetect, useValue: true}
-            ]
+            declarations: [DownloadMenuComponent]
         }).compileComponents();
     }));
 

@@ -95,7 +95,7 @@ module.exports = function (grunt) {
         htmlPattern, // HTML templates
         tsPattern, jsPattern, jsToCleanPattern; // TypeScript, JavaScript and mapping files
 
-    grunt.appFolders = ['app'];
+    grunt.appFolders = ['app', 'testing'];
 
     // Populate paths
     sassPattern = addAppFolders('**/*.scss', 'styles.scss');
@@ -224,7 +224,7 @@ module.exports = function (grunt) {
         karma: {
             options: {
                 configFile: 'karma.conf.js',
-                reporters: ['progress', 'kjhtml', 'junit', 'coverage']
+                reporters: ['spec', 'kjhtml', 'junit', 'coverage']
             },
             dev: {
                 browsers: ['Chrome', 'Firefox', 'IE']
@@ -270,7 +270,7 @@ module.exports = function (grunt) {
                 }
             },
             circleCI: {
-                reporters: ['progress', 'kjhtml', 'junit', 'coverage', 'BrowserStack'],
+                reporters: ['spec', 'kjhtml', 'junit', 'coverage', 'BrowserStack'],
                 browsers: [
                     'bs_chrome_windows_10',
                     'bs_firefox_windows_10',

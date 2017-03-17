@@ -1,4 +1,4 @@
-import {TestBed, async, ComponentFixtureAutoDetect, inject, fakeAsync} from '@angular/core/testing';
+import {TestBed, async, inject, fakeAsync} from '@angular/core/testing';
 
 import {AuthServiceStub, RouterLinkStubDirective, LinkOnlyPage} from '../../testing';
 
@@ -17,8 +17,7 @@ describe('Login menu', () => {
             providers: [
                 {
                     provide: AuthService, useClass: AuthServiceStub
-                },
-                {provide: ComponentFixtureAutoDetect, useValue: true}
+                }
             ]
         }).compileComponents();
     }));

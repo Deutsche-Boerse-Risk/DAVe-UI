@@ -1,15 +1,8 @@
-import {LocationStrategy} from '@angular/common';
-import {DebugElement} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
-
 import {async, TestBed, fakeAsync, inject} from '@angular/core/testing';
 
 import {
-    RouterStub,
-    LocationStrategyStub,
-    ActivatedRouteStub,
     LatestListPage,
-    RouterLinkStubDirective,
+    TableBodyRow,
     HttpAsyncServiceStub,
     generateTotalMargin,
     generateTotalMarginHistory,
@@ -21,33 +14,12 @@ import {TotalMarginService} from './total.margin.service';
 import {HttpService} from '../http.service';
 
 import {TotalMarginRequirementLatestComponent, valueGetters} from './total.margin.requirement.latest.component';
-import {ListModule} from '../list/list.module';
-import {DataTableModule} from '../datatable/data.table.module';
-import {HIGHLIGHTER_CLASS} from '../datatable/highlighter.directive';
 
 describe('Total margin latest component', () => {
     let page: LatestListPage<TotalMarginRequirementLatestComponent>;
 
     beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                ListModule,
-                DataTableModule
-            ],
-            declarations: [
-                TotalMarginRequirementLatestComponent,
-                RouterLinkStubDirective
-            ],
-            providers: [
-                TotalMarginService,
-                {
-                    provide: HttpService, useClass: HttpAsyncServiceStub
-                },
-                {provide: Router, useClass: RouterStub},
-                {provide: ActivatedRoute, useClass: ActivatedRouteStub},
-                {provide: LocationStrategy, useClass: LocationStrategyStub}
-            ]
-        }).compileComponents();
+        LatestListPage.initTestBed(TotalMarginRequirementLatestComponent, TotalMarginService);
     }));
 
     beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<TotalMarginServerData[]>) => {
@@ -141,15 +113,15 @@ describe('Total margin latest component', () => {
             expect(page.updateFailedComponent).toBeNull('Update failed component not visible.');
             expect(page.dataTable.element).not.toBeNull('Data table visible.');
 
-            expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
-                return row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+            expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
+                return row.highlighted;
             })).toBeTruthy('All rows are highlighted');
 
             // Fire highlighters
             page.advance(15000);
 
-            expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
-                return !row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+            expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
+                return !row.highlighted;
             })).toBeTruthy('No rows are highlighted');
 
             // Push new data
@@ -162,15 +134,15 @@ describe('Total margin latest component', () => {
 
             expect(page.dataTable.element).not.toBeNull('Data table visible.');
 
-            expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
-                return row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+            expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
+                return row.highlighted;
             })).toBeTruthy('All rows are highlighted');
 
             // Fire highlighters
             page.advance(15000);
 
-            expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
-                return !row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+            expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
+                return !row.highlighted;
             })).toBeTruthy('No rows are highlighted');
 
             // Return the same data
@@ -180,44 +152,86 @@ describe('Total margin latest component', () => {
             // Return the data
             page.advance(1000);
 
-            expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
-                return !row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+            expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
+                return !row.highlighted;
             })).toBeTruthy('No rows are highlighted');
 
             // Do not trigger periodic interval
             clearInterval((page.component as any).intervalHandle);
         })));
 
-    xit('displays data correctly', fakeAsync(() => {
-    }));
-
-    xit('has filtering working', fakeAsync(() => {
-    }));
-
-    xit('has correct breadcrumbs navigation', fakeAsync(() => {
-    }));
-
-    xit('has correct row navigation', fakeAsync(() => {
-    }));
-
-    xit('has download working', fakeAsync(() => {
-    }));
-
-    it('can be sorted correctly', fakeAsync(() => {
+    it('has correct pager', fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<TotalMarginServerData[]>) => {
         // Init component
         page.detectChanges();
         // Return data
         page.advance(1000);
-        // Do not trigger periodic interval
-        clearInterval((page.component as any).intervalHandle);
+        // Fire highlighters
+        page.advance(15000);
 
-        chceckSorting(page, [valueGetters.pool, valueGetters.member, valueGetters.account,
-            valueGetters.ccy, valueGetters.adjustedMargin, valueGetters.unadjustedMargin]);
+        expect(page.dataTable.pager.element).not.toBeNull('Pager visible');
+        expect(page.dataTable.recordsCount.message).toContain('Showing 20 records out of ' + Math.pow(3, 5));
+
+        page.dataTable.pager.expectButtonNumbers([1, 2, 3, 4]);
+        page.dataTable.pager.expectButtonActive(2);
+        page.dataTable.pager.expectLeadingButtonsDisabled();
+        page.dataTable.pager.expectTrailingButtonsNotDisabled();
+
+        page.dataTable.pager.click(4);
+
+        page.dataTable.pager.expectButtonNumbers([1, 2, 3, 4, 5, 6]);
+        page.dataTable.pager.expectButtonActive(4);
+        page.dataTable.pager.expectLeadingButtonsNotDisabled();
+        page.dataTable.pager.expectTrailingButtonsNotDisabled();
+
+        http.returnValue(generateTotalMarginHistory());
+        // Trigger reload
+        page.advance(44000);
+        // Return the data
+        page.advance(1000);
+
+        expect(page.dataTable.pager.element).toBeNull('Pager not visible');
+        expect(page.dataTable.recordsCount.message).toContain('Showing 16 records out of 16');
 
         // Fire highlighters
         page.advance(15000);
-    }));
+        // Do not trigger periodic interval
+        clearInterval((page.component as any).intervalHandle);
+    })));
 
-    xit('has correct pager', fakeAsync(() => {
-    }));
+    describe('(after data are ready)', () => {
+        beforeEach(fakeAsync(() => {
+            // Init component
+            page.detectChanges();
+            // Return data
+            page.advance(1000);
+            // Do not trigger periodic interval
+            clearInterval((page.component as any).intervalHandle);
+
+            // Fire highlighters
+            page.advance(15000);
+        }));
+
+        xit('displays data correctly', fakeAsync(() => {
+        }));
+
+        xit('has filtering working', fakeAsync(() => {
+        }));
+
+        xit('has correct breadcrumbs navigation', fakeAsync(() => {
+        }));
+
+        xit('has correct row navigation', fakeAsync(() => {
+        }));
+
+        xit('has download working', fakeAsync(() => {
+        }));
+
+        it('can be sorted correctly', fakeAsync(() => {
+            chceckSorting(page, [valueGetters.pool, valueGetters.member, valueGetters.account,
+                valueGetters.ccy, valueGetters.adjustedMargin, valueGetters.unadjustedMargin]);
+
+            // Fire highlighters
+            page.advance(15000);
+        }));
+    });
 });

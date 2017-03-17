@@ -2,6 +2,7 @@ import {OrderingValueGetter} from '../app/datatable/data.table.column.directive'
 
 import {DataTableDefinition, SortingHandle} from './definitions/data.table.definition';
 
+export * from './definitions/app.component.page';
 export * from './definitions/bread.crumbs.page';
 export * from './definitions/bubble.chart.page';
 export * from './definitions/chart.page';
@@ -19,6 +20,7 @@ export * from './definitions/menu.page';
 export * from './definitions/no.data.page';
 export * from './definitions/page.base';
 export * from './definitions/shorfall.surplus.summary.page';
+export * from './definitions/treemap.page';
 export * from './definitions/update.failed.page';
 
 export * from './mock/margin.components.generator';
@@ -28,11 +30,13 @@ export * from './mock/risk.limits.generator';
 export * from './mock/total.margin.generator';
 
 export * from './stubs/auth.service.stub';
+export * from './stubs/google.chart.component.stub';
 export * from './stubs/http.service.stub';
 
 export * from './stubs/router/activated.route.stub';
 export * from './stubs/router/router.link.stub';
 export * from './stubs/router/router.stub';
+export * from './stubs/router/router.module.stub';
 
 export {windowResize} from './events';
 

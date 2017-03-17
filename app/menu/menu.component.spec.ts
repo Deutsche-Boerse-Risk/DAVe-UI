@@ -1,32 +1,39 @@
-import {LocationStrategy} from '@angular/common';
-import {Router, ActivatedRoute} from '@angular/router';
+import {ContentChildren} from '@angular/core';
+import {Router} from '@angular/router';
 
-import {TestBed, ComponentFixtureAutoDetect, async, inject, fakeAsync} from '@angular/core/testing';
+import {TestBed, async, inject, fakeAsync} from '@angular/core/testing';
 
-import {MenuPage, RouterStub, ActivatedRouteStub, LocationStrategyStub} from '../../testing';
+import {MenuPage, RouterStub, RouterLinkStubDirective, stubRouter} from '../../testing';
 
 import {MenuModule} from './menu.module';
 import {MenuComponent} from './menu.component';
+import {RouterLinkActiveDirective} from './router.link.active.directive';
 
 describe('Menu component', () => {
 
     let page: MenuPage;
+    // Get @ContentChildren in RouterLinkActiveDirective
+    let linksDecorator: ContentChildren = (Reflect as any).getMetadata('propMetadata', RouterLinkActiveDirective).links[0];
+    let oldSelector = linksDecorator.selector;
 
     beforeEach(async(() => {
+        // Use stub to override @ContentChildren in RouterLinkActiveDirective
+        linksDecorator.selector = RouterLinkStubDirective;
         TestBed.configureTestingModule({
-            imports: [MenuModule],
-            providers: [
-                {provide: Router, useClass: RouterStub},
-                {provide: ActivatedRoute, useClass: ActivatedRouteStub},
-                {provide: LocationStrategy, useClass: LocationStrategyStub},
-                {provide: ComponentFixtureAutoDetect, useValue: true}
-            ]
-        }).compileComponents();
+            imports: [MenuModule]
+        });
+        stubRouter().compileComponents();
     }));
 
     beforeEach(fakeAsync(() => {
         page = new MenuPage(TestBed.createComponent(MenuComponent));
+        page.detectChanges();
     }));
+
+    afterEach(() => {
+        // Restore component definition
+        linksDecorator.selector = oldSelector;
+    });
 
     it('has "Dashboard" active', fakeAsync(() => {
         page.isActive('Dashboard');

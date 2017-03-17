@@ -14,7 +14,7 @@ export class LinkDefinition {
     }
 
     public get text(): string {
-        return this.link.nativeElement.textContent;
+        return this.link.nativeElement.textContent.trim();
     }
 
     public click() {

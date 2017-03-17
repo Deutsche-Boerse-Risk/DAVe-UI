@@ -1,15 +1,11 @@
-import {LocationStrategy} from '@angular/common';
-import {NO_ERRORS_SCHEMA, DebugElement} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 
 import {async, TestBed, fakeAsync, inject} from '@angular/core/testing';
 
 import {
-    RouterStub,
-    LocationStrategyStub,
     ActivatedRouteStub,
     HistoryListPage,
-    RouterLinkStubDirective,
+    TableBodyRow,
     HttpAsyncServiceStub,
     generateTotalMarginHistory,
     chceckSorting
@@ -21,35 +17,13 @@ import {HttpService} from '../http.service';
 
 import {valueGetters} from './total.margin.requirement.latest.component';
 import {TotalMarginRequirementHistoryComponent} from './total.margin.requirement.history.component';
-import {ListModule} from '../list/list.module';
-import {DataTableModule} from '../datatable/data.table.module';
-import {HIGHLIGHTER_CLASS} from '../datatable/highlighter.directive';
 
 describe('Total margin history component', () => {
     let page: HistoryListPage<TotalMarginRequirementHistoryComponent>;
     let testingParams = ['A', '*', 'B', 'C', '*'];
 
     beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                ListModule,
-                DataTableModule
-            ],
-            declarations: [
-                TotalMarginRequirementHistoryComponent,
-                RouterLinkStubDirective
-            ],
-            providers: [
-                TotalMarginService,
-                {
-                    provide: HttpService, useClass: HttpAsyncServiceStub
-                },
-                {provide: Router, useClass: RouterStub},
-                {provide: ActivatedRoute, useClass: ActivatedRouteStub},
-                {provide: LocationStrategy, useClass: LocationStrategyStub}
-            ],
-            schemas: [NO_ERRORS_SCHEMA]
-        }).compileComponents();
+        HistoryListPage.initTestBed(TotalMarginRequirementHistoryComponent, TotalMarginService);
     }));
 
     beforeEach(fakeAsync(inject([HttpService, ActivatedRoute],
@@ -123,7 +97,7 @@ describe('Total margin history component', () => {
             expect(page.lineChart).toBeNull('Chart not visible.');
         })));
 
-    it('displays data correctly', fakeAsync(inject([HttpService],
+    it('displays data table', fakeAsync(inject([HttpService],
         (http: HttpAsyncServiceStub<TotalMarginServerData[]>) => {
             let httpSpy = spyOn(http, 'get').and.callThrough();
             // Init component
@@ -166,15 +140,15 @@ describe('Total margin history component', () => {
             expect(page.dataTable.element).not.toBeNull('Data table visible.');
             expect(page.lineChart).not.toBeNull('Chart visible.');
 
-            expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
-                return row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+            expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
+                return row.highlighted;
             })).toBeTruthy('All rows are highlighted');
 
             // Fire highlighters
             page.advance(15000);
 
-            expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
-                return !row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+            expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
+                return !row.highlighted;
             })).toBeTruthy('No rows are highlighted');
 
             // Push new data
@@ -188,15 +162,15 @@ describe('Total margin history component', () => {
             expect(page.dataTable.element).not.toBeNull('Data table visible.');
             expect(page.lineChart).not.toBeNull('Chart visible.');
 
-            expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
-                return row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+            expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
+                return row.highlighted;
             })).toBeTruthy('All rows are highlighted');
 
             // Fire highlighters
             page.advance(15000);
 
-            expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
-                return !row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+            expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
+                return !row.highlighted;
             })).toBeTruthy('No rows are highlighted');
 
             // Return the same data
@@ -206,40 +180,100 @@ describe('Total margin history component', () => {
             // Return the data
             page.advance(1000);
 
-            expect(page.dataTable.body.tableRowElements.every((row: DebugElement) => {
-                return !row.nativeElement.classList.contains(HIGHLIGHTER_CLASS)
+            expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
+                return !row.highlighted;
             })).toBeTruthy('No rows are highlighted');
 
             // Do not trigger periodic interval
             clearInterval((page.component as any).intervalHandle);
         })));
 
-    xit('displays data correctly', fakeAsync(() => {
-    }));
-
-    xit('has chart data correctly processed', fakeAsync(() => {
-    }));
-
-    xit('has correct breadcrumbs navigation', fakeAsync(() => {
-    }));
-
-    xit('has download working', fakeAsync(() => {
-    }));
-
-    it('can be sorted correctly', fakeAsync(() => {
+    it('has correct pager', fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<TotalMarginServerData[]>) => {
         // Init component
         page.detectChanges();
         // Return data
         page.advance(1000);
-        // Do not trigger periodic interval
-        clearInterval((page.component as any).intervalHandle);
+        // Fire highlighters
+        page.advance(15000);
 
-        chceckSorting(page, [valueGetters.received, valueGetters.adjustedMargin, valueGetters.unadjustedMargin]);
+        expect(page.dataTable.pager.element).toBeNull('Pager not visible');
+        expect(page.dataTable.recordsCount.message).toContain('Showing 16 records out of 16');
+
+        let newData = generateTotalMarginHistory()
+            .concat(generateTotalMarginHistory())
+            .concat(generateTotalMarginHistory());
+        http.returnValue(newData);
+        // Trigger reload
+        page.advance(44000);
+        // Return the data
+        page.advance(1000);
+        page.detectChanges();
+
+        expect(page.dataTable.pager.element).not.toBeNull('Pager visible');
+        expect(page.dataTable.recordsCount.message).toContain('Showing 20 records out of ' + 3 * 16);
+
+        page.dataTable.pager.expectButtonNumbers([1, 2, 3]);
+        page.dataTable.pager.expectButtonActive(2);
+        page.dataTable.pager.expectLeadingButtonsDisabled();
+        page.dataTable.pager.expectTrailingButtonsNotDisabled();
+
+        page.dataTable.pager.click(4);
+
+        page.dataTable.pager.expectButtonNumbers([1, 2, 3]);
+        page.dataTable.pager.expectButtonActive(4);
+        page.dataTable.pager.expectLeadingButtonsNotDisabled();
+        page.dataTable.pager.expectTrailingButtonsDisabled();
 
         // Fire highlighters
         page.advance(15000);
-    }));
+        // Do not trigger periodic interval
+        clearInterval((page.component as any).intervalHandle);
+    })));
 
-    xit('has correct pager', fakeAsync(() => {
-    }));
+    describe('(after data are ready)', () => {
+        beforeEach(fakeAsync(() => {
+            // Init component
+            page.detectChanges();
+            // Return data
+            page.advance(1000);
+            // Do not trigger periodic interval
+            clearInterval((page.component as any).intervalHandle);
+
+            // Fire highlighters
+            page.advance(15000);
+        }));
+
+        xit('displays data correctly', fakeAsync(() => {
+        }));
+
+        xit('has chart data correctly processed', fakeAsync(() => {
+        }));
+
+        it('has correct breadcrumbs navigation', fakeAsync(inject([ActivatedRoute],
+            (activatedRoute: ActivatedRouteStub) => {
+                page.checkBreadCrumbs(testingParams, '/totalMarginRequirementLatest',
+                    'Total Margin Requirement History', false);
+
+                let routeParams = ['A', 'B', 'C', 'D', 'E'];
+
+                activatedRoute.testParams = {
+                    clearer: routeParams[0],
+                    pool: routeParams[1],
+                    member: routeParams[2],
+                    account: routeParams[3],
+                    ccy: routeParams[4]
+                };
+                page.detectChanges();
+
+                page.checkBreadCrumbs(routeParams, '/totalMarginRequirementLatest',
+                    'Total Margin Requirement History', false);
+            })));
+
+        xit('has download working', fakeAsync(() => {
+        }));
+
+        it('can be sorted correctly', fakeAsync(() => {
+            chceckSorting(page, [valueGetters.received, valueGetters.adjustedMargin, valueGetters.unadjustedMargin]);
+        }));
+    });
 });

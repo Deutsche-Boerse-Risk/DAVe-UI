@@ -12,29 +12,38 @@ export class RouterStub {
 
     public events: EventEmitter<NavigationEnd> = new EventEmitter<NavigationEnd>();
 
-    public navigateByUrl(url: string | UrlTree) {
-        let urlString;
-        if (url instanceof Object) {
-            urlString = this.serializeUrl(<UrlTree>url);
-        } else {
-            urlString = url;
-            url = this.createUrlTree((url as string).split('/'));
+    public getURLTree(url: string | UrlTree | any[]): UrlTree {
+        if (Array.isArray(url)) {
+            return this.createUrlTree(url as any[]);
         }
-        this.currentUrlTree = <UrlTree>url;
-        this.events.emit(new NavigationEnd(this.id, urlString, urlString));
-        this.id++;
+
+        if (url instanceof Object) {
+            return url as UrlTree;
+        }
+
+        return this.createUrlTree((url as string).split('/'));
+    }
+
+    public navigateByUrl(url: string | UrlTree) {
+        this.currentUrlTree = this.getURLTree(url);
+        this.emitNavigate();
         return url;
     }
 
     public navigate(commands: any[], extras?: NavigationExtras) {
-        this.id++;
-        this.currentUrlTree = this.createUrlTree(commands, extras);
-        this.events.emit(new NavigationEnd(this.id, commands.join('/'), commands.join('/')));
+        this.currentUrlTree = this.getURLTree(commands);
+        this.emitNavigate();
         return [commands, extras];
     }
 
-    public isActive(url: UrlTree, exact: boolean): boolean {
-        return this.serializeUrl(this.currentUrlTree).indexOf(this.serializeUrl(url)) !== -1;
+    private emitNavigate(): void {
+        this.id++;
+        let urlString = RouterStub.serializeUrl(this.currentUrlTree);
+        this.events.emit(new NavigationEnd(this.id, urlString, urlString));
+    }
+
+    public isActive(url: UrlTree): boolean {
+        return RouterStub.serializeUrl(this.currentUrlTree).indexOf(RouterStub.serializeUrl(url)) !== -1;
     }
 
     public createUrlTree(commands: any[], extras?: NavigationExtras): UrlTree {
@@ -48,14 +57,7 @@ export class RouterStub {
         };
     }
 
-    public serializeUrl(url: UrlTree): string {
+    public static serializeUrl(url: UrlTree): string {
         return url.root.segments.map((segment: UrlSegment) => segment.path).join('/');
-    }
-}
-
-export class LocationStrategyStub {
-
-    public prepareExternalUrl(internal: string): string {
-        return internal;
     }
 }
