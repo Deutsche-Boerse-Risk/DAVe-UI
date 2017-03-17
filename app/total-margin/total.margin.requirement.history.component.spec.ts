@@ -15,8 +15,9 @@ import {TotalMarginServerData} from './total.margin.types';
 import {TotalMarginService} from './total.margin.service';
 import {HttpService} from '../http.service';
 
-import {valueGetters} from './total.margin.requirement.latest.component';
+import {valueGetters, exportKeys} from './total.margin.requirement.latest.component';
 import {TotalMarginRequirementHistoryComponent} from './total.margin.requirement.history.component';
+import {ExportColumn} from '../list/download.menu.component';
 
 describe('Total margin history component', () => {
     let page: HistoryListPage<TotalMarginRequirementHistoryComponent>;
@@ -269,7 +270,24 @@ describe('Total margin history component', () => {
                     'Total Margin Requirement History', false);
             })));
 
-        xit('has download working', fakeAsync(() => {
+        it('has download working', fakeAsync(() => {
+            let downloadLink = page.downloadMenu;
+            downloadLink.click();
+
+            expect(downloadLink.saveSpy).toHaveBeenCalled();
+            expect(downloadLink.blobSpy).toHaveBeenCalled();
+            let exportedData = downloadLink.blobSpy.calls.mostRecent().args[0][0];
+            expect(exportedData).not.toBeNull();
+            expect(exportedData.split('\n')[0]).toEqual(exportKeys.map(
+                (key: ExportColumn<any>) => key.header).join(','));
+            expect(exportedData.split('\n')[1]).toContain(exportKeys.slice(0, exportKeys.length - 1).map(
+                (key: ExportColumn<any>) =>
+                    key.get(page.dataTable.data[0]) ? key.get(page.dataTable.data[0]).toString() : '')
+                .join(','));
+            let cells = exportedData.split('\n')[1].split(',');
+            expect(cells[cells.length - 2] + ',' + cells[cells.length - 1])
+                .toMatch(/^"\d{2}\/\d{2}\/\d{4}, \d{1,2}:\d{2}:\d{2} (AM|PM)"$/);
+            expect(exportedData.split('\n').length).toBe(18);
         }));
 
         it('can be sorted correctly', fakeAsync(() => {

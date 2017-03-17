@@ -27,6 +27,7 @@ import {InitialLoadComponent} from '../../app/common/initial.load.component';
 import {NoDataComponent} from '../../app/common/no.data.component';
 import {UpdateFailedComponent} from '../../app/common/update.failed.component';
 import {DataTableComponent} from '../../app/datatable/data.table.component';
+import {DownloadLink} from './download.menu.page';
 
 export class ListPage<T> extends PageWithLoading<T> {
 
@@ -71,8 +72,12 @@ export class ListPage<T> extends PageWithLoading<T> {
         return this.header.query(By.directive(DrilldownButtonComponent));
     }
 
-    public get downloadMenu(): DebugElement {
-        return this.header.query(By.directive(DownloadMenuComponent));
+    public get downloadMenu(): DownloadLink {
+        let downLoadMenu: DebugElement = this.header.query(By.directive(DownloadMenuComponent));
+        if (downLoadMenu) {
+            return new DownloadLink(downLoadMenu.query(By.css('a')), this);
+        }
+        return null;
     }
 
     public get breadCrumbs(): BreadCrumbsDefinition {

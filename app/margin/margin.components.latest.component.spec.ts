@@ -13,7 +13,8 @@ import {MarginComponentsServerData} from './margin.types';
 import {MarginComponentsService} from './margin.components.service';
 import {HttpService} from '../http.service';
 
-import {MarginComponentsLatestComponent, valueGetters} from './margin.components.latest.component';
+import {MarginComponentsLatestComponent, valueGetters, exportKeys} from './margin.components.latest.component';
+import {ExportColumn} from '../list/download.menu.component';
 
 describe('Margin components latest component', () => {
     let page: LatestListPage<MarginComponentsLatestComponent>;
@@ -223,7 +224,24 @@ describe('Margin components latest component', () => {
         xit('has correct row navigation', fakeAsync(() => {
         }));
 
-        xit('has download working', fakeAsync(() => {
+        it('has download working', fakeAsync(() => {
+            let downloadLink = page.downloadMenu;
+            downloadLink.click();
+
+            expect(downloadLink.saveSpy).toHaveBeenCalled();
+            expect(downloadLink.blobSpy).toHaveBeenCalled();
+            let exportedData = downloadLink.blobSpy.calls.mostRecent().args[0][0];
+            expect(exportedData).not.toBeNull();
+            expect(exportedData.split('\n')[0]).toEqual(exportKeys.map(
+                (key: ExportColumn<any>) => key.header).join(','));
+            expect(exportedData.split('\n')[1]).toContain(exportKeys.slice(0, exportKeys.length - 1).map(
+                (key: ExportColumn<any>) =>
+                    key.get(page.dataTable.data[0]) ? key.get(page.dataTable.data[0]).toString() : '')
+                .join(','));
+            let cells = exportedData.split('\n')[1].split(',');
+            expect(cells[cells.length - 2] + ',' + cells[cells.length - 1])
+                .toMatch(/^"\d{2}\/\d{2}\/\d{4}, \d{1,2}:\d{2}:\d{2} (AM|PM)"$/);
+            expect(exportedData.split('\n').length).toBe(Math.pow(3, 4) + 2);
         }));
 
         it('can be sorted correctly', fakeAsync(() => {
