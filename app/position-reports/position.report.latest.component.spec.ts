@@ -1,8 +1,11 @@
+import {ActivatedRoute} from '@angular/router';
+
 import {async, TestBed, fakeAsync, inject} from '@angular/core/testing';
 
 import {
     LatestListPage,
     TableBodyRow,
+    ActivatedRouteStub,
     HttpAsyncServiceStub,
     generatePositionReports,
     generatePositionReportsHistory,
@@ -218,8 +221,120 @@ describe('Position reports latest component', () => {
         xit('has filtering working', fakeAsync(() => {
         }));
 
-        xit('has correct breadcrumbs navigation', fakeAsync(() => {
-        }));
+        it('has correct breadcrumbs navigation', fakeAsync(inject([ActivatedRoute],
+            (activatedRoute: ActivatedRouteStub) => {
+                let routeParams: string[] = [];
+
+                page.checkBreadCrumbs(routeParams, '/positionReportLatest', 'Latest Position Reports');
+
+                routeParams.push('A');
+                activatedRoute.testParams = {
+                    clearer: routeParams[0]
+                };
+                page.detectChanges();
+
+                page.checkBreadCrumbs(routeParams, '/positionReportLatest', 'Latest Position Reports');
+
+                routeParams.push('B');
+                activatedRoute.testParams = {
+                    clearer: routeParams[0],
+                    member: routeParams[1]
+                };
+                page.detectChanges();
+
+                page.checkBreadCrumbs(routeParams, '/positionReportLatest', 'Latest Position Reports');
+
+                routeParams.push('C');
+                activatedRoute.testParams = {
+                    clearer: routeParams[0],
+                    member: routeParams[1],
+                    account: routeParams[2]
+                };
+                page.detectChanges();
+
+                page.checkBreadCrumbs(routeParams, '/positionReportLatest', 'Latest Position Reports');
+
+                routeParams.push('D');
+                activatedRoute.testParams = {
+                    clearer: routeParams[0],
+                    member: routeParams[1],
+                    account: routeParams[2],
+                    class: routeParams[3]
+                };
+                page.detectChanges();
+
+                page.checkBreadCrumbs(routeParams, '/positionReportLatest', 'Latest Position Reports');
+
+                routeParams.push('E');
+                activatedRoute.testParams = {
+                    clearer: routeParams[0],
+                    member: routeParams[1],
+                    account: routeParams[2],
+                    class: routeParams[3],
+                    symbol: routeParams[4]
+                };
+                page.detectChanges();
+
+                page.checkBreadCrumbs(routeParams, '/positionReportLatest', 'Latest Position Reports');
+
+                routeParams.push('F');
+                activatedRoute.testParams = {
+                    clearer: routeParams[0],
+                    member: routeParams[1],
+                    account: routeParams[2],
+                    class: routeParams[3],
+                    symbol: routeParams[4],
+                    putCall: routeParams[5]
+                };
+                page.detectChanges();
+
+                page.checkBreadCrumbs(routeParams, '/positionReportLatest', 'Latest Position Reports');
+
+                routeParams.push('G');
+                activatedRoute.testParams = {
+                    clearer: routeParams[0],
+                    member: routeParams[1],
+                    account: routeParams[2],
+                    class: routeParams[3],
+                    symbol: routeParams[4],
+                    putCall: routeParams[5],
+                    strikePrice: routeParams[6]
+                };
+                page.detectChanges();
+
+                page.checkBreadCrumbs(routeParams, '/positionReportLatest', 'Latest Position Reports');
+
+                routeParams.push('H');
+                activatedRoute.testParams = {
+                    clearer: routeParams[0],
+                    member: routeParams[1],
+                    account: routeParams[2],
+                    class: routeParams[3],
+                    symbol: routeParams[4],
+                    putCall: routeParams[5],
+                    strikePrice: routeParams[6],
+                    optAttribute: routeParams[7]
+                };
+                page.detectChanges();
+
+                page.checkBreadCrumbs(routeParams, '/positionReportLatest', 'Latest Position Reports');
+
+                routeParams.push('I');
+                activatedRoute.testParams = {
+                    clearer: routeParams[0],
+                    member: routeParams[1],
+                    account: routeParams[2],
+                    class: routeParams[3],
+                    symbol: routeParams[4],
+                    putCall: routeParams[5],
+                    strikePrice: routeParams[6],
+                    optAttribute: routeParams[7],
+                    maturityMonthYear: routeParams[8]
+                };
+                page.detectChanges();
+
+                page.checkBreadCrumbs(routeParams, '/positionReportLatest', 'Latest Position Reports');
+            })));
 
         xit('has correct row navigation', fakeAsync(() => {
         }));

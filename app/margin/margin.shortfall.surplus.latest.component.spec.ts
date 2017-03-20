@@ -1,8 +1,11 @@
+import {ActivatedRoute} from '@angular/router';
+
 import {async, TestBed, fakeAsync, inject} from '@angular/core/testing';
 
 import {
     LatestListPage,
     TableBodyRow,
+    ActivatedRouteStub,
     HttpAsyncServiceStub,
     generateShortfallSurplusLatest,
     generateMarginShortfallSurplusHistory,
@@ -221,8 +224,51 @@ describe('Margin shortfall-surplus latest component', () => {
         xit('has filtering working', fakeAsync(() => {
         }));
 
-        xit('has correct breadcrumbs navigation', fakeAsync(() => {
-        }));
+        it('has correct breadcrumbs navigation', fakeAsync(inject([ActivatedRoute],
+            (activatedRoute: ActivatedRouteStub) => {
+                let routeParams: string[] = [];
+
+                page.checkBreadCrumbs(routeParams, '/marginShortfallSurplusLatest',
+                    'Latest Margin Shortfall Surplus');
+
+                routeParams.push('A');
+                activatedRoute.testParams = {
+                    clearer: routeParams[0],
+                };
+                page.detectChanges();
+
+                page.checkBreadCrumbs(routeParams, '/marginShortfallSurplusLatest', 'Latest Margin Shortfall Surplus');
+
+                routeParams.push('B');
+                activatedRoute.testParams = {
+                    clearer: routeParams[0],
+                    pool: routeParams[1]
+                };
+                page.detectChanges();
+
+                page.checkBreadCrumbs(routeParams, '/marginShortfallSurplusLatest', 'Latest Margin Shortfall Surplus');
+
+                routeParams.push('C');
+                activatedRoute.testParams = {
+                    clearer: routeParams[0],
+                    pool: routeParams[1],
+                    member: routeParams[2]
+                };
+                page.detectChanges();
+
+                page.checkBreadCrumbs(routeParams, '/marginShortfallSurplusLatest', 'Latest Margin Shortfall Surplus');
+
+                routeParams.push('D');
+                activatedRoute.testParams = {
+                    clearer: routeParams[0],
+                    pool: routeParams[1],
+                    member: routeParams[2],
+                    clearingCcy: routeParams[3]
+                };
+                page.detectChanges();
+
+                page.checkBreadCrumbs(routeParams, '/marginShortfallSurplusLatest', 'Latest Margin Shortfall Surplus');
+            })));
 
         xit('has correct row navigation', fakeAsync(() => {
         }));

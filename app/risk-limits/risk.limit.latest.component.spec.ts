@@ -1,8 +1,11 @@
+import {ActivatedRoute} from '@angular/router';
+
 import {async, TestBed, fakeAsync, inject} from '@angular/core/testing';
 
 import {
     LatestListPage,
     TableBodyRow,
+    ActivatedRouteStub,
     HttpAsyncServiceStub,
     generateRiskLimits,
     generateRiskLimitsHistory,
@@ -218,8 +221,50 @@ describe('Risk limit latest component', () => {
         xit('has filtering working', fakeAsync(() => {
         }));
 
-        xit('has correct breadcrumbs navigation', fakeAsync(() => {
-        }));
+        it('has correct breadcrumbs navigation', fakeAsync(inject([ActivatedRoute],
+            (activatedRoute: ActivatedRouteStub) => {
+                let routeParams: string[] = [];
+
+                page.checkBreadCrumbs(routeParams, '/riskLimitLatest', 'Risk Limits');
+
+                routeParams.push('A');
+                activatedRoute.testParams = {
+                    clearer: routeParams[0]
+                };
+                page.detectChanges();
+
+                page.checkBreadCrumbs(routeParams, '/riskLimitLatest', 'Risk Limits');
+
+                routeParams.push('B');
+                activatedRoute.testParams = {
+                    clearer: routeParams[0],
+                    member: routeParams[1]
+                };
+                page.detectChanges();
+
+                page.checkBreadCrumbs(routeParams, '/riskLimitLatest', 'Risk Limits');
+
+                routeParams.push('C');
+                activatedRoute.testParams = {
+                    clearer: routeParams[0],
+                    member: routeParams[1],
+                    maintainer: routeParams[2]
+                };
+                page.detectChanges();
+
+                page.checkBreadCrumbs(routeParams, '/riskLimitLatest', 'Risk Limits');
+
+                routeParams.push('D');
+                activatedRoute.testParams = {
+                    clearer: routeParams[0],
+                    member: routeParams[1],
+                    maintainer: routeParams[2],
+                    limitType: routeParams[3]
+                };
+                page.detectChanges();
+
+                page.checkBreadCrumbs(routeParams, '/riskLimitLatest', 'Risk Limits');
+            })));
 
         xit('has correct row navigation', fakeAsync(() => {
         }));
