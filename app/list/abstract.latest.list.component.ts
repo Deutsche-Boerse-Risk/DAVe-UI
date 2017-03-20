@@ -49,6 +49,9 @@ export abstract class AbstractLatestListComponent<T extends {uid: string}> exten
 
         function MatchObject(item: any, search: string): boolean {
             return Object.keys(item).some((key: string) => {
+                if (item[key] instanceof Date) {
+                    return false;
+                }
                 return String(item[key]).toLowerCase().indexOf(search) !== -1;
             });
         }

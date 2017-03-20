@@ -18,9 +18,9 @@ export function generateTotalMargin(clearers: number = 3, pools: number = 3,
                         let id = {
                             _id: {
                                 clearer: ALPHABET.charAt(j % ALPHABET.length),
-                                pool: ALPHABET.charAt(k % ALPHABET.length),
-                                member: ALPHABET.charAt(l % ALPHABET.length),
-                                account: ALPHABET.charAt(m % ALPHABET.length),
+                                pool: ALPHABET.charAt((k + 3) % ALPHABET.length),
+                                member: ALPHABET.charAt((l + 6) % ALPHABET.length),
+                                account: ALPHABET.charAt((m + 9) % ALPHABET.length),
                                 ccy: CURRENCIES[n % CURRENCIES.length]
                             }
                         };

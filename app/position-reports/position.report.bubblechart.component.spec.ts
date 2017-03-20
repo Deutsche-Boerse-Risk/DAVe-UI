@@ -128,40 +128,40 @@ describe('Position reports bubble chart component', () => {
             // Return data
             page.advanceHTTP();
 
-            page.expectStatesMatch('A', 'A', 20);
+            page.expectStatesMatch('B', 'E', 20);
 
             page.selectMember(1);
-            page.expectStatesMatch('B', 'A', 20);
+            page.expectStatesMatch('C', 'E', 20);
 
             page.selectAccount(1);
-            page.expectStatesMatch('B', 'B', 20);
+            page.expectStatesMatch('C', 'F', 20);
 
             page.selectMember(0);
-            page.expectStatesMatch('A', 'A', 20);
+            page.expectStatesMatch('B', 'E', 20);
 
 
             page.selectMember(1);
             page.selectAccount(1);
             page.selectBubblesCount(2);
-            page.expectStatesMatch('B', 'B', 30);
+            page.expectStatesMatch('C', 'F', 30);
 
             // Generate new data
             http.returnValue(generatePositionReports());
             // Trigger auto refresh
             page.advanceAndDetectChanges(DATA_REFRESH_INTERVAL);
-            page.expectStatesMatch('B', 'B', 30);
+            page.expectStatesMatch('C', 'F', 30);
 
             // Generate new data
             http.returnValue(generatePositionReports(2, 1));
             // Trigger auto refresh
             page.advanceAndDetectChanges(DATA_REFRESH_INTERVAL);
-            page.expectStatesMatch('B', 'A', 30);
+            page.expectStatesMatch('C', 'E', 30);
 
             // Generate new data
             http.returnValue(generatePositionReports(1));
             // Trigger auto refresh
             page.advanceAndDetectChanges(DATA_REFRESH_INTERVAL);
-            page.expectStatesMatch('A', 'A', 30);
+            page.expectStatesMatch('B', 'E', 30);
 
             // Trigger auto refresh with no data
             page.advanceAndDetectChanges(DATA_REFRESH_INTERVAL);
@@ -213,7 +213,7 @@ describe('Position reports bubble chart component', () => {
         page.selectMember(1);
 
         page.matchTitle('20', '21,600.00%', '20', '66.67%', '0.00');
-        page.expectStatesMatch('B', 'A', 20);
+        page.expectStatesMatch('C', 'E', 20);
         expect(page.component.chartData.rows.length).toEqual(7);
         expect(page.component.chartData.rows.filter((row: ChartRow) => {
             return row.c[3].v === compVarPositiveLegend;
@@ -225,7 +225,7 @@ describe('Position reports bubble chart component', () => {
         page.selectAccount(1);
 
         page.matchTitle('20', '0.00%', '20', '0.00%', '0.00');
-        page.expectStatesMatch('B', 'B', 20);
+        page.expectStatesMatch('C', 'F', 20);
         expect(page.component.chartData.rows.length).toEqual(8);
         expect(page.component.chartData.rows.filter((row: ChartRow) => {
             return row.c[3].v === compVarPositiveLegend;
@@ -238,7 +238,7 @@ describe('Position reports bubble chart component', () => {
         page.selectBubblesCount(2);
 
         page.matchTitle('30', '10,800.00%', '30', '66.67%', '0.00');
-        page.expectStatesMatch('B', 'C', 30);
+        page.expectStatesMatch('C', 'G', 30);
 
         expect(page.component.chartData.rows.length).toEqual(7);
         expect(page.component.chartData.rows.filter((row: ChartRow) => {

@@ -12,7 +12,7 @@ import {
     chceckSorting
 } from '../../testing';
 
-import {PositionReportServerData} from './position.report.types';
+import {PositionReportServerData, PositionReportData} from './position.report.types';
 import {PositionReportsService} from './position.reports.service';
 import {HttpService} from '../http.service';
 
@@ -217,7 +217,39 @@ describe('Position reports latest component', () => {
         xit('displays data correctly', fakeAsync(() => {
         }));
 
-        xit('has filtering working', fakeAsync(() => {
+        it('has filtering working', fakeAsync(() => {
+            let firstRow = page.dataTable.data[0];
+            let originalItems = page.dataTable.data.length;
+            let items = originalItems;
+            let filter = '';
+            let idParts = firstRow.uid.split('-');
+            for (let id of idParts) {
+                filter += id + '-';
+                page.filter(filter);
+                expect(items >= page.dataTable.data.length).toBeTruthy();
+                items = page.dataTable.data.length;
+                page.dataTable.data.forEach((row: PositionReportData) => {
+                    expect(row.uid).toMatch('^' + filter);
+                });
+                if (items === 1) {
+                    break;
+                }
+            }
+
+            // Clear the field
+            page.filter('');
+
+            expect(page.dataTable.data.length).toBe(originalItems);
+
+            filter = idParts.join('- -');
+            page.filter(filter);
+
+            page.dataTable.data.forEach((row: PositionReportData) => {
+                expect(row.uid).toMatch('(' + idParts.join('|-') + '){' + idParts.length + '}');
+            });
+
+            // Remove highlight
+            page.advanceHighlighter();
         }));
 
         it('has correct breadcrumbs navigation', fakeAsync(inject([ActivatedRoute],

@@ -12,7 +12,7 @@ import {
     chceckSorting
 } from '../../testing';
 
-import {MarginShortfallSurplusServerData} from './margin.types';
+import {MarginShortfallSurplusServerData, MarginShortfallSurplusData} from './margin.types';
 import {MarginShortfallSurplusService} from './margin.shortfall.surplus.service';
 import {HttpService} from '../http.service';
 
@@ -220,7 +220,39 @@ describe('Margin shortfall-surplus latest component', () => {
         xit('displays data correctly', fakeAsync(() => {
         }));
 
-        xit('has filtering working', fakeAsync(() => {
+        it('has filtering working', fakeAsync(() => {
+            let firstRow = page.dataTable.data[0];
+            let originalItems = page.dataTable.data.length;
+            let items = originalItems;
+            let filter = '';
+            let idParts = firstRow.uid.split('-');
+            for (let id of idParts) {
+                filter += id + '-';
+                page.filter(filter);
+                expect(items >= page.dataTable.data.length).toBeTruthy();
+                items = page.dataTable.data.length;
+                page.dataTable.data.forEach((row: MarginShortfallSurplusData) => {
+                    expect(row.uid).toMatch('^' + filter);
+                });
+                if (items === 1) {
+                    break;
+                }
+            }
+
+            // Clear the field
+            page.filter('');
+
+            expect(page.dataTable.data.length).toBe(originalItems);
+
+            filter = idParts.join('- -');
+            page.filter(filter);
+
+            page.dataTable.data.forEach((row: MarginShortfallSurplusData) => {
+                expect(row.uid).toMatch('(' + idParts.join('|-') + '){' + idParts.length + '}');
+            });
+
+            // Remove highlight
+            page.advanceHighlighter();
         }));
 
         it('has correct breadcrumbs navigation', fakeAsync(inject([ActivatedRoute],

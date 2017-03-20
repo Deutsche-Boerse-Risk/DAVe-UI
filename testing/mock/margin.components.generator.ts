@@ -16,9 +16,9 @@ export function generateMarginComponents(members: number = 3, accounts: number =
                     let id = {
                         _id: {
                             clearer: ALPHABET.charAt(j % ALPHABET.length),
-                            member: ALPHABET.charAt(j % ALPHABET.length),
-                            account: ALPHABET.charAt(k % ALPHABET.length),
-                            clss: ALPHABET.charAt(l % ALPHABET.length),
+                            member: ALPHABET.charAt((j + 1) % ALPHABET.length),
+                            account: ALPHABET.charAt((k + 4) % ALPHABET.length),
+                            clss: ALPHABET.charAt((l + 7) % ALPHABET.length),
                             ccy: CURRENCIES[m % CURRENCIES.length]
                         }
                     };

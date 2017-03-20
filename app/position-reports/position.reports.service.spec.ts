@@ -123,15 +123,15 @@ describe('PositionReportsService', () => {
 
     it('chart data contain select items',
         inject([PositionReportsService], (positionReportsService: PositionReportsService) => {
-            let expectSelectItems = function (data: PositionReportChartData, member: string,
+            let expectSelectItems = function (data: PositionReportChartData, clearer: string, member: string,
                                               account: string) {
-                expect(data.selection.get(member + '-' + member).subRecords).toBeDefined();
-                expect(data.selection.get(member + '-' + member).subRecords.getOptions()).toBeDefined();
-                expect(data.selection.get(member + '-' + member).subRecords.getOptions().length).toBe(3);
-                expect(data.selection.get(member + '-' + member).subRecords.get(account)).toBeDefined();
-                expect(data.selection.get(member + '-' + member).subRecords.get(account).record.clearer).toBe(member);
-                expect(data.selection.get(member + '-' + member).subRecords.get(account).record.member).toBe(member);
-                expect(data.selection.get(member + '-' + member).subRecords.get(account).record.account).toBe(account);
+                expect(data.selection.get(clearer + '-' + member).subRecords).toBeDefined();
+                expect(data.selection.get(clearer + '-' + member).subRecords.getOptions()).toBeDefined();
+                expect(data.selection.get(clearer + '-' + member).subRecords.getOptions().length).toBe(3);
+                expect(data.selection.get(clearer + '-' + member).subRecords.get(account)).toBeDefined();
+                expect(data.selection.get(clearer + '-' + member).subRecords.get(account).record.clearer).toBe(clearer);
+                expect(data.selection.get(clearer + '-' + member).subRecords.get(account).record.member).toBe(member);
+                expect(data.selection.get(clearer + '-' + member).subRecords.get(account).record.account).toBe(account);
             };
             positionReportsService.getPositionReportsChartData()
                 .subscribe((data: PositionReportChartData) => {
@@ -141,18 +141,18 @@ describe('PositionReportsService', () => {
 
                     expect(data.selection.getOptions()).toBeDefined();
                     expect(data.selection.getOptions().length).toBe(3);
-                    expectSelectItems(data, 'A', 'B');
-                    expectSelectItems(data, 'B', 'A');
-                    expectSelectItems(data, 'B', 'C');
-                    expectSelectItems(data, 'C', 'A');
-                    expectSelectItems(data, 'C', 'B');
+                    expectSelectItems(data, 'A', 'B', 'E');
+                    expectSelectItems(data, 'B', 'C', 'E');
+                    expectSelectItems(data, 'B', 'C', 'F');
+                    expectSelectItems(data, 'C', 'D', 'E');
+                    expectSelectItems(data, 'C', 'D', 'G');
 
                     expect(data.memberSelection.clearer).toBe('A');
-                    expect(data.memberSelection.member).toBe('A');
-                    expect(data.memberSelection.account).toBe('A');
+                    expect(data.memberSelection.member).toBe('B');
+                    expect(data.memberSelection.account).toBe('E');
                     expect(data.accountSelection.clearer).toBe('A');
-                    expect(data.accountSelection.member).toBe('A');
-                    expect(data.accountSelection.account).toBe('A');
+                    expect(data.accountSelection.member).toBe('B');
+                    expect(data.accountSelection.account).toBe('E');
                 });
         })
     );
