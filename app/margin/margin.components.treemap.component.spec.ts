@@ -65,7 +65,7 @@ describe('Margin components TreeMap component', () => {
                 status: 500,
                 message: 'Error message'
             });
-            page.advance(1000);
+            page.advanceHTTP();
 
             expect(page.initialLoadVisible).toBeFalsy('Initial load component not visible.');
             expect(page.noDataVisible).toBeFalsy('No data component not visible.');
@@ -88,7 +88,7 @@ describe('Margin components TreeMap component', () => {
             // Return no data
             http.popReturnValue(); // Remove from queue
             http.returnValue([]); // Push empty array
-            page.advance(1000);
+            page.advanceHTTP();
 
             expect(page.initialLoadVisible).toBeFalsy('Initial load component not visible.');
             expect(page.noDataVisible).toBeTruthy('No data component visible.');
@@ -108,7 +108,7 @@ describe('Margin components TreeMap component', () => {
         expect(page.googleChartVisible).toBeFalsy('Chart component not visible.');
 
         // Return data
-        page.advance(1000);
+        page.advanceHTTP();
 
         expect(page.initialLoadVisible).toBeFalsy('Initial load component not visible.');
         expect(page.noDataVisible).toBeFalsy('No data component not visible.');
@@ -127,7 +127,7 @@ describe('Margin components TreeMap component', () => {
         expect(() => page.link.click()).toThrow();
 
         // Return data
-        page.advance(1000);
+        page.advanceHTTP();
 
         // Already shown
         let navigateSpy = spyOn(page.link.stub, 'onClick').and.callThrough();
@@ -144,7 +144,7 @@ describe('Margin components TreeMap component', () => {
         // Do not trigger periodic interval
         clearInterval((page.component as any).intervalHandle);
         // Return data
-        page.advance(1000);
+        page.advanceHTTP();
 
         // expect(page.component.chartData.rows.length).toEqual(7);
         // expect(page.component.chartData.rows.filter((row: ChartRow) => {
@@ -158,7 +158,7 @@ describe('Margin components TreeMap component', () => {
         // Do not trigger periodic interval
         clearInterval((page.component as any).intervalHandle);
         // Return data
-        page.advance(1000);
+        page.advanceHTTP();
 
         // expect(page.component.chartData.rows.length).toEqual(7);
         // expect(page.component.chartData.rows.filter((row: ChartRow) => {

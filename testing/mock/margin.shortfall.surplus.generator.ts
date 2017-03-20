@@ -33,7 +33,7 @@ export function generateShortfallSurplusLatest(members: number = 3, pools: numbe
                         securityCollateral: (k - l + 2) / (m - 8 || 1),//number;
                         cashBalance: (l - m + 5) * 100 / (j + 123 || 1),//number;
                         shortfallSurplus: (m - j + 15) / (k + 1 || 1),//number;
-                        marginCall: (j - k + l - m - 10) / ((l + m - 26)  || 1),//number;
+                        marginCall: (j - k + l - m - 10) / ((l + m - 26) || 1),//number;
                         txnTm: time,//string;
                         received: time,//string;
                         // Not changing

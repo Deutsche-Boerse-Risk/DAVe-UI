@@ -16,8 +16,10 @@ import {RiskLimitsServerData} from './risk.limits.types';
 import {RiskLimitsService} from './risk.limits.service';
 import {HttpService} from '../http.service';
 
-import {RiskLimitLatestComponent, valueGetters, exportKeys} from './risk.limit.latest.component';
+import {DATA_REFRESH_INTERVAL} from '../abstract.component';
 import {ExportColumn} from '../list/download.menu.component';
+
+import {RiskLimitLatestComponent, valueGetters, exportKeys} from './risk.limit.latest.component';
 
 describe('Risk limit latest component', () => {
     let page: LatestListPage<RiskLimitLatestComponent>;
@@ -51,7 +53,7 @@ describe('Risk limit latest component', () => {
                 status: 500,
                 message: 'Error message'
             });
-            page.advance(1000);
+            page.advanceHTTP();
 
             expect(page.initialLoadComponent).toBeNull('Initial load component not visible.');
             expect(page.noDataComponent).toBeNull('No data component not visible.');
@@ -74,7 +76,7 @@ describe('Risk limit latest component', () => {
             // Return no data
             http.popReturnValue(); // Remove from queue
             http.returnValue([]); // Push empty array
-            page.advance(1000);
+            page.advanceHTTP();
 
             expect(page.initialLoadComponent).toBeNull('Initial load component not visible.');
             expect(page.noDataComponent).not.toBeNull('No data component visible.');
@@ -94,7 +96,7 @@ describe('Risk limit latest component', () => {
         expect(page.dataTable.element).toBeNull('Data table not visible.');
 
         // Return data
-        page.advance(1000);
+        page.advanceHTTP();
 
         expect(page.initialLoadComponent).toBeNull('Initial load component not visible.');
         expect(page.noDataComponent).toBeNull('No data component not visible.');
@@ -102,7 +104,7 @@ describe('Risk limit latest component', () => {
         expect(page.dataTable.element).not.toBeNull('Data table visible.');
 
         // Fire highlighters
-        page.advance(15000);
+        page.advanceHighlighter();
     }));
 
     it('refresh data correctly', fakeAsync(inject([HttpService],
@@ -110,7 +112,7 @@ describe('Risk limit latest component', () => {
             // Init component
             page.detectChanges();
             // Return data
-            page.advance(1000);
+            page.advanceHTTP();
 
             expect(page.initialLoadComponent).toBeNull('Initial load component not visible.');
             expect(page.noDataComponent).toBeNull('No data component not visible.');
@@ -122,7 +124,7 @@ describe('Risk limit latest component', () => {
             })).toBeTruthy('All rows are highlighted');
 
             // Fire highlighters
-            page.advance(15000);
+            page.advanceHighlighter();
 
             expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
                 return !row.highlighted;
@@ -132,9 +134,8 @@ describe('Risk limit latest component', () => {
             let newData = generateRiskLimitsHistory();
             http.returnValue(newData);
             // Trigger reload
-            page.advance(44000);
-            // Return the data
-            page.advance(1000);
+            page.advanceAndDetectChangesUsingOffset(DATA_REFRESH_INTERVAL);
+            page.advanceHTTP();
 
             expect(page.dataTable.element).not.toBeNull('Data table visible.');
 
@@ -143,7 +144,7 @@ describe('Risk limit latest component', () => {
             })).toBeTruthy('All rows are highlighted');
 
             // Fire highlighters
-            page.advance(15000);
+            page.advanceHighlighter();
 
             expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
                 return !row.highlighted;
@@ -152,9 +153,8 @@ describe('Risk limit latest component', () => {
             // Return the same data
             http.returnValue(newData);
             // Trigger reload
-            page.advance(44000);
-            // Return the data
-            page.advance(1000);
+            page.advanceAndDetectChangesUsingOffset(DATA_REFRESH_INTERVAL);
+            page.advanceHTTP();
 
             expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
                 return !row.highlighted;
@@ -168,9 +168,9 @@ describe('Risk limit latest component', () => {
         // Init component
         page.detectChanges();
         // Return data
-        page.advance(1000);
+        page.advanceHTTP();
         // Fire highlighters
-        page.advance(15000);
+        page.advanceHighlighter();
 
         expect(page.dataTable.pager.element).not.toBeNull('Pager visible');
         expect(page.dataTable.recordsCount.message).toContain('Showing 20 records out of ' + Math.pow(3, 3));
@@ -189,15 +189,14 @@ describe('Risk limit latest component', () => {
 
         http.returnValue(generateRiskLimitsHistory());
         // Trigger reload
-        page.advance(44000);
-        // Return the data
-        page.advance(1000);
+        page.advanceAndDetectChangesUsingOffset(DATA_REFRESH_INTERVAL);
+        page.advanceHTTP();
 
         expect(page.dataTable.pager.element).toBeNull('Pager not visible');
         expect(page.dataTable.recordsCount.message).toContain('Showing 16 records out of 16');
 
         // Fire highlighters
-        page.advance(15000);
+        page.advanceHighlighter();
         // Do not trigger periodic interval
         clearInterval((page.component as any).intervalHandle);
     })));
@@ -207,12 +206,12 @@ describe('Risk limit latest component', () => {
             // Init component
             page.detectChanges();
             // Return data
-            page.advance(1000);
+            page.advanceHTTP();
             // Do not trigger periodic interval
             clearInterval((page.component as any).intervalHandle);
 
             // Fire highlighters
-            page.advance(15000);
+            page.advanceHighlighter();
         }));
 
         xit('displays data correctly', fakeAsync(() => {
@@ -296,7 +295,7 @@ describe('Risk limit latest component', () => {
                 valueGetters.rejectUtil]);
 
             // Fire highlighters
-            page.advance(15000);
+            page.advanceHighlighter();
         }));
     });
 });

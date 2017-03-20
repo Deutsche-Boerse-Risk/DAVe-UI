@@ -3,7 +3,7 @@ import {By} from '@angular/platform-browser';
 import {NgModel} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 
-import {ComponentFixture, tick, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {setNgModelValue} from '../events';
 import {PageWithLoading} from './page.base';
@@ -14,19 +14,22 @@ import {stubRouter} from '../stubs/router/router.module.stub';
 import {HttpAsyncServiceStub} from '../stubs/http.service.stub';
 import {GoogleLineChartStub} from '../stubs/google.chart.component.stub';
 
-import {DataTableModule} from '../../app/datatable/data.table.module';
-import {ListModule} from '../../app/list/list.module';
-
 import {HttpService} from '../../app/http.service';
 
-import {ListComponent} from '../../app/list/list.component';
+import {InitialLoadComponent} from '../../app/common/initial.load.component';
+import {NoDataComponent} from '../../app/common/no.data.component';
+import {UpdateFailedComponent} from '../../app/common/update.failed.component'
+
+import {DataTableModule} from '../../app/datatable/data.table.module';
+import {DataTableComponent} from '../../app/datatable/data.table.component';
+import {HIGHLIGHTER_TIMEOUT} from '../../app/datatable/highlighter.directive';
+
+import {ListModule} from '../../app/list/list.module';
+import {ListComponent, FILTER_TIMEOUT} from '../../app/list/list.component';
 import {DrilldownButtonComponent} from '../../app/list/drilldown.button.component';
 import {DownloadMenuComponent} from '../../app/list/download.menu.component';
 import {BreadCrumbsComponent} from '../../app/list/bread.crumbs.component';
-import {InitialLoadComponent} from '../../app/common/initial.load.component';
-import {NoDataComponent} from '../../app/common/no.data.component';
-import {UpdateFailedComponent} from '../../app/common/update.failed.component';
-import {DataTableComponent} from '../../app/datatable/data.table.component';
+
 import {DownloadLink} from './download.menu.page';
 
 export class ListPage<T> extends PageWithLoading<T> {
@@ -65,7 +68,7 @@ export class ListPage<T> extends PageWithLoading<T> {
 
     public filter(value: string): void {
         setNgModelValue(this.filterInput, value);
-        tick(100);
+        this.advanceAndDetectChanges(FILTER_TIMEOUT + HIGHLIGHTER_TIMEOUT);
     }
 
     public get drilldownButton(): DebugElement {
@@ -125,6 +128,10 @@ export class LatestListPage<T> extends ListPage<T> {
             ]
         });
         stubRouter().compileComponents();
+    }
+
+    public advanceHighlighter(): void {
+        this.advanceAndDetectChanges(HIGHLIGHTER_TIMEOUT);
     }
 
     public get dataTable(): DataTableDefinition {

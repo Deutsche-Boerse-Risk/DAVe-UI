@@ -15,9 +15,11 @@ import {TotalMarginServerData} from './total.margin.types';
 import {TotalMarginService} from './total.margin.service';
 import {HttpService} from '../http.service';
 
+import {DATA_REFRESH_INTERVAL} from '../abstract.component';
+import {ExportColumn} from '../list/download.menu.component';
+
 import {valueGetters, exportKeys} from './total.margin.requirement.latest.component';
 import {TotalMarginRequirementHistoryComponent} from './total.margin.requirement.history.component';
-import {ExportColumn} from '../list/download.menu.component';
 
 describe('Total margin history component', () => {
     let page: HistoryListPage<TotalMarginRequirementHistoryComponent>;
@@ -64,7 +66,7 @@ describe('Total margin history component', () => {
                 status: 500,
                 message: 'Error message'
             });
-            page.advance(1000);
+            page.advanceHTTP();
 
             expect(page.initialLoadComponent).toBeNull('Initial load component not visible.');
             expect(page.noDataComponent).toBeNull('No data component not visible.');
@@ -89,7 +91,7 @@ describe('Total margin history component', () => {
             // Return no data
             http.popReturnValue(); // Remove from queue
             http.returnValue([]); // Push empty array
-            page.advance(1000);
+            page.advanceHTTP();
 
             expect(page.initialLoadComponent).toBeNull('Initial load component not visible.');
             expect(page.noDataComponent).not.toBeNull('No data component visible.');
@@ -113,7 +115,7 @@ describe('Total margin history component', () => {
             expect(page.lineChart).toBeNull('Chart not visible.');
 
             // Return data
-            page.advance(1000);
+            page.advanceHTTP();
 
             expect(httpSpy).toHaveBeenCalled();
             expect(httpSpy.calls.mostRecent().args[0].params).toEqual(testingParams);
@@ -125,7 +127,7 @@ describe('Total margin history component', () => {
             expect(page.lineChart).not.toBeNull('Chart visible.');
 
             // Fire highlighters
-            page.advance(15000);
+            page.advanceHighlighter();
         })));
 
     it('data correctly refreshed', fakeAsync(inject([HttpService],
@@ -133,7 +135,7 @@ describe('Total margin history component', () => {
             // Init component
             page.detectChanges();
             // Return data
-            page.advance(1000);
+            page.advanceHTTP();
 
             expect(page.initialLoadComponent).toBeNull('Initial load component not visible.');
             expect(page.noDataComponent).toBeNull('No data component not visible.');
@@ -146,7 +148,7 @@ describe('Total margin history component', () => {
             })).toBeTruthy('All rows are highlighted');
 
             // Fire highlighters
-            page.advance(15000);
+            page.advanceHighlighter();
 
             expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
                 return !row.highlighted;
@@ -156,9 +158,8 @@ describe('Total margin history component', () => {
             let newData = generateTotalMarginHistory();
             http.returnValue(newData);
             // Trigger reload
-            page.advance(44000);
-            // Return the data
-            page.advance(1000);
+            page.advanceAndDetectChangesUsingOffset(DATA_REFRESH_INTERVAL);
+            page.advanceHTTP();
 
             expect(page.dataTable.element).not.toBeNull('Data table visible.');
             expect(page.lineChart).not.toBeNull('Chart visible.');
@@ -168,7 +169,7 @@ describe('Total margin history component', () => {
             })).toBeTruthy('All rows are highlighted');
 
             // Fire highlighters
-            page.advance(15000);
+            page.advanceHighlighter();
 
             expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
                 return !row.highlighted;
@@ -177,9 +178,8 @@ describe('Total margin history component', () => {
             // Return the same data
             http.returnValue(newData);
             // Trigger reload
-            page.advance(44000);
-            // Return the data
-            page.advance(1000);
+            page.advanceAndDetectChangesUsingOffset(DATA_REFRESH_INTERVAL);
+            page.advanceHTTP();
 
             expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
                 return !row.highlighted;
@@ -193,9 +193,9 @@ describe('Total margin history component', () => {
         // Init component
         page.detectChanges();
         // Return data
-        page.advance(1000);
+        page.advanceHTTP();
         // Fire highlighters
-        page.advance(15000);
+        page.advanceHighlighter();
 
         expect(page.dataTable.pager.element).toBeNull('Pager not visible');
         expect(page.dataTable.recordsCount.message).toContain('Showing 16 records out of 16');
@@ -205,9 +205,8 @@ describe('Total margin history component', () => {
             .concat(generateTotalMarginHistory());
         http.returnValue(newData);
         // Trigger reload
-        page.advance(44000);
-        // Return the data
-        page.advance(1000);
+        page.advanceAndDetectChangesUsingOffset(DATA_REFRESH_INTERVAL);
+        page.advanceHTTP();
         page.detectChanges();
 
         expect(page.dataTable.pager.element).not.toBeNull('Pager visible');
@@ -226,7 +225,7 @@ describe('Total margin history component', () => {
         page.dataTable.pager.expectTrailingButtonsDisabled();
 
         // Fire highlighters
-        page.advance(15000);
+        page.advanceHighlighter();
         // Do not trigger periodic interval
         clearInterval((page.component as any).intervalHandle);
     })));
@@ -236,12 +235,12 @@ describe('Total margin history component', () => {
             // Init component
             page.detectChanges();
             // Return data
-            page.advance(1000);
+            page.advanceHTTP();
             // Do not trigger periodic interval
             clearInterval((page.component as any).intervalHandle);
 
             // Fire highlighters
-            page.advance(15000);
+            page.advanceHighlighter();
         }));
 
         xit('displays data correctly', fakeAsync(() => {

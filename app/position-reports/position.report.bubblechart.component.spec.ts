@@ -14,6 +14,8 @@ import {
 import {HttpService} from '../http.service';
 import {PositionReportsService} from './position.reports.service';
 
+import {DATA_REFRESH_INTERVAL} from '../abstract.component';
+
 import {
     PositionReportBubbleChartComponent, compVarPositiveLegend, compVarNegativeLegend
 } from './position.report.bubblechart.component';
@@ -67,7 +69,7 @@ describe('Position reports bubble chart component', () => {
                 status: 500,
                 message: 'Error message'
             });
-            page.advance(1000);
+            page.advanceHTTP();
 
             expect(page.initialLoadVisible).toBeFalsy('Initial load component not visible.');
             expect(page.noDataVisible).toBeFalsy('No data component not visible.');
@@ -90,7 +92,7 @@ describe('Position reports bubble chart component', () => {
             // Return no data
             http.popReturnValue(); // Remove from queue
             http.returnValue([]); // Push empty array
-            page.advance(1000);
+            page.advanceHTTP();
 
             expect(page.initialLoadVisible).toBeFalsy('Initial load component not visible.');
             expect(page.noDataVisible).toBeTruthy('No data component visible.');
@@ -110,7 +112,7 @@ describe('Position reports bubble chart component', () => {
         expect(page.googleChartVisible).toBeFalsy('Chart component not visible.');
 
         // Return data
-        page.advance(1000);
+        page.advanceHTTP();
 
         expect(page.initialLoadVisible).toBeFalsy('Initial load component not visible.');
         expect(page.noDataVisible).toBeFalsy('No data component not visible.');
@@ -124,7 +126,7 @@ describe('Position reports bubble chart component', () => {
             page.detectChanges();
 
             // Return data
-            page.advance(1000);
+            page.advanceHTTP();
 
             page.expectStatesMatch('A', 'A', 20);
 
@@ -146,23 +148,23 @@ describe('Position reports bubble chart component', () => {
             // Generate new data
             http.returnValue(generatePositionReports());
             // Trigger auto refresh
-            page.advance(60000);
+            page.advanceAndDetectChanges(DATA_REFRESH_INTERVAL);
             page.expectStatesMatch('B', 'B', 30);
 
             // Generate new data
             http.returnValue(generatePositionReports(2, 1));
             // Trigger auto refresh
-            page.advance(60000);
+            page.advanceAndDetectChanges(DATA_REFRESH_INTERVAL);
             page.expectStatesMatch('B', 'A', 30);
 
             // Generate new data
             http.returnValue(generatePositionReports(1));
             // Trigger auto refresh
-            page.advance(60000);
+            page.advanceAndDetectChanges(DATA_REFRESH_INTERVAL);
             page.expectStatesMatch('A', 'A', 30);
 
             // Trigger auto refresh with no data
-            page.advance(60000);
+            page.advanceAndDetectChanges(DATA_REFRESH_INTERVAL);
             page.expectStatesMatch(undefined, undefined, 30);
 
             // Do not trigger periodic interval
@@ -180,7 +182,7 @@ describe('Position reports bubble chart component', () => {
         expect(() => page.link.click()).toThrow();
 
         // Return data
-        page.advance(1000);
+        page.advanceHTTP();
 
         // Already shown
         let navigateSpy = spyOn(page.link.stub, 'onClick').and.callThrough();
@@ -197,7 +199,7 @@ describe('Position reports bubble chart component', () => {
         // Do not trigger periodic interval
         clearInterval((page.component as any).intervalHandle);
         // Return data
-        page.advance(1000);
+        page.advanceHTTP();
 
         page.matchTitle('20', '10,800.00%', '20', '66.67%', '0.00');
         expect(page.component.chartData.rows.length).toEqual(7);

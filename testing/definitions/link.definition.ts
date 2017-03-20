@@ -19,6 +19,6 @@ export class LinkDefinition {
 
     public click() {
         click(this.link.nativeElement);
-        this.page.advance();
+        this.page.advanceAndDetectChanges();
     }
 }

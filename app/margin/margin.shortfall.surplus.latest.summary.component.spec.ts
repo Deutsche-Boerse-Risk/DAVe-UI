@@ -58,7 +58,7 @@ describe('Margin shortfall-surplus summary', () => {
                 status: 500,
                 message: 'Error message'
             });
-            page.advance(1000);
+            page.advanceHTTP();
 
             expect(page.panels.length).toBe(0, 'Nothing shown');
         })));
@@ -75,7 +75,7 @@ describe('Margin shortfall-surplus summary', () => {
             // Return no data
             http.popReturnValue(); // Remove from queue
             http.returnValue([]); // Push empty array
-            page.advance(1000);
+            page.advanceHTTP();
 
             expect(page.panels.length).toBe(4, 'Nothing shown');
             page.panels.forEach((panel: Panel, index: number) => {
@@ -95,7 +95,7 @@ describe('Margin shortfall-surplus summary', () => {
         expect(page.panels.length).toBe(0, 'Nothing shown');
 
         // Return data
-        page.advance(1000);
+        page.advanceHTTP();
 
         let values = ['742.50', '5.08', '-23.46', '326.63'];
 
