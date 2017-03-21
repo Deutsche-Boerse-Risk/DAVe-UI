@@ -1,8 +1,10 @@
+import {DecimalPipe} from '@angular/common';
+import {ActivatedRoute} from '@angular/router';
+
+import {DateFormatter} from '../common/common.module';
 import {AbstractListComponent} from './abstract.list.component';
 
 import {ChartData, ChartColumn, LineChartOptions} from '../common/chart.types';
-
-import {NUMBER_PIPE, DATE_TIME_FORMATTER} from '../common/common.module';
 
 import {RoutePart} from './bread.crumbs.component';
 
@@ -80,6 +82,10 @@ export abstract class AbstractHistoryListComponent<T extends {uid: string}> exte
         ]
     };
 
+    constructor(route: ActivatedRoute, private dateFormatter: DateFormatter, private numberPipe: DecimalPipe) {
+        super(route);
+    }
+
     protected createRoutePart(title: string, routePath: string, key: string, index: number): RoutePart {
         if (index === 0) {
             let part: RoutePart = super.createRoutePart(title, routePath, key, index);
@@ -136,13 +142,13 @@ export abstract class AbstractHistoryListComponent<T extends {uid: string}> exte
                     if (column.type === 'date') {
                         return {
                             v: column.value,
-                            f: DATE_TIME_FORMATTER.transform(column.value)
+                            f: this.dateFormatter.transform(column.value)
                         }
                     }
                     if (column.type === 'number') {
                         return {
                             v: column.value,
-                            f: NUMBER_PIPE.transform(column.value, '.2-2')
+                            f: this.numberPipe.transform(column.value, '.2-2')
                         }
                     }
                     return {

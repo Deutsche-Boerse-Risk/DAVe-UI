@@ -1,10 +1,10 @@
+import {DecimalPipe} from '@angular/common';
 import {Component} from '@angular/core';
 
 import {AbstractComponentWithAutoRefresh} from '../abstract.component';
 
 import {ErrorResponse} from '../http.service';
 
-import {NUMBER_PIPE} from '../common/common.module';
 import {BubbleChartOptions, ChartData, ChartRow, ChartValue} from '../common/chart.types';
 
 import {PositionReportsService} from './position.reports.service';
@@ -74,7 +74,7 @@ export class PositionReportBubbleChartComponent extends AbstractComponentWithAut
 
     public sourceData: PositionReportChartData;
 
-    constructor(private positionReportsService: PositionReportsService) {
+    constructor(private positionReportsService: PositionReportsService, private numberPipe: DecimalPipe) {
         super();
     }
 
@@ -206,15 +206,15 @@ export class PositionReportBubbleChartComponent extends AbstractComponentWithAut
         });
 
         this.title = '<strong>'
-            + NUMBER_PIPE.transform(this.topRecordsCount, '.0-0')
+            + this.numberPipe.transform(this.topRecordsCount, '.0-0')
             + '</strong> top risk positions represent <strong>'
-            + NUMBER_PIPE.transform(positiveCoveragePerc, '.2-2')
+            + this.numberPipe.transform(positiveCoveragePerc, '.2-2')
             + '%</strong> of total portfolio VaR. <strong>'
-            + NUMBER_PIPE.transform(this.topRecordsCount, '.0-0')
+            + this.numberPipe.transform(this.topRecordsCount, '.0-0')
             + '</strong> top offsetting positions represent <strong>'
-            + NUMBER_PIPE.transform(negativeCoveragePerc, '.2-2')
+            + this.numberPipe.transform(negativeCoveragePerc, '.2-2')
             + '%</strong> of total offsetting positions. Total portfolio VaR is <strong>'
-            + NUMBER_PIPE.transform(totalCompVar, '.2-2') + '</strong>.';
+            + this.numberPipe.transform(totalCompVar, '.2-2') + '</strong>.';
 
         return bubbles;
     }
@@ -267,7 +267,7 @@ export class PositionReportBubbleChartComponent extends AbstractComponentWithAut
                     },
                     {
                         v: Math.abs(bubbles[i].radius),
-                        f: NUMBER_PIPE.transform(bubbles[i].radius, '.2-2')
+                        f: this.numberPipe.transform(bubbles[i].radius, '.2-2')
                     }
                 ]
             });

@@ -1,3 +1,4 @@
+import {DatePipe, DecimalPipe} from '@angular/common';
 import {DebugElement, Type,} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {NgModel} from '@angular/forms';
@@ -16,6 +17,7 @@ import {GoogleLineChartStub} from '../stubs/google.chart.component.stub';
 
 import {HttpService} from '../../app/http.service';
 
+import {DateFormatter, DATE_FORMAT} from '../../app/common/common.module';
 import {InitialLoadComponent} from '../../app/common/initial.load.component';
 import {NoDataComponent} from '../../app/common/no.data.component';
 import {UpdateFailedComponent} from '../../app/common/update.failed.component'
@@ -201,7 +203,11 @@ export class HistoryListPage<T> extends LatestListPage<T> {
                 service,
                 {
                     provide: HttpService, useClass: HttpAsyncServiceStub
-                }
+                },
+                DecimalPipe,
+                DatePipe,
+                DateFormatter,
+                {provide: DATE_FORMAT, useValue: 'dd. MM. yyyy HH:mm:ss'}
             ],
             // schemas: [NO_ERRORS_SCHEMA]
         });

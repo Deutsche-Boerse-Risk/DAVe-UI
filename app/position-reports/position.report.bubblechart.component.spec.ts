@@ -1,3 +1,4 @@
+import {DecimalPipe} from '@angular/common';
 import {NO_ERRORS_SCHEMA} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms';
@@ -39,7 +40,8 @@ describe('Position reports bubble chart component', () => {
                 PositionReportsService,
                 {
                     provide: HttpService, useClass: HttpAsyncServiceStub
-                }
+                },
+                DecimalPipe
             ],
             schemas: [NO_ERRORS_SCHEMA]
         }).compileComponents();

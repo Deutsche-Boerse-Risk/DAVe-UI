@@ -1,5 +1,6 @@
 import {Component, Input} from '@angular/core';
-import {DATE_TIME_FORMATTER} from '../common/common.module';
+
+import {DateFormatter} from '../common/common.module';
 
 export interface ExportColumn<T> {
     get: (row: T) => any;
@@ -22,6 +23,9 @@ export class DownloadMenuComponent {
 
     @Input()
     public filename: string;
+
+    constructor(private dateFormatter: DateFormatter) {
+    }
 
     public downloadAsCsv(): void {
         let csvFile = '';
@@ -60,7 +64,7 @@ export class DownloadMenuComponent {
             let innerValue = value ? value.toString() : '';
 
             if (value instanceof Date) {
-                innerValue = DATE_TIME_FORMATTER.transform(value);
+                innerValue = this.dateFormatter.transform(value);
             }
 
             let result = innerValue.replace(/"/g, '""');

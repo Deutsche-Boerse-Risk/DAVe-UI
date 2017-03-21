@@ -1,9 +1,11 @@
-import {TestBed, async, fakeAsync} from '@angular/core/testing';
+import {DatePipe} from '@angular/common';
+import {TestBed, async, fakeAsync, inject} from '@angular/core/testing';
 
 import {DownloadMenuPage} from '../../testing';
 
+import {DateFormatter, DATE_FORMAT} from '../common/common.module';
+
 import {DownloadMenuComponent} from './download.menu.component';
-import {DATE_TIME_FORMATTER} from '../common/common.module';
 
 describe('Download menu', () => {
 
@@ -11,7 +13,12 @@ describe('Download menu', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [DownloadMenuComponent]
+            declarations: [DownloadMenuComponent],
+            providers: [
+                DatePipe,
+                DateFormatter,
+                {provide: DATE_FORMAT, useValue: 'dd. MM. yyyy HH:mm:ss'}
+            ]
         }).compileComponents();
     }));
 
@@ -68,7 +75,7 @@ describe('Download menu', () => {
         page.detectChanges();
     }));
 
-    it('generates a correct file once clicked', fakeAsync(() => {
+    it('generates a correct file once clicked', fakeAsync(inject([DateFormatter], (dateFormatter: DateFormatter) => {
         let downloadLink = page.downloadLink;
         downloadLink.click();
 
@@ -85,7 +92,7 @@ describe('Download menu', () => {
         expect(exportedData).toContain('"' + page.component.data[15].col1 + '","' + page.component.data[15].col2 + '",');
         expect(exportedData).toContain('"' + page.component.data[16].col1.replace(/"/g, '""') + '",'
             + page.component.data[16].col2);
-        let dateString = DATE_TIME_FORMATTER.transform(page.component.data[17].col2 as Date);
+        let dateString = dateFormatter.transform(page.component.data[17].col2 as Date);
         expect(exportedData).toContain(page.component.data[17].col1 + ','
             + (dateString.search(/("|,|\n)/g) >= 0 ? '"' : '')
             + dateString
@@ -99,5 +106,5 @@ describe('Download menu', () => {
             expect(downloadLink.saveSpy.calls.mostRecent().args[0]
                 .getAttribute('download')).toBe(page.component.filename);
         }
-    }));
+    })));
 });
