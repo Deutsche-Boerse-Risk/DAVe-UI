@@ -1,4 +1,5 @@
 import {Component, Input} from '@angular/core';
+import {DATE_TIME_FORMATTER} from '../common/common.module';
 
 export interface ExportColumn<T> {
     get: (row: T) => any;
@@ -59,7 +60,7 @@ export class DownloadMenuComponent {
             let innerValue = value ? value.toString() : '';
 
             if (value instanceof Date) {
-                innerValue = value.toLocaleString();
+                innerValue = DATE_TIME_FORMATTER.transform(value);
             }
 
             let result = innerValue.replace(/"/g, '""');

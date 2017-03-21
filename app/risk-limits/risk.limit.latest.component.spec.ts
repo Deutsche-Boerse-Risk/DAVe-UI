@@ -315,8 +315,8 @@ describe('Risk limit latest component', () => {
                     key.get(page.dataTable.data[0]) ? key.get(page.dataTable.data[0]).toString() : '')
                 .join(','));
             let cells = exportedData.split('\n')[1].split(',');
-            expect(cells[cells.length - 2] + ',' + cells[cells.length - 1])
-                .toMatch(/^"\d{2}\/\d{2}\/\d{4}, \d{1,2}:\d{2}:\d{2} (AM|PM)"$/);
+            expect(cells[cells.length - 1])
+                .toMatch(/^\d{2}\. \d{2}\. \d{4} \d{2}:\d{2}:\d{2}$/);
             expect(exportedData.split('\n').length).toBe(Math.pow(3, 3) + 2);
         }));
 

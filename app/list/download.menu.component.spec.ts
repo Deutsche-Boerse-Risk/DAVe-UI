@@ -3,6 +3,7 @@ import {TestBed, async, fakeAsync} from '@angular/core/testing';
 import {DownloadMenuPage} from '../../testing';
 
 import {DownloadMenuComponent} from './download.menu.component';
+import {DATE_TIME_FORMATTER} from '../common/common.module';
 
 describe('Download menu', () => {
 
@@ -84,10 +85,11 @@ describe('Download menu', () => {
         expect(exportedData).toContain('"' + page.component.data[15].col1 + '","' + page.component.data[15].col2 + '",');
         expect(exportedData).toContain('"' + page.component.data[16].col1.replace(/"/g, '""') + '",'
             + page.component.data[16].col2);
+        let dateString = DATE_TIME_FORMATTER.transform(page.component.data[17].col2 as Date);
         expect(exportedData).toContain(page.component.data[17].col1 + ','
-            + (page.component.data[17].col2.toLocaleString().search(/("|,|\n)/g) >= 0 ? '"' : '')
-            + page.component.data[17].col2.toLocaleString()
-            + (page.component.data[17].col2.toLocaleString().search(/("|,|\n)/g) >= 0 ? '"' : ''));
+            + (dateString.search(/("|,|\n)/g) >= 0 ? '"' : '')
+            + dateString
+            + (dateString.search(/("|,|\n)/g) >= 0 ? '"' : ''));
 
         expect(downloadLink.saveSpy).toHaveBeenCalled();
 

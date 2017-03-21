@@ -14,7 +14,21 @@ export {NUMBER_PIPE} from './percent.pipe';
 
 declare let testLanguage: string;
 
-export const DATE_PIPE = new DatePipe(testLanguage || navigator.language.split('-')[0]);
+const DATE_PIPE = new DatePipe(testLanguage || navigator.language.split('-')[0]);
+
+class DateFormatter {
+
+    constructor(private format: string) {
+    }
+
+    public transform(value: Date): string {
+        return DATE_PIPE.transform(value, this.format);
+    }
+}
+
+export const DATE_FORMATTER = new DateFormatter('MM. dd. yyyy');
+export const DATE_TIME_FORMATTER = new DateFormatter('MM. dd. yyyy HH:mm:ss');
+export const TIME_FORMATTER = new DateFormatter('HH:mm:ss');
 
 @NgModule({
     imports: [

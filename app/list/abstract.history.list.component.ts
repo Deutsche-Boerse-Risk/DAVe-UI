@@ -2,7 +2,7 @@ import {AbstractListComponent} from './abstract.list.component';
 
 import {ChartData, ChartColumn, LineChartOptions} from '../common/chart.types';
 
-import {DATE_PIPE, NUMBER_PIPE} from '../common/common.module';
+import {NUMBER_PIPE, DATE_TIME_FORMATTER} from '../common/common.module';
 
 import {RoutePart} from './bread.crumbs.component';
 
@@ -136,7 +136,7 @@ export abstract class AbstractHistoryListComponent<T extends {uid: string}> exte
                     if (column.type === 'date') {
                         return {
                             v: column.value,
-                            f: DATE_PIPE.transform(column.value, 'yyyy-MM-dd HH:mm:ss')
+                            f: DATE_TIME_FORMATTER.transform(column.value)
                         }
                     }
                     if (column.type === 'number') {
