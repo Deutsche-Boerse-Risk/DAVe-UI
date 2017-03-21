@@ -3,6 +3,7 @@ import {Injectable} from '@angular/core';
 import {HttpService} from '../http.service';
 import {Observable} from 'rxjs/Observable';
 import {UIDUtils} from '../uid.utils';
+import {parseServerDate} from '../date.utils';
 
 import {TotalMarginServerData, TotalMarginData} from './total.margin.types';
 
@@ -46,7 +47,7 @@ export class TotalMarginService {
                         member: record.member,
                         account: record.account,
                         bizDt: record.bizDt,
-                        received: new Date(record.received),
+                        received: parseServerDate(record.received),
                         ccy: record.ccy,
                         adjustedMargin: record.adjustedMargin,
                         unadjustedMargin: record.unadjustedMargin,

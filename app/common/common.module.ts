@@ -26,8 +26,8 @@ class DateFormatter {
     }
 }
 
-export const DATE_FORMATTER = new DateFormatter('MM. dd. yyyy');
-export const DATE_TIME_FORMATTER = new DateFormatter('MM. dd. yyyy HH:mm:ss');
+export const DATE_FORMATTER = new DateFormatter('dd. MM. yyyy');
+export const DATE_TIME_FORMATTER = new DateFormatter('dd. MM. yyyy HH:mm:ss');
 export const TIME_FORMATTER = new DateFormatter('HH:mm:ss');
 
 @NgModule({
