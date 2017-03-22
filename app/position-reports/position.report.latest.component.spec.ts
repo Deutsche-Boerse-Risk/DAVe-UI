@@ -165,6 +165,10 @@ describe('Position reports latest component', () => {
         })));
 
     it('has correct pager', fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<PositionReportServerData[]>) => {
+        // Return smaller set to speedup the test
+        http.popReturnValue();
+        let newData = generatePositionReports(2, 2, 2, 2, 2, 2, 2);
+        http.returnValue(newData);
         // Init component
         page.detectChanges();
         // Return data
@@ -173,7 +177,7 @@ describe('Position reports latest component', () => {
         page.advanceHighlighter();
 
         expect(page.dataTable.pager.element).not.toBeNull('Pager visible');
-        expect(page.dataTable.recordsCount.message).toContain('Showing 20 records out of ' + Math.pow(3, 7));
+        expect(page.dataTable.recordsCount.message).toContain('Showing 20 records out of ' + Math.pow(2, 7));
 
         page.dataTable.pager.expectButtonNumbers([1, 2, 3, 4]);
         page.dataTable.pager.expectButtonActive(2);
@@ -202,7 +206,11 @@ describe('Position reports latest component', () => {
     })));
 
     describe('(after data are ready)', () => {
-        beforeEach(fakeAsync(() => {
+        beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<PositionReportServerData[]>) => {
+            // Return smaller set to speedup the test
+            http.popReturnValue();
+            let newData = generatePositionReports(2, 2, 2, 2, 2, 2, 2);
+            http.returnValue(newData);
             // Init component
             page.detectChanges();
             // Return data
@@ -212,7 +220,7 @@ describe('Position reports latest component', () => {
 
             // Fire highlighters
             page.advanceHighlighter();
-        }));
+        })));
 
         xit('displays data correctly', fakeAsync(() => {
         }));
@@ -387,7 +395,7 @@ describe('Position reports latest component', () => {
             let cells = exportedData.split('\n')[1].split(',');
             expect(cells[cells.length - 1])
                 .toMatch(/^\d{2}\. \d{2}\. \d{4} \d{2}:\d{2}:\d{2}$/);
-            expect(exportedData.split('\n').length).toBe(Math.pow(3, 7) + 2);
+            expect(exportedData.split('\n').length).toBe(Math.pow(2, 7) + 2);
         }));
 
         it('can be sorted correctly', fakeAsync(() => {
