@@ -102,6 +102,7 @@ module.exports = function (config) {
             // Polyfills
             'node_modules/core-js/client/shim.js',
             'node_modules/web-animations-js/web-animations.min.js',
+            'ie.intl.shim.js',
 
             // zone.js
             'node_modules/zone.js/dist/zone.js',
