@@ -15,7 +15,10 @@ import {PositionReportServerData} from './position.report.types';
 import {PositionReportsService} from './position.reports.service';
 import {HttpService} from '../http.service';
 
-import {valueGetters} from './position.report.latest.component';
+import {DATA_REFRESH_INTERVAL} from '../abstract.component';
+import {ExportColumn} from '../list/download.menu.component';
+
+import {valueGetters, exportKeys} from './position.report.latest.component';
 import {PositionReportHistoryComponent} from './position.report.history.component';
 
 describe('Position reports history component', () => {
@@ -67,7 +70,7 @@ describe('Position reports history component', () => {
                 status: 500,
                 message: 'Error message'
             });
-            page.advance(1000);
+            page.advanceHTTP();
 
             expect(page.initialLoadComponent).toBeNull('Initial load component not visible.');
             expect(page.noDataComponent).toBeNull('No data component not visible.');
@@ -92,7 +95,7 @@ describe('Position reports history component', () => {
             // Return no data
             http.popReturnValue(); // Remove from queue
             http.returnValue([]); // Push empty array
-            page.advance(1000);
+            page.advanceHTTP();
 
             expect(page.initialLoadComponent).toBeNull('Initial load component not visible.');
             expect(page.noDataComponent).not.toBeNull('No data component visible.');
@@ -116,7 +119,7 @@ describe('Position reports history component', () => {
             expect(page.lineChart).toBeNull('Chart not visible.');
 
             // Return data
-            page.advance(1000);
+            page.advanceHTTP();
 
             expect(httpSpy).toHaveBeenCalled();
             expect(httpSpy.calls.mostRecent().args[0].params).toEqual(testingParams);
@@ -128,7 +131,7 @@ describe('Position reports history component', () => {
             expect(page.lineChart).not.toBeNull('Chart visible.');
 
             // Fire highlighters
-            page.advance(15000);
+            page.advanceHighlighter();
         })));
 
     it('data correctly refreshed', fakeAsync(inject([HttpService],
@@ -136,7 +139,7 @@ describe('Position reports history component', () => {
             // Init component
             page.detectChanges();
             // Return data
-            page.advance(1000);
+            page.advanceHTTP();
 
             expect(page.initialLoadComponent).toBeNull('Initial load component not visible.');
             expect(page.noDataComponent).toBeNull('No data component not visible.');
@@ -149,7 +152,7 @@ describe('Position reports history component', () => {
             })).toBeTruthy('All rows are highlighted');
 
             // Fire highlighters
-            page.advance(15000);
+            page.advanceHighlighter();
 
             expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
                 return !row.highlighted;
@@ -159,9 +162,8 @@ describe('Position reports history component', () => {
             let newData = generatePositionReportsHistory();
             http.returnValue(newData);
             // Trigger reload
-            page.advance(44000);
-            // Return the data
-            page.advance(1000);
+            page.advanceAndDetectChangesUsingOffset(DATA_REFRESH_INTERVAL);
+            page.advanceHTTP();
 
             expect(page.dataTable.element).not.toBeNull('Data table visible.');
             expect(page.lineChart).not.toBeNull('Chart visible.');
@@ -171,7 +173,7 @@ describe('Position reports history component', () => {
             })).toBeTruthy('All rows are highlighted');
 
             // Fire highlighters
-            page.advance(15000);
+            page.advanceHighlighter();
 
             expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
                 return !row.highlighted;
@@ -180,9 +182,8 @@ describe('Position reports history component', () => {
             // Return the same data
             http.returnValue(newData);
             // Trigger reload
-            page.advance(44000);
-            // Return the data
-            page.advance(1000);
+            page.advanceAndDetectChangesUsingOffset(DATA_REFRESH_INTERVAL);
+            page.advanceHTTP();
 
             expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
                 return !row.highlighted;
@@ -196,9 +197,9 @@ describe('Position reports history component', () => {
         // Init component
         page.detectChanges();
         // Return data
-        page.advance(1000);
+        page.advanceHTTP();
         // Fire highlighters
-        page.advance(15000);
+        page.advanceHighlighter();
 
         expect(page.dataTable.pager.element).toBeNull('Pager not visible');
         expect(page.dataTable.recordsCount.message).toContain('Showing 16 records out of 16');
@@ -208,9 +209,8 @@ describe('Position reports history component', () => {
             .concat(generatePositionReportsHistory());
         http.returnValue(newData);
         // Trigger reload
-        page.advance(44000);
-        // Return the data
-        page.advance(1000);
+        page.advanceAndDetectChangesUsingOffset(DATA_REFRESH_INTERVAL);
+        page.advanceHTTP();
         page.detectChanges();
 
         expect(page.dataTable.pager.element).not.toBeNull('Pager visible');
@@ -229,7 +229,7 @@ describe('Position reports history component', () => {
         page.dataTable.pager.expectTrailingButtonsDisabled();
 
         // Fire highlighters
-        page.advance(15000);
+        page.advanceHighlighter();
         // Do not trigger periodic interval
         clearInterval((page.component as any).intervalHandle);
     })));
@@ -239,12 +239,12 @@ describe('Position reports history component', () => {
             // Init component
             page.detectChanges();
             // Return data
-            page.advance(1000);
+            page.advanceHTTP();
             // Do not trigger periodic interval
             clearInterval((page.component as any).intervalHandle);
 
             // Fire highlighters
-            page.advance(15000);
+            page.advanceHighlighter();
         }));
 
         xit('displays data correctly', fakeAsync(() => {
@@ -277,7 +277,24 @@ describe('Position reports history component', () => {
                     'Position Report History', false);
             })));
 
-        xit('has download working', fakeAsync(() => {
+        it('has download working', fakeAsync(() => {
+            let downloadLink = page.downloadMenu;
+            downloadLink.click();
+
+            expect(downloadLink.saveSpy).toHaveBeenCalled();
+            expect(downloadLink.blobSpy).toHaveBeenCalled();
+            let exportedData = downloadLink.blobSpy.calls.mostRecent().args[0][0];
+            expect(exportedData).not.toBeNull();
+            expect(exportedData.split('\n')[0]).toEqual(exportKeys.map(
+                (key: ExportColumn<any>) => key.header).join(','));
+            expect(exportedData.split('\n')[1]).toContain(exportKeys.slice(0, exportKeys.length - 1).map(
+                (key: ExportColumn<any>) =>
+                    key.get(page.dataTable.data[0]) ? key.get(page.dataTable.data[0]).toString() : '')
+                .join(','));
+            let cells = exportedData.split('\n')[1].split(',');
+            expect(cells[cells.length - 1])
+                .toMatch(/^\d{2}\. \d{2}\. \d{4} \d{2}:\d{2}:\d{2}$/);
+            expect(exportedData.split('\n').length).toBe(18);
         }));
 
         it('can be sorted correctly', fakeAsync(() => {

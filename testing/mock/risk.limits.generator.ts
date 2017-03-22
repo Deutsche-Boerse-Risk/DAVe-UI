@@ -14,9 +14,9 @@ export function generateRiskLimits(members: number = 3, maintainers: number = 3,
                 let id = {
                     _id: {
                         clearer: ALPHABET.charAt(k % ALPHABET.length),
-                        member: ALPHABET.charAt(k % ALPHABET.length),
-                        maintainer: ALPHABET.charAt(l % ALPHABET.length),
-                        limitType: ALPHABET.charAt(m % ALPHABET.length)
+                        member: ALPHABET.charAt((k + 1) % ALPHABET.length),
+                        maintainer: ALPHABET.charAt((l + 4) % ALPHABET.length),
+                        limitType: ALPHABET.charAt((m + 7) % ALPHABET.length)
                     }
                 };
 

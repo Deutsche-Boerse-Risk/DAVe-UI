@@ -16,6 +16,7 @@ import {MarginComponentsService} from './margin.components.service';
 import {MarginComponentsServerData} from './margin.types';
 import {HttpService} from '../http.service';
 
+import {DATA_REFRESH_INTERVAL} from '../abstract.component';
 import {CommonModule} from '../common/common.module';
 import {DataTableModule} from '../datatable/data.table.module';
 
@@ -69,7 +70,7 @@ describe('Margin components aggregation component', () => {
                 status: 500,
                 message: 'Error message'
             });
-            page.advance(1000);
+            page.advanceHTTP();
 
             expect(page.initialLoadComponent).toBeNull('Initial load component not visible.');
             expect(page.noDataComponent).toBeNull('No data component not visible.');
@@ -92,7 +93,7 @@ describe('Margin components aggregation component', () => {
             // Return no data
             http.popReturnValue(); // Remove from queue
             http.returnValue([]); // Push empty array
-            page.advance(1000);
+            page.advanceHTTP();
 
             expect(page.initialLoadComponent).toBeNull('Initial load component not visible.');
             expect(page.noDataComponent).not.toBeNull('No data component visible.');
@@ -112,7 +113,7 @@ describe('Margin components aggregation component', () => {
         expect(page.dataTable.element).toBeNull('Data table not visible.');
 
         // Return data
-        page.advance(1000);
+        page.advanceHTTP();
 
         expect(page.initialLoadComponent).toBeNull('Initial load component not visible.');
         expect(page.noDataComponent).toBeNull('No data component not visible.');
@@ -120,7 +121,7 @@ describe('Margin components aggregation component', () => {
         expect(page.dataTable.element).not.toBeNull('Data table visible.');
 
         // Fire highlighters
-        page.advance(15000);
+        page.advanceHighlighter();
     }));
 
     it('refresh data correctly', fakeAsync(inject([HttpService],
@@ -128,7 +129,7 @@ describe('Margin components aggregation component', () => {
             // Init component
             page.detectChanges();
             // Return data
-            page.advance(1000);
+            page.advanceHTTP();
 
             expect(page.initialLoadComponent).toBeNull('Initial load component not visible.');
             expect(page.noDataComponent).toBeNull('No data component not visible.');
@@ -140,7 +141,7 @@ describe('Margin components aggregation component', () => {
             })).toBeTruthy('All rows are highlighted');
 
             // Fire highlighters
-            page.advance(15000);
+            page.advanceHighlighter();
 
             expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
                 return !row.highlighted;
@@ -150,9 +151,8 @@ describe('Margin components aggregation component', () => {
             let newData = generateMarginComponentsHistory();
             http.returnValue(newData);
             // Trigger reload
-            page.advance(44000);
-            // Return the data
-            page.advance(1000);
+            page.advanceAndDetectChangesUsingOffset(DATA_REFRESH_INTERVAL);
+            page.advanceHTTP();
 
             expect(page.dataTable.element).not.toBeNull('Data table visible.');
 
@@ -161,7 +161,7 @@ describe('Margin components aggregation component', () => {
             })).toBeTruthy('All rows are highlighted');
 
             // Fire highlighters
-            page.advance(15000);
+            page.advanceHighlighter();
 
             expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
                 return !row.highlighted;
@@ -170,9 +170,8 @@ describe('Margin components aggregation component', () => {
             // Return the same data
             http.returnValue(newData);
             // Trigger reload
-            page.advance(44000);
-            // Return the data
-            page.advance(1000);
+            page.advanceAndDetectChangesUsingOffset(DATA_REFRESH_INTERVAL);
+            page.advanceHTTP();
 
             expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
                 return !row.highlighted;
@@ -186,7 +185,7 @@ describe('Margin components aggregation component', () => {
         // Init component
         page.detectChanges();
         // Return data
-        page.advance(1000);
+        page.advanceHTTP();
         // Do not trigger periodic interval
         clearInterval((page.component as any).intervalHandle);
 
@@ -195,7 +194,7 @@ describe('Margin components aggregation component', () => {
             valueGetters.spreadMargin, valueGetters.additionalMargin]);
 
         // Fire highlighters
-        page.advance(15000);
+        page.advanceHighlighter();
     }));
 
     describe('(after data are ready)', () => {
@@ -203,12 +202,12 @@ describe('Margin components aggregation component', () => {
             // Init component
             page.detectChanges();
             // Return data
-            page.advance(1000);
+            page.advanceHTTP();
             // Do not trigger periodic interval
             clearInterval((page.component as any).intervalHandle);
 
             // Fire highlighters
-            page.advance(15000);
+            page.advanceHighlighter();
         }));
 
         xit('displays data correctly', fakeAsync(() => {

@@ -1,3 +1,4 @@
+import {DecimalPipe} from '@angular/common';
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
@@ -6,6 +7,7 @@ import {ErrorResponse} from '../http.service';
 import {MarginShortfallSurplusService} from './margin.shortfall.surplus.service';
 import {MarginShortfallSurplusData} from './margin.types';
 
+import {DateFormatter} from '../common/common.module';
 import {AbstractHistoryListComponent, LineChartColumn} from '../list/abstract.history.list.component';
 import {RoutePart} from '../list/bread.crumbs.component';
 import {ExportColumn} from '../list/download.menu.component';
@@ -21,8 +23,8 @@ import {exportKeys, routingKeys, valueGetters} from './margin.shortfall.surplus.
 export class MarginShortfallSurplusHistoryComponent extends AbstractHistoryListComponent<MarginShortfallSurplusData> {
 
     constructor(private marginShortfallSurplusService: MarginShortfallSurplusService,
-                route: ActivatedRoute) {
-        super(route);
+                route: ActivatedRoute, dateFormatter: DateFormatter, numberPipe: DecimalPipe) {
+        super(route, dateFormatter, numberPipe);
     }
 
     protected loadData(): void {

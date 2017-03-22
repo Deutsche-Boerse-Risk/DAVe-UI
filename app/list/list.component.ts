@@ -2,6 +2,8 @@ import {Component, EventEmitter, Output, Input} from '@angular/core';
 
 import {RoutePart} from './bread.crumbs.component';
 
+export const FILTER_TIMEOUT = 100;
+
 @Component({
     moduleId: module.id,
     selector: 'list-content',
@@ -45,6 +47,6 @@ export class ListComponent {
         clearTimeout(this.filterTimeoutHandle);
         this.filterTimeoutHandle = setTimeout(() => {
             this.filterChanged.emit(this.filterQuery);
-        }, 100);
+        }, FILTER_TIMEOUT);
     }
 }

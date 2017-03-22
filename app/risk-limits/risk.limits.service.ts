@@ -3,6 +3,7 @@ import {Injectable} from '@angular/core';
 import {HttpService} from '../http.service';
 import {Observable} from 'rxjs/Observable';
 import {UIDUtils} from '../uid.utils';
+import {parseServerDate} from '../date.utils';
 
 import {RiskLimitsServerData, RiskLimitsData} from './risk.limits.types';
 
@@ -49,7 +50,7 @@ export class RiskLimitsService {
                         warningLevel: record.warningLevel,
                         throttleLevel: record.throttleLevel,
                         rejectLevel: record.rejectLevel,
-                        received: new Date(record.received)
+                        received: parseServerDate(record.received)
                     };
 
                     if (record.warningLevel > 0) {

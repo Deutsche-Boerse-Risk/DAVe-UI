@@ -5,6 +5,8 @@ import {ErrorResponse, Request, PostRequest} from '../../app/http.service';
 import {Observable} from 'rxjs/Observable';
 import {Subscriber} from 'rxjs/Subscriber';
 
+export const FAKE_HTTP_ASYNC_TIMEOUT = 1000;
+
 @Injectable()
 export class HttpServiceStub<T> {
 
@@ -55,7 +57,7 @@ export class HttpAsyncServiceStub<T> extends HttpServiceStub<T> {
                 }, () => {
                     observer.complete();
                 });
-            }, 1000);
+            }, FAKE_HTTP_ASYNC_TIMEOUT);
         });
     }
 
@@ -69,7 +71,7 @@ export class HttpAsyncServiceStub<T> extends HttpServiceStub<T> {
                 }, () => {
                     observer.complete();
                 });
-            }, 1000);
+            }, FAKE_HTTP_ASYNC_TIMEOUT);
         });
     }
 }

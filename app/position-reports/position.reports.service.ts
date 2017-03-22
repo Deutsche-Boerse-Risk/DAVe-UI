@@ -3,6 +3,7 @@ import {Injectable} from '@angular/core';
 import {HttpService} from '../http.service';
 import {Observable} from 'rxjs/Observable';
 import {UIDUtils} from '../uid.utils';
+import {parseServerDate} from '../date.utils';
 
 import {
     PositionReportServerData, PositionReportData, PositionReportBubble, PositionReportChartData, SelectValues,
@@ -187,7 +188,7 @@ export class PositionReportsService {
             rho: record.rho,
             theta: record.theta,
             underlying: record.underlying,
-            received: new Date(record.received)
+            received: parseServerDate(record.received)
         };
         row.netLS = record.crossMarginLongQty - record.crossMarginShortQty;
         row.netEA = (record.optionExcerciseQty - record.optionAssignmentQty)

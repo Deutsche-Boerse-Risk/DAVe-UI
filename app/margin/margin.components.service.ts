@@ -3,6 +3,7 @@ import {Injectable} from '@angular/core';
 import {HttpService} from '../http.service';
 import {Observable} from 'rxjs/Observable';
 import {UIDUtils} from '../uid.utils';
+import {parseServerDate} from '../date.utils';
 
 import {
     MarginComponentsServerData,
@@ -221,7 +222,7 @@ export class MarginComponentsService {
                         class: record.clss,
                         bizDt: record.bizDt,
                         premiumMargin: record.premiumMargin,
-                        received: new Date(record.received),
+                        received: parseServerDate(record.received),
                         ccy: record.ccy,
                         additionalMargin: record.additionalMargin,
                         liquiMargin: record.liquiMargin,

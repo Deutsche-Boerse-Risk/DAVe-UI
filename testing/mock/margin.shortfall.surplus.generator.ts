@@ -2,7 +2,7 @@ import {UIDUtils} from '../../app/uid.utils';
 import {MarginShortfallSurplusServerData} from '../../app/margin/margin.types';
 
 const ALPHABET = 'ABCDEFGHIJKLMNOQPRSTUVWXYZ0123456789';
-const CURRENCIES = ['EUR', 'CZK', 'CHF'];
+const CURRENCIES = ['EUR', 'CZK', 'CHF', 'ANG', 'AOA', 'BZD', 'CAD', 'CNY', 'CUC'];
 
 export function generateShortfallSurplusLatest(members: number = 3, pools: number = 3,
                                                clearingCurrencies: number = 3, currencies: number = 3): MarginShortfallSurplusServerData[] {
@@ -16,10 +16,10 @@ export function generateShortfallSurplusLatest(members: number = 3, pools: numbe
                     let id = {
                         _id: {
                             clearer: ALPHABET.charAt(j % ALPHABET.length),
-                            member: ALPHABET.charAt(j % ALPHABET.length),
-                            pool: ALPHABET.charAt(k % ALPHABET.length),
+                            member: ALPHABET.charAt((j + 1) % ALPHABET.length),
+                            pool: ALPHABET.charAt((k + 4) % ALPHABET.length),
                             clearingCcy: CURRENCIES[l % CURRENCIES.length],
-                            ccy: CURRENCIES[m % CURRENCIES.length]
+                            ccy: CURRENCIES[(m + 3) % CURRENCIES.length]
                         }
                     };
 
@@ -33,7 +33,7 @@ export function generateShortfallSurplusLatest(members: number = 3, pools: numbe
                         securityCollateral: (k - l + 2) / (m - 8 || 1),//number;
                         cashBalance: (l - m + 5) * 100 / (j + 123 || 1),//number;
                         shortfallSurplus: (m - j + 15) / (k + 1 || 1),//number;
-                        marginCall: (j - k + l - m - 10) / ((l + m - 26)  || 1),//number;
+                        marginCall: (j - k + l - m - 10) / ((l + m - 26) || 1),//number;
                         txnTm: time,//string;
                         received: time,//string;
                         // Not changing

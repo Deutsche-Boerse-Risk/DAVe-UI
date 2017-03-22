@@ -1,6 +1,9 @@
-import {TestBed, async, fakeAsync} from '@angular/core/testing';
+import {DatePipe} from '@angular/common';
+import {TestBed, async, fakeAsync, inject} from '@angular/core/testing';
 
 import {DownloadMenuPage} from '../../testing';
+
+import {DateFormatter, DATE_FORMAT} from '../common/common.module';
 
 import {DownloadMenuComponent} from './download.menu.component';
 
@@ -10,7 +13,12 @@ describe('Download menu', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [DownloadMenuComponent]
+            declarations: [DownloadMenuComponent],
+            providers: [
+                DatePipe,
+                DateFormatter,
+                {provide: DATE_FORMAT, useValue: 'dd. MM. yyyy HH:mm:ss'}
+            ]
         }).compileComponents();
     }));
 
@@ -67,51 +75,36 @@ describe('Download menu', () => {
         page.detectChanges();
     }));
 
-    it('generates a correct file once clicked', fakeAsync(() => {
-        let blobConstructor = Blob;
-        let blobSpy = spyOn(window, 'Blob').and
-            .callFake((blobParts?: any[], options?: BlobPropertyBag) => new blobConstructor(blobParts, options));
-        let saveBlobSpy;
-        if (navigator.msSaveBlob) { // IE 10+
-            saveBlobSpy = spyOn(navigator, 'msSaveBlob');
-        } else {
-            saveBlobSpy = spyOn(document.body, 'appendChild');
-            spyOn(document.body, 'removeChild');
-            spyOn(HTMLAnchorElement.prototype, 'click');
-        }
+    it('generates a correct file once clicked', fakeAsync(inject([DateFormatter], (dateFormatter: DateFormatter) => {
+        let downloadLink = page.downloadLink;
+        downloadLink.click();
 
-        page.clickDownloadLink();
+        let exportedData = downloadLink.blobSpy.calls.mostRecent().args[0][0];
+        expect(exportedData).toContain(page.component.columns[0].header + ',' + page.component.columns[1].header + ',"'
+            + page.component.columns[2].header + '","' + page.component.columns[3].header + '","'
+            + page.component.columns[4].header.replace(/"/g, '""') + '",' + page.component.columns[5].header
+            + '\n');
 
-        expect(blobSpy.calls.mostRecent().args[0][0])
-            .toContain(page.component.columns[0].header + ',' + page.component.columns[1].header + ',"'
-                + page.component.columns[2].header + '","' + page.component.columns[3].header + '","'
-                + page.component.columns[4].header.replace(/"/g, '""') + '",' + page.component.columns[5].header
-                + '\n');
+        expect(exportedData).toContain(page.component.data[0].col1 + ',' + page.component.data[0].col2);
+        expect(exportedData).toContain(page.component.data[7].col1 + ',' + page.component.data[7].col2);
+        expect(exportedData).toContain(page.component.data[14].col1 + ',' + page.component.data[14].col2);
 
-        expect(blobSpy.calls.mostRecent().args[0][0])
-            .toContain(page.component.data[0].col1 + ',' + page.component.data[0].col2);
-        expect(blobSpy.calls.mostRecent().args[0][0])
-            .toContain(page.component.data[7].col1 + ',' + page.component.data[7].col2);
-        expect(blobSpy.calls.mostRecent().args[0][0])
-            .toContain(page.component.data[14].col1 + ',' + page.component.data[14].col2);
+        expect(exportedData).toContain('"' + page.component.data[15].col1 + '","' + page.component.data[15].col2 + '",');
+        expect(exportedData).toContain('"' + page.component.data[16].col1.replace(/"/g, '""') + '",'
+            + page.component.data[16].col2);
+        let dateString = dateFormatter.transform(page.component.data[17].col2 as Date);
+        expect(exportedData).toContain(page.component.data[17].col1 + ','
+            + (dateString.search(/("|,|\n)/g) >= 0 ? '"' : '')
+            + dateString
+            + (dateString.search(/("|,|\n)/g) >= 0 ? '"' : ''));
 
-        expect(blobSpy.calls.mostRecent().args[0][0])
-            .toContain('"' + page.component.data[15].col1 + '","' + page.component.data[15].col2 + '",');
-        expect(blobSpy.calls.mostRecent().args[0][0])
-            .toContain('"' + page.component.data[16].col1.replace(/"/g, '""') + '",'
-                + page.component.data[16].col2);
-        expect(blobSpy.calls.mostRecent().args[0][0])
-            .toContain(page.component.data[17].col1 + ','
-                + (page.component.data[17].col2.toLocaleString().search(/("|,|\n)/g) >= 0 ? '"' : '')
-                + page.component.data[17].col2.toLocaleString()
-                + (page.component.data[17].col2.toLocaleString().search(/("|,|\n)/g) >= 0 ? '"' : ''));
-
-        expect(saveBlobSpy).toHaveBeenCalled();
+        expect(downloadLink.saveSpy).toHaveBeenCalled();
 
         if (navigator.msSaveBlob) { // IE 10+
-            expect(saveBlobSpy.calls.mostRecent().args[1]).toBe(page.component.filename);
+            expect(downloadLink.saveSpy.calls.mostRecent().args[1]).toBe(page.component.filename);
         } else {
-            expect(saveBlobSpy.calls.mostRecent().args[0].getAttribute('download')).toBe(page.component.filename);
+            expect(downloadLink.saveSpy.calls.mostRecent().args[0]
+                .getAttribute('download')).toBe(page.component.filename);
         }
-    }));
+    })));
 });

@@ -2,7 +2,7 @@ import {async, TestBed, fakeAsync} from '@angular/core/testing';
 
 import {HighLighterDirectivePage, HighLighterDirectiveTestComponent} from '../../testing';
 
-import {HighlighterDirective} from './highlighter.directive';
+import {HighlighterDirective, HIGHLIGHTER_TIMEOUT, HIGHLIGHTER_CLASS} from './highlighter.directive';
 
 describe('Highlighter directive', () => {
     let page: HighLighterDirectivePage;
@@ -19,7 +19,7 @@ describe('Highlighter directive', () => {
     }));
 
     it('does nothing if context is not provided', fakeAsync(() => {
-        expect(page.classList).not.toContain('bg-warning');
+        expect(page.classList).not.toContain(HIGHLIGHTER_CLASS);
     }));
 
     it('does nothing if context does not contain storage', fakeAsync(() => {
@@ -28,7 +28,7 @@ describe('Highlighter directive', () => {
 
         page.highlighter.ngOnInit();
 
-        expect(page.classList).not.toContain('bg-warning');
+        expect(page.classList).not.toContain(HIGHLIGHTER_CLASS);
     }));
 
     it('does nothing if storage contains the key', fakeAsync(() => {
@@ -37,7 +37,7 @@ describe('Highlighter directive', () => {
 
         page.highlighter.ngOnInit();
 
-        expect(page.classList).not.toContain('bg-warning');
+        expect(page.classList).not.toContain(HIGHLIGHTER_CLASS);
     }));
 
     it('adds class if no key is in storage and removes the class after timeout', fakeAsync(() => {
@@ -46,10 +46,10 @@ describe('Highlighter directive', () => {
 
         page.highlighter.ngOnInit();
 
-        expect(page.classList).toContain('bg-warning');
+        expect(page.classList).toContain(HIGHLIGHTER_CLASS);
 
-        page.advance(15000);
+        page.advanceAndDetectChanges(HIGHLIGHTER_TIMEOUT);
 
-        expect(page.classList).not.toContain('bg-warning');
+        expect(page.classList).not.toContain(HIGHLIGHTER_CLASS);
     }));
 });

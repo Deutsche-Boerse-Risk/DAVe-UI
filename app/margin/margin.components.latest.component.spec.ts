@@ -1,19 +1,25 @@
+import {ActivatedRoute} from '@angular/router';
+
 import {async, TestBed, fakeAsync, inject} from '@angular/core/testing';
 
 import {
     LatestListPage,
     TableBodyRow,
+    ActivatedRouteStub,
     HttpAsyncServiceStub,
     generateMarginComponents,
     generateMarginComponentsHistory,
     chceckSorting
 } from '../../testing';
 
-import {MarginComponentsServerData} from './margin.types';
+import {MarginComponentsServerData, MarginComponentsRowData} from './margin.types';
 import {MarginComponentsService} from './margin.components.service';
 import {HttpService} from '../http.service';
 
-import {MarginComponentsLatestComponent, valueGetters} from './margin.components.latest.component';
+import {DATA_REFRESH_INTERVAL} from '../abstract.component';
+import {ExportColumn} from '../list/download.menu.component';
+
+import {MarginComponentsLatestComponent, valueGetters, exportKeys} from './margin.components.latest.component';
 
 describe('Margin components latest component', () => {
     let page: LatestListPage<MarginComponentsLatestComponent>;
@@ -47,7 +53,7 @@ describe('Margin components latest component', () => {
                 status: 500,
                 message: 'Error message'
             });
-            page.advance(1000);
+            page.advanceHTTP();
 
             expect(page.initialLoadComponent).toBeNull('Initial load component not visible.');
             expect(page.noDataComponent).toBeNull('No data component not visible.');
@@ -70,7 +76,7 @@ describe('Margin components latest component', () => {
             // Return no data
             http.popReturnValue(); // Remove from queue
             http.returnValue([]); // Push empty array
-            page.advance(1000);
+            page.advanceHTTP();
 
             expect(page.initialLoadComponent).toBeNull('Initial load component not visible.');
             expect(page.noDataComponent).not.toBeNull('No data component visible.');
@@ -90,7 +96,7 @@ describe('Margin components latest component', () => {
         expect(page.dataTable.element).toBeNull('Data table not visible.');
 
         // Return data
-        page.advance(1000);
+        page.advanceHTTP();
 
         expect(page.initialLoadComponent).toBeNull('Initial load component not visible.');
         expect(page.noDataComponent).toBeNull('No data component not visible.');
@@ -98,7 +104,7 @@ describe('Margin components latest component', () => {
         expect(page.dataTable.element).not.toBeNull('Data table visible.');
 
         // Fire highlighters
-        page.advance(15000);
+        page.advanceHighlighter();
     }));
 
     it('refresh data correctly', fakeAsync(inject([HttpService],
@@ -106,7 +112,7 @@ describe('Margin components latest component', () => {
             // Init component
             page.detectChanges();
             // Return data
-            page.advance(1000);
+            page.advanceHTTP();
 
             expect(page.initialLoadComponent).toBeNull('Initial load component not visible.');
             expect(page.noDataComponent).toBeNull('No data component not visible.');
@@ -118,7 +124,7 @@ describe('Margin components latest component', () => {
             })).toBeTruthy('All rows are highlighted');
 
             // Fire highlighters
-            page.advance(15000);
+            page.advanceHighlighter();
 
             expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
                 return !row.highlighted;
@@ -128,9 +134,8 @@ describe('Margin components latest component', () => {
             let newData = generateMarginComponentsHistory();
             http.returnValue(newData);
             // Trigger reload
-            page.advance(44000);
-            // Return the data
-            page.advance(1000);
+            page.advanceAndDetectChangesUsingOffset(DATA_REFRESH_INTERVAL);
+            page.advanceHTTP();
 
             expect(page.dataTable.element).not.toBeNull('Data table visible.');
 
@@ -139,7 +144,7 @@ describe('Margin components latest component', () => {
             })).toBeTruthy('All rows are highlighted');
 
             // Fire highlighters
-            page.advance(15000);
+            page.advanceHighlighter();
 
             expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
                 return !row.highlighted;
@@ -148,9 +153,8 @@ describe('Margin components latest component', () => {
             // Return the same data
             http.returnValue(newData);
             // Trigger reload
-            page.advance(44000);
-            // Return the data
-            page.advance(1000);
+            page.advanceAndDetectChangesUsingOffset(DATA_REFRESH_INTERVAL);
+            page.advanceHTTP();
 
             expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
                 return !row.highlighted;
@@ -164,9 +168,9 @@ describe('Margin components latest component', () => {
         // Init component
         page.detectChanges();
         // Return data
-        page.advance(1000);
+        page.advanceHTTP();
         // Fire highlighters
-        page.advance(15000);
+        page.advanceHighlighter();
 
         expect(page.dataTable.pager.element).not.toBeNull('Pager visible');
         expect(page.dataTable.recordsCount.message).toContain('Showing 20 records out of ' + Math.pow(3, 4));
@@ -185,15 +189,14 @@ describe('Margin components latest component', () => {
 
         http.returnValue(generateMarginComponentsHistory());
         // Trigger reload
-        page.advance(44000);
-        // Return the data
-        page.advance(1000);
+        page.advanceAndDetectChangesUsingOffset(DATA_REFRESH_INTERVAL);
+        page.advanceHTTP();
 
         expect(page.dataTable.pager.element).toBeNull('Pager not visible');
         expect(page.dataTable.recordsCount.message).toContain('Showing 16 records out of 16');
 
         // Fire highlighters
-        page.advance(15000);
+        page.advanceHighlighter();
         // Do not trigger periodic interval
         clearInterval((page.component as any).intervalHandle);
     })));
@@ -203,27 +206,130 @@ describe('Margin components latest component', () => {
             // Init component
             page.detectChanges();
             // Return data
-            page.advance(1000);
+            page.advanceHTTP();
             // Do not trigger periodic interval
             clearInterval((page.component as any).intervalHandle);
 
             // Fire highlighters
-            page.advance(15000);
+            page.advanceHighlighter();
         }));
 
         xit('displays data correctly', fakeAsync(() => {
         }));
 
-        xit('has filtering working', fakeAsync(() => {
+        it('has filtering working', fakeAsync(() => {
+            let firstRow = page.dataTable.data[0];
+            let originalItems = page.dataTable.data.length;
+            let items = originalItems;
+            let filter = '';
+            let idParts = firstRow.uid.split('-');
+            for (let id of idParts) {
+                filter += id + '-';
+                page.filter(filter);
+                expect(items >= page.dataTable.data.length).toBeTruthy();
+                items = page.dataTable.data.length;
+                page.dataTable.data.forEach((row: MarginComponentsRowData) => {
+                    expect(row.uid).toMatch('^' + filter);
+                });
+                if (items === 1) {
+                    break;
+                }
+            }
+
+            // Clear the field
+            page.filter('');
+
+            expect(page.dataTable.data.length).toBe(originalItems);
+
+            filter = idParts.join('- -');
+            page.filter(filter);
+
+            page.dataTable.data.forEach((row: MarginComponentsRowData) => {
+                expect(row.uid).toMatch('(' + idParts.join('|-') + '){' + idParts.length + '}');
+            });
+
+            // Remove highlight
+            page.advanceHighlighter();
         }));
 
-        xit('has correct breadcrumbs navigation', fakeAsync(() => {
-        }));
+        it('has correct breadcrumbs navigation', fakeAsync(inject([ActivatedRoute],
+            (activatedRoute: ActivatedRouteStub) => {
+                let routeParams: string[] = [];
+
+                page.checkBreadCrumbs(routeParams, '/marginComponentLatest', 'Latest Margin Components');
+
+                routeParams.push('A');
+                activatedRoute.testParams = {
+                    clearer: routeParams[0]
+                };
+                page.detectChanges();
+
+                page.checkBreadCrumbs(routeParams, '/marginComponentLatest', 'Latest Margin Components');
+
+                routeParams.push('B');
+                activatedRoute.testParams = {
+                    clearer: routeParams[0],
+                    member: routeParams[1]
+                };
+                page.detectChanges();
+
+                page.checkBreadCrumbs(routeParams, '/marginComponentLatest', 'Latest Margin Components');
+
+                routeParams.push('C');
+                activatedRoute.testParams = {
+                    clearer: routeParams[0],
+                    member: routeParams[1],
+                    account: routeParams[2]
+                };
+                page.detectChanges();
+
+                page.checkBreadCrumbs(routeParams, '/marginComponentLatest', 'Latest Margin Components');
+
+                routeParams.push('D');
+                activatedRoute.testParams = {
+                    clearer: routeParams[0],
+                    member: routeParams[1],
+                    account: routeParams[2],
+                    class: routeParams[3]
+                };
+                page.detectChanges();
+
+                page.checkBreadCrumbs(routeParams, '/marginComponentLatest', 'Latest Margin Components');
+
+                routeParams.push('E');
+                activatedRoute.testParams = {
+                    clearer: routeParams[0],
+                    member: routeParams[1],
+                    account: routeParams[2],
+                    class: routeParams[3],
+                    ccy: routeParams[4]
+                };
+                page.detectChanges();
+
+                page.checkBreadCrumbs(routeParams, '/marginComponentLatest', 'Latest Margin Components');
+            })));
 
         xit('has correct row navigation', fakeAsync(() => {
         }));
 
-        xit('has download working', fakeAsync(() => {
+        it('has download working', fakeAsync(() => {
+            let downloadLink = page.downloadMenu;
+            downloadLink.click();
+
+            expect(downloadLink.saveSpy).toHaveBeenCalled();
+            expect(downloadLink.blobSpy).toHaveBeenCalled();
+            let exportedData = downloadLink.blobSpy.calls.mostRecent().args[0][0];
+            expect(exportedData).not.toBeNull();
+            expect(exportedData.split('\n')[0]).toEqual(exportKeys.map(
+                (key: ExportColumn<any>) => key.header).join(','));
+            expect(exportedData.split('\n')[1]).toContain(exportKeys.slice(0, exportKeys.length - 1).map(
+                (key: ExportColumn<any>) =>
+                    key.get(page.dataTable.data[0]) ? key.get(page.dataTable.data[0]).toString() : '')
+                .join(','));
+            let cells = exportedData.split('\n')[1].split(',');
+            expect(cells[cells.length - 1])
+                .toMatch(/^\d{2}\. \d{2}\. \d{4} \d{2}:\d{2}:\d{2}$/);
+            expect(exportedData.split('\n').length).toBe(Math.pow(3, 4) + 2);
         }));
 
         it('can be sorted correctly', fakeAsync(() => {
@@ -232,7 +338,7 @@ describe('Margin components latest component', () => {
                 valueGetters.premiumMargin, valueGetters.spreadMargin, valueGetters.additionalMargin]);
 
             // Fire highlighters
-            page.advance(15000);
+            page.advanceHighlighter();
         }));
     });
 });

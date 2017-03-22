@@ -3,6 +3,7 @@ import {Injectable} from '@angular/core';
 import {HttpService} from '../http.service';
 import {Observable} from 'rxjs/Observable';
 import {UIDUtils} from '../uid.utils';
+import {parseServerDate} from '../date.utils';
 
 import {
     MarginShortfallSurplusServerData, MarginShortfallSurplusBase, MarginShortfallSurplusData
@@ -80,7 +81,7 @@ export class MarginShortfallSurplusService {
                     clearer: record.clearer,
                     member: record.member,
                     bizDt: record.bizDt,
-                    received: new Date(record.received),
+                    received: parseServerDate(record.received),
                     ccy: record.ccy,
                     cashBalance: record.cashBalance,
                     clearingCcy: record.clearingCcy,

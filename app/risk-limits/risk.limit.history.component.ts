@@ -1,3 +1,4 @@
+import {DecimalPipe} from '@angular/common';
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
@@ -6,6 +7,7 @@ import {ErrorResponse} from '../http.service';
 import {RiskLimitsService} from './risk.limits.service';
 import {RiskLimitsData} from './risk.limits.types';
 
+import {DateFormatter} from '../common/common.module';
 import {AbstractHistoryListComponent, LineChartColumn} from '../list/abstract.history.list.component';
 import {ExportColumn} from '../list/download.menu.component';
 import {OrderingCriteria, OrderingValueGetter} from '../datatable/data.table.column.directive';
@@ -20,8 +22,8 @@ import {exportKeys, routingKeys, valueGetters} from './risk.limit.latest.compone
 export class RiskLimitHistoryComponent extends AbstractHistoryListComponent<RiskLimitsData> {
 
     constructor(private riskLimitsService: RiskLimitsService,
-                route: ActivatedRoute) {
-        super(route);
+                route: ActivatedRoute, dateFormatter: DateFormatter, numberPipe: DecimalPipe) {
+        super(route, dateFormatter, numberPipe);
     }
 
     protected loadData(): void {

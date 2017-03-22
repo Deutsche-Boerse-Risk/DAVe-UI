@@ -3,7 +3,7 @@ import {UIDUtils} from '../../app/uid.utils';
 
 const ALPHABET = 'ABCDEFGHIJKLMNOQPRSTUVWXYZ0123456789';
 const CURRENCIES = ['EUR', 'CZK', 'CHF'];
-const UNDERLYINGS = ['ABC', 'BCD', 'DEF', 'ZWY', 'FRP', 'TRS'];
+const UNDERLYINGS = ['QWRP', 'UIO', 'KJF', 'MGO', 'FRP', 'TRS'];
 const PUT_CALL = ['P', 'C', undefined];
 
 export function generatePositionReports(members: number = 3, accounts: number = 3,
@@ -22,13 +22,13 @@ export function generatePositionReports(members: number = 3, accounts: number = 
                                 let id = {
                                     _id: {
                                         clearer: ALPHABET.charAt(j % ALPHABET.length),
-                                        member: ALPHABET.charAt(j % ALPHABET.length),
-                                        account: ALPHABET.charAt(k % ALPHABET.length),
-                                        clss: ALPHABET.charAt(l % ALPHABET.length),
-                                        symbol: ALPHABET.charAt(m % ALPHABET.length),
+                                        member: ALPHABET.charAt((j + 1) % ALPHABET.length),
+                                        account: ALPHABET.charAt((k + 4) % ALPHABET.length),
+                                        clss: ALPHABET.charAt((l + 7) % ALPHABET.length),
+                                        symbol: ALPHABET.charAt((m + 10) % ALPHABET.length),
                                         putCall: PUT_CALL[m % PUT_CALL.length],
                                         strikePrice: o + '',
-                                        maturityMonthYear: p + '',
+                                        maturityMonthYear: (2010 + p) + '',
                                         optAttribute: r + ''
                                     }
                                 };

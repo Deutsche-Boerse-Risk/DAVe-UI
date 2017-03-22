@@ -1,9 +1,6 @@
 // /*global jasmine, __karma__, window*/
 Error.stackTraceLimit = 0; // "No stacktrace"" is usually best for app testing.
 
-// Force 'en' locale for testing fomats.
-window.testLanguage = 'en';
-
 // Add a global variable to know if the google charts lib was loaded
 window.googleLoaded = false;
 
