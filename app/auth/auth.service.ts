@@ -11,18 +11,18 @@ const url = {
     refresh: '/user/refreshToken'
 };
 
-interface AuthResponse {
-    token: string;
+export interface AuthResponse {
+    token?: string;
 }
 
-interface AuthStatusResponse {
+export interface AuthStatusResponse {
     username: string;
 }
 
-interface TokenData {
+export interface TokenData {
     username: string;
     exp: number;
-    iat: number;
+    iat?: number;
 }
 
 @Injectable()
