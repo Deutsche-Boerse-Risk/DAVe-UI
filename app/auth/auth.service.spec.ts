@@ -6,7 +6,7 @@ import {encodeTestToken} from 'angular2-jwt/angular2-jwt-test-helpers';
 
 import {AuthConfigConsts} from 'angular2-jwt';
 
-import {AuthService} from './auth.service';
+import {AuthService, TokenData, AuthResponse, AuthStatusResponse} from './auth.service';
 import {HttpService, ErrorResponse} from '../http.service';
 
 function addMinutes(minutes: number): number {
@@ -16,10 +16,13 @@ function addMinutes(minutes: number): number {
 describe('Auth service', () => {
 
     afterEach(() => {
+        // Cleanup storage
         localStorage.removeItem(AuthConfigConsts.DEFAULT_TOKEN_NAME);
     });
 
     describe('(nothing in the local storage)', () => {
+        let username = 'UserA';
+
         beforeEach(() => {
             localStorage.removeItem(AuthConfigConsts.DEFAULT_TOKEN_NAME);
 
@@ -47,10 +50,10 @@ describe('Auth service', () => {
         it('login will throw error if no token was provided by server', (done: DoneFn) => {
             fakeAsync(
                 inject([AuthService, HttpService], (authService: AuthService, http: HttpServiceStub<any>) => {
-                    http.returnValue({});
+                    let authResponse: AuthResponse = {};
+                    http.returnValue(authResponse);
 
                     let postSpy = spyOn(http, 'post').and.callThrough();
-                    let username = 'UserA';
 
                     authService.login(username, 'password').subscribe(() => {
                         done.fail();
@@ -68,12 +71,12 @@ describe('Auth service', () => {
         it('login will throw error if invalid token was provided by server', (done: DoneFn) => {
             fakeAsync(
                 inject([AuthService, HttpService], (authService: AuthService, http: HttpServiceStub<any>) => {
-                    http.returnValue({
+                    let authResponse: AuthResponse = {
                         token: 'invalidString'
-                    });
+                    };
+                    http.returnValue(authResponse);
 
                     let postSpy = spyOn(http, 'post').and.callThrough();
-                    let username = 'UserA';
 
                     authService.login(username, 'password').subscribe(() => {
                         done.fail();
@@ -91,14 +94,14 @@ describe('Auth service', () => {
         it('login will throw error if token with different username was provided by server', (done: DoneFn) => {
             fakeAsync(
                 inject([AuthService, HttpService], (authService: AuthService, http: HttpServiceStub<any>) => {
-                    http.returnValue({
+                    let authResponse: AuthResponse = {
                         token: encodeTestToken({
                             username: 'UserB'
                         })
-                    });
+                    };
+                    http.returnValue(authResponse);
 
                     let postSpy = spyOn(http, 'post').and.callThrough();
-                    let username = 'UserA';
 
                     authService.login(username, 'password').subscribe(() => {
                         done.fail();
@@ -117,14 +120,14 @@ describe('Auth service', () => {
             fakeAsync(
                 inject([AuthService, HttpService], (authService: AuthService, http: HttpServiceStub<any>) => {
                     let postSpy = spyOn(http, 'post').and.callThrough();
-                    let username = 'UserA';
 
-                    http.returnValue({
+                    let authResponse: AuthResponse = {
                         token: encodeTestToken({
                             username: username,
                             exp: addMinutes(-1)
                         })
-                    });
+                    };
+                    http.returnValue(authResponse);
 
                     authService.login(username, 'password').subscribe(() => {
                         done.fail();
@@ -143,25 +146,23 @@ describe('Auth service', () => {
             fakeAsync(
                 inject([AuthService, HttpService], (authService: AuthService, http: HttpServiceStub<any>) => {
                     let postSpy = spyOn(http, 'post').and.callThrough();
-                    let username = 'UserA';
                     let loggedInChangeSpy = spyOn(authService.loggedInChange, 'emit');
 
-                    let token = {
+                    let authResponse: AuthResponse = {
                         token: encodeTestToken({
                             username: username,
                             exp: addMinutes(15)
                         })
                     };
-                    http.returnValue(token);
+                    http.returnValue(authResponse);
 
                     authService.login(username, 'password').subscribe((status: boolean) => {
                         expect(status).toBeTruthy();
                         expect(postSpy.calls.mostRecent().args[0].data.username).toBe(username);
                         expect(loggedInChangeSpy.calls.mostRecent().args[0]).toBeTruthy();
-                        expect(localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME)).toEqual(token.token);
+                        expect(localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME)).toEqual(authResponse.token);
                         expect(authService.isLoggedIn()).toBeTruthy();
-                        let loggedUser = authService.getLoggedUser();
-                        expect(loggedUser).toEqual(username);
+                        expect(authService.getLoggedUser()).toEqual(username);
                         done();
                     }, () => {
                         done.fail();
@@ -174,13 +175,17 @@ describe('Auth service', () => {
     });
 
     describe('(invalid token in the local storage)', () => {
-        let tokenData = {
-            username: 'testUser',
-            exp: addMinutes(-15)
-        };
-        let token = encodeTestToken(tokenData);
+        let tokenData: TokenData;
+        let token: string;
+        let username = 'testUser';
 
         beforeEach(() => {
+            tokenData = {
+                username: username,
+                exp: addMinutes(-15)
+            };
+            token = encodeTestToken(tokenData);
+
             localStorage.setItem(AuthConfigConsts.DEFAULT_TOKEN_NAME, token);
 
             TestBed.configureTestingModule({
@@ -206,13 +211,18 @@ describe('Auth service', () => {
     });
 
     describe('(valid token in the local storage)', () => {
-        let tokenData = {
-            username: 'testUser',
-            exp: addMinutes(15)
-        };
-        let token = encodeTestToken(tokenData);
+        let tokenData: TokenData;
+        let token: string;
+        let username = 'UserA';
+        let differentUsername = 'UserB';
 
         beforeEach(() => {
+            tokenData = {
+                username: username,
+                exp: addMinutes(15)
+            };
+            token = encodeTestToken(tokenData);
+
             localStorage.setItem(AuthConfigConsts.DEFAULT_TOKEN_NAME, token);
 
             TestBed.configureTestingModule({
@@ -228,8 +238,8 @@ describe('Auth service', () => {
         it('isLoggedIn has to return true and getLoggedUser has to return correct user', fakeAsync(
             inject([AuthService], (authService: AuthService) => {
                 expect(authService.isLoggedIn()).toBeTruthy();
-                let username = authService.getLoggedUser();
-                expect(username).toEqual(tokenData.username);
+                expect(authService.getLoggedUser()).toEqual(tokenData.username);
+                expect(authService.getLoggedUser()).toEqual(username);
                 expect(localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME)).toEqual(token);
 
                 // Clean up periodic tasks (checkAuth)
@@ -258,9 +268,10 @@ describe('Auth service', () => {
                 let loggedInChangeSpy = spyOn(authService.loggedInChange, 'emit');
                 let logoutSpy = spyOn(authService, 'logout').and.callThrough();
 
-                http.returnValue({
-                    username: 'anotherTestUser'
-                });
+                let statusResponse: AuthStatusResponse = {
+                    username: differentUsername
+                };
+                http.returnValue(statusResponse);
 
                 (authService as any).checkAuth();
 
@@ -280,10 +291,11 @@ describe('Auth service', () => {
                 let loggedInChangeSpy = spyOn(authService.loggedInChange, 'emit');
                 let logoutSpy = spyOn(authService, 'logout').and.callThrough();
 
-                http.unauthorized.emit({
+                let errorResponse: ErrorResponse = {
                     status: 401,
                     message: 'Unauthorized'
-                });
+                };
+                http.unauthorized.emit(errorResponse);
                 tick();
 
                 expect(authService.isLoggedIn()).toBeFalsy();
@@ -302,10 +314,11 @@ describe('Auth service', () => {
                 let loggedInChangeSpy = spyOn(authService.loggedInChange, 'emit');
                 let logoutSpy = spyOn(authService, 'logout').and.callThrough();
 
-                http.throwError({
+                let errorResponse: ErrorResponse = {
                     status: 500,
                     message: 'some error'
-                });
+                };
+                http.throwError(errorResponse);
 
                 (authService as any).checkAuth();
 
@@ -322,13 +335,17 @@ describe('Auth service', () => {
     });
 
     describe('(valid token in the local storage, but almost expired)', () => {
-        let tokenData = {
-            username: 'testUser',
-            exp: addMinutes(9)
-        };
-        let token = encodeTestToken(tokenData);
+        let tokenData: TokenData;
+        let token: string;
+        let username = 'testUser';
 
         beforeEach(() => {
+            tokenData = {
+                username: username,
+                exp: addMinutes(9)
+            };
+            token = encodeTestToken(tokenData);
+
             localStorage.setItem(AuthConfigConsts.DEFAULT_TOKEN_NAME, token);
 
             TestBed.configureTestingModule({
@@ -344,8 +361,8 @@ describe('Auth service', () => {
         it('isLoggedIn has to return true and getLoggedUser has to return correct user', fakeAsync(
             inject([AuthService], (authService: AuthService) => {
                 expect(authService.isLoggedIn()).toBeTruthy();
-                let username = authService.getLoggedUser();
-                expect(username).toEqual(tokenData.username);
+                expect(authService.getLoggedUser()).toEqual(tokenData.username);
+                expect(authService.getLoggedUser()).toEqual(username);
                 expect(localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME)).toEqual(token);
 
                 // Clean up periodic tasks (checkAuth)
@@ -358,10 +375,11 @@ describe('Auth service', () => {
                 let loggedInChangeSpy = spyOn(authService.loggedInChange, 'emit');
                 let logoutSpy = spyOn(authService, 'logout').and.callThrough();
 
-                http.throwError({
+                let errorResponse: ErrorResponse = {
                     status: 401,
                     message: 'Expired'
-                });
+                };
+                http.throwError(errorResponse);
 
                 (authService as any).checkAuth();
 
@@ -401,21 +419,23 @@ describe('Auth service', () => {
                 let loggedInChangeSpy = spyOn(authService.loggedInChange, 'emit');
 
                 let newToken = encodeTestToken({
-                    username: 'testUser',
+                    username: username,
                     exp: addMinutes(15)
                 });
-                http.returnValue({
+                let authResponse: AuthResponse = {
                     token: newToken
-                });
-                http.returnValue({
-                    username: 'testUser'
-                });
+                };
+                http.returnValue(authResponse);
+                let statusRespons: AuthStatusResponse = {
+                    username: username
+                };
+                http.returnValue(statusRespons);
 
                 (authService as any).checkAuth();
 
                 expect(authService.isLoggedIn()).toBeTruthy();
-                let username = authService.getLoggedUser();
-                expect(username).toEqual(tokenData.username);
+                expect(authService.getLoggedUser()).toEqual(tokenData.username);
+                expect(authService.getLoggedUser()).toEqual(username);
                 expect(localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME)).toEqual(newToken);
                 expect(loggedInChangeSpy.calls.mostRecent().args[0]).toBeTruthy();
 
