@@ -9,40 +9,64 @@
 
 ![DAVe - Dashboard](https://github.com/Deutsche-Boerse-Risk/DAVe-UI/blob/master/doc/dave-screenshots.gif "DAVe - Dashboard")
 
+## Browser support
+| ![Chrome](https://cdn1.iconfinder.com/data/icons/google_jfk_icons_by_carlosjj/32/chrome.png) Chrome | ![Firefox](https://cdn2.iconfinder.com/data/icons/humano2/32x32/apps/firefox-icon.png) Firefox | ![Edge](https://cdn4.iconfinder.com/data/icons/picons-social/57/56-edge-2-32.png) Edge | ![IE](https://cdn4.iconfinder.com/data/icons/iconsimple-logotypes/512/internet_explorer-32.png) IE | ![Safari](https://cdn1.iconfinder.com/data/icons/logotypes/32/safari-32.png) Safari |
+|:------:|:-------:|:----:|:--:|:------:|
+|  51+   |   50+   |  14  | 11 |   10   |
+|        |         |  13  | 10 |        |
+
 ## Prerequisites (For the first time only)
  
  - Install [npm](http://blog.npmjs.org/post/85484771375/how-to-install-npm) first.
- - Install Grunt CLI using `npm install -g grunt-cli`. Use `sudo` on Linux or Mac if necessary. You may need to setup http(s) proxy using:
-   - `npm config set proxy http://proxy.company.com:8080`
-   - `npm config set https-proxy http://proxy.company.com:8080`
- - Install TypeScript compiler using `npm install -g typescript`. Use `sudo` on Linux or Mac if necessary. TypeScript compiler is required to install project dependencies.
+ - You may need to setup http(s) proxy using:
+      - `npm config set proxy http://proxy.company.com:8080`
+      - `npm config set https-proxy http://proxy.company.com:8080`
+ - Run commands in the following section.
+
+## Before each build
+To ensure you have always up-to-date dependecies run following commands:
+
+**On Linux or Mac environment you can simply run:**
+ - Install all dependencies by running `./update-dev.sh`. Use `sudo` if necessary.
+ 
+**On Windows you need to follow these steps:**
+ - Install Grunt CLI using `npm install -g grunt-cli`. 
+ - Install `npm install -g typescript`. TypeScript compiler is required to install project dependencies.
  - Run `npm install` to download necessary packages.
+ - Run `npm update` to update already downloaded packages.
+ - Run `npm prune` to remove old or no more used dependencies.
 
 ## Build distribution package
 
-Update `npm` dependencies every time you are going to build the UI.
-```
-npm update
-```
-Then build the UI using:
-```
+Build the UI using:
+```bash
 grunt dist
 ``` 
-or 
-```
-npm run dist
-```
- Both are equivalent.
+This will generate a new folder `dist` that contains all files needed for distribution.
 
-## Run in development
-
- - Install [prerequisites](#prerequisites-for-the-first-time-only).
+## Testing distribution package
+You can test distribution package using the following command:
+```bash
+grunt dist-run
+```
+This will start a simple web server. A Chrome browser will be started automatically. If you don't want to use Chrome 
+for whatever reason you need to modify `gruntfile.js` and check for the following section: 
+```javascript
+browserSync: { 
+ options: {
+     browser: ['firefox'] 
+ } 
+}
+```
+  
+## Run in development mode
  - Point your UI to the host, where the back-end for DAVe is running
    - see `restUrl.js` file
  - Update development and runtime dependencies by calling `npm update`.
- - Run `grunt run` or `npm start` to start the simple web server. A Chrome browser will be started automatically. If you don't want to use Chrome for whatever reason you need to modify `gruntfile.js` and following section: 
+ - Run `grunt run` or `npm start` to start the simple web server. A Chrome browser will be started automatically. 
+ If you don't want to use Chrome for whatever reason you need to modify `gruntfile.js` and check for the following section: 
  
- ```
+ ```javascript
  browserSync: { 
     options: {
         browser: ['firefox'] 
@@ -50,6 +74,31 @@ npm run dist
  }
  ```
  - Whenever there is a change to the files related to the UI, the server gets notified immediately - no restart is needed.
+
+## Executing tests
+To execute all test suites locally you can run one of the following commands:
+ - `grunt test` - To run Karma tests in locally installed IE, Chrome and Firefox
+ - `grunt testIE` - To run Karma tests in locally installed IE
+ - `grunt testChrome` - To run Karma tests in locally installed Chrome
+ - `grunt testFirefox` - To run Karma tests in locally installed IE, Chrome and Firefox
+
+You can run also tests using [BrowserStack](https://www.browserstack.com) cloud provider. To run these tests you need
+to define following environment variables first:
+```bash
+export BROWSER_STACK_USERNAME=...
+export BROWSER_STACK_ACCESS_KEY=...
+```
+Then you can run:
+```bash
+grunt testBrowserStack
+```
+
+If you are located behind a company proxy you will need to export also `HTTP_PROXY` variable. You need to download 
+[BrowserStack tunel binary](https://www.browserstack.com/local-testing#command-line) manualy. Store it under:
+```
+<project_root>/browserStackBin/BrowserStackLocal(.exe)
+```
+Then run `grunt testBrowserStackProxy` instead.
 
 # Docker image to run standalone UI
 [DAVe-UI Docker image](dockerfile)
