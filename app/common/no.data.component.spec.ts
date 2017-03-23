@@ -1,16 +1,12 @@
-import {DebugElement} from "@angular/core";
-import {By} from "@angular/platform-browser";
+import {TestBed, async, fakeAsync} from '@angular/core/testing';
 
-import {ComponentFixture, TestBed, async} from "@angular/core/testing";
+import {NoDataPage} from '../../testing';
 
-import {NoDataComponent} from "./no.data.component";
+import {NoDataComponent} from './no.data.component';
 
 describe('NoDataComponent', () => {
 
-    let comp: NoDataComponent;
-    let fixture: ComponentFixture<NoDataComponent>;
-    let de: DebugElement;
-    let el: HTMLElement;
+    let page: NoDataPage;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -18,17 +14,12 @@ describe('NoDataComponent', () => {
         }).compileComponents();
     }));
 
-    beforeEach(() => {
-        fixture = TestBed.createComponent(NoDataComponent);
+    beforeEach(fakeAsync(() => {
+        page = new NoDataPage(TestBed.createComponent(NoDataComponent));
+        page.detectChanges();
+    }));
 
-        comp = fixture.componentInstance;
-
-        // query for the title by CSS element selector
-        de = fixture.debugElement.query(By.css('.alert'));
-        el = de.nativeElement;
-    });
-
-    it('has correct text', () => {
-        expect(el.textContent).toContain('No data available.');
-    });
+    it('has correct text', fakeAsync(() => {
+        expect(page.text).toContain('No data available.');
+    }));
 });

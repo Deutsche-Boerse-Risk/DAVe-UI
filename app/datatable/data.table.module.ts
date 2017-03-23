@@ -17,7 +17,7 @@ import {DataTableExpandableDirective} from './data.table.expandable.directive';
 
 import {DrillDownRowButtonComponent} from './drill.down.row.button.component';
 import {DetailRowButtonComponent} from './detail.row.button.component';
-import {HighlighterDirective} from "./highlighter.directive";
+import {HighlighterDirective} from './highlighter.directive';
 
 @NgModule({
     imports: [

@@ -2,15 +2,16 @@ import {Injectable} from '@angular/core';
 
 import {HttpService} from '../http.service';
 import {Observable} from 'rxjs/Observable';
-import {UIDUtils} from "../uid.utils";
+import {UIDUtils} from '../uid.utils';
+import {parseServerDate} from '../date.utils';
 
 import {
     MarginShortfallSurplusServerData, MarginShortfallSurplusBase, MarginShortfallSurplusData
 } from './margin.types';
 
-const marginShortfallSurplusURL: string = '/mss/latest';
-const marginShortfallSurplusLatestURL: string = '/mss/latest/:0/:1/:2/:3';
-const marginShortfallSurplusHistoryURL: string = '/mss/history/:0/:1/:2/:3/:4';
+export const marginShortfallSurplusURL: string = '/mss/latest';
+export const marginShortfallSurplusLatestURL: string = '/mss/latest/:0/:1/:2/:3';
+export const marginShortfallSurplusHistoryURL: string = '/mss/history/:0/:1/:2/:3/:4';
 
 @Injectable()
 export class MarginShortfallSurplusService {
@@ -80,7 +81,7 @@ export class MarginShortfallSurplusService {
                     clearer: record.clearer,
                     member: record.member,
                     bizDt: record.bizDt,
-                    received: new Date(record.received),
+                    received: parseServerDate(record.received),
                     ccy: record.ccy,
                     cashBalance: record.cashBalance,
                     clearingCcy: record.clearingCcy,

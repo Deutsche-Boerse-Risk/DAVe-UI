@@ -2,7 +2,7 @@ import {Input, Component, OnChanges, OnInit, OnDestroy, SimpleChanges, Output, E
 
 import {ChartData, SelectionEvent, CommonChartOptions, loadGoogleCharts} from './chart.types';
 
-import {UIDUtils} from "../uid.utils";
+import {UIDUtils} from '../uid.utils';
 
 @Component({
     moduleId: module.id,
@@ -50,7 +50,7 @@ export class GoogleChart implements OnInit, OnChanges, OnDestroy {
     public ngOnInit(): void {
         this.initialized = true;
         this.reinitializeChart();
-        window.addEventListener("resize", this._resizeHandle, false);
+        window.addEventListener('resize', this._resizeHandle, false);
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
@@ -64,7 +64,7 @@ export class GoogleChart implements OnInit, OnChanges, OnDestroy {
             google.visualization.events.removeListener(this._selectionHandle);
             this.wrapper.clear();
         }
-        window.removeEventListener("resize", this._resizeHandle, false);
+        window.removeEventListener('resize', this._resizeHandle, false);
     }
 
     private reinitializeChart(): void {

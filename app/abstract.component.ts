@@ -1,5 +1,7 @@
 import {OnInit, OnDestroy} from '@angular/core';
 
+export const DATA_REFRESH_INTERVAL = 60000;
+
 export abstract class AbstractComponentWithAutoRefresh implements OnInit, OnDestroy {
 
     private intervalHandle: NodeJS.Timer;
@@ -8,7 +10,7 @@ export abstract class AbstractComponentWithAutoRefresh implements OnInit, OnDest
         this.loadData();
         this.intervalHandle = setInterval(() => {
             this.loadData()
-        }, 60000);
+        }, DATA_REFRESH_INTERVAL);
     }
 
     public ngOnDestroy(): void {

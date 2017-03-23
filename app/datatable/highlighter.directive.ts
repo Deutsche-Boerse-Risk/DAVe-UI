@@ -1,4 +1,7 @@
-import {Directive, ElementRef, OnInit, Input, OnDestroy} from "@angular/core";
+import {Directive, ElementRef, OnInit, Input, OnDestroy} from '@angular/core';
+
+export const HIGHLIGHTER_CLASS = 'bg-warning';
+export const HIGHLIGHTER_TIMEOUT = 15000;
 
 @Directive({
     selector: '[highlighter]'
@@ -24,10 +27,10 @@ export class HighlighterDirective implements OnInit, OnDestroy {
             let rowKey = this.trackBy(this.context.index, this.context.row);
             if (!this.context.storage[rowKey]) {
                 this.context.storage[rowKey] = true;
-                this.el.classList.add('bg-warning');
+                this.el.classList.add(HIGHLIGHTER_CLASS);
                 this._timeoutRef = setTimeout(() => {
-                    this.el.classList.remove('bg-warning')
-                }, 15000);
+                    this.el.classList.remove(HIGHLIGHTER_CLASS)
+                }, HIGHLIGHTER_TIMEOUT);
             }
         }
     }

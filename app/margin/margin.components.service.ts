@@ -2,7 +2,8 @@ import {Injectable} from '@angular/core';
 
 import {HttpService} from '../http.service';
 import {Observable} from 'rxjs/Observable';
-import {UIDUtils} from "../uid.utils";
+import {UIDUtils} from '../uid.utils';
+import {parseServerDate} from '../date.utils';
 
 import {
     MarginComponentsServerData,
@@ -11,10 +12,10 @@ import {
     MarginComponentsRowData, MarginComponentsTree, MarginComponentsTreeNode
 } from './margin.types';
 
-const marginComponentsAggregationURL: string = '/mc/latest';
-const marginComponentsTreemapURL: string = '/mc/latest';
-const marginComponentsLatestURL: string = '/mc/latest/:0/:1/:2/:3/:4';
-const marginComponentsHistoryURL: string = '/mc/history/:0/:1/:2/:3/:4';
+export const marginComponentsAggregationURL: string = '/mc/latest';
+export const marginComponentsTreemapURL: string = '/mc/latest';
+export const marginComponentsLatestURL: string = '/mc/latest/:0/:1/:2/:3/:4';
+export const marginComponentsHistoryURL: string = '/mc/history/:0/:1/:2/:3/:4';
 
 @Injectable()
 export class MarginComponentsService {
@@ -57,7 +58,7 @@ export class MarginComponentsService {
                         footerData.additionalMargin += record.additionalMargin;
                     } else {
                         newViewWindow[fKey] = {
-                            uid: UIDUtils.computeUID(record),
+                            uid: fKey,
                             clearer: record.clearer,
                             member: record.member,
                             account: record.account,
@@ -88,8 +89,11 @@ export class MarginComponentsService {
     public getMarginComponentsTreeMapData(): Observable<MarginComponentsTree> {
         return this.http.get({resourceURL: marginComponentsTreemapURL}).map(
             (data: MarginComponentsServerData[]) => {
-                if (!data) {
-                    return {};
+                if (!data || !data.length) {
+                    return {
+                        traverseDF: () => {
+                        }
+                    };
                 }
                 let members: {[key: string]: boolean} = {};
                 let accounts: {[key: string]: boolean} = {};
@@ -156,7 +160,7 @@ export class MarginComponentsService {
                     }, clss);
                 }
                 tree.traverseDF((node: MarginComponentsTreeNode) => {
-                    node.children.sort(function (a, b) {
+                    node.children.sort((a, b) => {
                         return b.data.value - a.data.value;
                     });
                 });
@@ -218,7 +222,7 @@ export class MarginComponentsService {
                         class: record.clss,
                         bizDt: record.bizDt,
                         premiumMargin: record.premiumMargin,
-                        received: new Date(record.received),
+                        received: parseServerDate(record.received),
                         ccy: record.ccy,
                         additionalMargin: record.additionalMargin,
                         liquiMargin: record.liquiMargin,

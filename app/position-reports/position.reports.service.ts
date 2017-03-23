@@ -2,16 +2,17 @@ import {Injectable} from '@angular/core';
 
 import {HttpService} from '../http.service';
 import {Observable} from 'rxjs/Observable';
-import {UIDUtils} from "../uid.utils";
+import {UIDUtils} from '../uid.utils';
+import {parseServerDate} from '../date.utils';
 
 import {
     PositionReportServerData, PositionReportData, PositionReportBubble, PositionReportChartData, SelectValues,
     PositionReportChartDataSelect
 } from './position.report.types';
 
-const chartsURL: string = '/pr/latest';
-const latestURL: string = '/pr/latest/:0/:1/:2/:3/:4/:5/:6/:7/:8';
-const historyURL: string = '/pr/history/:0/:1/:2/:3/:4/:5/:6/:7/:8';
+export const chartsURL: string = '/pr/latest';
+export const latestURL: string = '/pr/latest/:0/:1/:2/:3/:4/:5/:6/:7/:8';
+export const historyURL: string = '/pr/history/:0/:1/:2/:3/:4/:5/:6/:7/:8';
 
 @Injectable()
 export class PositionReportsService {
@@ -48,7 +49,7 @@ export class PositionReportsService {
                         radius: record.compVar
                     };
 
-                    if (bubbleKey in bubblesMap.keys()) {
+                    if (bubblesMap.has(bubbleKey)) {
                         bubblesMap.get(bubbleKey).radius += record.compVar;
                     } else {
                         bubblesMap.set(bubbleKey, bubble);
@@ -187,7 +188,7 @@ export class PositionReportsService {
             rho: record.rho,
             theta: record.theta,
             underlying: record.underlying,
-            received: new Date(record.received)
+            received: parseServerDate(record.received)
         };
         row.netLS = record.crossMarginLongQty - record.crossMarginShortQty;
         row.netEA = (record.optionExcerciseQty - record.optionAssignmentQty)

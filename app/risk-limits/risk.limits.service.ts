@@ -2,12 +2,13 @@ import {Injectable} from '@angular/core';
 
 import {HttpService} from '../http.service';
 import {Observable} from 'rxjs/Observable';
-import {UIDUtils} from "../uid.utils";
+import {UIDUtils} from '../uid.utils';
+import {parseServerDate} from '../date.utils';
 
 import {RiskLimitsServerData, RiskLimitsData} from './risk.limits.types';
 
-const riskLimitsLatestURL: string = '/rl/latest/:0/:1/:2/:3';
-const riskLimitsHistoryURL: string = '/rl/history/:0/:1/:2/:3';
+export const riskLimitsLatestURL: string = '/rl/latest/:0/:1/:2/:3';
+export const riskLimitsHistoryURL: string = '/rl/history/:0/:1/:2/:3';
 
 @Injectable()
 export class RiskLimitsService {
@@ -49,7 +50,7 @@ export class RiskLimitsService {
                         warningLevel: record.warningLevel,
                         throttleLevel: record.throttleLevel,
                         rejectLevel: record.rejectLevel,
-                        received: new Date(record.received)
+                        received: parseServerDate(record.received)
                     };
 
                     if (record.warningLevel > 0) {

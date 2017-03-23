@@ -19,8 +19,8 @@ module.exports = function (config) {
             require('karma-browserstack-launcher'),
             require('karma-jasmine-html-reporter'),
             require('karma-junit-reporter'),
-            require('karma-coverage'),
-            require('karma-coveralls')
+            require('karma-spec-reporter'),
+            require('karma-coverage')
         ],
 
         client: {
@@ -102,6 +102,8 @@ module.exports = function (config) {
             // Polyfills
             'node_modules/core-js/client/shim.js',
             'node_modules/web-animations-js/web-animations.min.js',
+            'node_modules/file-saver/FileSaver.min.js',
+            'ie.intl.shim.js',
 
             // zone.js
             'node_modules/zone.js/dist/zone.js',
@@ -165,16 +167,25 @@ module.exports = function (config) {
 
         coverageReporter: {
             includeAllSources: true,
-            type: 'lcov', // lcov or lcovonly are required for generating lcov.info files
+            reporters: [
+                // Generate HTML based output for generated JS files
+                {type: 'lcov'},
+                // Generate JSON based output for generated JS files, this is used to remap back to TypeScript
+                {type: 'json'}
+            ],
             dir: 'coverage/'
         },
 
         junitReporter: {
             outputDir: 'reports'
         },
-        // global config of your BrowserStack account
+
         browserStack: {
             binaryBasePath: 'browserStackBin/'
+        },
+
+        specReporter: {
+            showSpecTiming: true      // print the time elapsed for each spec
         },
 
         port: 9876,
@@ -185,6 +196,6 @@ module.exports = function (config) {
         captureTimeout: 60000,
         browserDisconnectTimeout: 10000,
         browserDisconnectTolerance: 1,
-        browserNoActivityTimeout: 60000
+        browserNoActivityTimeout: 120000
     })
 };

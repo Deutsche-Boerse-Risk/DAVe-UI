@@ -59,6 +59,11 @@ export class DataTableComponent implements OnChanges {
             this.pageRows = this.data;
             return;
         }
+
+        let lastPage = Math.ceil(this.data.length / this.pageSize);
+        if (page > lastPage) {
+            page = lastPage;
+        }
         let firstIndex = (page - 1) * this.pageSize;
         let lastIndex = page * this.pageSize;
         this.pageRows = this.data.slice(firstIndex, lastIndex);
@@ -69,7 +74,7 @@ export class DataTableComponent implements OnChanges {
         this._defaultOrdering = [];
         if (value) {
             value.forEach((criteria: OrderingCriteria<any> | OrderingValueGetter<any>) => {
-                if (typeof criteria === "function") {
+                if (typeof criteria === 'function') {
                     this._defaultOrdering.push({
                         get: criteria,
                         descending: false

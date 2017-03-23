@@ -1,4 +1,4 @@
-import {UIDUtils} from "./uid.utils";
+import {UIDUtils} from './uid.utils';
 
 describe('UID generation with', () => {
 

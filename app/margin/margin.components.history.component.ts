@@ -1,3 +1,4 @@
+import {DecimalPipe} from '@angular/common';
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
@@ -6,6 +7,7 @@ import {ErrorResponse} from '../http.service';
 import {MarginComponentsService} from './margin.components.service';
 import {MarginComponentsRowData} from './margin.types';
 
+import {DateFormatter} from '../common/common.module';
 import {AbstractHistoryListComponent, LineChartColumn} from '../list/abstract.history.list.component';
 import {ExportColumn} from '../list/download.menu.component';
 import {OrderingCriteria} from '../datatable/data.table.column.directive';
@@ -20,8 +22,8 @@ import {exportKeys, routingKeys, valueGetters} from './margin.components.latest.
 export class MarginComponentsHistoryComponent extends AbstractHistoryListComponent<MarginComponentsRowData> {
 
     constructor(private marginComponentsService: MarginComponentsService,
-                route: ActivatedRoute) {
-        super(route);
+                route: ActivatedRoute, dateFormatter: DateFormatter, numberPipe: DecimalPipe) {
+        super(route, dateFormatter, numberPipe);
     }
 
     protected loadData(): void {

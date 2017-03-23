@@ -1,13 +1,13 @@
 import {Component} from '@angular/core';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
 
-import {AbstractComponentWithAutoRefresh} from "../abstract.component";
-import {ErrorResponse} from "../http.service";
+import {AbstractComponentWithAutoRefresh} from '../abstract.component';
+import {ErrorResponse} from '../http.service';
 
 import {ChartData, TreeMapOptions, ChartRow, SelectionEvent} from '../common/chart.types';
 
-import {MarginComponentsService} from "./margin.components.service";
-import {MarginComponentsTree, MarginComponentsTreeNode} from "./margin.types";
+import {MarginComponentsService} from './margin.components.service';
+import {MarginComponentsTree, MarginComponentsTreeNode} from './margin.types';
 
 @Component({
     moduleId: module.id,
@@ -62,9 +62,11 @@ export class MarginComponentsTreemapComponent extends AbstractComponentWithAutoR
                         c: [
                             {
                                 v: node.data.text
-                            }, {
+                            },
+                            {
                                 v: node.parent ? node.parent.data.text : null
-                            }, {
+                            },
+                            {
                                 v: node.children.length > 0 ? 0 : node.data.value
                             }
                         ],
@@ -86,7 +88,7 @@ export class MarginComponentsTreemapComponent extends AbstractComponentWithAutoR
 
         let node: MarginComponentsTreeNode = row.originalData;
         if (node && node.data.leaf
-            && node.parent && node.parent.data.text.indexOf("Rest") === -1) {
+            && node.parent && node.parent.data.text.indexOf('Rest') === -1) {
             this.router.navigate([
                 '/marginComponentLatest',
                 node.parent.data.clearer || '*',

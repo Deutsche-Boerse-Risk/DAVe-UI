@@ -1,7 +1,7 @@
 module.exports = function (grunt) {
     'use strict';
 
-    var proxy_parts = (process.env.http_proxy || '').match(/^((https?\:)\/\/)?(([^:\/?#]*)(?:\:([0-9]+))?)([\/]{0,1}[^?#]*)(\?[^#]*|)(#.*|)$/) || [];
+    var proxy_parts = (process.env.http_proxy || '').match(/^((https?)\:\/\/)?(([^:\/?#]*)(?:\:([0-9]+))?)([\/]{0,1}[^?#]*)(\?[^#]*|)(#.*|)$/) || [];
 
     //<editor-fold desc="Task and function definition" defaultstate="collapsed">
     function runProcess(command, args) {
@@ -62,7 +62,7 @@ module.exports = function (grunt) {
     grunt.registerMultiTask('ngc', 'Run Angular 2 compiler', runProcess('npm', ['run', 'ngc']));
 
     function providedJS(file) {
-        return [file, file + ".map"];
+        return [file, file + '.map'];
     }
 
     function addAppFolders(pattern) {
@@ -95,7 +95,7 @@ module.exports = function (grunt) {
         htmlPattern, // HTML templates
         tsPattern, jsPattern, jsToCleanPattern; // TypeScript, JavaScript and mapping files
 
-    grunt.appFolders = ['app'];
+    grunt.appFolders = ['app', 'testing'];
 
     // Populate paths
     sassPattern = addAppFolders('**/*.scss', 'styles.scss');
@@ -173,7 +173,15 @@ module.exports = function (grunt) {
                 src: providedJS('node_modules/core-js/client/shim.min.js'),
                 dest: destination
             },
-            "web-animations-js": {
+            fileSave: {
+                src: providedJS('node_modules/file-saver/FileSaver.min.js'),
+                dest: destination
+            },
+            'ie.intl.shim.js': {
+                src: providedJS('ie.intl.shim.js'),
+                dest: destination
+            },
+            'web-animations-js': {
                 src: providedJS('node_modules/web-animations-js/web-animations.min.js'),
                 dest: destination
             },
@@ -224,10 +232,10 @@ module.exports = function (grunt) {
         karma: {
             options: {
                 configFile: 'karma.conf.js',
-                reporters: ['progress', 'kjhtml', 'junit', 'coverage', 'coveralls']
+                reporters: ['spec', 'kjhtml', 'junit', 'coverage']
             },
             dev: {
-                browsers: ['Chrome','Firefox', 'IE']
+                browsers: ['Chrome', 'Firefox', 'IE']
             },
             devChrome: {
                 browsers: ['Chrome']
@@ -270,7 +278,7 @@ module.exports = function (grunt) {
                 }
             },
             circleCI: {
-                reporters: ['progress', 'kjhtml', 'junit', 'coverage', 'coveralls', 'BrowserStack'],
+                reporters: ['spec', 'kjhtml', 'junit', 'coverage', 'BrowserStack'],
                 browsers: [
                     'bs_chrome_windows_10',
                     'bs_firefox_windows_10',
@@ -282,6 +290,25 @@ module.exports = function (grunt) {
                     'bs_firefox_mac_sierra',
                     'bs_safari_mac_sierra'
                 ]
+            }
+        },
+        remapIstanbul: {
+            build: {
+                src: 'coverage/**/coverage-final.json',
+                options: {
+                    reports: {
+                        'html': 'coverage/html-report/',
+                        'lcovonly': 'coverage/lcov.info'
+                    }
+                }
+            }
+        },
+        coveralls: {
+            options: {
+                force: true
+            },
+            report: {
+                src: 'coverage/lcov.info'
             }
         },
         watch: {
@@ -373,6 +400,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-concurrent');
     grunt.loadNpmTasks('grunt-rollup');
     grunt.loadNpmTasks('grunt-sass');
+    grunt.loadNpmTasks('grunt-coveralls');
+    grunt.loadNpmTasks('remap-istanbul');
 
     // Dev run tools
     grunt.loadNpmTasks('grunt-contrib-watch');
@@ -387,11 +416,11 @@ module.exports = function (grunt) {
     grunt.registerTask('dist-run', ['dist', 'concurrent:dist']);
 
     // Test tasks
-    grunt.registerTask('test', ['build', 'karma:dev']);
-    grunt.registerTask('testChrome', ['build', 'karma:devChrome']);
-    grunt.registerTask('testFirefox', ['build', 'karma:devFirefox']);
-    grunt.registerTask('testIE', ['build', 'karma:devIE']);
-    grunt.registerTask('testBrowserStack', ['build', 'karma:devBrowserStack']);
-    grunt.registerTask('testBrowserStackProxy', ['build', 'karma:devBrowserStackProxy']);
-    grunt.registerTask('testCircleCI', ['build', 'karma:circleCI']);
+    grunt.registerTask('test', ['build', 'karma:dev', 'remapIstanbul', 'coveralls']);
+    grunt.registerTask('testChrome', ['build', 'karma:devChrome', 'remapIstanbul', 'coveralls']);
+    grunt.registerTask('testFirefox', ['build', 'karma:devFirefox', 'remapIstanbul', 'coveralls']);
+    grunt.registerTask('testIE', ['build', 'karma:devIE', 'remapIstanbul', 'coveralls']);
+    grunt.registerTask('testBrowserStack', ['build', 'karma:devBrowserStack', 'remapIstanbul', 'coveralls']);
+    grunt.registerTask('testBrowserStackProxy', ['build', 'karma:devBrowserStackProxy', 'remapIstanbul', 'coveralls']);
+    grunt.registerTask('testCircleCI', ['build', 'karma:circleCI', 'remapIstanbul', 'coveralls']);
 };

@@ -8,13 +8,16 @@
       <sourceFolder url="file://$MODULE_DIR$/doc" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/dockerfile" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/deployment" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/testing" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/browserStackBin" />
+      <excludeFolder url="file://$MODULE_DIR$/coverage" />
       <excludeFolder url="file://$MODULE_DIR$/dist" />
       <excludeFolder url="file://$MODULE_DIR$/ngFactories" />
+      <excludeFolder url="file://$MODULE_DIR$/reports" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="tsconfig$roots" level="project" />
     <orderEntry type="library" name="loader" level="application" />
   </component>
 </module>

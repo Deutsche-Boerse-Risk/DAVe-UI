@@ -1,6 +1,6 @@
 <div class="panel-body" *ngIf="data?.length">
     <table [class.table-striped]="striped" class="table table-bordered table-hover">
-        <thead *ngIf="headerTemplates">
+        <thead *ngIf="headerTemplates" #mainHeader>
         <tr *ngFor="let headerTemplate of headerTemplates; trackBy:trackByIndex">
             <th *ngFor="let column of headerTemplate; trackBy:trackByIndex"
                 [attr.rowspan]="column.rowspan"
@@ -19,7 +19,7 @@
             </th>
         </tr>
         </thead>
-        <tbody *ngIf="pageRows && rowsTemplates">
+        <tbody *ngIf="pageRows && rowsTemplates" #mainBody>
         <template ngFor let-row [ngForOf]="pageRows" let-rowIndex="index" [ngForTrackBy]="trackByRowKey"
                   expandable #expandable="expandable">
             <tr *ngFor="let rowsTemplate of rowsTemplates; trackBy:trackByIndex"
@@ -78,7 +78,7 @@
             </tr>
         </template>
         </tbody>
-        <tfoot *ngIf="footerTemplates">
+        <tfoot *ngIf="footerTemplates" #mainFooter>
         <tr *ngFor="let footerTemplate of footerTemplates; trackBy:trackByIndex">
             <th *ngFor="let column of footerTemplate; trackBy:trackByIndex"
                 [attr.rowspan]="column.rowspan"

@@ -1,5 +1,5 @@
-import {DatePipe} from '@angular/common';
-import {NgModule} from '@angular/core';
+import {DatePipe, DecimalPipe} from '@angular/common';
+import {NgModule, Inject, OpaqueToken} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {InitialLoadComponent} from './initial.load.component';
@@ -10,11 +10,18 @@ import {GoogleChart} from './google.chart.component';
 import {GoogleLineChart} from './google.line.chart.component';
 
 import {PercentPipe} from './percent.pipe';
-export {NUMBER_PIPE} from './percent.pipe';
 
-declare let testLanguage: string;
+export const DATE_FORMAT = new OpaqueToken('dave.dateFormat');
 
-export const DATE_PIPE = new DatePipe(testLanguage ||navigator.language.split('-')[0]);
+export class DateFormatter {
+
+    constructor(@Inject(DATE_FORMAT) private format: string, private datePipe: DatePipe) {
+    }
+
+    public transform(value: Date): string {
+        return this.datePipe.transform(value, this.format);
+    }
+}
 
 @NgModule({
     imports: [
@@ -35,6 +42,12 @@ export const DATE_PIPE = new DatePipe(testLanguage ||navigator.language.split('-
         NoDataComponent,
         UpdateFailedComponent,
         PercentPipe
+    ],
+    providers: [
+        DecimalPipe,
+        DatePipe,
+        DateFormatter,
+        {provide: DATE_FORMAT, useValue: 'dd. MM. yyyy HH:mm:ss'}
     ]
 })
 export class CommonModule {
