@@ -45,13 +45,7 @@ export class DownloadLink {
 
     public get saveSpy(): Spy {
         if (!this._saveBlobSpy) {
-            if (navigator.msSaveBlob) { // IE 10+
-                this._saveBlobSpy = spyOn(navigator, 'msSaveBlob');
-            } else {
-                this._saveBlobSpy = spyOn(document.body, 'appendChild');
-                spyOn(document.body, 'removeChild');
-                spyOn(HTMLAnchorElement.prototype, 'click');
-            }
+            this._saveBlobSpy = spyOn(window, 'saveAs');
         }
         return this._saveBlobSpy;
     }

@@ -1,7 +1,7 @@
 module.exports = function (grunt) {
     'use strict';
 
-    var proxy_parts = (process.env.http_proxy || '').match(/^((https?\:)\/\/)?(([^:\/?#]*)(?:\:([0-9]+))?)([\/]{0,1}[^?#]*)(\?[^#]*|)(#.*|)$/) || [];
+    var proxy_parts = (process.env.http_proxy || '').match(/^((https?)\:\/\/)?(([^:\/?#]*)(?:\:([0-9]+))?)([\/]{0,1}[^?#]*)(\?[^#]*|)(#.*|)$/) || [];
 
     //<editor-fold desc="Task and function definition" defaultstate="collapsed">
     function runProcess(command, args) {
@@ -171,6 +171,10 @@ module.exports = function (grunt) {
             },
             shim: {
                 src: providedJS('node_modules/core-js/client/shim.min.js'),
+                dest: destination
+            },
+            fileSave: {
+                src: providedJS('node_modules/file-saver/FileSaver.min.js'),
                 dest: destination
             },
             'ie.intl.shim.js': {

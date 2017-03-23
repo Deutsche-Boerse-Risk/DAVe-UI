@@ -99,12 +99,6 @@ describe('Download menu', () => {
             + (dateString.search(/("|,|\n)/g) >= 0 ? '"' : ''));
 
         expect(downloadLink.saveSpy).toHaveBeenCalled();
-
-        if (navigator.msSaveBlob) { // IE 10+
-            expect(downloadLink.saveSpy.calls.mostRecent().args[1]).toBe(page.component.filename);
-        } else {
-            expect(downloadLink.saveSpy.calls.mostRecent().args[0]
-                .getAttribute('download')).toBe(page.component.filename);
-        }
+        expect(downloadLink.saveSpy.calls.mostRecent().args[1]).toBe(page.component.filename);
     })));
 });
