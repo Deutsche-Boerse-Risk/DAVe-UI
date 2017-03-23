@@ -1,10 +1,11 @@
 machine:
+  node:
+    version: 6.1.0 # Requires NodeJS 5+ to be used with Angular 4
   services:
     - docker
 
 dependencies:
   pre:
-    - npm install -g npm@4
     - npm install -g grunt-cli
     - npm install -g typescript
     - npm install -g codeclimate-test-reporter
