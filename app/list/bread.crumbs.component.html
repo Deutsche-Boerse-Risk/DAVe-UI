@@ -1,4 +1,4 @@
-<template [ngIf]="filteredRouteParts?.length > 0">
+<ng-template [ngIf]="filteredRouteParts?.length > 0">
     <a *ngIf="!filteredRouteParts[0].inactive"
        [routerLink]="getRoute(0)">
         {{filteredRouteParts[0].title}}
@@ -6,8 +6,8 @@
     <span *ngIf="filteredRouteParts[0].inactive">
         {{filteredRouteParts[0].title}}
     </span>
-</template>
-<template [ngIf]="filteredRouteParts?.length > 1">:
+</ng-template>
+<ng-template [ngIf]="filteredRouteParts?.length > 1">:
     <a [routerLink]="getRoute(1)"
        *ngIf="!filteredRouteParts[1].inactive">
         {{filteredRouteParts[1].title}}
@@ -15,9 +15,9 @@
     <span *ngIf="filteredRouteParts[1].inactive">
         {{filteredRouteParts[1].title}}
     </span>
-</template>
-<template [ngIf]="filteredRouteParts?.length > 2">
-    <template ngFor let-route [ngForOf]="getAdditionalRoutes()" let-i="index" [ngForTrackBy]="trackByIndex"> /
+</ng-template>
+<ng-template [ngIf]="filteredRouteParts?.length > 2">
+    <ng-template ngFor let-route [ngForOf]="getAdditionalRoutes()" let-i="index" [ngForTrackBy]="trackByIndex"> /
         <a [routerLink]="getRoute(i + 2)"
            *ngIf="!filteredRouteParts[route].inactive">
             {{filteredRouteParts[route].title}}
@@ -25,5 +25,5 @@
         <span *ngIf="filteredRouteParts[route].inactive">
             {{filteredRouteParts[route].title}}
         </span>
-    </template>
-</template>
+    </ng-template>
+</ng-template>

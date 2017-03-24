@@ -1,4 +1,6 @@
 machine:
+  node:
+    version: 6.1.0 # Requires NodeJS 5+ to be used with Angular 4
   services:
     - docker
 
@@ -12,8 +14,8 @@ dependencies:
     - npm update
     - npm prune
   post:
-    - npm list
-    - npm list -g
+    - npm list || true
+    - npm list -g || true
 
 test:
   override:

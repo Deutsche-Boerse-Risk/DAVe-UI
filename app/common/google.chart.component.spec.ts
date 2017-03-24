@@ -106,7 +106,7 @@ describe('GoogleChart component', () => {
             page.component.chartOptions = chartOptions;
 
             let prepareDataTableOrDataViewSpy = spyOn(GoogleChart, 'prepareDataTableOrDataView').and.callThrough();
-            let drawGraphSpy = spyOn(page.chartComponent, 'drawGraph').and.callThrough();
+            let drawGraphSpy = spyOn(page.chartComponent as any, 'drawGraph').and.callThrough();
 
             page.detectChanges();
 
@@ -140,7 +140,7 @@ describe('GoogleChart component', () => {
             expect(page.chartArea.nativeElement.childNodes.length).not.toBe(0);
 
             let prepareDataTableOrDataViewSpy = spyOn(GoogleChart, 'prepareDataTableOrDataView').and.callThrough();
-            let drawGraphSpy = spyOn(page.chartComponent, 'drawGraph').and.callThrough();
+            let drawGraphSpy = spyOn(page.chartComponent as any, 'drawGraph').and.callThrough();
 
             let data = new google.visualization.DataTable();
             data.addColumn('number', 'Day');
@@ -195,7 +195,7 @@ describe('GoogleChart component', () => {
             expect(page.chartArea.nativeElement.childNodes.length).not.toBe(0);
 
             let prepareDataTableOrDataViewSpy = spyOn(GoogleChart, 'prepareDataTableOrDataView').and.callThrough();
-            let drawGraphSpy = spyOn(page.chartComponent, 'drawGraph').and.callThrough();
+            let drawGraphSpy = spyOn(page.chartComponent as any, 'drawGraph').and.callThrough();
 
             let data = new google.visualization.DataTable();
             data.addColumn('number', 'Day');

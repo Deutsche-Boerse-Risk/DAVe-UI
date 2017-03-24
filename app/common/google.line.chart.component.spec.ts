@@ -164,7 +164,7 @@ describe('GoogleLineChart component', () => {
             expect(page.chartArea).not.toBeNull();
             expect(page.chartArea.nativeElement.childNodes.length).not.toBe(0);
 
-            let drawGraphSpy = spyOn(page.chartComponent, 'drawGraph').and.callThrough();
+            let drawGraphSpy = spyOn(page.chartComponent as any, 'drawGraph').and.callThrough();
 
             let data = new google.visualization.DataTable();
             data.addColumn('number', 'Day');
@@ -211,7 +211,7 @@ describe('GoogleLineChart component', () => {
             expect(page.chartArea).not.toBeNull();
             expect(page.chartArea.nativeElement.childNodes.length).not.toBe(0);
 
-            let drawGraphSpy = spyOn(page.chartComponent, 'drawGraph').and.callThrough();
+            let drawGraphSpy = spyOn(page.chartComponent as any, 'drawGraph').and.callThrough();
 
             let data = new google.visualization.DataTable();
             data.addColumn('number', 'Day');

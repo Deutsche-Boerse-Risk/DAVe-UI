@@ -53,7 +53,8 @@ export class RouterStub {
                 return new UrlSegment(command, {});
             }), {}),
             queryParams: queryParams,
-            fragment: fragment
+            fragment: fragment,
+            queryParamMap: null
         };
     }
 

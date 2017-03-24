@@ -45,7 +45,7 @@ export class DownloadLink {
 
     public get saveSpy(): Spy {
         if (!this._saveBlobSpy) {
-            this._saveBlobSpy = spyOn(window, 'saveAs');
+            this._saveBlobSpy = spyOn(window as any, 'saveAs');
         }
         return this._saveBlobSpy;
     }

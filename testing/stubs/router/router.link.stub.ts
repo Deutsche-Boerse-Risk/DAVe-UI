@@ -20,7 +20,7 @@ export class RouterLinkStubDirective implements OnChanges {
     private routerStub: RouterStub;
 
     constructor(injector: Injector) {
-        this.routerStub = injector.get(Router, null);
+        this.routerStub = injector.get(Router, null) as any;
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
