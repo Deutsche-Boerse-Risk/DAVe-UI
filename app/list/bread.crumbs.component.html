@@ -4,7 +4,7 @@
         {{filteredRouteParts[0].title}}
     </a>
     <span *ngIf="filteredRouteParts[0].inactive">
-    {{filteredRouteParts[0].title}}
+        {{filteredRouteParts[0].title}}
     </span>
 </ng-template>
 <ng-template [ngIf]="filteredRouteParts?.length > 1">:
@@ -13,7 +13,7 @@
     </a>
     <span *ngIf="filteredRouteParts[1].inactive">
         {{filteredRouteParts[1].title}}
-</span>
+    </span>
 </ng-template>
 <ng-template [ngIf]="filteredRouteParts?.length > 2">
     <ng-template ngFor let-route [ngForOf]="getAdditionalRoutes()" let-i="index" [ngForTrackBy]="trackByIndex"> /
@@ -22,6 +22,6 @@
         </a>
         <span *ngIf="filteredRouteParts[route].inactive">
             {{filteredRouteParts[route].title}}
-    </span>
+        </span>
     </ng-template>
 </ng-template>
