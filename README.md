@@ -9,11 +9,13 @@
 
 ![DAVe - Dashboard](https://github.com/Deutsche-Boerse-Risk/DAVe-UI/blob/master/doc/dave-screenshots.gif "DAVe - Dashboard")
 
-## Browser support
+## Browser support (tested via [BrowserStack](https://www.browserstack.com))
 | ![Chrome](https://cdn1.iconfinder.com/data/icons/google_jfk_icons_by_carlosjj/32/chrome.png) Chrome | ![Firefox](https://cdn2.iconfinder.com/data/icons/humano2/32x32/apps/firefox-icon.png) Firefox | ![Edge](https://cdn4.iconfinder.com/data/icons/picons-social/57/56-edge-2-32.png) Edge | ![IE](https://cdn4.iconfinder.com/data/icons/iconsimple-logotypes/512/internet_explorer-32.png) IE | ![Safari](https://cdn1.iconfinder.com/data/icons/logotypes/32/safari-32.png) Safari |
 |:------:|:-------:|:----:|:--:|:------:|
-|  51+   |   50+   |  14  | 11 |   10   |
-|        |         |  13  | 10 |        |
+| Latest |  Latest |  14  | 11 |   10   |
+|  50    |   50    |  13  | 10 |   9.1  |
+|        |         |      |    |   8    |
+|        |         |      |    |   7.1  |
 
 ## Prerequisites (For the first time only)
  
