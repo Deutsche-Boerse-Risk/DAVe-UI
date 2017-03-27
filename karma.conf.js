@@ -18,6 +18,7 @@ module.exports = function (config) {
             require('karma-chrome-launcher'),
             require('karma-ie-launcher'),
             require('karma-firefox-launcher'),
+            require('karma-safari-launcher'),
             require('karma-browserstack-launcher'),
             require('karma-jasmine-html-reporter'),
             require('karma-junit-reporter'),

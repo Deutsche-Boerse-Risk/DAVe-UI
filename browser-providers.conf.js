@@ -1,7 +1,8 @@
 var localBrowsers = {
     CHROME: 'Chrome',
     FIREFOX: 'Firefox',
-    IE: 'IE'
+    IE: 'IE',
+    SAFARI: 'Safari'
 };
 var customLaunchers = {
     BS_CHROME_LATEST: {
@@ -112,6 +113,7 @@ var LOCAL = {
     }),
     CHROME: [localBrowsers.CHROME],
     FIREFOX: [localBrowsers.FIREFOX],
+    SAFARI: [localBrowsers.SAFARI],
     IE: [localBrowsers.IE]
 };
 

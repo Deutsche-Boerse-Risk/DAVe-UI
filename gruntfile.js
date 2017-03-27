@@ -253,6 +253,9 @@ module.exports = function (grunt) {
             devIE: {
                 browsers: browsers.Local.IE
             },
+            devSafari: {
+                browsers: browsers.Local.SAFARI
+            },
             devBrowserStack: {
                 browsers: browsers.BrowserStack.ALL
             },
