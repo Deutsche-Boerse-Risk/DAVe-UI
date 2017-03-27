@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Karma (Firefox)" type="JavaScriptTestRunnerKarma" factoryName="Karma" singleton="false">
+    <config-file value="$PROJECT_DIR$/karma.conf.js" />
+    <browsers value="Firefox" />
+    <karma-package-dir value="$PROJECT_DIR$/node_modules/karma" />
+    <node-interpreter value="project" />
+    <envs />
+    <method />
+  </configuration>
+</component>
