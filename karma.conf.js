@@ -41,6 +41,8 @@ module.exports = function (config) {
             'node_modules/core-js/client/shim.js',
             'node_modules/web-animations-js/web-animations.min.js',
             'node_modules/file-saver/FileSaver.min.js',
+            'node_modules/intl/dist/Intl.min.js',
+            'node_modules/intl/locale-data/jsonp/en-US.js',
             'ie.intl.shim.js',
 
             // zone.js

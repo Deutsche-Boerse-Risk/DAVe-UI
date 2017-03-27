@@ -179,6 +179,11 @@ module.exports = function (grunt) {
                 src: providedJS('node_modules/file-saver/FileSaver.min.js'),
                 dest: destination
             },
+            'intl.js': {
+                src: providedJS('node_modules/intl/dist/Intl.min.js')
+                    .concat(providedJS('node_modules/intl/locale-data/jsonp/en-US.js')),
+                dest: destination
+            },
             'ie.intl.shim.js': {
                 src: providedJS('ie.intl.shim.js'),
                 dest: destination
