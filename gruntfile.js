@@ -268,7 +268,6 @@ module.exports = function (grunt) {
                 }
             },
             circleCI: {
-                reporters: ['spec', 'kjhtml', 'junit', 'coverage', 'BrowserStack'],
                 browsers: browsers.BrowserStack.ALL
             }
         },

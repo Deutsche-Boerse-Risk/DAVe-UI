@@ -123,7 +123,9 @@ module.exports = function (config) {
 
         browserStack: {
             binaryBasePath: 'browserStackBin/',
-            timeout: '1200' // Timeout in seconds (20 min.)
+            retryLimit: 3,
+            timeout: 600, // Timeout in seconds (10 min.)
+            pollingTimeout: 10000
         },
 
         specReporter: {
@@ -137,7 +139,6 @@ module.exports = function (config) {
         logLevel: config.LOG_INFO,
         captureTimeout: 60000,
         browserDisconnectTimeout: 10000,
-        browserDisconnectTolerance: 1,
         browserNoActivityTimeout: 120000
     })
 };

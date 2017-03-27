@@ -38,13 +38,13 @@ var customLaunchers = {
     //     os: 'Windows',
     //     os_version: '7'
     // },
-    BS_IE10: {
-        base: 'BrowserStack',
-        browser: 'IE',
-        browser_version: '10.0',
-        os: 'Windows',
-        os_version: '7'
-    },
+    // BS_IE10: {
+    //     base: 'BrowserStack',
+    //     browser: 'IE',
+    //     browser_version: '10.0',
+    //     os: 'Windows',
+    //     os_version: '7'
+    // },
     BS_IE11: {
         base: 'BrowserStack',
         browser: 'IE',
@@ -102,7 +102,7 @@ var BrowserStack = {
     }),
     CHROME: ['BS_CHROME50', 'BS_CHROME_LATEST'],
     FIREFOX: ['BS_FIREFOX50', 'BS_FIREFOX_LATEST'],
-    IE: [/*'BS_IE9', */'BS_IE10', 'BS_IE11'],
+    IE: [/*'BS_IE9', 'BS_IE10', */'BS_IE11'], // TODO: optimze to test IE 10 and 9
     EDGE: ['BS_EDGE13', 'BS_EDGE14'],
     SAFARI: ['BS_SAFARI7', 'BS_SAFARI8', 'BS_SAFARI9', 'BS_SAFARI10']
 };
