@@ -121,7 +121,8 @@ module.exports = function (config) {
         },
 
         browserStack: {
-            binaryBasePath: 'browserStackBin/'
+            binaryBasePath: 'browserStackBin/',
+            timeout: '1200' // Timeout in seconds (20 min.)
         },
 
         specReporter: {
