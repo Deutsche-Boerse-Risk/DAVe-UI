@@ -107,7 +107,7 @@ module.exports = function (config) {
 
             // zone.js
             'node_modules/zone.js/dist/zone.js',
-            // Fails in IE since 0.8.4 'node_modules/zone.js/dist/long-stack-trace-zone.js',
+            'node_modules/zone.js/dist/long-stack-trace-zone.js',
             'node_modules/zone.js/dist/proxy.js',
             'node_modules/zone.js/dist/sync-test.js',
             'node_modules/zone.js/dist/jasmine-patch.js',
