@@ -19,7 +19,7 @@ dependencies:
 
 test:
   override:
-    - grunt testChrome
+    - grunt testCircleCI
     - mkdir -p $CIRCLE_TEST_REPORTS/karma/
     - find . -type f -regex ".*/reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/karma/ \;
     - find . -type f -regex "\./coverage/.*lcov.info" -exec sh -c 'codeclimate-test-reporter < "{}"' \;

@@ -2,6 +2,7 @@
 .DS_Store/
 .idea/workspace.xml
 .idea/misc.xml
+.idea/statistic.xml
 npm-debug.log
 
 # App files
@@ -15,6 +16,7 @@ node_modules/
 !systemjs.config.js
 
 # Test files
+!/browser-providers.conf.js
 !/karma.conf.js
 !/karma-test-shim.js
 

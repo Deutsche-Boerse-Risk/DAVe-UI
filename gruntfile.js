@@ -3,6 +3,8 @@ module.exports = function (grunt) {
 
     var proxy_parts = (process.env.http_proxy || '').match(/^((https?)\:\/\/)?(([^:\/?#]*)(?:\:([0-9]+))?)([\/]{0,1}[^?#]*)(\?[^#]*|)(#.*|)$/) || [];
 
+    var browsers = require('./browser-providers.conf');
+
     //<editor-fold desc="Task and function definition" defaultstate="collapsed">
     function runProcess(command, args) {
         return function () {
@@ -235,42 +237,22 @@ module.exports = function (grunt) {
                 reporters: ['spec', 'kjhtml', 'junit', 'coverage']
             },
             dev: {
-                browsers: ['Chrome', 'Firefox', 'IE']
+                browsers: browsers.Local.ALL
             },
             devChrome: {
-                browsers: ['Chrome']
+                browsers: browsers.Local.CHROME
             },
             devFirefox: {
-                browsers: ['Firefox']
+                browsers: browsers.Local.FIREFOX
             },
             devIE: {
-                browsers: ['IE']
+                browsers: browsers.Local.IE
             },
             devBrowserStack: {
-                browsers: [
-                    'bs_chrome_windows_10',
-                    'bs_firefox_windows_10',
-                    'bs_ie_windows_10',
-                    'bs_chrome_windows_7',
-                    'bs_firefox_windows_7',
-                    'bs_ie_windows_7',
-                    'bs_chrome_mac_sierra',
-                    'bs_firefox_mac_sierra',
-                    'bs_safari_mac_sierra'
-                ]
+                browsers: browsers.BrowserStack.ALL
             },
             devBrowserStackProxy: {
-                browsers: [
-                    'bs_chrome_windows_10',
-                    'bs_firefox_windows_10',
-                    'bs_ie_windows_10',
-                    'bs_chrome_windows_7',
-                    'bs_firefox_windows_7',
-                    'bs_ie_windows_7',
-                    'bs_chrome_mac_sierra',
-                    'bs_firefox_mac_sierra',
-                    'bs_safari_mac_sierra'
-                ],
+                browsers: browsers.BrowserStack.ALL,
                 browserStack: {
                     proxyHost: proxy_parts[4],
                     proxyPort: proxy_parts[5] || 8080,
@@ -279,17 +261,7 @@ module.exports = function (grunt) {
             },
             circleCI: {
                 reporters: ['spec', 'kjhtml', 'junit', 'coverage', 'BrowserStack'],
-                browsers: [
-                    'bs_chrome_windows_10',
-                    'bs_firefox_windows_10',
-                    'bs_ie_windows_10',
-                    'bs_chrome_windows_7',
-                    'bs_firefox_windows_7',
-                    'bs_ie_windows_7',
-                    'bs_chrome_mac_sierra',
-                    'bs_firefox_mac_sierra',
-                    'bs_safari_mac_sierra'
-                ]
+                browsers: browsers.BrowserStack.ALL
             }
         },
         remapIstanbul: {
