@@ -17,19 +17,19 @@ export function AuthHttpFactory(http: Http, options: RequestOptions) {
 }
 
 @NgModule({
-    imports: [
+    imports     : [
         BrowserModule,
         FormsModule,
         RouterModule
     ],
     declarations: [LoginMenuComponent, LoginComponent],
-    exports: [LoginMenuComponent],
-    providers: [
+    exports     : [LoginMenuComponent],
+    providers   : [
         AuthService,
         AuthGuard,
         {
-            provide: AuthHttp,
-            deps: [Http, RequestOptions],
+            provide   : AuthHttp,
+            deps      : [Http, RequestOptions],
             useFactory: AuthHttpFactory
         }
     ]

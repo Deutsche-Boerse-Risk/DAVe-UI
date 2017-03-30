@@ -6,14 +6,14 @@ import {OrderingCriteria, OrderingValueGetter} from '../datatable/data.table.col
 
 import {ErrorResponse} from '../http.service';
 
-import {MarginComponentsService} from './margin.components.service';
+import {MarginService} from './margin.service';
 import {MarginComponentsBaseData, MarginComponentsAggregationData} from './margin.types';
 
 @Component({
-    moduleId: module.id,
-    selector: 'margin-components-aggregation',
+    moduleId   : module.id,
+    selector   : 'margin-components-aggregation',
     templateUrl: 'margin.components.aggregation.component.html',
-    styleUrls: ['margin.components.aggregation.component.css']
+    styleUrls  : ['margin.components.aggregation.component.css']
 })
 export class MarginComponentsAggregationComponent extends AbstractComponentWithAutoRefresh {
 
@@ -25,11 +25,13 @@ export class MarginComponentsAggregationComponent extends AbstractComponentWithA
 
     public data: MarginComponentsBaseData[];
 
-    constructor(private marginComponentsService: MarginComponentsService) {
+    constructor(private marginComponentsService: MarginService) {
         super();
     }
 
-    public get defaultOrdering(): (OrderingCriteria<MarginComponentsBaseData> | OrderingValueGetter<MarginComponentsBaseData>)[] {
+    public get defaultOrdering(): (
+        OrderingCriteria<MarginComponentsBaseData>
+        | OrderingValueGetter<MarginComponentsBaseData>)[] {
         return defaultOrdering;
     }
 
@@ -38,7 +40,7 @@ export class MarginComponentsAggregationComponent extends AbstractComponentWithA
             .subscribe(
                 (data: MarginComponentsAggregationData) => {
                     // Remember old data
-                    let oldData: {[key: string]: MarginComponentsBaseData} = {};
+                    let oldData: { [key: string]: MarginComponentsBaseData } = {};
                     if (this.data) {
                         this.data.forEach((value: MarginComponentsBaseData) => {
                             oldData[value.uid] = value;
@@ -95,35 +97,37 @@ export class MarginComponentsAggregationComponent extends AbstractComponentWithA
 //<editor-fold defaultstate="collapsed" desc="Value getters, default ordering, exported columns">
 
 export const valueGetters = {
-    clearer: (row: MarginComponentsBaseData) => {
-        return row.clearer
+    clearer         : (row: MarginComponentsBaseData) => {
+        return row.clearer;
     },
-    member: (row: MarginComponentsBaseData) => {
-        return row.member
+    member          : (row: MarginComponentsBaseData) => {
+        return row.member;
     },
-    account: (row: MarginComponentsBaseData) => {
-        return row.account
+    account         : (row: MarginComponentsBaseData) => {
+        return row.account;
     },
-    variationMargin: (row: MarginComponentsBaseData) => {
-        return row.variationMargin
+    variationMargin : (row: MarginComponentsBaseData) => {
+        return row.variationMargin;
     },
-    liquiMargin: (row: MarginComponentsBaseData) => {
-        return row.liquiMargin
+    liquiMargin     : (row: MarginComponentsBaseData) => {
+        return row.liquiMargin;
     },
-    premiumMargin: (row: MarginComponentsBaseData) => {
-        return row.premiumMargin
+    premiumMargin   : (row: MarginComponentsBaseData) => {
+        return row.premiumMargin;
     },
-    spreadMargin: (row: MarginComponentsBaseData) => {
-        return row.spreadMargin
+    spreadMargin    : (row: MarginComponentsBaseData) => {
+        return row.spreadMargin;
     },
     additionalMargin: (row: MarginComponentsBaseData) => {
-        return row.additionalMargin
-    },
+        return row.additionalMargin;
+    }
 };
 
-const defaultOrdering: (OrderingCriteria<MarginComponentsBaseData> | OrderingValueGetter<MarginComponentsBaseData>)[] = [
+const defaultOrdering: (
+    OrderingCriteria<MarginComponentsBaseData>
+    | OrderingValueGetter<MarginComponentsBaseData>)[] = [
     {
-        get: (row: MarginComponentsBaseData) => {
+        get       : (row: MarginComponentsBaseData) => {
             return Math.abs(row.additionalMargin);
         },
         descending: true

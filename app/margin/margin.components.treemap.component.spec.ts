@@ -13,7 +13,7 @@ import {
 } from '../../testing';
 
 import {HttpService} from '../http.service';
-import {MarginComponentsService} from './margin.components.service';
+import {MarginService} from './margin.service';
 
 import {MarginComponentsTreemapComponent} from './margin.components.treemap.component';
 import {MarginComponentsServerData} from './margin.types';
@@ -23,21 +23,25 @@ describe('Margin components TreeMap component', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [
+            imports     : [
                 BrowserModule
             ],
             declarations: [
                 MarginComponentsTreemapComponent,
                 RouterLinkStubDirective
             ],
-            providers: [
-                MarginComponentsService,
+            providers   : [
+                MarginService,
                 {
-                    provide: HttpService, useClass: HttpAsyncServiceStub
+                    provide : HttpService,
+                    useClass: HttpAsyncServiceStub
                 },
-                {provide: Router, useClass: RouterStub}
+                {
+                    provide : Router,
+                    useClass: RouterStub
+                }
             ],
-            schemas: [NO_ERRORS_SCHEMA]
+            schemas     : [NO_ERRORS_SCHEMA]
         }).compileComponents();
     }));
 
@@ -55,22 +59,30 @@ describe('Margin components TreeMap component', () => {
             // Do not trigger periodic interval
             clearInterval((page.component as any).intervalHandle);
 
-            expect(page.initialLoadVisible).toBeTruthy('Initial load component visible.');
-            expect(page.noDataVisible).toBeFalsy('No data component not visible.');
-            expect(page.updateFailedVisible).toBeFalsy('Update failed component not visible.');
-            expect(page.googleChartVisible).toBeFalsy('Chart component not visible.');
+            expect(page.initialLoadVisible)
+                .toBeTruthy('Initial load component visible.');
+            expect(page.noDataVisible)
+                .toBeFalsy('No data component not visible.');
+            expect(page.updateFailedVisible)
+                .toBeFalsy('Update failed component not visible.');
+            expect(page.googleChartVisible)
+                .toBeFalsy('Chart component not visible.');
 
             // Return error
             http.throwError({
-                status: 500,
+                status : 500,
                 message: 'Error message'
             });
             page.advanceHTTP();
 
-            expect(page.initialLoadVisible).toBeFalsy('Initial load component not visible.');
-            expect(page.noDataVisible).toBeFalsy('No data component not visible.');
-            expect(page.updateFailedVisible).toBeTruthy('Update failed component visible.');
-            expect(page.googleChartVisible).toBeFalsy('Chart component not visible.');
+            expect(page.initialLoadVisible)
+                .toBeFalsy('Initial load component not visible.');
+            expect(page.noDataVisible)
+                .toBeFalsy('No data component not visible.');
+            expect(page.updateFailedVisible)
+                .toBeTruthy('Update failed component visible.');
+            expect(page.googleChartVisible)
+                .toBeFalsy('Chart component not visible.');
         })));
 
     it('displays no-data correctly', fakeAsync(inject([HttpService],
@@ -80,20 +92,28 @@ describe('Margin components TreeMap component', () => {
             // Do not trigger periodic interval
             clearInterval((page.component as any).intervalHandle);
 
-            expect(page.initialLoadVisible).toBeTruthy('Initial load component visible.');
-            expect(page.noDataVisible).toBeFalsy('No data component not visible.');
-            expect(page.updateFailedVisible).toBeFalsy('Update failed component not visible.');
-            expect(page.googleChartVisible).toBeFalsy('Chart component not visible.');
+            expect(page.initialLoadVisible)
+                .toBeTruthy('Initial load component visible.');
+            expect(page.noDataVisible)
+                .toBeFalsy('No data component not visible.');
+            expect(page.updateFailedVisible)
+                .toBeFalsy('Update failed component not visible.');
+            expect(page.googleChartVisible)
+                .toBeFalsy('Chart component not visible.');
 
             // Return no data
             http.popReturnValue(); // Remove from queue
             http.returnValue([]); // Push empty array
             page.advanceHTTP();
 
-            expect(page.initialLoadVisible).toBeFalsy('Initial load component not visible.');
-            expect(page.noDataVisible).toBeTruthy('No data component visible.');
-            expect(page.updateFailedVisible).toBeFalsy('Update failed component not visible.');
-            expect(page.googleChartVisible).toBeFalsy('Chart component not visible.');
+            expect(page.initialLoadVisible)
+                .toBeFalsy('Initial load component not visible.');
+            expect(page.noDataVisible)
+                .toBeTruthy('No data component visible.');
+            expect(page.updateFailedVisible)
+                .toBeFalsy('Update failed component not visible.');
+            expect(page.googleChartVisible)
+                .toBeFalsy('Chart component not visible.');
         })));
 
     it('displays chart correctly', fakeAsync(() => {
@@ -121,7 +141,6 @@ describe('Margin components TreeMap component', () => {
         page.detectChanges();
         // Do not trigger periodic interval
         clearInterval((page.component as any).intervalHandle);
-
 
         //Does not exists, yet
         expect(() => page.link.click()).toThrow();

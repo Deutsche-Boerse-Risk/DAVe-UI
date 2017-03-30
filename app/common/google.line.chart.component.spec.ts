@@ -9,15 +9,15 @@ import {GoogleChart} from './google.chart.component';
 const dummyChartData: ChartData = {
     cols: [
         {
-            id: 'Year',
+            id  : 'Year',
             type: 'string'
         }, {
-            id: 'Sales',
-            type: 'number',
+            id   : 'Sales',
+            type : 'number',
             label: 'Sales'
         }, {
-            id: 'Expenses',
-            type: 'number',
+            id   : 'Expenses',
+            type : 'number',
             label: 'Expenses'
         }
     ],
@@ -70,10 +70,10 @@ const dummyChartData: ChartData = {
 };
 
 const chartOptions: LineChartOptions = {
-    title: 'Company Performance',
+    title    : 'Company Performance',
     curveType: 'function',
-    legend: {position: 'bottom'},
-    series: [
+    legend   : {position: 'bottom'},
+    series   : [
         {
             color: '#31C0BE'
         },
@@ -202,7 +202,8 @@ describe('GoogleLineChart component', () => {
 
     it('accepts DataView', fakeAsync(() => {
         page.component.chartOptions = chartOptions;
-        page.component.chartData = new google.visualization.DataView(new google.visualization.DataTable(dummyChartData));
+        page.component.chartData = new google.visualization.DataView(
+            new google.visualization.DataTable(dummyChartData));
 
         page.detectChanges();
 

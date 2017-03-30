@@ -13,7 +13,7 @@ describe('DashboardComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [DashboardComponent],
-            schemas: [NO_ERRORS_SCHEMA]
+            schemas     : [NO_ERRORS_SCHEMA]
         }).compileComponents();
     }));
 
@@ -30,7 +30,7 @@ describe('DashboardComponent', () => {
     }));
 
     it('has correct content in tab panels', fakeAsync(() => {
-        expect(page.contains('margin-shortfall-surplus-summary')).toBeTruthy('Shortfall-surplus summary visible');
+        expect(page.contains('pool-margin-summary')).toBeTruthy('PoolMargin summary visible');
         expect(page.contains('margin-components-aggregation')).toBeTruthy('Margin components aggergetaion visible');
         expect(page.contains('margin-components-treemap')).toBeFalsy('Margin components treemap not visible');
         expect(page.contains('position-report-bubblechart')).toBeFalsy('Position report bubblechart not visible');
@@ -38,7 +38,7 @@ describe('DashboardComponent', () => {
         page.tabs[1].click();
 
         expect(page.activeTab.label).toEqual('Position Level Risk');
-        expect(page.contains('margin-shortfall-surplus-summary')).toBeFalsy('Shortfall-surplus summary not visible');
+        expect(page.contains('pool-margin-summary')).toBeFalsy('PoolMargin summary not visible');
         expect(page.contains('margin-components-aggregation')).toBeFalsy('Margin components aggergetaion not visible');
         expect(page.contains('margin-components-treemap')).toBeFalsy('Margin components treemap not visible');
         expect(page.contains('position-report-bubblechart')).toBeTruthy('Position report bubblechart visible');
@@ -46,7 +46,7 @@ describe('DashboardComponent', () => {
         page.tabs[2].click();
 
         expect(page.activeTab.label).toEqual('Initial Margin');
-        expect(page.contains('margin-shortfall-surplus-summary')).toBeFalsy('Shortfall-surplus summary not visible');
+        expect(page.contains('pool-margin-summary')).toBeFalsy('PoolMargin summary not visible');
         expect(page.contains('margin-components-aggregation')).toBeFalsy('Margin components aggergetaion not visible');
         expect(page.contains('margin-components-treemap')).toBeTruthy('Margin components treemap visible');
         expect(page.contains('position-report-bubblechart')).toBeFalsy('Position report bubblechart not visible');
@@ -54,7 +54,7 @@ describe('DashboardComponent', () => {
         page.tabs[0].click();
 
         expect(page.activeTab.label).toEqual('Margin Requirement Overview');
-        expect(page.contains('margin-shortfall-surplus-summary')).toBeTruthy('Shortfall-surplus summary visible');
+        expect(page.contains('pool-margin-summary')).toBeTruthy('PoolMargin summary visible');
         expect(page.contains('margin-components-aggregation')).toBeTruthy('Margin components aggergetaion visible');
         expect(page.contains('margin-components-treemap')).toBeFalsy('Margin components treemap not visible');
         expect(page.contains('position-report-bubblechart')).toBeFalsy('Position report bubblechart not visible');
@@ -62,7 +62,7 @@ describe('DashboardComponent', () => {
         page.tabs[2].click();
 
         expect(page.activeTab.label).toEqual('Initial Margin');
-        expect(page.contains('margin-shortfall-surplus-summary')).toBeFalsy('Shortfall-surplus summary not visible');
+        expect(page.contains('pool-margin-summary')).toBeFalsy('PoolMargin summary not visible');
         expect(page.contains('margin-components-aggregation')).toBeFalsy('Margin components aggergetaion not visible');
         expect(page.contains('margin-components-treemap')).toBeTruthy('Margin components treemap visible');
         expect(page.contains('position-report-bubblechart')).toBeFalsy('Position report bubblechart not visible');
@@ -70,7 +70,7 @@ describe('DashboardComponent', () => {
         page.tabs[1].click();
 
         expect(page.activeTab.label).toEqual('Position Level Risk');
-        expect(page.contains('margin-shortfall-surplus-summary')).toBeFalsy('Shortfall-surplus summary not visible');
+        expect(page.contains('pool-margin-summary')).toBeFalsy('PoolMargin summary not visible');
         expect(page.contains('margin-components-aggregation')).toBeFalsy('Margin components aggergetaion not visible');
         expect(page.contains('margin-components-treemap')).toBeFalsy('Margin components treemap not visible');
         expect(page.contains('position-report-bubblechart')).toBeTruthy('Position report bubblechart visible');

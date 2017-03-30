@@ -4,9 +4,9 @@ import {Component} from '@angular/core';
 import {AuthService} from './auth.service';
 
 @Component({
-    moduleId: module.id,
+    moduleId   : module.id,
     templateUrl: 'login.component.html',
-    styleUrls: ['../common.component.css']
+    styleUrls  : ['../common.component.css']
 })
 export class LoginComponent {
 
@@ -16,7 +16,7 @@ export class LoginComponent {
     public password: string;
 
     constructor(private authService: AuthService,
-                private router: Router) {
+        private router: Router) {
     }
 
     public get authStatus(): boolean {

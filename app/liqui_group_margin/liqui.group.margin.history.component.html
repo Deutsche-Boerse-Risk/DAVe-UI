@@ -1,0 +1,69 @@
+<list-content [title]="rootRouteTitle"
+              [isHistory]="true"
+              [routeParts]="routeParts"
+              [exportKeys]="exportKeys"
+              [data]="data"
+              [initialLoad]="initialLoad"
+              [errorMessage]="errorMessage"
+              [drilldownRouterLink]="['/positionReportLatest', routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', routeParams['class'] || '*']">
+    <div class="panel-body" *ngIf="chartData?.rows?.length > 0">
+        <google-line-chart [chartOptions]="chartOptions"
+                           [chartData]="chartData"
+                           height="377px"
+                           [showControls]="true"></google-line-chart>
+    </div>
+
+    <data-table [data]="data"
+                [pageSize]="pageSize"
+                [defaultOrdering]="defaultOrdering"
+                [trackByRowKey]="trackByRowKey">
+        <column title="Last update"
+                [sortingKey]="valueGetters.received">
+            <ng-template let-record="row" cell-template>
+                {{record.received | date:'HH:mm:ss'}}
+            </ng-template>
+        </column>
+        <column title="Margin Group"
+                [sortingKey]="valueGetters.marginGroup">
+            <ng-template let-record="row" cell-template>
+                {{record.marginGroup}}
+            </ng-template>
+        </column>
+        <column title="Premium Margin"
+                [sortingKey]="valueGetters.premiumMargin">
+            <ng-template let-record="row" cell-template>
+                {{record.premiumMargin | number:'.2-2'}}
+            </ng-template>
+        </column>
+        <column title="Current Liquidating Margin"
+                [sortingKey]="valueGetters.currentLiquidatingMargin">
+            <ng-template let-record="row" cell-template>
+                {{record.currentLiquidatingMargin | number:'.2-2'}}
+            </ng-template>
+        </column>
+        <column title="Futures Spread Margin"
+                [sortingKey]="valueGetters.futuresSpreadMargin">
+            <ng-template let-record="row" cell-template>
+                {{record.futuresSpreadMargin | number:'.2-2'}}
+            </ng-template>
+        </column>
+        <column title="Additional Margin"
+                [sortingKey]="valueGetters.additionalMargin">
+            <ng-template let-record="row" cell-template>
+                {{record.additionalMargin | number:'.2-2'}}
+            </ng-template>
+        </column>
+        <column title="Unadjusted Margin Requirement"
+                [sortingKey]="valueGetters.unadjustedMarginRequirement">
+            <ng-template let-record="row" cell-template>
+                {{record.unadjustedMarginRequirement | number:'.2-2'}}
+            </ng-template>
+        </column>
+        <column title="Variation Premium Payment"
+                [sortingKey]="valueGetters.variationPremiumPayment">
+            <ng-template let-record="row" cell-template>
+                {{record.variationPremiumPayment | number:'.2-2'}}
+            </ng-template>
+        </column>
+    </data-table>
+</list-content>

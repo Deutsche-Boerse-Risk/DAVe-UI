@@ -8,11 +8,11 @@ export interface RoutePart {
 }
 
 @Component({
-    moduleId: module.id,
-    selector: 'bread-crumbs',
+    moduleId   : module.id,
+    selector   : 'bread-crumbs',
     templateUrl: 'bread.crumbs.component.html',
-    styleUrls: ['../common.component.css'],
-    styles: ['span, a { display: inline-block; }']
+    styleUrls  : ['../common.component.css'],
+    styles     : ['span, a { display: inline-block; }']
 })
 export class BreadCrumbsComponent implements OnChanges {
 

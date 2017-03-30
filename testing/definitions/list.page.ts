@@ -1,5 +1,5 @@
 import {DatePipe, DecimalPipe} from '@angular/common';
-import {DebugElement, Type,} from '@angular/core';
+import {DebugElement, Type} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {NgModel} from '@angular/forms';
 import {RouterModule} from '@angular/router';
@@ -20,7 +20,7 @@ import {HttpService} from '../../app/http.service';
 import {DateFormatter, DATE_FORMAT} from '../../app/common/common.module';
 import {InitialLoadComponent} from '../../app/common/initial.load.component';
 import {NoDataComponent} from '../../app/common/no.data.component';
-import {UpdateFailedComponent} from '../../app/common/update.failed.component'
+import {UpdateFailedComponent} from '../../app/common/update.failed.component';
 
 import {DataTableModule} from '../../app/datatable/data.table.module';
 import {DataTableComponent} from '../../app/datatable/data.table.component';
@@ -114,7 +114,7 @@ export class LatestListPage<T> extends ListPage<T> {
 
     static initTestBed(component: Type<any>, service: Type<any>) {
         TestBed.configureTestingModule({
-            imports: [
+            imports     : [
                 ListModule,
                 DataTableModule,
                 RouterModule
@@ -122,10 +122,11 @@ export class LatestListPage<T> extends ListPage<T> {
             declarations: [
                 component
             ],
-            providers: [
+            providers   : [
                 service,
                 {
-                    provide: HttpService, useClass: HttpAsyncServiceStub
+                    provide : HttpService,
+                    useClass: HttpAsyncServiceStub
                 }
             ]
         });
@@ -141,7 +142,7 @@ export class LatestListPage<T> extends ListPage<T> {
     }
 
     public checkBreadCrumbs(routeParams: string[], rootPath: string, rootText: string,
-                            firstActive: boolean = true, lastActive: boolean = true): void {
+        firstActive: boolean = true, lastActive: boolean = true): void {
         let crumbs = this.breadCrumbs.crumbs;
         let filteredParams = routeParams.filter((param: string) => param !== '*');
 
@@ -191,7 +192,7 @@ export class HistoryListPage<T> extends LatestListPage<T> {
 
     static initTestBed(component: Type<any>, service: Type<any>) {
         TestBed.configureTestingModule({
-            imports: [
+            imports     : [
                 ListModule,
                 DataTableModule
             ],
@@ -199,16 +200,20 @@ export class HistoryListPage<T> extends LatestListPage<T> {
                 GoogleLineChartStub,
                 component
             ],
-            providers: [
+            providers   : [
                 service,
                 {
-                    provide: HttpService, useClass: HttpAsyncServiceStub
+                    provide : HttpService,
+                    useClass: HttpAsyncServiceStub
                 },
                 DecimalPipe,
                 DatePipe,
                 DateFormatter,
-                {provide: DATE_FORMAT, useValue: 'dd. MM. yyyy HH:mm:ss'}
-            ],
+                {
+                    provide : DATE_FORMAT,
+                    useValue: 'dd. MM. yyyy HH:mm:ss'
+                }
+            ]
             // schemas: [NO_ERRORS_SCHEMA]
         });
         stubRouter().compileComponents();

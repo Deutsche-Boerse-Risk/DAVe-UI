@@ -1,6 +1,6 @@
 import {AbstractListComponent} from './abstract.list.component';
 
-export abstract class AbstractLatestListComponent<T extends {uid: string}> extends AbstractListComponent<T> {
+export abstract class AbstractLatestListComponent<T extends { uid: string }> extends AbstractListComponent<T> {
 
     public filterQuery: string;
 

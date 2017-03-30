@@ -4,10 +4,10 @@ import {Series, LineChartOptions, ChartData, ChartColumn, ChartRow, ChartValue, 
 import {GoogleChart} from './google.chart.component';
 
 @Component({
-    moduleId: module.id,
-    selector: 'google-line-chart',
+    moduleId   : module.id,
+    selector   : 'google-line-chart',
     templateUrl: 'google.line.chart.component.html',
-    styleUrls: ['google.chart.component.css']
+    styleUrls  : ['google.chart.component.css']
 })
 export class GoogleLineChart {
 
@@ -78,7 +78,7 @@ export class GoogleLineChart {
             chartData.rows = [];
             convertedChartData.rows.forEach((row: ChartRow) => {
                 chartData.rows.push({
-                    c: row.c.filter((rowData: ChartValue, index: number) => {
+                    c           : row.c.filter((rowData: ChartValue, index: number) => {
                         return this.hiddenColumns.indexOf(index) === -1;
                     }),
                     originalData: row.originalData
@@ -92,10 +92,13 @@ export class GoogleLineChart {
     }
 
     private convertToChartData(): ChartData {
-        let originalChartData: ChartData | google.visualization.DataTable | google.visualization.DataView = this._originalChartData;
+        let originalChartData: ChartData
+            | google.visualization.DataTable
+            | google.visualization.DataView = this._originalChartData;
         let convertedChartData: ChartData;
         if (originalChartData instanceof google.visualization.DataView) {
-            convertedChartData = <ChartData>JSON.parse((<google.visualization.DataView>originalChartData).toDataTable().toJSON());
+            convertedChartData = <ChartData>JSON.parse(
+                (<google.visualization.DataView>originalChartData).toDataTable().toJSON());
         } else if (originalChartData instanceof google.visualization.DataTable) {
             convertedChartData = <ChartData>JSON.parse((<google.visualization.DataTable>originalChartData).toJSON());
         } else {

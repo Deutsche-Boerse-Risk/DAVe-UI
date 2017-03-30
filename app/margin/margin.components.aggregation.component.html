@@ -13,19 +13,19 @@
         <column title="Clearer"
                 [sortingKey]="valueGetters.clearer">
             <ng-template let-record="row" cell-template>
-                <a [routerLink]="['/marginComponentLatest', record.clearer]">{{record.clearer}}</a>
+                <a [routerLink]="[rootRoutePath, record.clearer]">{{record.clearer}}</a>
             </ng-template>
         </column>
         <column title="Member / Client"
                 [sortingKey]="valueGetters.member">
             <ng-template let-record="row" cell-template>
-                <a [routerLink]="['/marginComponentLatest', record.clearer, record.member]">{{record.member}}</a>
+                <a [routerLink]="[rootRoutePath, record.clearer, record.member]">{{record.member}}</a>
             </ng-template>
         </column>
         <column title="Account"
                 [sortingKey]="valueGetters.account">
             <ng-template let-record="row" cell-template>
-                <a [routerLink]="['/marginComponentLatest', record.clearer, record.member, record.account]">{{record.account}}</a>
+                <a [routerLink]="[rootRoutePath, record.clearer, record.member, record.account]">{{record.account}}</a>
             </ng-template>
         </column>
         <column title="Variation Margin"
@@ -76,7 +76,7 @@
         <column>
             <ng-template let-record="row" cell-template>
                 <drilldown-row-button
-                        [routerLink]="['/marginComponentLatest', record.clearer, record.member, record.account]"></drilldown-row-button>
+                        [routerLink]="[rootRoutePath, record.clearer, record.member, record.account]"></drilldown-row-button>
             </ng-template>
         </column>
     </data-table>

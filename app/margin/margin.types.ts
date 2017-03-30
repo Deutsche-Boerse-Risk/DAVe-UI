@@ -1,55 +1,3 @@
-export interface MarginShortfallSurplusServerData {
-    _id?: {
-        clearer: string;
-        pool: string;
-        member: string;
-        clearingCcy: string;
-        ccy: string
-    };
-
-    id?: {
-        $oid: string
-    };
-
-    clearer: string
-    pool: string;
-    poolType: string;
-    member: string;
-    clearingCcy: string;
-    ccy: string;
-    txnTm: string;
-    bizDt: string;
-    reqId: any;
-    rptId: string;
-    sesId: any;
-    marginRequirement: number;
-    securityCollateral: number;
-    cashBalance: number;
-    shortfallSurplus: number;
-    marginCall: number;
-    received: string
-}
-
-export interface MarginShortfallSurplusBase {
-    uid: string;
-    shortfallSurplus: number;
-    marginRequirement: number;
-    securityCollateral: number;
-    cashBalance: number;
-    marginCall: number;
-}
-
-export interface MarginShortfallSurplusData extends MarginShortfallSurplusBase {
-    clearer: string
-    pool: string;
-    poolType: string;
-    member: string;
-    clearingCcy: string;
-    ccy: string;
-    bizDt: string;
-    received: Date;
-}
-
 export interface MarginComponentsServerData {
     _id?: {
         clearer: string;
@@ -94,14 +42,6 @@ export interface MarginComponentsBaseData {
     premiumMargin: number;
     spreadMargin: number;
     additionalMargin: number;
-}
-
-export interface MarginComponentsRowData extends MarginComponentsBaseData {
-    class: string;
-    ccy: string;
-    bizDt: string;
-    variLiqui?: number;
-    received: Date;
 }
 
 export interface MarginComponentsAggregationData {

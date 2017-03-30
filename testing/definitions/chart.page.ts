@@ -13,12 +13,13 @@ import {
 } from '../../app/common/chart.types';
 
 @Component({
-    template: ` <google-chart
-                      [chartType]="chartType"
-                      [chartOptions]="chartOptions"
-                      [chartData]="chartData"
-                      height="345px"
-                      (selected)="selectHandler($event)"></google-chart>`
+    template: `
+        <google-chart
+                [chartType]="chartType"
+                [chartOptions]="chartOptions"
+                [chartData]="chartData"
+                height="345px"
+                (selected)="selectHandler($event)"></google-chart>`
 })
 export class TestChartHostComponent {
     public chartType: string;
@@ -49,12 +50,13 @@ export class ChartPage extends Page<TestChartHostComponent> {
 }
 
 @Component({
-    template: ` <google-line-chart
-                      [chartOptions]="chartOptions"
-                      [chartData]="chartData"
-                      height="345px"
-                      (selected)="selectHandler($event)"
-                      [showControls]="true"></google-line-chart>`
+    template: `
+        <google-line-chart
+                [chartOptions]="chartOptions"
+                [chartData]="chartData"
+                height="345px"
+                (selected)="selectHandler($event)"
+                [showControls]="true"></google-line-chart>`
 })
 export class TestLineChartHostComponent {
     public chartOptions: LineChartOptions;
@@ -63,7 +65,6 @@ export class TestLineChartHostComponent {
     public selectHandler(selectionEvent: SelectionEvent) {
     }
 }
-
 
 export class LineChartPage extends Page<TestLineChartHostComponent> {
 

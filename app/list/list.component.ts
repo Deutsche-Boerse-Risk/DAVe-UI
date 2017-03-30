@@ -5,10 +5,10 @@ import {RoutePart} from './bread.crumbs.component';
 export const FILTER_TIMEOUT = 100;
 
 @Component({
-    moduleId: module.id,
-    selector: 'list-content',
+    moduleId   : module.id,
+    selector   : 'list-content',
     templateUrl: 'list.component.html',
-    styleUrls: ['list.component.css']
+    styleUrls  : ['list.component.css']
 })
 export class ListComponent {
 

@@ -9,7 +9,7 @@ export abstract class AbstractComponentWithAutoRefresh implements OnInit, OnDest
     public ngOnInit(): void {
         this.loadData();
         this.intervalHandle = setInterval(() => {
-            this.loadData()
+            this.loadData();
         }, DATA_REFRESH_INTERVAL);
     }
 

@@ -3,10 +3,10 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 @Injectable()
-export class ActivatedRouteStub {
+export class ActivatedRouteStub<T> {
 
     // Test parameters
-    private _testParams: {} = {};
+    private _testParams: T = <T>{};
 
     // ActivatedRoute.params is Observable
     private subject = new BehaviorSubject(this.testParams);
@@ -16,7 +16,7 @@ export class ActivatedRouteStub {
         return this._testParams;
     }
 
-    set testParams(params: {}) {
+    set testParams(params: T) {
         this._testParams = params;
         this.subject.next(params);
     }

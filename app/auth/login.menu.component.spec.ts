@@ -14,9 +14,10 @@ describe('Login menu', () => {
                 LoginMenuComponent,
                 RouterLinkStubDirective
             ],
-            providers: [
+            providers   : [
                 {
-                    provide: AuthService, useClass: AuthServiceStub
+                    provide : AuthService,
+                    useClass: AuthServiceStub
                 }
             ]
         }).compileComponents();

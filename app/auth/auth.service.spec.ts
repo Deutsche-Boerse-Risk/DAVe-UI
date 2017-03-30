@@ -30,7 +30,8 @@ describe('Auth service', () => {
                 providers: [
                     AuthService,
                     {
-                        provide: HttpService, useClass: HttpServiceStub
+                        provide : HttpService,
+                        useClass: HttpServiceStub
                     }
                 ]
             });
@@ -124,7 +125,7 @@ describe('Auth service', () => {
                     let authResponse: AuthResponse = {
                         token: encodeTestToken({
                             username: username,
-                            exp: addMinutes(-1)
+                            exp     : addMinutes(-1)
                         })
                     };
                     http.returnValue(authResponse);
@@ -151,7 +152,7 @@ describe('Auth service', () => {
                     let authResponse: AuthResponse = {
                         token: encodeTestToken({
                             username: username,
-                            exp: addMinutes(15)
+                            exp     : addMinutes(15)
                         })
                     };
                     http.returnValue(authResponse);
@@ -182,7 +183,7 @@ describe('Auth service', () => {
         beforeEach(() => {
             tokenData = {
                 username: username,
-                exp: addMinutes(-15)
+                exp     : addMinutes(-15)
             };
             token = encodeTestToken(tokenData);
 
@@ -192,7 +193,8 @@ describe('Auth service', () => {
                 providers: [
                     AuthService,
                     {
-                        provide: HttpService, useClass: HttpServiceStub
+                        provide : HttpService,
+                        useClass: HttpServiceStub
                     }
                 ]
             });
@@ -219,7 +221,7 @@ describe('Auth service', () => {
         beforeEach(() => {
             tokenData = {
                 username: username,
-                exp: addMinutes(15)
+                exp     : addMinutes(15)
             };
             token = encodeTestToken(tokenData);
 
@@ -229,7 +231,8 @@ describe('Auth service', () => {
                 providers: [
                     AuthService,
                     {
-                        provide: HttpService, useClass: HttpServiceStub
+                        provide : HttpService,
+                        useClass: HttpServiceStub
                     }
                 ]
             });
@@ -292,7 +295,7 @@ describe('Auth service', () => {
                 let logoutSpy = spyOn(authService, 'logout').and.callThrough();
 
                 let errorResponse: ErrorResponse = {
-                    status: 401,
+                    status : 401,
                     message: 'Unauthorized'
                 };
                 http.unauthorized.emit(errorResponse);
@@ -315,7 +318,7 @@ describe('Auth service', () => {
                 let logoutSpy = spyOn(authService, 'logout').and.callThrough();
 
                 let errorResponse: ErrorResponse = {
-                    status: 500,
+                    status : 500,
                     message: 'some error'
                 };
                 http.throwError(errorResponse);
@@ -342,7 +345,7 @@ describe('Auth service', () => {
         beforeEach(() => {
             tokenData = {
                 username: username,
-                exp: addMinutes(9)
+                exp     : addMinutes(9)
             };
             token = encodeTestToken(tokenData);
 
@@ -352,7 +355,8 @@ describe('Auth service', () => {
                 providers: [
                     AuthService,
                     {
-                        provide: HttpService, useClass: HttpServiceStub
+                        provide : HttpService,
+                        useClass: HttpServiceStub
                     }
                 ]
             });
@@ -376,7 +380,7 @@ describe('Auth service', () => {
                 let logoutSpy = spyOn(authService, 'logout').and.callThrough();
 
                 let errorResponse: ErrorResponse = {
-                    status: 401,
+                    status : 401,
                     message: 'Expired'
                 };
                 http.throwError(errorResponse);
@@ -420,7 +424,7 @@ describe('Auth service', () => {
 
                 let newToken = encodeTestToken({
                     username: username,
-                    exp: addMinutes(15)
+                    exp     : addMinutes(15)
                 });
                 let authResponse: AuthResponse = {
                     token: newToken

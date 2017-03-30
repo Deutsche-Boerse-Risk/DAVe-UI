@@ -15,17 +15,19 @@ describe('Login component', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [
+            imports     : [
                 BrowserModule,
                 FormsModule
             ],
             declarations: [LoginComponent],
-            providers: [
+            providers   : [
                 {
-                    provide: AuthService, useClass: AuthServiceStub
+                    provide : AuthService,
+                    useClass: AuthServiceStub
                 },
                 {
-                    provide: Router, useClass: RouterStub
+                    provide : Router,
+                    useClass: RouterStub
                 }
             ]
         }).compileComponents();
@@ -132,7 +134,7 @@ describe('Login component', () => {
 
             let authServiceStub: AuthServiceStub = TestBed.get(AuthService);
             spyOn(authServiceStub, 'login').and.returnValue(Observable.throw({
-                status: 401,
+                status : 401,
                 message: 'some message'
             }));
 

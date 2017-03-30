@@ -1,10 +1,10 @@
 import {Component, Input} from '@angular/core';
 
 @Component({
-    moduleId: module.id,
-    selector: 'drilldown-button',
+    moduleId   : module.id,
+    selector   : 'drilldown-button',
     templateUrl: 'drilldown.button.component.html',
-    styleUrls: ['drilldown.button.component.css']
+    styleUrls  : ['drilldown.button.component.css']
 })
 export class DrilldownButtonComponent {
 

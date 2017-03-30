@@ -13,8 +13,7 @@ export const defaultURL: string = (<any>window).baseRestURL + '/api/v1.0';
 
 export interface Request<T> {
     resourceURL: string;
-    params?: string[];
-    subParams?: string[];
+    params?: any;
 
     mapFunction?: (value: any, index: number) => T;
 }
@@ -36,31 +35,26 @@ export class HttpService<T> {
     constructor(private http: Http, private authHttp: AuthHttp) {
     }
 
-    protected constructURL(request: Request<T>): string {
-        let resourceURL: string = request.resourceURL;
-        let index: number = 0;
-        let replaceParams = (param: string) => {
-            resourceURL = resourceURL.replace(':' + index, param);
-            index += 1;
-        };
-        HttpService.processParams(request.params, replaceParams);
-        HttpService.processParams(request.subParams, replaceParams);
-        return defaultURL + resourceURL;
-    }
-
-    private static processParams(params: string[], callback: (param: string) => void): void {
-        if (params) {
-            params.forEach(callback);
-        }
-    };
-
-    private static getRequestOptions(): RequestOptions {
+    private static getRequestOptions(params: any): RequestOptions {
         let headers: Headers = new Headers();
         headers.append('Accept', 'application/json');
         headers.append('Content-Type', 'application/json');
         return new RequestOptions({
-            headers: headers
+            headers: headers,
+            params : HttpService.filter(params)
         });
+    }
+
+    private static filter(params: any): any {
+        if (!params) {
+            return;
+        }
+        Object.keys(params).forEach((key: string) => {
+            if (params[key] === '*') {
+                delete params[key];
+            }
+        });
+        return params;
     }
 
     private static extractData(res: Response): any {
@@ -74,11 +68,11 @@ export class HttpService<T> {
         if (error.status === 401) {
             // Not logged in - login first
             this.unauthorized.emit({
-                status: error.status,
+                status : error.status,
                 message: error.statusText
             });
             return Observable.throw({
-                status: error.status,
+                status : error.status,
                 message: error.statusText
             });
         } else {
@@ -86,7 +80,7 @@ export class HttpService<T> {
                 try {
                     body = error.json() || '';
                     err = body.error || JSON.stringify(body);
-                } catch (e) {
+                } catch (ignored) {
                     err = error.text();
                 }
                 errMsg = error.status + ' - ' + (error.statusText || '') + ' ' + err;
@@ -97,7 +91,7 @@ export class HttpService<T> {
                 window.console.error(errMsg);
             }
             return Observable.throw({
-                status: error.status || 500,
+                status : error.status || 500,
                 message: errMsg
             });
         }
@@ -105,7 +99,8 @@ export class HttpService<T> {
 
     public get(request: Request<T>, auth: boolean = true): Observable<T> {
         let http: Http | AuthHttp = auth ? this.authHttp : this.http;
-        let requestObservable: Observable<T> = http.get(this.constructURL(request), HttpService.getRequestOptions())
+        let requestObservable: Observable<T> = http.get(defaultURL + request.resourceURL,
+            HttpService.getRequestOptions(request.params))
             .map(HttpService.extractData);
         if (request.mapFunction) {
             requestObservable = requestObservable.map(request.mapFunction);
@@ -115,9 +110,8 @@ export class HttpService<T> {
 
     public post(request: PostRequest<T>, auth: boolean = true): Observable<T> {
         let http: Http | AuthHttp = auth ? this.authHttp : this.http;
-        let requestObservable: Observable<T> = http.post(this.constructURL(request),
-            JSON.stringify(request.data),
-            HttpService.getRequestOptions())
+        let requestObservable: Observable<T> = http.post(defaultURL + request.resourceURL, JSON.stringify(request.data),
+            HttpService.getRequestOptions(request.params))
             .map(HttpService.extractData);
         if (request.mapFunction) {
             requestObservable = requestObservable.map(request.mapFunction);

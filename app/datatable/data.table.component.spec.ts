@@ -5,14 +5,13 @@ import {TestHostComponent, DataTableDefinitionHosted} from '../../testing';
 import {DataTableModule} from './data.table.module';
 import {OrderingCriteria} from './data.table.column.directive';
 
-
 describe('DataTable component', () => {
 
     let table: DataTableDefinitionHosted;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [DataTableModule],
+            imports     : [DataTableModule],
             declarations: [TestHostComponent]
         }).compileComponents();
     }));
@@ -103,7 +102,7 @@ describe('DataTable component', () => {
         // Check if we are in line with default criteria
         // Compare at least descending flags
         expect(table.dataTable.sorting.currentOrdering.map((item: OrderingCriteria<any>) => {
-            return item.descending
+            return item.descending;
         })).toEqual([true, false]);
 
         // Click handle 0
@@ -113,7 +112,7 @@ describe('DataTable component', () => {
         // Check whether new criteria are in line
         expect(table.dataTable.sorting.currentOrdering.length).toBe(3);
         expect(table.dataTable.sorting.currentOrdering.map((item: OrderingCriteria<any>) => {
-            return item.descending
+            return item.descending;
         })).toEqual([false, true, false]);
 
         // Check current ordering
@@ -129,7 +128,7 @@ describe('DataTable component', () => {
         // Check whether new criteria are in line
         expect(table.dataTable.sorting.currentOrdering.length).toBe(3);
         expect(table.dataTable.sorting.currentOrdering.map((item: OrderingCriteria<any>) => {
-            return item.descending
+            return item.descending;
         })).toEqual([true, true, false]);
 
         // Click handle 0
@@ -142,7 +141,7 @@ describe('DataTable component', () => {
         // Check whether new criteria are in line
         expect(table.dataTable.sorting.currentOrdering.length).toBe(3);
         expect(table.dataTable.sorting.currentOrdering.map((item: OrderingCriteria<any>) => {
-            return item.descending
+            return item.descending;
         })).toEqual([false, true, false]);
     }));
 
@@ -158,7 +157,7 @@ describe('DataTable component', () => {
         // Check if we are in line with default criteria
         // Compare at least descending flags
         expect(table.dataTable.sorting.currentOrdering.map((item: OrderingCriteria<any>) => {
-            return item.descending
+            return item.descending;
         })).toEqual([true, false]);
 
         // Click handle 1
@@ -168,7 +167,7 @@ describe('DataTable component', () => {
         // Check whether new criteria are in line
         expect(table.dataTable.sorting.currentOrdering.length).toBe(3);
         expect(table.dataTable.sorting.currentOrdering.map((item: OrderingCriteria<any>) => {
-            return item.descending
+            return item.descending;
         })).toEqual([false, true, false]);
 
         // Check current ordering
@@ -184,7 +183,7 @@ describe('DataTable component', () => {
         // Check whether new criteria are in line
         expect(table.dataTable.sorting.currentOrdering.length).toBe(3);
         expect(table.dataTable.sorting.currentOrdering.map((item: OrderingCriteria<any>) => {
-            return item.descending
+            return item.descending;
         })).toEqual([true, true, false]);
 
         // Click handle 1
@@ -197,7 +196,7 @@ describe('DataTable component', () => {
         // Check whether new criteria are in line
         expect(table.dataTable.sorting.currentOrdering.length).toBe(3);
         expect(table.dataTable.sorting.currentOrdering.map((item: OrderingCriteria<any>) => {
-            return item.descending
+            return item.descending;
         })).toEqual([false, true, false]);
     }));
 });

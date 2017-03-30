@@ -13,7 +13,7 @@ import {Page} from './page.base';
 
 export class DataTableDefinition {
 
-    constructor(public debugElement: DebugElement, private page: {detectChanges: () => void}) {
+    constructor(public debugElement: DebugElement, private page: { detectChanges: () => void }) {
     }
 
     public get component(): DataTableComponent {
@@ -57,7 +57,7 @@ export class DataTableDefinition {
 
 export class TableHeader {
 
-    constructor(public element: DebugElement, private page: {detectChanges: () => void}) {
+    constructor(public element: DebugElement, private page: { detectChanges: () => void }) {
     }
 
     public get rows(): TableHeaderRow[] {
@@ -75,7 +75,7 @@ export class TableHeader {
 }
 
 export class TableHeaderRow {
-    constructor(public element: DebugElement, private page: {detectChanges: () => void}) {
+    constructor(public element: DebugElement, private page: { detectChanges: () => void }) {
     }
 
     public get cells(): TableHeaderCell[] {
@@ -87,7 +87,7 @@ export class TableHeaderRow {
 
 export class TableHeaderCell {
 
-    constructor(public element: DebugElement, private page: {detectChanges: () => void}) {
+    constructor(public element: DebugElement, private page: { detectChanges: () => void }) {
     }
 
     public get sortingHandle(): SortingHandle {
@@ -124,7 +124,7 @@ export class TableHeaderCell {
 
 export class TableSorting {
 
-    constructor(private table: DataTableDefinition, private page: {detectChanges: () => void}) {
+    constructor(private table: DataTableDefinition, private page: { detectChanges: () => void }) {
     }
 
     public get handles(): SortingHandle[] {
@@ -138,7 +138,7 @@ export class TableSorting {
     }
 
     public get detailRowHandles(): SortingHandle[] {
-        let handles = this.table.debugElement.query(By.css('.table-condensed')).queryAll(By.css('thead .fa-sort'))
+        let handles = this.table.debugElement.query(By.css('.table-condensed')).queryAll(By.css('thead .fa-sort'));
         if (!handles) {
             return null;
         }
@@ -165,11 +165,11 @@ export class TableSorting {
                     if (criteria.descending) {
                         expect(criteria.get(this.table.data[i - 1]) >= criteria.get(this.table.data[i]))
                             .toBeTruthy('Expect: ' + criteria.get(this.table.data[i - 1]) + ' >= '
-                                + criteria.get(this.table.data[i]))
+                                + criteria.get(this.table.data[i]));
                     } else {
                         expect(criteria.get(this.table.data[i - 1]) <= criteria.get(this.table.data[i]))
                             .toBeTruthy('Expect: ' + criteria.get(this.table.data[i - 1]) + ' <= '
-                                + criteria.get(this.table.data[i]))
+                                + criteria.get(this.table.data[i]));
                     }
                     return criteria.get(this.table.data[i - 1]) !== criteria.get(this.table.data[i]);
                 }
@@ -181,7 +181,7 @@ export class TableSorting {
 
 export class SortingHandle {
 
-    constructor(private page: {detectChanges: () => void}, private handle: DebugElement) {
+    constructor(private page: { detectChanges: () => void }, private handle: DebugElement) {
     }
 
     public click() {
@@ -198,7 +198,7 @@ export class SortingHandle {
 
 export class TableBody {
 
-    constructor(public element: DebugElement, private page: {detectChanges: () => void}) {
+    constructor(public element: DebugElement, private page: { detectChanges: () => void }) {
     }
 
     public get rows(): TableBodyRow[] {
@@ -220,7 +220,7 @@ export class TableBody {
 
 export class TableBodyRow {
 
-    constructor(public element: DebugElement, private page: {detectChanges: () => void}) {
+    constructor(public element: DebugElement, private page: { detectChanges: () => void }) {
     }
 
     public expandRow(): void {
@@ -269,7 +269,8 @@ export class TableBodyCell {
 
 export class TableBodyDetail {
 
-    constructor(public element: DebugElement, private owner: TableBodyRow, private page: {detectChanges: () => void}) {
+    constructor(public element: DebugElement, private owner: TableBodyRow,
+        private page: { detectChanges: () => void }) {
     }
 
     public header(): TableHeader {
@@ -298,7 +299,6 @@ export class TableBodyDetail {
 }
 
 export class TableBodyDetailBody {
-
 
     constructor(public element: DebugElement) {
     }
@@ -386,7 +386,7 @@ export class RecordsCount {
 
 export class Pager {
 
-    constructor(public element: DebugElement, private page: {detectChanges: () => void}) {
+    constructor(public element: DebugElement, private page: { detectChanges: () => void }) {
     }
 
     public get pageButtons(): DebugElement[] {
@@ -401,7 +401,8 @@ export class Pager {
 
     public expectLeadingButtonsNotDisabled() {
         for (let i = 0; i < 2; i++) {
-            expect(this.pageButtons[i].nativeElement.classList).not.toContain('disabled', 'First two are not disabled.');
+            expect(this.pageButtons[i].nativeElement.classList).not
+                .toContain('disabled', 'First two are not disabled.');
         }
     }
 
@@ -453,50 +454,50 @@ export class DataTableDefinitionHosted extends Page<TestHostComponent> {
 
 @Component({
     template: `
-<data-table [data]="data"   
-                [footer]="footer"
-            [pageSize]="20"
-            [defaultOrdering]="defaultOrdering"
-            [striped]="true">
-    <column title="Test Column 1"
-            [sortingKey]="valueGetter">
-        <ng-template let-record="row" cell-template>
-            {{record.value1}}
-        </ng-template>
-    </column>
-    <column>
-        <ng-template let-record="row" cell-template>
-            <row-detail-expander></row-detail-expander>
-        </ng-template>
-        <ng-template let-footer="footer" footer-template>
-            {{footer.value1}}
-        </ng-template>
-    </column>
-    <!-- Sub detail -->
-    <row-detail>
-        <column-group>
-            <column title="Test Detail Column 1"
+        <data-table [data]="data"
+                    [footer]="footer"
+                    [pageSize]="20"
+                    [defaultOrdering]="defaultOrdering"
+                    [striped]="true">
+            <column title="Test Column 1"
                     [sortingKey]="valueGetter">
                 <ng-template let-record="row" cell-template>
                     {{record.value1}}
                 </ng-template>
             </column>
-        </column-group>
-        <column-group>
-            <column title="Test Detail Column 2">
+            <column>
                 <ng-template let-record="row" cell-template>
-                    {{record.value2}}
+                    <row-detail-expander></row-detail-expander>
+                </ng-template>
+                <ng-template let-footer="footer" footer-template>
+                    {{footer.value1}}
                 </ng-template>
             </column>
-            <column title="Test Detail Column 3">
-                <ng-template let-record="row" cell-template>
-                    {{record.value3}}
-                </ng-template>
-            </column>
-        </column-group>
-        <column-group></column-group>
-    </row-detail>
-</data-table>`
+            <!-- Sub detail -->
+            <row-detail>
+                <column-group>
+                    <column title="Test Detail Column 1"
+                            [sortingKey]="valueGetter">
+                        <ng-template let-record="row" cell-template>
+                            {{record.value1}}
+                        </ng-template>
+                    </column>
+                </column-group>
+                <column-group>
+                    <column title="Test Detail Column 2">
+                        <ng-template let-record="row" cell-template>
+                            {{record.value2}}
+                        </ng-template>
+                    </column>
+                    <column title="Test Detail Column 3">
+                        <ng-template let-record="row" cell-template>
+                            {{record.value3}}
+                        </ng-template>
+                    </column>
+                </column-group>
+                <column-group></column-group>
+            </row-detail>
+        </data-table>`
 })
 export class TestHostComponent {
 
@@ -511,7 +512,7 @@ export class TestHostComponent {
                 value1: Math.floor(Math.random() * 20) + ' - value 1',
                 value2: Math.floor(Math.random() * 20) + ' - value 2',
                 value3: Math.floor(Math.random() * 20) + ' - value 3'
-            })
+            });
         }
         this.footer = this.data[0];
     }
@@ -519,7 +520,7 @@ export class TestHostComponent {
     public get defaultOrdering(): (OrderingCriteria<any> | OrderingValueGetter<any>)[] {
         return [
             {
-                get: (record: any) => {
+                get       : (record: any) => {
                     return record.value3;
                 },
                 descending: true
@@ -527,7 +528,7 @@ export class TestHostComponent {
             (record: any) => {
                 return record.value2;
             }
-        ]
+        ];
     }
 
     public get valueGetter(): (record: any) => any {

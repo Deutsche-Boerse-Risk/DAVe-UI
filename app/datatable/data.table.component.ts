@@ -7,10 +7,10 @@ import {DataTableColumnGroupDirective} from './data.table.column.group.directive
 import {DataTableDefinition, DataTableCell, DataTableUtils} from './data.table.utils';
 
 @Component({
-    moduleId: module.id,
-    selector: 'data-table',
+    moduleId   : module.id,
+    selector   : 'data-table',
     templateUrl: 'data.table.component.html',
-    styleUrls: ['../common.component.css']
+    styleUrls  : ['../common.component.css']
 })
 export class DataTableComponent implements OnChanges {
 
@@ -76,7 +76,7 @@ export class DataTableComponent implements OnChanges {
             value.forEach((criteria: OrderingCriteria<any> | OrderingValueGetter<any>) => {
                 if (typeof criteria === 'function') {
                     this._defaultOrdering.push({
-                        get: criteria,
+                        get       : criteria,
                         descending: false
                     });
                 } else {
@@ -98,10 +98,12 @@ export class DataTableComponent implements OnChanges {
         let defaultOrdering = this._defaultOrdering || [];
 
         this.descending = !this.descending;
-        this.ordering = [<OrderingCriteria<any>>{
-            get: this.sortingKey.get,
-            descending: this.descending
-        }].concat(defaultOrdering);
+        this.ordering = [
+            <OrderingCriteria<any>>{
+                get       : this.sortingKey.get,
+                descending: this.descending
+            }
+        ].concat(defaultOrdering);
 
         this.sort();
     }

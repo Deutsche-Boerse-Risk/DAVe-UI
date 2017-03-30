@@ -12,7 +12,7 @@ import {
     TableBodyRow
 } from '../../testing';
 
-import {MarginComponentsService} from './margin.components.service';
+import {MarginService} from './margin.service';
 import {MarginComponentsServerData} from './margin.types';
 import {HttpService} from '../http.service';
 
@@ -22,13 +22,12 @@ import {DataTableModule} from '../datatable/data.table.module';
 
 import {MarginComponentsAggregationComponent, valueGetters} from './margin.components.aggregation.component';
 
-
 describe('Margin components aggregation component', () => {
     let page: AggregationPage;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [
+            imports     : [
                 CommonModule,
                 DataTableModule,
                 RouterModule
@@ -36,10 +35,11 @@ describe('Margin components aggregation component', () => {
             declarations: [
                 MarginComponentsAggregationComponent
             ],
-            providers: [
-                MarginComponentsService,
+            providers   : [
+                MarginService,
                 {
-                    provide: HttpService, useClass: HttpAsyncServiceStub
+                    provide : HttpService,
+                    useClass: HttpAsyncServiceStub
                 }
             ]
         });
@@ -60,22 +60,30 @@ describe('Margin components aggregation component', () => {
             // Do not trigger periodic interval
             clearInterval((page.component as any).intervalHandle);
 
-            expect(page.initialLoadComponent).not.toBeNull('Initial load component visible.');
-            expect(page.noDataComponent).toBeNull('No data component not visible.');
-            expect(page.updateFailedComponent).toBeNull('Update failed component not visible.');
-            expect(page.dataTable.element).toBeNull('Data table not visible.');
+            expect(page.initialLoadComponent).not
+                .toBeNull('Initial load component visible.');
+            expect(page.noDataComponent)
+                .toBeNull('No data component not visible.');
+            expect(page.updateFailedComponent)
+                .toBeNull('Update failed component not visible.');
+            expect(page.dataTable.element)
+                .toBeNull('Data table not visible.');
 
             // Return error
             http.throwError({
-                status: 500,
+                status : 500,
                 message: 'Error message'
             });
             page.advanceHTTP();
 
-            expect(page.initialLoadComponent).toBeNull('Initial load component not visible.');
-            expect(page.noDataComponent).toBeNull('No data component not visible.');
-            expect(page.updateFailedComponent).not.toBeNull('Update failed component visible.');
-            expect(page.dataTable.element).toBeNull('Data table not visible.');
+            expect(page.initialLoadComponent)
+                .toBeNull('Initial load component not visible.');
+            expect(page.noDataComponent)
+                .toBeNull('No data component not visible.');
+            expect(page.updateFailedComponent).not
+                .toBeNull('Update failed component visible.');
+            expect(page.dataTable.element)
+                .toBeNull('Data table not visible.');
         })));
 
     it('displays no-data correctly', fakeAsync(inject([HttpService],
@@ -85,20 +93,28 @@ describe('Margin components aggregation component', () => {
             // Do not trigger periodic interval
             clearInterval((page.component as any).intervalHandle);
 
-            expect(page.initialLoadComponent).not.toBeNull('Initial load component visible.');
-            expect(page.noDataComponent).toBeNull('No data component not visible.');
-            expect(page.updateFailedComponent).toBeNull('Update failed component not visible.');
-            expect(page.dataTable.element).toBeNull('Data table not visible.');
+            expect(page.initialLoadComponent).not
+                .toBeNull('Initial load component visible.');
+            expect(page.noDataComponent)
+                .toBeNull('No data component not visible.');
+            expect(page.updateFailedComponent)
+                .toBeNull('Update failed component not visible.');
+            expect(page.dataTable.element)
+                .toBeNull('Data table not visible.');
 
             // Return no data
             http.popReturnValue(); // Remove from queue
             http.returnValue([]); // Push empty array
             page.advanceHTTP();
 
-            expect(page.initialLoadComponent).toBeNull('Initial load component not visible.');
-            expect(page.noDataComponent).not.toBeNull('No data component visible.');
-            expect(page.updateFailedComponent).toBeNull('Update failed component not visible.');
-            expect(page.dataTable.element).toBeNull('Data table not visible.');
+            expect(page.initialLoadComponent)
+                .toBeNull('Initial load component not visible.');
+            expect(page.noDataComponent).not
+                .toBeNull('No data component visible.');
+            expect(page.updateFailedComponent)
+                .toBeNull('Update failed component not visible.');
+            expect(page.dataTable.element)
+                .toBeNull('Data table not visible.');
         })));
 
     it('displays data table', fakeAsync(() => {
@@ -131,10 +147,14 @@ describe('Margin components aggregation component', () => {
             // Return data
             page.advanceHTTP();
 
-            expect(page.initialLoadComponent).toBeNull('Initial load component not visible.');
-            expect(page.noDataComponent).toBeNull('No data component not visible.');
-            expect(page.updateFailedComponent).toBeNull('Update failed component not visible.');
-            expect(page.dataTable.element).not.toBeNull('Data table visible.');
+            expect(page.initialLoadComponent)
+                .toBeNull('Initial load component not visible.');
+            expect(page.noDataComponent)
+                .toBeNull('No data component not visible.');
+            expect(page.updateFailedComponent)
+                .toBeNull('Update failed component not visible.');
+            expect(page.dataTable.element).not
+                .toBeNull('Data table visible.');
 
             expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
                 return row.highlighted;
@@ -154,7 +174,8 @@ describe('Margin components aggregation component', () => {
             page.advanceAndDetectChangesUsingOffset(DATA_REFRESH_INTERVAL);
             page.advanceHTTP();
 
-            expect(page.dataTable.element).not.toBeNull('Data table visible.');
+            expect(page.dataTable.element).not
+                .toBeNull('Data table visible.');
 
             expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
                 return row.highlighted;
@@ -189,9 +210,11 @@ describe('Margin components aggregation component', () => {
         // Do not trigger periodic interval
         clearInterval((page.component as any).intervalHandle);
 
-        chceckSorting(page, [valueGetters.clearer, valueGetters.member, valueGetters.account,
+        chceckSorting(page, [
+            valueGetters.clearer, valueGetters.member, valueGetters.account,
             valueGetters.variationMargin, valueGetters.liquiMargin, valueGetters.premiumMargin,
-            valueGetters.spreadMargin, valueGetters.additionalMargin]);
+            valueGetters.spreadMargin, valueGetters.additionalMargin
+        ]);
 
         // Fire highlighters
         page.advanceHighlighter();

@@ -6,8 +6,8 @@ import {ComponentFixture} from '@angular/core/testing';
 import {LinkOnlyPage} from './link.only.page';
 import {setNgModelSelectValue} from '../events';
 
-import {PositionReportBubbleChartComponent} from '../../app/position-reports/position.report.bubblechart.component';
-import {PositionReportBubble} from '../../app/position-reports/position.report.types';
+import {PositionReportBubbleChartComponent} from '../../app/position_reports/position.report.bubblechart.component';
+import {PositionReportBubble} from '../../app/position_reports/position.report.types';
 
 export class BubbleChartPage extends LinkOnlyPage<PositionReportBubbleChartComponent> {
 
@@ -106,7 +106,7 @@ export class BubbleChartPage extends LinkOnlyPage<PositionReportBubbleChartCompo
     }
 
     public matchTitle(numberOfPositive: string, percentagePositive: string, numberOfNegative: string,
-                      percentageNegative: string, totalVaR: string) {
+        percentageNegative: string, totalVaR: string) {
         expect(this.debugElement.query(By.css('.alert-info')).nativeElement.textContent)
             .toMatch(numberOfPositive.replace(/\./, '\\.') + '.+' + percentagePositive.replace(/\./, '\\.')
                 + '.+' + numberOfNegative.replace(/\./, '\\.') + '.+' + percentageNegative.replace(/\./, '\\.')

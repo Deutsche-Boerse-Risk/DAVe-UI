@@ -1,0 +1,97 @@
+<list-content [title]="rootRouteTitle"
+              [routeParts]="routeParts"
+              [exportKeys]="exportKeys"
+              [data]="data"
+              [initialLoad]="initialLoad"
+              [errorMessage]="errorMessage"
+              (filterChanged)="filter($event)">
+    <data-table [data]="data"
+                [pageSize]="pageSize"
+                [defaultOrdering]="defaultOrdering"
+                [trackByRowKey]="trackByRowKey">
+        <column title="Collateral Pool"
+                [sortingKey]="valueGetters.pool">
+            <ng-template let-record="row" cell-template>
+                <a [routerLink]="[rootRoutePath, record.clearer || '*', record.pool || '*']">
+                    {{record.pool}}
+                </a>
+            </ng-template>
+        </column>
+        <column title="Margin Currency"
+                [sortingKey]="valueGetters.marginCurrency">
+            <ng-template let-record="row" cell-template>
+                <a [routerLink]="[rootRoutePath, record.clearer || '*', record.pool || '*', record.marginCurrency || '*']">
+                    {{record.marginCurrency}}
+                </a>
+            </ng-template>
+        </column>
+        <column title="clrRptCurrency"
+                [sortingKey]="valueGetters.clrRptCurrency">
+            <ng-template let-record="row" cell-template>
+                {{record.clrRptCurrency}}
+            </ng-template>
+        </column>
+        <column title="Required Margin"
+                [sortingKey]="valueGetters.requiredMargin">
+            <ng-template let-record="row" cell-template>
+                {{record.requiredMargin | number:'.2-2'}}
+            </ng-template>
+        </column>
+        <column title="Cash Collateral Amount"
+                [sortingKey]="valueGetters.cashCollateralAmount">
+            <ng-template let-record="row" cell-template>
+                {{record.cashCollateralAmount| number:'.2-2'}}
+            </ng-template>
+        </column>
+        <column title="Adjusted Securities"
+                [sortingKey]="valueGetters.adjustedSecurities">
+            <ng-template let-record="row" cell-template>
+                {{record.adjustedSecurities | number:'.2-2'}}
+            </ng-template>
+        </column>
+        <column title="Adjusted Guarantee"
+                [sortingKey]="valueGetters.adjustedGuarantee">
+            <ng-template let-record="row" cell-template>
+                {{record.adjustedGuarantee | number:'.2-2'}}
+            </ng-template>
+        </column>
+        <column title="overUnderInMarginCurr"
+                [sortingKey]="valueGetters.overUnderInMarginCurr">
+            <ng-template let-record="row" cell-template>
+                {{record.overUnderInMarginCurr | number:'.2-2'}}
+            </ng-template>
+        </column>
+        <column title="overUnderInClrRptCurr"
+                [sortingKey]="valueGetters.overUnderInClrRptCurr">
+            <ng-template let-record="row" cell-template>
+                {{record.overUnderInClrRptCurr | number:'.2-2'}}
+            </ng-template>
+        </column>
+        <column title="variPremInMarginCurr"
+                [sortingKey]="valueGetters.variPremInMarginCurr">
+            <ng-template let-record="row" cell-template>
+                {{record.variPremInMarginCurr | number:'.2-2'}}
+            </ng-template>
+        </column>
+        <column title="Adjusted Exchange Rate"
+                [sortingKey]="valueGetters.adjustedExchangeRate">
+            <ng-template let-record="row" cell-template>
+                {{record.adjustedExchangeRate | number:'.2-2'}}
+            </ng-template>
+        </column>
+        <column title="Pool Owner"
+                [sortingKey]="valueGetters.poolOwner">
+            <ng-template let-record="row" cell-template>
+                {{record.poolOwner}}
+            </ng-template>
+        </column>
+        <column>
+            <ng-template let-record="row" cell-template>
+                <drilldown-row-button
+                        [routerLink]="['/totalMarginRequirementLatest', record.clearer || '*', record.pool || '*', '*', '*', record.ccy || '*']"></drilldown-row-button>
+                <detail-row-button
+                        [routerLink]="['/poolMarginHistory', record.clearer || '*', record.pool || '*', record.marginCurrency || '*']"></detail-row-button>
+            </ng-template>
+        </column>
+    </data-table>
+</list-content>

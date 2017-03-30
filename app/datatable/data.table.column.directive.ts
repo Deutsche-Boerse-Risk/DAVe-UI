@@ -27,9 +27,15 @@ export class DataTableColumnDirective {
     @ContentChildren(DataTableColumnDirective, {descendants: false})
     public subColumns: QueryList<DataTableColumnDirective>;
 
-    @ContentChildren(DataTableColumnCellDirective, {read: TemplateRef, descendants: false})
-    public cellTemplate: QueryList<TemplateRef<{row: any}>>;
+    @ContentChildren(DataTableColumnCellDirective, {
+        read       : TemplateRef,
+        descendants: false
+    })
+    public cellTemplate: QueryList<TemplateRef<{ row: any }>>;
 
-    @ContentChildren(DataTableColumnFooterDirective, {read: TemplateRef, descendants: false})
-    public footerTemplate: QueryList<TemplateRef<{footer: any}>>;
+    @ContentChildren(DataTableColumnFooterDirective, {
+        read       : TemplateRef,
+        descendants: false
+    })
+    public footerTemplate: QueryList<TemplateRef<{ footer: any }>>;
 }

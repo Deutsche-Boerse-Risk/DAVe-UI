@@ -1,0 +1,95 @@
+<list-content [title]="rootRouteTitle"
+              [routeParts]="routeParts"
+              [exportKeys]="exportKeys"
+              [data]="data"
+              [initialLoad]="initialLoad"
+              [errorMessage]="errorMessage"
+              (filterChanged)="filter($event)">
+    <data-table [data]="data"
+                [pageSize]="pageSize"
+                [defaultOrdering]="defaultOrdering"
+                [trackByRowKey]="trackByRowKey">
+        <column title="Member / Client"
+                [sortingKey]="valueGetters.member">
+            <ng-template let-record="row" cell-template>
+                <a [routerLink]="[rootRoutePath, record.clearer || '*', record.member || '*']">
+                    {{record.member}}
+                </a>
+            </ng-template>
+        </column>
+        <column title="Account"
+                [sortingKey]="valueGetters.account">
+            <ng-template let-record="row" cell-template>
+                <a [routerLink]="[rootRoutePath, record.clearer || '*', record.member || '*', record.account || '*']">
+                    {{record.account}}
+                </a>
+            </ng-template>
+        </column>
+        <column title="Margin Class"
+                [sortingKey]="valueGetters.marginClass">
+            <ng-template let-record="row" cell-template>
+                <a [routerLink]="[rootRoutePath, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', record.marginClass || '*']">
+                    {{record.marginClass}}
+                </a>
+            </ng-template>
+        </column>
+        <column title="Margin Currency"
+                [sortingKey]="valueGetters.marginCurrency">
+            <ng-template let-record="row" cell-template>
+                <a [routerLink]="[rootRoutePath, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', record.marginClass || '*', record.marginCurrency || '*']">
+                    {{record.marginCurrency}}
+                </a>
+            </ng-template>
+        </column>
+        <column title="Margin Group"
+                [sortingKey]="valueGetters.marginGroup">
+            <ng-template let-record="row" cell-template>
+                {{record.marginGroup}}
+            </ng-template>
+        </column>
+        <column title="Premium Margin"
+                [sortingKey]="valueGetters.premiumMargin">
+            <ng-template let-record="row" cell-template>
+                {{record.premiumMargin | number:'.2-2'}}
+            </ng-template>
+        </column>
+        <column title="Current Liquidating Margin"
+                [sortingKey]="valueGetters.currentLiquidatingMargin">
+            <ng-template let-record="row" cell-template>
+                {{record.currentLiquidatingMargin | number:'.2-2'}}
+            </ng-template>
+        </column>
+        <column title="Futures Spread Margin"
+                [sortingKey]="valueGetters.futuresSpreadMargin">
+            <ng-template let-record="row" cell-template>
+                {{record.futuresSpreadMargin | number:'.2-2'}}
+            </ng-template>
+        </column>
+        <column title="Additional Margin"
+                [sortingKey]="valueGetters.additionalMargin">
+            <ng-template let-record="row" cell-template>
+                {{record.additionalMargin | number:'.2-2'}}
+            </ng-template>
+        </column>
+        <column title="Unadjusted Margin Requirement"
+                [sortingKey]="valueGetters.unadjustedMarginRequirement">
+            <ng-template let-record="row" cell-template>
+                {{record.unadjustedMarginRequirement | number:'.2-2'}}
+            </ng-template>
+        </column>
+        <column title="Variation Premium Payment"
+                [sortingKey]="valueGetters.variationPremiumPayment">
+            <ng-template let-record="row" cell-template>
+                {{record.variationPremiumPayment | number:'.2-2'}}
+            </ng-template>
+        </column>
+        <column>
+            <ng-template let-record="row" cell-template>
+                <drilldown-row-button
+                        [routerLink]="['/positionReportLatest', record.clearer || '*', record.member || '*', record.account || '*', record.class || '*']"></drilldown-row-button>
+                <detail-row-button
+                        [routerLink]="['/liquiGroupMarginHistory', record.clearer || '*', record.member || '*', record.account || '*', record.class || '*', record.ccy || '*']"></detail-row-button>
+            </ng-template>
+        </column>
+    </data-table>
+</list-content>

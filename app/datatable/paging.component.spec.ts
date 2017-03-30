@@ -10,7 +10,7 @@ describe('DataTable component shows pager', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [DataTableModule],
+            imports     : [DataTableModule],
             declarations: [TestHostComponent]
         }).compileComponents();
     }));

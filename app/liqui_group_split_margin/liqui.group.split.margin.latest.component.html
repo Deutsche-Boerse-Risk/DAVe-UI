@@ -1,0 +1,91 @@
+<list-content [title]="rootRouteTitle"
+              [routeParts]="routeParts"
+              [exportKeys]="exportKeys"
+              [data]="data"
+              [initialLoad]="initialLoad"
+              [errorMessage]="errorMessage"
+              (filterChanged)="filter($event)">
+    <data-table [data]="data"
+                [pageSize]="pageSize"
+                [defaultOrdering]="defaultOrdering"
+                [trackByRowKey]="trackByRowKey">
+        <column title="Member / Client"
+                [sortingKey]="valueGetters.member">
+            <ng-template let-record="row" cell-template>
+                <a [routerLink]="[rootRoutePath, record.clearer || '*', record.member || '*']">
+                    {{record.member}}
+                </a>
+            </ng-template>
+        </column>
+        <column title="Account"
+                [sortingKey]="valueGetters.account">
+            <ng-template let-record="row" cell-template>
+                <a [routerLink]="[rootRoutePath, record.clearer || '*', record.member || '*', record.account || '*']">
+                    {{record.account}}
+                </a>
+            </ng-template>
+        </column>
+        <column title="Liquidation Group"
+                [sortingKey]="valueGetters.liquidationGroup">
+            <ng-template let-record="row" cell-template>
+                <a [routerLink]="[rootRoutePath, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', record.liquidationGroup || '*']">
+                    {{record.liquidationGroup}}
+                </a>
+            </ng-template>
+        </column>
+        <column title="Liquidation Group Split"
+                [sortingKey]="valueGetters.liquidationGroupSplit">
+            <ng-template let-record="row" cell-template>
+                <a [routerLink]="[rootRoutePath, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', record.liquidationGroup || '*', record.liquidationGroupSplit || '*']">
+                    {{record.liquidationGroupSplit}}
+                </a>
+            </ng-template>
+        </column>
+        <column title="Margin Currency"
+                [sortingKey]="valueGetters.marginCurrency">
+            <ng-template let-record="row" cell-template>
+                <a [routerLink]="[rootRoutePath, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', record.liquidationGroup || '*', record.liquidationGroupSplit || '*', record.marginCurrency || '*']">
+                    {{record.marginCurrency}}
+                </a>
+            </ng-template>
+        </column>
+        <column title="Premium Margin"
+                [sortingKey]="valueGetters.premiumMargin">
+            <ng-template let-record="row" cell-template>
+                {{record.premiumMargin | number:'.2-2'}}
+            </ng-template>
+        </column>
+        <column title="Market Risk"
+                [sortingKey]="valueGetters.marketRisk">
+            <ng-template let-record="row" cell-template>
+                {{record.marketRisk | number:'.2-2'}}
+            </ng-template>
+        </column>
+        <column title="Liqu Risk"
+                [sortingKey]="valueGetters.liquRisk">
+            <ng-template let-record="row" cell-template>
+                {{record.liquRisk | number:'.2-2'}}
+            </ng-template>
+        </column>
+        <column title="Long Option Credit"
+                [sortingKey]="valueGetters.longOptionCredit">
+            <ng-template let-record="row" cell-template>
+                {{record.longOptionCredit | number:'.2-2'}}
+            </ng-template>
+        </column>
+        <column title="Variation Premium Payment"
+                [sortingKey]="valueGetters.variationPremiumPayment">
+            <ng-template let-record="row" cell-template>
+                {{record.variationPremiumPayment | number:'.2-2'}}
+            </ng-template>
+        </column>
+        <column>
+            <ng-template let-record="row" cell-template>
+                <drilldown-row-button
+                        [routerLink]="['/positionReportLatest', record.clearer || '*', record.member || '*', record.account || '*', record.class || '*']"></drilldown-row-button>
+                <detail-row-button
+                        [routerLink]="['/liquiGroupSplitMarginHistory', record.clearer || '*', record.member || '*', record.account || '*', record.liquidationGroup || '*', record.liquidationGroupSplit || '*', record.marginCurrency || '*']"></detail-row-button>
+            </ng-template>
+        </column>
+    </data-table>
+</list-content>

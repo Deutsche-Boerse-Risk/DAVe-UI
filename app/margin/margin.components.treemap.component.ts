@@ -6,14 +6,14 @@ import {ErrorResponse} from '../http.service';
 
 import {ChartData, TreeMapOptions, ChartRow, SelectionEvent} from '../common/chart.types';
 
-import {MarginComponentsService} from './margin.components.service';
+import {MarginService} from './margin.service';
 import {MarginComponentsTree, MarginComponentsTreeNode} from './margin.types';
 
 @Component({
-    moduleId: module.id,
-    selector: 'margin-components-treemap',
+    moduleId   : module.id,
+    selector   : 'margin-components-treemap',
     templateUrl: 'margin.components.treemap.component.html',
-    styleUrls: ['../common.component.css']
+    styleUrls  : ['../common.component.css']
 })
 export class MarginComponentsTreemapComponent extends AbstractComponentWithAutoRefresh {
 
@@ -22,21 +22,21 @@ export class MarginComponentsTreemapComponent extends AbstractComponentWithAutoR
     public errorMessage: string;
 
     public chartOptions: TreeMapOptions = {
-        minColor: '#f39d3c',
-        midColor: '#ec7a08',
-        maxColor: '#b35c00',
-        fontColor: 'black',
-        showScale: false,
+        minColor            : '#f39d3c',
+        midColor            : '#ec7a08',
+        maxColor            : '#b35c00',
+        fontColor           : 'black',
+        showScale           : false,
         highlightOnMouseOver: true,
-        headerHeight: 15,
-        maxDepth: 1,
-        maxPostDepth: 1
+        headerHeight        : 15,
+        maxDepth            : 1,
+        maxPostDepth        : 1
     };
 
     public chartData: ChartData;
 
-    constructor(private marginComponentsService: MarginComponentsService,
-                private router: Router) {
+    constructor(private marginComponentsService: MarginService,
+        private router: Router) {
         super();
     }
 
@@ -44,22 +44,24 @@ export class MarginComponentsTreemapComponent extends AbstractComponentWithAutoR
         this.marginComponentsService.getMarginComponentsTreeMapData().subscribe(
             (tree: MarginComponentsTree) => {
                 this.chartData = {
-                    cols: [{
-                        id: 'aggregation',
-                        type: 'string'
-                    }, {
-                        id: 'parent',
-                        type: 'string'
-                    }, {
-                        id: 'margin',
-                        type: 'number'
-                    }],
+                    cols: [
+                        {
+                            id  : 'aggregation',
+                            type: 'string'
+                        }, {
+                            id  : 'parent',
+                            type: 'string'
+                        }, {
+                            id  : 'margin',
+                            type: 'number'
+                        }
+                    ],
                     rows: []
                 };
 
                 tree.traverseDF((node: MarginComponentsTreeNode) => {
                     this.chartData.rows.push({
-                        c: [
+                        c           : [
                             {
                                 v: node.data.text
                             },

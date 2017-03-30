@@ -12,17 +12,23 @@ describe('Auth routing guard', () => {
             providers: [
                 AuthGuard,
                 {
-                    provide: AuthService, useClass: AuthServiceStub
+                    provide : AuthService,
+                    useClass: AuthServiceStub
                 },
                 {
-                    provide: Router, useClass: RouterStub
+                    provide : Router,
+                    useClass: RouterStub
                 }
             ]
         });
     });
 
     it('has to return true and never navigate if logged in', async(
-        inject([AuthGuard, AuthService, Router], (routingGuard: AuthGuard, authService: AuthService, router: Router) => {
+        inject([
+            AuthGuard,
+            AuthService,
+            Router
+        ], (routingGuard: AuthGuard, authService: AuthService, router: Router) => {
             let authSpy = spyOn(authService, 'isLoggedIn');
             authSpy.and.returnValue(true);
 
@@ -36,13 +42,20 @@ describe('Auth routing guard', () => {
     );
 
     it('has to return false, store current location and navigate to login if not logged in', async(
-        inject([AuthGuard, AuthService, Router], (routingGuard: AuthGuard, authService: AuthService, router: Router) => {
+        inject([
+            AuthGuard,
+            AuthService,
+            Router
+        ], (routingGuard: AuthGuard, authService: AuthService, router: Router) => {
             let authSpy = spyOn(authService, 'isLoggedIn');
             authSpy.and.returnValue(false);
 
             let routerSpy = spyOn(router, 'navigate');
 
-            let state: RouterStateSnapshot = {url: '/test/url', root: null};
+            let state: RouterStateSnapshot = {
+                url : '/test/url',
+                root: null
+            };
 
             let guardValue = routingGuard.canActivateChild(null, state);
 

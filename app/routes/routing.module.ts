@@ -9,265 +9,369 @@ import {AuthModule} from '../auth/auth.module';
 import {DashboardModule} from '../dashboard/dashboard.module';
 import {DashboardComponent} from '../dashboard/dashboard.component';
 
-import {PositionReportsModule} from '../position-reports/position.reports.module';
-import {PositionReportLatestComponent} from '../position-reports/position.report.latest.component';
-import {PositionReportHistoryComponent} from '../position-reports/position.report.history.component';
+import {PositionReportsModule} from '../position_reports/position.reports.module';
+import {PositionReportLatestComponent} from '../position_reports/position.report.latest.component';
+import {PositionReportHistoryComponent} from '../position_reports/position.report.history.component';
 
-import {MarginModule} from '../margin/margin.module';
-import {MarginComponentsLatestComponent} from '../margin/margin.components.latest.component';
-import {MarginComponentsHistoryComponent} from '../margin/margin.components.history.component';
-import {MarginShortfallSurplusLatestComponent} from '../margin/margin.shortfall.surplus.latest.component';
-import {MarginShortfallSurplusHistoryComponent} from '../margin/margin.shortfall.surplus.history.component';
+import {LiquiGroupMarginModule} from '../liqui_group_margin/liqui.group.margin.module';
+import {LiquiGroupMarginLatestComponent} from '../liqui_group_margin/liqui.group.margin.latest.component';
+import {LiquiGroupMarginHistoryComponent} from '../liqui_group_margin/liqui.group.margin.history.component';
 
-import {TotalMarginModule} from '../total-margin/total.margin.module';
-import {TotalMarginRequirementLatestComponent} from '../total-margin/total.margin.requirement.latest.component';
-import {TotalMarginRequirementHistoryComponent} from '../total-margin/total.margin.requirement.history.component';
+import {LiquiGroupSplitMarginModule} from '../liqui_group_split_margin/liqui.group.split.margin.module';
+import {LiquiGroupSplitMarginLatestComponent} from '../liqui_group_split_margin/liqui.group.split.margin.latest.component';
+import {LiquiGroupSplitMarginHistoryComponent} from '../liqui_group_split_margin/liqui.group.split.margin.history.component';
 
-import {RiskLimitsModule} from '../risk-limits/risk.limits.module';
-import {RiskLimitLatestComponent} from '../risk-limits/risk.limit.latest.component';
-import {RiskLimitHistoryComponent} from '../risk-limits/risk.limit.history.component';
+import {PoolMarginModule} from '../pool_margin/pool.margin.module';
+import {PoolMarginLatestComponent} from '../pool_margin/pool.margin.latest.component';
+import {PoolMarginHistoryComponent} from '../pool_margin/pool.margin.history.component';
+
+import {AccountMarginModule} from '../account_margin/account.margin.module';
+import {AccountMarginLatestComponent} from '../account_margin/account.margin.latest.component';
+import {AccountMarginHistoryComponent} from '../account_margin/account.margin.history.component';
+
+import {RiskLimitUtilizationModule} from '../risk_limit_utilization/risk.limit.utilization.module';
+import {RiskLimitUtilizationLatestComponent} from '../risk_limit_utilization/risk.limit.utilization.latest.component';
+import {RiskLimitUtilizationHistoryComponent} from '../risk_limit_utilization/risk.limit.utilization.history.component';
+import {
+    ACCOUNT_MARGIN_HISTORY,
+    ACCOUNT_MARGIN_LATEST,
+    LIQUI_GROUP_MARGIN_HISTORY,
+    LIQUI_GROUP_MARGIN_LATEST,
+    LIQUI_GROUP_SPLIT_MARGIN_LATEST,
+    LIQUI_GROUP_SPLIT_MARGIN_HISTORY,
+    POOL_MARGIN_HISTORY,
+    POOL_MARGIN_LATEST,
+    POSITION_REPORTS_HISTORY,
+    POSITION_REPORTS_LATEST,
+    RISK_LIMIT_UTILIZATION_HISTORY,
+    RISK_LIMIT_UTILIZATION_LATEST
+} from './routing.paths';
+
+const ACCOUNT_MARGIN: Route[] = [
+    {
+        path       : ACCOUNT_MARGIN_LATEST,
+        pathMatch  : 'full',
+        component  : AccountMarginLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : ACCOUNT_MARGIN_LATEST + '/:clearer',
+        pathMatch  : 'full',
+        component  : AccountMarginLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : ACCOUNT_MARGIN_LATEST + '/:clearer/:member',
+        pathMatch  : 'full',
+        component  : AccountMarginLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : ACCOUNT_MARGIN_LATEST + '/:clearer/:member/:account',
+        pathMatch  : 'full',
+        component  : AccountMarginLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : ACCOUNT_MARGIN_LATEST + '/:clearer/:member/:account/:marginCurrency',
+        pathMatch  : 'full',
+        component  : AccountMarginLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : ACCOUNT_MARGIN_HISTORY + '/:clearer/:member/:account/:marginCurrency',
+        pathMatch  : 'full',
+        component  : AccountMarginHistoryComponent,
+        canActivate: [AuthGuard]
+    }
+];
+
+const POSITION_REPORTS: Route[] = [
+    {
+        path       : POSITION_REPORTS_LATEST,
+        pathMatch  : 'full',
+        component  : PositionReportLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : POSITION_REPORTS_LATEST + '/:clearer',
+        pathMatch  : 'full',
+        component  : PositionReportLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : POSITION_REPORTS_LATEST + '/:clearer/:member',
+        pathMatch  : 'full',
+        component  : PositionReportLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : POSITION_REPORTS_LATEST + '/:clearer/:member/:account',
+        pathMatch  : 'full',
+        component  : PositionReportLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:liquidationGroup',
+        pathMatch  : 'full',
+        component  : PositionReportLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit',
+        pathMatch  : 'full',
+        component  : PositionReportLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:product',
+        pathMatch  : 'full',
+        component  : PositionReportLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:product/:callPut',
+        pathMatch  : 'full',
+        component  : PositionReportLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:product/:callPut/:contractYear',
+        pathMatch  : 'full',
+        component  : PositionReportLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:product/:callPut/:contractYear/:contractMonth',
+        pathMatch  : 'full',
+        component  : PositionReportLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:product/:callPut/:contractYear/:contractMonth/:expiryDay',
+        pathMatch  : 'full',
+        component  : PositionReportLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:product/:callPut/:contractYear/:contractMonth/:expiryDay/:exercisePrice',
+        pathMatch  : 'full',
+        component  : PositionReportLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:product/:callPut/:contractYear/:contractMonth/:expiryDay/:exercisePrice/:version',
+        pathMatch  : 'full',
+        component  : PositionReportLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:product/:callPut/:contractYear/:contractMonth/:expiryDay/:exercisePrice/:version/:flexContractSymbol',
+        pathMatch  : 'full',
+        component  : PositionReportLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : POSITION_REPORTS_HISTORY + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:product/:callPut/:contractYear/:contractMonth/:expiryDay/:exercisePrice/:version/:flexContractSymbol',
+        pathMatch  : 'full',
+        component  : PositionReportHistoryComponent,
+        canActivate: [AuthGuard]
+    }
+];
+
+const LIQUI_GROUP_MARGIN: Route[] = [
+    {
+        path       : LIQUI_GROUP_MARGIN_LATEST,
+        pathMatch  : 'full',
+        component  : LiquiGroupMarginLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : LIQUI_GROUP_MARGIN_LATEST + '/:clearer',
+        pathMatch  : 'full',
+        component  : LiquiGroupMarginLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : LIQUI_GROUP_MARGIN_LATEST + '/:clearer/:member',
+        pathMatch  : 'full',
+        component  : LiquiGroupMarginLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : LIQUI_GROUP_MARGIN_LATEST + '/:clearer/:member/:account',
+        pathMatch  : 'full',
+        component  : LiquiGroupMarginLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : LIQUI_GROUP_MARGIN_LATEST + '/:clearer/:member/:account/:marginClass',
+        pathMatch  : 'full',
+        component  : LiquiGroupMarginLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : LIQUI_GROUP_MARGIN_LATEST + '/:clearer/:member/:account/:marginClass/:marginCurrency',
+        pathMatch  : 'full',
+        component  : LiquiGroupMarginLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : LIQUI_GROUP_MARGIN_HISTORY + '/:clearer/:member/:account/:marginClass/:marginCurrency',
+        pathMatch  : 'full',
+        component  : LiquiGroupMarginHistoryComponent,
+        canActivate: [AuthGuard]
+    }
+];
+
+const LIQUI_GROUP_SPLIT_MARGIN: Route[] = [
+    {
+        path       : LIQUI_GROUP_SPLIT_MARGIN_LATEST,
+        pathMatch  : 'full',
+        component  : LiquiGroupSplitMarginLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : LIQUI_GROUP_SPLIT_MARGIN_LATEST + '/:clearer',
+        pathMatch  : 'full',
+        component  : LiquiGroupSplitMarginLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : LIQUI_GROUP_SPLIT_MARGIN_LATEST + '/:clearer/:member',
+        pathMatch  : 'full',
+        component  : LiquiGroupSplitMarginLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : LIQUI_GROUP_SPLIT_MARGIN_LATEST + '/:clearer/:member/:account',
+        pathMatch  : 'full',
+        component  : LiquiGroupSplitMarginLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : LIQUI_GROUP_SPLIT_MARGIN_LATEST + '/:clearer/:member/:account/:liquidationGroup',
+        pathMatch  : 'full',
+        component  : LiquiGroupSplitMarginLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : LIQUI_GROUP_SPLIT_MARGIN_LATEST + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit',
+        pathMatch  : 'full',
+        component  : LiquiGroupSplitMarginLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : LIQUI_GROUP_SPLIT_MARGIN_LATEST + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:marginCurrency',
+        pathMatch  : 'full',
+        component  : LiquiGroupSplitMarginLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : LIQUI_GROUP_SPLIT_MARGIN_HISTORY + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:marginCurrency',
+        pathMatch  : 'full',
+        component  : LiquiGroupSplitMarginHistoryComponent,
+        canActivate: [AuthGuard]
+    }
+];
+
+const POOL_MARGIN: Route[] = [
+    {
+        path       : POOL_MARGIN_LATEST,
+        pathMatch  : 'full',
+        component  : PoolMarginLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : POOL_MARGIN_LATEST + '/:clearer',
+        pathMatch  : 'full',
+        component  : PoolMarginLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : POOL_MARGIN_LATEST + '/:clearer/:pool',
+        pathMatch  : 'full',
+        component  : PoolMarginLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : POOL_MARGIN_LATEST + '/:clearer/:pool/:marginCurrency',
+        pathMatch  : 'full',
+        component  : PoolMarginLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : POOL_MARGIN_HISTORY + '/:clearer/:pool/:marginCurrency',
+        pathMatch  : 'full',
+        component  : PoolMarginHistoryComponent,
+        canActivate: [AuthGuard]
+    }
+];
+
+const RISK_LIMIT_UTILIZATION: Route[] = [
+    {
+        path       : RISK_LIMIT_UTILIZATION_LATEST,
+        pathMatch  : 'full',
+        component  : RiskLimitUtilizationLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : RISK_LIMIT_UTILIZATION_LATEST + '/:clearer',
+        pathMatch  : 'full',
+        component  : RiskLimitUtilizationLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : RISK_LIMIT_UTILIZATION_LATEST + '/:clearer/:member',
+        pathMatch  : 'full',
+        component  : RiskLimitUtilizationLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : RISK_LIMIT_UTILIZATION_LATEST + '/:clearer/:member/:maintainer',
+        pathMatch  : 'full',
+        component  : RiskLimitUtilizationLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : RISK_LIMIT_UTILIZATION_LATEST + '/:clearer/:member/:maintainer/:limitType',
+        pathMatch  : 'full',
+        component  : RiskLimitUtilizationLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : RISK_LIMIT_UTILIZATION_HISTORY + '/:clearer/:member/:maintainer/:limitType',
+        pathMatch  : 'full',
+        component  : RiskLimitUtilizationHistoryComponent,
+        canActivate: [AuthGuard]
+    }
+];
 
 const ROUTES: Route[] = [
     {
-        path: '',
+        path      : '',
         redirectTo: '/dashboard',
-        pathMatch: 'full'
+        pathMatch : 'full'
     },
     {
-        path: 'login',
+        path     : 'login',
         pathMatch: 'full',
         component: LoginComponent
     },
     {
-        path: 'dashboard',
-        pathMatch: 'full',
-        component: DashboardComponent,
+        path       : 'dashboard',
+        pathMatch  : 'full',
+        component  : DashboardComponent,
         canActivate: [AuthGuard]
     },
+    ...ACCOUNT_MARGIN,
+    ...LIQUI_GROUP_MARGIN,
+    ...LIQUI_GROUP_SPLIT_MARGIN,
+    ...POSITION_REPORTS,
+    ...POOL_MARGIN,
+    ...RISK_LIMIT_UTILIZATION,
     {
-        path: 'positionReportLatest',
-        pathMatch: 'full',
-        component: PositionReportLatestComponent,
-        canActivate: [AuthGuard]
-    },
-    {
-        path: 'positionReportLatest/:clearer',
-        pathMatch: 'full',
-        component: PositionReportLatestComponent,
-        canActivate: [AuthGuard]
-    },
-    {
-        path: 'positionReportLatest/:clearer/:member',
-        pathMatch: 'full',
-        component: PositionReportLatestComponent,
-        canActivate: [AuthGuard]
-    },
-    {
-        path: 'positionReportLatest/:clearer/:member/:account',
-        pathMatch: 'full',
-        component: PositionReportLatestComponent,
-        canActivate: [AuthGuard]
-    },
-    {
-        path: 'positionReportLatest/:clearer/:member/:account/:class',
-        pathMatch: 'full',
-        component: PositionReportLatestComponent,
-        canActivate: [AuthGuard]
-    },
-    {
-        path: 'positionReportLatest/:clearer/:member/:account/:class/:symbol',
-        pathMatch: 'full',
-        component: PositionReportLatestComponent,
-        canActivate: [AuthGuard]
-    },
-    {
-        path: 'positionReportLatest/:clearer/:member/:account/:class/:symbol/:putCall',
-        pathMatch: 'full',
-        component: PositionReportLatestComponent,
-        canActivate: [AuthGuard]
-    },
-    {
-        path: 'positionReportLatest/:clearer/:member/:account/:class/:symbol/:putCall/:strikePrice',
-        pathMatch: 'full',
-        component: PositionReportLatestComponent,
-        canActivate: [AuthGuard]
-    },
-    {
-        path: 'positionReportLatest/:clearer/:member/:account/:class/:symbol/:putCall/:strikePrice/:optAttribute',
-        pathMatch: 'full',
-        component: PositionReportLatestComponent,
-        canActivate: [AuthGuard]
-    },
-    {
-        path: 'positionReportLatest/:clearer/:member/:account/:class/:symbol/:putCall/:strikePrice/:optAttribute/:maturityMonthYear',
-        pathMatch: 'full',
-        component: PositionReportLatestComponent,
-        canActivate: [AuthGuard]
-    },
-    {
-        path: 'positionReportHistory/:clearer/:member/:account/:class/:symbol/:putCall/:strikePrice/:optAttribute/:maturityMonthYear',
-        pathMatch: 'full',
-        component: PositionReportHistoryComponent,
-        canActivate: [AuthGuard]
-    },
-    {
-        path: 'marginComponentLatest',
-        pathMatch: 'full',
-        component: MarginComponentsLatestComponent,
-        canActivate: [AuthGuard]
-    },
-    {
-        path: 'marginComponentLatest/:clearer',
-        pathMatch: 'full',
-        component: MarginComponentsLatestComponent,
-        canActivate: [AuthGuard]
-    },
-    {
-        path: 'marginComponentLatest/:clearer/:member',
-        pathMatch: 'full',
-        component: MarginComponentsLatestComponent,
-        canActivate: [AuthGuard]
-    },
-    {
-        path: 'marginComponentLatest/:clearer/:member/:account',
-        pathMatch: 'full',
-        component: MarginComponentsLatestComponent,
-        canActivate: [AuthGuard]
-    },
-    {
-        path: 'marginComponentLatest/:clearer/:member/:account/:class',
-        pathMatch: 'full',
-        component: MarginComponentsLatestComponent,
-        canActivate: [AuthGuard]
-    },
-    {
-        path: 'marginComponentLatest/:clearer/:member/:account/:class/:ccy',
-        pathMatch: 'full',
-        component: MarginComponentsLatestComponent,
-        canActivate: [AuthGuard]
-    },
-    {
-        path: 'marginComponentHistory/:clearer/:member/:account/:class/:ccy',
-        pathMatch: 'full',
-        component: MarginComponentsHistoryComponent,
-        canActivate: [AuthGuard]
-    },
-    {
-        path: 'totalMarginRequirementLatest',
-        pathMatch: 'full',
-        component: TotalMarginRequirementLatestComponent,
-        canActivate: [AuthGuard]
-    },
-    {
-        path: 'totalMarginRequirementLatest/:clearer',
-        pathMatch: 'full',
-        component: TotalMarginRequirementLatestComponent,
-        canActivate: [AuthGuard]
-    },
-    {
-        path: 'totalMarginRequirementLatest/:clearer/:pool',
-        pathMatch: 'full',
-        component: TotalMarginRequirementLatestComponent,
-        canActivate: [AuthGuard]
-    },
-    {
-        path: 'totalMarginRequirementLatest/:clearer/:pool/:member',
-        pathMatch: 'full',
-        component: TotalMarginRequirementLatestComponent,
-        canActivate: [AuthGuard]
-    },
-    {
-        path: 'totalMarginRequirementLatest/:clearer/:pool/:member/:account',
-        pathMatch: 'full',
-        component: TotalMarginRequirementLatestComponent,
-        canActivate: [AuthGuard]
-    },
-    {
-        path: 'totalMarginRequirementLatest/:clearer/:pool/:member/:account/:ccy',
-        pathMatch: 'full',
-        component: TotalMarginRequirementLatestComponent,
-        canActivate: [AuthGuard]
-    },
-    {
-        path: 'totalMarginRequirementHistory/:clearer/:pool/:member/:account/:ccy',
-        pathMatch: 'full',
-        component: TotalMarginRequirementHistoryComponent,
-        canActivate: [AuthGuard]
-    },
-    {
-        path: 'marginShortfallSurplusLatest',
-        pathMatch: 'full',
-        component: MarginShortfallSurplusLatestComponent,
-        canActivate: [AuthGuard]
-    },
-    {
-        path: 'marginShortfallSurplusLatest/:clearer',
-        pathMatch: 'full',
-        component: MarginShortfallSurplusLatestComponent,
-        canActivate: [AuthGuard]
-    },
-    {
-        path: 'marginShortfallSurplusLatest/:clearer/:pool',
-        pathMatch: 'full',
-        component: MarginShortfallSurplusLatestComponent,
-        canActivate: [AuthGuard]
-    },
-    {
-        path: 'marginShortfallSurplusLatest/:clearer/:pool/:member',
-        pathMatch: 'full',
-        component: MarginShortfallSurplusLatestComponent,
-        canActivate: [AuthGuard]
-    },
-    {
-        path: 'marginShortfallSurplusLatest/:clearer/:pool/:member/:clearingCcy',
-        pathMatch: 'full',
-        component: MarginShortfallSurplusLatestComponent,
-        canActivate: [AuthGuard]
-    },
-    {
-        path: 'marginShortfallSurplusHistory/:clearer/:pool/:member/:clearingCcy/:ccy',
-        pathMatch: 'full',
-        component: MarginShortfallSurplusHistoryComponent,
-        canActivate: [AuthGuard]
-    },
-    {
-        path: 'riskLimitLatest',
-        pathMatch: 'full',
-        component: RiskLimitLatestComponent,
-        canActivate: [AuthGuard]
-    },
-    {
-        path: 'riskLimitLatest/:clearer',
-        pathMatch: 'full',
-        component: RiskLimitLatestComponent,
-        canActivate: [AuthGuard]
-    },
-    {
-        path: 'riskLimitLatest/:clearer/:member',
-        pathMatch: 'full',
-        component: RiskLimitLatestComponent,
-        canActivate: [AuthGuard]
-    },
-    {
-        path: 'riskLimitLatest/:clearer/:member/:maintainer',
-        pathMatch: 'full',
-        component: RiskLimitLatestComponent,
-        canActivate: [AuthGuard]
-    },
-    {
-        path: 'riskLimitLatest/:clearer/:member/:maintainer/:limitType',
-        pathMatch: 'full',
-        component: RiskLimitLatestComponent,
-        canActivate: [AuthGuard]
-    },
-    {
-        path: 'riskLimitHistory/:clearer/:member/:maintainer/:limitType',
-        pathMatch: 'full',
-        component: RiskLimitHistoryComponent,
-        canActivate: [AuthGuard]
-    },
-    {
-        path: '**', // Otherwise
+        path      : '**', // Otherwise
         redirectTo: '/dashboard'
     }
 ];
@@ -278,9 +382,11 @@ const ROUTES: Route[] = [
         AuthModule,
         DashboardModule,
         PositionReportsModule,
-        MarginModule,
-        TotalMarginModule,
-        RiskLimitsModule
+        AccountMarginModule,
+        PoolMarginModule,
+        LiquiGroupMarginModule,
+        LiquiGroupSplitMarginModule,
+        RiskLimitUtilizationModule
     ],
     exports: [RouterModule]
 })

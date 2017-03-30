@@ -3,10 +3,10 @@ import {Component, HostBinding} from '@angular/core';
 import {AuthService} from './auth.service';
 
 @Component({
-    moduleId: module.id,
-    selector: 'login-menu',
+    moduleId   : module.id,
+    selector   : 'login-menu',
     templateUrl: 'login.menu.component.html',
-    styleUrls: ['../common.component.css']
+    styleUrls  : ['../common.component.css']
 })
 export class LoginMenuComponent {
 

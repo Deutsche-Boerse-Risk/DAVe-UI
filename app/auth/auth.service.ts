@@ -1,13 +1,13 @@
 import {Injectable, EventEmitter} from '@angular/core';
 
-import {AuthConfigConsts, JwtHelper} from 'angular2-jwt'
+import {AuthConfigConsts, JwtHelper} from 'angular2-jwt';
 
 import {HttpService} from '../http.service';
 import {Observable} from 'rxjs/Observable';
 
 const url = {
-    login: '/user/login',
-    status: '/user/loginStatus',
+    login  : '/user/login',
+    status : '/user/loginStatus',
     refresh: '/user/refreshToken'
 };
 
@@ -62,7 +62,7 @@ export class AuthService {
     public login(username: string, password: string): Observable<boolean> {
         return this.http.post({
             resourceURL: url.login,
-            data: {
+            data       : {
                 username: username,
                 password: password
             }
@@ -78,7 +78,7 @@ export class AuthService {
                 if (this.tokenData.username !== username) {
                     delete this.tokenData;
                     return Observable.throw({
-                        status: 500,
+                        status : 500,
                         message: 'Invalid token generated!'
                     });
                 }
@@ -86,14 +86,14 @@ export class AuthService {
                 if (this.jwtHelper.isTokenExpired(response.token)) {
                     delete this.tokenData;
                     return Observable.throw({
-                        status: 500,
+                        status : 500,
                         message: 'Invalid token expiration!'
                     });
                 }
             } catch (err) {
                 delete this.tokenData;
                 return Observable.throw({
-                    status: 500,
+                    status : 500,
                     message: err ? err.toString() : 'Error parsing token from auth response!'
                 });
             }
@@ -105,7 +105,7 @@ export class AuthService {
             return Observable.of(true);
         } else {
             return Observable.throw({
-                status: 401,
+                status : 401,
                 message: 'Authentication failed. Server didn\'t generate a token.'
             });
         }
@@ -115,7 +115,7 @@ export class AuthService {
         // remove user from local storage and clear http auth header
         delete this.tokenData;
         localStorage.removeItem(AuthConfigConsts.DEFAULT_TOKEN_NAME);
-        this.loggedInChange.emit(false)
+        this.loggedInChange.emit(false);
     }
 
     private checkAuth(): void {

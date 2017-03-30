@@ -1,0 +1,81 @@
+<list-content title="Account Margin"
+              [routeParts]="routeParts"
+              [exportKeys]="exportKeys"
+              [data]="data"
+              [initialLoad]="initialLoad"
+              [errorMessage]="errorMessage"
+              (filterChanged)="filter($event)">
+    <data-table [data]="data"
+                [pageSize]="pageSize"
+                [defaultOrdering]="defaultOrdering"
+                [trackByRowKey]="trackByRowKey">
+        <column title="Member / Client"
+                [sortingKey]="valueGetters.member">
+            <ng-template let-record="row" cell-template>
+                <a [routerLink]="[rootRoutePath, record.clearer || '*', record.member || '*']">
+                    {{record.member}}
+                </a>
+            </ng-template>
+        </column>
+        <column title="Account"
+                [sortingKey]="valueGetters.account">
+            <ng-template let-record="row" cell-template>
+                <a [routerLink]="[rootRoutePath, record.clearer || '*', record.member || '*', record.account || '*']">
+                    {{record.account}}
+                </a>
+            </ng-template>
+        </column>
+        <column title="Margin currency"
+                [sortingKey]="valueGetters.marginCurrency">
+            <ng-template let-record="row" cell-template>
+                <a [routerLink]="[rootRoutePath, record.clearer || '*', record.member || '*', record.account || '*', record.marginCurrency || '*']">
+                    {{record.marginCurrency}}
+                </a>
+            </ng-template>
+        </column>
+        <column title="Clearing currency"
+                [sortingKey]="valueGetters.clearingCurrency">
+            <ng-template let-record="row" cell-template>
+                {{record.clearingCurrency}}
+            </ng-template>
+        </column>
+        <column title="Collateral Pool"
+                [sortingKey]="valueGetters.pool">
+            <ng-template let-record="row" cell-template>
+                {{record.pool}}
+            </ng-template>
+        </column>
+        <column title="Margin requirement in margin currency"
+                [sortingKey]="valueGetters.marginReqInMarginCurr">
+            <ng-template let-record="row" cell-template>
+                {{record.marginReqInMarginCurr | number:'.2-2'}}
+            </ng-template>
+        </column>
+        <column title="Margin requirement in clearing currency"
+                [sortingKey]="valueGetters.marginReqInClrCurr">
+            <ng-template let-record="row" cell-template>
+                {{record.marginReqInClrCurr | number:'.2-2'}}
+            </ng-template>
+        </column>
+        <column title="Unadjusted Margin"
+                [sortingKey]="valueGetters.unadjustedMarginRequirement">
+            <ng-template let-record="row" cell-template>
+                {{record.unadjustedMarginRequirement | number:'.2-2'}}
+            </ng-template>
+        </column>
+        <column title="Variation Premium Payment"
+                [sortingKey]="valueGetters.variationPremiumPayment">
+            <ng-template let-record="row" cell-template>
+                {{record.variationPremiumPayment | number:'.2-2'}}
+            </ng-template>
+        </column>
+        <column>
+            <ng-template let-record="row" cell-template>
+                <drilldown-row-button
+                        [routerLink]="['/marginComponentLatest', record.clearer || '*', record.member || '*', record.account || '*', '*', record.marginCurrency || '*']"></drilldown-row-button>
+                <detail-row-button
+                        [routerLink]="['/accountMarginHistory', record.clearer || '*', record.member || '*', record.account || '*', record.marginCurrency || '*']"></detail-row-button>
+            </ng-template>
+        </column>
+    </data-table>
+</list-content>
