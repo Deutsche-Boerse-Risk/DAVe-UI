@@ -124,6 +124,8 @@ module.exports = function (config) {
         browserStack: {
             binaryBasePath: 'browserStackBin/',
             project: 'DAVe-UI',
+            build: 'DAVe-UI/Karma test local',
+            name: 'DAVe-UI - Karma test',
             retryLimit: 3,
             timeout: 600, // Timeout in seconds (10 min.)
             pollingTimeout: 10000
