@@ -102,5 +102,22 @@ If you are located behind a company proxy you will need to export also `HTTP_PRO
 ```
 Then run `grunt testBrowserStackProxy` instead.
 
+There are also tasks to run BrowserStack based tests only for a selected browser:
+```bash
+# BrowserStack test tasks
+grunt testBrowserStackChrome
+grunt testBrowserStackFirefox
+grunt testBrowserStackEdge
+grunt testBrowserStackIE
+grunt testBrowserStackSafari
+
+# BrowserStack (behind proxy) test tasks
+grunt testBrowserStackProxyChrome
+grunt testBrowserStackProxyFirefox
+grunt testBrowserStackProxyEdge
+grunt testBrowserStackProxyIE
+grunt testBrowserStackProxySafari
+```
+
 # Docker image to run standalone UI
 [DAVe-UI Docker image](dockerfile)
