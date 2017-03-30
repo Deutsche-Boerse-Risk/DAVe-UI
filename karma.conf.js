@@ -123,6 +123,7 @@ module.exports = function (config) {
 
         browserStack: {
             binaryBasePath: 'browserStackBin/',
+            project: 'DAVe-UI',
             retryLimit: 3,
             timeout: 600, // Timeout in seconds (10 min.)
             pollingTimeout: 10000
@@ -137,8 +138,15 @@ module.exports = function (config) {
         crossOriginAttribute: false,
         singleRun: !debugTests,
         logLevel: config.LOG_INFO,
-        captureTimeout: 60000,
-        browserDisconnectTimeout: 10000,
-        browserNoActivityTimeout: 120000
-    })
+        captureTimeout: 180000,
+        browserDisconnectTimeout: 180000,
+        browserDisconnectTolerance: 3,
+        browserNoActivityTimeout: 300000
+    });
+
+    if (process.env.CIRCLECI) {
+        config.browserStack.build = process.env.CIRCLE_PROJECT_USERNAME + '/' + process.env.CIRCLE_PROJECT_REPONAME
+            + '/' + process.env.CIRCLE_BRANCH + '/build ' + process.env.CIRCLE_BUILD_NUM;
+        config.browserStack.name = process.env.CIRCLE_PROJECT_REPONAME + '/' + process.env.CIRCLE_BRANCH + ' - Karma test';
+    }
 };
