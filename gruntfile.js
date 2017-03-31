@@ -271,6 +271,9 @@ module.exports = function (grunt) {
             devBrowserStackIE: {
                 browsers: browsers.BrowserStack.IE
             },
+            devBrowserStackIOS: {
+                browsers: browsers.BrowserStack.IOS
+            },
             devBrowserStackSafari: {
                 browsers: browsers.BrowserStack.SA
             },
@@ -308,6 +311,14 @@ module.exports = function (grunt) {
             },
             devBrowserStackProxyIE: {
                 browsers: browsers.BrowserStack.IE,
+                browserStack: {
+                    proxyHost: proxy_parts[4],
+                    proxyPort: proxy_parts[5] || 8080,
+                    proxyProtocol: proxy_parts[2] || 'http'
+                }
+            },
+            devBrowserStackProxyIOS: {
+                browsers: browsers.BrowserStack.IOS,
                 browserStack: {
                     proxyHost: proxy_parts[4],
                     proxyPort: proxy_parts[5] || 8080,
@@ -458,6 +469,7 @@ module.exports = function (grunt) {
     grunt.registerTask('testBrowserStackFirefox', ['build', 'karma:devBrowserStackFirefox', 'remapIstanbul']);
     grunt.registerTask('testBrowserStackEdge', ['build', 'karma:devBrowserStackEdge', 'remapIstanbul']);
     grunt.registerTask('testBrowserStackIE', ['build', 'karma:devBrowserStackIE', 'remapIstanbul']);
+    grunt.registerTask('testBrowserStackIOS', ['build', 'karma:devBrowserStackIOS', 'remapIstanbul']);
     grunt.registerTask('testBrowserStackSafari', ['build', 'karma:devBrowserStackSafari', 'remapIstanbul']);
 
     // BrowserStack (behind proxy) test tasks
@@ -466,6 +478,7 @@ module.exports = function (grunt) {
     grunt.registerTask('testBrowserStackProxyFirefox', ['build', 'karma:devBrowserStackProxyFirefox', 'remapIstanbul']);
     grunt.registerTask('testBrowserStackProxyEdge', ['build', 'karma:devBrowserStackProxyEdge', 'remapIstanbul']);
     grunt.registerTask('testBrowserStackProxyIE', ['build', 'karma:devBrowserStackProxyIE', 'remapIstanbul']);
+    grunt.registerTask('testBrowserStackProxyIOS', ['build', 'karma:devBrowserStackProxyIOS', 'remapIstanbul']);
     grunt.registerTask('testBrowserStackProxySafari', ['build', 'karma:devBrowserStackProxySafari', 'remapIstanbul']);
 
     // CircleCI test tasks

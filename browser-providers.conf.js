@@ -93,6 +93,14 @@ var customLaunchers = {
         browser_version: '10.0',
         os: 'OS X',
         os_version: 'Sierra'
+    },
+    BS_IOS7: {
+        base: 'BrowserStack',
+        device: 'iPhone 5S',
+        os: 'ios',
+        os_version: '7.0',
+        browser_version: null,
+        browser: 'Mobile Safari'
     }
 };
 
@@ -104,6 +112,7 @@ var BrowserStack = {
     FIREFOX: ['BS_FIREFOX50', 'BS_FIREFOX_LATEST'],
     IE: [/*'BS_IE9', 'BS_IE10', */'BS_IE11'], // TODO: optimze to test IE 10 and 9
     EDGE: ['BS_EDGE13', 'BS_EDGE14'],
+    IOS: ['BS_IOS7'],
     SAFARI: ['BS_SAFARI7', 'BS_SAFARI8', 'BS_SAFARI9', 'BS_SAFARI10']
 };
 
