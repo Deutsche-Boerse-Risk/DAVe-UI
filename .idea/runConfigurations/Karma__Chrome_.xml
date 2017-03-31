@@ -5,6 +5,12 @@
     <karma-package-dir value="$PROJECT_DIR$/node_modules/karma" />
     <node-interpreter value="project" />
     <envs />
-    <method />
+    <method>
+      <option name="GruntBeforeRunTask" enabled="true">
+        <node-interpreter value="project" />
+        <gruntfile value="$PROJECT_DIR$/gruntfile.js" />
+        <envs />
+      </option>
+    </method>
   </configuration>
 </component>
