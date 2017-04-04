@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-DOCKER_ORG_NAME=scholzj
+DOCKER_ORG_NAME=dbgdave
 DOCKER_IMAGE_NAME=dave-ui
 
 # Get current location and dave-ui root
