@@ -10,16 +10,7 @@ export interface PoolMarginHistoryParams extends PoolMarginParams {
     marginCurrency: string;
 }
 
-export interface PoolMarginBase {
-    // uid: string;
-    // shortfallSurplus: number;  ???  marginCall: number; ??? overUnderInMarginCurr
-    // marginRequirement: number;  requiredMargin
-    // securityCollateral: number; cashCollateralAmount + adjustedSecurities + adjustedGuarantee + variPremInMarginCurr
-    // cashBalance: number;   cashCollateralAmount  + variPremInMarginCurr
-
-}
-
-export interface PoolMarginServerData extends PoolMarginHistoryParams, PoolMarginBase {
+export interface PoolMarginServerData extends PoolMarginHistoryParams {
     clrRptCurrency: string;
     requiredMargin: number;
     cashCollateralAmount: number;
@@ -34,7 +25,15 @@ export interface PoolMarginServerData extends PoolMarginHistoryParams, PoolMargi
     businessDate: number;
     timestamp: number;
 }
+
 export interface PoolMarginData extends PoolMarginServerData {
     uid: string;
     received: Date;
+}
+
+export interface PoolMarginSummaryData {
+    shortfallSurplus: number; // -> overUnderInMarginCurr
+    marginRequirement: number; // -> requiredMargin
+    totalCollateral: number; //cashCollateralAmount + adjustedSecurities + adjustedGuarantee + variPremInMarginCurr
+    cashBalance: number;  // cashCollateralAmount  + variPremInMarginCurr
 }

@@ -6,7 +6,7 @@ import Spy = jasmine.Spy;
 import {HttpService, Request} from '../http.service';
 
 import {PoolMarginService, poolMarginHistoryURL, poolMarginLatestURL} from './pool.margin.service';
-import {PoolMarginData, PoolMarginServerData, PoolMarginBase} from './pool.margin.types';
+import {PoolMarginData, PoolMarginServerData, PoolMarginSummaryData} from './pool.margin.types';
 
 describe('PoolMarginService', () => {
     let httpSyp: Spy;
@@ -109,40 +109,34 @@ describe('PoolMarginService', () => {
                 let originalData = http.popReturnValue();
                 http.returnValue(originalData);
                 poolMarginService.getPoolMarginSummaryData().subscribe(
-                    (data: PoolMarginBase) => {
+                    (data: PoolMarginSummaryData) => {
                         expect(httpSyp).toHaveBeenCalledTimes(1);
                         expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL)
                             .toBe(poolMarginLatestURL);
                         expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params)
                             .not.toBeDefined();
 
-                        let aggregatedData: PoolMarginBase = {
-                            uid               : null,
-                            shortfallSurplus  : 0,
-                            marginRequirement : 0,
-                            securityCollateral: 0,
-                            cashBalance       : 0,
-                            marginCall        : 0
+                        let aggregatedData: PoolMarginSummaryData = {
+                            shortfallSurplus : 0,
+                            marginRequirement: 0,
+                            totalCollateral  : 0,
+                            cashBalance      : 0
                         };
 
                         originalData.forEach((record: PoolMarginServerData) => {
-                            aggregatedData.shortfallSurplus += record.shortfallSurplus;
-                            aggregatedData.marginRequirement += record.marginRequirement;
-                            aggregatedData.securityCollateral += record.securityCollateral;
-                            aggregatedData.cashBalance += record.cashBalance;
-                            aggregatedData.marginCall += record.marginCall;
+                            aggregatedData.shortfallSurplus += record.overUnderInMarginCurr;
+                            aggregatedData.marginRequirement += record.requiredMargin;
+                            aggregatedData.totalCollateral += record.cashCollateralAmount + record.adjustedSecurities
+                                + record.adjustedGuarantee + record.variPremInMarginCurr;
+                            aggregatedData.cashBalance += record.cashCollateralAmount + record.variPremInMarginCurr;
                         });
 
-                        expect(data.shortfallSurplus).toBe(aggregatedData.shortfallSurplus);
-                        expect(data.marginRequirement).toBe(aggregatedData.marginRequirement);
-                        expect(data.securityCollateral).toBe(aggregatedData.securityCollateral);
-                        expect(data.cashBalance).toBe(aggregatedData.cashBalance);
-                        expect(data.marginCall).toBe(aggregatedData.marginCall);
+                        expect(data).toEqual(aggregatedData);
                     });
 
                 http.returnValue(null);
                 poolMarginService.getPoolMarginSummaryData()
-                    .subscribe((data: PoolMarginBase) => {
+                    .subscribe((data: PoolMarginSummaryData) => {
                         expect(httpSyp).toHaveBeenCalledTimes(2);
                         expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL)
                             .toBe(poolMarginLatestURL);
@@ -151,9 +145,8 @@ describe('PoolMarginService', () => {
                         expect(data).toBeDefined();
                         expect(data.shortfallSurplus).not.toBeDefined();
                         expect(data.marginRequirement).not.toBeDefined();
-                        expect(data.securityCollateral).not.toBeDefined();
+                        expect(data.totalCollateral).not.toBeDefined();
                         expect(data.cashBalance).not.toBeDefined();
-                        expect(data.marginCall).not.toBeDefined();
                     });
             })
     );

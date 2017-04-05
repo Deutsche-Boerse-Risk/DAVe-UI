@@ -3,7 +3,7 @@ import {Component} from '@angular/core';
 import {AbstractComponentWithAutoRefresh} from '../abstract.component';
 
 import {PoolMarginService} from './pool.margin.service';
-import {PoolMarginBase} from './pool.margin.types';
+import {PoolMarginSummaryData} from './pool.margin.types';
 import {ErrorResponse} from '../http.service';
 
 @Component({
@@ -14,7 +14,7 @@ import {ErrorResponse} from '../http.service';
 })
 export class PoolMarginLatestSummaryComponent extends AbstractComponentWithAutoRefresh {
 
-    public data: PoolMarginBase;
+    public data: PoolMarginSummaryData;
 
     constructor(private marginService: PoolMarginService) {
         super();
@@ -22,7 +22,7 @@ export class PoolMarginLatestSummaryComponent extends AbstractComponentWithAutoR
 
     protected loadData(): void {
         this.marginService.getPoolMarginSummaryData()
-            .subscribe((data: PoolMarginBase) => {
+            .subscribe((data: PoolMarginSummaryData) => {
                 this.data = data;
             }, (error: ErrorResponse) => {
                 console.error(error);

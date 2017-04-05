@@ -6,7 +6,7 @@ import {UIDUtils} from '../uid.utils';
 import {parseServerDate} from '../date.utils';
 
 import {
-    PoolMarginServerData, PoolMarginBase, PoolMarginData, PoolMarginParams, PoolMarginHistoryParams
+    PoolMarginServerData, PoolMarginSummaryData, PoolMarginData, PoolMarginParams, PoolMarginHistoryParams
 } from './pool.margin.types';
 
 export const poolMarginLatestURL: string = '/pm/latest';
@@ -18,29 +18,26 @@ export class PoolMarginService {
     constructor(private http: HttpService<PoolMarginServerData[]>) {
     }
 
-    public getPoolMarginSummaryData(): Observable<PoolMarginBase> {
+    public getPoolMarginSummaryData(): Observable<PoolMarginSummaryData> {
         return this.http.get({resourceURL: poolMarginLatestURL}).map(
             (data: PoolMarginServerData[]) => {
                 if (!data) {
                     return {};
                 }
-                let result: PoolMarginBase = {
-                    uid               : null,
-                    shortfallSurplus  : 0,
-                    marginRequirement : 0,
-                    securityCollateral: 0,
-                    cashBalance       : 0,
-                    marginCall        : 0
+                let result: PoolMarginSummaryData = {
+                    shortfallSurplus : 0,
+                    marginRequirement: 0,
+                    totalCollateral  : 0,
+                    cashBalance      : 0
                 };
 
-                for (let index = 0; index < data.length; ++index) {
-                    // TODO: ???
-                    // result.shortfallSurplus += data[index].shortfallSurplus;
-                    // result.marginRequirement += data[index].marginRequirement;
-                    // result.securityCollateral += data[index].securityCollateral;
-                    // result.cashBalance += data[index].cashBalance;
-                    // result.marginCall += data[index].marginCall;
-                }
+                data.forEach((record: PoolMarginServerData) => {
+                    result.shortfallSurplus += record.overUnderInMarginCurr;
+                    result.marginRequirement += record.requiredMargin;
+                    result.totalCollateral += record.cashCollateralAmount + record.adjustedSecurities
+                        + record.adjustedGuarantee + record.variPremInMarginCurr;
+                    result.cashBalance += record.cashCollateralAmount + record.variPremInMarginCurr;
+                });
                 return result;
             });
     }
