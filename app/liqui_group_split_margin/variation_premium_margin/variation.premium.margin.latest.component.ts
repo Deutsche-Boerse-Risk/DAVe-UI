@@ -1,31 +1,29 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {ErrorResponse} from '../http.service';
+import {ErrorResponse} from '../../http.service';
 
-import {LiquiGroupSplitMarginService} from './liqui.group.split.margin.service';
-import {LiquiGroupSplitMarginData, LiquiGroupSplitMarginParams} from './liqui.group.split.margin.types';
+import {LiquiGroupSplitMarginService} from '../liqui.group.split.margin.service';
+import {LiquiGroupSplitMarginData, LiquiGroupSplitMarginParams} from '../liqui.group.split.margin.types';
 
-import {AbstractLatestListComponent} from '../list/abstract.latest.list.component';
-import {ExportColumn} from '../list/download.menu.component';
-import {OrderingCriteria, OrderingValueGetter} from '../datatable/data.table.column.directive';
-import {LIQUI_GROUP_SPLIT_MARGIN_LATEST} from '../routes/routing.paths';
+import {AbstractLatestListComponent} from '../../list/abstract.latest.list.component';
+import {ExportColumn} from '../../list/download.menu.component';
+import {OrderingCriteria, OrderingValueGetter} from '../../datatable/data.table.column.directive';
+import {VARIATION_PREMIUM_MARGIN_LATEST} from '../../routes/routing.paths';
 
 export const routingKeys: (keyof LiquiGroupSplitMarginParams)[] = [
     'clearer',
     'member',
     'account',
-    'liquidationGroup',
-    'liquidationGroupSplit',
-    'marginCurrency'
+    'liquidationGroup'
 ];
 
 @Component({
     moduleId   : module.id,
-    templateUrl: 'liqui.group.split.margin.latest.component.html',
-    styleUrls  : ['../common.component.css']
+    templateUrl: 'variation.premium.margin.latest.component.html',
+    styleUrls  : ['../../common.component.css']
 })
-export class LiquiGroupSplitMarginLatestComponent extends AbstractLatestListComponent<LiquiGroupSplitMarginData> {
+export class VariationPremiumMarginLatestComponent extends AbstractLatestListComponent<LiquiGroupSplitMarginData> {
 
     constructor(private liquiGroupSplitMarginService: LiquiGroupSplitMarginService,
         route: ActivatedRoute) {
@@ -34,12 +32,10 @@ export class LiquiGroupSplitMarginLatestComponent extends AbstractLatestListComp
 
     protected loadData(): void {
         this.liquiGroupSplitMarginService.getLiquiGroupSplitMarginLatest({
-            clearer              : this.routeParams['clearer'],
-            member               : this.routeParams['member'],
-            account              : this.routeParams['account'],
-            liquidationGroup     : this.routeParams['liquidationGroup'],
-            liquidationGroupSplit: this.routeParams['liquidationGroupSplit'],
-            marginCurrency       : this.routeParams['marginCurrency']
+            clearer         : this.routeParams['clearer'],
+            member          : this.routeParams['member'],
+            account         : this.routeParams['account'],
+            liquidationGroup: this.routeParams['liquidationGroup']
         }).subscribe(
             (rows: LiquiGroupSplitMarginData[]) => {
                 this.processData(rows);
@@ -65,11 +61,11 @@ export class LiquiGroupSplitMarginLatestComponent extends AbstractLatestListComp
     }
 
     public get rootRouteTitle(): string {
-        return 'Latest Liquidation Group Split Margin';
+        return 'Latest Variation / Premium Margin';
     }
 
     protected get rootRoutePath(): string {
-        return '/' + LIQUI_GROUP_SPLIT_MARGIN_LATEST;
+        return '/' + VARIATION_PREMIUM_MARGIN_LATEST;
     }
 
     public get valueGetters() {

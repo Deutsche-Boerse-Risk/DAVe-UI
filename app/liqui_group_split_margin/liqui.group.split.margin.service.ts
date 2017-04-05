@@ -40,10 +40,11 @@ export class LiquiGroupSplitMarginService {
 
     private static processLiquiGroupSplitMarginData(record: LiquiGroupSplitMarginServerData): LiquiGroupSplitMarginData {
         return {
-            uid     : UIDUtils.computeUID(record.clearer, record.member, record.account, record.liquidationGroup,
+            uid             : UIDUtils.computeUID(record.clearer, record.member, record.account, record.liquidationGroup,
                 record.liquidationGroupSplit, record.marginCurrency, record.snapshotID),
             ...record,
-            received: parseServerDate(record.timestamp)
+            additionalMargin: (record.marketRisk || 0) + (record.liquRisk || 0) + (record.longOptionCredit || 0),
+            received        : parseServerDate(record.timestamp)
         };
     }
 }

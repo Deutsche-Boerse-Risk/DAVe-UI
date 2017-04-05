@@ -4,8 +4,11 @@ export const ACCOUNT_MARGIN_HISTORY = 'accountMarginHistory';
 export const LIQUI_GROUP_MARGIN_LATEST = 'liquiGroupMarginLatest';
 export const LIQUI_GROUP_MARGIN_HISTORY = 'liquiGroupMarginHistory';
 
-export const LIQUI_GROUP_SPLIT_MARGIN_LATEST = 'liquiGroupSplitMarginLatest';
-export const LIQUI_GROUP_SPLIT_MARGIN_HISTORY = 'liquiGroupSplitMarginHistory';
+export const VARIATION_PREMIUM_MARGIN_LATEST = 'variPremiumMarginLatest';
+export const VARIATION_PREMIUM_MARGIN_HISTORY = 'variPremiumMarginHistory';
+
+export const INITIAL_MARGIN_LATEST = 'initialMarginLatest';
+export const INITIAL_MARGIN_HISTORY = 'initialMarginHistory';
 
 export const POOL_MARGIN_LATEST = 'poolMarginLatest';
 export const POOL_MARGIN_HISTORY = 'poolMarginHistory';

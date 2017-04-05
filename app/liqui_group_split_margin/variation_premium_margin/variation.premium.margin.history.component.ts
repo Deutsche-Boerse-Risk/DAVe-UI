@@ -2,25 +2,35 @@ import {DecimalPipe} from '@angular/common';
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {ErrorResponse} from '../http.service';
+import {ErrorResponse} from '../../http.service';
 
-import {LiquiGroupSplitMarginService} from './liqui.group.split.margin.service';
-import {LiquiGroupSplitMarginData} from './liqui.group.split.margin.types';
+import {LiquiGroupSplitMarginService} from '../liqui.group.split.margin.service';
+import {LiquiGroupSplitMarginData, LiquiGroupSplitMarginHistoryParams} from '../liqui.group.split.margin.types';
 
-import {DateFormatter} from '../common/common.module';
-import {AbstractHistoryListComponent, LineChartColumn} from '../list/abstract.history.list.component';
-import {ExportColumn} from '../list/download.menu.component';
-import {OrderingCriteria} from '../datatable/data.table.column.directive';
+import {DateFormatter} from '../../common/common.module';
+import {AbstractHistoryListComponent, LineChartColumn} from '../../list/abstract.history.list.component';
+import {ExportColumn} from '../../list/download.menu.component';
+import {OrderingCriteria} from '../../datatable/data.table.column.directive';
 
-import {exportKeys, routingKeys, valueGetters} from './liqui.group.split.margin.latest.component';
-import {LIQUI_GROUP_MARGIN_LATEST} from '../routes/routing.paths';
+import {exportKeys, valueGetters} from './variation.premium.margin.latest.component';
+import {VARIATION_PREMIUM_MARGIN_LATEST} from '../../routes/routing.paths';
+import {RoutePart} from '../../list/bread.crumbs.component';
+
+export const routingKeys: (keyof LiquiGroupSplitMarginHistoryParams)[] = [
+    'clearer',
+    'member',
+    'account',
+    'liquidationGroup',
+    'liquidationGroupSplit',
+    'marginCurrency'
+];
 
 @Component({
     moduleId   : module.id,
-    templateUrl: 'liqui.group.split.margin.history.component.html',
-    styleUrls  : ['../common.component.css']
+    templateUrl: 'variation.premium.margin.history.component.html',
+    styleUrls  : ['../../common.component.css']
 })
-export class LiquiGroupSplitMarginHistoryComponent extends AbstractHistoryListComponent<LiquiGroupSplitMarginData> {
+export class VariationPremiumMarginHistoryComponent extends AbstractHistoryListComponent<LiquiGroupSplitMarginData> {
 
     constructor(private liquiGroupSplitMarginService: LiquiGroupSplitMarginService,
         route: ActivatedRoute, dateFormatter: DateFormatter, numberPipe: DecimalPipe) {
@@ -42,6 +52,14 @@ export class LiquiGroupSplitMarginHistoryComponent extends AbstractHistoryListCo
                 this.errorMessage = 'Server returned status ' + err.status;
                 this.initialLoad = false;
             });
+    }
+
+    protected createRoutePart(title: string, routePath: string, key: string, index: number): RoutePart {
+        let part: RoutePart = super.createRoutePart(title, routePath, key, index);
+        if (key === 'liquidationGroupSplit' || key === 'marginCurrency') {
+            part.inactive = true;
+        }
+        return part;
     }
 
     protected getTickFromRecord(record: LiquiGroupSplitMarginData): LineChartColumn[] {
@@ -91,11 +109,11 @@ export class LiquiGroupSplitMarginHistoryComponent extends AbstractHistoryListCo
     }
 
     public get rootRouteTitle(): string {
-        return 'Liquidation Group Split Margin History';
+        return 'Variation / Premium Margin History';
     }
 
     protected get rootRoutePath(): string {
-        return '/' + LIQUI_GROUP_MARGIN_LATEST;
+        return '/' + VARIATION_PREMIUM_MARGIN_LATEST;
     }
 
     public get valueGetters() {

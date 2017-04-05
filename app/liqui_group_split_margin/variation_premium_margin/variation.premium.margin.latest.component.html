@@ -36,37 +36,21 @@
         <column title="Liquidation Group Split"
                 [sortingKey]="valueGetters.liquidationGroupSplit">
             <ng-template let-record="row" cell-template>
-                    {{record.liquidationGroupSplit}}
+                {{record.liquidationGroupSplit}}
             </ng-template>
         </column>
         <column title="Premium Margin"
-                [sortingKey]="valueGetters.premiumMargin">
+                [sortingKey]="valueGetters.premiumMargin"
+                contentAlign="right">
             <ng-template let-record="row" cell-template>
-                {{record.marginCurrency}} {{record.premiumMargin | number:'.2-2'}}
-            </ng-template>
-        </column>
-        <column title="Market Risk"
-                [sortingKey]="valueGetters.marketRisk">
-            <ng-template let-record="row" cell-template>
-                {{record.marginCurrency}} {{record.marketRisk | number:'.2-2'}}
-            </ng-template>
-        </column>
-        <column title="Liqu Risk"
-                [sortingKey]="valueGetters.liquRisk">
-            <ng-template let-record="row" cell-template>
-                {{record.marginCurrency}} {{record.liquRisk | number:'.2-2'}}
-            </ng-template>
-        </column>
-        <column title="Long Option Credit"
-                [sortingKey]="valueGetters.longOptionCredit">
-            <ng-template let-record="row" cell-template>
-                {{record.marginCurrency}} {{record.longOptionCredit | number:'.2-2'}}
+                {{record.premiumMargin | number:'.2-2'}} {{record.marginCurrency}}
             </ng-template>
         </column>
         <column title="Variation Premium Payment"
-                [sortingKey]="valueGetters.variationPremiumPayment">
+                [sortingKey]="valueGetters.variationPremiumPayment"
+                contentAlign="right">
             <ng-template let-record="row" cell-template>
-                {{record.marginCurrency}} {{record.variationPremiumPayment | number:'.2-2'}}
+                {{record.variationPremiumPayment | number:'.2-2'}} {{record.marginCurrency}}
             </ng-template>
         </column>
         <column>
@@ -74,7 +58,7 @@
                 <drilldown-row-button
                         [routerLink]="['/positionReportLatest', record.clearer || '*', record.member || '*', record.account || '*', record.class || '*']"></drilldown-row-button>
                 <detail-row-button
-                        [routerLink]="['/liquiGroupSplitMarginHistory', record.clearer || '*', record.member || '*', record.account || '*', record.liquidationGroup || '*', record.liquidationGroupSplit || '*', record.marginCurrency || '*']"></detail-row-button>
+                        [routerLink]="['/variPremiumMarginHistory', record.clearer || '*', record.member || '*', record.account || '*', record.liquidationGroup || '*', record.liquidationGroupSplit || '*', record.marginCurrency || '*']"></detail-row-button>
             </ng-template>
         </column>
     </data-table>

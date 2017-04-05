@@ -48,23 +48,19 @@ describe('MarginService', () => {
 
                 http.returnValue(null);
                 liquiGroupSplitMarginService.getLiquiGroupSplitMarginLatest({
-                    clearer              : 'a',
-                    member               : 'b',
-                    account              : 'c',
-                    liquidationGroup     : 'd',
-                    liquidationGroupSplit: 'e',
-                    marginCurrency       : 'f'
+                    clearer         : 'a',
+                    member          : 'b',
+                    account         : 'c',
+                    liquidationGroup: 'd'
                 }).subscribe((data: LiquiGroupSplitMarginData[]) => {
                     expect(httpSyp).toHaveBeenCalledTimes(2);
                     expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL)
                         .toBe(liquiGroupSplitMarginLatestURL);
                     expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params).toEqual({
-                        clearer              : 'a',
-                        member               : 'b',
-                        account              : 'c',
-                        liquidationGroup     : 'd',
-                        liquidationGroupSplit: 'e',
-                        marginCurrency       : 'f'
+                        clearer         : 'a',
+                        member          : 'b',
+                        account         : 'c',
+                        liquidationGroup: 'd'
                     });
                     expect(data).toBeDefined();
                     expect(data.length).toBe(0);

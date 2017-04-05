@@ -12,7 +12,8 @@ import {
     POSITION_REPORTS_HISTORY,
     ACCOUNT_MARGIN_HISTORY,
     POOL_MARGIN_HISTORY,
-    LIQUI_GROUP_SPLIT_MARGIN_HISTORY,
+    INITIAL_MARGIN_HISTORY,
+    VARIATION_PREMIUM_MARGIN_HISTORY,
     LIQUI_GROUP_MARGIN_HISTORY
 } from '../routes/routing.paths';
 
@@ -79,9 +80,13 @@ describe('Menu component', () => {
         page.detectChanges();
         page.isActive('Liquidation Group Margin', 'Margin Requirement');
 
-        router.navigateByUrl('/' + LIQUI_GROUP_SPLIT_MARGIN_HISTORY);
+        router.navigateByUrl('/' + INITIAL_MARGIN_HISTORY);
         page.detectChanges();
-        page.isActive('Liquidation Group Split Margin', 'Margin Requirement');
+        page.isActive('Initial Margin', 'Margin Requirement');
+
+        router.navigateByUrl('/' + VARIATION_PREMIUM_MARGIN_HISTORY);
+        page.detectChanges();
+        page.isActive('Variation / Premium Margin', 'Margin Requirement');
 
         router.navigateByUrl('/' + ACCOUNT_MARGIN_HISTORY);
         page.detectChanges();

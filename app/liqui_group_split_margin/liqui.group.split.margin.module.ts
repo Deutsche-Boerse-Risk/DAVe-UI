@@ -7,8 +7,11 @@ import {DataTableModule} from '../datatable/data.table.module';
 import {ListModule} from '../list/list.module';
 
 import {LiquiGroupSplitMarginService} from './liqui.group.split.margin.service';
-import {LiquiGroupSplitMarginLatestComponent} from './liqui.group.split.margin.latest.component';
-import {LiquiGroupSplitMarginHistoryComponent} from './liqui.group.split.margin.history.component';
+
+import {InitialMarginLatestComponent} from './initial_margin/initial.margin.latest.component';
+import {InitialMarginHistoryComponent} from './initial_margin/initial.margin.history.component';
+import {VariationPremiumMarginLatestComponent} from './variation_premium_margin/variation.premium.margin.latest.component';
+import {VariationPremiumMarginHistoryComponent} from './variation_premium_margin/variation.premium.margin.history.component';
 
 @NgModule({
     imports     : [
@@ -19,12 +22,16 @@ import {LiquiGroupSplitMarginHistoryComponent} from './liqui.group.split.margin.
         ListModule
     ],
     declarations: [
-        LiquiGroupSplitMarginLatestComponent,
-        LiquiGroupSplitMarginHistoryComponent
+        InitialMarginLatestComponent,
+        InitialMarginHistoryComponent,
+        VariationPremiumMarginLatestComponent,
+        VariationPremiumMarginHistoryComponent
     ],
     exports     : [
-        LiquiGroupSplitMarginLatestComponent,
-        LiquiGroupSplitMarginHistoryComponent
+        InitialMarginLatestComponent,
+        InitialMarginHistoryComponent,
+        VariationPremiumMarginLatestComponent,
+        VariationPremiumMarginHistoryComponent
     ],
     providers   : [LiquiGroupSplitMarginService]
 })

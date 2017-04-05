@@ -10,39 +10,39 @@ import {
     generateLiquiGroupSplitMargin,
     generateLiquiGroupSplitMarginHistory,
     chceckSorting
-} from '../../testing';
+} from '../../../testing';
 
 import {
     LiquiGroupSplitMarginServerData,
     LiquiGroupSplitMarginData,
     LiquiGroupSplitMarginParams
-} from './liqui.group.split.margin.types';
-import {LiquiGroupSplitMarginService} from './liqui.group.split.margin.service';
-import {HttpService} from '../http.service';
+} from '../liqui.group.split.margin.types';
+import {LiquiGroupSplitMarginService} from '../liqui.group.split.margin.service';
+import {HttpService} from '../../http.service';
 
-import {DATA_REFRESH_INTERVAL} from '../abstract.component';
-import {ExportColumn} from '../list/download.menu.component';
+import {DATA_REFRESH_INTERVAL} from '../../abstract.component';
+import {ExportColumn} from '../../list/download.menu.component';
 
 import {
-    LiquiGroupSplitMarginLatestComponent,
+    InitialMarginLatestComponent,
     valueGetters,
     exportKeys
-} from './liqui.group.split.margin.latest.component';
-import {LIQUI_GROUP_MARGIN_LATEST} from '../routes/routing.paths';
+} from './initial.margin.latest.component';
+import {INITIAL_MARGIN_LATEST} from '../../routes/routing.paths';
 
-describe('Liquidation Group Split Margin latest component', () => {
-    let page: LatestListPage<LiquiGroupSplitMarginLatestComponent>;
+describe('Initial Margin latest component', () => {
+    let page: LatestListPage<InitialMarginLatestComponent>;
 
     beforeEach(async(() => {
-        LatestListPage.initTestBed(LiquiGroupSplitMarginLatestComponent, LiquiGroupSplitMarginService);
+        LatestListPage.initTestBed(InitialMarginLatestComponent, LiquiGroupSplitMarginService);
     }));
 
     beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<LiquiGroupSplitMarginServerData[]>) => {
         // Generate test data
         http.returnValue(generateLiquiGroupSplitMargin());
         // Create component
-        page = new LatestListPage<LiquiGroupSplitMarginLatestComponent>(
-            TestBed.createComponent(LiquiGroupSplitMarginLatestComponent));
+        page = new LatestListPage<InitialMarginLatestComponent>(
+            TestBed.createComponent(InitialMarginLatestComponent));
     })));
 
     it('displays error correctly', fakeAsync(inject([HttpService],
@@ -291,8 +291,8 @@ describe('Liquidation Group Split Margin latest component', () => {
                 let routeParams: string[] = [];
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + LIQUI_GROUP_MARGIN_LATEST,
-                    'Latest Liquidation Group Split Margin');
+                    '/' + INITIAL_MARGIN_LATEST,
+                    'Latest Initial Margin');
 
                 routeParams.push('A');
                 activatedRoute.testParams = {
@@ -301,8 +301,8 @@ describe('Liquidation Group Split Margin latest component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + LIQUI_GROUP_MARGIN_LATEST,
-                    'Latest Liquidation Group Split Margin');
+                    '/' + INITIAL_MARGIN_LATEST,
+                    'Latest Initial Margin');
 
                 routeParams.push('B');
                 activatedRoute.testParams = {
@@ -312,8 +312,8 @@ describe('Liquidation Group Split Margin latest component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + LIQUI_GROUP_MARGIN_LATEST,
-                    'Latest Liquidation Group Split Margin');
+                    '/' + INITIAL_MARGIN_LATEST,
+                    'Latest Initial Margin');
 
                 routeParams.push('C');
                 activatedRoute.testParams = {
@@ -324,8 +324,8 @@ describe('Liquidation Group Split Margin latest component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + LIQUI_GROUP_MARGIN_LATEST,
-                    'Latest Liquidation Group Split Margin');
+                    '/' + INITIAL_MARGIN_LATEST,
+                    'Latest Initial Margin');
 
                 routeParams.push('D');
                 activatedRoute.testParams = {
@@ -337,37 +337,8 @@ describe('Liquidation Group Split Margin latest component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + LIQUI_GROUP_MARGIN_LATEST,
-                    'Latest Liquidation Group Split Margin');
-
-                routeParams.push('E');
-                activatedRoute.testParams = {
-                    clearer              : routeParams[0],
-                    member               : routeParams[1],
-                    account              : routeParams[2],
-                    liquidationGroup     : routeParams[3],
-                    liquidationGroupSplit: routeParams[4]
-                };
-                page.detectChanges();
-
-                page.checkBreadCrumbs(routeParams,
-                    '/' + LIQUI_GROUP_MARGIN_LATEST,
-                    'Latest Liquidation Group Split Margin');
-
-                routeParams.push('F');
-                activatedRoute.testParams = {
-                    clearer              : routeParams[0],
-                    member               : routeParams[1],
-                    account              : routeParams[2],
-                    liquidationGroup     : routeParams[3],
-                    liquidationGroupSplit: routeParams[4],
-                    marginCurrency       : routeParams[5]
-                };
-                page.detectChanges();
-
-                page.checkBreadCrumbs(routeParams,
-                    '/' + LIQUI_GROUP_MARGIN_LATEST,
-                    'Latest Liquidation Group Split Margin');
+                    '/' + INITIAL_MARGIN_LATEST,
+                    'Latest Initial Margin');
             })));
 
         xit('has correct row navigation', fakeAsync(() => {

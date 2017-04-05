@@ -3,53 +3,47 @@ import {ActivatedRoute} from '@angular/router';
 import {async, TestBed, fakeAsync, inject} from '@angular/core/testing';
 
 import {
-    ActivatedRouteStub,
-    HistoryListPage,
+    LatestListPage,
     TableBodyRow,
+    ActivatedRouteStub,
     HttpAsyncServiceStub,
+    generateLiquiGroupSplitMargin,
     generateLiquiGroupSplitMarginHistory,
     chceckSorting
-} from '../../testing';
+} from '../../../testing';
 
-import {LiquiGroupSplitMarginHistoryParams, LiquiGroupSplitMarginServerData} from './liqui.group.split.margin.types';
-import {LiquiGroupSplitMarginService} from './liqui.group.split.margin.service';
-import {HttpService} from '../http.service';
+import {
+    LiquiGroupSplitMarginServerData,
+    LiquiGroupSplitMarginData,
+    LiquiGroupSplitMarginParams
+} from '../liqui.group.split.margin.types';
+import {LiquiGroupSplitMarginService} from '../liqui.group.split.margin.service';
+import {HttpService} from '../../http.service';
 
-import {DATA_REFRESH_INTERVAL} from '../abstract.component';
-import {ExportColumn} from '../list/download.menu.component';
+import {DATA_REFRESH_INTERVAL} from '../../abstract.component';
+import {ExportColumn} from '../../list/download.menu.component';
 
-import {valueGetters, exportKeys} from './liqui.group.split.margin.latest.component';
-import {LiquiGroupSplitMarginHistoryComponent} from './liqui.group.split.margin.history.component';
-import {LIQUI_GROUP_MARGIN_LATEST} from '../routes/routing.paths';
+import {
+    VariationPremiumMarginLatestComponent,
+    valueGetters,
+    exportKeys
+} from './variation.premium.margin.latest.component';
+import {VARIATION_PREMIUM_MARGIN_LATEST} from '../../routes/routing.paths';
 
-describe('Liquidation Group Split Margin history component', () => {
-    let page: HistoryListPage<LiquiGroupSplitMarginHistoryComponent>;
-    let testingParams = ['A', 'A', 'B', 'C', '*', 'D'];
+describe('Variation / Premium Margin latest component', () => {
+    let page: LatestListPage<VariationPremiumMarginLatestComponent>;
 
     beforeEach(async(() => {
-        HistoryListPage.initTestBed(LiquiGroupSplitMarginHistoryComponent, LiquiGroupSplitMarginService);
+        LatestListPage.initTestBed(VariationPremiumMarginLatestComponent, LiquiGroupSplitMarginService);
     }));
 
-    beforeEach(fakeAsync(inject([HttpService, ActivatedRoute],
-        (http: HttpAsyncServiceStub<LiquiGroupSplitMarginServerData[]>,
-            activatedRoute: ActivatedRouteStub<LiquiGroupSplitMarginHistoryParams>) => {
-            // Generate test data
-            http.returnValue(generateLiquiGroupSplitMarginHistory());
-
-            // Set input parameters
-            activatedRoute.testParams = {
-                clearer              : testingParams[0],
-                member               : testingParams[1],
-                account              : testingParams[2],
-                liquidationGroup     : testingParams[3],
-                liquidationGroupSplit: testingParams[4],
-                marginCurrency       : testingParams[5]
-            };
-
-            // Create component
-            page = new HistoryListPage<LiquiGroupSplitMarginHistoryComponent>(
-                TestBed.createComponent(LiquiGroupSplitMarginHistoryComponent));
-        })));
+    beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<LiquiGroupSplitMarginServerData[]>) => {
+        // Generate test data
+        http.returnValue(generateLiquiGroupSplitMargin());
+        // Create component
+        page = new LatestListPage<VariationPremiumMarginLatestComponent>(
+            TestBed.createComponent(VariationPremiumMarginLatestComponent));
+    })));
 
     it('displays error correctly', fakeAsync(inject([HttpService],
         (http: HttpAsyncServiceStub<LiquiGroupSplitMarginServerData[]>) => {
@@ -66,7 +60,6 @@ describe('Liquidation Group Split Margin history component', () => {
                 .toBeNull('Update failed component not visible.');
             expect(page.dataTable.element)
                 .toBeNull('Data table not visible.');
-            expect(page.lineChart).toBeNull('Chart not visible.');
 
             // Return error
             http.throwError({
@@ -83,7 +76,6 @@ describe('Liquidation Group Split Margin history component', () => {
                 .toBeNull('Update failed component visible.');
             expect(page.dataTable.element)
                 .toBeNull('Data table not visible.');
-            expect(page.lineChart).toBeNull('Chart not visible.');
         })));
 
     it('displays no-data correctly', fakeAsync(inject([HttpService],
@@ -101,7 +93,6 @@ describe('Liquidation Group Split Margin history component', () => {
                 .toBeNull('Update failed component not visible.');
             expect(page.dataTable.element)
                 .toBeNull('Data table not visible.');
-            expect(page.lineChart).toBeNull('Chart not visible.');
 
             // Return no data
             http.popReturnValue(); // Remove from queue
@@ -116,53 +107,32 @@ describe('Liquidation Group Split Margin history component', () => {
                 .toBeNull('Update failed component not visible.');
             expect(page.dataTable.element)
                 .toBeNull('Data table not visible.');
-            expect(page.lineChart).toBeNull('Chart not visible.');
         })));
 
-    it('displays data table', fakeAsync(inject([HttpService],
-        (http: HttpAsyncServiceStub<LiquiGroupSplitMarginServerData[]>) => {
-            let httpSpy = spyOn(http, 'get').and.callThrough();
-            // Init component
-            page.detectChanges();
-            // Do not trigger periodic interval
-            clearInterval((page.component as any).intervalHandle);
+    it('displays data table', fakeAsync(() => {
+        // Init component
+        page.detectChanges();
+        // Do not trigger periodic interval
+        clearInterval((page.component as any).intervalHandle);
 
-            expect(page.initialLoadComponent).not
-                .toBeNull('Initial load component visible.');
-            expect(page.noDataComponent)
-                .toBeNull('No data component not visible.');
-            expect(page.updateFailedComponent)
-                .toBeNull('Update failed component not visible.');
-            expect(page.dataTable.element).toBeNull('Data table not visible.');
-            expect(page.lineChart).toBeNull('Chart not visible.');
+        expect(page.initialLoadComponent).not.toBeNull('Initial load component visible.');
+        expect(page.noDataComponent).toBeNull('No data component not visible.');
+        expect(page.updateFailedComponent).toBeNull('Update failed component not visible.');
+        expect(page.dataTable.element).toBeNull('Data table not visible.');
 
-            // Return data
-            page.advanceHTTP();
+        // Return data
+        page.advanceHTTP();
 
-            expect(httpSpy).toHaveBeenCalled();
-            expect(httpSpy.calls.mostRecent().args[0].params).toEqual({
-                clearer              : testingParams[0],
-                member               : testingParams[1],
-                account              : testingParams[2],
-                liquidationGroup     : testingParams[3],
-                liquidationGroupSplit: testingParams[4],
-                marginCurrency       : testingParams[5]
-            });
+        expect(page.initialLoadComponent).toBeNull('Initial load component not visible.');
+        expect(page.noDataComponent).toBeNull('No data component not visible.');
+        expect(page.updateFailedComponent).toBeNull('Update failed component not visible.');
+        expect(page.dataTable.element).not.toBeNull('Data table visible.');
 
-            expect(page.initialLoadComponent)
-                .toBeNull('Initial load component not visible.');
-            expect(page.noDataComponent)
-                .toBeNull('No data component not visible.');
-            expect(page.updateFailedComponent)
-                .toBeNull('Update failed component not visible.');
-            expect(page.dataTable.element).not.toBeNull('Data table visible.');
-            expect(page.lineChart).not.toBeNull('Chart visible.');
+        // Fire highlighters
+        page.advanceHighlighter();
+    }));
 
-            // Fire highlighters
-            page.advanceHighlighter();
-        })));
-
-    it('data correctly refreshed', fakeAsync(inject([HttpService],
+    it('refresh data correctly', fakeAsync(inject([HttpService],
         (http: HttpAsyncServiceStub<LiquiGroupSplitMarginServerData[]>) => {
             // Init component
             page.detectChanges();
@@ -177,7 +147,6 @@ describe('Liquidation Group Split Margin history component', () => {
                 .toBeNull('Update failed component not visible.');
             expect(page.dataTable.element).not
                 .toBeNull('Data table visible.');
-            expect(page.lineChart).not.toBeNull('Chart visible.');
 
             expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
                 return row.highlighted;
@@ -191,7 +160,7 @@ describe('Liquidation Group Split Margin history component', () => {
             })).toBeTruthy('No rows are highlighted');
 
             // Push new data
-            let newData = generateLiquiGroupSplitMarginHistory(50);
+            let newData = generateLiquiGroupSplitMarginHistory();
             http.returnValue(newData);
             // Trigger reload
             page.advanceAndDetectChangesUsingOffset(DATA_REFRESH_INTERVAL);
@@ -199,7 +168,6 @@ describe('Liquidation Group Split Margin history component', () => {
 
             expect(page.dataTable.element).not
                 .toBeNull('Data table visible.');
-            expect(page.lineChart).not.toBeNull('Chart visible.');
 
             expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
                 return row.highlighted;
@@ -228,6 +196,9 @@ describe('Liquidation Group Split Margin history component', () => {
 
     it('has correct pager',
         fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<LiquiGroupSplitMarginServerData[]>) => {
+            //Generate more data so we can test pager
+            http.popReturnValue();
+            http.returnValue(generateLiquiGroupSplitMargin(3, 3, 3, 3, 3));
             // Init component
             page.detectChanges();
             // Return data
@@ -235,32 +206,28 @@ describe('Liquidation Group Split Margin history component', () => {
             // Fire highlighters
             page.advanceHighlighter();
 
-            expect(page.dataTable.pager.element).toBeNull('Pager not visible');
-            expect(page.dataTable.recordsCount.message).toContain('Showing 16 records out of 16');
-
-            let newData = generateLiquiGroupSplitMarginHistory()
-                .concat(generateLiquiGroupSplitMarginHistory())
-                .concat(generateLiquiGroupSplitMarginHistory());
-            http.returnValue(newData);
-            // Trigger reload
-            page.advanceAndDetectChangesUsingOffset(DATA_REFRESH_INTERVAL);
-            page.advanceHTTP();
-            page.detectChanges();
-
             expect(page.dataTable.pager.element).not.toBeNull('Pager visible');
-            expect(page.dataTable.recordsCount.message).toContain('Showing 20 records out of ' + 3 * 16);
+            expect(page.dataTable.recordsCount.message).toContain('Showing 20 records out of ' + Math.pow(3, 5));
 
-            page.dataTable.pager.expectButtonNumbers([1, 2, 3]);
+            page.dataTable.pager.expectButtonNumbers([1, 2, 3, 4]);
             page.dataTable.pager.expectButtonActive(2);
             page.dataTable.pager.expectLeadingButtonsDisabled();
             page.dataTable.pager.expectTrailingButtonsNotDisabled();
 
             page.dataTable.pager.click(4);
 
-            page.dataTable.pager.expectButtonNumbers([1, 2, 3]);
+            page.dataTable.pager.expectButtonNumbers([1, 2, 3, 4, 5, 6]);
             page.dataTable.pager.expectButtonActive(4);
             page.dataTable.pager.expectLeadingButtonsNotDisabled();
-            page.dataTable.pager.expectTrailingButtonsDisabled();
+            page.dataTable.pager.expectTrailingButtonsNotDisabled();
+
+            http.returnValue(generateLiquiGroupSplitMarginHistory());
+            // Trigger reload
+            page.advanceAndDetectChangesUsingOffset(DATA_REFRESH_INTERVAL);
+            page.advanceHTTP();
+
+            expect(page.dataTable.pager.element).toBeNull('Pager not visible');
+            expect(page.dataTable.recordsCount.message).toContain('Showing 16 records out of 16');
 
             // Fire highlighters
             page.advanceHighlighter();
@@ -284,33 +251,98 @@ describe('Liquidation Group Split Margin history component', () => {
         xit('displays data correctly', fakeAsync(() => {
         }));
 
-        xit('has chart data correctly processed', fakeAsync(() => {
+        it('has filtering working', fakeAsync(() => {
+            let firstRow = page.dataTable.data[0];
+            let originalItems = page.dataTable.data.length;
+            let items = originalItems;
+            let filter = '';
+            let idParts = firstRow.uid.split('-');
+            for (let id of idParts) {
+                filter += id + '-';
+                page.filter(filter);
+                expect(items >= page.dataTable.data.length).toBeTruthy();
+                items = page.dataTable.data.length;
+                page.dataTable.data.forEach((row: LiquiGroupSplitMarginData) => {
+                    expect(row.uid).toMatch('^' + filter);
+                });
+                if (items === 1) {
+                    break;
+                }
+            }
+
+            // Clear the field
+            page.filter('');
+
+            expect(page.dataTable.data.length).toBe(originalItems);
+
+            filter = idParts.join('- -');
+            page.filter(filter);
+
+            page.dataTable.data.forEach((row: LiquiGroupSplitMarginData) => {
+                expect(row.uid).toMatch('(' + idParts.join('|-') + '){' + idParts.length + '}');
+            });
+
+            // Remove highlight
+            page.advanceHighlighter();
         }));
 
         it('has correct breadcrumbs navigation', fakeAsync(inject([ActivatedRoute],
-            (activatedRoute: ActivatedRouteStub<LiquiGroupSplitMarginHistoryParams>) => {
-                page.checkBreadCrumbs(testingParams,
-                    '/' + LIQUI_GROUP_MARGIN_LATEST,
-                    'Liquidation Group Split Margin History',
-                    false);
+            (activatedRoute: ActivatedRouteStub<LiquiGroupSplitMarginParams>) => {
+                let routeParams: string[] = [];
 
-                let routeParams = ['A', 'A', 'B', 'C', 'D', 'E'];
+                page.checkBreadCrumbs(routeParams,
+                    '/' + VARIATION_PREMIUM_MARGIN_LATEST,
+                    'Latest Variation / Premium Margin');
 
+                routeParams.push('A');
                 activatedRoute.testParams = {
-                    clearer              : routeParams[0],
-                    member               : routeParams[1],
-                    account              : routeParams[2],
-                    liquidationGroup     : routeParams[3],
-                    liquidationGroupSplit: routeParams[4],
-                    marginCurrency       : routeParams[5]
+                    clearer: routeParams[0]
                 };
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + LIQUI_GROUP_MARGIN_LATEST,
-                    'Liquidation Group Split Margin History',
-                    false);
+                    '/' + VARIATION_PREMIUM_MARGIN_LATEST,
+                    'Latest Variation / Premium Margin');
+
+                routeParams.push('B');
+                activatedRoute.testParams = {
+                    clearer: routeParams[0],
+                    member : routeParams[1]
+                };
+                page.detectChanges();
+
+                page.checkBreadCrumbs(routeParams,
+                    '/' + VARIATION_PREMIUM_MARGIN_LATEST,
+                    'Latest Variation / Premium Margin');
+
+                routeParams.push('C');
+                activatedRoute.testParams = {
+                    clearer: routeParams[0],
+                    member : routeParams[1],
+                    account: routeParams[2]
+                };
+                page.detectChanges();
+
+                page.checkBreadCrumbs(routeParams,
+                    '/' + VARIATION_PREMIUM_MARGIN_LATEST,
+                    'Latest Variation / Premium Margin');
+
+                routeParams.push('D');
+                activatedRoute.testParams = {
+                    clearer         : routeParams[0],
+                    member          : routeParams[1],
+                    account         : routeParams[2],
+                    liquidationGroup: routeParams[3]
+                };
+                page.detectChanges();
+
+                page.checkBreadCrumbs(routeParams,
+                    '/' + VARIATION_PREMIUM_MARGIN_LATEST,
+                    'Latest Variation / Premium Margin');
             })));
+
+        xit('has correct row navigation', fakeAsync(() => {
+        }));
 
         it('has download working', fakeAsync(() => {
             let downloadLink = page.downloadMenu;
@@ -329,18 +361,25 @@ describe('Liquidation Group Split Margin history component', () => {
             let cells = exportedData.split('\n')[1].split(',');
             expect(cells[cells.length - 1])
                 .toMatch(/^\d{2}\. \d{2}\. \d{4} \d{2}:\d{2}:\d{2}$/);
-            expect(exportedData.split('\n').length).toBe(18);
+            expect(exportedData.split('\n').length).toBe(Math.pow(2, 5) + 2);
         }));
 
         it('can be sorted correctly', fakeAsync(() => {
             chceckSorting(page, [
-                valueGetters.received,
+                valueGetters.member,
+                valueGetters.account,
+                valueGetters.liquidationGroup,
+                valueGetters.liquidationGroupSplit,
+                valueGetters.marginCurrency,
                 valueGetters.premiumMargin,
                 valueGetters.marketRisk,
                 valueGetters.liquRisk,
                 valueGetters.longOptionCredit,
                 valueGetters.variationPremiumPayment
             ]);
+
+            // Fire highlighters
+            page.advanceHighlighter();
         }));
     });
 });

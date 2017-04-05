@@ -18,8 +18,10 @@ import {LiquiGroupMarginLatestComponent} from '../liqui_group_margin/liqui.group
 import {LiquiGroupMarginHistoryComponent} from '../liqui_group_margin/liqui.group.margin.history.component';
 
 import {LiquiGroupSplitMarginModule} from '../liqui_group_split_margin/liqui.group.split.margin.module';
-import {LiquiGroupSplitMarginLatestComponent} from '../liqui_group_split_margin/liqui.group.split.margin.latest.component';
-import {LiquiGroupSplitMarginHistoryComponent} from '../liqui_group_split_margin/liqui.group.split.margin.history.component';
+import {InitialMarginLatestComponent} from '../liqui_group_split_margin/initial_margin/initial.margin.latest.component';
+import {InitialMarginHistoryComponent} from '../liqui_group_split_margin/initial_margin/initial.margin.history.component';
+import {VariationPremiumMarginLatestComponent} from '../liqui_group_split_margin/variation_premium_margin/variation.premium.margin.latest.component';
+import {VariationPremiumMarginHistoryComponent} from '../liqui_group_split_margin/variation_premium_margin/variation.premium.margin.history.component';
 
 import {PoolMarginModule} from '../pool_margin/pool.margin.module';
 import {PoolMarginLatestComponent} from '../pool_margin/pool.margin.latest.component';
@@ -37,8 +39,10 @@ import {
     ACCOUNT_MARGIN_LATEST,
     LIQUI_GROUP_MARGIN_HISTORY,
     LIQUI_GROUP_MARGIN_LATEST,
-    LIQUI_GROUP_SPLIT_MARGIN_LATEST,
-    LIQUI_GROUP_SPLIT_MARGIN_HISTORY,
+    INITIAL_MARGIN_LATEST,
+    INITIAL_MARGIN_HISTORY,
+    VARIATION_PREMIUM_MARGIN_LATEST,
+    VARIATION_PREMIUM_MARGIN_HISTORY,
     POOL_MARGIN_HISTORY,
     POOL_MARGIN_LATEST,
     POSITION_REPORTS_HISTORY,
@@ -224,53 +228,80 @@ const LIQUI_GROUP_MARGIN: Route[] = [
     }
 ];
 
-const LIQUI_GROUP_SPLIT_MARGIN: Route[] = [
+const INITIAL_MARGIN: Route[] = [
     {
-        path       : LIQUI_GROUP_SPLIT_MARGIN_LATEST,
+        path       : INITIAL_MARGIN_LATEST,
         pathMatch  : 'full',
-        component  : LiquiGroupSplitMarginLatestComponent,
+        component  : InitialMarginLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : LIQUI_GROUP_SPLIT_MARGIN_LATEST + '/:clearer',
+        path       : INITIAL_MARGIN_LATEST + '/:clearer',
         pathMatch  : 'full',
-        component  : LiquiGroupSplitMarginLatestComponent,
+        component  : InitialMarginLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : LIQUI_GROUP_SPLIT_MARGIN_LATEST + '/:clearer/:member',
+        path       : INITIAL_MARGIN_LATEST + '/:clearer/:member',
         pathMatch  : 'full',
-        component  : LiquiGroupSplitMarginLatestComponent,
+        component  : InitialMarginLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : LIQUI_GROUP_SPLIT_MARGIN_LATEST + '/:clearer/:member/:account',
+        path       : INITIAL_MARGIN_LATEST + '/:clearer/:member/:account',
         pathMatch  : 'full',
-        component  : LiquiGroupSplitMarginLatestComponent,
+        component  : InitialMarginLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : LIQUI_GROUP_SPLIT_MARGIN_LATEST + '/:clearer/:member/:account/:liquidationGroup',
+        path       : INITIAL_MARGIN_LATEST + '/:clearer/:member/:account/:liquidationGroup',
         pathMatch  : 'full',
-        component  : LiquiGroupSplitMarginLatestComponent,
+        component  : InitialMarginLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : LIQUI_GROUP_SPLIT_MARGIN_LATEST + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit',
+        path       : INITIAL_MARGIN_HISTORY + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:marginCurrency',
         pathMatch  : 'full',
-        component  : LiquiGroupSplitMarginLatestComponent,
+        component  : InitialMarginHistoryComponent,
+        canActivate: [AuthGuard]
+    }
+];
+
+const VARIATION_PREMIUM_MARGIN: Route[] = [
+    {
+        path       : VARIATION_PREMIUM_MARGIN_LATEST,
+        pathMatch  : 'full',
+        component  : VariationPremiumMarginLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : LIQUI_GROUP_SPLIT_MARGIN_LATEST + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:marginCurrency',
+        path       : VARIATION_PREMIUM_MARGIN_LATEST + '/:clearer',
         pathMatch  : 'full',
-        component  : LiquiGroupSplitMarginLatestComponent,
+        component  : VariationPremiumMarginLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : LIQUI_GROUP_SPLIT_MARGIN_HISTORY + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:marginCurrency',
+        path       : VARIATION_PREMIUM_MARGIN_LATEST + '/:clearer/:member',
         pathMatch  : 'full',
-        component  : LiquiGroupSplitMarginHistoryComponent,
+        component  : VariationPremiumMarginLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : VARIATION_PREMIUM_MARGIN_LATEST + '/:clearer/:member/:account',
+        pathMatch  : 'full',
+        component  : VariationPremiumMarginLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : VARIATION_PREMIUM_MARGIN_LATEST + '/:clearer/:member/:account/:liquidationGroup',
+        pathMatch  : 'full',
+        component  : VariationPremiumMarginLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : VARIATION_PREMIUM_MARGIN_HISTORY + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:marginCurrency',
+        pathMatch  : 'full',
+        component  : VariationPremiumMarginHistoryComponent,
         canActivate: [AuthGuard]
     }
 ];
@@ -366,7 +397,8 @@ const ROUTES: Route[] = [
     },
     ...ACCOUNT_MARGIN,
     ...LIQUI_GROUP_MARGIN,
-    ...LIQUI_GROUP_SPLIT_MARGIN,
+    ...INITIAL_MARGIN,
+    ...VARIATION_PREMIUM_MARGIN,
     ...POSITION_REPORTS,
     ...POOL_MARGIN,
     ...RISK_LIMIT_UTILIZATION,
