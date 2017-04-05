@@ -4,7 +4,8 @@
         <tr *ngFor="let headerTemplate of headerTemplates; trackBy:trackByIndex">
             <th *ngFor="let column of headerTemplate; trackBy:trackByIndex"
                 [attr.rowspan]="column.rowspan"
-                [attr.colspan]="column.colspan">
+                [attr.colspan]="column.colspan"
+                [style.textAlign]="column.align">
                 <ng-template [ngIf]="column.title">{{column.title}}</ng-template>
                 <i *ngIf="column.tooltip"
                    class="fa fa-question-circle"
@@ -29,7 +30,8 @@
                 [context]="{ row: row, storage: highlighterStorage, index: rowIndex}">
                 <td *ngFor="let column of rowsTemplate; trackBy:trackByIndex"
                     [attr.rowspan]="column.rowspan"
-                    [attr.colspan]="column.colspan">
+                    [attr.colspan]="column.colspan"
+                    [style.textAlign]="column.align">
                     <ng-template *ngIf="column.cellTemplate"
                                  [ngTemplateOutlet]="column.cellTemplate"
                                  [ngOutletContext]="{ row: row }"></ng-template>
@@ -46,7 +48,8 @@
                             <tr *ngFor="let headerRow of rowGroup.headerTemplates; trackBy:trackByIndex">
                                 <th *ngFor="let column of headerRow; trackBy:trackByIndex"
                                     [attr.rowspan]="column.rowspan"
-                                    [attr.colspan]="column.colspan">
+                                    [attr.colspan]="column.colspan"
+                                    [style.textAlign]="column.align">
                                     <ng-template [ngIf]="column.title">{{column.title}}</ng-template>
                                     <i *ngIf="column.tooltip"
                                        class="fa fa-question-circle"
@@ -65,7 +68,8 @@
                             <tr *ngFor="let bodyRow of rowGroup.rowsTemplates; trackBy:trackByIndex">
                                 <td *ngFor="let column of bodyRow; trackBy:trackByIndex"
                                     [attr.rowspan]="column.rowspan"
-                                    [attr.colspan]="column.colspan">
+                                    [attr.colspan]="column.colspan"
+                                    [style.textAlign]="column.align">
                                     <ng-template *ngIf="column.cellTemplate"
                                                  [ngTemplateOutlet]="column.cellTemplate"
                                                  [ngOutletContext]="{ row: row }"></ng-template>
@@ -82,7 +86,8 @@
         <tr *ngFor="let footerTemplate of footerTemplates; trackBy:trackByIndex">
             <th *ngFor="let column of footerTemplate; trackBy:trackByIndex"
                 [attr.rowspan]="column.rowspan"
-                [attr.colspan]="column.colspan">
+                [attr.colspan]="column.colspan"
+                [style.textAlign]="column.align">
                 <ng-template *ngIf="column.footerTemplate"
                              [ngTemplateOutlet]="column.footerTemplate"
                              [ngOutletContext]="{ footer: footer }"></ng-template>

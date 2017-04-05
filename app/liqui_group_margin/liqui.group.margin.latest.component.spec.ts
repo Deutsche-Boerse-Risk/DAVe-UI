@@ -375,8 +375,6 @@ describe('Liquidation Group Margin latest component', () => {
                 valueGetters.member,
                 valueGetters.account,
                 valueGetters.marginClass,
-                valueGetters.marginCurrency,
-                valueGetters.marginGroup,
                 valueGetters.premiumMargin,
                 valueGetters.currentLiquidatingMargin,
                 valueGetters.futuresSpreadMargin,

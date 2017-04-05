@@ -82,8 +82,6 @@ export const valueGetters = {
     member                     : (row: LiquiGroupMarginData) => row.member,
     account                    : (row: LiquiGroupMarginData) => row.account,
     marginClass                : (row: LiquiGroupMarginData) => row.marginClass,
-    marginCurrency             : (row: LiquiGroupMarginData) => row.marginCurrency,
-    marginGroup                : (row: LiquiGroupMarginData) => row.marginGroup,
     premiumMargin              : (row: LiquiGroupMarginData) => row.premiumMargin,
     currentLiquidatingMargin   : (row: LiquiGroupMarginData) => row.currentLiquidatingMargin,
     futuresSpreadMargin        : (row: LiquiGroupMarginData) => row.futuresSpreadMargin,
@@ -102,7 +100,7 @@ const defaultOrdering: (OrderingCriteria<LiquiGroupMarginData> | OrderingValueGe
     valueGetters.member,
     valueGetters.account,
     valueGetters.marginClass,
-    valueGetters.marginCurrency
+    (row: LiquiGroupMarginData) => row.marginCurrency
 ];
 
 export const exportKeys: ExportColumn<LiquiGroupMarginData>[] = [
@@ -123,7 +121,7 @@ export const exportKeys: ExportColumn<LiquiGroupMarginData>[] = [
         header: 'Margin Class'
     },
     {
-        get   : valueGetters.marginCurrency,
+        get   : (row: LiquiGroupMarginData) => row.marginCurrency,
         header: 'Margin Currency'
     },
     {
@@ -131,7 +129,7 @@ export const exportKeys: ExportColumn<LiquiGroupMarginData>[] = [
         header: 'Business Date'
     },
     {
-        get   : valueGetters.marginGroup,
+        get   : (row: LiquiGroupMarginData) => row.marginGroup,
         header: 'Margin Group'
     },
     {
@@ -148,11 +146,11 @@ export const exportKeys: ExportColumn<LiquiGroupMarginData>[] = [
     },
     {
         get   : valueGetters.additionalMargin,
-        header: 'Additional Margin'
+        header: 'Initial Margin'
     },
     {
         get   : valueGetters.unadjustedMarginRequirement,
-        header: 'Unadjusted Margin Requirement'
+        header: 'Unadjusted Margin'
     },
     {
         get   : valueGetters.variationPremiumPayment,

@@ -25,27 +25,31 @@
             </ng-template>
         </column>
         <column title="Margin requirement in margin currency"
-                [sortingKey]="valueGetters.marginReqInMarginCurr">
+                [sortingKey]="valueGetters.marginReqInMarginCurr"
+                contentAlign="right">
             <ng-template let-record="row" cell-template>
-                {{record.marginReqInMarginCurr | number:'.2-2'}}
+                {{record.marginReqInMarginCurr | number:'.2-2'}} {{record.marginCurrency}}
             </ng-template>
         </column>
         <column title="Margin requirement in clearing currency"
-                [sortingKey]="valueGetters.marginReqInClrCurr">
+                [sortingKey]="valueGetters.marginReqInClrCurr"
+                contentAlign="right">
             <ng-template let-record="row" cell-template>
-                {{record.marginReqInClrCurr | number:'.2-2'}}
+                {{record.marginReqInClrCurr | number:'.2-2'}} {{record.clearingCurrency}}
             </ng-template>
         </column>
         <column title="Unadjusted Margin"
-                [sortingKey]="valueGetters.unadjustedMarginRequirement">
+                [sortingKey]="valueGetters.unadjustedMarginRequirement"
+                contentAlign="right">
             <ng-template let-record="row" cell-template>
-                {{record.unadjustedMarginRequirement | number:'.2-2'}}
+                {{record.unadjustedMarginRequirement | number:'.2-2'}} {{record.marginCurrency}}
             </ng-template>
         </column>
         <column title="Variation Premium Payment"
-                [sortingKey]="valueGetters.variationPremiumPayment">
+                [sortingKey]="valueGetters.variationPremiumPayment"
+                contentAlign="right">
             <ng-template let-record="row" cell-template>
-                {{record.variationPremiumPayment | number:'.2-2'}}
+                {{record.variationPremiumPayment | number:'.2-2'}} {{record.marginCurrency}}
             </ng-template>
         </column>
     </data-table>

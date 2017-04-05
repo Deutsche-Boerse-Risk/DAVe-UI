@@ -364,7 +364,6 @@ describe('Account margin latest component', () => {
                 valueGetters.member,
                 valueGetters.account,
                 valueGetters.marginCurrency,
-                valueGetters.clearingCurrency,
                 valueGetters.pool,
                 valueGetters.marginReqInMarginCurr,
                 valueGetters.marginReqInClrCurr,

@@ -24,6 +24,15 @@ export class DataTableColumnDirective {
     @Input()
     public tooltip: string;
 
+    @Input()
+    public contentAlign: 'left' | 'center' | 'right';
+
+    @Input()
+    public headerAlign: 'left' | 'center' | 'right';
+
+    @Input()
+    public footerAlign: 'left' | 'center' | 'right';
+
     @ContentChildren(DataTableColumnDirective, {descendants: false})
     public subColumns: QueryList<DataTableColumnDirective>;
 

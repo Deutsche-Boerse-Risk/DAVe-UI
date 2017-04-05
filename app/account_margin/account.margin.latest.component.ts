@@ -73,7 +73,6 @@ export const valueGetters = {
     member                     : (row: AccountMarginData) => row.member,
     account                    : (row: AccountMarginData) => row.account,
     marginCurrency             : (row: AccountMarginData) => row.marginCurrency,
-    clearingCurrency           : (row: AccountMarginData) => row.clearingCurrency,
     pool                       : (row: AccountMarginData) => row.pool,
     marginReqInMarginCurr      : (row: AccountMarginData) => row.marginReqInMarginCurr,
     marginReqInClrCurr         : (row: AccountMarginData) => row.marginReqInClrCurr,
@@ -111,7 +110,7 @@ export const exportKeys: ExportColumn<AccountMarginData>[] = [
         header: 'Margin currency'
     },
     {
-        get   : valueGetters.clearingCurrency,
+        get   : (row: AccountMarginData) => row.clearingCurrency,
         header: 'Clearing currency'
     },
     {
@@ -135,7 +134,7 @@ export const exportKeys: ExportColumn<AccountMarginData>[] = [
         header: 'Unadjusted Margin'
     },
     {
-        get   : (row: AccountMarginData) => row.variationPremiumPayment,
+        get   : valueGetters.variationPremiumPayment,
         header: 'Variation Premium Payment'
     },
     {

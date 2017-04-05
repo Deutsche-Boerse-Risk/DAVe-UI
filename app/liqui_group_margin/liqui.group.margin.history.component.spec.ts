@@ -332,7 +332,6 @@ describe('Liquidation Group Margin history component', () => {
         it('can be sorted correctly', fakeAsync(() => {
             chceckSorting(page, [
                 valueGetters.received,
-                valueGetters.marginGroup,
                 valueGetters.premiumMargin,
                 valueGetters.currentLiquidatingMargin,
                 valueGetters.futuresSpreadMargin,

@@ -3,6 +3,7 @@ import {TemplateRef} from '@angular/core';
 import {DataTableColumnDirective, OrderingCriteria} from './data.table.column.directive';
 
 export interface DataTableCell {
+    align?: 'left' | 'center' | 'right';
     title?: string;
     sortingKey?: OrderingCriteria<any>;
     tooltip?: string;
@@ -83,7 +84,8 @@ export abstract class DataTableUtils {
                 if (!columnDirective.sortingKey) {
                     return {
                         title  : columnDirective.title,
-                        tooltip: columnDirective.tooltip
+                        tooltip: columnDirective.tooltip,
+                        align  : columnDirective.headerAlign
                     };
                 }
                 if (typeof columnDirective.sortingKey === 'function') {
@@ -93,7 +95,8 @@ export abstract class DataTableUtils {
                             get       : columnDirective.sortingKey,
                             descending: false
                         },
-                        tooltip   : columnDirective.tooltip
+                        tooltip   : columnDirective.tooltip,
+                        align     : columnDirective.headerAlign
                     };
                 }
                 return {
@@ -102,7 +105,8 @@ export abstract class DataTableUtils {
                         get       : columnDirective.sortingKey.get,
                         descending: !!columnDirective.sortingKey.descending
                     },
-                    tooltip   : columnDirective.tooltip
+                    tooltip   : columnDirective.tooltip,
+                    align     : columnDirective.headerAlign
                 };
             });
 
@@ -134,7 +138,8 @@ export abstract class DataTableUtils {
                     cellTemplate = columnDirective.cellTemplate.first;
                 }
                 return {
-                    cellTemplate: cellTemplate
+                    cellTemplate: cellTemplate,
+                    align       : columnDirective.contentAlign
                 };
             });
 
@@ -166,7 +171,8 @@ export abstract class DataTableUtils {
                     footerTemplate = columnDirective.footerTemplate.first;
                 }
                 return {
-                    footerTemplate: footerTemplate
+                    footerTemplate: footerTemplate,
+                    align         : columnDirective.footerAlign
                 };
             });
 

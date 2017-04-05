@@ -9,7 +9,7 @@ import {LiquiGroupSplitMarginData, LiquiGroupSplitMarginParams} from './liqui.gr
 import {AbstractLatestListComponent} from '../list/abstract.latest.list.component';
 import {ExportColumn} from '../list/download.menu.component';
 import {OrderingCriteria, OrderingValueGetter} from '../datatable/data.table.column.directive';
-import {LIQUI_GROUP_MARGIN_LATEST} from '../routes/routing.paths';
+import {LIQUI_GROUP_SPLIT_MARGIN_LATEST} from '../routes/routing.paths';
 
 export const routingKeys: (keyof LiquiGroupSplitMarginParams)[] = [
     'clearer',
@@ -69,7 +69,7 @@ export class LiquiGroupSplitMarginLatestComponent extends AbstractLatestListComp
     }
 
     protected get rootRoutePath(): string {
-        return '/' + LIQUI_GROUP_MARGIN_LATEST;
+        return '/' + LIQUI_GROUP_SPLIT_MARGIN_LATEST;
     }
 
     public get valueGetters() {
