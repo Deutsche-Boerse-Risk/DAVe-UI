@@ -292,7 +292,7 @@ describe('Variation / Premium Margin history component', () => {
                 page.checkBreadCrumbs(testingParams,
                     '/' + VARIATION_PREMIUM_MARGIN_LATEST,
                     'Variation / Premium Margin History',
-                    false);
+                    false, 2);
 
                 let routeParams = ['A', 'A', 'B', 'C', 'D', 'E'];
 
@@ -309,7 +309,7 @@ describe('Variation / Premium Margin history component', () => {
                 page.checkBreadCrumbs(routeParams,
                     '/' + VARIATION_PREMIUM_MARGIN_LATEST,
                     'Variation / Premium Margin History',
-                    false);
+                    false, 2);
             })));
 
         it('has download working', fakeAsync(() => {
@@ -336,9 +336,6 @@ describe('Variation / Premium Margin history component', () => {
             chceckSorting(page, [
                 valueGetters.received,
                 valueGetters.premiumMargin,
-                valueGetters.marketRisk,
-                valueGetters.liquRisk,
-                valueGetters.longOptionCredit,
                 valueGetters.variationPremiumPayment
             ]);
         }));

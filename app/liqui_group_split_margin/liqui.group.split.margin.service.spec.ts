@@ -12,7 +12,7 @@ import {
 } from './liqui.group.split.margin.service';
 import {LiquiGroupSplitMarginServerData, LiquiGroupSplitMarginData} from './liqui.group.split.margin.types';
 
-describe('MarginService', () => {
+describe('LiquiGroupSplitMarginService', () => {
     let httpSyp: Spy;
 
     beforeEach(() => {
@@ -43,7 +43,7 @@ describe('MarginService', () => {
                             .toBe(liquiGroupSplitMarginLatestURL);
                         expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params)
                             .toEqual({});
-                        expect(data.length).toBe(Math.pow(3, 4));
+                        expect(data.length).toBe(Math.pow(2, 5));
                     });
 
                 http.returnValue(null);
@@ -91,7 +91,7 @@ describe('MarginService', () => {
                         liquidationGroupSplit: '*',
                         marginCurrency       : '*'
                     });
-                    expect(data.length).toBe(Math.pow(3, 4));
+                    expect(data.length).toBe(Math.pow(2, 5));
                 });
 
                 http.returnValue(null);

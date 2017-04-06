@@ -370,11 +370,7 @@ describe('Variation / Premium Margin latest component', () => {
                 valueGetters.account,
                 valueGetters.liquidationGroup,
                 valueGetters.liquidationGroupSplit,
-                valueGetters.marginCurrency,
                 valueGetters.premiumMargin,
-                valueGetters.marketRisk,
-                valueGetters.liquRisk,
-                valueGetters.longOptionCredit,
                 valueGetters.variationPremiumPayment
             ]);
 

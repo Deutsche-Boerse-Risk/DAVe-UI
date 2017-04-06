@@ -1,63 +1,25 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {ErrorResponse} from '../../http.service';
-
+import {AbstractLiquiGroupSplitMarginLatestComponent} from '../abstract.liqui.group.split.margin.latest.component';
 import {LiquiGroupSplitMarginService} from '../liqui.group.split.margin.service';
-import {LiquiGroupSplitMarginData, LiquiGroupSplitMarginParams} from '../liqui.group.split.margin.types';
-
-import {AbstractLatestListComponent} from '../../list/abstract.latest.list.component';
+import {LiquiGroupSplitMarginData} from '../liqui.group.split.margin.types';
 import {ExportColumn} from '../../list/download.menu.component';
-import {OrderingCriteria, OrderingValueGetter} from '../../datatable/data.table.column.directive';
 import {VARIATION_PREMIUM_MARGIN_LATEST} from '../../routes/routing.paths';
-
-export const routingKeys: (keyof LiquiGroupSplitMarginParams)[] = [
-    'clearer',
-    'member',
-    'account',
-    'liquidationGroup'
-];
 
 @Component({
     moduleId   : module.id,
     templateUrl: 'variation.premium.margin.latest.component.html',
     styleUrls  : ['../../common.component.css']
 })
-export class VariationPremiumMarginLatestComponent extends AbstractLatestListComponent<LiquiGroupSplitMarginData> {
+export class VariationPremiumMarginLatestComponent extends AbstractLiquiGroupSplitMarginLatestComponent {
 
-    constructor(private liquiGroupSplitMarginService: LiquiGroupSplitMarginService,
-        route: ActivatedRoute) {
-        super(route);
-    }
-
-    protected loadData(): void {
-        this.liquiGroupSplitMarginService.getLiquiGroupSplitMarginLatest({
-            clearer         : this.routeParams['clearer'],
-            member          : this.routeParams['member'],
-            account         : this.routeParams['account'],
-            liquidationGroup: this.routeParams['liquidationGroup']
-        }).subscribe(
-            (rows: LiquiGroupSplitMarginData[]) => {
-                this.processData(rows);
-            },
-            (err: ErrorResponse) => {
-                this.errorMessage = 'Server returned status ' + err.status;
-                this.initialLoad = false;
-            });
-    }
-
-    public get defaultOrdering(): (
-        OrderingCriteria<LiquiGroupSplitMarginData>
-        | OrderingValueGetter<LiquiGroupSplitMarginData>)[] {
-        return defaultOrdering;
+    constructor(liquiGroupSplitMarginService: LiquiGroupSplitMarginService, route: ActivatedRoute) {
+        super(liquiGroupSplitMarginService, route);
     }
 
     public get exportKeys(): ExportColumn<LiquiGroupSplitMarginData>[] {
         return exportKeys;
-    }
-
-    protected get routingKeys(): string[] {
-        return routingKeys;
     }
 
     public get rootRouteTitle(): string {
@@ -81,25 +43,10 @@ export const valueGetters = {
     account                : (row: LiquiGroupSplitMarginData) => row.account,
     liquidationGroup       : (row: LiquiGroupSplitMarginData) => row.liquidationGroup,
     liquidationGroupSplit  : (row: LiquiGroupSplitMarginData) => row.liquidationGroupSplit,
-    marginCurrency         : (row: LiquiGroupSplitMarginData) => row.marginCurrency,
     premiumMargin          : (row: LiquiGroupSplitMarginData) => row.premiumMargin,
-    marketRisk             : (row: LiquiGroupSplitMarginData) => row.marketRisk,
-    liquRisk               : (row: LiquiGroupSplitMarginData) => row.liquRisk,
-    longOptionCredit       : (row: LiquiGroupSplitMarginData) => row.longOptionCredit,
     variationPremiumPayment: (row: LiquiGroupSplitMarginData) => row.variationPremiumPayment,
     received               : (row: LiquiGroupSplitMarginData) => row.received
 };
-
-const defaultOrdering: (
-    OrderingCriteria<LiquiGroupSplitMarginData>
-    | OrderingValueGetter<LiquiGroupSplitMarginData>)[] = [
-    valueGetters.clearer,
-    valueGetters.member,
-    valueGetters.account,
-    valueGetters.liquidationGroup,
-    valueGetters.liquidationGroupSplit,
-    valueGetters.marginCurrency
-];
 
 export const exportKeys: ExportColumn<LiquiGroupSplitMarginData>[] = [
     {
@@ -123,7 +70,7 @@ export const exportKeys: ExportColumn<LiquiGroupSplitMarginData>[] = [
         header: 'Liquidation Group Split'
     },
     {
-        get   : valueGetters.marginCurrency,
+        get   : (row: LiquiGroupSplitMarginData) => row.marginCurrency,
         header: 'Margin Currency'
     },
     {
@@ -133,18 +80,6 @@ export const exportKeys: ExportColumn<LiquiGroupSplitMarginData>[] = [
     {
         get   : valueGetters.premiumMargin,
         header: 'Premium Margin'
-    },
-    {
-        get   : valueGetters.marketRisk,
-        header: 'Market Risk'
-    },
-    {
-        get   : valueGetters.liquRisk,
-        header: 'Liqu Risk'
-    },
-    {
-        get   : valueGetters.longOptionCredit,
-        header: 'Long Option Credit'
     },
     {
         get   : valueGetters.variationPremiumPayment,

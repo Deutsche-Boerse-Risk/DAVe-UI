@@ -334,7 +334,6 @@ describe('Liquidation Group Margin history component', () => {
                 valueGetters.received,
                 valueGetters.premiumMargin,
                 valueGetters.currentLiquidatingMargin,
-                valueGetters.futuresSpreadMargin,
                 valueGetters.additionalMargin,
                 valueGetters.unadjustedMarginRequirement,
                 valueGetters.variationPremiumPayment

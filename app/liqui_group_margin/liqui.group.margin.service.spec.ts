@@ -12,7 +12,7 @@ import {
 } from './liqui.group.margin.service';
 import {LiquiGroupMarginServerData, LiquiGroupMarginData} from './liqui.group.margin.types';
 
-describe('MarginService', () => {
+describe('LiquiGroupMarginService', () => {
     let httpSyp: Spy;
 
     beforeEach(() => {
@@ -43,7 +43,7 @@ describe('MarginService', () => {
                             .toBe(liquiGroupMarginLatestURL);
                         expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params)
                             .toEqual({});
-                        expect(data.length).toBe(Math.pow(3, 4));
+                        expect(data.length).toBe(Math.pow(2, 4));
                     });
 
                 http.returnValue(null);
@@ -91,7 +91,7 @@ describe('MarginService', () => {
                         marginClass   : '*',
                         marginCurrency: '*'
                     });
-                    expect(data.length).toBe(Math.pow(3, 4));
+                    expect(data.length).toBe(Math.pow(2, 4));
                 });
 
                 http.returnValue(null);

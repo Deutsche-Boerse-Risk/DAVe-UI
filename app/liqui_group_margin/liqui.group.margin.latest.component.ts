@@ -84,7 +84,6 @@ export const valueGetters = {
     marginClass                : (row: LiquiGroupMarginData) => row.marginClass,
     premiumMargin              : (row: LiquiGroupMarginData) => row.premiumMargin,
     currentLiquidatingMargin   : (row: LiquiGroupMarginData) => row.currentLiquidatingMargin,
-    futuresSpreadMargin        : (row: LiquiGroupMarginData) => row.futuresSpreadMargin,
     additionalMargin           : (row: LiquiGroupMarginData) => row.additionalMargin,
     unadjustedMarginRequirement: (row: LiquiGroupMarginData) => row.unadjustedMarginRequirement,
     variationPremiumPayment    : (row: LiquiGroupMarginData) => row.variationPremiumPayment,
@@ -141,7 +140,7 @@ export const exportKeys: ExportColumn<LiquiGroupMarginData>[] = [
         header: 'Current Liquidating Margin'
     },
     {
-        get   : valueGetters.futuresSpreadMargin,
+        get   : (row: LiquiGroupMarginData) => row.futuresSpreadMargin,
         header: 'Futures Spread Margin'
     },
     {

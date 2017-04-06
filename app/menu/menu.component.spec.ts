@@ -55,8 +55,11 @@ describe('Menu component', () => {
         page.clickLink('Liquidation Group Margin');
         page.isActive('Liquidation Group Margin', 'Margin Requirement');
 
-        page.clickLink('Liquidation Group Split Margin');
-        page.isActive('Liquidation Group Split Margin', 'Margin Requirement');
+        page.clickLink('Variation / Premium Margin');
+        page.isActive('Variation / Premium Margin', 'Margin Requirement');
+
+        page.clickLink('Initial Margin');
+        page.isActive('Initial Margin', 'Margin Requirement');
 
         page.clickLink('Account Margin');
         page.isActive('Account Margin', 'Margin Requirement');

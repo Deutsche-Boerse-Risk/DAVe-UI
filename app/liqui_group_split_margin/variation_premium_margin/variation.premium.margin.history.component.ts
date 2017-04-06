@@ -2,64 +2,26 @@ import {DecimalPipe} from '@angular/common';
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {ErrorResponse} from '../../http.service';
-
-import {LiquiGroupSplitMarginService} from '../liqui.group.split.margin.service';
-import {LiquiGroupSplitMarginData, LiquiGroupSplitMarginHistoryParams} from '../liqui.group.split.margin.types';
-
 import {DateFormatter} from '../../common/common.module';
-import {AbstractHistoryListComponent, LineChartColumn} from '../../list/abstract.history.list.component';
+import {LineChartColumn} from '../../list/abstract.history.list.component';
 import {ExportColumn} from '../../list/download.menu.component';
-import {OrderingCriteria} from '../../datatable/data.table.column.directive';
 
+import {AbstractLiquiGroupSplitMarginHistoryComponent} from '../abstract.liqui.group.split.margin.history.component';
+import {LiquiGroupSplitMarginService} from '../liqui.group.split.margin.service';
+import {LiquiGroupSplitMarginData} from '../liqui.group.split.margin.types';
 import {exportKeys, valueGetters} from './variation.premium.margin.latest.component';
 import {VARIATION_PREMIUM_MARGIN_LATEST} from '../../routes/routing.paths';
-import {RoutePart} from '../../list/bread.crumbs.component';
-
-export const routingKeys: (keyof LiquiGroupSplitMarginHistoryParams)[] = [
-    'clearer',
-    'member',
-    'account',
-    'liquidationGroup',
-    'liquidationGroupSplit',
-    'marginCurrency'
-];
 
 @Component({
     moduleId   : module.id,
     templateUrl: 'variation.premium.margin.history.component.html',
     styleUrls  : ['../../common.component.css']
 })
-export class VariationPremiumMarginHistoryComponent extends AbstractHistoryListComponent<LiquiGroupSplitMarginData> {
+export class VariationPremiumMarginHistoryComponent extends AbstractLiquiGroupSplitMarginHistoryComponent {
 
-    constructor(private liquiGroupSplitMarginService: LiquiGroupSplitMarginService,
+    constructor(liquiGroupSplitMarginService: LiquiGroupSplitMarginService,
         route: ActivatedRoute, dateFormatter: DateFormatter, numberPipe: DecimalPipe) {
-        super(route, dateFormatter, numberPipe);
-    }
-
-    protected loadData(): void {
-        this.liquiGroupSplitMarginService.getLiquiGroupSplitMarginHistory({
-            clearer              : this.routeParams['clearer'],
-            member               : this.routeParams['member'],
-            account              : this.routeParams['account'],
-            liquidationGroup     : this.routeParams['liquidationGroup'],
-            liquidationGroupSplit: this.routeParams['liquidationGroupSplit'],
-            marginCurrency       : this.routeParams['marginCurrency']
-        }).subscribe(
-            (rows: LiquiGroupSplitMarginData[]) => {
-                this.processData(rows);
-            }, (err: ErrorResponse) => {
-                this.errorMessage = 'Server returned status ' + err.status;
-                this.initialLoad = false;
-            });
-    }
-
-    protected createRoutePart(title: string, routePath: string, key: string, index: number): RoutePart {
-        let part: RoutePart = super.createRoutePart(title, routePath, key, index);
-        if (key === 'liquidationGroupSplit' || key === 'marginCurrency') {
-            part.inactive = true;
-        }
-        return part;
+        super(liquiGroupSplitMarginService, route, dateFormatter, numberPipe);
     }
 
     protected getTickFromRecord(record: LiquiGroupSplitMarginData): LineChartColumn[] {
@@ -74,21 +36,6 @@ export class VariationPremiumMarginHistoryComponent extends AbstractHistoryListC
                 value: record.premiumMargin
             },
             {
-                label: 'Market Risk',
-                type : 'number',
-                value: record.marketRisk
-            },
-            {
-                label: 'Liqu Risk',
-                type : 'number',
-                value: record.liquRisk
-            },
-            {
-                label: 'Long Option Credit',
-                type : 'number',
-                value: record.longOptionCredit
-            },
-            {
                 label: 'Variation Premium Payment',
                 type : 'number',
                 value: record.variationPremiumPayment
@@ -96,16 +43,8 @@ export class VariationPremiumMarginHistoryComponent extends AbstractHistoryListC
         ];
     }
 
-    public get defaultOrdering(): OrderingCriteria<LiquiGroupSplitMarginData>[] {
-        return defaultOrdering;
-    }
-
     public get exportKeys(): ExportColumn<LiquiGroupSplitMarginData>[] {
         return exportKeys;
-    }
-
-    protected get routingKeys(): string[] {
-        return routingKeys;
     }
 
     public get rootRouteTitle(): string {
@@ -120,14 +59,3 @@ export class VariationPremiumMarginHistoryComponent extends AbstractHistoryListC
         return valueGetters;
     }
 }
-
-//<editor-fold defaultstate="collapsed" desc="Value getters, default ordering, exported columns">
-
-const defaultOrdering: OrderingCriteria<LiquiGroupSplitMarginData>[] = [
-    {
-        get       : valueGetters.received,
-        descending: true
-    }
-];
-
-//</editor-fold>

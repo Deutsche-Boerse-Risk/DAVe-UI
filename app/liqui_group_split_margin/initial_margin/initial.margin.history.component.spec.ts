@@ -292,7 +292,7 @@ describe('Initial Margin history component', () => {
                 page.checkBreadCrumbs(testingParams,
                     '/' + INITIAL_MARGIN_LATEST,
                     'Initial Margin History',
-                    false);
+                    false, 2);
 
                 let routeParams = ['A', 'A', 'B', 'C', 'D', 'E'];
 
@@ -309,7 +309,7 @@ describe('Initial Margin history component', () => {
                 page.checkBreadCrumbs(routeParams,
                     '/' + INITIAL_MARGIN_LATEST,
                     'Initial Margin History',
-                    false);
+                    false, 2);
             })));
 
         it('has download working', fakeAsync(() => {
@@ -335,11 +335,10 @@ describe('Initial Margin history component', () => {
         it('can be sorted correctly', fakeAsync(() => {
             chceckSorting(page, [
                 valueGetters.received,
-                valueGetters.premiumMargin,
                 valueGetters.marketRisk,
                 valueGetters.liquRisk,
                 valueGetters.longOptionCredit,
-                valueGetters.variationPremiumPayment
+                valueGetters.additionalMargin
             ]);
         }));
     });

@@ -98,7 +98,7 @@ describe('Pool Margin summary', () => {
         // Return data
         page.advanceHTTP();
 
-        let values = ['742.50', '5.08', '-23.46', '326.63'];
+        let values = ['2.96', '0.49', '73.45', '-8.67'];
 
         expect(page.panels.length).toBe(4, 'Nothing shown');
         page.panels.forEach((panel: Panel, index: number) => {

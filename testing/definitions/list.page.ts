@@ -142,7 +142,7 @@ export class LatestListPage<T> extends ListPage<T> {
     }
 
     public checkBreadCrumbs(routeParams: string[], rootPath: string, rootText: string,
-        firstActive: boolean = true, lastActive: boolean = true): void {
+        firstActive: boolean = true, lastNInactive: number = 0): void {
         let crumbs = this.breadCrumbs.crumbs;
         let filteredParams = routeParams.filter((param: string) => param !== '*');
 
@@ -161,8 +161,10 @@ export class LatestListPage<T> extends ListPage<T> {
         if (firstActive) {
             activeItems++;
         }
-        if (!lastActive && routeParams[routeParams.length - 1] !== '*') {
-            activeItems--;
+        for (let i = 1; i <= lastNInactive; i++) {
+            if (routeParams[routeParams.length - i] !== '*') {
+                activeItems--;
+            }
         }
         expect(this.breadCrumbs.active.length).toBe(activeItems, activeItems + ' active');
 
@@ -170,7 +172,7 @@ export class LatestListPage<T> extends ListPage<T> {
         let j = 0;
         for (let i = 1; i < crumbs.length; i++) {
             expect(crumbs[i].link.text).toBe(filteredParams[i - 1]);
-            if (i !== crumbs.length - 1 || lastActive) {
+            if (i < crumbs.length - lastNInactive) {
                 while (routeParams[j] === '*') {
                     path.push(routeParams[j]);
                     j++;
