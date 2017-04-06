@@ -24,7 +24,8 @@ export class AggregationPage extends PageWithLoading<LiquiGroupMarginAggregation
     }
 
     public get link(): LinkDefinition {
-        return new LinkDefinition(this, this.debugElement.query(By.directive(RouterLinkStubDirective)));
+        const all = this.debugElement.queryAll(By.directive(RouterLinkStubDirective));
+        return new LinkDefinition(this, all[all.length - 1]);
     }
 
     public advanceHighlighter(): void {

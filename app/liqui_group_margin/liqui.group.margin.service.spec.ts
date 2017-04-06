@@ -50,7 +50,7 @@ describe('LiquiGroupMarginService', () => {
                         expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL)
                             .toBe(liquiGroupMarginAggregationURL);
                         expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params).not.toBeDefined();
-                        expect(data.aggregatedRows.length).toBe(Math.pow(3, 2));
+                        expect(data.aggregatedRows.length).toBe(Math.pow(2, 3));
                         expect(data.summary).toBeDefined();
 
                         let summaryData: LiquiGroupMarginBaseData = {
@@ -85,7 +85,12 @@ describe('LiquiGroupMarginService', () => {
                             sumOfAggregatedData.variationPremiumPayment += record.variationPremiumPayment;
                         });
 
-                        expect(data.summary).toEqual(sumOfAggregatedData);
+                        // We have to use ceil here as we loose precision in the aggregated row sums
+                        Object.keys(data.summary).forEach((key: string) => {
+                            expect(Math.round((data.summary as any)[key] * Math.pow(10, 5)))
+                                .toBe(Math.round((sumOfAggregatedData as any)[key] * Math.pow(10, 5)));
+                        });
+
                     });
 
                 http.returnValue(null);
