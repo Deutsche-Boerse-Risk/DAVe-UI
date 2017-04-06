@@ -7,7 +7,6 @@ import {DataTableModule} from '../datatable/data.table.module';
 import {ListModule} from '../list/list.module';
 
 import {MarginService} from './margin.service';
-import {MarginComponentsAggregationComponent} from './margin.components.aggregation.component';
 import {MarginComponentsTreemapComponent} from './margin.components.treemap.component';
 
 @NgModule({
@@ -19,11 +18,9 @@ import {MarginComponentsTreemapComponent} from './margin.components.treemap.comp
         ListModule
     ],
     declarations: [
-        MarginComponentsAggregationComponent,
         MarginComponentsTreemapComponent
     ],
     exports     : [
-        MarginComponentsAggregationComponent,
         MarginComponentsTreemapComponent
     ],
     providers   : [MarginService]

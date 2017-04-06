@@ -4,6 +4,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {DashboardComponent} from './dashboard.component';
 import {PositionReportsModule} from '../position_reports/position.reports.module';
 import {MarginModule} from '../margin/margin.module';
+import {LiquiGroupMarginModule} from '../liqui_group_margin/liqui.group.margin.module';
 import {PoolMarginModule} from '../pool_margin/pool.margin.module';
 
 @NgModule({
@@ -11,6 +12,7 @@ import {PoolMarginModule} from '../pool_margin/pool.margin.module';
         BrowserModule,
         PositionReportsModule,
         MarginModule,
+        LiquiGroupMarginModule,
         PoolMarginModule
     ],
     declarations: [DashboardComponent]

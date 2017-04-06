@@ -5,11 +5,9 @@ import Spy = jasmine.Spy;
 
 import {HttpService, Request} from '../http.service';
 
-import {MarginService, marginComponentsAggregationURL, marginComponentsTreemapURL} from './margin.service';
+import {MarginService, marginComponentsTreemapURL} from './margin.service';
 import {
     MarginComponentsServerData,
-    MarginComponentsAggregationData,
-    MarginComponentsBaseData,
     MarginComponentsTree,
     MarginComponentsTreeNode
 } from './margin.types';
@@ -33,79 +31,6 @@ describe('MarginService', () => {
         http.returnValue(generateMarginComponents());
         httpSyp = spyOn(http, 'get').and.callThrough();
     }));
-
-    it('aggregation data are correctly processed',
-        inject([MarginService, HttpService],
-            (marginComponentsService: MarginService,
-                http: HttpServiceStub<MarginComponentsServerData[]>) => {
-                let originalData = http.popReturnValue();
-                http.returnValue(originalData);
-                marginComponentsService.getMarginComponentsAggregationData()
-                    .subscribe((data: MarginComponentsAggregationData) => {
-                        expect(httpSyp).toHaveBeenCalledTimes(1);
-                        expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL)
-                            .toBe(marginComponentsAggregationURL);
-                        expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params).not.toBeDefined();
-                        expect(data.aggregatedRows.length).toBe(Math.pow(3, 2));
-                        expect(data.summary).toBeDefined();
-
-                        let summaryData: MarginComponentsBaseData = {
-                            uid             : null,
-                            variationMargin : 0,
-                            liquiMargin     : 0,
-                            premiumMargin   : 0,
-                            spreadMargin    : 0,
-                            additionalMargin: 0
-                        };
-                        originalData.forEach((record: MarginComponentsServerData) => {
-                            summaryData.variationMargin += record.variationMargin;
-                            summaryData.liquiMargin += record.liquiMargin;
-                            summaryData.premiumMargin += record.premiumMargin;
-                            summaryData.spreadMargin += record.spreadMargin;
-                            summaryData.additionalMargin += record.additionalMargin;
-                        });
-
-                        expect(data.summary.variationMargin).toBe(summaryData.variationMargin);
-                        expect(data.summary.liquiMargin).toBe(summaryData.liquiMargin);
-                        expect(data.summary.premiumMargin).toBe(summaryData.premiumMargin);
-                        expect(data.summary.spreadMargin).toBe(summaryData.spreadMargin);
-                        expect(data.summary.additionalMargin).toBe(summaryData.additionalMargin);
-
-                        let sumOfAggregatedData: MarginComponentsBaseData = {
-                            uid             : null,
-                            variationMargin : 0,
-                            liquiMargin     : 0,
-                            premiumMargin   : 0,
-                            spreadMargin    : 0,
-                            additionalMargin: 0
-                        };
-                        data.aggregatedRows.forEach((record: MarginComponentsBaseData) => {
-                            sumOfAggregatedData.variationMargin += record.variationMargin;
-                            sumOfAggregatedData.liquiMargin += record.liquiMargin;
-                            sumOfAggregatedData.premiumMargin += record.premiumMargin;
-                            sumOfAggregatedData.spreadMargin += record.spreadMargin;
-                            sumOfAggregatedData.additionalMargin += record.additionalMargin;
-                        });
-
-                        expect(data.summary.variationMargin).toBe(sumOfAggregatedData.variationMargin);
-                        expect(data.summary.liquiMargin).toBe(sumOfAggregatedData.liquiMargin);
-                        expect(data.summary.premiumMargin).toBe(sumOfAggregatedData.premiumMargin);
-                        expect(data.summary.spreadMargin).toBe(sumOfAggregatedData.spreadMargin);
-                        expect(data.summary.additionalMargin).toBe(sumOfAggregatedData.additionalMargin);
-                    });
-
-                http.returnValue(null);
-                marginComponentsService.getMarginComponentsAggregationData()
-                    .subscribe((data: MarginComponentsAggregationData) => {
-                        expect(httpSyp).toHaveBeenCalledTimes(2);
-                        expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL)
-                            .toBe(marginComponentsAggregationURL);
-                        expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params).not.toBeDefined();
-                        expect(data.aggregatedRows).not.toBeDefined();
-                        expect(data.summary).not.toBeDefined();
-                    });
-            })
-    );
 
     it('tree map data are correctly processed',
         inject([MarginService, HttpService],

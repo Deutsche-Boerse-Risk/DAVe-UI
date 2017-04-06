@@ -5,24 +5,25 @@ import {async, TestBed, fakeAsync, inject} from '@angular/core/testing';
 import {
     stubRouter,
     HttpAsyncServiceStub,
-    generateMarginComponents,
-    generateMarginComponentsHistory,
+    generateLiquiGroupMargin,
+    generateLiquiGroupMarginHistory,
     chceckSorting,
     AggregationPage,
     TableBodyRow
 } from '../../testing';
 
-import {MarginService} from './margin.service';
-import {MarginComponentsServerData} from './margin.types';
+import {LiquiGroupMarginService} from './liqui.group.margin.service';
+import {LiquiGroupMarginServerData} from './liqui.group.margin.types';
 import {HttpService} from '../http.service';
 
 import {DATA_REFRESH_INTERVAL} from '../abstract.component';
 import {CommonModule} from '../common/common.module';
 import {DataTableModule} from '../datatable/data.table.module';
 
-import {MarginComponentsAggregationComponent, valueGetters} from './margin.components.aggregation.component';
+import {LiquiGroupMarginAggregationComponent, valueGetters} from './liqui.group.margin.aggregation.component';
+import {LIQUI_GROUP_MARGIN_LATEST} from '../routes/routing.paths';
 
-describe('Margin components aggregation component', () => {
+describe('Liqui Group Margin aggregation component', () => {
     let page: AggregationPage;
 
     beforeEach(async(() => {
@@ -33,10 +34,10 @@ describe('Margin components aggregation component', () => {
                 RouterModule
             ],
             declarations: [
-                MarginComponentsAggregationComponent
+                LiquiGroupMarginAggregationComponent
             ],
             providers   : [
-                MarginService,
+                LiquiGroupMarginService,
                 {
                     provide : HttpService,
                     useClass: HttpAsyncServiceStub
@@ -46,15 +47,15 @@ describe('Margin components aggregation component', () => {
         stubRouter().compileComponents();
     }));
 
-    beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<MarginComponentsServerData[]>) => {
+    beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<LiquiGroupMarginServerData[]>) => {
         // Generate test data
-        http.returnValue(generateMarginComponents());
+        http.returnValue(generateLiquiGroupMargin());
         // Create component
-        page = new AggregationPage(TestBed.createComponent(MarginComponentsAggregationComponent));
+        page = new AggregationPage(TestBed.createComponent(LiquiGroupMarginAggregationComponent));
     })));
 
     it('displays error correctly', fakeAsync(inject([HttpService],
-        (http: HttpAsyncServiceStub<MarginComponentsServerData[]>) => {
+        (http: HttpAsyncServiceStub<LiquiGroupMarginServerData[]>) => {
             // Init component
             page.detectChanges();
             // Do not trigger periodic interval
@@ -87,7 +88,7 @@ describe('Margin components aggregation component', () => {
         })));
 
     it('displays no-data correctly', fakeAsync(inject([HttpService],
-        (http: HttpAsyncServiceStub<MarginComponentsServerData[]>) => {
+        (http: HttpAsyncServiceStub<LiquiGroupMarginServerData[]>) => {
             // Init component
             page.detectChanges();
             // Do not trigger periodic interval
@@ -141,7 +142,7 @@ describe('Margin components aggregation component', () => {
     }));
 
     it('refresh data correctly', fakeAsync(inject([HttpService],
-        (http: HttpAsyncServiceStub<MarginComponentsServerData[]>) => {
+        (http: HttpAsyncServiceStub<LiquiGroupMarginServerData[]>) => {
             // Init component
             page.detectChanges();
             // Return data
@@ -168,7 +169,7 @@ describe('Margin components aggregation component', () => {
             })).toBeTruthy('No rows are highlighted');
 
             // Push new data
-            let newData = generateMarginComponentsHistory();
+            let newData = generateLiquiGroupMarginHistory();
             http.returnValue(newData);
             // Trigger reload
             page.advanceAndDetectChangesUsingOffset(DATA_REFRESH_INTERVAL);
@@ -212,8 +213,8 @@ describe('Margin components aggregation component', () => {
 
         chceckSorting(page, [
             valueGetters.clearer, valueGetters.member, valueGetters.account,
-            valueGetters.variationMargin, valueGetters.liquiMargin, valueGetters.premiumMargin,
-            valueGetters.spreadMargin, valueGetters.additionalMargin
+            valueGetters.premiumMargin, valueGetters.currentLiquidatingMargin, valueGetters.additionalMargin,
+            valueGetters.unadjustedMarginRequirement, valueGetters.variationPremiumPayment
         ]);
 
         // Fire highlighters
@@ -251,7 +252,7 @@ describe('Margin components aggregation component', () => {
             page.link.click();
 
             expect(clickSpy).toHaveBeenCalled();
-            expect(page.link.stub.navigatedTo).toContain('/marginComponentLatest');
+            expect(page.link.stub.navigatedTo).toContain(LIQUI_GROUP_MARGIN_LATEST);
         }));
     });
 });

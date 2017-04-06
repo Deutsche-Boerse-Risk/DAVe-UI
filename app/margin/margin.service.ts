@@ -5,8 +5,6 @@ import {Observable} from 'rxjs/Observable';
 
 import {
     MarginComponentsServerData,
-    MarginComponentsAggregationData,
-    MarginComponentsBaseData,
     MarginComponentsTree, MarginComponentsTreeNode
 } from './margin.types';
 
@@ -19,68 +17,6 @@ export class MarginService {
     constructor(private http: HttpService<MarginComponentsServerData[]>) {
     }
 
-    public getMarginComponentsAggregationData(): Observable<MarginComponentsAggregationData> {
-        return this.http.get({resourceURL: marginComponentsAggregationURL}).map(
-            (data: MarginComponentsServerData[]) => {
-                if (!data) {
-                    return {};
-                }
-                let newViewWindow: { [key: string]: MarginComponentsBaseData } = {};
-                let footerData: MarginComponentsBaseData = {
-                    uid             : null,
-                    variationMargin : 0,
-                    liquiMargin     : 0,
-                    premiumMargin   : 0,
-                    spreadMargin    : 0,
-                    additionalMargin: 0
-                };
-
-                for (let index = 0; index < data.length; ++index) {
-                    let record = data[index];
-                    let fKey = record.clearer + '-' + record.member + '-' + record.account;
-
-                    if (fKey in newViewWindow) {
-                        let cellData: MarginComponentsBaseData = newViewWindow[fKey];
-                        cellData.variationMargin += record.variationMargin;
-                        cellData.liquiMargin += record.liquiMargin;
-                        cellData.premiumMargin += record.premiumMargin;
-                        cellData.spreadMargin += record.spreadMargin;
-                        cellData.additionalMargin += record.additionalMargin;
-
-                        footerData.variationMargin += record.variationMargin;
-                        footerData.liquiMargin += record.liquiMargin;
-                        footerData.premiumMargin += record.premiumMargin;
-                        footerData.spreadMargin += record.spreadMargin;
-                        footerData.additionalMargin += record.additionalMargin;
-                    } else {
-                        newViewWindow[fKey] = {
-                            uid             : fKey,
-                            clearer         : record.clearer,
-                            member          : record.member,
-                            account         : record.account,
-                            premiumMargin   : record.premiumMargin,
-                            additionalMargin: record.additionalMargin,
-                            liquiMargin     : record.liquiMargin,
-                            spreadMargin    : record.spreadMargin,
-                            variationMargin : record.variationMargin
-                        };
-
-                        footerData.variationMargin += record.variationMargin;
-                        footerData.liquiMargin += record.liquiMargin;
-                        footerData.premiumMargin += record.premiumMargin;
-                        footerData.spreadMargin += record.spreadMargin;
-                        footerData.additionalMargin += record.additionalMargin;
-                    }
-                }
-
-                return {
-                    aggregatedRows: Object.keys(newViewWindow).map((key: string) => {
-                        return newViewWindow[key];
-                    }),
-                    summary       : footerData
-                };
-            });
-    }
 
     public getMarginComponentsTreeMapData(): Observable<MarginComponentsTree> {
         return this.http.get({resourceURL: marginComponentsTreemapURL}).map(

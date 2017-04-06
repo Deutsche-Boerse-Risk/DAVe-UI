@@ -5,44 +5,46 @@ import {AbstractComponentWithAutoRefresh} from '../abstract.component';
 import {OrderingCriteria, OrderingValueGetter} from '../datatable/data.table.column.directive';
 
 import {ErrorResponse} from '../http.service';
-
-import {MarginService} from './margin.service';
-import {MarginComponentsBaseData, MarginComponentsAggregationData} from './margin.types';
+import {
+    LiquiGroupMarginAggregationData, LiquiGroupMarginBaseData,
+    LiquiGroupMarginData
+} from './liqui.group.margin.types';
+import {LiquiGroupMarginService} from './liqui.group.margin.service';
 
 @Component({
     moduleId   : module.id,
-    selector   : 'margin-components-aggregation',
-    templateUrl: 'margin.components.aggregation.component.html',
-    styleUrls  : ['margin.components.aggregation.component.css']
+    selector   : 'liqui-group-margin-aggregation',
+    templateUrl: 'liqui.group.margin.aggregation.component.html',
+    styleUrls  : ['liqui.group.margin.aggregation.component.css']
 })
-export class MarginComponentsAggregationComponent extends AbstractComponentWithAutoRefresh {
+export class LiquiGroupMarginAggregationComponent extends AbstractComponentWithAutoRefresh {
 
     public initialLoad: boolean = true;
 
     public errorMessage: string;
 
-    public footer: MarginComponentsBaseData;
+    public footer: LiquiGroupMarginBaseData;
 
-    public data: MarginComponentsBaseData[];
+    public data: LiquiGroupMarginData[];
 
-    constructor(private marginComponentsService: MarginService) {
+    constructor(private liquiGroupMarginService: LiquiGroupMarginService) {
         super();
     }
 
     public get defaultOrdering(): (
-        OrderingCriteria<MarginComponentsBaseData>
-        | OrderingValueGetter<MarginComponentsBaseData>)[] {
+        OrderingCriteria<LiquiGroupMarginBaseData>
+        | OrderingValueGetter<LiquiGroupMarginBaseData>)[] {
         return defaultOrdering;
     }
 
     protected loadData(): void {
-        this.marginComponentsService.getMarginComponentsAggregationData()
+        this.liquiGroupMarginService.getLiquiGroupMarginAggregationData()
             .subscribe(
-                (data: MarginComponentsAggregationData) => {
+                (data: LiquiGroupMarginAggregationData) => {
                     // Remember old data
-                    let oldData: { [key: string]: MarginComponentsBaseData } = {};
+                    let oldData: { [key: string]: LiquiGroupMarginData } = {};
                     if (this.data) {
-                        this.data.forEach((value: MarginComponentsBaseData) => {
+                        this.data.forEach((value: LiquiGroupMarginData) => {
                             oldData[value.uid] = value;
                         });
                         delete this.data;
@@ -85,7 +87,7 @@ export class MarginComponentsAggregationComponent extends AbstractComponentWithA
                 });
     }
 
-    public trackByRowKey(index: number, row: MarginComponentsBaseData): string {
+    public trackByRowKey(index: number, row: LiquiGroupMarginData): string {
         return row.uid;
     }
 
@@ -97,39 +99,21 @@ export class MarginComponentsAggregationComponent extends AbstractComponentWithA
 //<editor-fold defaultstate="collapsed" desc="Value getters, default ordering, exported columns">
 
 export const valueGetters = {
-    clearer         : (row: MarginComponentsBaseData) => {
-        return row.clearer;
-    },
-    member          : (row: MarginComponentsBaseData) => {
-        return row.member;
-    },
-    account         : (row: MarginComponentsBaseData) => {
-        return row.account;
-    },
-    variationMargin : (row: MarginComponentsBaseData) => {
-        return row.variationMargin;
-    },
-    liquiMargin     : (row: MarginComponentsBaseData) => {
-        return row.liquiMargin;
-    },
-    premiumMargin   : (row: MarginComponentsBaseData) => {
-        return row.premiumMargin;
-    },
-    spreadMargin    : (row: MarginComponentsBaseData) => {
-        return row.spreadMargin;
-    },
-    additionalMargin: (row: MarginComponentsBaseData) => {
-        return row.additionalMargin;
-    }
+    clearer                    : (row: LiquiGroupMarginData) => row.clearer,
+    member                     : (row: LiquiGroupMarginData) => row.member,
+    account                    : (row: LiquiGroupMarginData) => row.account,
+    premiumMargin              : (row: LiquiGroupMarginData) => row.premiumMargin,
+    currentLiquidatingMargin   : (row: LiquiGroupMarginData) => row.currentLiquidatingMargin,
+    additionalMargin           : (row: LiquiGroupMarginData) => row.additionalMargin,
+    unadjustedMarginRequirement: (row: LiquiGroupMarginData) => row.unadjustedMarginRequirement,
+    variationPremiumPayment    : (row: LiquiGroupMarginData) => row.variationPremiumPayment
 };
 
 const defaultOrdering: (
-    OrderingCriteria<MarginComponentsBaseData>
-    | OrderingValueGetter<MarginComponentsBaseData>)[] = [
+    OrderingCriteria<LiquiGroupMarginData>
+    | OrderingValueGetter<LiquiGroupMarginData>)[] = [
     {
-        get       : (row: MarginComponentsBaseData) => {
-            return Math.abs(row.additionalMargin);
-        },
+        get       : (row: LiquiGroupMarginData) => Math.abs(row.additionalMargin),
         descending: true
     },
     valueGetters.clearer,

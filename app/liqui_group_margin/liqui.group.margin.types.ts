@@ -14,14 +14,17 @@ export interface LiquiGroupMarginHistoryParams extends LiquiGroupMarginParams {
     marginCurrency: string;
 }
 
-export interface LiquiGroupMarginServerData extends LiquiGroupMarginHistoryParams {
-    marginGroup: string;
+export interface LiquiGroupMarginBaseData {
     premiumMargin: number;
     currentLiquidatingMargin: number;
-    futuresSpreadMargin: number;
     additionalMargin: number;
     unadjustedMarginRequirement: number;
     variationPremiumPayment: number;
+}
+
+export interface LiquiGroupMarginServerData extends LiquiGroupMarginHistoryParams, LiquiGroupMarginBaseData {
+    marginGroup: string;
+    futuresSpreadMargin: number;
     snapshotID: number;
     businessDate: number;
     timestamp: number;
@@ -30,4 +33,9 @@ export interface LiquiGroupMarginServerData extends LiquiGroupMarginHistoryParam
 export interface LiquiGroupMarginData extends LiquiGroupMarginServerData {
     uid: string;
     received: Date;
+}
+
+export interface LiquiGroupMarginAggregationData {
+    aggregatedRows: LiquiGroupMarginData[];
+    summary: LiquiGroupMarginBaseData;
 }

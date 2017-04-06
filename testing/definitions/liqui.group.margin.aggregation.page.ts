@@ -11,11 +11,11 @@ import {LinkDefinition} from './link.definition';
 import {DataTableComponent} from '../../app/datatable/data.table.component';
 import {HIGHLIGHTER_TIMEOUT} from '../../app/datatable/highlighter.directive';
 
-import {MarginComponentsAggregationComponent} from '../../app/margin/margin.components.aggregation.component';
+import {LiquiGroupMarginAggregationComponent} from '../../app/liqui_group_margin/liqui.group.margin.aggregation.component';
 
-export class AggregationPage extends PageWithLoading<MarginComponentsAggregationComponent> {
+export class AggregationPage extends PageWithLoading<LiquiGroupMarginAggregationComponent> {
 
-    constructor(fixture: ComponentFixture<MarginComponentsAggregationComponent>) {
+    constructor(fixture: ComponentFixture<LiquiGroupMarginAggregationComponent>) {
         super(fixture);
     }
 
