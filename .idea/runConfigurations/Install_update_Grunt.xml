@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Install/update Grunt" type="js.build_tools.npm" factoryName="npm">
+    <package-json value="$PROJECT_DIR$/package.json" />
+    <command value="install" />
+    <arguments value="-g grunt-cli" />
+    <node-interpreter value="project" />
+    <envs />
+    <method />
+  </configuration>
+</component>

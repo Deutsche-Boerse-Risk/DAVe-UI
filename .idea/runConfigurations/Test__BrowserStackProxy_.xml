@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Test (BrowserStackProxy)" type="js.build_tools.grunt" factoryName="Grunt.js" singleton="false">
+    <node-interpreter value="project" />
+    <gruntfile value="$PROJECT_DIR$/gruntfile.js" />
+    <tasks>
+      <task value="testBrowserStackProxy" />
+    </tasks>
+    <envs />
+    <method />
+  </configuration>
+</component>

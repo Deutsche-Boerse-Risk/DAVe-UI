@@ -1,9 +1,12 @@
 machine:
+  node:
+    version: 6.1.0 # Requires NodeJS 5+ to be used with Angular 4
   services:
     - docker
 
 dependencies:
   pre:
+    - sudo apt-get update; sudo apt-get install jq
     - npm install -g grunt-cli
     - npm install -g typescript
     - npm install -g codeclimate-test-reporter
@@ -12,12 +15,14 @@ dependencies:
     - npm update
     - npm prune
   post:
-    - npm list
-    - npm list -g
+    - npm list || true
+    - npm list -g || true
 
 test:
+  pre:
+    - while [ "$(curl -s -u $BROWSER_STACK_USERNAME:$BROWSER_STACK_ACCESS_KEY https://www.browserstack.com/automate/plan.json | jq '.parallel_sessions_running')" != "0" ]; do sleep 60; echo "Waiting another 60 seconds for BrowserStack session..."; done
   override:
-    - grunt testChrome
+    - grunt testCircleCI
     - mkdir -p $CIRCLE_TEST_REPORTS/karma/
     - find . -type f -regex ".*/reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/karma/ \;
     - find . -type f -regex "\./coverage/.*lcov.info" -exec sh -c 'codeclimate-test-reporter < "{}"' \;

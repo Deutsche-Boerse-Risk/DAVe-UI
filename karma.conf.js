@@ -1,5 +1,7 @@
 module.exports = function (config) {
 
+    var browsers = require('./browser-providers.conf');
+
     var debugTests = false;
 
     var appBase = 'app/';       // transpiled app JS and map files
@@ -16,6 +18,7 @@ module.exports = function (config) {
             require('karma-chrome-launcher'),
             require('karma-ie-launcher'),
             require('karma-firefox-launcher'),
+            require('karma-safari-launcher'),
             require('karma-browserstack-launcher'),
             require('karma-jasmine-html-reporter'),
             require('karma-junit-reporter'),
@@ -28,71 +31,7 @@ module.exports = function (config) {
             clearContext: false // leave Jasmine Spec Runner output visible in browser
         },
 
-        customLaunchers: {
-            bs_chrome_windows_10: {
-                base: 'BrowserStack',
-                browser: 'Chrome',
-                browser_version: '56.0',
-                os: 'Windows',
-                os_version: '10'
-            },
-            bs_firefox_windows_10: {
-                base: 'BrowserStack',
-                browser: 'Firefox',
-                browser_version: '51.0',
-                os: 'Windows',
-                os_version: '10'
-            },
-            bs_ie_windows_10: {
-                base: 'BrowserStack',
-                browser: 'IE',
-                browser_version: '11.0',
-                os: 'Windows',
-                os_version: '10'
-            },
-            bs_chrome_windows_7: {
-                base: 'BrowserStack',
-                browser: 'Chrome',
-                browser_version: '56.0',
-                os: 'Windows',
-                os_version: '7'
-            },
-            bs_firefox_windows_7: {
-                base: 'BrowserStack',
-                browser: 'Firefox',
-                browser_version: '51.0',
-                os: 'Windows',
-                os_version: '7'
-            },
-            bs_ie_windows_7: {
-                base: 'BrowserStack',
-                browser: 'IE',
-                browser_version: '11.0',
-                os: 'Windows',
-                os_version: '7'
-            },
-            bs_chrome_mac_sierra: {
-                base: 'BrowserStack',
-                browser: 'Chrome',
-                browser_version: '56.0',
-                os: 'OS X',
-                os_version: 'Sierra'
-            },
-            bs_firefox_mac_sierra: {
-                base: 'BrowserStack',
-                browser: 'Firefox',
-                browser_version: '51.0',
-                os: 'OS X',
-                os_version: 'Sierra'
-            },
-            bs_safari_mac_sierra: {
-                base: 'BrowserStack',
-                browser: 'Safari',
-                browser_version: '10.0',
-                os: 'OS X',
-                os_version: 'Sierra'
-            }
-        },
+        customLaunchers: browsers.customLaunchers,
 
         files: [
             // System.js for module loading
@@ -103,6 +42,8 @@ module.exports = function (config) {
             'node_modules/core-js/client/shim.js',
             'node_modules/web-animations-js/web-animations.min.js',
             'node_modules/file-saver/FileSaver.min.js',
+            'node_modules/intl/dist/Intl.min.js',
+            'node_modules/intl/locale-data/jsonp/en-US.js',
             'ie.intl.shim.js',
 
             // zone.js
@@ -181,7 +122,13 @@ module.exports = function (config) {
         },
 
         browserStack: {
-            binaryBasePath: 'browserStackBin/'
+            binaryBasePath: 'browserStackBin/',
+            project: 'DAVe-UI',
+            build: 'DAVe-UI/Karma test local',
+            name: 'DAVe-UI - Karma test',
+            retryLimit: 3,
+            timeout: 1800, // Timeout in seconds (30 min.)
+            pollingTimeout: 10000
         },
 
         specReporter: {
@@ -193,9 +140,15 @@ module.exports = function (config) {
         crossOriginAttribute: false,
         singleRun: !debugTests,
         logLevel: config.LOG_INFO,
-        captureTimeout: 60000,
-        browserDisconnectTimeout: 10000,
-        browserDisconnectTolerance: 1,
-        browserNoActivityTimeout: 120000
-    })
+        captureTimeout: 180000,
+        browserDisconnectTimeout: 180000,
+        browserDisconnectTolerance: 3,
+        browserNoActivityTimeout: 300000
+    });
+
+    if (process.env.CIRCLECI) {
+        config.browserStack.build = process.env.CIRCLE_PROJECT_USERNAME + '/' + process.env.CIRCLE_PROJECT_REPONAME
+            + '/' + process.env.CIRCLE_BRANCH + '/build ' + process.env.CIRCLE_BUILD_NUM;
+        config.browserStack.name = process.env.CIRCLE_PROJECT_REPONAME + '/' + process.env.CIRCLE_BRANCH + ' - Karma test';
+    }
 };

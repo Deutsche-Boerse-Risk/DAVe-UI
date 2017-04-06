@@ -1,11 +1,8 @@
 // /*global jasmine, __karma__, window*/
-Error.stackTraceLimit = 0; // "No stacktrace"" is usually best for app testing.
+Error.stackTraceLimit = 0;
 
 // Add a global variable to know if the google charts lib was loaded
 window.googleLoaded = false;
-
-// Uncomment to get full stacktrace output. Sometimes helpful, usually not.
-// Error.stackTraceLimit = Infinity; //
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
 
