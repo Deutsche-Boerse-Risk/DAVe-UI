@@ -2,7 +2,7 @@ module.exports = function (config) {
 
     var browsers = require('./browser-providers.conf');
 
-    var debugTests = true;
+    var debugTests = false;
 
     var appBase = 'app/';       // transpiled app JS and map files
 
