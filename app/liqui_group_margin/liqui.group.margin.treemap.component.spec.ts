@@ -9,14 +9,15 @@ import {
     HttpAsyncServiceStub,
     RouterStub,
     TreeMapPage,
-    generateMarginComponents
+    generateLiquiGroupMargin
 } from '../../testing';
 
 import {HttpService} from '../http.service';
-import {MarginService} from './margin.service';
+import {LiquiGroupMarginService} from './liqui.group.margin.service';
 
-import {MarginComponentsTreemapComponent} from './margin.components.treemap.component';
-import {MarginComponentsServerData} from './margin.types';
+import {LiquiGroupMarginTreemapComponent} from './liqui.group.margin.treemap.component';
+import {LiquiGroupMarginServerData} from './liqui.group.margin.types';
+import {LIQUI_GROUP_MARGIN_LATEST} from '../routes/routing.paths';
 
 describe('Margin components TreeMap component', () => {
     let page: TreeMapPage;
@@ -27,11 +28,11 @@ describe('Margin components TreeMap component', () => {
                 BrowserModule
             ],
             declarations: [
-                MarginComponentsTreemapComponent,
+                LiquiGroupMarginTreemapComponent,
                 RouterLinkStubDirective
             ],
             providers   : [
-                MarginService,
+                LiquiGroupMarginService,
                 {
                     provide : HttpService,
                     useClass: HttpAsyncServiceStub
@@ -45,15 +46,15 @@ describe('Margin components TreeMap component', () => {
         }).compileComponents();
     }));
 
-    beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<MarginComponentsServerData[]>) => {
+    beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<LiquiGroupMarginServerData[]>) => {
         // Generate test data
-        http.returnValue(generateMarginComponents());
+        http.returnValue(generateLiquiGroupMargin());
         // Create component
-        page = new TreeMapPage(TestBed.createComponent(MarginComponentsTreemapComponent));
+        page = new TreeMapPage(TestBed.createComponent(LiquiGroupMarginTreemapComponent));
     })));
 
     it('displays error correctly', fakeAsync(inject([HttpService],
-        (http: HttpAsyncServiceStub<MarginComponentsServerData[]>) => {
+        (http: HttpAsyncServiceStub<LiquiGroupMarginServerData[]>) => {
             // Init component
             page.detectChanges();
             // Do not trigger periodic interval
@@ -86,7 +87,7 @@ describe('Margin components TreeMap component', () => {
         })));
 
     it('displays no-data correctly', fakeAsync(inject([HttpService],
-        (http: HttpAsyncServiceStub<MarginComponentsServerData[]>) => {
+        (http: HttpAsyncServiceStub<LiquiGroupMarginServerData[]>) => {
             // Init component
             page.detectChanges();
             // Do not trigger periodic interval
@@ -154,7 +155,7 @@ describe('Margin components TreeMap component', () => {
 
         // Clicked correctly
         expect(navigateSpy).toHaveBeenCalled();
-        expect(page.link.stub.navigatedTo).toEqual('/marginComponentLatest');
+        expect(page.link.stub.navigatedTo).toEqual('/' + LIQUI_GROUP_MARGIN_LATEST);
     }));
 
     xit('check data', fakeAsync(() => {

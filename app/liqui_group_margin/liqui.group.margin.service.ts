@@ -10,11 +10,14 @@ import {
     LiquiGroupMarginData,
     LiquiGroupMarginBaseData,
     LiquiGroupMarginAggregationData,
+    LiquiGroupMarginTree,
+    LiquiGroupMarginTreeNode,
     LiquiGroupMarginParams,
     LiquiGroupMarginHistoryParams
 } from './liqui.group.margin.types';
 
 export const liquiGroupMarginAggregationURL: string = '/lgm/latest';
+export const liquiGroupMarginTreemapURL: string = '/lgm/latest';
 export const liquiGroupMarginLatestURL: string = '/lgm/latest';
 export const liquiGroupMarginHistoryURL: string = '/lgm/history';
 
@@ -22,6 +25,119 @@ export const liquiGroupMarginHistoryURL: string = '/lgm/history';
 export class LiquiGroupMarginService {
 
     constructor(private http: HttpService<LiquiGroupMarginServerData[]>) {
+    }
+
+    public getLiquiGroupMarginTreeMapData(): Observable<LiquiGroupMarginTree> {
+        return this.http.get({resourceURL: liquiGroupMarginTreemapURL}).map(
+            (data: LiquiGroupMarginServerData[]) => {
+                if (!data || !data.length) {
+                    return {
+                        traverseDF: () => {
+                        }
+                    };
+                }
+                let members: { [key: string]: boolean } = {};
+                let accounts: { [key: string]: boolean } = {};
+                let classes: { [key: string]: boolean } = {};
+                let tree = new LiquiGroupMarginTree({
+                    id   : 'all',
+                    text : 'all',
+                    value: 0
+                });
+
+                for (let index = 0; index < data.length; ++index) {
+                    if (data[index].additionalMargin === 0) {
+                        continue;
+                    }
+
+                    let clearer = data[index].clearer;
+                    let member = clearer + '-' + data[index].member;
+                    let account = member + '-' + data[index].account;
+                    let marginClass = account + '-' + data[index].marginClass;
+                    let marginCurrency = marginClass + '-' + data[index].marginCurrency;
+
+                    if (!members[member]) {
+                        members[member] = true;
+                        tree.add({
+                            id     : member,
+                            text   : member.replace(/\w+-/, ''),
+                            value  : 0,
+                            clearer: clearer,
+                            member : data[index].member
+                        }, 'all');
+                    }
+
+                    if (!accounts[account]) {
+                        accounts[account] = true;
+                        tree.add({
+                            id     : account,
+                            text   : account.replace(/\w+-/, ''),
+                            value  : 0,
+                            clearer: clearer,
+                            member : data[index].member,
+                            account: data[index].account
+                        }, member);
+                    }
+
+                    if (!classes[marginClass]) {
+                        classes[marginClass] = true;
+                        tree.add({
+                            id         : marginClass,
+                            text       : marginClass.replace(/\w+-/, ''),
+                            value      : 0,
+                            clearer    : clearer,
+                            member     : data[index].member,
+                            account    : data[index].account,
+                            marginClass: data[index].marginClass
+                        }, account);
+                    }
+
+                    tree.add({
+                        id            : marginCurrency,
+                        text          : marginCurrency.replace(/\w+-/, ''),
+                        value         : data[index].additionalMargin,
+                        leaf          : true,
+                        clearer       : clearer,
+                        member        : data[index].member,
+                        account       : data[index].account,
+                        marginClass   : data[index].marginClass,
+                        marginCurrency: data[index].marginCurrency
+                    }, marginClass);
+                }
+                tree.traverseDF((node: LiquiGroupMarginTreeNode) => {
+                    node.children.sort((a, b) => {
+                        return b.data.value - a.data.value;
+                    });
+                });
+                tree.traverseBF((node: LiquiGroupMarginTreeNode) => {
+                    let restText;
+                    if (node.data.text === 'all') {
+                        restText = 'Rest';
+                    } else {
+                        restText = node.data.text + '-Rest';
+                    }
+                    let restNode = new LiquiGroupMarginTreeNode({
+                        id     : node.data.id + '-Rest',
+                        text   : restText,
+                        value  : 0,
+                        clearer: node.data.clearer
+                    });
+                    restNode.parent = node;
+                    let aggregateCount = Math.max(node.children.length - 10, 0);
+                    for (let i = 0; i < aggregateCount; i++) {
+                        let smallNode = node.children.pop();
+                        restNode.data.value += smallNode.data.value;
+                        restNode.children = restNode.children.concat(smallNode.children);
+                        for (let j = 0; j < smallNode.children.length; j++) {
+                            smallNode.children[j].parent = restNode;
+                        }
+                    }
+                    if (aggregateCount > 0) {
+                        node.children.push(restNode);
+                    }
+                });
+                return tree;
+            });
     }
 
     public getLiquiGroupMarginAggregationData(): Observable<LiquiGroupMarginAggregationData> {

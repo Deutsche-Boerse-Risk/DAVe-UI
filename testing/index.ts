@@ -26,7 +26,6 @@ export * from './definitions/update.failed.page';
 export * from './mock/account.margin.generator';
 export * from './mock/liqui.group.margin.generator';
 export * from './mock/liqui.group.split.margin.generator';
-export * from './mock/margin.components.generator';
 export * from './mock/pool.margin.generator';
 export * from './mock/position.reports.generator';
 export * from './mock/risk.limit.utilization.generator';

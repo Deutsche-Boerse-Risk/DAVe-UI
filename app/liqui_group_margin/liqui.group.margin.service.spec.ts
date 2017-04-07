@@ -9,13 +9,13 @@ import {
     LiquiGroupMarginService,
     liquiGroupMarginLatestURL,
     liquiGroupMarginHistoryURL,
-    liquiGroupMarginAggregationURL
+    liquiGroupMarginAggregationURL, liquiGroupMarginTreemapURL
 } from './liqui.group.margin.service';
 import {
     LiquiGroupMarginServerData,
     LiquiGroupMarginData,
     LiquiGroupMarginAggregationData,
-    LiquiGroupMarginBaseData
+    LiquiGroupMarginBaseData, LiquiGroupMarginTree, LiquiGroupMarginTreeNode
 } from './liqui.group.margin.types';
 
 describe('LiquiGroupMarginService', () => {
@@ -37,6 +37,61 @@ describe('LiquiGroupMarginService', () => {
         http.returnValue(generateLiquiGroupMargin());
         httpSyp = spyOn(http, 'get').and.callThrough();
     }));
+
+    it('tree map data are correctly processed',
+        inject([LiquiGroupMarginService, HttpService],
+            (liquiGroupMarginService: LiquiGroupMarginService,
+                http: HttpServiceStub<LiquiGroupMarginServerData[]>) => {
+                http.popReturnValue();
+                http.returnValue(generateLiquiGroupMargin(1, 15, 2, 15));
+                liquiGroupMarginService.getLiquiGroupMarginTreeMapData()
+                    .subscribe((data: LiquiGroupMarginTree) => {
+                        expect(httpSyp).toHaveBeenCalledTimes(1);
+                        expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL)
+                            .toBe(liquiGroupMarginTreemapURL);
+                        expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params).not.toBeDefined();
+                        let nodesCount = 0;
+                        data.traverseDF((node: LiquiGroupMarginTreeNode) => {
+                            nodesCount++;
+
+                            if (node.data.leaf) {
+                                expect(node.children.length).toBe(0);
+                            }
+                            if (node.parent && node.children.length) {
+                                let value = 0;
+                                node.children.forEach((childNode: LiquiGroupMarginTreeNode) => {
+                                    value += childNode.data.value;
+                                    expect(childNode.data.id).toMatch('^' + node.data.id.replace(/Rest/, ''));
+                                });
+                                expect(value).toBe(node.data.value);
+                            }
+                        });
+                        expect(nodesCount).toBe(373);
+                    });
+
+                http.returnValue(null);
+                liquiGroupMarginService.getLiquiGroupMarginTreeMapData()
+                    .subscribe((data: LiquiGroupMarginTree) => {
+                        expect(httpSyp).toHaveBeenCalledTimes(2);
+                        expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL)
+                            .toBe(liquiGroupMarginTreemapURL);
+                        expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params).not.toBeDefined();
+
+                        expect((data as any)._root).not.toBeDefined();
+                    });
+
+                http.returnValue([]);
+                liquiGroupMarginService.getLiquiGroupMarginTreeMapData()
+                    .subscribe((data: LiquiGroupMarginTree) => {
+                        expect(httpSyp).toHaveBeenCalledTimes(3);
+                        expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL)
+                            .toBe(liquiGroupMarginTreemapURL);
+                        expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params).not.toBeDefined();
+
+                        expect((data as any)._root).not.toBeDefined();
+                    });
+            })
+    );
 
     it('aggregation data are correctly processed',
         inject([LiquiGroupMarginService, HttpService],

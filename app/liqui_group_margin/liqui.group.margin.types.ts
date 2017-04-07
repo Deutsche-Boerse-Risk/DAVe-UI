@@ -39,3 +39,77 @@ export interface LiquiGroupMarginAggregationData {
     aggregatedRows: LiquiGroupMarginData[];
     summary: LiquiGroupMarginBaseData;
 }
+
+export interface LiquiGroupMarginNodeData extends LiquiGroupMarginParams {
+    id: string;
+    leaf?: boolean;
+    text: string;
+    value: number;
+}
+
+export class LiquiGroupMarginTreeNode {
+
+    public parent: LiquiGroupMarginTreeNode;
+
+    public children: LiquiGroupMarginTreeNode[] = [];
+
+    constructor(public data: LiquiGroupMarginNodeData) {
+    }
+}
+
+export class LiquiGroupMarginTree {
+
+    private _root: LiquiGroupMarginTreeNode;
+
+    constructor(data: LiquiGroupMarginNodeData) {
+        this._root = new LiquiGroupMarginTreeNode(data);
+    }
+
+    public traverseDF(callback: (node: LiquiGroupMarginTreeNode) => any) {
+        let recurse = (currentNode: LiquiGroupMarginTreeNode) => {
+            for (let i = 0, length = currentNode.children.length; i < length; i++) {
+                recurse(currentNode.children[i]);
+            }
+            callback(currentNode);
+        };
+        recurse(this._root);
+    };
+
+    public traverseBF(callback: (node: LiquiGroupMarginTreeNode) => any) {
+        let queue: LiquiGroupMarginTreeNode[] = [];
+        queue.push(this._root);
+        let currentTree: LiquiGroupMarginTreeNode = queue.pop();
+        while (currentTree) {
+            callback(currentTree);
+            for (let i = 0, length = currentTree.children.length; i < length; i++) {
+                queue.push(currentTree.children[i]);
+            }
+            currentTree = queue.pop();
+        }
+    };
+
+    private contains(callback: (node: LiquiGroupMarginTreeNode) => any) {
+        this.traverseDF(callback);
+    };
+
+    public add(data: LiquiGroupMarginNodeData, parentId: string) {
+        let child: LiquiGroupMarginTreeNode = new LiquiGroupMarginTreeNode(data),
+            parent: LiquiGroupMarginTreeNode,
+            callback = (node: LiquiGroupMarginTreeNode) => {
+                if (node.data.id === parentId) {
+                    parent = node;
+                }
+            };
+        this.contains(callback);
+        if (parent) {
+            parent.children.push(child);
+            child.parent = parent;
+            while (!!parent) {
+                parent.data.value += child.data.value;
+                parent = parent.parent;
+            }
+        } else {
+            throw new Error('Cannot add node to a non-existent parent.');
+        }
+    }
+}

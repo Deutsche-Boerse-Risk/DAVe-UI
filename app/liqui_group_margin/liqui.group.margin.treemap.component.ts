@@ -6,16 +6,17 @@ import {ErrorResponse} from '../http.service';
 
 import {ChartData, TreeMapOptions, ChartRow, SelectionEvent} from '../common/chart.types';
 
-import {MarginService} from './margin.service';
-import {MarginComponentsTree, MarginComponentsTreeNode} from './margin.types';
+import {LiquiGroupMarginService} from './liqui.group.margin.service';
+import {LiquiGroupMarginTree, LiquiGroupMarginTreeNode} from './liqui.group.margin.types';
+import {LIQUI_GROUP_MARGIN_LATEST} from '../routes/routing.paths';
 
 @Component({
     moduleId   : module.id,
-    selector   : 'margin-components-treemap',
-    templateUrl: 'margin.components.treemap.component.html',
+    selector   : 'liqui-group-margin-treemap',
+    templateUrl: 'liqui.group.margin.treemap.component.html',
     styleUrls  : ['../common.component.css']
 })
-export class MarginComponentsTreemapComponent extends AbstractComponentWithAutoRefresh {
+export class LiquiGroupMarginTreemapComponent extends AbstractComponentWithAutoRefresh {
 
     public initialLoad: boolean = true;
 
@@ -35,14 +36,14 @@ export class MarginComponentsTreemapComponent extends AbstractComponentWithAutoR
 
     public chartData: ChartData;
 
-    constructor(private marginComponentsService: MarginService,
+    constructor(private liquiGroupMarginService: LiquiGroupMarginService,
         private router: Router) {
         super();
     }
 
     protected loadData(): void {
-        this.marginComponentsService.getMarginComponentsTreeMapData().subscribe(
-            (tree: MarginComponentsTree) => {
+        this.liquiGroupMarginService.getLiquiGroupMarginTreeMapData().subscribe(
+            (tree: LiquiGroupMarginTree) => {
                 this.chartData = {
                     cols: [
                         {
@@ -59,7 +60,7 @@ export class MarginComponentsTreemapComponent extends AbstractComponentWithAutoR
                     rows: []
                 };
 
-                tree.traverseDF((node: MarginComponentsTreeNode) => {
+                tree.traverseDF((node: LiquiGroupMarginTreeNode) => {
                     this.chartData.rows.push({
                         c           : [
                             {
@@ -88,17 +89,21 @@ export class MarginComponentsTreemapComponent extends AbstractComponentWithAutoR
     public selectHandler(selectionEvent: SelectionEvent) {
         let row: ChartRow = this.chartData.rows[selectionEvent[0].row];
 
-        let node: MarginComponentsTreeNode = row.originalData;
+        let node: LiquiGroupMarginTreeNode = row.originalData;
         if (node && node.data.leaf
             && node.parent && node.parent.data.text.indexOf('Rest') === -1) {
             this.router.navigate([
-                '/marginComponentLatest',
+                this.rootRoutePath,
                 node.parent.data.clearer || '*',
                 node.parent.data.member || '*',
                 node.parent.data.account || '*',
-                node.parent.data.clss || '*',
-                node.parent.data.ccy || '*'
+                node.parent.data.marginClass || '*',
+                node.parent.data.marginCurrency || '*'
             ]);
         }
+    }
+
+    public get rootRoutePath(): string {
+        return '/' + LIQUI_GROUP_MARGIN_LATEST;
     }
 }
