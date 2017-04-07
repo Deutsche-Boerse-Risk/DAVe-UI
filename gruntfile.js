@@ -54,14 +54,19 @@ module.exports = function (grunt) {
     grunt.initConfig({
         cleanup: {
             all: {
-                src: [destination, 'ngFactories/', 'coverage/', 'reports/'].concat(cssPattern).concat(jsToCleanPattern)
+                src: [destination, 'ngFactories/', 'coverage/', 'reports/', '.tscache/'].concat(cssPattern).concat(jsToCleanPattern)
             },
             postDist: {
                 src: [destination + 'app/', destination + 'ngFactories/', 'ngFactories/']
             }
         },
         ts: {
-            default: {}
+            default: {
+                tsconfig: true,
+                options: {
+                    fast: 'always'
+                }
+            }
         },
         ngc: {
             default: {}
@@ -402,6 +407,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-concurrent');
     grunt.loadNpmTasks('grunt-rollup');
     grunt.loadNpmTasks('grunt-sass');
+    grunt.loadNpmTasks('grunt-ts');
     grunt.loadNpmTasks('grunt-coveralls');
     grunt.loadNpmTasks('remap-istanbul');
     grunt.loadNpmTasks('grunt-contrib-watch');

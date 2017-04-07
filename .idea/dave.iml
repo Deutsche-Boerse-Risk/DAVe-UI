@@ -11,6 +11,7 @@
       <sourceFolder url="file://$MODULE_DIR$/testing" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/tools" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/.tscache" />
       <excludeFolder url="file://$MODULE_DIR$/browserStackBin" />
       <excludeFolder url="file://$MODULE_DIR$/coverage" />
       <excludeFolder url="file://$MODULE_DIR$/dist" />
