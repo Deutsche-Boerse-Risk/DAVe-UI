@@ -9,6 +9,7 @@
       <sourceFolder url="file://$MODULE_DIR$/dockerfile" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/deployment" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/testing" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/tools" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/browserStackBin" />
       <excludeFolder url="file://$MODULE_DIR$/coverage" />

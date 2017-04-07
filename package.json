@@ -83,6 +83,7 @@
         "karma-coverage": "^1.1.1",
         "grunt-coveralls": "^1.0.1",
         "remap-istanbul": "^0.9.5",
-        "@types/jasmine": "^2.5.47"
+        "@types/jasmine": "^2.5.47",
+        "browserstack": "1.5.0"
     }
 }

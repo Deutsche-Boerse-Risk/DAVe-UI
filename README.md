@@ -31,7 +31,7 @@
 To ensure you have always up-to-date dependecies run following commands:
 
 **On Linux or Mac environment you can simply run:**
- - Install all dependencies by running `./update-dev.sh`. Use `sudo` if necessary.
+ - Install all dependencies by running `./tools/update-dev.sh`. Use `sudo` if necessary.
  
 **On Windows you need to follow these steps:**
  - Install Grunt CLI using `npm install -g grunt-cli`. 
