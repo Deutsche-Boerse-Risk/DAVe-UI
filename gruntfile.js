@@ -66,6 +66,12 @@ module.exports = function (grunt) {
         ngc: {
             default: {}
         },
+        browserstack_cleanup: {
+            default: {}
+        },
+        browserstack_status: {
+            default: {}
+        },
         rollup: {
             options: {
                 sourceMap: false,

@@ -20,7 +20,7 @@ dependencies:
 
 test:
   pre:
-    - ./wait-for-bs.sh
+    - ./tools/wait-for-bs.sh
   override:
     - grunt testCircleCI
     - mkdir -p $CIRCLE_TEST_REPORTS/karma/
@@ -29,6 +29,7 @@ test:
     - mkdir -p $CIRCLE_ARTIFACTS/coverage/
     - mv coverage/* $CIRCLE_ARTIFACTS/coverage/
   post:
+    - grunt browserstack_cleanup
     - grunt dist
 
 deployment:
