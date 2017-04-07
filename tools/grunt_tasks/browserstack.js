@@ -74,11 +74,22 @@ module.exports = function (grunt) {
     }
 
     function get5LastBuilds() {
+        return getBuilds({
+            limit: 5
+        });
+    }
+
+    function getRunningBuilds() {
+        return getBuilds({
+            limit: 5,
+            status: 'running'
+        });
+    }
+
+    function getBuilds(options) {
         return new Promise(function (resolve, reject) {
             var automateClient = BrowserStack.createAutomateClient(browserStackCredentials);
-            automateClient.getBuilds({
-                    limit: 5
-                },
+            automateClient.getBuilds(options,
                 function (error, builds) {
                     if (error) {
                         grunt.log.writeln(error.red);
@@ -174,12 +185,49 @@ module.exports = function (grunt) {
 
     grunt.registerMultiTask('browserstack_status', 'Returns BS status', function () {
         var done = this.async();
+        var options = this.data.options || {};
 
-        getApiV4Status()
-            .then(logApiV4Status)
-            .then(function () {
-                done()
-            }).catch(function () {
+        var promise = getApiV4Status();
+        if (options.runningSessions || options.sessionsLimit || options.usedTime || options.totalAvailableTime) {
+            if (options.runningSessions) {
+                promise = promise.then(function (status) {
+                    grunt.log.writeln((status.running_sessions + '').cyan);
+                })
+            }
+            if (options.sessionsLimit) {
+                promise = promise.then(function (status) {
+                    grunt.log.writeln((status.sessions_limit + '').cyan);
+                })
+            }
+            if (options.usedTime) {
+                promise = promise.then(function (status) {
+                    grunt.log.writeln((status.used_time + '').cyan);
+                })
+            }
+            if (options.totalAvailableTime) {
+                promise = promise.then(function (status) {
+                    grunt.log.writeln((status.total_available_time + '').cyan);
+                })
+            }
+        } else {
+            promise = promise.then(logApiV4Status);
+        }
+        if (options.numberOfBuildsRunning && options.numberOfBuildsRunning !== 'none') {
+            promise = promise
+                .then(getRunningBuilds);
+            if (options.numberOfBuildsRunning === 'long') {
+                promise = promise.then(function (builds) {
+                    grunt.log.writeln((builds.length + ' builds running').cyan);
+                });
+            } else {
+                promise = promise.then(function (builds) {
+                    grunt.log.writeln((builds.length + '').cyan);
+                });
+            }
+        }
+        promise.then(function () {
+            done()
+        }).catch(function () {
             done(false)
         });
     });

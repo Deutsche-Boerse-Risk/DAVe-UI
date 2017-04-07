@@ -70,7 +70,17 @@ module.exports = function (grunt) {
             default: {}
         },
         browserstack_status: {
-            default: {}
+            short: {
+                options: {
+                    runningSessions: true,
+                    numberOfBuildsRunning: 'short'
+                }
+            },
+            full: {
+                options: {
+                    numberOfBuildsRunning: 'long'
+                }
+            }
         },
         rollup: {
             options: {
