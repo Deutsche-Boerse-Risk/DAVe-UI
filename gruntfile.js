@@ -61,11 +61,14 @@ module.exports = function (grunt) {
             }
         },
         ts: {
-            default: {
-                tsconfig: true,
-                options: {
-                    fast: 'always'
-                }
+            options: {
+                fast: 'never'
+            },
+            compile: {
+                tsconfig: true
+            },
+            watchTS: {
+                tsconfig: './tsconfig.watch.json'
             }
         },
         ngc: {
@@ -329,7 +332,7 @@ module.exports = function (grunt) {
             },
             devTs: {
                 files: tsPattern,
-                tasks: ['ts']
+                tasks: ['ts:watchTS']
             },
             dist: {
                 files: sassPattern.concat(tsPattern),
@@ -358,10 +361,7 @@ module.exports = function (grunt) {
                         })
                     ]
                 },
-                browser: [
-                    'chrome',
-                    'google chrome'
-                ]
+                browser: browsers.BrowserSync
             },
             dev: {
                 bsFiles: {
@@ -419,7 +419,7 @@ module.exports = function (grunt) {
 
     // Build tasks
     grunt.registerTask('clean', ['cleanup:all']);
-    grunt.registerTask('build', ['cleanup:all', 'sass', 'ts']);
+    grunt.registerTask('build', ['cleanup:all', 'sass', 'ts:compile']);
     grunt.registerTask('run', ['build', 'concurrent:dev']);
 
     // Dist tasks
@@ -431,6 +431,7 @@ module.exports = function (grunt) {
     grunt.registerTask('testChrome', ['build', 'karma:devChrome', 'remapIstanbul']);
     grunt.registerTask('testFirefox', ['build', 'karma:devFirefox', 'remapIstanbul']);
     grunt.registerTask('testIE', ['build', 'karma:devIE', 'remapIstanbul']);
+    grunt.registerTask('testSafari', ['build', 'karma:devSafari', 'remapIstanbul']);
 
     // BrowserStack test tasks
     grunt.registerTask('testBrowserStack', ['build', 'karma:devBrowserStack', 'remapIstanbul']);

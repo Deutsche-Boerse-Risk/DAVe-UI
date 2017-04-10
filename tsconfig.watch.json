@@ -1,8 +1,5 @@
 {
     "extends": "./tsconfig.base.json",
-    "include": [
-        "app/**/*.spec.ts"
-    ],
     "files": [
         "app/app.module.ts",
         "app/main.ts"

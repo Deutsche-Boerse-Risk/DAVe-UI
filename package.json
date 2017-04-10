@@ -9,11 +9,7 @@
     "scripts": {
         "start": "npm run run",
         "run": "grunt run",
-        "clean": "grunt clean",
-        "build": "grunt build",
-        "dist-run": "grunt dist-run",
-        "dist": "grunt dist",
-        "ngc": "ngc -p ./tsconfig-aot.json"
+        "ngc": "ngc -p ./tsconfig.aot.json"
     },
     "dependencies": {
         "@angular/animations": "^4.0.1",
