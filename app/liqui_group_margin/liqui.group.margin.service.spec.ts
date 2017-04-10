@@ -63,7 +63,8 @@ describe('LiquiGroupMarginService', () => {
                                     value += childNode.data.value;
                                     expect(childNode.data.id).toMatch('^' + node.data.id.replace(/Rest/, ''));
                                 });
-                                expect(value).toBe(node.data.value);
+                                expect(Math.round(value * Math.pow(10, 5)))
+                                    .toBe(Math.round(node.data.value * Math.pow(10, 5)));
                             }
                         });
                         expect(nodesCount).toBe(373);
