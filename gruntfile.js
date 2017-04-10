@@ -61,13 +61,16 @@ module.exports = function (grunt) {
             }
         },
         ts: {
-            options: {
-                fast: 'never'
-            },
             compile: {
+                options: {
+                    fast: 'never'
+                },
                 tsconfig: true
             },
             watchTS: {
+                options: {
+                    fast: 'always'
+                },
                 tsconfig: './tsconfig.watch.json'
             }
         },
