@@ -5,7 +5,7 @@
               [data]="data"
               [initialLoad]="initialLoad"
               [errorMessage]="errorMessage"
-              [drilldownRouterLink]="['/totalMarginRequirementLatest', routeParams['clearer'] || '*', routeParams['pool'] || '*', '*', '*', routeParams['ccy'] || '*']">
+              [drilldownRouterLink]="[routerRoots.ACCOUNT_MARGIN_LATEST, routeParams['clearer'] || '*', '*', '*', routeParams['marginCurrency'] || '*']">
     <div class="panel-body" *ngIf="chartData?.rows?.length > 0">
         <google-line-chart [chartOptions]="chartOptions"
                            [chartData]="chartData"

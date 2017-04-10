@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 
 import {AuthService} from './auth/auth.service';
+import {ROUTES} from './routes/routing.paths';
 
 @Component({
     moduleId   : module.id,
@@ -16,4 +17,8 @@ export class AppComponent {
     public get authStatus(): boolean {
         return this.authService.isLoggedIn();
     };
+
+    public get routerRoots() {
+        return ROUTES;
+    }
 }

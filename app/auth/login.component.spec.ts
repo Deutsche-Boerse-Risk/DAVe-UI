@@ -9,6 +9,7 @@ import {AuthServiceStub, RouterStub, LoginPage} from '../../testing';
 import {LoginComponent} from './login.component';
 import {AuthService} from './auth.service';
 import {Observable} from 'rxjs/Observable';
+import {ROUTES} from '../routes/routing.paths';
 
 describe('Login component', () => {
     let page: LoginPage;
@@ -66,7 +67,7 @@ describe('Login component', () => {
 
             expect(page.formElement).toBeNull('form is hidden');
 
-            expect(navigateSpy).toHaveBeenCalledWith(['/dashboard']);
+            expect(navigateSpy).toHaveBeenCalledWith([ROUTES.DASHBOARD]);
             expect(page.alertSucessMessage).toContain('Successfully logged in as ' + username + '.');
         }));
 

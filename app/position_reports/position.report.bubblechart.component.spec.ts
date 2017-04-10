@@ -22,7 +22,7 @@ import {
 } from './position.report.bubblechart.component';
 import {PositionReportServerData} from './position.report.types';
 import {ChartRow} from '../common/chart.types';
-import {POSITION_REPORTS_LATEST} from '../routes/routing.paths';
+import {ROUTES} from '../routes/routing.paths';
 
 describe('Position reports bubble chart component', () => {
     let page: BubbleChartPage;
@@ -208,7 +208,7 @@ describe('Position reports bubble chart component', () => {
 
         // Clicked correctly
         expect(navigateSpy).toHaveBeenCalled();
-        expect(page.link.stub.navigatedTo).toEqual('/' + POSITION_REPORTS_LATEST);
+        expect(page.link.stub.navigatedTo).toEqual(ROUTES.POSITION_REPORTS_LATEST);
     }));
 
     it('check data', fakeAsync(() => {

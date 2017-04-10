@@ -1,20 +1,52 @@
-export const ACCOUNT_MARGIN_LATEST = 'accountMarginLatest';
-export const ACCOUNT_MARGIN_HISTORY = 'accountMarginHistory';
+export const ROUTE_NAMES = {
+    DASHBOARD: 'dashboard',
+    LOGIN    : 'login',
 
-export const LIQUI_GROUP_MARGIN_LATEST = 'liquiGroupMarginLatest';
-export const LIQUI_GROUP_MARGIN_HISTORY = 'liquiGroupMarginHistory';
+    ACCOUNT_MARGIN_LATEST : 'accountMarginLatest',
+    ACCOUNT_MARGIN_HISTORY: 'accountMarginHistory',
 
-export const VARIATION_PREMIUM_MARGIN_LATEST = 'variPremiumMarginLatest';
-export const VARIATION_PREMIUM_MARGIN_HISTORY = 'variPremiumMarginHistory';
+    LIQUI_GROUP_MARGIN_LATEST : 'liquiGroupMarginLatest',
+    LIQUI_GROUP_MARGIN_HISTORY: 'liquiGroupMarginHistory',
 
-export const INITIAL_MARGIN_LATEST = 'initialMarginLatest';
-export const INITIAL_MARGIN_HISTORY = 'initialMarginHistory';
+    VARIATION_PREMIUM_MARGIN_LATEST : 'variPremiumMarginLatest',
+    VARIATION_PREMIUM_MARGIN_HISTORY: 'variPremiumMarginHistory',
 
-export const POOL_MARGIN_LATEST = 'poolMarginLatest';
-export const POOL_MARGIN_HISTORY = 'poolMarginHistory';
+    INITIAL_MARGIN_LATEST : 'initialMarginLatest',
+    INITIAL_MARGIN_HISTORY: 'initialMarginHistory',
 
-export const POSITION_REPORTS_LATEST = 'positionReportLatest';
-export const POSITION_REPORTS_HISTORY = 'positionReportHistory';
+    POOL_MARGIN_LATEST : 'poolMarginLatest',
+    POOL_MARGIN_HISTORY: 'poolMarginHistory',
 
-export const RISK_LIMIT_UTILIZATION_LATEST = 'riskLimitUtilizationLatest';
-export const RISK_LIMIT_UTILIZATION_HISTORY = 'riskLimitUtilizationHistory';
+    POSITION_REPORTS_LATEST : 'positionReportLatest',
+    POSITION_REPORTS_HISTORY: 'positionReportHistory',
+
+    RISK_LIMIT_UTILIZATION_LATEST : 'riskLimitUtilizationLatest',
+    RISK_LIMIT_UTILIZATION_HISTORY: 'riskLimitUtilizationHistory'
+};
+
+export const ROUTES = {
+    ROOT     : '/',
+    DASHBOARD: '/' + ROUTE_NAMES.DASHBOARD,
+    LOGIN    : '/' + ROUTE_NAMES.LOGIN,
+
+    ACCOUNT_MARGIN_LATEST : '/' + ROUTE_NAMES.ACCOUNT_MARGIN_LATEST,
+    ACCOUNT_MARGIN_HISTORY: '/' + ROUTE_NAMES.ACCOUNT_MARGIN_HISTORY,
+
+    LIQUI_GROUP_MARGIN_LATEST : '/' + ROUTE_NAMES.LIQUI_GROUP_MARGIN_LATEST,
+    LIQUI_GROUP_MARGIN_HISTORY: '/' + ROUTE_NAMES.LIQUI_GROUP_MARGIN_HISTORY,
+
+    VARIATION_PREMIUM_MARGIN_LATEST : '/' + ROUTE_NAMES.VARIATION_PREMIUM_MARGIN_LATEST,
+    VARIATION_PREMIUM_MARGIN_HISTORY: '/' + ROUTE_NAMES.VARIATION_PREMIUM_MARGIN_HISTORY,
+
+    INITIAL_MARGIN_LATEST : '/' + ROUTE_NAMES.INITIAL_MARGIN_LATEST,
+    INITIAL_MARGIN_HISTORY: '/' + ROUTE_NAMES.INITIAL_MARGIN_HISTORY,
+
+    POOL_MARGIN_LATEST : '/' + ROUTE_NAMES.POOL_MARGIN_LATEST,
+    POOL_MARGIN_HISTORY: '/' + ROUTE_NAMES.POOL_MARGIN_HISTORY,
+
+    POSITION_REPORTS_LATEST : '/' + ROUTE_NAMES.POSITION_REPORTS_LATEST,
+    POSITION_REPORTS_HISTORY: '/' + ROUTE_NAMES.POSITION_REPORTS_HISTORY,
+
+    RISK_LIMIT_UTILIZATION_LATEST : '/' + ROUTE_NAMES.RISK_LIMIT_UTILIZATION_LATEST,
+    RISK_LIMIT_UTILIZATION_HISTORY: '/' + ROUTE_NAMES.RISK_LIMIT_UTILIZATION_HISTORY
+};

@@ -5,7 +5,6 @@ import {AbstractLiquiGroupSplitMarginLatestComponent} from '../abstract.liqui.gr
 import {LiquiGroupSplitMarginService} from '../liqui.group.split.margin.service';
 import {LiquiGroupSplitMarginData} from '../liqui.group.split.margin.types';
 import {ExportColumn} from '../../list/download.menu.component';
-import {VARIATION_PREMIUM_MARGIN_LATEST} from '../../routes/routing.paths';
 
 @Component({
     moduleId   : module.id,
@@ -27,7 +26,7 @@ export class VariationPremiumMarginLatestComponent extends AbstractLiquiGroupSpl
     }
 
     protected get rootRoutePath(): string {
-        return '/' + VARIATION_PREMIUM_MARGIN_LATEST;
+        return this.routerRoots.VARIATION_PREMIUM_MARGIN_LATEST;
     }
 
     public get valueGetters() {

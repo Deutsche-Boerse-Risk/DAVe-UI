@@ -13,7 +13,6 @@ import {ExportColumn} from '../list/download.menu.component';
 import {OrderingCriteria, OrderingValueGetter} from '../datatable/data.table.column.directive';
 
 import {exportKeys, routingKeys, valueGetters} from './pool.margin.latest.component';
-import {POOL_MARGIN_LATEST} from '../routes/routing.paths';
 
 @Component({
     moduleId   : module.id,
@@ -93,7 +92,7 @@ export class PoolMarginHistoryComponent extends AbstractHistoryListComponent<Poo
     }
 
     protected get rootRoutePath(): string {
-        return '/' + POOL_MARGIN_LATEST;
+        return this.routerRoots.POOL_MARGIN_LATEST;
     }
 
     public get valueGetters() {

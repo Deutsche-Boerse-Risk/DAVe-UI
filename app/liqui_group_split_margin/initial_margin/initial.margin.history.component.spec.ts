@@ -20,7 +20,7 @@ import {ExportColumn} from '../../list/download.menu.component';
 
 import {valueGetters, exportKeys} from './initial.margin.latest.component';
 import {InitialMarginHistoryComponent} from './initial.margin.history.component';
-import {INITIAL_MARGIN_LATEST} from '../../routes/routing.paths';
+import {ROUTES} from '../../routes/routing.paths';
 
 describe('Initial Margin history component', () => {
     let page: HistoryListPage<InitialMarginHistoryComponent>;
@@ -290,7 +290,7 @@ describe('Initial Margin history component', () => {
         it('has correct breadcrumbs navigation', fakeAsync(inject([ActivatedRoute],
             (activatedRoute: ActivatedRouteStub<LiquiGroupSplitMarginHistoryParams>) => {
                 page.checkBreadCrumbs(testingParams,
-                    '/' + INITIAL_MARGIN_LATEST,
+                    ROUTES.INITIAL_MARGIN_LATEST,
                     'Initial Margin History',
                     false, 2);
 
@@ -307,7 +307,7 @@ describe('Initial Margin history component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + INITIAL_MARGIN_LATEST,
+                    ROUTES.INITIAL_MARGIN_LATEST,
                     'Initial Margin History',
                     false, 2);
             })));

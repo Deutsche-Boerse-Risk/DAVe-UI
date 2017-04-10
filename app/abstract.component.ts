@@ -1,4 +1,5 @@
 import {OnInit, OnDestroy} from '@angular/core';
+import {ROUTES} from './routes/routing.paths';
 
 export const DATA_REFRESH_INTERVAL = 60000;
 
@@ -18,4 +19,8 @@ export abstract class AbstractComponentWithAutoRefresh implements OnInit, OnDest
     }
 
     protected abstract loadData(): void;
+
+    public get routerRoots() {
+        return ROUTES;
+    }
 }

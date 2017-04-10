@@ -5,6 +5,7 @@ import {RouterStub, AuthServiceStub} from '../../testing';
 
 import {AuthGuard} from './auth.routing.guard';
 import {AuthService} from './auth.service';
+import {ROUTES} from '../routes/routing.paths';
 
 describe('Auth routing guard', () => {
     beforeEach(() => {
@@ -61,7 +62,7 @@ describe('Auth routing guard', () => {
 
             expect(guardValue).toBeFalsy();
             expect(routerSpy.calls.any()).toBeTruthy();
-            expect(routerSpy.calls.mostRecent().args[0]).toEqual(['/login']);
+            expect(routerSpy.calls.mostRecent().args[0]).toEqual([ROUTES.LOGIN]);
             expect(authService.authRequestedPath).toBe(state.url);
         }))
     );

@@ -15,6 +15,7 @@ export * from './definitions/link.definition';
 export * from './definitions/link.only.page';
 export * from './definitions/liqui.group.margin.aggregation.page';
 export * from './definitions/list.page';
+export * from './definitions/login.menu.page';
 export * from './definitions/login.page';
 export * from './definitions/menu.page';
 export * from './definitions/no.data.page';

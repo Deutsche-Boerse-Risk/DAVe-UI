@@ -13,7 +13,6 @@ import {ExportColumn} from '../list/download.menu.component';
 import {OrderingCriteria, OrderingValueGetter} from '../datatable/data.table.column.directive';
 
 import {exportKeys, routingKeys, valueGetters} from './account.margin.latest.component';
-import {ACCOUNT_MARGIN_LATEST} from '../routes/routing.paths';
 
 @Component({
     moduleId   : module.id,
@@ -89,7 +88,7 @@ export class AccountMarginHistoryComponent extends AbstractHistoryListComponent<
     }
 
     protected get rootRoutePath(): string {
-        return '/' + ACCOUNT_MARGIN_LATEST;
+        return this.routerRoots.ACCOUNT_MARGIN_LATEST;
     }
 
     public get valueGetters() {

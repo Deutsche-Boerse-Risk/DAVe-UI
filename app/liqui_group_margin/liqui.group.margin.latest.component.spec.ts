@@ -20,7 +20,7 @@ import {DATA_REFRESH_INTERVAL} from '../abstract.component';
 import {ExportColumn} from '../list/download.menu.component';
 
 import {LiquiGroupMarginLatestComponent, valueGetters, exportKeys} from './liqui.group.margin.latest.component';
-import {LIQUI_GROUP_MARGIN_LATEST} from '../routes/routing.paths';
+import {ROUTES} from '../routes/routing.paths';
 
 describe('Liquidation Group Margin latest component', () => {
     let page: LatestListPage<LiquiGroupMarginLatestComponent>;
@@ -283,7 +283,7 @@ describe('Liquidation Group Margin latest component', () => {
                 let routeParams: string[] = [];
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + LIQUI_GROUP_MARGIN_LATEST,
+                    ROUTES.LIQUI_GROUP_MARGIN_LATEST,
                     'Latest Liquidation Group Margin');
 
                 routeParams.push('A');
@@ -293,7 +293,7 @@ describe('Liquidation Group Margin latest component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + LIQUI_GROUP_MARGIN_LATEST,
+                    ROUTES.LIQUI_GROUP_MARGIN_LATEST,
                     'Latest Liquidation Group Margin');
 
                 routeParams.push('B');
@@ -304,7 +304,7 @@ describe('Liquidation Group Margin latest component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + LIQUI_GROUP_MARGIN_LATEST,
+                    ROUTES.LIQUI_GROUP_MARGIN_LATEST,
                     'Latest Liquidation Group Margin');
 
                 routeParams.push('C');
@@ -316,7 +316,7 @@ describe('Liquidation Group Margin latest component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + LIQUI_GROUP_MARGIN_LATEST,
+                    ROUTES.LIQUI_GROUP_MARGIN_LATEST,
                     'Latest Liquidation Group Margin');
 
                 routeParams.push('D');
@@ -329,7 +329,7 @@ describe('Liquidation Group Margin latest component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + LIQUI_GROUP_MARGIN_LATEST,
+                    ROUTES.LIQUI_GROUP_MARGIN_LATEST,
                     'Latest Liquidation Group Margin');
 
                 routeParams.push('E');
@@ -343,7 +343,7 @@ describe('Liquidation Group Margin latest component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + LIQUI_GROUP_MARGIN_LATEST,
+                    ROUTES.LIQUI_GROUP_MARGIN_LATEST,
                     'Latest Liquidation Group Margin');
             })));
 

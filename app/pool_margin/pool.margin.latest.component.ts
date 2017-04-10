@@ -9,7 +9,6 @@ import {PoolMarginData, PoolMarginParams} from './pool.margin.types';
 import {AbstractLatestListComponent} from '../list/abstract.latest.list.component';
 import {ExportColumn} from '../list/download.menu.component';
 import {OrderingCriteria, OrderingValueGetter} from '../datatable/data.table.column.directive';
-import {POOL_MARGIN_LATEST} from '../routes/routing.paths';
 
 export const routingKeys: (keyof PoolMarginParams)[] = ['clearer', 'pool', 'marginCurrency'];
 
@@ -59,7 +58,7 @@ export class PoolMarginLatestComponent extends AbstractLatestListComponent<PoolM
     }
 
     protected get rootRoutePath(): string {
-        return '/' + POOL_MARGIN_LATEST;
+        return this.routerRoots.POOL_MARGIN_LATEST;
     }
 
     public get valueGetters() {

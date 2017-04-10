@@ -20,7 +20,7 @@ import {ExportColumn} from '../list/download.menu.component';
 
 import {valueGetters, exportKeys} from './risk.limit.utilization.latest.component';
 import {RiskLimitUtilizationHistoryComponent} from './risk.limit.utilization.history.component';
-import {RISK_LIMIT_UTILIZATION_LATEST} from '../routes/routing.paths';
+import {ROUTES} from '../routes/routing.paths';
 
 describe('Risk limit utilization history component', () => {
     let page: HistoryListPage<RiskLimitUtilizationHistoryComponent>;
@@ -286,7 +286,7 @@ describe('Risk limit utilization history component', () => {
         it('has correct breadcrumbs navigation', fakeAsync(inject([ActivatedRoute],
             (activatedRoute: ActivatedRouteStub<RiskLimitUtilizationHistoryParams>) => {
                 page.checkBreadCrumbs(testingParams,
-                    '/' + RISK_LIMIT_UTILIZATION_LATEST,
+                    ROUTES.RISK_LIMIT_UTILIZATION_LATEST,
                     'Risk Limit Utilization History',
                     false);
 
@@ -301,7 +301,7 @@ describe('Risk limit utilization history component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + RISK_LIMIT_UTILIZATION_LATEST,
+                    ROUTES.RISK_LIMIT_UTILIZATION_LATEST,
                     'Risk Limit Utilization History',
                     false);
             })));

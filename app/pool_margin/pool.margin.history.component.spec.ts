@@ -20,7 +20,7 @@ import {ExportColumn} from '../list/download.menu.component';
 
 import {valueGetters, exportKeys} from './pool.margin.latest.component';
 import {PoolMarginHistoryComponent} from './pool.margin.history.component';
-import {POOL_MARGIN_LATEST} from '../routes/routing.paths';
+import {ROUTES} from '../routes/routing.paths';
 
 describe('Pool Margin history component', () => {
     let page: HistoryListPage<PoolMarginHistoryComponent>;
@@ -284,7 +284,7 @@ describe('Pool Margin history component', () => {
         it('has correct breadcrumbs navigation', fakeAsync(inject([ActivatedRoute],
             (activatedRoute: ActivatedRouteStub<PoolMarginHistoryParams>) => {
                 page.checkBreadCrumbs(testingParams,
-                    '/' + POOL_MARGIN_LATEST,
+                    ROUTES.POOL_MARGIN_LATEST,
                     'Pool Margin History',
                     false);
 
@@ -298,7 +298,7 @@ describe('Pool Margin history component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + POOL_MARGIN_LATEST,
+                    ROUTES.POOL_MARGIN_LATEST,
                     'Pool Margin History',
                     false);
             })));

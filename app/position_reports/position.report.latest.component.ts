@@ -9,7 +9,6 @@ import {PositionReportsService} from './position.reports.service';
 import {AbstractLatestListComponent} from '../list/abstract.latest.list.component';
 import {ExportColumn} from '../list/download.menu.component';
 import {OrderingCriteria, OrderingValueGetter} from '../datatable/data.table.column.directive';
-import {POSITION_REPORTS_LATEST} from '../routes/routing.paths';
 
 export const routingKeys: (keyof PositionReportsParams)[] = [
     'clearer', 'member', 'account', 'liquidationGroup', 'liquidationGroupSplit', 'product', 'callPut', 'contractYear',
@@ -70,7 +69,7 @@ export class PositionReportLatestComponent extends AbstractLatestListComponent<P
     }
 
     protected get rootRoutePath(): string {
-        return '/' + POSITION_REPORTS_LATEST;
+        return this.routerRoots.POSITION_REPORTS_LATEST;
     }
 
     public get valueGetters() {

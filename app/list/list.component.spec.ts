@@ -8,7 +8,7 @@ import {RouterLinkStubDirective, ListPage} from '../../testing';
 
 import {ListModule} from './list.module';
 import {RoutePart} from './bread.crumbs.component';
-import {POSITION_REPORTS_LATEST} from '../routes/routing.paths';
+import {ROUTES} from '../routes/routing.paths';
 
 @Component({
     template: `
@@ -82,7 +82,7 @@ describe('ListComponent', () => {
     it('displays drilldown-button', fakeAsync(() => {
         expect(page.drilldownButton).toBeNull('Not shown');
 
-        page.component.drilldownRouterLink = ['/' + POSITION_REPORTS_LATEST, 'clearer'];
+        page.component.drilldownRouterLink = [ROUTES.POSITION_REPORTS_LATEST, 'clearer'];
         page.detectChanges();
 
         expect(page.drilldownButton).not.toBeNull('Is shown');

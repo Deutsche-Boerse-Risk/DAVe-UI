@@ -8,7 +8,6 @@ import {ChartData, TreeMapOptions, ChartRow, SelectionEvent} from '../common/cha
 
 import {LiquiGroupMarginService} from './liqui.group.margin.service';
 import {LiquiGroupMarginTree, LiquiGroupMarginTreeNode} from './liqui.group.margin.types';
-import {LIQUI_GROUP_MARGIN_LATEST} from '../routes/routing.paths';
 
 @Component({
     moduleId   : module.id,
@@ -104,6 +103,6 @@ export class LiquiGroupMarginTreemapComponent extends AbstractComponentWithAutoR
     }
 
     public get rootRoutePath(): string {
-        return '/' + LIQUI_GROUP_MARGIN_LATEST;
+        return this.routerRoots.LIQUI_GROUP_MARGIN_LATEST;
     }
 }

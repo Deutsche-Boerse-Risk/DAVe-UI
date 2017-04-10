@@ -13,19 +13,19 @@
         <column title="Clearer"
                 [sortingKey]="valueGetters.clearer">
             <ng-template let-record="row" cell-template>
-                <a [routerLink]="['/liquiGroupMarginLatest', record.clearer]">{{record.clearer}}</a>
+                <a [routerLink]="[routerRoots.LIQUI_GROUP_MARGIN_LATEST, record.clearer]">{{record.clearer}}</a>
             </ng-template>
         </column>
         <column title="Member / Client"
                 [sortingKey]="valueGetters.member">
             <ng-template let-record="row" cell-template>
-                <a [routerLink]="['/liquiGroupMarginLatest', record.clearer, record.member]">{{record.member}}</a>
+                <a [routerLink]="[routerRoots.LIQUI_GROUP_MARGIN_LATEST, record.clearer, record.member]">{{record.member}}</a>
             </ng-template>
         </column>
         <column title="Account"
                 [sortingKey]="valueGetters.account">
             <ng-template let-record="row" cell-template>
-                <a [routerLink]="['/liquiGroupMarginLatest', record.clearer, record.member, record.account]">{{record.account}}</a>
+                <a [routerLink]="[routerRoots.LIQUI_GROUP_MARGIN_LATEST, record.clearer, record.member, record.account]">{{record.account}}</a>
             </ng-template>
         </column>
         <column title="Premium Margin"
@@ -81,10 +81,10 @@
         <column>
             <ng-template let-record="row" cell-template>
                 <drilldown-row-button
-                        [routerLink]="['/liquiGroupMarginLatest', record.clearer, record.member, record.account, '*', record.marginCurrency]"></drilldown-row-button>
+                        [routerLink]="[routerRoots.LIQUI_GROUP_MARGIN_LATEST, record.clearer, record.member, record.account, '*', record.marginCurrency]"></drilldown-row-button>
             </ng-template>
         </column>
     </data-table>
 
-    <a routerLink="/liquiGroupMarginLatest" class="btn btn-default btn-block">View Details</a>
+    <a [routerLink]="routerRoots.LIQUI_GROUP_MARGIN_LATEST" class="btn btn-default btn-block">View Details</a>
 </div>

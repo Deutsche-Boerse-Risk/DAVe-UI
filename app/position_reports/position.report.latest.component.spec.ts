@@ -20,7 +20,7 @@ import {DATA_REFRESH_INTERVAL} from '../abstract.component';
 import {ExportColumn} from '../list/download.menu.component';
 
 import {PositionReportLatestComponent, valueGetters, exportKeys} from './position.report.latest.component';
-import {POSITION_REPORTS_LATEST} from '../routes/routing.paths';
+import {ROUTES} from '../routes/routing.paths';
 
 describe('Position reports latest component', () => {
     let page: LatestListPage<PositionReportLatestComponent>;
@@ -280,7 +280,7 @@ describe('Position reports latest component', () => {
                 let routeParams: string[] = [];
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + POSITION_REPORTS_LATEST,
+                    ROUTES.POSITION_REPORTS_LATEST,
                     'Latest Position Reports');
 
                 routeParams.push('A');
@@ -290,7 +290,7 @@ describe('Position reports latest component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + POSITION_REPORTS_LATEST,
+                    ROUTES.POSITION_REPORTS_LATEST,
                     'Latest Position Reports');
 
                 routeParams.push('B');
@@ -301,7 +301,7 @@ describe('Position reports latest component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + POSITION_REPORTS_LATEST,
+                    ROUTES.POSITION_REPORTS_LATEST,
                     'Latest Position Reports');
 
                 routeParams.push('C');
@@ -313,7 +313,7 @@ describe('Position reports latest component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + POSITION_REPORTS_LATEST,
+                    ROUTES.POSITION_REPORTS_LATEST,
                     'Latest Position Reports');
 
                 routeParams.push('D');
@@ -326,7 +326,7 @@ describe('Position reports latest component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + POSITION_REPORTS_LATEST,
+                    ROUTES.POSITION_REPORTS_LATEST,
                     'Latest Position Reports');
 
                 routeParams.push('E');
@@ -340,7 +340,7 @@ describe('Position reports latest component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + POSITION_REPORTS_LATEST,
+                    ROUTES.POSITION_REPORTS_LATEST,
                     'Latest Position Reports');
 
                 routeParams.push('F');
@@ -355,7 +355,7 @@ describe('Position reports latest component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + POSITION_REPORTS_LATEST,
+                    ROUTES.POSITION_REPORTS_LATEST,
                     'Latest Position Reports');
 
                 routeParams.push('G');
@@ -371,7 +371,7 @@ describe('Position reports latest component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + POSITION_REPORTS_LATEST,
+                    ROUTES.POSITION_REPORTS_LATEST,
                     'Latest Position Reports');
 
                 routeParams.push('H');
@@ -388,7 +388,7 @@ describe('Position reports latest component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + POSITION_REPORTS_LATEST,
+                    ROUTES.POSITION_REPORTS_LATEST,
                     'Latest Position Reports');
 
                 routeParams.push('I');
@@ -406,7 +406,7 @@ describe('Position reports latest component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + POSITION_REPORTS_LATEST,
+                    ROUTES.POSITION_REPORTS_LATEST,
                     'Latest Position Reports');
 
                 routeParams.push('J');
@@ -425,7 +425,7 @@ describe('Position reports latest component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + POSITION_REPORTS_LATEST,
+                    ROUTES.POSITION_REPORTS_LATEST,
                     'Latest Position Reports');
 
                 routeParams.push('K');
@@ -445,7 +445,7 @@ describe('Position reports latest component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + POSITION_REPORTS_LATEST,
+                    ROUTES.POSITION_REPORTS_LATEST,
                     'Latest Position Reports');
 
                 routeParams.push('L');
@@ -466,7 +466,7 @@ describe('Position reports latest component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + POSITION_REPORTS_LATEST,
+                    ROUTES.POSITION_REPORTS_LATEST,
                     'Latest Position Reports');
 
                 routeParams.push('M');
@@ -488,7 +488,7 @@ describe('Position reports latest component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + POSITION_REPORTS_LATEST,
+                    ROUTES.POSITION_REPORTS_LATEST,
                     'Latest Position Reports');
             })));
 

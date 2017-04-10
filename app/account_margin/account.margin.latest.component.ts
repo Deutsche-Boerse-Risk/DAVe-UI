@@ -9,7 +9,6 @@ import {AccountMarginData, AccountMarginParams} from './account.margin.types';
 import {AbstractLatestListComponent} from '../list/abstract.latest.list.component';
 import {ExportColumn} from '../list/download.menu.component';
 import {OrderingCriteria, OrderingValueGetter} from '../datatable/data.table.column.directive';
-import {ACCOUNT_MARGIN_LATEST} from '../routes/routing.paths';
 
 export const routingKeys: (keyof AccountMarginParams)[] = ['clearer', 'member', 'account', 'marginCurrency'];
 
@@ -58,7 +57,7 @@ export class AccountMarginLatestComponent extends AbstractLatestListComponent<Ac
     }
 
     protected get rootRoutePath(): string {
-        return '/' + ACCOUNT_MARGIN_LATEST;
+        return this.routerRoots.ACCOUNT_MARGIN_LATEST;
     }
 
     public get valueGetters() {

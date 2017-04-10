@@ -88,9 +88,9 @@
         <column>
             <ng-template let-record="row" cell-template>
                 <drilldown-row-button
-                        [routerLink]="['/totalMarginRequirementLatest', record.clearer || '*', record.pool || '*', '*', '*', record.ccy || '*']"></drilldown-row-button>
+                        [routerLink]="[routerRoots.ACCOUNT_MARGIN_LATEST, record.clearer || '*', '*', '*', record.marginCurrency || '*']"></drilldown-row-button>
                 <detail-row-button
-                        [routerLink]="['/poolMarginHistory', record.clearer || '*', record.pool || '*', record.marginCurrency || '*']"></detail-row-button>
+                        [routerLink]="[routerRoots.POOL_MARGIN_HISTORY, record.clearer || '*', record.pool || '*', record.marginCurrency || '*']"></detail-row-button>
             </ng-template>
         </column>
     </data-table>

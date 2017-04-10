@@ -20,7 +20,7 @@ import {ExportColumn} from '../list/download.menu.component';
 
 import {valueGetters, exportKeys} from './account.margin.latest.component';
 import {AccountMarginHistoryComponent} from './account.margin.history.component';
-import {ACCOUNT_MARGIN_LATEST} from '../routes/routing.paths';
+import {ROUTES} from '../routes/routing.paths';
 
 describe('Account margin history component', () => {
     let page: HistoryListPage<AccountMarginHistoryComponent>;
@@ -257,7 +257,7 @@ describe('Account margin history component', () => {
 
         it('has correct breadcrumbs navigation', fakeAsync(inject([ActivatedRoute],
             (activatedRoute: ActivatedRouteStub<AccountMarginHistoryParams>) => {
-                page.checkBreadCrumbs(testingParams, '/' + ACCOUNT_MARGIN_LATEST,
+                page.checkBreadCrumbs(testingParams, ROUTES.ACCOUNT_MARGIN_LATEST,
                     'Account Margin History', false);
 
                 let routeParams = ['A', 'B', 'C', 'D'];
@@ -270,7 +270,7 @@ describe('Account margin history component', () => {
                 };
                 page.detectChanges();
 
-                page.checkBreadCrumbs(routeParams, '/' + ACCOUNT_MARGIN_LATEST,
+                page.checkBreadCrumbs(routeParams, ROUTES.ACCOUNT_MARGIN_LATEST,
                     'Account Margin History', false);
             })));
 

@@ -35,55 +35,43 @@ import {RiskLimitUtilizationModule} from '../risk_limit_utilization/risk.limit.u
 import {RiskLimitUtilizationLatestComponent} from '../risk_limit_utilization/risk.limit.utilization.latest.component';
 import {RiskLimitUtilizationHistoryComponent} from '../risk_limit_utilization/risk.limit.utilization.history.component';
 import {
-    ACCOUNT_MARGIN_HISTORY,
-    ACCOUNT_MARGIN_LATEST,
-    LIQUI_GROUP_MARGIN_HISTORY,
-    LIQUI_GROUP_MARGIN_LATEST,
-    INITIAL_MARGIN_LATEST,
-    INITIAL_MARGIN_HISTORY,
-    VARIATION_PREMIUM_MARGIN_LATEST,
-    VARIATION_PREMIUM_MARGIN_HISTORY,
-    POOL_MARGIN_HISTORY,
-    POOL_MARGIN_LATEST,
-    POSITION_REPORTS_HISTORY,
-    POSITION_REPORTS_LATEST,
-    RISK_LIMIT_UTILIZATION_HISTORY,
-    RISK_LIMIT_UTILIZATION_LATEST
+    ROUTES,
+    ROUTE_NAMES
 } from './routing.paths';
 
 const ACCOUNT_MARGIN: Route[] = [
     {
-        path       : ACCOUNT_MARGIN_LATEST,
+        path       : ROUTE_NAMES.ACCOUNT_MARGIN_LATEST,
         pathMatch  : 'full',
         component  : AccountMarginLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : ACCOUNT_MARGIN_LATEST + '/:clearer',
+        path       : ROUTE_NAMES.ACCOUNT_MARGIN_LATEST + '/:clearer',
         pathMatch  : 'full',
         component  : AccountMarginLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : ACCOUNT_MARGIN_LATEST + '/:clearer/:member',
+        path       : ROUTE_NAMES.ACCOUNT_MARGIN_LATEST + '/:clearer/:member',
         pathMatch  : 'full',
         component  : AccountMarginLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : ACCOUNT_MARGIN_LATEST + '/:clearer/:member/:account',
+        path       : ROUTE_NAMES.ACCOUNT_MARGIN_LATEST + '/:clearer/:member/:account',
         pathMatch  : 'full',
         component  : AccountMarginLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : ACCOUNT_MARGIN_LATEST + '/:clearer/:member/:account/:marginCurrency',
+        path       : ROUTE_NAMES.ACCOUNT_MARGIN_LATEST + '/:clearer/:member/:account/:marginCurrency',
         pathMatch  : 'full',
         component  : AccountMarginLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : ACCOUNT_MARGIN_HISTORY + '/:clearer/:member/:account/:marginCurrency',
+        path       : ROUTE_NAMES.ACCOUNT_MARGIN_HISTORY + '/:clearer/:member/:account/:marginCurrency',
         pathMatch  : 'full',
         component  : AccountMarginHistoryComponent,
         canActivate: [AuthGuard]
@@ -92,91 +80,91 @@ const ACCOUNT_MARGIN: Route[] = [
 
 const POSITION_REPORTS: Route[] = [
     {
-        path       : POSITION_REPORTS_LATEST,
+        path       : ROUTE_NAMES.POSITION_REPORTS_LATEST,
         pathMatch  : 'full',
         component  : PositionReportLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : POSITION_REPORTS_LATEST + '/:clearer',
+        path       : ROUTE_NAMES.POSITION_REPORTS_LATEST + '/:clearer',
         pathMatch  : 'full',
         component  : PositionReportLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : POSITION_REPORTS_LATEST + '/:clearer/:member',
+        path       : ROUTE_NAMES.POSITION_REPORTS_LATEST + '/:clearer/:member',
         pathMatch  : 'full',
         component  : PositionReportLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : POSITION_REPORTS_LATEST + '/:clearer/:member/:account',
+        path       : ROUTE_NAMES.POSITION_REPORTS_LATEST + '/:clearer/:member/:account',
         pathMatch  : 'full',
         component  : PositionReportLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:liquidationGroup',
+        path       : ROUTE_NAMES.POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:liquidationGroup',
         pathMatch  : 'full',
         component  : PositionReportLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit',
+        path       : ROUTE_NAMES.POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit',
         pathMatch  : 'full',
         component  : PositionReportLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:product',
+        path       : ROUTE_NAMES.POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:product',
         pathMatch  : 'full',
         component  : PositionReportLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:product/:callPut',
+        path       : ROUTE_NAMES.POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:product/:callPut',
         pathMatch  : 'full',
         component  : PositionReportLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:product/:callPut/:contractYear',
+        path       : ROUTE_NAMES.POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:product/:callPut/:contractYear',
         pathMatch  : 'full',
         component  : PositionReportLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:product/:callPut/:contractYear/:contractMonth',
+        path       : ROUTE_NAMES.POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:product/:callPut/:contractYear/:contractMonth',
         pathMatch  : 'full',
         component  : PositionReportLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:product/:callPut/:contractYear/:contractMonth/:expiryDay',
+        path       : ROUTE_NAMES.POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:product/:callPut/:contractYear/:contractMonth/:expiryDay',
         pathMatch  : 'full',
         component  : PositionReportLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:product/:callPut/:contractYear/:contractMonth/:expiryDay/:exercisePrice',
+        path       : ROUTE_NAMES.POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:product/:callPut/:contractYear/:contractMonth/:expiryDay/:exercisePrice',
         pathMatch  : 'full',
         component  : PositionReportLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:product/:callPut/:contractYear/:contractMonth/:expiryDay/:exercisePrice/:version',
+        path       : ROUTE_NAMES.POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:product/:callPut/:contractYear/:contractMonth/:expiryDay/:exercisePrice/:version',
         pathMatch  : 'full',
         component  : PositionReportLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:product/:callPut/:contractYear/:contractMonth/:expiryDay/:exercisePrice/:version/:flexContractSymbol',
+        path       : ROUTE_NAMES.POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:product/:callPut/:contractYear/:contractMonth/:expiryDay/:exercisePrice/:version/:flexContractSymbol',
         pathMatch  : 'full',
         component  : PositionReportLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : POSITION_REPORTS_HISTORY + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:product/:callPut/:contractYear/:contractMonth/:expiryDay/:exercisePrice/:version/:flexContractSymbol',
+        path       : ROUTE_NAMES.POSITION_REPORTS_HISTORY + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:product/:callPut/:contractYear/:contractMonth/:expiryDay/:exercisePrice/:version/:flexContractSymbol',
         pathMatch  : 'full',
         component  : PositionReportHistoryComponent,
         canActivate: [AuthGuard]
@@ -185,43 +173,43 @@ const POSITION_REPORTS: Route[] = [
 
 const LIQUI_GROUP_MARGIN: Route[] = [
     {
-        path       : LIQUI_GROUP_MARGIN_LATEST,
+        path       : ROUTE_NAMES.LIQUI_GROUP_MARGIN_LATEST,
         pathMatch  : 'full',
         component  : LiquiGroupMarginLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : LIQUI_GROUP_MARGIN_LATEST + '/:clearer',
+        path       : ROUTE_NAMES.LIQUI_GROUP_MARGIN_LATEST + '/:clearer',
         pathMatch  : 'full',
         component  : LiquiGroupMarginLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : LIQUI_GROUP_MARGIN_LATEST + '/:clearer/:member',
+        path       : ROUTE_NAMES.LIQUI_GROUP_MARGIN_LATEST + '/:clearer/:member',
         pathMatch  : 'full',
         component  : LiquiGroupMarginLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : LIQUI_GROUP_MARGIN_LATEST + '/:clearer/:member/:account',
+        path       : ROUTE_NAMES.LIQUI_GROUP_MARGIN_LATEST + '/:clearer/:member/:account',
         pathMatch  : 'full',
         component  : LiquiGroupMarginLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : LIQUI_GROUP_MARGIN_LATEST + '/:clearer/:member/:account/:marginClass',
+        path       : ROUTE_NAMES.LIQUI_GROUP_MARGIN_LATEST + '/:clearer/:member/:account/:marginClass',
         pathMatch  : 'full',
         component  : LiquiGroupMarginLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : LIQUI_GROUP_MARGIN_LATEST + '/:clearer/:member/:account/:marginClass/:marginCurrency',
+        path       : ROUTE_NAMES.LIQUI_GROUP_MARGIN_LATEST + '/:clearer/:member/:account/:marginClass/:marginCurrency',
         pathMatch  : 'full',
         component  : LiquiGroupMarginLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : LIQUI_GROUP_MARGIN_HISTORY + '/:clearer/:member/:account/:marginClass/:marginCurrency',
+        path       : ROUTE_NAMES.LIQUI_GROUP_MARGIN_HISTORY + '/:clearer/:member/:account/:marginClass/:marginCurrency',
         pathMatch  : 'full',
         component  : LiquiGroupMarginHistoryComponent,
         canActivate: [AuthGuard]
@@ -230,37 +218,37 @@ const LIQUI_GROUP_MARGIN: Route[] = [
 
 const INITIAL_MARGIN: Route[] = [
     {
-        path       : INITIAL_MARGIN_LATEST,
+        path       : ROUTE_NAMES.INITIAL_MARGIN_LATEST,
         pathMatch  : 'full',
         component  : InitialMarginLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : INITIAL_MARGIN_LATEST + '/:clearer',
+        path       : ROUTE_NAMES.INITIAL_MARGIN_LATEST + '/:clearer',
         pathMatch  : 'full',
         component  : InitialMarginLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : INITIAL_MARGIN_LATEST + '/:clearer/:member',
+        path       : ROUTE_NAMES.INITIAL_MARGIN_LATEST + '/:clearer/:member',
         pathMatch  : 'full',
         component  : InitialMarginLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : INITIAL_MARGIN_LATEST + '/:clearer/:member/:account',
+        path       : ROUTE_NAMES.INITIAL_MARGIN_LATEST + '/:clearer/:member/:account',
         pathMatch  : 'full',
         component  : InitialMarginLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : INITIAL_MARGIN_LATEST + '/:clearer/:member/:account/:liquidationGroup',
+        path       : ROUTE_NAMES.INITIAL_MARGIN_LATEST + '/:clearer/:member/:account/:liquidationGroup',
         pathMatch  : 'full',
         component  : InitialMarginLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : INITIAL_MARGIN_HISTORY + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:marginCurrency',
+        path       : ROUTE_NAMES.INITIAL_MARGIN_HISTORY + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:marginCurrency',
         pathMatch  : 'full',
         component  : InitialMarginHistoryComponent,
         canActivate: [AuthGuard]
@@ -269,37 +257,37 @@ const INITIAL_MARGIN: Route[] = [
 
 const VARIATION_PREMIUM_MARGIN: Route[] = [
     {
-        path       : VARIATION_PREMIUM_MARGIN_LATEST,
+        path       : ROUTE_NAMES.VARIATION_PREMIUM_MARGIN_LATEST,
         pathMatch  : 'full',
         component  : VariationPremiumMarginLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : VARIATION_PREMIUM_MARGIN_LATEST + '/:clearer',
+        path       : ROUTE_NAMES.VARIATION_PREMIUM_MARGIN_LATEST + '/:clearer',
         pathMatch  : 'full',
         component  : VariationPremiumMarginLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : VARIATION_PREMIUM_MARGIN_LATEST + '/:clearer/:member',
+        path       : ROUTE_NAMES.VARIATION_PREMIUM_MARGIN_LATEST + '/:clearer/:member',
         pathMatch  : 'full',
         component  : VariationPremiumMarginLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : VARIATION_PREMIUM_MARGIN_LATEST + '/:clearer/:member/:account',
+        path       : ROUTE_NAMES.VARIATION_PREMIUM_MARGIN_LATEST + '/:clearer/:member/:account',
         pathMatch  : 'full',
         component  : VariationPremiumMarginLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : VARIATION_PREMIUM_MARGIN_LATEST + '/:clearer/:member/:account/:liquidationGroup',
+        path       : ROUTE_NAMES.VARIATION_PREMIUM_MARGIN_LATEST + '/:clearer/:member/:account/:liquidationGroup',
         pathMatch  : 'full',
         component  : VariationPremiumMarginLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : VARIATION_PREMIUM_MARGIN_HISTORY + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:marginCurrency',
+        path       : ROUTE_NAMES.VARIATION_PREMIUM_MARGIN_HISTORY + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:marginCurrency',
         pathMatch  : 'full',
         component  : VariationPremiumMarginHistoryComponent,
         canActivate: [AuthGuard]
@@ -308,31 +296,31 @@ const VARIATION_PREMIUM_MARGIN: Route[] = [
 
 const POOL_MARGIN: Route[] = [
     {
-        path       : POOL_MARGIN_LATEST,
+        path       : ROUTE_NAMES.POOL_MARGIN_LATEST,
         pathMatch  : 'full',
         component  : PoolMarginLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : POOL_MARGIN_LATEST + '/:clearer',
+        path       : ROUTE_NAMES.POOL_MARGIN_LATEST + '/:clearer',
         pathMatch  : 'full',
         component  : PoolMarginLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : POOL_MARGIN_LATEST + '/:clearer/:pool',
+        path       : ROUTE_NAMES.POOL_MARGIN_LATEST + '/:clearer/:pool',
         pathMatch  : 'full',
         component  : PoolMarginLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : POOL_MARGIN_LATEST + '/:clearer/:pool/:marginCurrency',
+        path       : ROUTE_NAMES.POOL_MARGIN_LATEST + '/:clearer/:pool/:marginCurrency',
         pathMatch  : 'full',
         component  : PoolMarginLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : POOL_MARGIN_HISTORY + '/:clearer/:pool/:marginCurrency',
+        path       : ROUTE_NAMES.POOL_MARGIN_HISTORY + '/:clearer/:pool/:marginCurrency',
         pathMatch  : 'full',
         component  : PoolMarginHistoryComponent,
         canActivate: [AuthGuard]
@@ -341,56 +329,56 @@ const POOL_MARGIN: Route[] = [
 
 const RISK_LIMIT_UTILIZATION: Route[] = [
     {
-        path       : RISK_LIMIT_UTILIZATION_LATEST,
+        path       : ROUTE_NAMES.RISK_LIMIT_UTILIZATION_LATEST,
         pathMatch  : 'full',
         component  : RiskLimitUtilizationLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : RISK_LIMIT_UTILIZATION_LATEST + '/:clearer',
+        path       : ROUTE_NAMES.RISK_LIMIT_UTILIZATION_LATEST + '/:clearer',
         pathMatch  : 'full',
         component  : RiskLimitUtilizationLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : RISK_LIMIT_UTILIZATION_LATEST + '/:clearer/:member',
+        path       : ROUTE_NAMES.RISK_LIMIT_UTILIZATION_LATEST + '/:clearer/:member',
         pathMatch  : 'full',
         component  : RiskLimitUtilizationLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : RISK_LIMIT_UTILIZATION_LATEST + '/:clearer/:member/:maintainer',
+        path       : ROUTE_NAMES.RISK_LIMIT_UTILIZATION_LATEST + '/:clearer/:member/:maintainer',
         pathMatch  : 'full',
         component  : RiskLimitUtilizationLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : RISK_LIMIT_UTILIZATION_LATEST + '/:clearer/:member/:maintainer/:limitType',
+        path       : ROUTE_NAMES.RISK_LIMIT_UTILIZATION_LATEST + '/:clearer/:member/:maintainer/:limitType',
         pathMatch  : 'full',
         component  : RiskLimitUtilizationLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : RISK_LIMIT_UTILIZATION_HISTORY + '/:clearer/:member/:maintainer/:limitType',
+        path       : ROUTE_NAMES.RISK_LIMIT_UTILIZATION_HISTORY + '/:clearer/:member/:maintainer/:limitType',
         pathMatch  : 'full',
         component  : RiskLimitUtilizationHistoryComponent,
         canActivate: [AuthGuard]
     }
 ];
 
-const ROUTES: Route[] = [
+const ROUTER_DEFINITION: Route[] = [
     {
         path      : '',
-        redirectTo: '/dashboard',
+        redirectTo: ROUTES.DASHBOARD,
         pathMatch : 'full'
     },
     {
-        path     : 'login',
+        path     : ROUTE_NAMES.LOGIN,
         pathMatch: 'full',
         component: LoginComponent
     },
     {
-        path       : 'dashboard',
+        path       : ROUTE_NAMES.DASHBOARD,
         pathMatch  : 'full',
         component  : DashboardComponent,
         canActivate: [AuthGuard]
@@ -404,13 +392,13 @@ const ROUTES: Route[] = [
     ...RISK_LIMIT_UTILIZATION,
     {
         path      : '**', // Otherwise
-        redirectTo: '/dashboard'
+        redirectTo: ROUTES.DASHBOARD
     }
 ];
 
 @NgModule({
     imports: [
-        RouterModule.forRoot(ROUTES),
+        RouterModule.forRoot(ROUTER_DEFINITION),
         AuthModule,
         DashboardModule,
         PositionReportsModule,
@@ -427,7 +415,10 @@ export class RoutingModule {
     constructor(authService: AuthService, router: Router) {
         authService.loggedInChange.subscribe((loggedIn: boolean) => {
             if (!loggedIn) {
-                router.navigate(['login']);
+                if (router.routerState && router.routerState.snapshot) {
+                    authService.authRequestedPath = router.routerState.snapshot.url;
+                }
+                router.navigate([ROUTES.LOGIN]);
             }
         });
     }

@@ -13,7 +13,6 @@ import {ExportColumn} from '../list/download.menu.component';
 import {OrderingCriteria} from '../datatable/data.table.column.directive';
 
 import {exportKeys, routingKeys, valueGetters} from './liqui.group.margin.latest.component';
-import {LIQUI_GROUP_MARGIN_LATEST} from '../routes/routing.paths';
 
 @Component({
     moduleId   : module.id,
@@ -89,7 +88,7 @@ export class LiquiGroupMarginHistoryComponent extends AbstractHistoryListCompone
     }
 
     protected get rootRoutePath(): string {
-        return '/' + LIQUI_GROUP_MARGIN_LATEST;
+        return this.routerRoots.LIQUI_GROUP_MARGIN_LATEST;
     }
 
     public get valueGetters() {

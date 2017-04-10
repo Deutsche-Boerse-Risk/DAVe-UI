@@ -23,7 +23,7 @@ import {
     AccountMarginLatestComponent, valueGetters,
     exportKeys
 } from './account.margin.latest.component';
-import {ACCOUNT_MARGIN_LATEST} from '../routes/routing.paths';
+import {ROUTES} from '../routes/routing.paths';
 
 describe('Account margin latest component', () => {
     let page: LatestListPage<AccountMarginLatestComponent>;
@@ -286,7 +286,7 @@ describe('Account margin latest component', () => {
                 let routeParams: string[] = [];
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + ACCOUNT_MARGIN_LATEST,
+                    ROUTES.ACCOUNT_MARGIN_LATEST,
                     'Latest Account Margin');
 
                 routeParams.push('A');
@@ -296,7 +296,7 @@ describe('Account margin latest component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + ACCOUNT_MARGIN_LATEST,
+                    ROUTES.ACCOUNT_MARGIN_LATEST,
                     'Latest Account Margin');
 
                 routeParams.push('B');
@@ -307,7 +307,7 @@ describe('Account margin latest component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + ACCOUNT_MARGIN_LATEST,
+                    ROUTES.ACCOUNT_MARGIN_LATEST,
                     'Latest Account Margin');
 
                 routeParams.push('C');
@@ -319,7 +319,7 @@ describe('Account margin latest component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + ACCOUNT_MARGIN_LATEST,
+                    ROUTES.ACCOUNT_MARGIN_LATEST,
                     'Latest Account Margin');
 
                 routeParams.push('D');
@@ -332,7 +332,7 @@ describe('Account margin latest component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + ACCOUNT_MARGIN_LATEST,
+                    ROUTES.ACCOUNT_MARGIN_LATEST,
                     'Latest Account Margin');
             })));
 

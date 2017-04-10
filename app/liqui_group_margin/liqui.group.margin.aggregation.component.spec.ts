@@ -21,7 +21,7 @@ import {CommonModule} from '../common/common.module';
 import {DataTableModule} from '../datatable/data.table.module';
 
 import {LiquiGroupMarginAggregationComponent, valueGetters} from './liqui.group.margin.aggregation.component';
-import {LIQUI_GROUP_MARGIN_LATEST} from '../routes/routing.paths';
+import {ROUTES} from '../routes/routing.paths';
 
 describe('Liqui Group Margin aggregation component', () => {
     let page: AggregationPage;
@@ -252,7 +252,7 @@ describe('Liqui Group Margin aggregation component', () => {
             page.link.click();
 
             expect(clickSpy).toHaveBeenCalled();
-            expect(page.link.stub.navigatedTo).toContain(LIQUI_GROUP_MARGIN_LATEST);
+            expect(page.link.stub.navigatedTo).toContain(ROUTES.LIQUI_GROUP_MARGIN_LATEST);
         }));
     });
 });

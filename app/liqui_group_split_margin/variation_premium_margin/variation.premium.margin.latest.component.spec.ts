@@ -28,7 +28,7 @@ import {
     valueGetters,
     exportKeys
 } from './variation.premium.margin.latest.component';
-import {VARIATION_PREMIUM_MARGIN_LATEST} from '../../routes/routing.paths';
+import {ROUTES} from '../../routes/routing.paths';
 
 describe('Variation / Premium Margin latest component', () => {
     let page: LatestListPage<VariationPremiumMarginLatestComponent>;
@@ -291,7 +291,7 @@ describe('Variation / Premium Margin latest component', () => {
                 let routeParams: string[] = [];
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + VARIATION_PREMIUM_MARGIN_LATEST,
+                    ROUTES.VARIATION_PREMIUM_MARGIN_LATEST,
                     'Latest Variation / Premium Margin');
 
                 routeParams.push('A');
@@ -301,7 +301,7 @@ describe('Variation / Premium Margin latest component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + VARIATION_PREMIUM_MARGIN_LATEST,
+                    ROUTES.VARIATION_PREMIUM_MARGIN_LATEST,
                     'Latest Variation / Premium Margin');
 
                 routeParams.push('B');
@@ -312,7 +312,7 @@ describe('Variation / Premium Margin latest component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + VARIATION_PREMIUM_MARGIN_LATEST,
+                    ROUTES.VARIATION_PREMIUM_MARGIN_LATEST,
                     'Latest Variation / Premium Margin');
 
                 routeParams.push('C');
@@ -324,7 +324,7 @@ describe('Variation / Premium Margin latest component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + VARIATION_PREMIUM_MARGIN_LATEST,
+                    ROUTES.VARIATION_PREMIUM_MARGIN_LATEST,
                     'Latest Variation / Premium Margin');
 
                 routeParams.push('D');
@@ -337,7 +337,7 @@ describe('Variation / Premium Margin latest component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + VARIATION_PREMIUM_MARGIN_LATEST,
+                    ROUTES.VARIATION_PREMIUM_MARGIN_LATEST,
                     'Latest Variation / Premium Margin');
             })));
 

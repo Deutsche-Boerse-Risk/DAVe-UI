@@ -13,7 +13,6 @@ import {ExportColumn} from '../list/download.menu.component';
 import {OrderingCriteria, OrderingValueGetter} from '../datatable/data.table.column.directive';
 
 import {exportKeys, routingKeys, valueGetters} from './risk.limit.utilization.latest.component';
-import {RISK_LIMIT_UTILIZATION_LATEST} from '../routes/routing.paths';
 
 @Component({
     moduleId   : module.id,
@@ -91,7 +90,7 @@ export class RiskLimitUtilizationHistoryComponent extends AbstractHistoryListCom
     }
 
     protected get rootRoutePath(): string {
-        return '/' + RISK_LIMIT_UTILIZATION_LATEST;
+        return this.routerRoots.RISK_LIMIT_UTILIZATION_LATEST;
     }
 
     public get valueGetters() {

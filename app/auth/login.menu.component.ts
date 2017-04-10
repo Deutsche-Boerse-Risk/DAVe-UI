@@ -1,6 +1,7 @@
 import {Component, HostBinding} from '@angular/core';
 
 import {AuthService} from './auth.service';
+import {ROUTES} from '../routes/routing.paths';
 
 @Component({
     moduleId   : module.id,
@@ -28,5 +29,9 @@ export class LoginMenuComponent {
 
     public logout(): void {
         this.authService.logout();
+    }
+
+    public get routerRoots() {
+        return ROUTES;
     }
 }

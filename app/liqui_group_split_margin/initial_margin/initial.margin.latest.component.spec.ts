@@ -28,7 +28,7 @@ import {
     valueGetters,
     exportKeys
 } from './initial.margin.latest.component';
-import {INITIAL_MARGIN_LATEST} from '../../routes/routing.paths';
+import {ROUTES} from '../../routes/routing.paths';
 
 describe('Initial Margin latest component', () => {
     let page: LatestListPage<InitialMarginLatestComponent>;
@@ -291,7 +291,7 @@ describe('Initial Margin latest component', () => {
                 let routeParams: string[] = [];
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + INITIAL_MARGIN_LATEST,
+                    ROUTES.INITIAL_MARGIN_LATEST,
                     'Latest Initial Margin');
 
                 routeParams.push('A');
@@ -301,7 +301,7 @@ describe('Initial Margin latest component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + INITIAL_MARGIN_LATEST,
+                    ROUTES.INITIAL_MARGIN_LATEST,
                     'Latest Initial Margin');
 
                 routeParams.push('B');
@@ -312,7 +312,7 @@ describe('Initial Margin latest component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + INITIAL_MARGIN_LATEST,
+                    ROUTES.INITIAL_MARGIN_LATEST,
                     'Latest Initial Margin');
 
                 routeParams.push('C');
@@ -324,7 +324,7 @@ describe('Initial Margin latest component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + INITIAL_MARGIN_LATEST,
+                    ROUTES.INITIAL_MARGIN_LATEST,
                     'Latest Initial Margin');
 
                 routeParams.push('D');
@@ -337,7 +337,7 @@ describe('Initial Margin latest component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + INITIAL_MARGIN_LATEST,
+                    ROUTES.INITIAL_MARGIN_LATEST,
                     'Latest Initial Margin');
             })));
 

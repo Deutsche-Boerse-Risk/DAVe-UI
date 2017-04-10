@@ -5,7 +5,7 @@
               [data]="data"
               [initialLoad]="initialLoad"
               [errorMessage]="errorMessage"
-              [drilldownRouterLink]="['/positionReportLatest', routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', routeParams['class'] || '*']">
+              [drilldownRouterLink]="[routerRoots.POSITION_REPORTS_LATEST, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', routeParams['liquidationGroup'] || '*', routeParams['liquidationGroupSplit'] || '*']">
     <div class="panel-body" *ngIf="chartData?.rows?.length > 0">
         <google-line-chart [chartOptions]="chartOptions"
                            [chartData]="chartData"

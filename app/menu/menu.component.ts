@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {ROUTES} from '../routes/routing.paths';
 
 @Component({
     moduleId   : module.id,
@@ -7,5 +8,7 @@ import {Component} from '@angular/core';
     styleUrls  : ['menu.component.css']
 })
 export class MenuComponent {
-
+    public get routerRoots() {
+        return ROUTES;
+    }
 }

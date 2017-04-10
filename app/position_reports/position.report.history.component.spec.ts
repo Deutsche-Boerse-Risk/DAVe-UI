@@ -20,7 +20,7 @@ import {ExportColumn} from '../list/download.menu.component';
 
 import {valueGetters, exportKeys} from './position.report.latest.component';
 import {PositionReportHistoryComponent} from './position.report.history.component';
-import {POSITION_REPORTS_LATEST} from '../routes/routing.paths';
+import {ROUTES} from '../routes/routing.paths';
 
 describe('Position reports history component', () => {
     let page: HistoryListPage<PositionReportHistoryComponent>;
@@ -304,7 +304,7 @@ describe('Position reports history component', () => {
         it('has correct breadcrumbs navigation', fakeAsync(inject([ActivatedRoute],
             (activatedRoute: ActivatedRouteStub<PositionReportsHistoryParams>) => {
                 page.checkBreadCrumbs(testingParams,
-                    '/' + POSITION_REPORTS_LATEST,
+                    ROUTES.POSITION_REPORTS_LATEST,
                     'Position Report History',
                     false);
 
@@ -342,7 +342,7 @@ describe('Position reports history component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + POSITION_REPORTS_LATEST,
+                    ROUTES.POSITION_REPORTS_LATEST,
                     'Position Report History',
                     false);
             })));

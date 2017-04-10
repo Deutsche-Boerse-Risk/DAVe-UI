@@ -71,9 +71,9 @@
         <column>
             <ng-template let-record="row" cell-template>
                 <drilldown-row-button
-                        [routerLink]="['/positionReportLatest', record.clearer || '*', record.member || '*', record.account || '*', record.class || '*']"></drilldown-row-button>
+                        [routerLink]="[routerRoots.INITIAL_MARGIN_LATEST, record.clearer || '*', record.member || '*', record.account || '*', record.marginClass || '*']"></drilldown-row-button>
                 <detail-row-button
-                        [routerLink]="['/liquiGroupMarginHistory', record.clearer || '*', record.member || '*', record.account || '*', record.class || '*', record.ccy || '*']"></detail-row-button>
+                        [routerLink]="[routerRoots.LIQUI_GROUP_MARGIN_HISTORY, record.clearer || '*', record.member || '*', record.account || '*', record.marginClass || '*', record.ccy || '*']"></detail-row-button>
             </ng-template>
         </column>
     </data-table>

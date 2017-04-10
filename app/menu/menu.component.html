@@ -1,7 +1,7 @@
 <ul class="nav navbar-nav">
     <li class="nav-divider"></li>
     <li routerLinkActive="active">
-        <a routerLink="/dashboard">
+        <a [routerLink]="routerRoots.DASHBOARD">
             <i class="fa fa-dashboard fa-fw"></i> Dashboard
         </a>
     </li>
@@ -12,45 +12,46 @@
                 class="caret"></span></a>
         <ul class="dropdown-menu">
             <li routerLinkActive="active">
-                <a routerLink="/positionReportLatest"
-                   routerSubLink="/positionReportHistory">
+                <a [routerLink]="routerRoots.POSITION_REPORTS_LATEST"
+                   [routerSubLink]="routerRoots.POSITION_REPORTS_HISTORY">
                     Position Reports
                 </a>
             </li>
             <li routerLinkActive="active">
-                <a routerLink="/variPremiumMarginLatest"
-                   routerSubLink="/variPremiumMarginHistory">
+                <a [routerLink]="routerRoots.VARIATION_PREMIUM_MARGIN_LATEST"
+                   [routerSubLink]="routerRoots.VARIATION_PREMIUM_MARGIN_HISTORY">
                     Variation / Premium Margin
                 </a>
             </li>
             <li routerLinkActive="active">
-                <a routerLink="/initialMarginLatest"
-                   routerSubLink="/initialMarginHistory">
+                <a [routerLink]="routerRoots.INITIAL_MARGIN_LATEST"
+                   [routerSubLink]="routerRoots.INITIAL_MARGIN_HISTORY">
                     Initial Margin
                 </a>
             </li>
             <li routerLinkActive="active">
-                <a routerLink="/liquiGroupMarginLatest"
-                   routerSubLink="/liquiGroupMarginHistory">
+                <a [routerLink]="routerRoots.LIQUI_GROUP_MARGIN_LATEST"
+                   [routerSubLink]="routerRoots.LIQUI_GROUP_MARGIN_HISTORY">
                     Liquidation Group Margin
                 </a>
             </li>
             <li routerLinkActive="active">
-                <a routerLink="/accountMarginLatest"
-                   routerSubLink="/accountMarginHistory">
+                <a [routerLink]="routerRoots.ACCOUNT_MARGIN_LATEST"
+                   [routerSubLink]="routerRoots.ACCOUNT_MARGIN_HISTORY">
                     Account Margin
                 </a>
             </li>
             <li routerLinkActive="active">
-                <a routerLink="/poolMarginLatest"
-                   routerSubLink="/poolMarginHistory">
+                <a [routerLink]="routerRoots.POOL_MARGIN_LATEST"
+                   [routerSubLink]="routerRoots.POOL_MARGIN_HISTORY">
                     Pool Margin
                 </a>
             </li>
         </ul>
     </li>
     <li routerLinkActive="active">
-        <a routerLink="/riskLimitUtilizationLatest" routerSubLink="/riskLimitUtilizationHistory">
+        <a [routerLink]="routerRoots.RISK_LIMIT_UTILIZATION_LATEST"
+           [routerSubLink]="routerRoots.RISK_LIMIT_UTILIZATION_HISTORY">
             <i class="fa fa-fire-extinguisher fa-fw"></i> Risk Limit Utilization
         </a>
     </li>

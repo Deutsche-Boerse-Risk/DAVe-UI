@@ -20,7 +20,7 @@ import {ExportColumn} from '../list/download.menu.component';
 
 import {valueGetters, exportKeys} from './liqui.group.margin.latest.component';
 import {LiquiGroupMarginHistoryComponent} from './liqui.group.margin.history.component';
-import {LIQUI_GROUP_MARGIN_LATEST} from '../routes/routing.paths';
+import {ROUTES} from '../routes/routing.paths';
 
 describe('Liquidation Group Margin history component', () => {
     let page: HistoryListPage<LiquiGroupMarginHistoryComponent>;
@@ -288,7 +288,7 @@ describe('Liquidation Group Margin history component', () => {
         it('has correct breadcrumbs navigation', fakeAsync(inject([ActivatedRoute],
             (activatedRoute: ActivatedRouteStub<LiquiGroupMarginHistoryParams>) => {
                 page.checkBreadCrumbs(testingParams,
-                    '/' + LIQUI_GROUP_MARGIN_LATEST,
+                    ROUTES.LIQUI_GROUP_MARGIN_LATEST,
                     'Liquidation Group Margin History',
                     false);
 
@@ -304,7 +304,7 @@ describe('Liquidation Group Margin history component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + LIQUI_GROUP_MARGIN_LATEST,
+                    ROUTES.LIQUI_GROUP_MARGIN_LATEST,
                     'Liquidation Group Margin History',
                     false);
             })));

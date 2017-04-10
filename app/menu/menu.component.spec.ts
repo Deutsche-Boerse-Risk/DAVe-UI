@@ -8,14 +8,7 @@ import {MenuPage, RouterStub, RouterLinkStubDirective, stubRouter} from '../../t
 import {MenuModule} from './menu.module';
 import {MenuComponent} from './menu.component';
 import {RouterLinkActiveDirective} from './router.link.active.directive';
-import {
-    POSITION_REPORTS_HISTORY,
-    ACCOUNT_MARGIN_HISTORY,
-    POOL_MARGIN_HISTORY,
-    INITIAL_MARGIN_HISTORY,
-    VARIATION_PREMIUM_MARGIN_HISTORY,
-    LIQUI_GROUP_MARGIN_HISTORY
-} from '../routes/routing.paths';
+import {ROUTES} from '../routes/routing.paths';
 
 describe('Menu component', () => {
 
@@ -75,27 +68,27 @@ describe('Menu component', () => {
     }));
 
     it('navigation to sub-links works', fakeAsync(inject([Router], (router: RouterStub) => {
-        router.navigateByUrl('/' + POSITION_REPORTS_HISTORY);
+        router.navigateByUrl(ROUTES.POSITION_REPORTS_HISTORY);
         page.detectChanges();
         page.isActive('Position Reports', 'Margin Requirement');
 
-        router.navigateByUrl('/' + LIQUI_GROUP_MARGIN_HISTORY);
+        router.navigateByUrl(ROUTES.LIQUI_GROUP_MARGIN_HISTORY);
         page.detectChanges();
         page.isActive('Liquidation Group Margin', 'Margin Requirement');
 
-        router.navigateByUrl('/' + INITIAL_MARGIN_HISTORY);
+        router.navigateByUrl(ROUTES.INITIAL_MARGIN_HISTORY);
         page.detectChanges();
         page.isActive('Initial Margin', 'Margin Requirement');
 
-        router.navigateByUrl('/' + VARIATION_PREMIUM_MARGIN_HISTORY);
+        router.navigateByUrl(ROUTES.VARIATION_PREMIUM_MARGIN_HISTORY);
         page.detectChanges();
         page.isActive('Variation / Premium Margin', 'Margin Requirement');
 
-        router.navigateByUrl('/' + ACCOUNT_MARGIN_HISTORY);
+        router.navigateByUrl(ROUTES.ACCOUNT_MARGIN_HISTORY);
         page.detectChanges();
         page.isActive('Account Margin', 'Margin Requirement');
 
-        router.navigateByUrl('/' + POOL_MARGIN_HISTORY);
+        router.navigateByUrl(ROUTES.POOL_MARGIN_HISTORY);
         page.detectChanges();
         page.isActive('Pool Margin', 'Margin Requirement');
 

@@ -84,7 +84,7 @@
         <column>
             <ng-template let-record="row" cell-template>
                 <detail-row-button
-                        [routerLink]="['/riskLimitUtilizationHistory', record.clearer || '*', record.member || '*', record.maintainer || '*', record.limitType || '*']"></detail-row-button>
+                        [routerLink]="[routerRoots.RISK_LIMIT_UTILIZATION_HISTORY, record.clearer || '*', record.member || '*', record.maintainer || '*', record.limitType || '*']"></detail-row-button>
             </ng-template>
         </column>
     </data-table>

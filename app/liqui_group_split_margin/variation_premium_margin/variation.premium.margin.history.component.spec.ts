@@ -20,7 +20,7 @@ import {ExportColumn} from '../../list/download.menu.component';
 
 import {valueGetters, exportKeys} from './variation.premium.margin.latest.component';
 import {VariationPremiumMarginHistoryComponent} from './variation.premium.margin.history.component';
-import {VARIATION_PREMIUM_MARGIN_LATEST} from '../../routes/routing.paths';
+import {ROUTES} from '../../routes/routing.paths';
 
 describe('Variation / Premium Margin history component', () => {
     let page: HistoryListPage<VariationPremiumMarginHistoryComponent>;
@@ -290,7 +290,7 @@ describe('Variation / Premium Margin history component', () => {
         it('has correct breadcrumbs navigation', fakeAsync(inject([ActivatedRoute],
             (activatedRoute: ActivatedRouteStub<LiquiGroupSplitMarginHistoryParams>) => {
                 page.checkBreadCrumbs(testingParams,
-                    '/' + VARIATION_PREMIUM_MARGIN_LATEST,
+                    ROUTES.VARIATION_PREMIUM_MARGIN_LATEST,
                     'Variation / Premium Margin History',
                     false, 2);
 
@@ -307,7 +307,7 @@ describe('Variation / Premium Margin history component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + VARIATION_PREMIUM_MARGIN_LATEST,
+                    ROUTES.VARIATION_PREMIUM_MARGIN_LATEST,
                     'Variation / Premium Margin History',
                     false, 2);
             })));

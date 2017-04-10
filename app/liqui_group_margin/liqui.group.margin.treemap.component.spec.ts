@@ -17,7 +17,7 @@ import {LiquiGroupMarginService} from './liqui.group.margin.service';
 
 import {LiquiGroupMarginTreemapComponent} from './liqui.group.margin.treemap.component';
 import {LiquiGroupMarginServerData} from './liqui.group.margin.types';
-import {LIQUI_GROUP_MARGIN_LATEST} from '../routes/routing.paths';
+import {ROUTES} from '../routes/routing.paths';
 
 describe('Margin components TreeMap component', () => {
     let page: TreeMapPage;
@@ -155,7 +155,7 @@ describe('Margin components TreeMap component', () => {
 
         // Clicked correctly
         expect(navigateSpy).toHaveBeenCalled();
-        expect(page.link.stub.navigatedTo).toEqual('/' + LIQUI_GROUP_MARGIN_LATEST);
+        expect(page.link.stub.navigatedTo).toEqual(ROUTES.LIQUI_GROUP_MARGIN_LATEST);
     }));
 
     xit('check data', fakeAsync(() => {

@@ -24,7 +24,7 @@ import {DATA_REFRESH_INTERVAL} from '../abstract.component';
 import {ExportColumn} from '../list/download.menu.component';
 
 import {RiskLimitUtilizationLatestComponent, valueGetters, exportKeys} from './risk.limit.utilization.latest.component';
-import {RISK_LIMIT_UTILIZATION_LATEST} from '../routes/routing.paths';
+import {ROUTES} from '../routes/routing.paths';
 
 describe('Risk limit utilization latest component', () => {
     let page: LatestListPage<RiskLimitUtilizationLatestComponent>;
@@ -284,7 +284,7 @@ describe('Risk limit utilization latest component', () => {
                 let routeParams: string[] = [];
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + RISK_LIMIT_UTILIZATION_LATEST,
+                    ROUTES.RISK_LIMIT_UTILIZATION_LATEST,
                     'Risk Limit Utilization');
 
                 routeParams.push('A');
@@ -294,7 +294,7 @@ describe('Risk limit utilization latest component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + RISK_LIMIT_UTILIZATION_LATEST,
+                    ROUTES.RISK_LIMIT_UTILIZATION_LATEST,
                     'Risk Limit Utilization');
 
                 routeParams.push('B');
@@ -305,7 +305,7 @@ describe('Risk limit utilization latest component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + RISK_LIMIT_UTILIZATION_LATEST,
+                    ROUTES.RISK_LIMIT_UTILIZATION_LATEST,
                     'Risk Limit Utilization');
 
                 routeParams.push('C');
@@ -317,7 +317,7 @@ describe('Risk limit utilization latest component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + RISK_LIMIT_UTILIZATION_LATEST,
+                    ROUTES.RISK_LIMIT_UTILIZATION_LATEST,
                     'Risk Limit Utilization');
 
                 routeParams.push('D');
@@ -330,7 +330,7 @@ describe('Risk limit utilization latest component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + RISK_LIMIT_UTILIZATION_LATEST,
+                    ROUTES.RISK_LIMIT_UTILIZATION_LATEST,
                     'Risk Limit Utilization');
             })));
 

@@ -9,7 +9,6 @@ import {RiskLimitUtilizationData} from './risk.limit.utilization.types';
 import {AbstractLatestListComponent} from '../list/abstract.latest.list.component';
 import {ExportColumn} from '../list/download.menu.component';
 import {OrderingCriteria, OrderingValueGetter} from '../datatable/data.table.column.directive';
-import {RISK_LIMIT_UTILIZATION_LATEST} from '../routes/routing.paths';
 
 export const routingKeys: string[] = ['clearer', 'member', 'maintainer', 'limitType'];
 
@@ -60,7 +59,7 @@ export class RiskLimitUtilizationLatestComponent extends AbstractLatestListCompo
     }
 
     protected get rootRoutePath(): string {
-        return '/' + RISK_LIMIT_UTILIZATION_LATEST;
+        return this.routerRoots.RISK_LIMIT_UTILIZATION_LATEST;
     }
 
     public get valueGetters() {

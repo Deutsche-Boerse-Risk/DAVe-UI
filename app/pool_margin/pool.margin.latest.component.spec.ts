@@ -23,7 +23,7 @@ import {
     PoolMarginLatestComponent, valueGetters,
     exportKeys
 } from './pool.margin.latest.component';
-import {POOL_MARGIN_LATEST} from '../routes/routing.paths';
+import {ROUTES} from '../routes/routing.paths';
 
 describe('Pool Margin latest component', () => {
     let page: LatestListPage<PoolMarginLatestComponent>;
@@ -286,7 +286,7 @@ describe('Pool Margin latest component', () => {
                 let routeParams: string[] = [];
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + POOL_MARGIN_LATEST,
+                    ROUTES.POOL_MARGIN_LATEST,
                     'Latest Pool Margin');
 
                 routeParams.push('A');
@@ -296,7 +296,7 @@ describe('Pool Margin latest component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + POOL_MARGIN_LATEST,
+                    ROUTES.POOL_MARGIN_LATEST,
                     'Latest Pool Margin');
 
                 routeParams.push('B');
@@ -307,7 +307,7 @@ describe('Pool Margin latest component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + POOL_MARGIN_LATEST,
+                    ROUTES.POOL_MARGIN_LATEST,
                     'Latest Pool Margin');
 
                 routeParams.push('C');
@@ -319,7 +319,7 @@ describe('Pool Margin latest component', () => {
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    '/' + POOL_MARGIN_LATEST,
+                    ROUTES.POOL_MARGIN_LATEST,
                     'Latest Pool Margin');
             })));
 

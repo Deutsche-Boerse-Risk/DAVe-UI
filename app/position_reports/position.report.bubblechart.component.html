@@ -48,7 +48,8 @@
         </google-chart>
         <br/>
 
-        <a *ngIf="chartData?.rows.length" routerLink="/positionReportLatest" class="btn btn-default btn-block">
+        <a *ngIf="chartData?.rows.length" [routerLink]="routerRoots.POSITION_REPORTS_LATEST"
+           class="btn btn-default btn-block">
             View Details
         </a>
     </div>

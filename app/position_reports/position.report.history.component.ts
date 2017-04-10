@@ -13,7 +13,6 @@ import {ExportColumn} from '../list/download.menu.component';
 import {OrderingCriteria, OrderingValueGetter} from '../datatable/data.table.column.directive';
 
 import {exportKeys, routingKeys, valueGetters} from './position.report.latest.component';
-import {POSITION_REPORTS_LATEST} from '../routes/routing.paths';
 
 @Component({
     moduleId   : module.id,
@@ -108,7 +107,7 @@ export class PositionReportHistoryComponent extends AbstractHistoryListComponent
     }
 
     protected get rootRoutePath(): string {
-        return '/' + POSITION_REPORTS_LATEST;
+        return this.routerRoots.POSITION_REPORTS_LATEST;
     }
 
     public get valueGetters() {
