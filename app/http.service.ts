@@ -10,10 +10,14 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 
 export const defaultURL: string = (<any>window).baseRestURL + '/api/v1.0';
+export const authURL: string = (<any>window).baseAuthURL;
 
 export interface Request<T> {
     resourceURL: string;
     params?: any;
+    secure?: boolean;
+    auth?: boolean;
+    content_type?: string;
 
     mapFunction?: (value: any, index: number) => T;
 }
@@ -35,13 +39,17 @@ export class HttpService<T> {
     constructor(private http: Http, private authHttp: AuthHttp) {
     }
 
-    private static getRequestOptions(params: any): RequestOptions {
+    private static getRequestOptions<T>(request: Request<T>): RequestOptions {
         let headers: Headers = new Headers();
         headers.append('Accept', 'application/json');
-        headers.append('Content-Type', 'application/json');
+        if (request.content_type) {
+            headers.append('Content-Type', request.content_type);
+        } else {
+            headers.append('Content-Type', 'application/json');
+        }
         return new RequestOptions({
             headers: headers,
-            params : HttpService.filter(params)
+            params : HttpService.filter(request.params)
         });
     }
 
@@ -97,10 +105,13 @@ export class HttpService<T> {
         }
     }
 
-    public get(request: Request<T>, auth: boolean = true): Observable<T> {
-        let http: Http | AuthHttp = auth ? this.authHttp : this.http;
-        let requestObservable: Observable<T> = http.get(defaultURL + request.resourceURL,
-            HttpService.getRequestOptions(request.params))
+    public get(request: Request<T>): Observable<T> {
+        if (request.secure == null) {
+            request.secure = true;
+        }
+        let http: Http | AuthHttp = request.secure ? this.authHttp : this.http;
+        let requestObservable: Observable<T> = http.get((request.auth ? authURL : defaultURL) + request.resourceURL,
+            HttpService.getRequestOptions(request))
             .map(HttpService.extractData);
         if (request.mapFunction) {
             requestObservable = requestObservable.map(request.mapFunction);
@@ -108,10 +119,18 @@ export class HttpService<T> {
         return requestObservable.catch(this.handleError.bind(this));
     }
 
-    public post(request: PostRequest<T>, auth: boolean = true): Observable<T> {
-        let http: Http | AuthHttp = auth ? this.authHttp : this.http;
-        let requestObservable: Observable<T> = http.post(defaultURL + request.resourceURL, JSON.stringify(request.data),
-            HttpService.getRequestOptions(request.params))
+    public post(request: PostRequest<T>): Observable<T> {
+        if (request.secure == null) {
+            request.secure = true;
+        }
+        let http: Http | AuthHttp = request.secure ? this.authHttp : this.http;
+
+        if (typeof request.data !== 'string') {
+            request.data = JSON.stringify(request.data);
+        }
+
+        let requestObservable: Observable<T> = http.post((request.auth ? authURL : defaultURL) + request.resourceURL,
+            request.data, HttpService.getRequestOptions(request))
             .map(HttpService.extractData);
         if (request.mapFunction) {
             requestObservable = requestObservable.map(request.mapFunction);

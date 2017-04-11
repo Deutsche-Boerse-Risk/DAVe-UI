@@ -6,13 +6,15 @@ import {HttpService} from '../http.service';
 import {Observable} from 'rxjs/Observable';
 
 const url = {
-    login  : '/user/login',
-    status : '/user/loginStatus',
-    refresh: '/user/refreshToken'
+    login  : '/protocol/openid-connect/token',
+    status : '/protocol/openid-connect/token/introspect',
+    refresh: '/protocol/openid-connect/token'
 };
 
 export interface AuthResponse {
-    token?: string;
+    id_token?: string;
+    access_token?: string;
+    refresh_token?: string;
 }
 
 export interface AuthStatusResponse {
@@ -21,8 +23,24 @@ export interface AuthStatusResponse {
 
 export interface TokenData {
     username: string;
+    typ?: string;
+
+    //The issuer of the token.
+    iss?: string;
+    //The subject of the token.
+    sub?: string;
+    //The audience of the token.
+    aud?: string;
+    // This will probably be the registered claim most often used. This will define the expiration in NumericDate value.
+    // The expiration MUST be after the current date/time.
     exp: number;
+    //Defines the time before which the JWT MUST NOT be accepted for processing.
+    nbf?: number;
+    //The time the JWT was issued. Can be used to determine the age of the JWT.
     iat?: number;
+    //Unique identifier for the JWT. Can be used to prevent the JWT from being replayed.
+    // This is helpful for a one time use token.
+    jti?: string;
 }
 
 @Injectable()
@@ -61,20 +79,25 @@ export class AuthService {
 
     public login(username: string, password: string): Observable<boolean> {
         return this.http.post({
-            resourceURL: url.login,
-            data       : {
-                username: username,
-                password: password
-            }
-        }, false).flatMap((response: AuthResponse) => {
+            resourceURL : url.login,
+            data        : AuthService.toURLParams({
+                username  : username,
+                password  : password,
+                grant_type: 'password',
+                client_id : 'dave-ui'
+            }),
+            content_type: 'application/x-www-form-urlencoded',
+            secure      : false,
+            auth        : true
+        }).flatMap((response: AuthResponse) => {
             return this.processToken(response, username);
         });
     }
 
     private processToken(response: AuthResponse, username: string): Observable<boolean> {
-        if (response.token) {
+        if (response.id_token) {
             try {
-                this.tokenData = this.jwtHelper.decodeToken(response.token);
+                this.tokenData = this.jwtHelper.decodeToken(response.id_token);
                 if (this.tokenData.username !== username) {
                     delete this.tokenData;
                     return Observable.throw({
@@ -83,7 +106,7 @@ export class AuthService {
                     });
                 }
 
-                if (this.jwtHelper.isTokenExpired(response.token)) {
+                if (this.jwtHelper.isTokenExpired(response.id_token)) {
                     delete this.tokenData;
                     return Observable.throw({
                         status : 500,
@@ -98,7 +121,9 @@ export class AuthService {
                 });
             }
             // store username and token in local storage to keep user logged in between page refreshes
-            localStorage.setItem(AuthConfigConsts.DEFAULT_TOKEN_NAME, response.token);
+            localStorage.setItem(AuthConfigConsts.DEFAULT_TOKEN_NAME, response.id_token);
+            localStorage.setItem('access_token', response.access_token);
+            localStorage.setItem('refresh_token', response.refresh_token);
 
             this.loggedInChange.emit(true);
 
@@ -121,17 +146,22 @@ export class AuthService {
     private checkAuth(): void {
         if (this.tokenData) {
             this.refreshTokenIfExpires();
-            if (this.tokenData) {
-                this.http.get({
-                    resourceURL: url.status
-                }).subscribe((data: AuthStatusResponse) => {
-                    if (!this.tokenData || this.tokenData.username !== data.username) {
-                        this.logout();
-                    }
-                }, () => {
-                    this.logout();
-                });
-            }
+            // if (this.tokenData) {
+            //     this.http.post({
+            //         resourceURL: url.status,
+            //         data       : AuthService.toURLParams({
+            //             client_id : 'dave-ui'
+            //         }),
+            //         content_type: 'application/x-www-form-urlencoded',
+            //         auth       : true
+            //     }).subscribe((data: AuthStatusResponse) => {
+            //         if (!this.tokenData || this.tokenData.username !== data.username) {
+            //             this.logout();
+            //         }
+            //     }, () => {
+            //         this.logout();
+            //     });
+            // }
         }
     }
 
@@ -146,8 +176,15 @@ export class AuthService {
             expirationThreshold.setMinutes(expirationThreshold.getMinutes() + 10);
             let tokenExpires = this.jwtHelper.getTokenExpirationDate(token) < expirationThreshold;
             if (tokenExpires) {
-                this.http.get({
-                    resourceURL: url.refresh
+                this.http.post({
+                    resourceURL : url.refresh,
+                    data        : AuthService.toURLParams({
+                        grant_type   : 'refresh_token',
+                        client_id    : 'dave-ui',
+                        refresh_token: localStorage.getItem('refresh_token')
+                    }),
+                    content_type: 'application/x-www-form-urlencoded',
+                    auth        : true
                 }).subscribe((response: AuthResponse) => {
                     this.processToken(response, this.getLoggedUser());
                 }, () => {
@@ -158,4 +195,12 @@ export class AuthService {
             this.logout();
         }
     }
+
+    private static toURLParams(data: { [key: string]: string }): string {
+        let params = new URLSearchParams();
+        Object.keys(data).forEach((key: string) => {
+            params.set(key, data[key]);
+        });
+        return params.toString();
+    };
 }

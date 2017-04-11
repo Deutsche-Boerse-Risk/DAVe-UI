@@ -74,8 +74,9 @@ describe('HTTPService', () => {
                 let getSpy = spyOn(http, 'get').and.callThrough();
 
                 httpService.get({
-                    resourceURL: '/some_url/'
-                }, false).subscribe(
+                    resourceURL: '/some_url/',
+                    secure     : false
+                }).subscribe(
                     (data: any) => {
                         expect(data.content).toEqual('Some content');
                         expect(getSpy).toHaveBeenCalled();
@@ -95,8 +96,9 @@ describe('HTTPService', () => {
                 let getSpy = spyOn(http, 'get').and.callThrough();
 
                 httpService.get({
-                    resourceURL: '/some_url/'
-                }, false).subscribe(
+                    resourceURL: '/some_url/',
+                    secure     : false
+                }).subscribe(
                     (data: any) => {
                         expect(data.content).toEqual('Some content');
                         expect(getSpy).toHaveBeenCalled();
@@ -337,8 +339,9 @@ describe('HTTPService', () => {
 
                 httpService.post({
                     resourceURL: '/some_url/',
-                    data       : {data: 'Data object'}
-                }, false).subscribe(
+                    data       : {data: 'Data object'},
+                    secure     : false
+                }).subscribe(
                     (data: any) => {
                         expect(data.content).toEqual('Some content');
                         expect(postSpy).toHaveBeenCalled();
@@ -359,8 +362,9 @@ describe('HTTPService', () => {
 
                 httpService.post({
                     resourceURL: '/some_url/',
-                    data       : {data: 'Data object'}
-                }, false).subscribe(
+                    data       : {data: 'Data object'},
+                    secure     : false
+                }).subscribe(
                     (data: any) => {
                         expect(data.content).toEqual('Some content');
                         expect(postSpy).toHaveBeenCalled();
