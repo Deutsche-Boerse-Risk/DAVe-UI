@@ -5,12 +5,12 @@ import {ComponentFixture} from '@angular/core/testing';
 
 import {Page} from './page.base';
 
-import {GoogleChart} from '../../app/common/google.chart.component';
-import {GoogleLineChart} from '../../app/common/google.line.chart.component';
+import {GoogleChart} from '../../app/charts/google.chart.component';
+import {GoogleLineChart} from '../../app/charts/google.line.chart.component';
 import {
     CommonChartOptions, ChartData, SelectionEvent, LineChartOptions,
     ChartColumn
-} from '../../app/common/chart.types';
+} from '../../app/charts/chart.types';
 
 @Component({
     template: ` <google-chart

@@ -21,7 +21,7 @@ import {
     PositionReportBubbleChartComponent, compVarPositiveLegend, compVarNegativeLegend
 } from './position.report.bubblechart.component';
 import {PositionReportServerData} from './position.report.types';
-import {ChartRow} from '../common/chart.types';
+import {ChartRow} from '../charts/chart.types';
 
 describe('Position reports bubble chart component', () => {
     let page: BubbleChartPage;
