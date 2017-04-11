@@ -21,7 +21,7 @@ import {
     PositionReportBubbleChartComponent, compVarPositiveLegend, compVarNegativeLegend
 } from './position.report.bubblechart.component';
 import {PositionReportServerData} from './position.report.types';
-import {ChartRow} from '../common/chart.types';
+import {ChartRow} from '../charts/chart.types';
 import {ROUTES} from '../routes/routing.paths';
 
 describe('Position reports bubble chart component', () => {
@@ -29,7 +29,7 @@ describe('Position reports bubble chart component', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports     : [
+            imports: [
                 BrowserModule,
                 FormsModule
             ],

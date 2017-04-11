@@ -4,7 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import {DateFormatter} from '../common/common.module';
 import {AbstractListComponent} from './abstract.list.component';
 
-import {ChartData, ChartColumn, LineChartOptions} from '../common/chart.types';
+import {ChartData, ChartColumn, LineChartOptions} from '../charts/chart.types';
 
 import {RoutePart} from './bread.crumbs.component';
 

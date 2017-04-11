@@ -4,7 +4,7 @@ import {Router} from '@angular/router';
 import {AbstractComponentWithAutoRefresh} from '../abstract.component';
 import {ErrorResponse} from '../http.service';
 
-import {ChartData, TreeMapOptions, ChartRow, SelectionEvent} from '../common/chart.types';
+import {ChartData, TreeMapOptions, ChartRow, SelectionEvent} from '../charts/chart.types';
 
 import {LiquiGroupMarginService} from './liqui.group.margin.service';
 import {LiquiGroupMarginTree, LiquiGroupMarginTreeNode} from './liqui.group.margin.types';

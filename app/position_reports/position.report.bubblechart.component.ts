@@ -5,7 +5,7 @@ import {AbstractComponentWithAutoRefresh} from '../abstract.component';
 
 import {ErrorResponse} from '../http.service';
 
-import {BubbleChartOptions, ChartData, ChartRow, ChartValue} from '../common/chart.types';
+import {BubbleChartOptions, ChartData, ChartRow, ChartValue} from '../charts/chart.types';
 
 import {PositionReportsService} from './position.reports.service';
 import {PositionReportChartData, PositionReportBubble, SelectValues} from './position.report.types';

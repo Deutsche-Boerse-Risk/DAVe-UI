@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
 
-import {CommonModule} from '../common/common.module';
+import {ChartsModule} from '../charts/charts.module';
 import {DataTableModule} from '../datatable/data.table.module';
 import {ListModule} from '../list/list.module';
 
@@ -16,7 +16,7 @@ import {PoolMarginHistoryComponent} from './pool.margin.history.component';
     imports     : [
         BrowserModule,
         RouterModule,
-        CommonModule,
+        ChartsModule,
         DataTableModule,
         ListModule
     ],

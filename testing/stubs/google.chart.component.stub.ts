@@ -1,6 +1,6 @@
 import {Component, Input, EventEmitter, Output} from '@angular/core';
 
-import {CommonChartOptions, ChartData, SelectionEvent, LineChartOptions} from '../../app/common/chart.types';
+import {CommonChartOptions, ChartData, SelectionEvent, LineChartOptions} from '../../app/charts/chart.types';
 
 @Component({
     moduleId: module.id,

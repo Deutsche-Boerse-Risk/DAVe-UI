@@ -6,9 +6,6 @@ import {InitialLoadComponent} from './initial.load.component';
 import {NoDataComponent} from './no.data.component';
 import {UpdateFailedComponent} from './update.failed.component';
 
-import {GoogleChart} from './google.chart.component';
-import {GoogleLineChart} from './google.line.chart.component';
-
 import {PercentPipe} from './percent.pipe';
 
 export const DATE_FORMAT = new InjectionToken<string>('dave.dateFormat');
@@ -28,16 +25,12 @@ export class DateFormatter {
         BrowserModule
     ],
     declarations: [
-        GoogleChart,
-        GoogleLineChart,
         InitialLoadComponent,
         NoDataComponent,
         UpdateFailedComponent,
         PercentPipe
     ],
     exports     : [
-        GoogleChart,
-        GoogleLineChart,
         InitialLoadComponent,
         NoDataComponent,
         UpdateFailedComponent,
