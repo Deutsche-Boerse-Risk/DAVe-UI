@@ -49,3 +49,13 @@ deployment:
     commands:
       - ./dockerfile/create_docker.sh
       - ./deployment/kube_deploy.sh
+  demo:
+    branch: demo
+    commands:
+      - ./dockerfile/create_docker.sh
+      - ./deployment/kube_deploy.sh
+  dave20:
+    branch: dave_2.0
+    commands:
+      - ./dockerfile/create_docker.sh
+      #- ./deployment/kube_deploy.sh
