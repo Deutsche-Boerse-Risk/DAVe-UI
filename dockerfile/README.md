@@ -20,6 +20,7 @@ docker run --name DAVe-UI -p 80:80 -p 443:443 --rm \
 | Option | Explanation | Default | Example |
 |--------|-------------|---------|---------|
 | `DAVE_REST_URL` | **REQUIRED:** URL of the DAVe backend | | `https://api.master.snapshot.dave.dbg-devops.com` |
+| `DAVE_AUTH_URL` | **REQUIRED:** URL of the OpenID backend | | `https://auth.master.snapshot.dave.dbg-devops.com` |
 | `DAVE_HTTP_COMPRESSION` | Enable compression of HTTP responses **- Recommended** | disabled | `1` |
 | `DAVE_HTTP_SSL_SERVER_PUBLIC_KEY` | Public key of the HTTP server in CRT format | No HTTPS | |
 | `DAVE_HTTP_SSL_SERVER_PRIVATE_KEY` | Private key of the HTTP server in PEM format | No HTTPS | |

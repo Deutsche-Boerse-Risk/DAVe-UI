@@ -36,6 +36,9 @@ if [ "$1" == "nginx" ]; then
   if [ "$DAVE_REST_URL" ]; then
     echo "window.baseRestURL = '${DAVE_REST_URL}';" > /usr/share/nginx/html/restUrl.js
   fi
+  if [ "$DAVE_AUTH_URL" ]; then
+    echo "window.baseAuthURL = '${DAVE_AUTH_URL}';" >> /usr/share/nginx/html/restUrl.js
+  fi
 
   #####
   # HTTP
