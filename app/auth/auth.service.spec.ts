@@ -1,4 +1,4 @@
-import {TestBed, inject, fakeAsync, discardPeriodicTasks, tick} from '@angular/core/testing';
+import {TestBed, inject, fakeAsync, tick} from '@angular/core/testing';
 
 import {HttpServiceStub} from '../../testing';
 
@@ -8,12 +8,13 @@ import {AuthConfigConsts} from 'angular2-jwt';
 
 import {AuthService, TokenData, AuthResponse, AuthStatusResponse} from './auth.service';
 import {HttpService, ErrorResponse} from '../http.service';
+import {AuthStorageService} from './auth.storage.service';
 
 function addMinutes(minutes: number): number {
     return new Date(Date.now() + minutes * 60000).getTime() / 1000;
 }
 
-xdescribe('Auth service', () => {
+describe('Auth service', () => {
 
     afterEach(() => {
         // Cleanup storage
@@ -24,10 +25,9 @@ xdescribe('Auth service', () => {
         let username = 'UserA';
 
         beforeEach(() => {
-            localStorage.removeItem(AuthConfigConsts.DEFAULT_TOKEN_NAME);
-
             TestBed.configureTestingModule({
                 providers: [
+                    AuthStorageService,
                     AuthService,
                     {
                         provide : HttpService,
@@ -38,13 +38,11 @@ xdescribe('Auth service', () => {
         });
 
         it('isLoggedIn has to return false and getLoggedUser has to fail', fakeAsync(
-            inject([AuthService], (authService: AuthService) => {
+            inject([AuthService, AuthStorageService], (authService: AuthService, storage: AuthStorageService) => {
                 expect(authService.isLoggedIn()).toBeFalsy();
                 expect(() => authService.getLoggedUser()).toThrow();
                 expect(localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME)).toBeNull();
-
-                // Clean up periodic tasks (checkAuth)
-                discardPeriodicTasks();
+                expect(storage.id_token).toBeNull();
             }))
         );
 
@@ -60,12 +58,9 @@ xdescribe('Auth service', () => {
                         done.fail();
                     }, (fail: ErrorResponse) => {
                         expect(fail.status).toBe(401);
-                        expect(postSpy.calls.mostRecent().args[0].data.username).toBe(username);
+                        expect(postSpy.calls.mostRecent().args[0].data.get('username')).toBe(username);
                         done();
                     });
-
-                    // Clean up periodic tasks (checkAuth)
-                    discardPeriodicTasks();
                 }))();
         });
 
@@ -73,7 +68,7 @@ xdescribe('Auth service', () => {
             fakeAsync(
                 inject([AuthService, HttpService], (authService: AuthService, http: HttpServiceStub<any>) => {
                     let authResponse: AuthResponse = {
-                        id_token: 'invalidString'
+                        access_token: 'invalidString'
                     };
                     http.returnValue(authResponse);
 
@@ -83,12 +78,9 @@ xdescribe('Auth service', () => {
                         done.fail();
                     }, (fail: ErrorResponse) => {
                         expect(fail.status).toBe(500);
-                        expect(postSpy.calls.mostRecent().args[0].data.username).toBe(username);
+                        expect(postSpy.calls.mostRecent().args[0].data.get('username')).toBe(username);
                         done();
                     });
-
-                    // Clean up periodic tasks (checkAuth)
-                    discardPeriodicTasks();
                 }))();
         });
 
@@ -96,7 +88,7 @@ xdescribe('Auth service', () => {
             fakeAsync(
                 inject([AuthService, HttpService], (authService: AuthService, http: HttpServiceStub<any>) => {
                     let authResponse: AuthResponse = {
-                        id_token: encodeTestToken({
+                        access_token: encodeTestToken({
                             username: 'UserB'
                         })
                     };
@@ -108,12 +100,9 @@ xdescribe('Auth service', () => {
                         done.fail();
                     }, (fail: ErrorResponse) => {
                         expect(fail.status).toBe(500);
-                        expect(postSpy.calls.mostRecent().args[0].data.username).toBe(username);
+                        expect(postSpy.calls.mostRecent().args[0].data.get('username')).toBe(username);
                         done();
                     });
-
-                    // Clean up periodic tasks (checkAuth)
-                    discardPeriodicTasks();
                 }))();
         });
 
@@ -123,7 +112,7 @@ xdescribe('Auth service', () => {
                     let postSpy = spyOn(http, 'post').and.callThrough();
 
                     let authResponse: AuthResponse = {
-                        id_token: encodeTestToken({
+                        access_token: encodeTestToken({
                             username: username,
                             exp     : addMinutes(-1)
                         })
@@ -134,12 +123,9 @@ xdescribe('Auth service', () => {
                         done.fail();
                     }, (fail: ErrorResponse) => {
                         expect(fail.status).toBe(500);
-                        expect(postSpy.calls.mostRecent().args[0].data.username).toBe(username);
+                        expect(postSpy.calls.mostRecent().args[0].data.get('username')).toBe(username);
                         done();
                     });
-
-                    // Clean up periodic tasks (checkAuth)
-                    discardPeriodicTasks();
                 }))();
         });
 
@@ -150,7 +136,7 @@ xdescribe('Auth service', () => {
                     let loggedInChangeSpy = spyOn(authService.loggedInChange, 'emit');
 
                     let authResponse: AuthResponse = {
-                        id_token: encodeTestToken({
+                        access_token: encodeTestToken({
                             username: username,
                             exp     : addMinutes(15)
                         })
@@ -159,19 +145,20 @@ xdescribe('Auth service', () => {
 
                     authService.login(username, 'password').subscribe((status: boolean) => {
                         expect(status).toBeTruthy();
-                        expect(postSpy.calls.mostRecent().args[0].data.username).toBe(username);
+                        expect(postSpy.calls.mostRecent().args[0].data.get('username')).toBe(username);
                         expect(loggedInChangeSpy.calls.mostRecent().args[0]).toBeTruthy();
                         expect(localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME))
-                            .toEqual(authResponse.id_token);
+                            .toEqual(authResponse.access_token);
                         expect(authService.isLoggedIn()).toBeTruthy();
                         expect(authService.getLoggedUser()).toEqual(username);
+
+                        // Clean up periodic tasks (checkAuth) and login data
+                        authService.logout();
+
                         done();
                     }, () => {
                         done.fail();
                     });
-
-                    // Clean up periodic tasks (checkAuth)
-                    discardPeriodicTasks();
                 }))();
         });
     });
@@ -192,6 +179,7 @@ xdescribe('Auth service', () => {
 
             TestBed.configureTestingModule({
                 providers: [
+                    AuthStorageService,
                     AuthService,
                     {
                         provide : HttpService,
@@ -206,9 +194,6 @@ xdescribe('Auth service', () => {
                 expect(authService.isLoggedIn()).toBeFalsy();
                 expect(() => authService.getLoggedUser()).toThrow();
                 expect(localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME)).toBeNull();
-
-                // Clean up periodic tasks (checkAuth)
-                discardPeriodicTasks();
             }))
         );
     });
@@ -230,6 +215,7 @@ xdescribe('Auth service', () => {
 
             TestBed.configureTestingModule({
                 providers: [
+                    AuthStorageService,
                     AuthService,
                     {
                         provide : HttpService,
@@ -246,8 +232,8 @@ xdescribe('Auth service', () => {
                 expect(authService.getLoggedUser()).toEqual(username);
                 expect(localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME)).toEqual(token);
 
-                // Clean up periodic tasks (checkAuth)
-                discardPeriodicTasks();
+                // Clean up periodic tasks (checkAuth) and login data
+                authService.logout();
             }))
         );
 
@@ -261,9 +247,6 @@ xdescribe('Auth service', () => {
                 expect(loggedInChangeSpy.calls.mostRecent().args[0]).toBeFalsy();
                 expect(() => authService.getLoggedUser()).toThrow();
                 expect(localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME)).toBeNull();
-
-                // Clean up periodic tasks (checkAuth)
-                discardPeriodicTasks();
             }))
         );
 
@@ -284,9 +267,6 @@ xdescribe('Auth service', () => {
                 expect(() => authService.getLoggedUser()).toThrow();
                 expect(localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME)).toBeNull();
                 expect(logoutSpy.calls.any()).toBeTruthy();
-
-                // Clean up periodic tasks (checkAuth)
-                discardPeriodicTasks();
             }))
         );
 
@@ -307,9 +287,6 @@ xdescribe('Auth service', () => {
                 expect(() => authService.getLoggedUser()).toThrow();
                 expect(localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME)).toBeNull();
                 expect(logoutSpy.calls.any()).toBeTruthy();
-
-                // Clean up periodic tasks (checkAuth)
-                discardPeriodicTasks();
             }))
         );
 
@@ -331,9 +308,6 @@ xdescribe('Auth service', () => {
                 expect(() => authService.getLoggedUser()).toThrow();
                 expect(localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME)).toBeNull();
                 expect(logoutSpy.calls.any()).toBeTruthy();
-
-                // Clean up periodic tasks (checkAuth)
-                discardPeriodicTasks();
             }))
         );
     });
@@ -354,6 +328,7 @@ xdescribe('Auth service', () => {
 
             TestBed.configureTestingModule({
                 providers: [
+                    AuthStorageService,
                     AuthService,
                     {
                         provide : HttpService,
@@ -370,8 +345,8 @@ xdescribe('Auth service', () => {
                 expect(authService.getLoggedUser()).toEqual(username);
                 expect(localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME)).toEqual(token);
 
-                // Clean up periodic tasks (checkAuth)
-                discardPeriodicTasks();
+                // Clean up periodic tasks (checkAuth) and login data
+                authService.logout();
             }))
         );
 
@@ -393,9 +368,6 @@ xdescribe('Auth service', () => {
                 expect(() => authService.getLoggedUser()).toThrow();
                 expect(localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME)).toBeNull();
                 expect(logoutSpy.calls.any()).toBeTruthy();
-
-                // Clean up periodic tasks (checkAuth)
-                discardPeriodicTasks();
             }))
         );
 
@@ -413,13 +385,10 @@ xdescribe('Auth service', () => {
                 expect(() => authService.getLoggedUser()).toThrow();
                 expect(localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME)).toBeNull();
                 expect(logoutSpy.calls.any()).toBeTruthy();
-
-                // Clean up periodic tasks (checkAuth)
-                discardPeriodicTasks();
             }))
         );
 
-        it('checkAuth will renew token', fakeAsync(
+        xit('checkAuth will renew token', fakeAsync(
             inject([AuthService, HttpService], (authService: AuthService, http: HttpServiceStub<any>) => {
                 let loggedInChangeSpy = spyOn(authService.loggedInChange, 'emit');
 
@@ -428,7 +397,7 @@ xdescribe('Auth service', () => {
                     exp     : addMinutes(15)
                 });
                 let authResponse: AuthResponse = {
-                    id_token: newToken
+                    access_token: newToken
                 };
                 http.returnValue(authResponse);
                 let statusRespons: AuthStatusResponse = {
@@ -443,9 +412,6 @@ xdescribe('Auth service', () => {
                 expect(authService.getLoggedUser()).toEqual(username);
                 expect(localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME)).toEqual(newToken);
                 expect(loggedInChangeSpy.calls.mostRecent().args[0]).toBeTruthy();
-
-                // Clean up periodic tasks (checkAuth)
-                discardPeriodicTasks();
             }))
         );
     });

@@ -420,7 +420,7 @@ describe('HTTPService', () => {
                         expect(data.content).toEqual('Some content');
                         expect(postSpy).toHaveBeenCalled();
                         expect(postSpy.calls.mostRecent().args[0]).toEqual(defaultURL + '/some_url');
-                        expect(JSON.parse(postSpy.calls.mostRecent().args[1]).data).toEqual('Data object');
+                        expect(postSpy.calls.mostRecent().args[1].data).toEqual('Data object');
                         expect((postSpy.calls.mostRecent().args[2] as RequestOptions).params
                             .get('param1')).toEqual('param1Value');
                         expect((postSpy.calls.mostRecent().args[2] as RequestOptions).params

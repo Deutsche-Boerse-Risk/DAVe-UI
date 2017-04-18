@@ -15,7 +15,6 @@ export const AuthURL = {
 export const authClientID: string = (<any>window).authClientID;
 
 export interface AuthResponse {
-    id_token?: string;
     access_token?: string;
     refresh_token?: string;
 }
@@ -100,9 +99,9 @@ export class AuthService {
     }
 
     private processToken(response: AuthResponse, username: string): Observable<boolean> {
-        if (response.id_token) {
+        if (response.access_token) {
             try {
-                this.tokenData = this.jwtHelper.decodeToken(response.id_token);
+                this.tokenData = this.jwtHelper.decodeToken(response.access_token);
                 if (this.tokenData.username !== username) {
                     delete this.tokenData;
                     return Observable.throw({
@@ -111,7 +110,7 @@ export class AuthService {
                     });
                 }
 
-                if (this.jwtHelper.isTokenExpired(response.id_token)) {
+                if (this.jwtHelper.isTokenExpired(response.access_token)) {
                     delete this.tokenData;
                     return Observable.throw({
                         status : 500,
@@ -128,7 +127,6 @@ export class AuthService {
             // store username and token in local storage to keep user logged in between page refreshes
             this.storage.id_token = response.access_token;
             this.storage.refresh_token = response.refresh_token;
-            this.storage.exp = this.jwtHelper.getTokenExpirationDate(this.storage.id_token);
             this.doLogin();
 
             return Observable.of(true);
@@ -168,21 +166,26 @@ export class AuthService {
     }
 
     private checkAuth(): void {
-        if (this.tokenData) {
+        if (this.tokenData && this.storage.id_token) {
             this.http.get({
                 resourceURL: AuthURL.status,
                 auth       : true
             }).subscribe((data: AuthStatusResponse) => {
-                if (!this.tokenData || this.tokenData.username !== data.username) {
+                if (!data || !this.tokenData || this.tokenData.username !== data.username) {
                     this.logout();
                 }
             }, () => {
                 this.logout();
             });
+        } else {
+            this.logout();
         }
     }
 
     private setupRefresh() {
+        if (!this.storage.exp && this.storage.id_token) {
+            this.storage.exp = this.jwtHelper.getTokenExpirationDate(this.storage.id_token);
+        }
         if (this.storage.refresh_in > 0) {
             this.disableRefresh();
             this.refreshTimeout = setTimeout(this.refreshTokenIfExpires.bind(this),
@@ -197,30 +200,25 @@ export class AuthService {
     }
 
     private refreshTokenIfExpires(): void {
-        if (this.tokenData && this.getLoggedUser()) {
+        if (this.tokenData && this.getLoggedUser() && this.storage.refresh_token) {
             let token = this.storage.id_token;
             if (!token) {
                 this.logout();
                 return;
             }
-            let expirationThreshold = new Date();
-            expirationThreshold.setMinutes(expirationThreshold.getMinutes() + 10);
-            let tokenExpires = this.jwtHelper.getTokenExpirationDate(token) < expirationThreshold;
-            if (tokenExpires) {
-                this.http.post({
-                    resourceURL: AuthURL.refresh,
-                    data       : HttpService.toURLSearchParams({
-                        grant_type   : 'refresh_token',
-                        client_id    : authClientID,
-                        refresh_token: this.storage.refresh_token
-                    }),
-                    auth       : true
-                }).subscribe((response: AuthResponse) => {
-                    this.processToken(response, this.getLoggedUser());
-                }, () => {
-                    this.logout();
-                });
-            }
+            this.http.post({
+                resourceURL: AuthURL.refresh,
+                data       : HttpService.toURLSearchParams({
+                    grant_type   : 'refresh_token',
+                    client_id    : authClientID,
+                    refresh_token: this.storage.refresh_token
+                }),
+                auth       : true
+            }).subscribe((response: AuthResponse) => {
+                this.processToken(response, this.getLoggedUser());
+            }, () => {
+                this.logout();
+            });
         } else {
             this.logout();
         }
