@@ -7,6 +7,7 @@ import {AuthHttp, AuthConfig} from 'angular2-jwt';
 import {RequestOptions, Http} from '@angular/http';
 
 import {AuthService} from './auth.service';
+import {AuthStorageService} from './auth.storage.service';
 import {AuthGuard} from './auth.routing.guard';
 
 import {LoginMenuComponent} from './login.menu.component';
@@ -25,6 +26,7 @@ export function AuthHttpFactory(http: Http, options: RequestOptions) {
     declarations: [LoginMenuComponent, LoginComponent],
     exports     : [LoginMenuComponent],
     providers   : [
+        AuthStorageService,
         AuthService,
         AuthGuard,
         {

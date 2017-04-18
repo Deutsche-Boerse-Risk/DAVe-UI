@@ -1,5 +1,5 @@
 import {Injectable, EventEmitter} from '@angular/core';
-import {Http, RequestOptions, Response, Headers} from '@angular/http';
+import {Http, RequestOptions, Response, Headers, URLSearchParams} from '@angular/http';
 
 import {AuthHttp} from 'angular2-jwt';
 
@@ -12,18 +12,25 @@ import 'rxjs/add/operator/map';
 export const defaultURL: string = (<any>window).baseRestURL + '/api/v1.0';
 export const authURL: string = (<any>window).baseAuthURL;
 
+export const CONTENT_TYPE = {
+    APPLICATION_FORM     : 'application/x-www-form-urlencoded',
+    APPLICATION_FORM_DATA: 'multipart/form-data',
+    APPLICATION_JSON     : 'application/json',
+    TEXT_PLAIN           : 'text/plain'
+};
+
 export interface Request<T> {
     resourceURL: string;
     params?: any;
     secure?: boolean;
     auth?: boolean;
-    content_type?: string;
 
     mapFunction?: (value: any, index: number) => T;
 }
 
 export interface PostRequest<T> extends Request<T> {
-    data: any;
+    data: FormData | URLSearchParams | string | Object;
+    content_type?: string;
 }
 
 export interface ErrorResponse {
@@ -41,11 +48,9 @@ export class HttpService<T> {
 
     private static getRequestOptions<T>(request: Request<T>): RequestOptions {
         let headers: Headers = new Headers();
-        headers.append('Accept', 'application/json');
-        if (request.content_type) {
-            headers.append('Content-Type', request.content_type);
-        } else {
-            headers.append('Content-Type', 'application/json');
+        headers.append('Accept', CONTENT_TYPE.APPLICATION_JSON);
+        if ((request as PostRequest<T>).content_type) {
+            headers.append('Content-Type', (request as PostRequest<T>).content_type);
         }
         return new RequestOptions({
             headers: headers,
@@ -125,8 +130,16 @@ export class HttpService<T> {
         }
         let http: Http | AuthHttp = request.secure ? this.authHttp : this.http;
 
-        if (typeof request.data !== 'string') {
-            request.data = JSON.stringify(request.data);
+        if (!request.content_type) {
+            if (request.data instanceof URLSearchParams) {
+                request.content_type = CONTENT_TYPE.APPLICATION_FORM;
+            } else if (request.data instanceof FormData) {
+                request.content_type = CONTENT_TYPE.APPLICATION_FORM_DATA;
+            } else if (typeof request.data === 'string') {
+                request.content_type = CONTENT_TYPE.TEXT_PLAIN;
+            } else {
+                request.content_type = CONTENT_TYPE.APPLICATION_JSON;
+            }
         }
 
         let requestObservable: Observable<T> = http.post((request.auth ? authURL : defaultURL) + request.resourceURL,
@@ -136,5 +149,17 @@ export class HttpService<T> {
             requestObservable = requestObservable.map(request.mapFunction);
         }
         return requestObservable.catch(this.handleError.bind(this));
+    }
+
+    public static toURLSearchParams(data: { [key: string]: string }): URLSearchParams {
+        let searchParams = new URLSearchParams();
+        Object.keys(data).forEach((key: string) => searchParams.set(key, data[key]));
+        return searchParams;
+    }
+
+    public static toFormData(data: { [key: string]: any }): FormData {
+        let formData = new FormData();
+        Object.keys(data).forEach((key: string) => formData.append(key, data[key]));
+        return formData;
     }
 }

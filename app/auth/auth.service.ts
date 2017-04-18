@@ -1,15 +1,18 @@
 import {Injectable, EventEmitter} from '@angular/core';
 
-import {AuthConfigConsts, JwtHelper} from 'angular2-jwt';
+import {JwtHelper} from 'angular2-jwt';
 
 import {HttpService} from '../http.service';
 import {Observable} from 'rxjs/Observable';
+import {AuthStorageService} from './auth.storage.service';
 
-const url = {
-    login  : '/protocol/openid-connect/token',
-    status : '/protocol/openid-connect/token/introspect',
-    refresh: '/protocol/openid-connect/token'
+export const AuthURL = {
+    login  : '/token',
+    status : '/userinfo',
+    refresh: '/token'
 };
+
+export const authClientID: string = (<any>window).authClientID;
 
 export interface AuthResponse {
     id_token?: string;
@@ -54,16 +57,19 @@ export class AuthService {
 
     private tokenData: TokenData;
 
-    constructor(private http: HttpService<any>) {
-        let token = localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME);
+    private refreshTimeout: number;
+    private authCheckInterval: number;
+
+    constructor(private http: HttpService<any>, private storage: AuthStorageService) {
+        let token = this.storage.id_token;
         if (token) {
             if (this.jwtHelper.isTokenExpired(token)) {
-                localStorage.removeItem(AuthConfigConsts.DEFAULT_TOKEN_NAME);
+                this.logout();
             } else {
                 this.tokenData = this.jwtHelper.decodeToken(token);
+                this.doLogin();
             }
         }
-        setInterval(this.checkAuth.bind(this), 60000);
         http.unauthorized.subscribe(() => {
             this.logout();
         });
@@ -79,16 +85,15 @@ export class AuthService {
 
     public login(username: string, password: string): Observable<boolean> {
         return this.http.post({
-            resourceURL : url.login,
-            data        : AuthService.toURLParams({
+            resourceURL: AuthURL.login,
+            data       : HttpService.toURLSearchParams({
                 username  : username,
                 password  : password,
                 grant_type: 'password',
-                client_id : 'dave-ui'
+                client_id : authClientID
             }),
-            content_type: 'application/x-www-form-urlencoded',
-            secure      : false,
-            auth        : true
+            secure     : false,
+            auth       : true
         }).flatMap((response: AuthResponse) => {
             return this.processToken(response, username);
         });
@@ -121,14 +126,14 @@ export class AuthService {
                 });
             }
             // store username and token in local storage to keep user logged in between page refreshes
-            localStorage.setItem(AuthConfigConsts.DEFAULT_TOKEN_NAME, response.id_token);
-            localStorage.setItem('access_token', response.access_token);
-            localStorage.setItem('refresh_token', response.refresh_token);
-
-            this.loggedInChange.emit(true);
+            this.storage.id_token = response.access_token;
+            this.storage.refresh_token = response.refresh_token;
+            this.storage.exp = this.jwtHelper.getTokenExpirationDate(this.storage.id_token);
+            this.doLogin();
 
             return Observable.of(true);
         } else {
+            this.logout();
             return Observable.throw({
                 status : 401,
                 message: 'Authentication failed. Server didn\'t generate a token.'
@@ -136,38 +141,64 @@ export class AuthService {
         }
     }
 
+    private doLogin() {
+        this.setupAuthCheck();
+        this.setupRefresh();
+        this.loggedInChange.emit(true);
+    }
+
     public logout(): void {
         // remove user from local storage and clear http auth header
         delete this.tokenData;
-        localStorage.removeItem(AuthConfigConsts.DEFAULT_TOKEN_NAME);
+        this.storage.clear();
+        this.disableRefresh();
+        this.disableAuthCheck();
         this.loggedInChange.emit(false);
+    }
+
+    private setupAuthCheck() {
+        this.disableAuthCheck();
+        this.authCheckInterval = setInterval(this.checkAuth.bind(this), 60000);
+    }
+
+    private disableAuthCheck() {
+        if (this.authCheckInterval) {
+            clearInterval(this.authCheckInterval);
+        }
     }
 
     private checkAuth(): void {
         if (this.tokenData) {
-            this.refreshTokenIfExpires();
-            // if (this.tokenData) {
-            //     this.http.post({
-            //         resourceURL: url.status,
-            //         data       : AuthService.toURLParams({
-            //             client_id : 'dave-ui'
-            //         }),
-            //         content_type: 'application/x-www-form-urlencoded',
-            //         auth       : true
-            //     }).subscribe((data: AuthStatusResponse) => {
-            //         if (!this.tokenData || this.tokenData.username !== data.username) {
-            //             this.logout();
-            //         }
-            //     }, () => {
-            //         this.logout();
-            //     });
-            // }
+            this.http.get({
+                resourceURL: AuthURL.status,
+                auth       : true
+            }).subscribe((data: AuthStatusResponse) => {
+                if (!this.tokenData || this.tokenData.username !== data.username) {
+                    this.logout();
+                }
+            }, () => {
+                this.logout();
+            });
+        }
+    }
+
+    private setupRefresh() {
+        if (this.storage.refresh_in > 0) {
+            this.disableRefresh();
+            this.refreshTimeout = setTimeout(this.refreshTokenIfExpires.bind(this),
+                this.storage.refresh_in);
+        }
+    }
+
+    private disableRefresh() {
+        if (this.refreshTimeout) {
+            clearTimeout(this.refreshTimeout);
         }
     }
 
     private refreshTokenIfExpires(): void {
-        if (this.getLoggedUser()) {
-            let token = localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME);
+        if (this.tokenData && this.getLoggedUser()) {
+            let token = this.storage.id_token;
             if (!token) {
                 this.logout();
                 return;
@@ -177,14 +208,13 @@ export class AuthService {
             let tokenExpires = this.jwtHelper.getTokenExpirationDate(token) < expirationThreshold;
             if (tokenExpires) {
                 this.http.post({
-                    resourceURL : url.refresh,
-                    data        : AuthService.toURLParams({
+                    resourceURL: AuthURL.refresh,
+                    data       : HttpService.toURLSearchParams({
                         grant_type   : 'refresh_token',
-                        client_id    : 'dave-ui',
-                        refresh_token: localStorage.getItem('refresh_token')
+                        client_id    : authClientID,
+                        refresh_token: this.storage.refresh_token
                     }),
-                    content_type: 'application/x-www-form-urlencoded',
-                    auth        : true
+                    auth       : true
                 }).subscribe((response: AuthResponse) => {
                     this.processToken(response, this.getLoggedUser());
                 }, () => {
@@ -195,12 +225,4 @@ export class AuthService {
             this.logout();
         }
     }
-
-    private static toURLParams(data: { [key: string]: string }): string {
-        let params = new URLSearchParams();
-        Object.keys(data).forEach((key: string) => {
-            params.set(key, data[key]);
-        });
-        return params.toString();
-    };
 }
