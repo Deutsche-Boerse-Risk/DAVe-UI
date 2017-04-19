@@ -34,7 +34,7 @@ test:
   pre:
     - ./tools/wait-for-bs.sh
   override:
-    - grunt testCircleCI
+    - ./tools/ci-tests.sh
   post:
     - grunt browserstack_cleanup
     - mkdir -p $CIRCLE_TEST_REPORTS/karma/

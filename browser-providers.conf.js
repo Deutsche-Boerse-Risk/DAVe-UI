@@ -115,6 +115,7 @@ var BrowserStack = {
         }
         return customLaunchers[item].base === 'BrowserStack';
     }),
+    MINIMAL: ['BS_IE11', 'BS_CHROME50', 'BS_FIREFOX50', 'BS_SAFARI7', 'BS_IOS7'],
     CHROME: ['BS_CHROME50', 'BS_CHROME_LATEST'],
     FIREFOX: ['BS_FIREFOX50', 'BS_FIREFOX_LATEST'],
     IE: [/*'BS_IE9', 'BS_IE10', */'BS_IE11'], // TODO: optimze to test IE 10 and 9
