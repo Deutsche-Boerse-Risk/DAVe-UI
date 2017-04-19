@@ -285,7 +285,7 @@ describe('Risk limit utilization latest component', () => {
 
                 page.checkBreadCrumbs(routeParams,
                     ROUTES.RISK_LIMIT_UTILIZATION_LATEST,
-                    'Risk Limit Utilization');
+                    'Latest Risk Limit Utilization');
 
                 routeParams.push('A');
                 activatedRoute.testParams = {
@@ -295,7 +295,7 @@ describe('Risk limit utilization latest component', () => {
 
                 page.checkBreadCrumbs(routeParams,
                     ROUTES.RISK_LIMIT_UTILIZATION_LATEST,
-                    'Risk Limit Utilization');
+                    'Latest Risk Limit Utilization');
 
                 routeParams.push('B');
                 activatedRoute.testParams = {
@@ -306,7 +306,7 @@ describe('Risk limit utilization latest component', () => {
 
                 page.checkBreadCrumbs(routeParams,
                     ROUTES.RISK_LIMIT_UTILIZATION_LATEST,
-                    'Risk Limit Utilization');
+                    'Latest Risk Limit Utilization');
 
                 routeParams.push('C');
                 activatedRoute.testParams = {
@@ -318,7 +318,7 @@ describe('Risk limit utilization latest component', () => {
 
                 page.checkBreadCrumbs(routeParams,
                     ROUTES.RISK_LIMIT_UTILIZATION_LATEST,
-                    'Risk Limit Utilization');
+                    'Latest Risk Limit Utilization');
 
                 routeParams.push('D');
                 activatedRoute.testParams = {
@@ -331,7 +331,7 @@ describe('Risk limit utilization latest component', () => {
 
                 page.checkBreadCrumbs(routeParams,
                     ROUTES.RISK_LIMIT_UTILIZATION_LATEST,
-                    'Risk Limit Utilization');
+                    'Latest Risk Limit Utilization');
             })));
 
         xit('has correct row navigation', fakeAsync(() => {
