@@ -55,7 +55,7 @@ export class RiskLimitUtilizationLatestComponent extends AbstractLatestListCompo
     }
 
     public get rootRouteTitle(): string {
-        return 'Risk Limit Utilization';
+        return 'Latest Risk Limit Utilization';
     }
 
     protected get rootRoutePath(): string {
