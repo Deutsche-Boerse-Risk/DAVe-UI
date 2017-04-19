@@ -49,24 +49,29 @@ export class LiquiGroupMarginHistoryComponent extends AbstractHistoryListCompone
                 value: record.received
             },
             {
-                label: 'Variation / Liquidation Marign',
-                type : 'number',
-                value: 0 // TODO: record.variLiqui
-            },
-            {
                 label: 'Premium Margin',
                 type : 'number',
                 value: record.premiumMargin
             },
             {
-                label: 'Futures Spread Margin',
+                label: 'Current Liquidating Margin',
                 type : 'number',
-                value: record.futuresSpreadMargin
+                value: record.currentLiquidatingMargin
             },
             {
-                label: 'Additional Margin',
+                label: 'Initial Margin',
                 type : 'number',
                 value: record.additionalMargin
+            },
+            {
+                label: 'Unadjusted Margin',
+                type : 'number',
+                value: record.unadjustedMarginRequirement
+            },
+            {
+                label: 'Variation Premium Payment',
+                type : 'number',
+                value: record.variationPremiumPayment
             }
         ];
     }

@@ -63,29 +63,74 @@ export class PositionReportHistoryComponent extends AbstractHistoryListComponent
                 value: record.netQuantityLs
             },
             {
+                label: 'Position VaR',
+                type : 'number',
+                value: record.compVar
+            },
+            {
+                label: 'EuroDelta',
+                type : 'number',
+                value: record.normalizedDelta
+            },
+            {
+                label: 'LA',
+                type : 'number',
+                value: record.compLiquidityAddOn
+            },
+            {
                 label: 'NetEA',
                 type : 'number',
                 value: record.netQuantityEa
             },
             {
+                label: 'CorrBreak',
+                type : 'number',
+                value: record.compCorrelationBreak
+            },
+            {
+                label: 'CopmError',
+                type : 'number',
+                value: record.compCompressionError
+            },
+            {
+                label: 'LonOptCredit',
+                type : 'number',
+                value: record.compLongOptionCredit
+            },
+            {
+                label: 'PremPay',
+                type : 'number',
+                value: record.variationPremiumPayment
+            },
+            {
+                label: 'PremMrgn',
+                type : 'number',
+                value: record.premiumMargin
+            },
+            {
+                label: 'Gamma',
+                type : 'number',
+                value: record.normalizedGamma
+            },
+            {
+                label: 'Vega',
+                type : 'number',
+                value: record.normalizedVega
+            },
+            {
+                label: 'Rho',
+                type : 'number',
+                value: record.normalizedRho
+            },
+            {
+                label: 'Theta',
+                type : 'number',
+                value: record.normalizedTheta
+            },
+            {
                 label: 'MVar',
                 type : 'number',
                 value: record.mVar
-            },
-            {
-                label: 'CompVar',
-                type : 'number',
-                value: record.compVar
-            },
-            {
-                label: 'Delta',
-                type : 'number',
-                value: record.normalizedDelta
-            },
-            {
-                label: 'LiquiAddOn',
-                type : 'number',
-                value: record.compLiquidityAddOn
             }
         ];
     }

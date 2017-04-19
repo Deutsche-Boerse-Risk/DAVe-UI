@@ -78,6 +78,66 @@ export abstract class AbstractHistoryListComponent<T extends { uid: string }> ex
             },
             {
                 color: '#006fff'
+            },
+            {
+                color: '#3366CC'
+            },
+            {
+                color: '#DC3912'
+            },
+            {
+                color: '#FF9900'
+            },
+            {
+                color: '#109618'
+            },
+            {
+                color: '#990099'
+            },
+            {
+                color: '#3B3EAC'
+            },
+            {
+                color: '#0099C6'
+            },
+            {
+                color: '#DD4477'
+            },
+            {
+                color: '#66AA00'
+            },
+            {
+                color: '#B82E2E'
+            },
+            {
+                color: '#316395'
+            },
+            {
+                color: '#994499'
+            },
+            {
+                color: '#22AA99'
+            },
+            {
+                color: '#AAAA11'
+            },
+            {
+                color: '#6633CC'
+            },
+            {
+                color: '#E67300'
+            },
+            {
+                color: '#8B0707'
+            },
+            {
+                color: '#329262'
+            },
+            {
+                color: '#5574A6'
+            },
+            {
+                color: '#3B3EAC'
             }
         ]
     };

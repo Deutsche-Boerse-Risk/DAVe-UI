@@ -48,29 +48,44 @@ export class PoolMarginHistoryComponent extends AbstractHistoryListComponent<Poo
                 value: record.received
             },
             {
-                label: 'Margin Requirement',
+                label: 'Required Margin',
                 type : 'number',
-                value: 0// TODO: record.marginRequirement
+                value: record.requiredMargin
             },
             {
-                label: 'Security Collateral',
+                label: 'Cash Collateral Amount',
                 type : 'number',
-                value: 0// TODO: record.securityCollateral
+                value: record.cashCollateralAmount
             },
             {
-                label: 'Cash Balance',
+                label: 'Adjusted Securities',
                 type : 'number',
-                value: 0// TODO: record.cashBalance
+                value: record.adjustedSecurities
             },
             {
-                label: 'Shortfall Surplus',
+                label: 'Adjusted Guarantee',
                 type : 'number',
-                value: 0// TODO: record.shortfallSurplus
+                value: record.adjustedGuarantee
             },
             {
-                label: 'Margin Call',
+                label: 'overUnderInMarginCurr',
                 type : 'number',
-                value: 0// TODO: record.marginCall
+                value: record.overUnderInMarginCurr
+            },
+            {
+                label: 'overUnderInClrRptCurr',
+                type : 'number',
+                value: record.overUnderInClrRptCurr
+            },
+            {
+                label: 'variPremInMarginCurr',
+                type : 'number',
+                value: record.variPremInMarginCurr
+            },
+            {
+                label: 'Adjusted Exchange Rate',
+                type : 'number',
+                value: record.adjustedExchangeRate
             }
         ];
     }

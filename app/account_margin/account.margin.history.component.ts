@@ -59,7 +59,7 @@ export class AccountMarginHistoryComponent extends AbstractHistoryListComponent<
                 value: record.marginReqInClrCurr
             },
             {
-                label: 'Unadjusted Marign',
+                label: 'Unadjusted Margin',
                 type : 'number',
                 value: record.unadjustedMarginRequirement
             },
