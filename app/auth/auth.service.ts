@@ -127,6 +127,7 @@ export class AuthService {
             // store username and token in local storage to keep user logged in between page refreshes
             this.storage.id_token = response.access_token;
             this.storage.refresh_token = response.refresh_token;
+            this.storage.exp = this.jwtHelper.getTokenExpirationDate(this.storage.id_token);
             this.doLogin();
 
             return Observable.of(true);
@@ -213,6 +214,7 @@ export class AuthService {
                     client_id    : authClientID,
                     refresh_token: this.storage.refresh_token
                 }),
+                secure     : false,
                 auth       : true
             }).subscribe((response: AuthResponse) => {
                 this.processToken(response, this.getLoggedUser());
