@@ -2,6 +2,8 @@ import {Injectable} from '@angular/core';
 
 import {AuthConfigConsts} from 'angular2-jwt';
 
+export const REFRESH_TOKEN_NAME = 'refresh_token';
+
 @Injectable()
 export class AuthStorageService {
 
@@ -14,11 +16,11 @@ export class AuthStorageService {
     }
 
     public get refresh_token(): string {
-        return localStorage.getItem('refresh_token');
+        return localStorage.getItem(REFRESH_TOKEN_NAME);
     }
 
     public set refresh_token(token: string) {
-        localStorage.setItem('refresh_token', token);
+        localStorage.setItem(REFRESH_TOKEN_NAME, token);
     }
 
     public get exp(): Date {

@@ -14,9 +14,11 @@ export const AuthURL = {
 
 export const authClientID: string = (<any>window).authClientID;
 
+export const AUTH_CHECK_INTERVAL = 60000;
+
 export interface AuthResponse {
-    access_token?: string;
-    refresh_token?: string;
+    access_token: string;
+    refresh_token: string;
 }
 
 export interface AuthStatusResponse {
@@ -103,7 +105,7 @@ export class AuthService {
             try {
                 this.tokenData = this.jwtHelper.decodeToken(response.access_token);
                 if (this.tokenData.username !== username) {
-                    delete this.tokenData;
+                    this.logout();
                     return Observable.throw({
                         status : 500,
                         message: 'Invalid token generated!'
@@ -111,14 +113,14 @@ export class AuthService {
                 }
 
                 if (this.jwtHelper.isTokenExpired(response.access_token)) {
-                    delete this.tokenData;
+                    this.logout();
                     return Observable.throw({
                         status : 500,
                         message: 'Invalid token expiration!'
                     });
                 }
             } catch (err) {
-                delete this.tokenData;
+                this.logout();
                 return Observable.throw({
                     status : 500,
                     message: err ? err.toString() : 'Error parsing token from auth response!'
@@ -142,7 +144,7 @@ export class AuthService {
 
     private doLogin() {
         this.setupAuthCheck();
-        this.setupRefresh();
+        this.setupTokenRefresh();
         this.loggedInChange.emit(true);
     }
 
@@ -150,14 +152,14 @@ export class AuthService {
         // remove user from local storage and clear http auth header
         delete this.tokenData;
         this.storage.clear();
-        this.disableRefresh();
         this.disableAuthCheck();
+        this.disableTokenRefresh();
         this.loggedInChange.emit(false);
     }
 
     private setupAuthCheck() {
         this.disableAuthCheck();
-        this.authCheckInterval = setInterval(this.checkAuth.bind(this), 60000);
+        this.authCheckInterval = setInterval(this.checkAuth.bind(this), AUTH_CHECK_INTERVAL);
     }
 
     private disableAuthCheck() {
@@ -183,30 +185,25 @@ export class AuthService {
         }
     }
 
-    private setupRefresh() {
+    private setupTokenRefresh() {
         if (!this.storage.exp && this.storage.id_token) {
             this.storage.exp = this.jwtHelper.getTokenExpirationDate(this.storage.id_token);
         }
         if (this.storage.refresh_in > 0) {
-            this.disableRefresh();
-            this.refreshTimeout = setTimeout(this.refreshTokenIfExpires.bind(this),
+            this.disableTokenRefresh();
+            this.refreshTimeout = setTimeout(this.refreshToken.bind(this),
                 this.storage.refresh_in);
         }
     }
 
-    private disableRefresh() {
+    private disableTokenRefresh() {
         if (this.refreshTimeout) {
             clearTimeout(this.refreshTimeout);
         }
     }
 
-    private refreshTokenIfExpires(): void {
+    private refreshToken(): void {
         if (this.tokenData && this.getLoggedUser() && this.storage.refresh_token) {
-            let token = this.storage.id_token;
-            if (!token) {
-                this.logout();
-                return;
-            }
             this.http.post({
                 resourceURL: AuthURL.refresh,
                 data       : HttpService.toURLSearchParams({
