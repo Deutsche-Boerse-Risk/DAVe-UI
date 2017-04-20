@@ -7,7 +7,6 @@ machine:
 dependencies:
   pre:
     - npm install -g grunt-cli@^1.2.0
-    - npm install -g typescript@^2.3.0
     - npm install -g codeclimate-test-reporter
   override:
     - npm install
@@ -51,11 +50,6 @@ deployment:
       - ./deployment/kube_deploy.sh
   demo:
     branch: demo
-    commands:
-      - ./dockerfile/create_docker.sh
-      - ./deployment/kube_deploy.sh
-  dave20:
-    branch: dave20
     commands:
       - ./dockerfile/create_docker.sh
       - ./deployment/kube_deploy.sh
