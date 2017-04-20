@@ -7,7 +7,7 @@ import {RouterLinkActiveDirective} from './router.link.active.directive';
 import {RouterSubLinkDirective} from './router.sub.link.directive';
 
 @NgModule({
-    imports: [
+    imports     : [
         BrowserModule,
         RouterModule
     ],
@@ -16,7 +16,7 @@ import {RouterSubLinkDirective} from './router.sub.link.directive';
         RouterLinkActiveDirective, // Allows us to highlight also sub routes like "history" tabs.
         RouterSubLinkDirective
     ],
-    exports: [MenuComponent]
+    exports     : [MenuComponent]
 })
 export class MenuModule {
 }

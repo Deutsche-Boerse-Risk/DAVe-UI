@@ -26,7 +26,7 @@ export class RouterLinkActiveDirective implements OnChanges, OnDestroy, AfterCon
     private subscription: Subscription;
 
     @Input()
-    public routerLinkActiveOptions: {exact: boolean} = {exact: false};
+    public routerLinkActiveOptions: { exact: boolean } = {exact: false};
 
     constructor(private router: Router, private element: ElementRef, private renderer: Renderer2) {
         this.subscription = router.events.subscribe(s => {
@@ -44,7 +44,7 @@ export class RouterLinkActiveDirective implements OnChanges, OnDestroy, AfterCon
     }
 
     @Input()
-    public set routerLinkActive(data: string[]|string) {
+    public set routerLinkActive(data: string[] | string) {
         if (Array.isArray(data)) {
             this.classes = <any>data;
         } else {
@@ -77,7 +77,10 @@ export class RouterLinkActiveDirective implements OnChanges, OnDestroy, AfterCon
         });
     }
 
-    private isLinkActive(router: Router): (link: (RouterSubLinkDirective | RouterLink | RouterLinkWithHref)) => boolean {
+    private isLinkActive(router: Router): (link: (
+            RouterSubLinkDirective
+            | RouterLink
+            | RouterLinkWithHref)) => boolean {
         return (link: RouterSubLinkDirective | RouterLink | RouterLinkWithHref) =>
             router.isActive(link.urlTree, this.routerLinkActiveOptions.exact);
     }

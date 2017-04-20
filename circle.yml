@@ -34,7 +34,7 @@ test:
   pre:
     - ./tools/wait-for-bs.sh
   override:
-    - grunt testCircleCI
+    - ./tools/ci-tests.sh
   post:
     - grunt browserstack_cleanup
     - mkdir -p $CIRCLE_TEST_REPORTS/karma/
@@ -46,6 +46,16 @@ test:
 deployment:
   staging:
     branch: master
+    commands:
+      - ./dockerfile/create_docker.sh
+      - ./deployment/kube_deploy.sh
+  demo:
+    branch: demo
+    commands:
+      - ./dockerfile/create_docker.sh
+      - ./deployment/kube_deploy.sh
+  dave20:
+    branch: dave20
     commands:
       - ./dockerfile/create_docker.sh
       - ./deployment/kube_deploy.sh

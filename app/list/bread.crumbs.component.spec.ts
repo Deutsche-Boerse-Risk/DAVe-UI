@@ -18,8 +18,12 @@ describe('BreadCrumbsComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [BrowserModule],
-            declarations: [TestBreadCrumbsComponent, BreadCrumbsComponent, RouterLinkStubDirective]
+            imports     : [BrowserModule],
+            declarations: [
+                TestBreadCrumbsComponent,
+                BreadCrumbsComponent,
+                RouterLinkStubDirective
+            ]
         }).compileComponents();
     }));
 
@@ -36,7 +40,7 @@ describe('BreadCrumbsComponent', () => {
         // Add Root item
         page.component.routeParts = [
             {
-                title: 'RootItem',
+                title    : 'RootItem',
                 routePart: '/root'
             }
         ];
@@ -51,7 +55,7 @@ describe('BreadCrumbsComponent', () => {
 
         // Add Item 1
         page.component.routeParts = page.component.routeParts.concat({
-            title: 'Item1',
+            title    : 'Item1',
             routePart: 'item1'
         });
         page.detectChanges();
@@ -68,7 +72,7 @@ describe('BreadCrumbsComponent', () => {
 
         // Add Item 2
         page.component.routeParts = page.component.routeParts.concat({
-            title: 'Item2',
+            title    : 'Item2',
             routePart: 'item2'
         });
         page.detectChanges();
@@ -88,7 +92,7 @@ describe('BreadCrumbsComponent', () => {
 
         // Add Item 3
         page.component.routeParts = page.component.routeParts.concat({
-            title: 'Item3',
+            title    : 'Item3',
             routePart: 'item3'
         });
         page.detectChanges();
@@ -159,19 +163,19 @@ describe('BreadCrumbsComponent', () => {
         // Add Root item
         page.component.routeParts = [
             {
-                title: 'RootItem',
+                title    : 'RootItem',
                 routePart: '/root'
             },
             {
-                title: 'Item1',
+                title    : 'Item1',
                 routePart: 'item1'
             },
             {
-                title: 'Item2',
+                title    : 'Item2',
                 routePart: 'item2'
             },
             {
-                title: 'Item3',
+                title    : 'Item3',
                 routePart: 'item3'
             }
         ];
@@ -297,19 +301,19 @@ describe('BreadCrumbsComponent', () => {
         // Add Root item
         page.component.routeParts = [
             {
-                title: 'RootItem',
+                title    : 'RootItem',
                 routePart: '/root'
             },
             {
-                title: 'Item1',
+                title    : 'Item1',
                 routePart: 'item1'
             },
             {
-                title: 'Item2',
+                title    : 'Item2',
                 routePart: 'item2'
             },
             {
-                title: 'Item3',
+                title    : 'Item3',
                 routePart: 'item3'
             }
         ];

@@ -20,7 +20,7 @@ export class RouterSubLinkDirective {
 
     public get urlTree(): UrlTree {
         return this.router.createUrlTree(this.commands, {
-            relativeTo: this.route,
+            relativeTo: this.route
         });
     }
 }

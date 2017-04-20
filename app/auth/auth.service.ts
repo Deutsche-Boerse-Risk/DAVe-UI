@@ -1,18 +1,24 @@
 import {Injectable, EventEmitter} from '@angular/core';
 
-import {AuthConfigConsts, JwtHelper} from 'angular2-jwt'
+import {JwtHelper} from 'angular2-jwt';
 
 import {HttpService} from '../http.service';
 import {Observable} from 'rxjs/Observable';
+import {AuthStorageService} from './auth.storage.service';
 
-const url = {
-    login: '/user/login',
-    status: '/user/loginStatus',
-    refresh: '/user/refreshToken'
+export const AuthURL = {
+    login  : '/token',
+    status : '/userinfo',
+    refresh: '/token'
 };
 
+export const authClientID: string = (<any>window).authClientID;
+
+export const AUTH_CHECK_INTERVAL = 60000;
+
 export interface AuthResponse {
-    token?: string;
+    access_token: string;
+    refresh_token: string;
 }
 
 export interface AuthStatusResponse {
@@ -21,8 +27,24 @@ export interface AuthStatusResponse {
 
 export interface TokenData {
     username: string;
+    typ?: string;
+
+    //The issuer of the token.
+    iss?: string;
+    //The subject of the token.
+    sub?: string;
+    //The audience of the token.
+    aud?: string;
+    // This will probably be the registered claim most often used. This will define the expiration in NumericDate value.
+    // The expiration MUST be after the current date/time.
     exp: number;
+    //Defines the time before which the JWT MUST NOT be accepted for processing.
+    nbf?: number;
+    //The time the JWT was issued. Can be used to determine the age of the JWT.
     iat?: number;
+    //Unique identifier for the JWT. Can be used to prevent the JWT from being replayed.
+    // This is helpful for a one time use token.
+    jti?: string;
 }
 
 @Injectable()
@@ -36,16 +58,19 @@ export class AuthService {
 
     private tokenData: TokenData;
 
-    constructor(private http: HttpService<any>) {
-        let token = localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME);
+    private refreshTimeout: number;
+    private authCheckInterval: number;
+
+    constructor(private http: HttpService<any>, private storage: AuthStorageService) {
+        let token = this.storage.id_token;
         if (token) {
             if (this.jwtHelper.isTokenExpired(token)) {
-                localStorage.removeItem(AuthConfigConsts.DEFAULT_TOKEN_NAME);
+                this.logout();
             } else {
                 this.tokenData = this.jwtHelper.decodeToken(token);
+                this.doLogin();
             }
         }
-        setInterval(this.checkAuth.bind(this), 60000);
         http.unauthorized.subscribe(() => {
             this.logout();
         });
@@ -61,99 +86,138 @@ export class AuthService {
 
     public login(username: string, password: string): Observable<boolean> {
         return this.http.post({
-            resourceURL: url.login,
-            data: {
-                username: username,
-                password: password
-            }
-        }, false).flatMap((response: AuthResponse) => {
+            resourceURL: AuthURL.login,
+            data       : HttpService.toURLSearchParams({
+                username  : username,
+                password  : password,
+                grant_type: 'password',
+                client_id : authClientID
+            }),
+            secure     : false,
+            auth       : true
+        }).flatMap((response: AuthResponse) => {
             return this.processToken(response, username);
         });
     }
 
     private processToken(response: AuthResponse, username: string): Observable<boolean> {
-        if (response.token) {
+        if (response.access_token) {
             try {
-                this.tokenData = this.jwtHelper.decodeToken(response.token);
+                this.tokenData = this.jwtHelper.decodeToken(response.access_token);
                 if (this.tokenData.username !== username) {
-                    delete this.tokenData;
+                    this.logout();
                     return Observable.throw({
-                        status: 500,
+                        status : 500,
                         message: 'Invalid token generated!'
                     });
                 }
 
-                if (this.jwtHelper.isTokenExpired(response.token)) {
-                    delete this.tokenData;
+                if (this.jwtHelper.isTokenExpired(response.access_token)) {
+                    this.logout();
                     return Observable.throw({
-                        status: 500,
+                        status : 500,
                         message: 'Invalid token expiration!'
                     });
                 }
             } catch (err) {
-                delete this.tokenData;
+                this.logout();
                 return Observable.throw({
-                    status: 500,
+                    status : 500,
                     message: err ? err.toString() : 'Error parsing token from auth response!'
                 });
             }
             // store username and token in local storage to keep user logged in between page refreshes
-            localStorage.setItem(AuthConfigConsts.DEFAULT_TOKEN_NAME, response.token);
-
-            this.loggedInChange.emit(true);
+            this.storage.id_token = response.access_token;
+            this.storage.refresh_token = response.refresh_token;
+            this.storage.exp = this.jwtHelper.getTokenExpirationDate(this.storage.id_token);
+            this.doLogin();
 
             return Observable.of(true);
         } else {
+            this.logout();
             return Observable.throw({
-                status: 401,
+                status : 401,
                 message: 'Authentication failed. Server didn\'t generate a token.'
             });
         }
     }
 
+    private doLogin() {
+        this.setupAuthCheck();
+        this.setupTokenRefresh();
+        this.loggedInChange.emit(true);
+    }
+
     public logout(): void {
         // remove user from local storage and clear http auth header
         delete this.tokenData;
-        localStorage.removeItem(AuthConfigConsts.DEFAULT_TOKEN_NAME);
-        this.loggedInChange.emit(false)
+        this.storage.clear();
+        this.disableAuthCheck();
+        this.disableTokenRefresh();
+        this.loggedInChange.emit(false);
     }
 
-    private checkAuth(): void {
-        if (this.tokenData) {
-            this.refreshTokenIfExpires();
-            if (this.tokenData) {
-                this.http.get({
-                    resourceURL: url.status
-                }).subscribe((data: AuthStatusResponse) => {
-                    if (!this.tokenData || this.tokenData.username !== data.username) {
-                        this.logout();
-                    }
-                }, () => {
-                    this.logout();
-                });
-            }
+    private setupAuthCheck() {
+        this.disableAuthCheck();
+        this.authCheckInterval = setInterval(this.checkAuth.bind(this), AUTH_CHECK_INTERVAL);
+    }
+
+    private disableAuthCheck() {
+        if (this.authCheckInterval) {
+            clearInterval(this.authCheckInterval);
         }
     }
 
-    private refreshTokenIfExpires(): void {
-        if (this.getLoggedUser()) {
-            let token = localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME);
-            if (!token) {
-                this.logout();
-                return;
-            }
-            let expirationThreshold = new Date();
-            expirationThreshold.setMinutes(expirationThreshold.getMinutes() + 10);
-            let tokenExpires = this.jwtHelper.getTokenExpirationDate(token) < expirationThreshold;
-            if (tokenExpires) {
-                this.http.get({
-                    resourceURL: url.refresh
-                }).subscribe((response: AuthResponse) => {
-                    this.processToken(response, this.getLoggedUser());
-                }, () => {
+    private checkAuth(): void {
+        if (this.tokenData && this.storage.id_token) {
+            this.http.get({
+                resourceURL: AuthURL.status,
+                auth       : true
+            }).subscribe((data: AuthStatusResponse) => {
+                if (!data || !this.tokenData || this.tokenData.username !== data.username) {
                     this.logout();
-                });
-            }
+                }
+            }, () => {
+                this.logout();
+            });
+        } else {
+            this.logout();
+        }
+    }
+
+    private setupTokenRefresh() {
+        if (!this.storage.exp && this.storage.id_token) {
+            this.storage.exp = this.jwtHelper.getTokenExpirationDate(this.storage.id_token);
+        }
+        if (this.storage.refresh_in > 0) {
+            this.disableTokenRefresh();
+            this.refreshTimeout = setTimeout(this.refreshToken.bind(this),
+                this.storage.refresh_in);
+        }
+    }
+
+    private disableTokenRefresh() {
+        if (this.refreshTimeout) {
+            clearTimeout(this.refreshTimeout);
+        }
+    }
+
+    private refreshToken(): void {
+        if (this.tokenData && this.getLoggedUser() && this.storage.refresh_token) {
+            this.http.post({
+                resourceURL: AuthURL.refresh,
+                data       : HttpService.toURLSearchParams({
+                    grant_type   : 'refresh_token',
+                    client_id    : authClientID,
+                    refresh_token: this.storage.refresh_token
+                }),
+                secure     : false,
+                auth       : true
+            }).subscribe((response: AuthResponse) => {
+                this.processToken(response, this.getLoggedUser());
+            }, () => {
+                this.logout();
+            });
         } else {
             this.logout();
         }

@@ -1,10 +1,10 @@
 import {Component, Input, Output, OnChanges, EventEmitter, SimpleChanges} from '@angular/core';
 
 @Component({
-    moduleId: module.id,
-    selector: 'paging',
+    moduleId   : module.id,
+    selector   : 'paging',
     templateUrl: 'paging.component.html',
-    styleUrls: ['paging.component.css']
+    styleUrls  : ['paging.component.css']
 })
 export class PagingComponent implements OnChanges {
 
@@ -34,7 +34,7 @@ export class PagingComponent implements OnChanges {
             if (this.currentPage > this.lastPage) {
                 this.goToPage(this.lastPage);
             } else {
-                this.goToPage(this.currentPage)
+                this.goToPage(this.currentPage);
             }
         }, 0);
     }

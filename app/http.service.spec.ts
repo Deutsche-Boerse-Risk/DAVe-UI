@@ -1,5 +1,5 @@
 import {TestBed, inject} from '@angular/core/testing';
-import {Http, RequestOptionsArgs, Response, Headers, ResponseOptions} from '@angular/http';
+import {Http, RequestOptionsArgs, Response, Headers, ResponseOptions, RequestOptions} from '@angular/http';
 
 import {AuthHttp} from 'angular2-jwt';
 
@@ -13,8 +13,14 @@ describe('HTTPService', () => {
         TestBed.configureTestingModule({
             providers: [
                 HttpService,
-                {provide: Http, useClass: HttpStub},
-                {provide: AuthHttp, useClass: HttpStub}
+                {
+                    provide : Http,
+                    useClass: HttpStub
+                },
+                {
+                    provide : AuthHttp,
+                    useClass: HttpStub
+                }
             ]
         });
     });
@@ -37,7 +43,7 @@ describe('HTTPService', () => {
                     () => {
                         done.fail();
                     });
-            })()
+            })();
     });
 
     it('call get and use auth (data key in result)', (done: DoneFn) => {
@@ -58,7 +64,7 @@ describe('HTTPService', () => {
                     () => {
                         done.fail();
                     });
-            })()
+            })();
     });
 
     it('call get and don\'t use auth (no data key in result)', (done: DoneFn) => {
@@ -68,8 +74,9 @@ describe('HTTPService', () => {
                 let getSpy = spyOn(http, 'get').and.callThrough();
 
                 httpService.get({
-                    resourceURL: '/some_url/'
-                }, false).subscribe(
+                    resourceURL: '/some_url/',
+                    secure     : false
+                }).subscribe(
                     (data: any) => {
                         expect(data.content).toEqual('Some content');
                         expect(getSpy).toHaveBeenCalled();
@@ -79,7 +86,7 @@ describe('HTTPService', () => {
                     () => {
                         done.fail();
                     });
-            })()
+            })();
     });
 
     it('call get and don\'t use auth (data key in result)', (done: DoneFn) => {
@@ -89,8 +96,9 @@ describe('HTTPService', () => {
                 let getSpy = spyOn(http, 'get').and.callThrough();
 
                 httpService.get({
-                    resourceURL: '/some_url/'
-                }, false).subscribe(
+                    resourceURL: '/some_url/',
+                    secure     : false
+                }).subscribe(
                     (data: any) => {
                         expect(data.content).toEqual('Some content');
                         expect(getSpy).toHaveBeenCalled();
@@ -100,7 +108,7 @@ describe('HTTPService', () => {
                     () => {
                         done.fail();
                     });
-            })()
+            })();
     });
 
     it('call get with map function', (done: DoneFn) => {
@@ -124,7 +132,7 @@ describe('HTTPService', () => {
                     () => {
                         done.fail();
                     });
-            })()
+            })();
     });
 
     it('call get with URL parameters', (done: DoneFn) => {
@@ -134,64 +142,26 @@ describe('HTTPService', () => {
                 let getSpy = spyOn(authHttp, 'get').and.callThrough();
 
                 httpService.get({
-                    resourceURL: '/some_url/:0/:1',
-                    params: ['param1', 'param2']
+                    resourceURL: '/some_url',
+                    params     : {
+                        param1: 'param1Value',
+                        param2: 'param2Value'
+                    }
                 }).subscribe(
                     (data: any) => {
                         expect(data.content).toEqual('Some content');
                         expect(getSpy).toHaveBeenCalled();
-                        expect(getSpy.calls.mostRecent().args[0]).toEqual(defaultURL + '/some_url/param1/param2');
+                        expect(getSpy.calls.mostRecent().args[0]).toEqual(defaultURL + '/some_url');
+                        expect((getSpy.calls.mostRecent().args[1] as RequestOptions).params
+                            .get('param1')).toEqual('param1Value');
+                        expect((getSpy.calls.mostRecent().args[1] as RequestOptions).params
+                            .get('param2')).toEqual('param2Value');
                         done();
                     },
                     () => {
                         done.fail();
                     });
-            })()
-    });
-
-    it('call get with URL sub-parameters', (done: DoneFn) => {
-        inject([HttpService, AuthHttp],
-            function (httpService: HttpService<any>, authHttp: HttpStub) {
-                authHttp.returnValue({data: {content: 'Some content'}});
-                let getSpy = spyOn(authHttp, 'get').and.callThrough();
-
-                httpService.get({
-                    resourceURL: '/some_url/:0/:1',
-                    subParams: ['param1', 'param2']
-                }).subscribe(
-                    (data: any) => {
-                        expect(data.content).toEqual('Some content');
-                        expect(getSpy).toHaveBeenCalled();
-                        expect(getSpy.calls.mostRecent().args[0]).toEqual(defaultURL + '/some_url/param1/param2');
-                        done();
-                    },
-                    () => {
-                        done.fail();
-                    });
-            })()
-    });
-
-    it('call get with URL parameters and sub-parameters', (done: DoneFn) => {
-        inject([HttpService, AuthHttp],
-            function (httpService: HttpService<any>, authHttp: HttpStub) {
-                authHttp.returnValue({data: {content: 'Some content'}});
-                let getSpy = spyOn(authHttp, 'get').and.callThrough();
-
-                httpService.get({
-                    resourceURL: '/some_url/:0/:1:2_:3',
-                    params: ['param1', 'param2'],
-                    subParams: ['param3', 'param4']
-                }).subscribe(
-                    (data: any) => {
-                        expect(data.content).toEqual('Some content');
-                        expect(getSpy).toHaveBeenCalled();
-                        expect(getSpy.calls.mostRecent().args[0]).toEqual(defaultURL + '/some_url/param1/param2param3_param4');
-                        done();
-                    },
-                    () => {
-                        done.fail();
-                    });
-            })()
+            })();
     });
 
     it('call get and return error response 5xx', (done: DoneFn) => {
@@ -216,7 +186,7 @@ describe('HTTPService', () => {
                         expect(error.message).toContain('500');
                         done();
                     });
-            })()
+            })();
     });
 
     it('call get and return error response 5xx (no JSON response data)', (done: DoneFn) => {
@@ -241,7 +211,7 @@ describe('HTTPService', () => {
                         expect(error.message).toContain('500');
                         done();
                     });
-            })()
+            })();
     });
 
     it('call get and return error response 401 (Unauthorized)', (done: DoneFn) => {
@@ -269,7 +239,7 @@ describe('HTTPService', () => {
                         expect(error.message).toContain('Server error');
                         done();
                     });
-            })()
+            })();
     });
 
     it('call get and return response with invalid JSON', (done: DoneFn) => {
@@ -291,7 +261,7 @@ describe('HTTPService', () => {
                         expect(error.status).toBe(500);
                         done();
                     });
-            })()
+            })();
     });
 
     it('call get and throw error inside', (done: DoneFn) => {
@@ -314,7 +284,7 @@ describe('HTTPService', () => {
                         expect(error.message).toContain('some invalid data');
                         done();
                     });
-            })()
+            })();
     });
 
     it('call post and use auth (no data key in result)', (done: DoneFn) => {
@@ -325,7 +295,7 @@ describe('HTTPService', () => {
 
                 httpService.post({
                     resourceURL: '/some_url/',
-                    data: {data: 'Data object'}
+                    data       : {data: 'Data object'}
                 }).subscribe(
                     (data: any) => {
                         expect(data.content).toEqual('Some content');
@@ -336,7 +306,7 @@ describe('HTTPService', () => {
                     () => {
                         done.fail();
                     });
-            })()
+            })();
     });
 
     it('call post and use auth (data key in result)', (done: DoneFn) => {
@@ -347,7 +317,7 @@ describe('HTTPService', () => {
 
                 httpService.post({
                     resourceURL: '/some_url/',
-                    data: {data: 'Data object'}
+                    data       : {data: 'Data object'}
                 }).subscribe(
                     (data: any) => {
                         expect(data.content).toEqual('Some content');
@@ -358,7 +328,7 @@ describe('HTTPService', () => {
                     () => {
                         done.fail();
                     });
-            })()
+            })();
     });
 
     it('call post and don\'t use auth (no data key in result)', (done: DoneFn) => {
@@ -369,8 +339,9 @@ describe('HTTPService', () => {
 
                 httpService.post({
                     resourceURL: '/some_url/',
-                    data: {data: 'Data object'}
-                }, false).subscribe(
+                    data       : {data: 'Data object'},
+                    secure     : false
+                }).subscribe(
                     (data: any) => {
                         expect(data.content).toEqual('Some content');
                         expect(postSpy).toHaveBeenCalled();
@@ -380,7 +351,7 @@ describe('HTTPService', () => {
                     () => {
                         done.fail();
                     });
-            })()
+            })();
     });
 
     it('call post and don\'t use auth (data key in result)', (done: DoneFn) => {
@@ -391,8 +362,9 @@ describe('HTTPService', () => {
 
                 httpService.post({
                     resourceURL: '/some_url/',
-                    data: {data: 'Data object'}
-                }, false).subscribe(
+                    data       : {data: 'Data object'},
+                    secure     : false
+                }).subscribe(
                     (data: any) => {
                         expect(data.content).toEqual('Some content');
                         expect(postSpy).toHaveBeenCalled();
@@ -402,7 +374,7 @@ describe('HTTPService', () => {
                     () => {
                         done.fail();
                     });
-            })()
+            })();
     });
 
     it('call post with map function', (done: DoneFn) => {
@@ -416,7 +388,7 @@ describe('HTTPService', () => {
                     mapFunction: (data: any) => {
                         return data.content;
                     },
-                    data: {data: 'Data object'}
+                    data       : {data: 'Data object'}
                 }).subscribe(
                     (data: any) => {
                         expect(data).toEqual('Some content');
@@ -427,7 +399,7 @@ describe('HTTPService', () => {
                     () => {
                         done.fail();
                     });
-            })()
+            })();
     });
 
     it('call post with URL parameters', (done: DoneFn) => {
@@ -437,67 +409,28 @@ describe('HTTPService', () => {
                 let postSpy = spyOn(authHttp, 'post').and.callThrough();
 
                 httpService.post({
-                    resourceURL: '/some_url/:0/:1',
-                    params: ['param1', 'param2'],
-                    data: {data: 'Data object'}
+                    resourceURL: '/some_url',
+                    params     : {
+                        param1: 'param1Value',
+                        param2: 'param2Value'
+                    },
+                    data       : {data: 'Data object'}
                 }).subscribe(
                     (data: any) => {
                         expect(data.content).toEqual('Some content');
                         expect(postSpy).toHaveBeenCalled();
-                        expect(postSpy.calls.mostRecent().args[0]).toEqual(defaultURL + '/some_url/param1/param2');
+                        expect(postSpy.calls.mostRecent().args[0]).toEqual(defaultURL + '/some_url');
+                        expect(postSpy.calls.mostRecent().args[1].data).toEqual('Data object');
+                        expect((postSpy.calls.mostRecent().args[2] as RequestOptions).params
+                            .get('param1')).toEqual('param1Value');
+                        expect((postSpy.calls.mostRecent().args[2] as RequestOptions).params
+                            .get('param2')).toEqual('param2Value');
                         done();
                     },
                     () => {
                         done.fail();
                     });
-            })()
-    });
-
-    it('call post with URL sub-parameters', (done: DoneFn) => {
-        inject([HttpService, AuthHttp],
-            function (httpService: HttpService<any>, authHttp: HttpStub) {
-                authHttp.returnValue({data: {content: 'Some content'}});
-                let postSpy = spyOn(authHttp, 'post').and.callThrough();
-
-                httpService.post({
-                    resourceURL: '/some_url/:0/:1',
-                    subParams: ['param1', 'param2'],
-                    data: {data: 'Data object'}
-                }).subscribe(
-                    (data: any) => {
-                        expect(data.content).toEqual('Some content');
-                        expect(postSpy).toHaveBeenCalled();
-                        expect(postSpy.calls.mostRecent().args[0]).toEqual(defaultURL + '/some_url/param1/param2');
-                        done();
-                    },
-                    () => {
-                        done.fail();
-                    });
-            })()
-    });
-
-    it('call post with URL parameters and sub-parameters', (done: DoneFn) => {
-        inject([HttpService, AuthHttp],
-            function (httpService: HttpService<any>, authHttp: HttpStub) {
-                authHttp.returnValue({data: {content: 'Some content'}});
-                let postSpy = spyOn(authHttp, 'post').and.callThrough();
-
-                httpService.post({
-                    resourceURL: '/some_url/:0/:1:2_:3',
-                    params: ['param1', 'param2'],
-                    subParams: ['param3', 'param4'],
-                    data: {data: 'Data object'}
-                }).subscribe(
-                    (data: any) => {
-                        expect(data.content).toEqual('Some content');
-                        expect(postSpy).toHaveBeenCalled();
-                        expect(postSpy.calls.mostRecent().args[0]).toEqual(defaultURL + '/some_url/param1/param2param3_param4');
-                        done();
-                    },
-                    () => {
-                        done.fail();
-                    });
-            })()
+            })();
     });
 
     it('call post and return error response 5xx', (done: DoneFn) => {
@@ -508,7 +441,7 @@ describe('HTTPService', () => {
 
                 httpService.post({
                     resourceURL: '/some_url/',
-                    data: {data: 'Data object'}
+                    data       : {data: 'Data object'}
                 }).subscribe(
                     () => {
                         done.fail();
@@ -523,7 +456,7 @@ describe('HTTPService', () => {
                         expect(error.message).toContain('500');
                         done();
                     });
-            })()
+            })();
     });
 
     it('call post and return error response 5xx (no JSON response data)', (done: DoneFn) => {
@@ -534,7 +467,7 @@ describe('HTTPService', () => {
 
                 httpService.post({
                     resourceURL: '/some_url/',
-                    data: {data: 'Data object'}
+                    data       : {data: 'Data object'}
                 }).subscribe(
                     () => {
                         done.fail();
@@ -549,7 +482,7 @@ describe('HTTPService', () => {
                         expect(error.message).toContain('500');
                         done();
                     });
-            })()
+            })();
     });
 
     it('call post and return error response 401 (Unauthorized)', (done: DoneFn) => {
@@ -561,7 +494,7 @@ describe('HTTPService', () => {
 
                 httpService.post({
                     resourceURL: '/some_url/',
-                    data: {data: 'Data object'}
+                    data       : {data: 'Data object'}
                 }).subscribe(
                     () => {
                         done.fail();
@@ -578,7 +511,7 @@ describe('HTTPService', () => {
                         expect(error.message).toContain('Server error');
                         done();
                     });
-            })()
+            })();
     });
 
     it('call post and return response with invalid JSON', (done: DoneFn) => {
@@ -589,7 +522,7 @@ describe('HTTPService', () => {
 
                 httpService.post({
                     resourceURL: '/some_url/',
-                    data: {data: 'Data object'}
+                    data       : {data: 'Data object'}
                 }).subscribe(
                     () => {
                         done.fail();
@@ -601,7 +534,7 @@ describe('HTTPService', () => {
                         expect(error.status).toBe(500);
                         done();
                     });
-            })()
+            })();
     });
 
     it('call post and throw error inside', (done: DoneFn) => {
@@ -612,7 +545,7 @@ describe('HTTPService', () => {
 
                 httpService.post({
                     resourceURL: '/some_url/',
-                    data: {data: 'Data object'}
+                    data       : {data: 'Data object'}
                 }).subscribe(
                     () => {
                         done.fail();
@@ -625,7 +558,7 @@ describe('HTTPService', () => {
                         expect(error.message).toContain('some invalid data');
                         done();
                     });
-            })()
+            })();
     });
 });
 
@@ -636,10 +569,10 @@ class HttpStub {
 
     public returnValue(httpBody: any, stingify: boolean = true) {
         this.value.push(new Response(new ResponseOptions({
-            body: stingify ? JSON.stringify(httpBody) : httpBody,
-            status: 200,
+            body   : stingify ? JSON.stringify(httpBody) : httpBody,
+            status : 200,
             headers: new Headers({}),
-            url: '/some_url/'
+            url    : '/some_url/'
         })));
     }
 
@@ -649,11 +582,12 @@ class HttpStub {
 
     public returnErrorResponse(responseCode: number, errorBody: any, stingify: boolean = true) {
         this.error.push(new Response(new ResponseOptions({
-            body: stingify ? JSON.stringify(errorBody) : errorBody,
-            status: responseCode,
+            body      : stingify ? JSON.stringify(
+                errorBody) : errorBody,
+            status    : responseCode,
             statusText: 'Server error',
-            headers: new Headers({}),
-            url: '/some_url/'
+            headers   : new Headers({}),
+            url       : '/some_url/'
         })));
     }
 

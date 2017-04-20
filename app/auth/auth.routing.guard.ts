@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot, CanActivateChild} from '@angular/router';
 
 import {AuthService} from './auth.service';
+import {ROUTES} from '../routes/routing.paths';
 
 @Injectable()
 export class AuthGuard implements CanActivate, CanActivateChild {
@@ -16,7 +17,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
 
         this.authService.authRequestedPath = state.url;
 
-        this.router.navigate(['/login']);
+        this.router.navigate([ROUTES.LOGIN]);
         return false;
     }
 

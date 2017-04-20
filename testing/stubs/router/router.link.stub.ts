@@ -5,7 +5,7 @@ import {RouterStub} from './router.stub';
 
 @Directive({
     selector: '[routerLink]',
-    host: {
+    host    : {
         '(click)': 'onClick()'
     }
 })

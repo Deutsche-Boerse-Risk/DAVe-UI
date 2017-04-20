@@ -4,6 +4,7 @@
 .idea/misc.xml
 .idea/statistic.xml
 npm-debug.log
+.tscache
 
 # App files
 node_modules/

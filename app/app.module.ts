@@ -17,7 +17,7 @@ export function HttpServiceFactory(http: Http, authHttp: AuthHttp): HttpService<
 }
 
 @NgModule({
-    imports: [
+    imports     : [
         BrowserModule,
         RoutingModule,
         HttpModule,
@@ -28,15 +28,15 @@ export function HttpServiceFactory(http: Http, authHttp: AuthHttp): HttpService<
     declarations: [
         AppComponent
     ],
-    providers: [
+    providers   : [
         {
-            provide: HttpService,
-            deps: [Http, AuthHttp],
+            provide   : HttpService,
+            deps      : [Http, AuthHttp],
             useFactory: HttpServiceFactory
         }
 
     ],
-    bootstrap: [
+    bootstrap   : [
         AppComponent
     ]
 })

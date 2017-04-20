@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
 
 @Component({
-    moduleId: module.id,
+    moduleId   : module.id,
     templateUrl: 'dashboard.component.html',
-    styleUrls: ['../common.component.css']
+    styleUrls  : ['../common.component.css']
 })
 export class DashboardComponent {
 

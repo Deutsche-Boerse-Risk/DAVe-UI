@@ -23,7 +23,10 @@ describe('Highlighter directive', () => {
     }));
 
     it('does nothing if context does not contain storage', fakeAsync(() => {
-        page.component.context = {row: {}, index: 0};
+        page.component.context = {
+            row  : {},
+            index: 0
+        };
         page.detectChanges();
 
         page.highlighter.ngOnInit();
@@ -32,7 +35,11 @@ describe('Highlighter directive', () => {
     }));
 
     it('does nothing if storage contains the key', fakeAsync(() => {
-        page.component.context = {row: 'key', index: 0, storage: {key: true}};
+        page.component.context = {
+            row    : 'key',
+            index  : 0,
+            storage: {key: true}
+        };
         page.detectChanges();
 
         page.highlighter.ngOnInit();
@@ -41,7 +48,11 @@ describe('Highlighter directive', () => {
     }));
 
     it('adds class if no key is in storage and removes the class after timeout', fakeAsync(() => {
-        page.component.context = {row: 'key', index: 0, storage: {}};
+        page.component.context = {
+            row    : 'key',
+            index  : 0,
+            storage: {}
+        };
         page.detectChanges();
 
         page.highlighter.ngOnInit();

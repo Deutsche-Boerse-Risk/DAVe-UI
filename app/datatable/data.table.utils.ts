@@ -3,11 +3,12 @@ import {TemplateRef} from '@angular/core';
 import {DataTableColumnDirective, OrderingCriteria} from './data.table.column.directive';
 
 export interface DataTableCell {
+    align?: 'left' | 'center' | 'right';
     title?: string;
     sortingKey?: OrderingCriteria<any>;
     tooltip?: string;
-    cellTemplate?: TemplateRef<{row: any}>,
-    footerTemplate?: TemplateRef<{footer: any}>,
+    cellTemplate?: TemplateRef<{ row: any }>,
+    footerTemplate?: TemplateRef<{ footer: any }>,
     rowspan?: number;
     colspan?: number;
 }
@@ -69,9 +70,9 @@ export abstract class DataTableUtils {
     public static computeSpans(columnDirectives: DataTableColumnDirective[]): DataTableDefinition {
         return {
             headerTemplates: DataTableUtils.computeHeaderSpans(columnDirectives),
-            rowsTemplates: DataTableUtils.computeRowSpans(columnDirectives),
-            footerTemplates: DataTableUtils.computeFooterSpans(columnDirectives),
-        }
+            rowsTemplates  : DataTableUtils.computeRowSpans(columnDirectives),
+            footerTemplates: DataTableUtils.computeFooterSpans(columnDirectives)
+        };
     }
 
     private static computeHeaderSpans(columnDirectives: DataTableColumnDirective[]): DataTableCell[][] {
@@ -82,28 +83,31 @@ export abstract class DataTableUtils {
             (columnDirective: DataTableColumnDirective) => {
                 if (!columnDirective.sortingKey) {
                     return {
-                        title: columnDirective.title,
-                        tooltip: columnDirective.tooltip
+                        title  : columnDirective.title,
+                        tooltip: columnDirective.tooltip,
+                        align  : columnDirective.headerAlign
                     };
                 }
                 if (typeof columnDirective.sortingKey === 'function') {
                     return {
-                        title: columnDirective.title,
+                        title     : columnDirective.title,
                         sortingKey: {
-                            get: columnDirective.sortingKey,
+                            get       : columnDirective.sortingKey,
                             descending: false
                         },
-                        tooltip: columnDirective.tooltip
-                    }
+                        tooltip   : columnDirective.tooltip,
+                        align     : columnDirective.headerAlign
+                    };
                 }
                 return {
-                    title: columnDirective.title,
+                    title     : columnDirective.title,
                     sortingKey: {
-                        get: columnDirective.sortingKey.get,
+                        get       : columnDirective.sortingKey.get,
                         descending: !!columnDirective.sortingKey.descending
                     },
-                    tooltip: columnDirective.tooltip
-                }
+                    tooltip   : columnDirective.tooltip,
+                    align     : columnDirective.headerAlign
+                };
             });
 
         if (templates) {
@@ -122,20 +126,21 @@ export abstract class DataTableUtils {
     private static computeRowSpans(columnDirectives: DataTableColumnDirective[]): DataTableCell[][] {
         let templates: DataTableCell[][] = DataTableUtils.computeTemplate(columnDirectives,
             (columnDirective: DataTableColumnDirective) => {
-                let cellTemplate: TemplateRef<{row: any}>;
+                let cellTemplate: TemplateRef<{ row: any }>;
                 if (columnDirective.cellTemplate && columnDirective.cellTemplate.length) {
                     cellTemplate = columnDirective.cellTemplate.first;
                 }
                 return !!cellTemplate;
             },
             (columnDirective: DataTableColumnDirective) => {
-                let cellTemplate: TemplateRef<{row: any}>;
+                let cellTemplate: TemplateRef<{ row: any }>;
                 if (columnDirective.cellTemplate && columnDirective.cellTemplate.length) {
                     cellTemplate = columnDirective.cellTemplate.first;
                 }
                 return {
-                    cellTemplate: cellTemplate
-                }
+                    cellTemplate: cellTemplate,
+                    align       : columnDirective.contentAlign
+                };
             });
 
         if (templates) {
@@ -154,20 +159,21 @@ export abstract class DataTableUtils {
     private static computeFooterSpans(columnDirectives: DataTableColumnDirective[]): DataTableCell[][] {
         let templates: DataTableCell[][] = DataTableUtils.computeTemplate(columnDirectives,
             (columnDirective: DataTableColumnDirective) => {
-                let footerTemplate: TemplateRef<{footer: any}>;
+                let footerTemplate: TemplateRef<{ footer: any }>;
                 if (columnDirective.footerTemplate && columnDirective.footerTemplate.length) {
                     footerTemplate = columnDirective.footerTemplate.first;
                 }
                 return !!footerTemplate;
             },
             (columnDirective: DataTableColumnDirective) => {
-                let footerTemplate: TemplateRef<{footer: any}>;
+                let footerTemplate: TemplateRef<{ footer: any }>;
                 if (columnDirective.footerTemplate && columnDirective.footerTemplate.length) {
                     footerTemplate = columnDirective.footerTemplate.first;
                 }
                 return {
-                    footerTemplate: footerTemplate
-                }
+                    footerTemplate: footerTemplate,
+                    align         : columnDirective.footerAlign
+                };
             });
 
         if (templates) {
@@ -184,14 +190,15 @@ export abstract class DataTableUtils {
     }
 
     private static computeTemplate(columnDirectives: DataTableColumnDirective[],
-                                   hasCell: (columnDirective: DataTableColumnDirective, index: number)
-                                       => boolean,
-                                   getCell: (columnDirective: DataTableColumnDirective, index: number)
-                                       => DataTableCell): DataTableCell[][] {
+        hasCell: (columnDirective: DataTableColumnDirective, index: number)
+            => boolean,
+        getCell: (columnDirective: DataTableColumnDirective, index: number)
+            => DataTableCell): DataTableCell[][] {
         let flatSubColumnsDataTableColumn: DataTableCell[][][] = [];
         let maxDepth = 0;
         columnDirectives.forEach((columnDirective: DataTableColumnDirective) => {
-            let subColumns: DataTableCell[][] = DataTableUtils.computeTemplate(columnDirective.subColumns.toArray().slice(1),
+            let subColumns: DataTableCell[][] = DataTableUtils.computeTemplate(
+                columnDirective.subColumns.toArray().slice(1),
                 hasCell, getCell);
             if (subColumns && subColumns.length) {
                 flatSubColumnsDataTableColumn.push(subColumns);
@@ -222,7 +229,8 @@ export abstract class DataTableUtils {
                 }
             } else {
                 result[0].push({
-                    rowspan: DataTableUtils.computeRowspan(maxDepth + 1, flatSubColumnsDataTableColumn[index]),
+                    rowspan: DataTableUtils.computeRowspan(maxDepth + 1,
+                        flatSubColumnsDataTableColumn[index]),
                     colspan: DataTableUtils.computeColspan(columnDirective)
                 });
             }

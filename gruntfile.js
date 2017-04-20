@@ -54,14 +54,25 @@ module.exports = function (grunt) {
     grunt.initConfig({
         cleanup: {
             all: {
-                src: [destination, 'ngFactories/', 'coverage/', 'reports/'].concat(cssPattern).concat(jsToCleanPattern)
+                src: [destination, 'ngFactories/', 'coverage/', 'reports/', '.tscache/'].concat(cssPattern).concat(jsToCleanPattern)
             },
             postDist: {
                 src: [destination + 'app/', destination + 'ngFactories/', 'ngFactories/']
             }
         },
         ts: {
-            default: {}
+            compile: {
+                options: {
+                    fast: 'never'
+                },
+                tsconfig: true
+            },
+            watchTS: {
+                options: {
+                    fast: 'always'
+                },
+                tsconfig: './tsconfig.watch.json'
+            }
         },
         ngc: {
             default: {}
@@ -219,6 +230,9 @@ module.exports = function (grunt) {
             devBrowserStack: {
                 browsers: browsers.BrowserStack.ALL
             },
+            devBrowserStackMinimal: {
+                browsers: browsers.BrowserStack.MINIMAL
+            },
             devBrowserStackChrome: {
                 browsers: browsers.BrowserStack.CHROME
             },
@@ -324,7 +338,7 @@ module.exports = function (grunt) {
             },
             devTs: {
                 files: tsPattern,
-                tasks: ['ts']
+                tasks: ['ts:watchTS']
             },
             dist: {
                 files: sassPattern.concat(tsPattern),
@@ -353,10 +367,7 @@ module.exports = function (grunt) {
                         })
                     ]
                 },
-                browser: [
-                    'chrome',
-                    'google chrome'
-                ]
+                browser: browsers.BrowserSync
             },
             dev: {
                 bsFiles: {
@@ -402,6 +413,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-concurrent');
     grunt.loadNpmTasks('grunt-rollup');
     grunt.loadNpmTasks('grunt-sass');
+    grunt.loadNpmTasks('grunt-ts');
     grunt.loadNpmTasks('grunt-coveralls');
     grunt.loadNpmTasks('remap-istanbul');
     grunt.loadNpmTasks('grunt-contrib-watch');
@@ -413,7 +425,8 @@ module.exports = function (grunt) {
 
     // Build tasks
     grunt.registerTask('clean', ['cleanup:all']);
-    grunt.registerTask('build', ['cleanup:all', 'sass', 'ts']);
+    grunt.registerTask('compile', ['sass', 'ts:compile']);
+    grunt.registerTask('build', ['cleanup:all', 'sass', 'ts:compile']);
     grunt.registerTask('run', ['build', 'concurrent:dev']);
 
     // Dist tasks
@@ -421,30 +434,42 @@ module.exports = function (grunt) {
     grunt.registerTask('dist-run', ['dist', 'concurrent:dist']);
 
     // Local test tasks
-    grunt.registerTask('test', ['build', 'karma:dev', 'remapIstanbul']);
-    grunt.registerTask('testChrome', ['build', 'karma:devChrome', 'remapIstanbul']);
-    grunt.registerTask('testFirefox', ['build', 'karma:devFirefox', 'remapIstanbul']);
-    grunt.registerTask('testIE', ['build', 'karma:devIE', 'remapIstanbul']);
+    grunt.registerTask('test', karmaConfig('dev'));
+    grunt.registerTask('testChrome', karmaConfig('devChrome'));
+    grunt.registerTask('testFirefox', karmaConfig('devFirefox'));
+    grunt.registerTask('testIE', karmaConfig('devIE'));
+    grunt.registerTask('testSafari', karmaConfig('devSafari'));
 
     // BrowserStack test tasks
-    grunt.registerTask('testBrowserStack', ['build', 'karma:devBrowserStack', 'remapIstanbul']);
-    grunt.registerTask('testBrowserStackChrome', ['build', 'karma:devBrowserStackChrome', 'remapIstanbul']);
-    grunt.registerTask('testBrowserStackFirefox', ['build', 'karma:devBrowserStackFirefox', 'remapIstanbul']);
-    grunt.registerTask('testBrowserStackEdge', ['build', 'karma:devBrowserStackEdge', 'remapIstanbul']);
-    grunt.registerTask('testBrowserStackIE', ['build', 'karma:devBrowserStackIE', 'remapIstanbul']);
-    grunt.registerTask('testBrowserStackIOS', ['build', 'karma:devBrowserStackIOS', 'remapIstanbul']);
-    grunt.registerTask('testBrowserStackSafari', ['build', 'karma:devBrowserStackSafari', 'remapIstanbul']);
+    grunt.registerTask('testBrowserStack', karmaConfig('devBrowserStack'));
+    grunt.registerTask('testBrowserStackChrome', karmaConfig('devBrowserStackChrome'));
+    grunt.registerTask('testBrowserStackFirefox', karmaConfig('devBrowserStackFirefox'));
+    grunt.registerTask('testBrowserStackEdge', karmaConfig('devBrowserStackEdge'));
+    grunt.registerTask('testBrowserStackIE', karmaConfig('devBrowserStackIE'));
+    grunt.registerTask('testBrowserStackIOS', karmaConfig('devBrowserStackIOS'));
+    grunt.registerTask('testBrowserStackSafari', karmaConfig('devBrowserStackSafari'));
 
     // BrowserStack (behind proxy) test tasks
-    grunt.registerTask('testBrowserStackProxy', ['build', 'karma:devBrowserStackProxy', 'remapIstanbul']);
-    grunt.registerTask('testBrowserStackProxyChrome', ['build', 'karma:devBrowserStackProxyChrome', 'remapIstanbul']);
-    grunt.registerTask('testBrowserStackProxyFirefox', ['build', 'karma:devBrowserStackProxyFirefox', 'remapIstanbul']);
-    grunt.registerTask('testBrowserStackProxyEdge', ['build', 'karma:devBrowserStackProxyEdge', 'remapIstanbul']);
-    grunt.registerTask('testBrowserStackProxyIE', ['build', 'karma:devBrowserStackProxyIE', 'remapIstanbul']);
-    grunt.registerTask('testBrowserStackProxyIOS', ['build', 'karma:devBrowserStackProxyIOS', 'remapIstanbul']);
-    grunt.registerTask('testBrowserStackProxySafari', ['build', 'karma:devBrowserStackProxySafari', 'remapIstanbul']);
+    grunt.registerTask('testBrowserStackProxy', karmaConfig('devBrowserStackProxy'));
+    grunt.registerTask('testBrowserStackProxyChrome', karmaConfig('devBrowserStackProxyChrome'));
+    grunt.registerTask('testBrowserStackProxyFirefox', karmaConfig('devBrowserStackProxyFirefox'));
+    grunt.registerTask('testBrowserStackProxyEdge', karmaConfig('devBrowserStackProxyEdge'));
+    grunt.registerTask('testBrowserStackProxyIE', karmaConfig('devBrowserStackProxyIE'));
+    grunt.registerTask('testBrowserStackProxyIOS', karmaConfig('devBrowserStackProxyIOS'));
+    grunt.registerTask('testBrowserStackProxySafari', karmaConfig('devBrowserStackProxySafari'));
 
     // CircleCI test tasks
-    grunt.registerTask('testCircleCI', ['testBrowserStack', 'coveralls']);
-    grunt.registerTask('testCircleCIChrome', ['testChrome', 'coveralls']);
+    grunt.registerTask('testCircleCI', karmaConfig('devBrowserStack', 'coveralls'));
+    grunt.registerTask('testCircleCIMinimal', karmaConfig('devBrowserStackMinimal', 'coveralls'));
+    grunt.registerTask('testCircleCIChrome', karmaConfig('devChrome', 'coveralls'));
+
+    function karmaConfig(confName) {
+        var config = ['build', 'karma:' + confName, 'remapIstanbul'];
+        if (arguments.length > 1) {
+            for (var i = 1; i < arguments.length; i++) {
+                config.push(arguments[i]);
+            }
+        }
+        return config;
+    }
 };

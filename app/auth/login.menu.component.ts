@@ -1,12 +1,13 @@
 import {Component, HostBinding} from '@angular/core';
 
 import {AuthService} from './auth.service';
+import {ROUTES} from '../routes/routing.paths';
 
 @Component({
-    moduleId: module.id,
-    selector: 'login-menu',
+    moduleId   : module.id,
+    selector   : 'login-menu',
     templateUrl: 'login.menu.component.html',
-    styleUrls: ['../common.component.css']
+    styleUrls  : ['../common.component.css']
 })
 export class LoginMenuComponent {
 
@@ -28,5 +29,9 @@ export class LoginMenuComponent {
 
     public logout(): void {
         this.authService.logout();
+    }
+
+    public get routerRoots() {
+        return ROUTES;
     }
 }

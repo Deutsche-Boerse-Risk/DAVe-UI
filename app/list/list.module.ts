@@ -11,7 +11,7 @@ import {ListComponent} from './list.component';
 import {DrilldownButtonComponent} from './drilldown.button.component';
 
 @NgModule({
-    imports: [
+    imports     : [
         BrowserModule,
         RouterModule,
         FormsModule,
@@ -23,7 +23,7 @@ import {DrilldownButtonComponent} from './drilldown.button.component';
         BreadCrumbsComponent,
         DrilldownButtonComponent
     ],
-    exports: [
+    exports     : [
         ListComponent
     ]
 })

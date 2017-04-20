@@ -1,5 +1,5 @@
 import {DatePipe, DecimalPipe} from '@angular/common';
-import {NgModule, Inject, OpaqueToken} from '@angular/core';
+import {NgModule, Inject, InjectionToken} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {InitialLoadComponent} from './initial.load.component';
@@ -8,7 +8,7 @@ import {UpdateFailedComponent} from './update.failed.component';
 
 import {PercentPipe} from './percent.pipe';
 
-export const DATE_FORMAT = new OpaqueToken('dave.dateFormat');
+export const DATE_FORMAT = new InjectionToken<string>('dave.dateFormat');
 
 export class DateFormatter {
 
@@ -21,7 +21,7 @@ export class DateFormatter {
 }
 
 @NgModule({
-    imports: [
+    imports     : [
         BrowserModule
     ],
     declarations: [
@@ -30,17 +30,20 @@ export class DateFormatter {
         UpdateFailedComponent,
         PercentPipe
     ],
-    exports: [
+    exports     : [
         InitialLoadComponent,
         NoDataComponent,
         UpdateFailedComponent,
         PercentPipe
     ],
-    providers: [
+    providers   : [
         DecimalPipe,
         DatePipe,
         DateFormatter,
-        {provide: DATE_FORMAT, useValue: 'dd. MM. yyyy HH:mm:ss'}
+        {
+            provide : DATE_FORMAT,
+            useValue: 'dd. MM. yyyy HH:mm:ss'
+        }
     ]
 })
 export class CommonModule {

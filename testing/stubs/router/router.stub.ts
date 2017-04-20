@@ -49,11 +49,11 @@ export class RouterStub {
     public createUrlTree(commands: any[], extras?: NavigationExtras): UrlTree {
         let _b = extras === void 0 ? {} : extras, queryParams = _b.queryParams, fragment = _b.fragment;
         return {
-            root: new UrlSegmentGroup(commands.map((command: any) => {
+            root         : new UrlSegmentGroup(commands.map((command: any) => {
                 return new UrlSegment(command, {});
             }), {}),
-            queryParams: queryParams,
-            fragment: fragment,
+            queryParams  : queryParams,
+            fragment     : fragment,
             queryParamMap: null
         };
     }

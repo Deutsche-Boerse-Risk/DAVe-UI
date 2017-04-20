@@ -12,7 +12,7 @@ export class HighlighterDirective implements OnInit, OnDestroy {
     public trackBy: (index: number, row: any) => any;
 
     @Input()
-    public context: {row: any, storage: any, index: number};
+    public context: { row: any, storage: any, index: number };
 
     private el: HTMLElement;
 
@@ -29,7 +29,7 @@ export class HighlighterDirective implements OnInit, OnDestroy {
                 this.context.storage[rowKey] = true;
                 this.el.classList.add(HIGHLIGHTER_CLASS);
                 this._timeoutRef = setTimeout(() => {
-                    this.el.classList.remove(HIGHLIGHTER_CLASS)
+                    this.el.classList.remove(HIGHLIGHTER_CLASS);
                 }, HIGHLIGHTER_TIMEOUT);
             }
         }

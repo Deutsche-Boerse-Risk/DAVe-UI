@@ -33,7 +33,7 @@ export interface ChartOptions extends CommonChartOptions {
 
     selectionMode?: 'single' | 'multiple';
 
-    series?: Series[] | {[key: string]: Series};
+    series?: Series[] | { [key: string]: Series };
 
     theme?: 'maximized';
 
@@ -65,7 +65,7 @@ export interface LineChartOptions extends ChartOptions {
 
     orientation?: 'vertical' | 'horizontal';
 
-    pointShape?: PointShapeType |  PointShapeWithSides |  PointShapeWithSidesAndDent |  PointShapeWithRotation;
+    pointShape?: PointShapeType | PointShapeWithSides | PointShapeWithSidesAndDent | PointShapeWithRotation;
     pointSize?: number;
     pointsVisible?: boolean;
 
@@ -87,7 +87,7 @@ export interface BubbleChartOptions extends ChartOptions {
         textStyle?: ChartTextStyle;
     };
 
-    series?: {[key: string]: Series};
+    series?: { [key: string]: Series };
 
     sizeAxis?: {
         minSize?: number;
@@ -146,7 +146,7 @@ export interface ChartTrendLine {
     pointSize?: number;
     pointsVisible?: boolean;
     showR2?: boolean;
-    type?: 'linear'|'exponential'|'polynomial';
+    type?: 'linear' | 'exponential' | 'polynomial';
     visibleInLegend?: boolean;
 }
 
@@ -168,11 +168,11 @@ export interface Series {
 }
 
 export interface LineSeries extends Series {
-    pointShape?: PointShapeType |  PointShapeWithSides |  PointShapeWithSidesAndDent |  PointShapeWithRotation
+    pointShape?: PointShapeType | PointShapeWithSides | PointShapeWithSidesAndDent | PointShapeWithRotation
     pointSize?: number;
 }
 
-export type PointShapeType = 'circle' | 'triangle' | 'square' | 'diamond' | 'star' |'polygon';
+export type PointShapeType = 'circle' | 'triangle' | 'square' | 'diamond' | 'star' | 'polygon';
 
 export interface PointShapeWithSides {
     type?: 'star' | 'polygon';
@@ -242,13 +242,13 @@ export interface ChartAxisGridLines {
     color?: string;
     count?: number;
     units?: {
-        years?: {format?: string[]},
-        months?: {format?: string[]},
-        days?: {format?: string[]}
-        hours?: {format?: string[]}
-        minutes?: {format?: string[]}
-        seconds?: {format?: string[]},
-        milliseconds?: {format?: string[]},
+        years?: { format?: string[] },
+        months?: { format?: string[] },
+        days?: { format?: string[] }
+        hours?: { format?: string[] }
+        minutes?: { format?: string[] }
+        seconds?: { format?: string[] },
+        milliseconds?: { format?: string[] },
     }
 }
 
@@ -268,9 +268,9 @@ export interface ChartAxis {
     minorGridlines?: ChartAxisGridLines;
 
     logScale?: boolean;
-    scaleType?: 'log'| 'mirrorLog';
+    scaleType?: 'log' | 'mirrorLog';
 
-    textPosition?: 'out'| 'in'| 'none';
+    textPosition?: 'out' | 'in' | 'none';
     textStyle?: ChartTextStyle;
 
     ticks?: ChartValue[];
@@ -397,11 +397,11 @@ declare global {
 
             class ChartWrapper {
                 constructor(chart: {
-                    chartType: string;
-                    dataTable: DataView | DataTable | ChartData;
-                    options: CommonChartOptions;
-                    containerId: string;
-                });
+                        chartType: string;
+                        dataTable: DataView | DataTable | ChartData;
+                        options: CommonChartOptions;
+                        containerId: string;
+                    });
 
                 draw(container?: HTMLElement | string): void;
 
@@ -413,14 +413,21 @@ declare global {
             module events {
                 type EventListenerHandle = any;
 
-                function addListener(object: Chart | ChartWrapper, eventName: string, listener: () => any): EventListenerHandle;
+                function addListener(object: Chart
+                        | ChartWrapper, eventName: string, listener: () => any): EventListenerHandle;
 
                 function removeListener(handle: EventListenerHandle): void;
             }
         }
 
         module charts {
-            function load(version: 'current' | 'upcoming' | '45' | '44' | '43' | '42' | '41', modules: {packages: string[]}): void;
+            function load(version: 'current'
+                    | 'upcoming'
+                    | '45'
+                    | '44'
+                    | '43'
+                    | '42'
+                    | '41', modules: { packages: string[] }): void;
 
             function setOnLoadCallback(callback: () => any): void;
         }

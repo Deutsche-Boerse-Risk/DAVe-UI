@@ -35,7 +35,6 @@ To ensure you have always up-to-date dependecies run following commands:
  
 **On Windows you need to follow these steps:**
  - Install Grunt CLI using `npm install -g grunt-cli`. 
- - Install `npm install -g typescript`. TypeScript compiler is required to install project dependencies.
  - Run `npm install` to download necessary packages.
  - Run `npm update` to update already downloaded packages.
  - Run `npm prune` to remove old or no more used dependencies.
@@ -54,12 +53,10 @@ You can test distribution package using the following command:
 grunt dist-run
 ```
 This will start a simple web server. A Chrome browser will be started automatically. If you don't want to use Chrome 
-for whatever reason you need to modify `gruntfile.js` and check for the following section: 
+for whatever reason you need to modify `browser-providers.conf.js` and check for the following section: 
 ```javascript
-browserSync: { 
- options: {
-     browser: ['firefox'] 
- } 
+module.exports = {
+    BrowserSync: BrowserSync.CHROME
 }
 ```
   
@@ -67,14 +64,12 @@ browserSync: {
  - Point your UI to the host, where the back-end for DAVe is running
    - see `restUrl.js` file
  - Update development and runtime dependencies by calling `npm update`.
- - Run `grunt run` or `npm start` to start the simple web server. A Chrome browser will be started automatically. 
+ - Run `grunt run` to start the simple web server. A Chrome browser will be started automatically. 
  If you don't want to use Chrome for whatever reason you need to modify `gruntfile.js` and check for the following section: 
  
  ```javascript
- browserSync: { 
-    options: {
-        browser: ['firefox'] 
-    } 
+module.exports = {
+    BrowserSync: BrowserSync.CHROME 
  }
  ```
  - Whenever there is a change to the files related to the UI, the server gets notified immediately - no restart is needed.

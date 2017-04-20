@@ -8,13 +8,13 @@ import {ChartData, LineChartOptions, loadGoogleCharts} from './chart.types';
 const dummyChartData: ChartData = {
     cols: [
         {
-            id: 'Year',
+            id  : 'Year',
             type: 'string'
         }, {
-            id: 'Sales',
+            id  : 'Sales',
             type: 'number'
         }, {
-            id: 'Expenses',
+            id  : 'Expenses',
             type: 'number'
         }
     ],
@@ -90,9 +90,9 @@ describe('GoogleChart component', () => {
     it('is rendering chart and does re-render on changes', fakeAsync(() => {
         page.component.chartType = 'LineChart';
         let chartOptions: LineChartOptions = {
-            title: 'Company Performance',
+            title    : 'Company Performance',
             curveType: 'function',
-            legend: {position: 'bottom'}
+            legend   : {position: 'bottom'}
         };
         page.component.chartOptions = chartOptions;
         page.component.chartData = dummyChartData;
@@ -105,7 +105,7 @@ describe('GoogleChart component', () => {
         expect(page.chartArea.nativeElement.childNodes.length).not.toBe(0);
 
         chartOptions = {
-            title: 'Company Performance',
+            title : 'Company Performance',
             legend: {position: 'bottom'}
         };
         page.component.chartOptions = chartOptions;
@@ -127,12 +127,11 @@ describe('GoogleChart component', () => {
 
     it('accepts DataTable', fakeAsync(() => {
         page.component.chartType = 'LineChart';
-        let chartOptions: LineChartOptions = {
-            title: 'Company Performance',
+        page.component.chartOptions = <LineChartOptions>{
+            title    : 'Company Performance',
             curveType: 'function',
-            legend: {position: 'bottom'}
+            legend   : {position: 'bottom'}
         };
-        page.component.chartOptions = chartOptions;
         page.component.chartData = new google.visualization.DataTable(dummyChartData);
 
         page.detectChanges();
@@ -178,13 +177,13 @@ describe('GoogleChart component', () => {
 
     it('accepts DataView', fakeAsync(() => {
         page.component.chartType = 'LineChart';
-        let chartOptions: LineChartOptions = {
-            title: 'Company Performance',
+        page.component.chartOptions = <LineChartOptions>{
+            title    : 'Company Performance',
             curveType: 'function',
-            legend: {position: 'bottom'}
+            legend   : {position: 'bottom'}
         };
-        page.component.chartOptions = chartOptions;
-        page.component.chartData = new google.visualization.DataView(new google.visualization.DataTable(dummyChartData));
+        page.component.chartData = new google.visualization.DataView(
+            new google.visualization.DataTable(dummyChartData));
 
         page.detectChanges();
 

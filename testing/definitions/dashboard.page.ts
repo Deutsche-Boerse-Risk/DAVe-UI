@@ -36,7 +36,7 @@ export class DashboardPage extends Page<DashboardComponent> {
 export class Tab {
 
     constructor(public handle: DebugElement,
-                private page: {detectChanges: () => void}) {
+        private page: { detectChanges: () => void }) {
     }
 
     public get label(): string {

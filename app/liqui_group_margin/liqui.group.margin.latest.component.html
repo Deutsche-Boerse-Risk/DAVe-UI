@@ -1,0 +1,80 @@
+<list-content title="Liquidation Group Margin"
+              [routeParts]="routeParts"
+              [exportKeys]="exportKeys"
+              [data]="data"
+              [initialLoad]="initialLoad"
+              [errorMessage]="errorMessage"
+              (filterChanged)="filter($event)">
+    <data-table [data]="data"
+                [pageSize]="pageSize"
+                [defaultOrdering]="defaultOrdering"
+                [trackByRowKey]="trackByRowKey">
+        <column title="Member / Client"
+                [sortingKey]="valueGetters.member">
+            <ng-template let-record="row" cell-template>
+                <a [routerLink]="[rootRoutePath, record.clearer || '*', record.member || '*']">
+                    {{record.member}}
+                </a>
+            </ng-template>
+        </column>
+        <column title="Account"
+                [sortingKey]="valueGetters.account">
+            <ng-template let-record="row" cell-template>
+                <a [routerLink]="[rootRoutePath, record.clearer || '*', record.member || '*', record.account || '*']">
+                    {{record.account}}
+                </a>
+            </ng-template>
+        </column>
+        <column title="Margin Class / Liquidation Group"
+                [sortingKey]="valueGetters.marginClass">
+            <ng-template let-record="row" cell-template>
+                <a [routerLink]="[rootRoutePath, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', record.marginClass || '*']">
+                    {{record.marginClass}}
+                </a>
+            </ng-template>
+        </column>
+        <column title="Premium Margin"
+                [sortingKey]="valueGetters.premiumMargin"
+                contentAlign="right">
+            <ng-template let-record="row" cell-template>
+                {{record.premiumMargin | number:'.2-2'}} {{record.marginCurrency}}
+            </ng-template>
+        </column>
+        <column title="Current Liquidating Margin"
+                [sortingKey]="valueGetters.currentLiquidatingMargin"
+                contentAlign="right">
+            <ng-template let-record="row" cell-template>
+                {{record.currentLiquidatingMargin | number:'.2-2'}} {{record.marginCurrency}}
+            </ng-template>
+        </column>
+        <column title="Initial Margin"
+                [sortingKey]="valueGetters.additionalMargin"
+                contentAlign="right">
+            <ng-template let-record="row" cell-template>
+                {{record.additionalMargin | number:'.2-2'}} {{record.marginCurrency}}
+            </ng-template>
+        </column>
+        <column title="Unadjusted Margin"
+                [sortingKey]="valueGetters.unadjustedMarginRequirement"
+                contentAlign="right">
+            <ng-template let-record="row" cell-template>
+                {{record.unadjustedMarginRequirement | number:'.2-2'}} {{record.marginCurrency}}
+            </ng-template>
+        </column>
+        <column title="Variation Premium Payment"
+                [sortingKey]="valueGetters.variationPremiumPayment"
+                contentAlign="right">
+            <ng-template let-record="row" cell-template>
+                {{record.variationPremiumPayment | number:'.2-2'}} {{record.marginCurrency}}
+            </ng-template>
+        </column>
+        <column>
+            <ng-template let-record="row" cell-template>
+                <drilldown-row-button
+                        [routerLink]="[routerRoots.INITIAL_MARGIN_LATEST, record.clearer || '*', record.member || '*', record.account || '*', record.marginClass || '*']"></drilldown-row-button>
+                <detail-row-button
+                        [routerLink]="[routerRoots.LIQUI_GROUP_MARGIN_HISTORY, record.clearer || '*', record.member || '*', record.account || '*', record.marginClass || '*', record.ccy || '*']"></detail-row-button>
+            </ng-template>
+        </column>
+    </data-table>
+</list-content>

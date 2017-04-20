@@ -2,11 +2,12 @@ import {Router} from '@angular/router';
 import {Component} from '@angular/core';
 
 import {AuthService} from './auth.service';
+import {ROUTES} from '../routes/routing.paths';
 
 @Component({
-    moduleId: module.id,
+    moduleId   : module.id,
     templateUrl: 'login.component.html',
-    styleUrls: ['../common.component.css']
+    styleUrls  : ['../common.component.css']
 })
 export class LoginComponent {
 
@@ -16,7 +17,7 @@ export class LoginComponent {
     public password: string;
 
     constructor(private authService: AuthService,
-                private router: Router) {
+        private router: Router) {
     }
 
     public get authStatus(): boolean {
@@ -33,8 +34,9 @@ export class LoginComponent {
                 if (res) {
                     if (this.authService.authRequestedPath) {
                         this.router.navigateByUrl(this.authService.authRequestedPath);
+                    } else {
+                        this.router.navigate([ROUTES.DASHBOARD]);
                     }
-                    this.router.navigate(['/dashboard']);
                 } else {
                     this.errorMessage = 'Authentication failed. Server didn\'t generate a token.';
                 }

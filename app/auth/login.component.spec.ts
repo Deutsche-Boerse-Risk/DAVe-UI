@@ -9,23 +9,26 @@ import {AuthServiceStub, RouterStub, LoginPage} from '../../testing';
 import {LoginComponent} from './login.component';
 import {AuthService} from './auth.service';
 import {Observable} from 'rxjs/Observable';
+import {ROUTES} from '../routes/routing.paths';
 
 describe('Login component', () => {
     let page: LoginPage;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [
+            imports     : [
                 BrowserModule,
                 FormsModule
             ],
             declarations: [LoginComponent],
-            providers: [
+            providers   : [
                 {
-                    provide: AuthService, useClass: AuthServiceStub
+                    provide : AuthService,
+                    useClass: AuthServiceStub
                 },
                 {
-                    provide: Router, useClass: RouterStub
+                    provide : Router,
+                    useClass: RouterStub
                 }
             ]
         }).compileComponents();
@@ -64,7 +67,7 @@ describe('Login component', () => {
 
             expect(page.formElement).toBeNull('form is hidden');
 
-            expect(navigateSpy).toHaveBeenCalledWith(['/dashboard']);
+            expect(navigateSpy).toHaveBeenCalledWith([ROUTES.DASHBOARD]);
             expect(page.alertSucessMessage).toContain('Successfully logged in as ' + username + '.');
         }));
 
@@ -132,7 +135,7 @@ describe('Login component', () => {
 
             let authServiceStub: AuthServiceStub = TestBed.get(AuthService);
             spyOn(authServiceStub, 'login').and.returnValue(Observable.throw({
-                status: 401,
+                status : 401,
                 message: 'some message'
             }));
 

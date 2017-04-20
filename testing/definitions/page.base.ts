@@ -48,7 +48,6 @@ export class Page<T> {
 
 export class PageWithLoading<T> extends Page<T> {
 
-
     constructor(fixture: ComponentFixture<T>) {
         super(fixture);
     }

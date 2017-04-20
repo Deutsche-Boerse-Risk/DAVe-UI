@@ -4,7 +4,7 @@ import {tick} from '@angular/core/testing';
 
 /** Button events to pass to `DebugElement.triggerEventHandler` for RouterLink event handler */
 export const ButtonClickEvents = {
-    left: {button: 0},
+    left : {button: 0},
     right: {button: 2}
 };
 
@@ -64,7 +64,7 @@ export function newEvent(eventName: string, bubbles = false, cancelable = false)
     return evt;
 }
 
-export function windowResize(page: {detectChanges: () => void}) {
+export function windowResize(page: { detectChanges: () => void }) {
     dispatchEvent(window, 'resize');
     page.detectChanges();
 }

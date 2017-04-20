@@ -31,7 +31,7 @@ export class HttpServiceStub<T> {
         this.error.push(value);
     }
 
-    public get(request: Request<T>, auth: boolean = true): Observable<T> {
+    public get(request: Request<T>): Observable<T> {
         if (this.error.length) {
             let error = this.error.shift();
             return Observable.throw(error);
@@ -40,8 +40,8 @@ export class HttpServiceStub<T> {
         return Observable.of(value);
     }
 
-    public post(request: PostRequest<T>, auth: boolean = true): Observable<T> {
-        return this.get(request, auth);
+    public post(request: PostRequest<T>): Observable<T> {
+        return this.get(request);
     }
 }
 
@@ -50,7 +50,7 @@ export class HttpAsyncServiceStub<T> extends HttpServiceStub<T> {
     public get(request: Request<T>, auth: boolean = true): Observable<T> {
         return Observable.create((observer: Subscriber<any>) => {
             setTimeout(() => {
-                super.get(request, auth).subscribe((data) => {
+                super.get(request).subscribe((data) => {
                     observer.next(data);
                 }, (err) => {
                     observer.error(err);
@@ -61,10 +61,10 @@ export class HttpAsyncServiceStub<T> extends HttpServiceStub<T> {
         });
     }
 
-    public post(request: PostRequest<T>, auth: boolean = true): Observable<T> {
+    public post(request: PostRequest<T>): Observable<T> {
         return Observable.create((observer: Subscriber<any>) => {
             setTimeout(() => {
-                super.post(request, auth).subscribe((data) => {
+                super.post(request).subscribe((data) => {
                     observer.next(data);
                 }, (err) => {
                     observer.error(err);

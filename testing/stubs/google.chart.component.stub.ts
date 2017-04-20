@@ -25,7 +25,6 @@ export class GoogleChartStub {
     public height: any;
 }
 
-
 @Component({
     moduleId: module.id,
     selector: 'google-line-chart',

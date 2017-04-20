@@ -1,0 +1,19 @@
+{
+    "extends": "./tsconfig.base.json",
+    "compilerOptions": {
+        "module": "es2015",
+        "emitDecoratorMetadata": false,
+        "listFiles": true,
+        "outDir": "dist/"
+    },
+    "files": [
+        "app/app.module.ts",
+        "app/main.aot.ts"
+    ],
+    "angularCompilerOptions": {
+        "genDir": "ngFactories/",
+        "skipMetadataEmit": true,
+        "strictMetadataEmit": true,
+        "annotationsAs": "static fields"
+    }
+}

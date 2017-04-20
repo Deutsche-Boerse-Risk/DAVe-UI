@@ -7,7 +7,8 @@ import {RoutePart} from './bread.crumbs.component';
 import {ExportColumn} from './download.menu.component';
 import {OrderingCriteria, OrderingValueGetter} from '../datatable/data.table.column.directive';
 
-export abstract class AbstractListComponent<T extends {uid: string}> extends AbstractComponentWithAutoRefresh implements OnInit {
+export abstract class AbstractListComponent<T extends { uid: string }> extends AbstractComponentWithAutoRefresh
+    implements OnInit {
 
     public initialLoad: boolean = true;
 
@@ -55,8 +56,8 @@ export abstract class AbstractListComponent<T extends {uid: string}> extends Abs
 
     protected createRoutePart(title: string, routePart: string, key: string, index: number): RoutePart {
         return {
-            index: index,
-            title: title,
+            index    : index,
+            title    : title,
             routePart: routePart
         };
     }
@@ -65,7 +66,7 @@ export abstract class AbstractListComponent<T extends {uid: string}> extends Abs
         let index: number;
 
         // Remember old data
-        let oldData: {[key: string]: T} = {};
+        let oldData: { [key: string]: T } = {};
         if (this.data) {
             this.data.forEach((value: T) => {
                 oldData[value.uid] = value;

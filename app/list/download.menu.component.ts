@@ -10,10 +10,10 @@ export interface ExportColumn<T> {
 declare let saveAs: (blob: Blob, filename: string) => {};
 
 @Component({
-    moduleId: module.id,
-    selector: 'download-menu',
+    moduleId   : module.id,
+    selector   : 'download-menu',
     templateUrl: 'download.menu.component.html',
-    styleUrls: ['download.menu.component.css']
+    styleUrls  : ['download.menu.component.css']
 })
 export class DownloadMenuComponent {
 
@@ -57,7 +57,7 @@ export class DownloadMenuComponent {
 
             let result = innerValue.replace(/"/g, '""');
 
-            if (result.search(/("|,|\n)/g) >= 0) {
+            if (result.search(/([",\n])/g) >= 0) {
                 result = '"' + result + '"';
             }
 
@@ -77,7 +77,7 @@ export class DownloadMenuComponent {
         this.columns.forEach((column: ExportColumn<any>) => {
             const innerValue = column.header ? column.header.toString() : '';
             let result = innerValue.replace(/"/g, '""');
-            if (result.search(/("|,|\n)/g) >= 0) {
+            if (result.search(/([",\n])/g) >= 0) {
                 result = '"' + result + '"';
             }
             if (!first) {
