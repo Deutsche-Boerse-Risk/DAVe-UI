@@ -34,7 +34,7 @@
                     [style.textAlign]="column.align">
                     <ng-template *ngIf="column.cellTemplate"
                                  [ngTemplateOutlet]="column.cellTemplate"
-                                 [ngOutletContext]="{ row: row }"></ng-template>
+                                 [ngTemplateOutletContext]="{ row: row }"></ng-template>
                 </td>
             </tr>
             <tr *ngIf="detailRowGroups"
@@ -72,7 +72,7 @@
                                     [style.textAlign]="column.align">
                                     <ng-template *ngIf="column.cellTemplate"
                                                  [ngTemplateOutlet]="column.cellTemplate"
-                                                 [ngOutletContext]="{ row: row }"></ng-template>
+                                                 [ngTemplateOutletContext]="{ row: row }"></ng-template>
                                 </td>
                             </tr>
                             </tbody>
@@ -90,7 +90,7 @@
                 [style.textAlign]="column.align">
                 <ng-template *ngIf="column.footerTemplate"
                              [ngTemplateOutlet]="column.footerTemplate"
-                             [ngOutletContext]="{ footer: footer }"></ng-template>
+                             [ngTemplateOutletContext]="{ footer: footer }"></ng-template>
             </th>
         </tr>
         </tfoot>
