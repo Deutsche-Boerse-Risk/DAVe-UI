@@ -4,6 +4,7 @@ import {RouterModule} from '@angular/router';
 import {FormsModule} from '@angular/forms';
 
 import {CommonModule} from '../common/common.module';
+import {MaterialModule} from '../material/material.module';
 
 import {DownloadMenuComponent} from './download.menu.component';
 import {BreadCrumbsComponent} from './bread.crumbs.component';
@@ -15,7 +16,8 @@ import {DrilldownButtonComponent} from './drilldown.button.component';
         BrowserModule,
         RouterModule,
         FormsModule,
-        CommonModule
+        CommonModule,
+        MaterialModule
     ],
     declarations: [
         ListComponent,

@@ -11,6 +11,7 @@ import {AuthHttp} from 'angular2-jwt';
 
 import {MenuModule} from './menu/menu.module';
 import {RoutingModule} from './routes/routing.module';
+import {MaterialModule} from './material/material.module';
 
 export function HttpServiceFactory(http: Http, authHttp: AuthHttp): HttpService<any> {
     return new HttpService(http, authHttp);
@@ -23,7 +24,8 @@ export function HttpServiceFactory(http: Http, authHttp: AuthHttp): HttpService<
         HttpModule,
         JsonpModule,
         MenuModule,
-        AuthModule
+        AuthModule,
+        MaterialModule
     ],
     declarations: [
         AppComponent

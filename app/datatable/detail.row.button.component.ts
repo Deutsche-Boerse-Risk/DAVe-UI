@@ -4,8 +4,8 @@ import {Component, Input} from '@angular/core';
     moduleId : module.id,
     selector : 'detail-row-button',
     template : `
-        <a [routerLink]="routerLink">
-            <span class="fa fa-bar-chart-o" aria-hidden="true" title="Detail"></span>
+        <a md-icon-button [routerLink]="routerLink">
+            <md-icon>timeline</md-icon>
         </a>
     `,
     styleUrls: ['data.table.button.component.css']

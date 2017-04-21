@@ -1,0 +1,35 @@
+@import "../component";
+
+:host {
+    .mat-chip {
+        outline: 0 none;
+    }
+
+    .mat-chip:not([disabled]) {
+        cursor: pointer;
+        position: relative;
+
+        &:after {
+            opacity: 0;
+            @include hoverTransition;
+
+            content: '\A';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.12);
+            border-radius: 24px;
+        }
+
+        &:hover:after {
+            opacity: 1;
+        }
+    }
+
+    .mat-chip.mat-chip-selected:not(.mat-basic-chip).mat-accent {
+        background-color: map_get($dbg-app-accent-palette, default);
+        color: map_get($dbg-app-accent-palette, default-contrast);
+    }
+}

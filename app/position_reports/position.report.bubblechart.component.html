@@ -1,56 +1,51 @@
-<div class="panel panel-default" style="border-top: 0">
-    <div class="panel-body" *ngIf="chartData?.rows.length">
-        <div class="pull-right">
-            <label for="memberSelect">Member:</label>
-            <select name="memberSelect" id="memberSelect"
-                    [(ngModel)]="sourceData.memberSelection"
-                    (ngModelChange)="memberSelectionChanged()">
-                <option *ngFor="let option of sourceData?.selection.getOptions(); trackBy:trackByKey"
-                        [ngValue]="option">
-                    {{option.member}}
-                </option>
-            </select>
-            <label for="accountSelect">Account:</label>
-            <select name="accountSelect" id="accountSelect"
-                    [(ngModel)]="sourceData.accountSelection"
-                    (ngModelChange)="accountSelectionChanged()">
-                <option *ngFor="let option of sourceData?.selection.get(sourceData?.memberSelection?.memberKey)?.subRecords.getOptions(); trackBy:trackByKey"
-                        [ngValue]="option">
-                    {{option.account}}
-                </option>
-            </select>
-            <label for="bubblesCount">Number of bubbles:</label>
-            <select name="bubblesCount" id="bubblesCount"
-                    [(ngModel)]="topRecordsCount"
-                    (ngModelChange)="accountSelectionChanged()">
-                <option *ngFor="let bubblesCount of topRecords; trackBy:trackByIndex" [ngValue]="bubblesCount">
-                    {{bubblesCount}}
-                </option>
-            </select>
-        </div>
-    </div>
-    <div class="panel-body">
-        <initial-load *ngIf="initialLoad && !errorMessage"></initial-load>
+<md-card *ngIf="chartData?.rows.length">
+    <md-select placeholder="Member"
+               [(ngModel)]="sourceData.memberSelection"
+               (ngModelChange)="memberSelectionChanged()">
+        <md-option *ngFor="let option of sourceData?.selection.getOptions(); trackBy:trackByKey"
+                   [value]="option">{{option.member}}
+        </md-option>
+    </md-select>
+    <md-select placeholder="Account"
+               [(ngModel)]="sourceData.accountSelection"
+               (ngModelChange)="accountSelectionChanged()">
+        <md-option
+                *ngFor="let option of sourceData?.selection.get(sourceData?.memberSelection?.memberKey)?.subRecords.getOptions(); trackBy:trackByKey"
+                [value]="option">{{option.account}}
+        </md-option>
+    </md-select>
+    <md-select placeholder="Number of bubbles"
+               [(ngModel)]="topRecordsCount"
+               (ngModelChange)="accountSelectionChanged()">
+        <md-option *ngFor="let bubblesCount of topRecords; trackBy:trackByIndex"
+                   [value]="bubblesCount">{{bubblesCount}}
+        </md-option>
+    </md-select>
+</md-card>
 
-        <no-data *ngIf="!initialLoad && !errorMessage && chartData?.rows.length <= 1"></no-data>
+<initial-load *ngIf="initialLoad && !errorMessage"></initial-load>
 
-        <update-failed *ngIf="errorMessage" [message]="errorMessage"></update-failed>
+<no-data *ngIf="!initialLoad && !errorMessage && chartData?.rows.length <= 1"></no-data>
 
-        <div class="panel-body" *ngIf="title">
-            <div class="alert alert-info" role="alert" [innerHTML]="title"></div>
-        </div>
+<update-failed *ngIf="errorMessage" [message]="errorMessage"></update-failed>
 
-        <google-chart *ngIf="chartData?.rows.length"
-                      [chartData]="chartData"
-                      [chartOptions]="options"
-                      chartType="BubbleChart"
-                      height="345px">
-        </google-chart>
-        <br/>
+<md-card *ngIf="chartData?.rows.length && title" class="info">
+    <div [innerHTML]="title"></div>
+</md-card>
 
-        <a *ngIf="chartData?.rows.length" [routerLink]="routerRoots.POSITION_REPORTS_LATEST"
-           class="btn btn-default btn-block">
-            View Details
-        </a>
-    </div>
-</div>
+<md-card style="height: 345px" *ngIf="chartData?.rows.length">
+    <google-chart *ngIf="chartShown && chartData?.rows.length"
+                  [chartData]="chartData"
+                  [chartOptions]="options"
+                  chartType="BubbleChart"
+                  height="345px">
+    </google-chart>
+</md-card>
+
+<a *ngIf="chartData?.rows.length"
+   md-raised-button
+   color="accent"
+   style="width: 100%"
+   [routerLink]="routerRoots.POSITION_REPORTS_LATEST">
+    View Details
+</a>

@@ -4,6 +4,7 @@ import {FormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 
 import {CommonModule} from '../common/common.module';
+import {MaterialModule} from '../material/material.module';
 import {ChartsModule} from '../charts/charts.module';
 import {DataTableModule} from '../datatable/data.table.module';
 import {ListModule} from '../list/list.module';
@@ -22,7 +23,8 @@ import {PositionReportHistoryComponent} from './position.report.history.componen
         ChartsModule,
         CommonModule,
         DataTableModule,
-        ListModule
+        ListModule,
+        MaterialModule
     ],
     providers   : [PositionReportsService],
     declarations: [

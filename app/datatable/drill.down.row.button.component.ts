@@ -4,8 +4,8 @@ import {Component, Input} from '@angular/core';
     moduleId : module.id,
     selector : 'drilldown-row-button',
     template : `
-        <a [routerLink]="routerLink">
-            <span class="fa fa-bullseye" aria-hidden="true" title="Drilldown"></span>
+        <a md-icon-button [routerLink]="routerLink">
+            <md-icon>my_location</md-icon>
         </a>
     `,
     styleUrls: ['data.table.button.component.css']

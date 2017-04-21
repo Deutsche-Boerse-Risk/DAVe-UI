@@ -1,5 +1,17 @@
 @import "../component";
 
-a[routerLink] {
-    cursor: pointer;
+:host {
+    display: flex;
+}
+
+.mat-button {
+    margin: 0 3px;
+}
+
+.mat-button.active /deep/ .mat-button-focus-overlay {
+    opacity: 1;
+}
+
+.mat-menu-item.active {
+    background: rgba(0, 0, 0, .1);
 }

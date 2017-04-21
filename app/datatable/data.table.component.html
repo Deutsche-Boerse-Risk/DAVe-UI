@@ -1,22 +1,24 @@
 <div class="panel-body" *ngIf="data?.length">
-    <table [class.table-striped]="striped" class="table table-bordered table-hover">
+    <table [class.striped]="striped">
         <thead *ngIf="headerTemplates" #mainHeader>
         <tr *ngFor="let headerTemplate of headerTemplates; trackBy:trackByIndex">
             <th *ngFor="let column of headerTemplate; trackBy:trackByIndex"
                 [attr.rowspan]="column.rowspan"
                 [attr.colspan]="column.colspan"
-                [style.textAlign]="column.align">
+                [style.textAlign]="column.align"
+                [mdTooltip]="column.tooltip">
                 <ng-template [ngIf]="column.title">{{column.title}}</ng-template>
-                <i *ngIf="column.tooltip"
-                   class="fa fa-question-circle"
-                   data-toggle="tooltip"
-                   data-placement="top"
-                   [title]="column.tooltip"
-                   aria-hidden="true"></i>
-                <span *ngIf="column.sortingKey"
-                      class="fa fa-sort"
-                      aria-hidden="true"
-                      (click)="sortRecords(column.sortingKey)"></span>
+                <md-icon *ngIf="column.tooltip"
+                         style="font-size: 14px; width: 14px; height: 14px; top: 2px; position: relative;">
+                    help
+                </md-icon>
+                <button md-icon-button
+                        *ngIf="column.sortingKey"
+                        (click)="sortRecords(column.sortingKey)">
+                    <md-icon>
+                        swap_vert
+                    </md-icon>
+                </button>
             </th>
         </tr>
         </thead>
@@ -98,9 +100,9 @@
 </div>
 
 <div class="panel-footer" *ngIf="showFooter && data?.length">
-    Showing {{pageRows?.length}} records out of {{data?.length}}
-
     <paging *ngIf="pageSize && data?.length / pageSize > 1" [pageSize]="pageSize"
             [totalRecords]="data?.length"
             (pageChanged)="updatePage($event)"></paging>
+
+    Showing {{pageRows?.length}} records out of {{data?.length}}
 </div>

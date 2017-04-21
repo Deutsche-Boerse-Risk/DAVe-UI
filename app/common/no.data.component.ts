@@ -4,9 +4,9 @@ import {Component} from '@angular/core';
     moduleId : module.id,
     selector : 'no-data',
     template : `
-        <div class="panel-body">
-            <div class="alert alert-info" role="alert">No data available.</div>
-        </div>`,
+        <md-card class="info">
+            No data available.
+        </md-card>`,
     styleUrls: ['../common.component.css']
 })
 export class NoDataComponent {

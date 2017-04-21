@@ -1,10 +1,10 @@
-<div>
-    <initial-load *ngIf="initialLoad && !errorMessage"></initial-load>
+<initial-load *ngIf="initialLoad && !errorMessage"></initial-load>
 
-    <no-data *ngIf="!initialLoad && !errorMessage && data?.length < 1"></no-data>
+<no-data *ngIf="!initialLoad && !errorMessage && data?.length < 1"></no-data>
 
-    <update-failed *ngIf="errorMessage" [message]="errorMessage"></update-failed>
+<update-failed *ngIf="errorMessage" [message]="errorMessage"></update-failed>
 
+<ng-template [ngIf]="data?.length > 0">
     <data-table [data]="data"
                 [footer]="footer"
                 [defaultOrdering]="defaultOrdering"
@@ -13,19 +13,21 @@
         <column title="Clearer"
                 [sortingKey]="valueGetters.clearer">
             <ng-template let-record="row" cell-template>
-                <a [routerLink]="[routerRoots.LIQUI_GROUP_MARGIN_LATEST, record.clearer]">{{record.clearer}}</a>
+                <a md-button
+                   [routerLink]="[routerRoots.LIQUI_GROUP_MARGIN_LATEST, record.clearer]">{{record.clearer}}</a>
             </ng-template>
         </column>
         <column title="Member / Client"
                 [sortingKey]="valueGetters.member">
             <ng-template let-record="row" cell-template>
-                <a [routerLink]="[routerRoots.LIQUI_GROUP_MARGIN_LATEST, record.clearer, record.member]">{{record.member}}</a>
+                <a md-button [routerLink]="[routerRoots.LIQUI_GROUP_MARGIN_LATEST, record.clearer, record.member]">{{record.member}}</a>
             </ng-template>
         </column>
         <column title="Account"
                 [sortingKey]="valueGetters.account">
             <ng-template let-record="row" cell-template>
-                <a [routerLink]="[routerRoots.LIQUI_GROUP_MARGIN_LATEST, record.clearer, record.member, record.account]">{{record.account}}</a>
+                <a md-button
+                   [routerLink]="[routerRoots.LIQUI_GROUP_MARGIN_LATEST, record.clearer, record.member, record.account]">{{record.account}}</a>
             </ng-template>
         </column>
         <column title="Premium Margin"
@@ -85,6 +87,12 @@
             </ng-template>
         </column>
     </data-table>
+</ng-template>
 
-    <a [routerLink]="routerRoots.LIQUI_GROUP_MARGIN_LATEST" class="btn btn-default btn-block">View Details</a>
-</div>
+<a *ngIf="data?.length > 0"
+   md-raised-button
+   color="accent"
+   style="width: 100%"
+   [routerLink]="routerRoots.LIQUI_GROUP_MARGIN_LATEST">
+    View Details
+</a>

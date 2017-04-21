@@ -2,6 +2,8 @@ import {DatePipe, DecimalPipe} from '@angular/common';
 import {NgModule, Inject, InjectionToken} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
+import {MaterialModule} from '../material/material.module';
+
 import {InitialLoadComponent} from './initial.load.component';
 import {NoDataComponent} from './no.data.component';
 import {UpdateFailedComponent} from './update.failed.component';
@@ -22,7 +24,8 @@ export class DateFormatter {
 
 @NgModule({
     imports     : [
-        BrowserModule
+        BrowserModule,
+        MaterialModule
     ],
     declarations: [
         InitialLoadComponent,

@@ -10,7 +10,7 @@ import {DataTableDefinition, DataTableCell, DataTableUtils} from './data.table.u
     moduleId   : module.id,
     selector   : 'data-table',
     templateUrl: 'data.table.component.html',
-    styleUrls  : ['../common.component.css']
+    styleUrls  : ['data.table.component.css']
 })
 export class DataTableComponent implements OnChanges {
 

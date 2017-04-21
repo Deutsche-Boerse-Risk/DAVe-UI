@@ -1,29 +1,29 @@
-<div id="wrapper">
+<md-sidenav-container>
+    <md-sidenav #sidenav>
+        <app-menu *ngIf="authStatus" orientation="column"></app-menu>
 
-    <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation" style="margin-bottom: 0">
-        <div class="navbar-header" style="margin-right: 25px;">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" [routerLink]="routerRoots.ROOT"><span class="glyphicon glyphicon-fire"></span> DAVe</a>
-        </div>
+        <hr>
 
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" *ngIf="authStatus">
-            <ul class="nav navbar-nav navbar-top-links navbar-right">
-                <login-menu></login-menu>
-            </ul>
+        <login-menu *ngIf="authStatus" orientation="column"></login-menu>
+    </md-sidenav>
 
-            <app-menu></app-menu>
-        </div>
-    </nav>
+    <md-toolbar color="primary" class="mat-elevation-z3">
+        <a md-button [routerLink]="routerRoots.ROOT">
+            <img src="/deutscheBoerseGroupLogo.svg" height="30px">
+        </a>
 
-    <!-- Page Content -->
-    <div id="page-wrapper">
+        <app-menu *ngIf="authStatus && !mediaSmall"></app-menu>
+
+        <span class="toolbar-spacer"></span>
+
+        <button md-icon-button (click)="sidenav.toggle()" *ngIf="mediaSmall">
+            <md-icon>menu</md-icon>
+        </button>
+
+        <login-menu *ngIf="authStatus && !mediaSmall"></login-menu>
+    </md-toolbar>
+
+    <div class="content">
         <router-outlet></router-outlet>
     </div>
-    <!-- /#page-wrapper -->
-
-</div>
+</md-sidenav-container>

@@ -12,7 +12,7 @@
         <column title="Member / Client"
                 [sortingKey]="valueGetters.member">
             <ng-template let-record="row" cell-template>
-                <a [routerLink]="[rootRoutePath, record.clearer || '*', record.member || '*']">
+                <a md-button [routerLink]="[rootRoutePath, record.clearer || '*', record.member || '*']">
                     {{record.member}}
                 </a>
             </ng-template>
@@ -20,7 +20,8 @@
         <column title="Account"
                 [sortingKey]="valueGetters.account">
             <ng-template let-record="row" cell-template>
-                <a [routerLink]="[rootRoutePath, record.clearer || '*', record.member || '*', record.account || '*']">
+                <a md-button
+                   [routerLink]="[rootRoutePath, record.clearer || '*', record.member || '*', record.account || '*']">
                     {{record.account}}
                 </a>
             </ng-template>
@@ -28,7 +29,8 @@
         <column title="Margin Class / Liquidation Group"
                 [sortingKey]="valueGetters.marginClass">
             <ng-template let-record="row" cell-template>
-                <a [routerLink]="[rootRoutePath, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', record.marginClass || '*']">
+                <a md-button
+                   [routerLink]="[rootRoutePath, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', record.marginClass || '*']">
                     {{record.marginClass}}
                 </a>
             </ng-template>

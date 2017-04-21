@@ -3,7 +3,5 @@
 :host {
     float: right;
 
-    & > ul {
-        @include clearfix;
-    }
+    margin-bottom: 15px;
 }

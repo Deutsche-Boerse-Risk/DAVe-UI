@@ -1,4 +1,4 @@
-import {Component, HostBinding} from '@angular/core';
+import {Component, HostBinding, Input} from '@angular/core';
 
 import {AuthService} from './auth.service';
 import {ROUTES} from '../routes/routing.paths';
@@ -7,18 +7,14 @@ import {ROUTES} from '../routes/routing.paths';
     moduleId   : module.id,
     selector   : 'login-menu',
     templateUrl: 'login.menu.component.html',
-    styleUrls  : ['../common.component.css']
+    styleUrls  : ['../common.component.css'],
+    styles     : [':host { display: flex !important; }']
 })
 export class LoginMenuComponent {
 
-    /**
-     * Just to add bootstrap classes to be able to fix the layout...
-     */
-    @HostBinding('class.nav')
-    @HostBinding('class.navbar-nav')
-    @HostBinding('class.navbar-top-links')
-    @HostBinding('class.navbar-right')
-    public _classes: boolean = true;
+    @Input()
+    @HostBinding('style.flex-direction')
+    public orientation: 'row' | 'column' = 'row';
 
     constructor(private authService: AuthService) {
     }

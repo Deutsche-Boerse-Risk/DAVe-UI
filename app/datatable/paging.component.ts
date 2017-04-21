@@ -1,4 +1,8 @@
-import {Component, Input, Output, OnChanges, EventEmitter, SimpleChanges} from '@angular/core';
+import {
+    Component, Input, Output, OnChanges, EventEmitter, SimpleChanges, ContentChildren,
+    QueryList
+} from '@angular/core';
+import {MdButtonToggle} from '@angular/material';
 
 @Component({
     moduleId   : module.id,
@@ -7,6 +11,9 @@ import {Component, Input, Output, OnChanges, EventEmitter, SimpleChanges} from '
     styleUrls  : ['paging.component.css']
 })
 export class PagingComponent implements OnChanges {
+
+    @ContentChildren(MdButtonToggle)
+    public _buttons: QueryList<MdButtonToggle>;
 
     public pages: number[];
 
@@ -67,11 +74,14 @@ export class PagingComponent implements OnChanges {
             return;
         }
 
-        this.currentPage = page;
-        this.pageChanged.emit(this.currentPage);
+        this.pageChanged.emit(page);
+
+        setTimeout(() => {
+            this.currentPage = page;
+        });
     }
 
-    public trackByIndex(index: number): number {
-        return index;
+    public trackByPage(index: number, value: number): number {
+        return value;
     }
 }

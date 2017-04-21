@@ -2,6 +2,8 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
 
+import {MaterialModule} from '../material/material.module';
+
 import {DataTableComponent} from './data.table.component';
 
 import {DataTableColumnDirective} from './data.table.column.directive';
@@ -22,7 +24,8 @@ import {HighlighterDirective} from './highlighter.directive';
 @NgModule({
     imports     : [
         BrowserModule,
-        RouterModule
+        RouterModule,
+        MaterialModule
     ],
     declarations: [
         DataTableComponent,

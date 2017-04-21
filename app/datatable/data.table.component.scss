@@ -1,0 +1,48 @@
+@import "../component";
+
+:host {
+    width: 100%;
+
+    .hidden {
+        display: none;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        @include mat-elevation(2);
+
+        margin-bottom: 15px;
+
+        font-size: rem(1.4);
+    }
+
+    /deep/ .mat-button {
+        color: map_get($dbg-app-primary-palette, default);
+    }
+
+    th, td {
+        padding: 8px;
+        border: 1px solid map_get($mat-grey, 100);
+    }
+
+    thead th {
+        background-color: map_get($dbg-app-primary-palette, default);
+        color: map_get($dbg-app-primary-palette, default-contrast);
+    }
+
+    tfoot th {
+        background-color: map_get($mat-grey, 200);
+        color: mat-contrast($mat-grey, 200);
+    }
+
+    .striped > tbody > tr:nth-child(even) td {
+        background-color: map_get($mat-grey, 100);
+        color: mat-contrast($mat-grey, 100);
+    }
+
+    tbody > tr:hover td {
+        background-color: map_get($mat-dbg-primary, 100) !important;
+        color: mat-contrast($mat-dbg-primary, 100) !important;;
+    }
+}

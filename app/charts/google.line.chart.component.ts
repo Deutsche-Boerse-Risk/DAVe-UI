@@ -7,7 +7,7 @@ import {GoogleChart} from './google.chart.component';
     moduleId   : module.id,
     selector   : 'google-line-chart',
     templateUrl: 'google.line.chart.component.html',
-    styleUrls  : ['google.chart.component.css']
+    styleUrls  : ['google.line.chart.component.css']
 })
 export class GoogleLineChart {
 

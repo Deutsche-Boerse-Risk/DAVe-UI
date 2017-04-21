@@ -1,0 +1,12 @@
+@import "../component";
+
+:host /deep/ {
+    .mat-tab-label .mat-icon {
+        position: relative;
+        top: 7px;
+    }
+
+    .mat-tab-body {
+        padding: 10px;
+    }
+}

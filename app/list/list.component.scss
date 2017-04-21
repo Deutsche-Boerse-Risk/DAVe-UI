@@ -1,12 +1,7 @@
 @import "../component";
 
 :host {
-    .pull-right {
-        @include clearfix;
-    }
-
-    .filter {
-        margin-right: -18px;
-        margin-top: -4px;
+    .mat-toolbar {
+        margin-bottom: 15px;
     }
 }

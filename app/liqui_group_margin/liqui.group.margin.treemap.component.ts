@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Router} from '@angular/router';
 
 import {AbstractComponentWithAutoRefresh} from '../abstract.component';
@@ -13,20 +13,28 @@ import {LiquiGroupMarginTree, LiquiGroupMarginTreeNode} from './liqui.group.marg
     moduleId   : module.id,
     selector   : 'liqui-group-margin-treemap',
     templateUrl: 'liqui.group.margin.treemap.component.html',
-    styleUrls  : ['../common.component.css']
+    styleUrls  : ['../common.component.css'],
+    styles     : [
+        ':host /deep/ rect[fill="#000099"] + text { fill: white !important;}'
+    ]
 })
 export class LiquiGroupMarginTreemapComponent extends AbstractComponentWithAutoRefresh {
+
+    @Input()
+    public chartShown: boolean;
 
     public initialLoad: boolean = true;
 
     public errorMessage: string;
 
     public chartOptions: TreeMapOptions = {
-        minColor            : '#f39d3c',
-        midColor            : '#ec7a08',
-        maxColor            : '#b35c00',
+        headerColor         : '#000099',
+        headerHighlightColor: '#000099',
+        minColor            : '#7DCDFF',
+        minHighlightColor   : '#D7EBFF',
         fontColor           : 'black',
         showScale           : false,
+        showTooltips        : false,
         highlightOnMouseOver: true,
         headerHeight        : 15,
         maxDepth            : 1,

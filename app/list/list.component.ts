@@ -46,7 +46,11 @@ export class ListComponent {
     public filterAfterTimeout(): void {
         clearTimeout(this.filterTimeoutHandle);
         this.filterTimeoutHandle = setTimeout(() => {
-            this.filterChanged.emit(this.filterQuery);
+            this.filter();
         }, FILTER_TIMEOUT);
+    }
+
+    public filter(): void {
+        this.filterChanged.emit(this.filterQuery);
     }
 }

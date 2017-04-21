@@ -1,0 +1,12 @@
+@import "google.chart.component.scss";
+
+.mat-button-toggle-group {
+    margin-bottom: 10px;
+    float: right;
+
+    .color-preview {
+        display: inline-block;
+        width: 15px;
+        height: 15px;
+    }
+}

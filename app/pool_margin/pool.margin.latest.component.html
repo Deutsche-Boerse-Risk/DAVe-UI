@@ -12,7 +12,7 @@
         <column title="Collateral Pool"
                 [sortingKey]="valueGetters.pool">
             <ng-template let-record="row" cell-template>
-                <a [routerLink]="[rootRoutePath, record.clearer || '*', record.pool || '*']">
+                <a md-button [routerLink]="[rootRoutePath, record.clearer || '*', record.pool || '*']">
                     {{record.pool}}
                 </a>
             </ng-template>
@@ -20,7 +20,8 @@
         <column title="Margin Currency"
                 [sortingKey]="valueGetters.marginCurrency">
             <ng-template let-record="row" cell-template>
-                <a [routerLink]="[rootRoutePath, record.clearer || '*', record.pool || '*', record.marginCurrency || '*']">
+                <a md-button
+                   [routerLink]="[rootRoutePath, record.clearer || '*', record.pool || '*', record.marginCurrency || '*']">
                     {{record.marginCurrency}}
                 </a>
             </ng-template>

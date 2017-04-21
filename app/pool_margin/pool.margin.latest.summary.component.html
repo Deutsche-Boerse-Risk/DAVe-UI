@@ -1,84 +1,26 @@
-<div *ngIf="data">
-    <div class="col-lg-3 col-md-6">
-        <div class="panel"
-             [class.panel-green]="data.shortfallSurplus >= 0"
-             [class.panel-red]="data.shortfallSurplus < 0">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-12 text-right">
-                        <div class="huge">{{data.shortfallSurplus | number:'.2-2'}}</div>
-                        <div>Margin Shortfall/Surplus</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-6">
-        <div class="panel"
-             [class.panel-green]="data.marginRequirement >= 0"
-             [class.panel-red]="data.marginRequirement < 0">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-12 text-right">
-                        <div class="huge">{{data.marginRequirement | number:'.2-2'}}</div>
-                        <div>Margin Requirement</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-6">
-        <div class="panel"
-             [class.panel-green]="data.totalCollateral >= 0"
-             [class.panel-red]="data.totalCollateral < 0">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-12 text-right">
-                        <div class="huge">{{data.totalCollateral | number:'.2-2'}}</div>
-                        <div>Collateral</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-6">
-        <div class="panel"
-             [class.panel-green]="data.cashBalance >= 0"
-             [class.panel-red]="data.cashBalance < 0">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-12 text-right">
-                        <div class="huge">{{data.cashBalance | number:'.2-2'}}</div>
-                        <div>Cash Balance</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--<div class="col-lg-2 col-md-4">
-        <div class="panel"
-             [class.panel-green]="data.marginCall >= 0"
-             [class.panel-red]="data.marginCall < 0">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-12 text-right">
-                        <div class="huge">{{data.marginCall | number:'.2-2'}}</div>
-                        <div>Margin Call</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-2 col-md-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-12 text-right">
-                        <i class="fa fa-arrow-circle-right fa-2x"></i>
-                        <div>View details</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>-->
+<ng-template #card let-value="value" let-label="label">
+    <md-card [class.good]="value >= 0"
+             [class.error]="value < 0"
+             fxFlex="1 1 auto"
+             fxLayout="column">
+        <div class="huge">{{value | number:'.2-2'}}</div>
+        <div>{{label}}</div>
+    </md-card>
+</ng-template>
+
+<div *ngIf="data"
+     fxLayout="row"
+     fxLayoutWrap="wrap">
+    <ng-template [ngTemplateOutlet]="card"
+                 [ngTemplateOutletContext]="{value: data.shortfallSurplus, label: 'Margin Shortfall/Surplus'}">
+    </ng-template>
+    <ng-template [ngTemplateOutlet]="card"
+                 [ngTemplateOutletContext]="{value: data.marginRequirement, label: 'Margin Requirement'}">
+    </ng-template>
+    <ng-template [ngTemplateOutlet]="card"
+                 [ngTemplateOutletContext]="{value: data.totalCollateral, label: 'Collateral'}">
+    </ng-template>
+    <ng-template [ngTemplateOutlet]="card"
+                 [ngTemplateOutletContext]="{value: data.cashBalance, label: 'Cash Balance'}">
+    </ng-template>
 </div>

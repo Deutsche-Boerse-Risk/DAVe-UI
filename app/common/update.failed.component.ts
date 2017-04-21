@@ -4,9 +4,9 @@ import {Component, Input} from '@angular/core';
     moduleId : module.id,
     selector : 'update-failed',
     template : `
-        <div class="panel-body">
-            <div class="alert alert-danger" role="alert">Failed to update the data: {{error}}.</div>
-        </div>`,
+        <md-card class="error">
+            Failed to update the data: {{error}}.
+        </md-card>`,
     styleUrls: ['../common.component.css']
 })
 export class UpdateFailedComponent {

@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
 
+import {MaterialModule} from '../material/material.module';
 import {ChartsModule} from '../charts/charts.module';
 import {DataTableModule} from '../datatable/data.table.module';
 import {ListModule} from '../list/list.module';
@@ -17,7 +18,8 @@ import {RiskLimitUtilizationHistoryComponent} from './risk.limit.utilization.his
         RouterModule,
         ChartsModule,
         DataTableModule,
-        ListModule
+        ListModule,
+        MaterialModule
     ],
     declarations: [
         RiskLimitUtilizationLatestComponent,

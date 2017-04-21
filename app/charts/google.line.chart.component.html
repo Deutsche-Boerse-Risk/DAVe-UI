@@ -1,21 +1,18 @@
-<div *ngIf="showControls && chartData" class="controls">
-    <button class="btn btn-sm btn-default"
-            type="button"
-            *ngIf="singleLineSelection"
-            [class.disabled]="hiddenColumns.length !== 0"
-            (click)="hideColumn(-1)">
+<md-button-toggle-group *ngIf="showControls && chartData" multiple>
+    <md-button-toggle *ngIf="singleLineSelection"
+                      (change)="hideColumn(-1)"
+                      checked="true">
         All
-    </button>
-    <button class="btn btn-sm btn-default"
-            type="button"
-            *ngFor="let column of convertToChartData().cols.slice(1); let i = index"
-            [class.disabled]="hiddenColumns.indexOf(i + 1) !== -1 || (singleLineSelection && hiddenColumns.length === 0)"
-            (click)="hideColumn(i + 1)">
+    </md-button-toggle>
+    <md-button-toggle *ngFor="let column of convertToChartData().cols.slice(1); let i = index"
+                      (change)="hideColumn(i + 1)"
+                      checked="true">
                 <span *ngIf="originalChartOptions?.series && originalChartOptions?.series[i]?.color"
-                      [style.background]="originalChartOptions.series[i].color"></span>
+                      [style.background]="originalChartOptions.series[i].color"
+                      class="color-preview"></span>
         {{column.label}}
-    </button>
-</div>
+    </md-button-toggle>
+</md-button-toggle-group>
 <google-chart chartType="LineChart"
               [chartOptions]="chartOptions"
               [chartData]="chartData"

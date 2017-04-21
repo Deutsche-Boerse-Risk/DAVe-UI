@@ -1,0 +1,13 @@
+@import "component";
+
+.content {
+    padding: 0 50px 50px;
+
+    @media screen and (max-width: 800px) {
+        padding: 0 10px;
+    }
+}
+
+:host, .mat-sidenav-container {
+    height: 100%
+}

@@ -7,7 +7,7 @@ import {ROUTES} from './routes/routing.paths';
     moduleId   : module.id,
     selector   : 'dave',
     templateUrl: 'app.component.html',
-    styleUrls  : ['common.component.css']
+    styleUrls  : ['app.component.css']
 })
 export class AppComponent {
 
@@ -17,6 +17,13 @@ export class AppComponent {
     public get authStatus(): boolean {
         return this.authService.isLoggedIn();
     };
+
+    public get mediaSmall(): boolean {
+        if (!window.matchMedia) {
+            return false;
+        }
+        return window.matchMedia('screen and (max-width:800px)').matches;
+    }
 
     public get routerRoots() {
         return ROUTES;

@@ -3,6 +3,8 @@ import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
 import {FormsModule} from '@angular/forms';
 
+import {MaterialModule} from '../material/material.module';
+
 import {AuthHttp, AuthConfig} from 'angular2-jwt';
 import {RequestOptions, Http} from '@angular/http';
 
@@ -21,7 +23,8 @@ export function AuthHttpFactory(http: Http, options: RequestOptions) {
     imports     : [
         BrowserModule,
         FormsModule,
-        RouterModule
+        RouterModule,
+        MaterialModule
     ],
     declarations: [LoginMenuComponent, LoginComponent],
     exports     : [LoginMenuComponent],

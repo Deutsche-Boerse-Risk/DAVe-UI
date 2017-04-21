@@ -1,5 +1,5 @@
 import {DecimalPipe} from '@angular/common';
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 import {AbstractComponentWithAutoRefresh} from '../abstract.component';
 
@@ -26,6 +26,9 @@ export class PositionReportBubbleChartComponent extends AbstractComponentWithAut
     public initialLoad: boolean = true;
 
     public title: string;
+
+    @Input()
+    public chartShown: boolean;
 
     public options: BubbleChartOptions = {
         explorer         : {
@@ -56,10 +59,10 @@ export class PositionReportBubbleChartComponent extends AbstractComponentWithAut
         },
         series           : {
             [compVarPositiveLegend]: {
-                color: 'red'
+                color: '#CC3333'
             },
             [compVarNegativeLegend]: {
-                color: 'green'
+                color: '#66CC33'
             }
         },
         sortBubblesBySize: true,

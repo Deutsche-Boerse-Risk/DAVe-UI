@@ -1,4 +1,5 @@
 import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {Router} from '@angular/router';
 
 export interface RoutePart {
     title: string;
@@ -11,7 +12,7 @@ export interface RoutePart {
     moduleId   : module.id,
     selector   : 'bread-crumbs',
     templateUrl: 'bread.crumbs.component.html',
-    styleUrls  : ['../common.component.css'],
+    styleUrls  : ['bread.crumbs.component.css'],
     styles     : ['span, a { display: inline-block; }']
 })
 export class BreadCrumbsComponent implements OnChanges {
@@ -20,6 +21,9 @@ export class BreadCrumbsComponent implements OnChanges {
     public routeParts: RoutePart[];
 
     public filteredRouteParts: RoutePart[];
+
+    constructor(private router: Router) {
+    }
 
     public ngOnChanges(changes: SimpleChanges): void {
         if (this.routeParts) {
@@ -30,21 +34,17 @@ export class BreadCrumbsComponent implements OnChanges {
         }
     }
 
-    public getRoute(index: number): string[] {
-        index = this.filteredRouteParts[index].index;
+    public navigate(part: RoutePart): void {
+        if (!part.inactive) {
+            this.router.navigate(this.getRoute(part));
+        }
+    }
+
+    private getRoute(part: RoutePart): string[] {
+        let index = part.index;
         const items: string[] = [];
         for (let i = 0; i <= index; i++) {
             items.push(this.routeParts[i].routePart);
-        }
-        return items;
-    }
-
-    public getAdditionalRoutes(): number[] {
-        const items: number[] = [];
-        for (let i = 2; i < this.filteredRouteParts.length; i++) {
-            if (this.filteredRouteParts[i].title !== '*') {
-                items.push(i);
-            }
         }
         return items;
     }

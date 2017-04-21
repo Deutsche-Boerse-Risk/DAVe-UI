@@ -1,34 +1,113 @@
 @import "app/_global";
 
 body {
+    font-size: $mat-menu-font-size;
+    font-family: $mat-font-family;
+    text-align: left;
+    text-decoration: none; // necessary to reset anchor tags
+
     background-color: #fff;
+    margin: 0;
+    height: 100vh;
 }
 
-.drilldown-button {
-    margin-left: 10px;
-    margin-top: -4px;
+h1 {
+    font-size: rem(4);
 }
 
-#page-wrapper {
-    margin-top: 50px;
-    padding: 0 15px 0;
-    min-height: 568px;
-    background-color: white;
+h2 {
+    font-size: rem(3);
+
 }
 
-@media (min-width: 768px) {
-    #page-wrapper {
-        position: inherit;
-        margin: 50px 0 0 0;
-        padding: 0 30px;
-        border-left: 1px solid #e7e7e7;
+h3 {
+    font-size: rem(2);
+}
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat-core-theme($dbg-app-theme);
+//@include mat-autocomplete-theme($dbg-app-theme);
+@include mat-button-theme($dbg-app-theme);
+@include mat-button-toggle-theme($dbg-app-theme);
+@include mat-card-theme($dbg-app-theme);
+//@include mat-checkbox-theme($dbg-app-theme);
+@include mat-chips-theme($dbg-app-theme);
+//@include mat-dialog-theme($dbg-app-theme);
+//@include mat-grid-list-theme($dbg-app-theme);
+@include mat-icon-theme($dbg-app-theme);
+@include mat-input-theme($dbg-app-theme);
+//@include mat-list-theme($dbg-app-theme);
+@include mat-menu-theme($dbg-app-theme);
+//@include mat-progress-bar-theme($dbg-app-theme);
+//@include mat-progress-spinner-theme($dbg-app-theme);
+//@include mat-radio-theme($dbg-app-theme);
+@include mat-select-theme($dbg-app-theme);
+@include mat-sidenav-theme($dbg-app-theme);
+//@include mat-slide-toggle-theme($dbg-app-theme);
+//@include mat-slider-theme($dbg-app-theme);
+@include mat-tabs-theme($dbg-app-theme);
+@include mat-toolbar-theme($dbg-app-theme);
+@include mat-tooltip-theme($dbg-app-theme);
+
+.toolbar-spacer {
+    flex: 1 1 auto;
+}
+
+.mat-card {
+    margin-bottom: 10px;
+
+    &.info {
+        background-color: map_get($dbg-app-primary-palette, lighter);
+        color: map_get($dbg-app-primary-palette, lighter-contrast);
+    }
+
+    &.good {
+        background-color: map_get($dbg-app-warn-palette, 100);
+        color: mat-contrast($dbg-app-warn-palette, 100);
+    }
+
+    &.warn {
+        background-color: map_get($dbg-app-warn-palette, lighter);
+        color: map_get($dbg-app-warn-palette, lighter-contrast);
+    }
+
+    &.error {
+        background-color: map_get($dbg-app-warn-palette, 700);
+        color: mat-contrast($dbg-app-warn-palette, 700);
     }
 }
 
-.huge {
-    font-size: 20px;
+// Fixing hover effects
+$grey-palette: mat-palette($mat-grey, 1000);
+$theme: mat-light-theme($grey-palette, $grey-palette, $grey-palette);
+
+.mat-button, .mat-icon-button, .mat-raised-button, .mat-fab, .mat-mini-fab {
+    .mat-button-focus-overlay {
+        @include hoverTransition;
+    }
+
+    &:hover .mat-button-focus-overlay {
+        opacity: 1;
+    }
+
+    @include _mat-button-focus-color($theme);
 }
 
-.bg-warning {
-    background-color: #fcf8e3 !important;
+.mat-button-toggle {
+    .mat-button-toggle-focus-overlay {
+        @include hoverTransition;
+    }
+
+    &:hover:not(.mat-button-toggle-disabled) .mat-button-toggle-focus-overlay {
+        opacity: 1;
+    }
+
+    @include _mat-button-toggle-focus-color($theme);
 }
