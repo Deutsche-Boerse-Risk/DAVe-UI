@@ -29,7 +29,7 @@
         "rxjs": "~5.1.1",
         "systemjs": "^0.19.47",
         "web-animations-js": "^2.2.5",
-        "zone.js": "^0.8.8",
+        "zone.js": "0.8.7",
 
         "angular2-jwt": "^0.2.2",
 
