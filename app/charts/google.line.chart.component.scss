@@ -1,8 +1,15 @@
 @import "google.chart.component.scss";
 
+.mat-card {
+    margin-bottom: 10px;
+    clear: both;
+}
+
 .mat-button-toggle-group {
     margin-bottom: 10px;
     float: right;
+
+    @include clearfix;
 
     .color-preview {
         display: inline-block;

@@ -47,12 +47,14 @@ export class GoogleLineChart {
     }
 
     private _chartData: google.visualization.DataTable | google.visualization.DataView;
-    private _originalChartData: ChartData | google.visualization.DataTable | google.visualization.DataView;
+    public originalChartData: ChartData;
 
     @Input()
     public set chartData(data: ChartData | google.visualization.DataTable | google.visualization.DataView) {
-        this._originalChartData = data;
-        this.filterChartData();
+        loadGoogleCharts(() => {
+            this.originalChartData = GoogleLineChart.convertToChartData(data);
+            this.filterChartData();
+        });
     }
 
     public get chartData(): ChartData | google.visualization.DataTable | google.visualization.DataView {
@@ -67,16 +69,15 @@ export class GoogleLineChart {
             // TODO: https://github.com/google/google-visualization-issues/issues/2406
             // Method above does not work with animations...once fixed replace the manual change with data view.
             let chartData: ChartData = {};
-            let convertedChartData = this.convertToChartData();
-            if (!convertedChartData) {
+            if (!this.originalChartData) {
                 return;
             }
 
-            chartData.cols = convertedChartData.cols.filter((column: ChartColumn, index: number) => {
+            chartData.cols = this.originalChartData.cols.filter((column: ChartColumn, index: number) => {
                 return this.hiddenColumns.indexOf(index) === -1;
             });
             chartData.rows = [];
-            convertedChartData.rows.forEach((row: ChartRow) => {
+            this.originalChartData.rows.forEach((row: ChartRow) => {
                 chartData.rows.push({
                     c           : row.c.filter((rowData: ChartValue, index: number) => {
                         return this.hiddenColumns.indexOf(index) === -1;
@@ -91,10 +92,8 @@ export class GoogleLineChart {
         });
     }
 
-    private convertToChartData(): ChartData {
-        let originalChartData: ChartData
-            | google.visualization.DataTable
-            | google.visualization.DataView = this._originalChartData;
+    private static convertToChartData(originalChartData: ChartData | google.visualization.DataTable
+        | google.visualization.DataView): ChartData {
         let convertedChartData: ChartData;
         if (originalChartData instanceof google.visualization.DataView) {
             convertedChartData = <ChartData>JSON.parse(
@@ -111,7 +110,7 @@ export class GoogleLineChart {
         if (this.singleLineSelection) {
             this.hiddenColumns = [];
             if (index !== -1) {
-                for (let i = 1; i < this.convertToChartData().cols.length; i++) {
+                for (let i = 1; i < this.originalChartData.cols.length; i++) {
                     if (i !== index) {
                         this.hiddenColumns.push(i);
                     }
@@ -120,7 +119,7 @@ export class GoogleLineChart {
         } else {
             let indexOf = this.hiddenColumns.indexOf(index);
             if (indexOf === -1) {
-                if (this.hiddenColumns.length === this.convertToChartData().cols.length - 2) {
+                if (this.hiddenColumns.length === this.originalChartData.cols.length - 2) {
                     return;
                 }
                 this.hiddenColumns.push(index);
@@ -131,6 +130,16 @@ export class GoogleLineChart {
 
         this.filterChartOptions();
         this.filterChartData();
+    }
+
+    public isDisabled(index: number) {
+        if (this.hiddenColumns.indexOf(index) !== -1) {
+            return false;
+        }
+        if (this.singleLineSelection) {
+            return true;
+        }
+        return this.hiddenColumns.length === this.originalChartData.cols.length - 2;
     }
 }
 

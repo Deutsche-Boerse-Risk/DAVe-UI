@@ -1,10 +1,12 @@
 <md-button-toggle-group *ngIf="showControls && chartData" multiple>
     <md-button-toggle *ngIf="singleLineSelection"
                       (change)="hideColumn(-1)"
+                      [disabled]="hiddenColumns.length === 0"
                       checked="true">
         All
     </md-button-toggle>
-    <md-button-toggle *ngFor="let column of convertToChartData().cols.slice(1); let i = index"
+    <md-button-toggle *ngFor="let column of originalChartData.cols.slice(1); let i = index"
+                      [disabled]="isDisabled(i + 1)"
                       (change)="hideColumn(i + 1)"
                       checked="true">
                 <span *ngIf="originalChartOptions?.series && originalChartOptions?.series[i]?.color"
@@ -13,7 +15,9 @@
         {{column.label}}
     </md-button-toggle>
 </md-button-toggle-group>
-<google-chart chartType="LineChart"
-              [chartOptions]="chartOptions"
-              [chartData]="chartData"
-              [height]="height"></google-chart>
+<md-card>
+    <google-chart chartType="LineChart"
+                  [chartOptions]="chartOptions"
+                  [chartData]="chartData"
+                  [height]="height"></google-chart>
+</md-card>
