@@ -12,7 +12,7 @@ export const FILTER_TIMEOUT = 100;
 })
 export class ListComponent {
 
-    @Input()
+    @Input('header')
     public title: string;
 
     @Input()

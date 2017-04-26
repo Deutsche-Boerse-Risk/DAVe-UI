@@ -12,7 +12,7 @@ import {ROUTES} from '../routes/routing.paths';
 
 @Component({
     template: `
-        <list-content [title]="rootRouteTitle"
+        <list-content [header]="rootRouteTitle"
                       [isHistory]="isHistory"
                       [routeParts]="routeParts"
                       [exportKeys]="exportKeys"
