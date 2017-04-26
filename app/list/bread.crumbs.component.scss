@@ -9,6 +9,14 @@
         cursor: pointer;
         position: relative;
 
+        background-color: map_get($dbg-app-accent-palette, default);
+        color: map_get($dbg-app-accent-palette, default-contrast);
+
+        &.mat-chip-selected {
+            background-color: map_get($dbg-app-accent-palette, 400);
+            color: mat-contrast($dbg-app-accent-palette, 400);
+        }
+
         &:after {
             opacity: 0;
             @include hoverTransition;
@@ -26,10 +34,5 @@
         &:hover:after {
             opacity: 1;
         }
-    }
-
-    .mat-chip.mat-chip-selected:not(.mat-basic-chip).mat-accent {
-        background-color: map_get($dbg-app-accent-palette, default);
-        color: map_get($dbg-app-accent-palette, default-contrast);
     }
 }

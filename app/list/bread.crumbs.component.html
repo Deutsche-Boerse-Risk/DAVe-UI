@@ -2,8 +2,7 @@
     <md-chip *ngFor="let part of filteredRouteParts; trackBy:trackByIndex" #chip
              [disabled]="part.inactive"
              [selected]="filteredRouteParts.indexOf(part) === 0"
-             (click)="navigate(part)"
-             [color]="part.inactive ? 'primary' : 'accent'">
+             (click)="navigate(part)">
         {{part.title}}
     </md-chip>
 </md-chip-list>
