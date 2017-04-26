@@ -3,7 +3,7 @@
              [disabled]="part.inactive"
              [selected]="filteredRouteParts.indexOf(part) === 0"
              (click)="navigate(part)"
-             color="accent">
+             [color]="part.inactive ? 'primary' : 'accent'">
         {{part.title}}
     </md-chip>
 </md-chip-list>
