@@ -1,0 +1,33 @@
+@import "../component";
+
+:host {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+}
+
+.mat-card-title-group {
+    margin: 0;
+}
+
+.mat-card-actions {
+    margin: 0;
+    margin-bottom: -8px !important;
+    padding: 0;
+
+    img {
+        float: right;
+        margin: 3px 0;
+        height: 30px;
+    }
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
+}
+
+.full-width {
+    width: 100%;
+}
