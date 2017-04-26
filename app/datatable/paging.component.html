@@ -1,12 +1,14 @@
 <md-button-toggle-group *ngIf="pages?.length > 1" [value]="currentPage">
     <md-button-toggle [value]="-1"
                       (change)="goToPage(1)"
-                      [disabled]="currentPage === 1">
+                      [disabled]="currentPage === 1"
+                      mdTooltip="First page">
         <md-icon>first_page</md-icon>
     </md-button-toggle>
     <md-button-toggle [value]="-1"
                       (change)="goToPage(currentPage - 1)"
-                      [disabled]="currentPage === 1">
+                      [disabled]="currentPage === 1"
+                      mdTooltip="Previous page">
         <md-icon>chevron_left</md-icon>
     </md-button-toggle>
     <md-button-toggle *ngFor="let page of pages; trackBy: trackByPage"
@@ -17,12 +19,14 @@
     </md-button-toggle>
     <md-button-toggle [value]="-1"
                       (change)="goToPage(currentPage + 1)"
-                      [disabled]="currentPage === lastPage">
+                      [disabled]="currentPage === lastPage"
+                      mdTooltip="Next page">
         <md-icon>chevron_right</md-icon>
     </md-button-toggle>
     <md-button-toggle [value]="-1"
                       (change)="goToPage(lastPage)"
-                      [disabled]="currentPage === lastPage">
+                      [disabled]="currentPage === lastPage"
+                      mdTooltip="Last page">
         <md-icon>last_page</md-icon>
     </md-button-toggle>
 </md-button-toggle-group>

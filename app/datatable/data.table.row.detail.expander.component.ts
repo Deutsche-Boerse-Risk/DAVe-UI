@@ -6,13 +6,11 @@ export const selector = 'row-detail-expander';
     moduleId : module.id,
     selector : selector,
     template : `
-        <a>
-    <span class="fa fa-chevron-circle-down"
-          aria-hidden="true"
-          title="Show additional fields"></span>
+        <a md-icon-button [routerLink]="routerLink" mdTooltip="Show additional fields">
+            <md-icon>expand_more</md-icon>
         </a>
     `,
-    styleUrls: ['data.table.button.component.css']
+    styleUrls: ['../common.component.css']
 })
 export class DataTableRowDetailExpander {
 }

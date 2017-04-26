@@ -12,17 +12,15 @@ export class DataTableExpandableDirective {
         if (!enabled) {
             return;
         }
-        let extraIcon: Element = masterRow.querySelector(selector + ' .fa');
+        let extraIcon: Element = masterRow.querySelector(selector + ' .mat-icon');
         let detailTable: Element = masterRow.nextElementSibling;
         if (detailTable.classList.contains('hidden')) {
             detailTable.classList.remove('hidden');
-            extraIcon.classList.remove('fa-chevron-circle-down');
-            extraIcon.classList.add('fa-chevron-circle-up');
+            extraIcon.textContent = 'expand_less';
         }
         else {
             detailTable.classList.add('hidden');
-            extraIcon.classList.remove('fa-chevron-circle-up');
-            extraIcon.classList.add('fa-chevron-circle-down');
+            extraIcon.textContent = 'expand_more';
         }
     }
 }

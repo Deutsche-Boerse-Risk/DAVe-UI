@@ -17,6 +17,22 @@
         font-size: rem(1.4);
     }
 
+    .tooltip {
+        font-size: 14px;
+        width: 14px;
+        height: 14px;
+        top: 2px;
+        position: relative;
+    }
+
+    .pageCount {
+        background-color: mat-color(map-get($dbg-app-theme, background), disabled-button-toggle);
+
+        display: inline-block;
+        padding: 9px;
+        margin-bottom: 15px;
+    }
+
     /deep/ .mat-button {
         color: map_get($dbg-app-primary-palette, default);
     }
@@ -41,8 +57,24 @@
         color: mat-contrast($mat-grey, 100);
     }
 
-    tbody > tr:hover td {
-        background-color: map_get($mat-dbg-primary, 100) !important;
-        color: mat-contrast($mat-dbg-primary, 100) !important;;
+    tbody > tr {
+        &.highlighted td {
+            background-color: map_get($mat-dbg-primary, 200) !important;
+            color: mat-contrast($mat-dbg-primary, 200) !important;
+        }
+
+        &:hover:not(.detail) {
+            td {
+                background-color: map_get($mat-dbg-primary, 100) !important;
+                color: mat-contrast($mat-dbg-primary, 100) !important;
+            }
+
+            + .detail {
+                td {
+                    background-color: map_get($mat-dbg-primary, 100) !important;
+                    color: mat-contrast($mat-dbg-primary, 100) !important;
+                }
+            }
+        }
     }
 }

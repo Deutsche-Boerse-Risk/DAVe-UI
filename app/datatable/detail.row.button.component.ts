@@ -4,11 +4,11 @@ import {Component, Input} from '@angular/core';
     moduleId : module.id,
     selector : 'detail-row-button',
     template : `
-        <a md-icon-button [routerLink]="routerLink">
+        <a md-icon-button [routerLink]="routerLink" mdTooltip="Detail">
             <md-icon>timeline</md-icon>
         </a>
     `,
-    styleUrls: ['data.table.button.component.css']
+    styleUrls: ['../common.component.css']
 })
 export class DetailRowButtonComponent {
 

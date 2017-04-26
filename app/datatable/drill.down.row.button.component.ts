@@ -4,11 +4,11 @@ import {Component, Input} from '@angular/core';
     moduleId : module.id,
     selector : 'drilldown-row-button',
     template : `
-        <a md-icon-button [routerLink]="routerLink">
+        <a md-icon-button [routerLink]="routerLink" mdTooltip="Drilldown">
             <md-icon>my_location</md-icon>
         </a>
     `,
-    styleUrls: ['data.table.button.component.css']
+    styleUrls: ['../common.component.css']
 })
 export class DrillDownRowButtonComponent {
 
