@@ -29,7 +29,7 @@
         "rxjs": "~5.1.1",
         "systemjs": "^0.19.47",
         "web-animations-js": "^2.2.5",
-        "zone.js": "0.8.7",
+        "zone.js": "^0.8.9",
 
         "angular2-jwt": "^0.2.2",
 
@@ -67,7 +67,7 @@
 
         "grunt-karma": "^2.0.0",
         "grunt-coveralls": "^1.0.1",
-        "jasmine-core": "^2.5.2",
+        "jasmine-core": "^2.6.0",
         "karma": "^1.6.0",
         "karma-chrome-launcher": "^2.0.0",
         "karma-ie-launcher": "^1.0.0",
