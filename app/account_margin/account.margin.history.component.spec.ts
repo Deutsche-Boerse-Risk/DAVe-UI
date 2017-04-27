@@ -22,7 +22,7 @@ import {valueGetters, exportKeys} from './account.margin.latest.component';
 import {AccountMarginHistoryComponent} from './account.margin.history.component';
 import {ROUTES} from '../routes/routing.paths';
 
-describe('Account margin history component', () => {
+xdescribe('Account margin history component', () => {
     let page: HistoryListPage<AccountMarginHistoryComponent>;
     let testingParams = ['A', '*', 'B', 'C', '*'];
 
@@ -236,7 +236,7 @@ describe('Account margin history component', () => {
         clearInterval((page.component as any).intervalHandle);
     })));
 
-    describe('(after data are ready)', () => {
+    xdescribe('(after data are ready)', () => {
         beforeEach(fakeAsync(() => {
             // Init component
             page.detectChanges();

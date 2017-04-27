@@ -6,7 +6,7 @@ import {DashboardPage, Tab} from '../../testing';
 
 import {DashboardComponent} from './dashboard.component';
 
-describe('DashboardComponent', () => {
+xdescribe('DashboardComponent', () => {
 
     let page: DashboardPage;
 

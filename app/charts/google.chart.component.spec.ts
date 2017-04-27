@@ -66,7 +66,7 @@ const dummyChartData: ChartData = {
     ]
 };
 
-describe('GoogleChart component', () => {
+xdescribe('GoogleChart component', () => {
 
     let page: ChartPage;
 

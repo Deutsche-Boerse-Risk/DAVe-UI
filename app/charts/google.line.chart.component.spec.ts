@@ -95,7 +95,7 @@ const chartOptions: LineChartOptions = {
     ]
 };
 
-describe('GoogleLineChart component', () => {
+xdescribe('GoogleLineChart component', () => {
 
     let page: LineChartPage;
 

@@ -24,7 +24,7 @@ import {PositionReportServerData} from './position.report.types';
 import {ChartRow} from '../charts/chart.types';
 import {ROUTES} from '../routes/routing.paths';
 
-describe('Position reports bubble chart component', () => {
+xdescribe('Position reports bubble chart component', () => {
     let page: BubbleChartPage;
 
     beforeEach(async(() => {

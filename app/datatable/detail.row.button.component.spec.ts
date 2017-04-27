@@ -4,7 +4,7 @@ import {LinkOnlyPage, RouterLinkStubDirective} from '../../testing';
 
 import {DetailRowButtonComponent} from './detail.row.button.component';
 
-describe('DetailRowButtonComponent', () => {
+xdescribe('DetailRowButtonComponent', () => {
 
     let page: LinkOnlyPage<DetailRowButtonComponent>;
 

@@ -7,7 +7,7 @@ import {DateFormatter, DATE_FORMAT} from '../common/common.module';
 
 import {DownloadMenuComponent} from './download.menu.component';
 
-describe('Download menu', () => {
+xdescribe('Download menu', () => {
 
     let page: DownloadMenuPage;
 

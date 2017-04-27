@@ -10,7 +10,7 @@ import {MenuComponent} from './menu.component';
 import {RouterLinkActiveDirective} from './router.link.active.directive';
 import {ROUTES} from '../routes/routing.paths';
 
-describe('Menu component', () => {
+xdescribe('Menu component', () => {
 
     let page: MenuPage;
     // Get @ContentChildren in RouterLinkActiveDirective

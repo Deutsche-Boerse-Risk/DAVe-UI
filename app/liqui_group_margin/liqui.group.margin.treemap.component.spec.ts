@@ -19,7 +19,7 @@ import {LiquiGroupMarginTreemapComponent} from './liqui.group.margin.treemap.com
 import {LiquiGroupMarginServerData} from './liqui.group.margin.types';
 import {ROUTES} from '../routes/routing.paths';
 
-describe('Margin components TreeMap component', () => {
+xdescribe('Margin components TreeMap component', () => {
     let page: TreeMapPage;
 
     beforeEach(async(() => {

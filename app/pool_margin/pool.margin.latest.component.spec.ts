@@ -25,7 +25,7 @@ import {
 } from './pool.margin.latest.component';
 import {ROUTES} from '../routes/routing.paths';
 
-describe('Pool Margin latest component', () => {
+xdescribe('Pool Margin latest component', () => {
     let page: LatestListPage<PoolMarginLatestComponent>;
 
     beforeEach(async(() => {
@@ -230,7 +230,7 @@ describe('Pool Margin latest component', () => {
             clearInterval((page.component as any).intervalHandle);
         })));
 
-    describe('(after data are ready)', () => {
+    xdescribe('(after data are ready)', () => {
         beforeEach(fakeAsync(() => {
             // Init component
             page.detectChanges();

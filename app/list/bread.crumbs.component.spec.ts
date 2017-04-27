@@ -12,7 +12,7 @@ import {
 
 import {BreadCrumbsComponent} from './bread.crumbs.component';
 
-describe('BreadCrumbsComponent', () => {
+xdescribe('BreadCrumbsComponent', () => {
 
     let page: BreadCrumbsPage;
 

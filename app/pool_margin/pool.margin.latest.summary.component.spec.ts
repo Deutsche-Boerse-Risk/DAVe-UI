@@ -15,7 +15,7 @@ import {HttpService} from '../http.service';
 
 import {PoolMarginLatestSummaryComponent} from './pool.margin.latest.summary.component';
 
-describe('Pool Margin summary', () => {
+xdescribe('Pool Margin summary', () => {
     let page: PoolMarginSummaryPage;
 
     let labels = ['Margin Shortfall/Surplus', 'Margin Requirement', 'Collateral', 'Cash Balance'];

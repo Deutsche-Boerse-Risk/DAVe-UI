@@ -4,7 +4,7 @@ import {LinkOnlyPage, RouterLinkStubDirective} from '../../testing';
 
 import {DrillDownRowButtonComponent} from './drill.down.row.button.component';
 
-describe('DrillDownRowButtonComponent', () => {
+xdescribe('DrillDownRowButtonComponent', () => {
 
     let page: LinkOnlyPage<DrillDownRowButtonComponent>;
 

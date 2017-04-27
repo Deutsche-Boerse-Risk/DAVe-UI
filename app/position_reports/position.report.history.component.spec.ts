@@ -22,7 +22,7 @@ import {valueGetters, exportKeys} from './position.report.latest.component';
 import {PositionReportHistoryComponent} from './position.report.history.component';
 import {ROUTES} from '../routes/routing.paths';
 
-describe('Position reports history component', () => {
+xdescribe('Position reports history component', () => {
     let page: HistoryListPage<PositionReportHistoryComponent>;
     let testingParams = ['A', 'A', 'B', 'C', '*', 'P', '152', '*', '201211', 'D', 'F', 'G', 'H'];
 
@@ -282,7 +282,7 @@ describe('Position reports history component', () => {
             clearInterval((page.component as any).intervalHandle);
         })));
 
-    describe('(after data are ready)', () => {
+    xdescribe('(after data are ready)', () => {
         beforeEach(fakeAsync(() => {
             // Init component
             page.detectChanges();

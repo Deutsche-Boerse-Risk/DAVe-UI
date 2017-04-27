@@ -23,7 +23,7 @@ import {DataTableModule} from '../datatable/data.table.module';
 import {LiquiGroupMarginAggregationComponent, valueGetters} from './liqui.group.margin.aggregation.component';
 import {ROUTES} from '../routes/routing.paths';
 
-describe('Liqui Group Margin aggregation component', () => {
+xdescribe('Liqui Group Margin aggregation component', () => {
     let page: AggregationPage;
 
     beforeEach(async(() => {
@@ -221,7 +221,7 @@ describe('Liqui Group Margin aggregation component', () => {
         page.advanceHighlighter();
     }));
 
-    describe('(after data are ready)', () => {
+    xdescribe('(after data are ready)', () => {
         beforeEach(fakeAsync(() => {
             // Init component
             page.detectChanges();

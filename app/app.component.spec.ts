@@ -8,7 +8,7 @@ import {AppComponent} from './app.component';
 import {AuthService} from './auth/auth.service';
 import {AuthServiceStub} from '../testing/stubs/auth.service.stub';
 
-describe('AppComponent', () => {
+xdescribe('AppComponent', () => {
 
     let page: AppComponentPage;
 

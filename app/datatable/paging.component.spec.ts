@@ -4,7 +4,7 @@ import {TestHostComponent, DataTableDefinitionHosted} from '../../testing';
 
 import {DataTableModule} from './data.table.module';
 
-describe('DataTable component shows pager', () => {
+xdescribe('DataTable component shows pager', () => {
 
     let table: DataTableDefinitionHosted;
 

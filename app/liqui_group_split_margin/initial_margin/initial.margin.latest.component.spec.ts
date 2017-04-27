@@ -30,7 +30,7 @@ import {
 } from './initial.margin.latest.component';
 import {ROUTES} from '../../routes/routing.paths';
 
-describe('Initial Margin latest component', () => {
+xdescribe('Initial Margin latest component', () => {
     let page: LatestListPage<InitialMarginLatestComponent>;
 
     beforeEach(async(() => {
@@ -235,7 +235,7 @@ describe('Initial Margin latest component', () => {
             clearInterval((page.component as any).intervalHandle);
         })));
 
-    describe('(after data are ready)', () => {
+    xdescribe('(after data are ready)', () => {
         beforeEach(fakeAsync(() => {
             // Init component
             page.detectChanges();

@@ -30,7 +30,7 @@ import {
 } from './variation.premium.margin.latest.component';
 import {ROUTES} from '../../routes/routing.paths';
 
-describe('Variation / Premium Margin latest component', () => {
+xdescribe('Variation / Premium Margin latest component', () => {
     let page: LatestListPage<VariationPremiumMarginLatestComponent>;
 
     beforeEach(async(() => {
@@ -235,7 +235,7 @@ describe('Variation / Premium Margin latest component', () => {
             clearInterval((page.component as any).intervalHandle);
         })));
 
-    describe('(after data are ready)', () => {
+    xdescribe('(after data are ready)', () => {
         beforeEach(fakeAsync(() => {
             // Init component
             page.detectChanges();

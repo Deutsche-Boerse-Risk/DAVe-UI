@@ -22,7 +22,7 @@ import {ExportColumn} from '../list/download.menu.component';
 import {PositionReportLatestComponent, valueGetters, exportKeys} from './position.report.latest.component';
 import {ROUTES} from '../routes/routing.paths';
 
-describe('Position reports latest component', () => {
+xdescribe('Position reports latest component', () => {
     let page: LatestListPage<PositionReportLatestComponent>;
 
     beforeEach(async(() => {
@@ -224,7 +224,7 @@ describe('Position reports latest component', () => {
             clearInterval((page.component as any).intervalHandle);
         })));
 
-    describe('(after data are ready)', () => {
+    xdescribe('(after data are ready)', () => {
         beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<PositionReportServerData[]>) => {
             // Init component
             page.detectChanges();

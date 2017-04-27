@@ -22,7 +22,7 @@ import {ExportColumn} from '../list/download.menu.component';
 import {LiquiGroupMarginLatestComponent, valueGetters, exportKeys} from './liqui.group.margin.latest.component';
 import {ROUTES} from '../routes/routing.paths';
 
-describe('Liquidation Group Margin latest component', () => {
+xdescribe('Liquidation Group Margin latest component', () => {
     let page: LatestListPage<LiquiGroupMarginLatestComponent>;
 
     beforeEach(async(() => {
@@ -227,7 +227,7 @@ describe('Liquidation Group Margin latest component', () => {
             clearInterval((page.component as any).intervalHandle);
         })));
 
-    describe('(after data are ready)', () => {
+    xdescribe('(after data are ready)', () => {
         beforeEach(fakeAsync(() => {
             // Init component
             page.detectChanges();

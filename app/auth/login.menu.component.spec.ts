@@ -6,7 +6,7 @@ import {AuthService} from './auth.service';
 import {LoginMenuComponent} from './login.menu.component';
 import {ROUTES} from '../routes/routing.paths';
 
-describe('Login menu', () => {
+xdescribe('Login menu', () => {
     let page: LoginMenuPage;
 
     beforeEach(async(() => {

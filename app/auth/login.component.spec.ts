@@ -11,7 +11,7 @@ import {AuthService} from './auth.service';
 import {Observable} from 'rxjs/Observable';
 import {ROUTES} from '../routes/routing.paths';
 
-describe('Login component', () => {
+xdescribe('Login component', () => {
     let page: LoginPage;
 
     beforeEach(async(() => {
