@@ -94,11 +94,11 @@ var customLaunchers = {
         os: 'OS X',
         os_version: 'Sierra'
     },
-    BS_IOS7: {
+    BS_IOS9: {
         base: 'BrowserStack',
-        device: 'iPhone 5S',
+        device: 'iPhone 6S Plus',
         os: 'ios',
-        os_version: '7.0',
+        os_version: '9.0',
         browser_version: null,
         browser: 'Mobile Safari'
     }
@@ -115,12 +115,12 @@ var BrowserStack = {
         }
         return customLaunchers[item].base === 'BrowserStack';
     }),
-    MINIMAL: ['BS_IE11', 'BS_CHROME50', 'BS_FIREFOX50', 'BS_SAFARI7', 'BS_IOS7'],
+    MINIMAL: ['BS_IE11', 'BS_CHROME50', 'BS_FIREFOX50', 'BS_SAFARI7', 'BS_IOS9'],
     CHROME: ['BS_CHROME50', 'BS_CHROME_LATEST'],
     FIREFOX: ['BS_FIREFOX50', 'BS_FIREFOX_LATEST'],
     IE: [/*'BS_IE9', 'BS_IE10', */'BS_IE11'], // TODO: optimze to test IE 10 and 9
     EDGE: ['BS_EDGE13', 'BS_EDGE14'],
-    IOS: ['BS_IOS7'],
+    IOS: ['BS_IOS9'],
     SAFARI: ['BS_SAFARI7', 'BS_SAFARI8', 'BS_SAFARI9', 'BS_SAFARI10']
 };
 
