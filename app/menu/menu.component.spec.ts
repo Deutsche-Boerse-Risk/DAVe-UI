@@ -10,7 +10,7 @@ import {MenuComponent} from './menu.component';
 import {RouterLinkActiveDirective} from './router.link.active.directive';
 import {ROUTES} from '../routes/routing.paths';
 
-xdescribe('Menu component', () => {
+describe('Menu component', () => {
 
     let page: MenuPage;
     // Get @ContentChildren in RouterLinkActiveDirective
@@ -42,21 +42,27 @@ xdescribe('Menu component', () => {
     }));
 
     it('click on links works', fakeAsync(() => {
+        page.clickLink('Margin Requirement');
         page.clickLink('Position Reports');
         page.isActive('Position Reports', 'Margin Requirement');
 
+        page.clickLink('Margin Requirement');
         page.clickLink('Liquidation Group Margin');
         page.isActive('Liquidation Group Margin', 'Margin Requirement');
 
+        page.clickLink('Margin Requirement');
         page.clickLink('Variation / Premium Margin');
         page.isActive('Variation / Premium Margin', 'Margin Requirement');
 
+        page.clickLink('Margin Requirement');
         page.clickLink('Initial Margin');
         page.isActive('Initial Margin', 'Margin Requirement');
 
+        page.clickLink('Margin Requirement');
         page.clickLink('Account Margin');
         page.isActive('Account Margin', 'Margin Requirement');
 
+        page.clickLink('Margin Requirement');
         page.clickLink('Pool Margin');
         page.isActive('Pool Margin', 'Margin Requirement');
 
@@ -70,27 +76,39 @@ xdescribe('Menu component', () => {
     it('navigation to sub-links works', fakeAsync(inject([Router], (router: RouterStub) => {
         router.navigateByUrl(ROUTES.POSITION_REPORTS_HISTORY);
         page.detectChanges();
+        page.clickLink('Margin Requirement');
         page.isActive('Position Reports', 'Margin Requirement');
+        page.clickLink('Margin Requirement');
 
         router.navigateByUrl(ROUTES.LIQUI_GROUP_MARGIN_HISTORY);
         page.detectChanges();
+        page.clickLink('Margin Requirement');
         page.isActive('Liquidation Group Margin', 'Margin Requirement');
+        page.clickLink('Margin Requirement');
 
         router.navigateByUrl(ROUTES.INITIAL_MARGIN_HISTORY);
         page.detectChanges();
+        page.clickLink('Margin Requirement');
         page.isActive('Initial Margin', 'Margin Requirement');
+        page.clickLink('Margin Requirement');
 
         router.navigateByUrl(ROUTES.VARIATION_PREMIUM_MARGIN_HISTORY);
         page.detectChanges();
+        page.clickLink('Margin Requirement');
         page.isActive('Variation / Premium Margin', 'Margin Requirement');
+        page.clickLink('Margin Requirement');
 
         router.navigateByUrl(ROUTES.ACCOUNT_MARGIN_HISTORY);
         page.detectChanges();
+        page.clickLink('Margin Requirement');
         page.isActive('Account Margin', 'Margin Requirement');
+        page.clickLink('Margin Requirement');
 
         router.navigateByUrl(ROUTES.POOL_MARGIN_HISTORY);
         page.detectChanges();
+        page.clickLink('Margin Requirement');
         page.isActive('Pool Margin', 'Margin Requirement');
+        page.clickLink('Margin Requirement');
 
         page.clickLink('Risk Limit Utilization');
         page.isActive('Risk Limit Utilization');
