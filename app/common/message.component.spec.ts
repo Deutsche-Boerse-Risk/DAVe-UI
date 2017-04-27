@@ -26,7 +26,7 @@ describe('MessageComponent', () => {
         expect(page.message.text).toEqual('');
         page.component.message = 'custom error message';
         page.detectChanges();
-        expect(page.message.text).toEqual(page.component.message + '.');
+        expect(page.message.text).toEqual(page.component.message);
     }));
 });
 
@@ -50,7 +50,7 @@ describe('MessageComponent hosted', () => {
         // Test
         expect(page.error.text).toEqual('custom message');
         expect(page.good.text).toEqual('custom message');
-        expect(page.info.text).toEqual('custom message.');
+        expect(page.info.text).toEqual('custom message');
         expect(page.message.text).toEqual('custom message');
         expect(page.warn.text).toEqual('custom message');
         expect(page.initialLoad.text).toEqual('Loading...');
