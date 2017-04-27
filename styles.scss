@@ -111,3 +111,9 @@ $theme: mat-light-theme($grey-palette, $grey-palette, $grey-palette);
 
     @include _mat-button-toggle-focus-color($theme);
 }
+
+.mat-toolbar {
+    &.mat-primary .mat-button-focus-overlay {
+        background-color: rgba(mat-color($dbg-app-primary-palette, default-contrast), 0.30);
+    }
+}

@@ -39,12 +39,16 @@
 
     th, td {
         padding: 8px;
-        border: 1px solid map_get($mat-grey, 100);
+        border: 1px solid map_get($mat-grey, 300);
     }
 
     thead th {
         background-color: map_get($dbg-app-primary-palette, default);
         color: map_get($dbg-app-primary-palette, default-contrast);
+
+        /deep/ .mat-button-focus-overlay {
+            background-color: rgba(mat-color($dbg-app-primary-palette, default-contrast), 0.3);
+        }
     }
 
     tfoot th {
@@ -52,14 +56,14 @@
         color: mat-contrast($mat-grey, 200);
     }
 
-    .striped > tbody > tr:nth-child(even) td {
+    .striped > tbody > tr.even td {
         background-color: map_get($mat-grey, 100);
         color: mat-contrast($mat-grey, 100);
     }
 
     tbody > tr {
         &.highlighted td {
-            background-color: map_get($mat-dbg-primary, 200) !important;
+            background-color: rgba(map_get($mat-dbg-primary, 200), 0.5) !important;
             color: mat-contrast($mat-dbg-primary, 200) !important;
         }
 
