@@ -6,7 +6,7 @@ export const selector = 'row-detail-expander';
     moduleId : module.id,
     selector : selector,
     template : `
-        <a md-icon-button [routerLink]="routerLink" mdTooltip="Show additional fields">
+        <a md-icon-button mdTooltip="Show additional fields">
             <md-icon>expand_more</md-icon>
         </a>
     `,
