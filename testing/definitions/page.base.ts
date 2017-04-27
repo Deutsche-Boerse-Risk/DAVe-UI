@@ -5,9 +5,9 @@ import {ComponentFixture, tick} from '@angular/core/testing';
 
 import {FAKE_HTTP_ASYNC_TIMEOUT} from '../stubs/http.service.stub';
 
-import {InitialLoadComponent} from '../../app/common/initial.load.component';
-import {NoDataComponent} from '../../app/common/no.data.component';
-import {UpdateFailedComponent} from '../../app/common/update.failed.component';
+import {MessageComponentDef} from './message.def';
+
+import {INITIAL_LOAD_SELECTOR, NO_DATA_SELECTOR, UPDATE_FAILED_SELECTOR} from '../../app/common/message.component';
 
 export class Page<T> {
 
@@ -52,15 +52,27 @@ export class PageWithLoading<T> extends Page<T> {
         super(fixture);
     }
 
-    public get initialLoadComponent(): DebugElement {
-        return this.debugElement.query(By.directive(InitialLoadComponent));
+    public get initialLoadComponent(): MessageComponentDef {
+        const element = this.debugElement.query(By.css(INITIAL_LOAD_SELECTOR));
+        if (element) {
+            return new MessageComponentDef(element);
+        }
+        return null;
     }
 
-    public get noDataComponent(): DebugElement {
-        return this.debugElement.query(By.directive(NoDataComponent));
+    public get noDataComponent(): MessageComponentDef {
+        const element = this.debugElement.query(By.css(NO_DATA_SELECTOR));
+        if (element) {
+            return new MessageComponentDef(element);
+        }
+        return null;
     }
 
-    public get updateFailedComponent(): DebugElement {
-        return this.debugElement.query(By.directive(UpdateFailedComponent));
+    public get updateFailedComponent(): MessageComponentDef {
+        const element = this.debugElement.query(By.css(UPDATE_FAILED_SELECTOR));
+        if (element) {
+            return new MessageComponentDef(element);
+        }
+        return null;
     }
 }

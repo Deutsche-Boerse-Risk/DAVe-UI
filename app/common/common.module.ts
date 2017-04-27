@@ -4,9 +4,7 @@ import {BrowserModule} from '@angular/platform-browser';
 
 import {MaterialModule} from '../material/material.module';
 
-import {InitialLoadComponent} from './initial.load.component';
-import {NoDataComponent} from './no.data.component';
-import {UpdateFailedComponent} from './update.failed.component';
+import {MessageComponent} from './message.component';
 
 import {PercentPipe} from './percent.pipe';
 
@@ -28,15 +26,11 @@ export class DateFormatter {
         MaterialModule
     ],
     declarations: [
-        InitialLoadComponent,
-        NoDataComponent,
-        UpdateFailedComponent,
+        MessageComponent,
         PercentPipe
     ],
     exports     : [
-        InitialLoadComponent,
-        NoDataComponent,
-        UpdateFailedComponent,
+        MessageComponent,
         PercentPipe
     ],
     providers   : [

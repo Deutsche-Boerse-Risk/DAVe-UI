@@ -1,7 +1,5 @@
 <ng-template [ngIf]="!authStatus">
-    <md-card class="error" *ngIf="errorMessage">
-        {{errorMessage}}
-    </md-card>
+    <error *ngIf="errorMessage" [message]="errorMessage"></error>
 
     <form (ngSubmit)="login()" role="form">
         <md-card>
@@ -38,6 +36,4 @@
     </form>
 </ng-template>
 
-<md-card class="good" *ngIf="authStatus">
-    Successfully logged in as {{authUsername}}.
-</md-card>
+<good *ngIf="authStatus" [message]="'Successfully logged in as ' + authUsername"></good>

@@ -4,6 +4,8 @@ import {ComponentFixture} from '@angular/core/testing';
 
 import {LinkOnlyPage} from './link.only.page';
 
+import {INITIAL_LOAD_SELECTOR, NO_DATA_SELECTOR, UPDATE_FAILED_SELECTOR} from '../../app/common/message.component';
+
 import {LiquiGroupMarginTreemapComponent} from '../../app/liqui_group_margin/liqui.group.margin.treemap.component';
 
 export class TreeMapPage extends LinkOnlyPage<LiquiGroupMarginTreemapComponent> {
@@ -13,15 +15,15 @@ export class TreeMapPage extends LinkOnlyPage<LiquiGroupMarginTreemapComponent> 
     }
 
     public get initialLoadVisible(): boolean {
-        return this.debugElement.query(By.css('initial-load')) !== null;
+        return this.debugElement.query(By.css(INITIAL_LOAD_SELECTOR)) !== null;
     }
 
     public get noDataVisible(): boolean {
-        return this.debugElement.query(By.css('no-data')) !== null;
+        return this.debugElement.query(By.css(NO_DATA_SELECTOR)) !== null;
     }
 
     public get updateFailedVisible(): boolean {
-        return this.debugElement.query(By.css('update-failed')) !== null;
+        return this.debugElement.query(By.css(UPDATE_FAILED_SELECTOR)) !== null;
     }
 
     public get googleChartVisible(): boolean {
