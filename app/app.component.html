@@ -1,26 +1,29 @@
 <md-sidenav-container>
-    <md-sidenav #sidenav>
+    <md-sidenav #sidenav (click)="authStatus? true : sidenav.close()">
         <app-menu *ngIf="authStatus" orientation="column"></app-menu>
 
         <hr>
 
-        <login-menu *ngIf="authStatus" orientation="column"></login-menu>
+        <login-menu *ngIf="authStatus"
+                    orientation="column"></login-menu>
     </md-sidenav>
 
     <md-toolbar color="primary" class="mat-elevation-z3">
         <a md-button [routerLink]="routerRoots.ROOT">
-            <img src="/deutscheBoerseGroupLogo.svg" height="30px">
+            <img src="/img/dbg-bw-logo.svg" height="30px">
         </a>
 
-        <app-menu *ngIf="authStatus && !mediaSmall"></app-menu>
+        <ng-template [ngIf]="authStatus">
+            <app-menu *ngIf="!mediaSmall"></app-menu>
 
-        <span class="toolbar-spacer"></span>
+            <span class="toolbar-spacer"></span>
 
-        <button md-icon-button (click)="sidenav.toggle()" *ngIf="mediaSmall">
-            <md-icon>menu</md-icon>
-        </button>
+            <login-menu *ngIf="!mediaSmall"></login-menu>
 
-        <login-menu *ngIf="authStatus && !mediaSmall"></login-menu>
+            <button md-icon-button (click)="sidenav.toggle()" *ngIf="mediaSmall">
+                <md-icon>menu</md-icon>
+            </button>
+        </ng-template>
     </md-toolbar>
 
     <div class="content">
