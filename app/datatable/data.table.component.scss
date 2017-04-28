@@ -7,12 +7,15 @@
         display: none;
     }
 
-    table {
-        width: 100%;
-        border-collapse: collapse;
+    .tableWrapper {
         @include mat-elevation(2);
 
         margin-bottom: 15px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
 
         font-size: rem(1.4);
     }

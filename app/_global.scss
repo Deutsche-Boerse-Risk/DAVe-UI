@@ -11,20 +11,22 @@
     }
 }
 
-@mixin opacity($opacity) {
-    opacity: $opacity;
-    $opacity-ie: $opacity * 100;
-    filter: alpha(opacity=$opacity-ie); //IE8
+@mixin noTransition {
+    transition-duration: 0ms !important;
+    transition-delay: 0ms !important;
 }
 
 @mixin hoverTransition {
     transition: opacity .2s cubic-bezier(.35, 0, .25, 1), background-color .2s cubic-bezier(.35, 0, .25, 1) !important;
+    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+        @include noTransition;
+    }
 }
 
-@mixin box-shadow($shadow) {
-    -webkit-box-shadow: $shadow;
-    -moz-box-shadow: $shadow;
-    box-shadow: $shadow;
+@mixin disabeBoxShadow {
+    box-shadow: none !important;
+    border: 1px solid $_ambient-color !important;
+    border-radius: 3px;
 }
 
 $mat-dbg-primary: (

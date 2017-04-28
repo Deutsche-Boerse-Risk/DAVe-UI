@@ -117,3 +117,22 @@ $theme: mat-light-theme($grey-palette, $grey-palette, $grey-palette);
         background-color: rgba(mat-color($dbg-app-primary-palette, default-contrast), 0.30);
     }
 }
+
+//IE 11 Performance fixes
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    @for $zValue from 0 through 24 {
+        .mat-elevation-z#{$zValue} {
+            @include disabeBoxShadow;
+        }
+    }
+
+    :not([class*=mat-elevation-z]).mat-card,
+    .mat-button-toggle-group,
+    .mat-menu-panel,
+    .mat-select-panel,
+    .mat-raised-button,
+    .mat-fab,
+    .tableWrapper {
+        @include disabeBoxShadow;
+    }
+}
