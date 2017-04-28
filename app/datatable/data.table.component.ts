@@ -26,20 +26,6 @@ export class Row {
 })
 export class DataTableComponent implements OnChanges {
 
-    @Input()
-    public set data(data: any[]) {
-        this._data = data;
-        if (this._data) {
-            this._rows = this._data.map((rowData: any) => new Row(rowData));
-        } else {
-            delete this._rows;
-        }
-    }
-
-    public get data(): any[] {
-        return this._data;
-    }
-
     public _data: any[];
     public _rows: Row[];
 
@@ -93,6 +79,53 @@ export class DataTableComponent implements OnChanges {
         let firstIndex = (page - 1) * this.pageSize;
         let lastIndex = page * this.pageSize;
         this.pageRows = this._rows.slice(firstIndex, lastIndex);
+    }
+
+    @Input()
+    public set data(data: any[]) {
+        if (!data) {
+            delete this._data;
+            delete this._rows;
+            return;
+        }
+
+        // Remember old data
+        let oldData: { [key: string]: { rowData: any, row: Row } } = {};
+        if (this._data && this._rows && this.trackByRowKey) {
+            this._data.forEach((value: any, index: number) => {
+                oldData[this.trackByRowKey(index, value)] = {
+                    rowData: value,
+                    row    : this._rows[index]
+                };
+            });
+            delete this._data;
+        }
+        this._data = [];
+        this._rows = [];
+
+        // Merge the new and old data into old array so angular is able to do change detection correctly
+        for (let index = 0; index < data.length; ++index) {
+            let newValue = data[index];
+            let oldValue: { rowData: any, row: Row };
+            if (this.trackByRowKey && oldData) {
+                oldValue = oldData[this.trackByRowKey(index, newValue)];
+            }
+            if (oldValue) {
+                this._data.push(oldValue.rowData);
+                Object.keys(oldValue.rowData).concat(Object.keys(newValue)).forEach((key: string) => {
+                    (<any>oldValue.rowData)[key] = (<any>newValue)[key];
+                });
+                this._rows.push(oldValue.row);
+            } else {
+                this._data.push(newValue);
+                this._rows.push(new Row(newValue));
+            }
+        }
+        oldData = null;
+    }
+
+    public get data(): any[] {
+        return this._data;
     }
 
     @Input()

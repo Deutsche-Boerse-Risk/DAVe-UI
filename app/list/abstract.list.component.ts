@@ -63,33 +63,7 @@ export abstract class AbstractListComponent<T extends { uid: string }> extends A
     }
 
     protected processData(data: T[]): void {
-        let index: number;
-
-        // Remember old data
-        let oldData: { [key: string]: T } = {};
-        if (this.data) {
-            this.data.forEach((value: T) => {
-                oldData[value.uid] = value;
-            });
-            delete this.data;
-        }
-        this.data = [];
-
-        // Merge the new and old data into old array so angular is able to do change detection correctly
-        for (index = 0; index < data.length; ++index) {
-            let newValue = data[index];
-            let oldValue = oldData[newValue.uid];
-            if (oldValue) {
-                this.data.push(oldValue);
-                Object.keys(oldValue).concat(Object.keys(newValue)).forEach((key: string) => {
-                    (<any>oldValue)[key] = (<any>newValue)[key];
-                });
-            } else {
-                this.data.push(newValue);
-            }
-        }
-        oldData = null;
-
+        this.data = data;
         delete this.errorMessage;
         this.initialLoad = false;
     }

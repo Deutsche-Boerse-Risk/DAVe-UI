@@ -41,30 +41,7 @@ export class LiquiGroupMarginAggregationComponent extends AbstractComponentWithA
         this.liquiGroupMarginService.getLiquiGroupMarginAggregationData()
             .subscribe(
                 (data: LiquiGroupMarginAggregationData) => {
-                    // Remember old data
-                    let oldData: { [key: string]: LiquiGroupMarginData } = {};
-                    if (this.data) {
-                        this.data.forEach((value: LiquiGroupMarginData) => {
-                            oldData[value.uid] = value;
-                        });
-                        delete this.data;
-                    }
-                    this.data = [];
-
-                    // Merge the new and old data into old array so angular is able to do change detection correctly
-                    for (let index: number = 0; index < data.aggregatedRows.length; ++index) {
-                        let newValue = data.aggregatedRows[index];
-                        let oldValue = oldData[newValue.uid];
-                        if (oldValue) {
-                            this.data.push(oldValue);
-                            Object.keys(oldValue).concat(Object.keys(newValue)).forEach((key: string) => {
-                                (<any>oldValue)[key] = (<any>newValue)[key];
-                            });
-                        } else {
-                            this.data.push(newValue);
-                        }
-                    }
-                    oldData = null;
+                    this.data = data.aggregatedRows;
 
                     // Merge the new and old data into old array so angular is able to do change detection correctly
                     if (this.footer) {
