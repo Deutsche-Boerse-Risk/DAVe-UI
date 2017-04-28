@@ -122,8 +122,8 @@
             </ng-template>
         </column>
         <column>
-            <ng-template let-record="row" cell-template>
-                <row-detail-expander></row-detail-expander>
+            <ng-template let-record="row" let-expanded="expanded" cell-template>
+                <row-detail-expander [expanded]="expanded"></row-detail-expander>
                 <detail-row-button
                         [routerLink]="[routerRoots.POSITION_REPORTS_HISTORY, record.clearer || '*', record.member || '*', record.account || '*', record.liquidationGroup || '*', record.liquidationGroupSplit || '*', record.product || '*', record.callPut || '*', record.contractYear || '*', record.contractMonth || '*', record.expiryDay || '*', record.exercisePrice || '*', record.version || '*', record.flexContractSymbol || '*']"></detail-row-button>
             </ng-template>

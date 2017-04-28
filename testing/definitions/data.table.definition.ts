@@ -466,8 +466,8 @@ export class DataTableDefinitionHosted extends Page<TestHostComponent> {
                 </ng-template>
             </column>
             <column>
-                <ng-template let-record="row" cell-template>
-                    <row-detail-expander></row-detail-expander>
+                <ng-template let-record="row" let-expanded="expanded" cell-template>
+                    <row-detail-expander [expanded]="expanded"></row-detail-expander>
                 </ng-template>
                 <ng-template let-footer="footer" footer-template>
                     {{footer.value1}}

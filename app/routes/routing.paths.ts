@@ -2,6 +2,10 @@ export const ROUTE_NAMES = {
     DASHBOARD: 'dashboard',
     LOGIN    : 'login',
 
+    DASHBOARD_MARGIN_REQUIREMENT_OVERVIEW: 'marginRequirementOverview',
+    DASHBOARD_POSITION_LEVEL_RISK        : 'positionLevelRisk',
+    DASHBOARD_INITIAL_MARGIN             : 'initialMargin',
+
     ACCOUNT_MARGIN_LATEST : 'accountMarginLatest',
     ACCOUNT_MARGIN_HISTORY: 'accountMarginHistory',
 
@@ -24,10 +28,16 @@ export const ROUTE_NAMES = {
     RISK_LIMIT_UTILIZATION_HISTORY: 'riskLimitUtilizationHistory'
 };
 
+const dashboardRoute = '/' + ROUTE_NAMES.DASHBOARD;
+
 export const ROUTES = {
     ROOT     : '/',
-    DASHBOARD: '/' + ROUTE_NAMES.DASHBOARD,
+    DASHBOARD: dashboardRoute,
     LOGIN    : '/' + ROUTE_NAMES.LOGIN,
+
+    DASHBOARD_MARGIN_REQUIREMENT_OVERVIEW: dashboardRoute + '/' + ROUTE_NAMES.DASHBOARD_MARGIN_REQUIREMENT_OVERVIEW,
+    DASHBOARD_POSITION_LEVEL_RISK        : dashboardRoute + '/' + ROUTE_NAMES.DASHBOARD_POSITION_LEVEL_RISK,
+    DASHBOARD_INITIAL_MARGIN             : dashboardRoute + '/' + ROUTE_NAMES.DASHBOARD_INITIAL_MARGIN,
 
     ACCOUNT_MARGIN_LATEST : '/' + ROUTE_NAMES.ACCOUNT_MARGIN_LATEST,
     ACCOUNT_MARGIN_HISTORY: '/' + ROUTE_NAMES.ACCOUNT_MARGIN_HISTORY,

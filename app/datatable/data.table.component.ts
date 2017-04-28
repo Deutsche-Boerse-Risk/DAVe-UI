@@ -6,6 +6,18 @@ import {DataTableColumnGroupDirective} from './data.table.column.group.directive
 
 import {DataTableDefinition, DataTableCell, DataTableUtils} from './data.table.utils';
 
+export class Row {
+
+    public expanded: boolean;
+
+    constructor(public rowData: any) {
+    }
+
+    public toogle(): void {
+        this.expanded = !this.expanded;
+    }
+}
+
 @Component({
     moduleId   : module.id,
     selector   : 'data-table',
@@ -15,7 +27,21 @@ import {DataTableDefinition, DataTableCell, DataTableUtils} from './data.table.u
 export class DataTableComponent implements OnChanges {
 
     @Input()
-    public data: any[];
+    public set data(data: any[]) {
+        this._data = data;
+        if (this._data) {
+            this._rows = this._data.map((rowData: any) => new Row(rowData));
+        } else {
+            delete this._rows;
+        }
+    }
+
+    public get data(): any[] {
+        return this._data;
+    }
+
+    public _data: any[];
+    public _rows: Row[];
 
     @Input()
     public footer: any;
@@ -34,7 +60,7 @@ export class DataTableComponent implements OnChanges {
     @Input()
     public trackByRowKey: (index: number, row: any) => any;
 
-    public pageRows: any[];
+    public pageRows: Row[];
 
     public highlighterStorage: any = {};
 
@@ -50,23 +76,23 @@ export class DataTableComponent implements OnChanges {
     }
 
     public updatePage(page: number): void {
-        if (!this.data) {
+        if (!this._rows) {
             return;
         }
 
         this.currentPage = page;
         if (!this.pageSize) {
-            this.pageRows = this.data;
+            this.pageRows = this._rows;
             return;
         }
 
-        let lastPage = Math.ceil(this.data.length / this.pageSize);
+        let lastPage = Math.ceil(this._rows.length / this.pageSize);
         if (page > lastPage) {
             page = lastPage;
         }
         let firstIndex = (page - 1) * this.pageSize;
         let lastIndex = page * this.pageSize;
-        this.pageRows = this.data.slice(firstIndex, lastIndex);
+        this.pageRows = this._rows.slice(firstIndex, lastIndex);
     }
 
     @Input()
@@ -109,7 +135,7 @@ export class DataTableComponent implements OnChanges {
     }
 
     private sort(): void {
-        if (!this.data) {
+        if (!this._rows) {
             return;
         }
 
@@ -121,12 +147,12 @@ export class DataTableComponent implements OnChanges {
             this.ordering = [];
         }
 
-        this.data.sort((a: any, b: any) => {
+        this._rows.sort((a: Row, b: Row) => {
             let comp: number = 0;
             this.ordering.some((sortingKey: OrderingCriteria<any>) => {
                 let direction = sortingKey.descending ? -1 : 1;
-                let first = sortingKey.get(a);
-                let second = sortingKey.get(b);
+                let first = sortingKey.get(a.rowData);
+                let second = sortingKey.get(b.rowData);
 
                 if (first < second) {
                     comp = -1 * direction;

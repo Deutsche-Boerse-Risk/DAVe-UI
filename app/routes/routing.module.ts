@@ -8,14 +8,17 @@ import {AuthModule} from '../auth/auth.module';
 
 import {DashboardModule} from '../dashboard/dashboard.module';
 import {DashboardComponent} from '../dashboard/dashboard.component';
+import {MarginRequirementOverviewComponent} from '../dashboard/margin.requirement.overview.component';
 
 import {PositionReportsModule} from '../position_reports/position.reports.module';
 import {PositionReportLatestComponent} from '../position_reports/position.report.latest.component';
 import {PositionReportHistoryComponent} from '../position_reports/position.report.history.component';
+import {PositionReportBubbleChartComponent} from '../position_reports/position.report.bubblechart.component';
 
 import {LiquiGroupMarginModule} from '../liqui_group_margin/liqui.group.margin.module';
 import {LiquiGroupMarginLatestComponent} from '../liqui_group_margin/liqui.group.margin.latest.component';
 import {LiquiGroupMarginHistoryComponent} from '../liqui_group_margin/liqui.group.margin.history.component';
+import {LiquiGroupMarginTreemapComponent} from '../liqui_group_margin/liqui.group.margin.treemap.component';
 
 import {LiquiGroupSplitMarginModule} from '../liqui_group_split_margin/liqui.group.split.margin.module';
 import {InitialMarginLatestComponent} from '../liqui_group_split_margin/initial_margin/initial.margin.latest.component';
@@ -369,7 +372,7 @@ const RISK_LIMIT_UTILIZATION: Route[] = [
 const ROUTER_DEFINITION: Route[] = [
     {
         path      : '',
-        redirectTo: ROUTES.DASHBOARD,
+        redirectTo: ROUTES.DASHBOARD_MARGIN_REQUIREMENT_OVERVIEW,
         pathMatch : 'full'
     },
     {
@@ -379,9 +382,33 @@ const ROUTER_DEFINITION: Route[] = [
     },
     {
         path       : ROUTE_NAMES.DASHBOARD,
-        pathMatch  : 'full',
         component  : DashboardComponent,
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
+        children   : [
+            {
+                path            : ROUTE_NAMES.DASHBOARD_MARGIN_REQUIREMENT_OVERVIEW,
+                pathMatch       : 'full',
+                component       : MarginRequirementOverviewComponent,
+                canActivateChild: [AuthGuard]
+            },
+            {
+                path            : ROUTE_NAMES.DASHBOARD_POSITION_LEVEL_RISK,
+                pathMatch       : 'full',
+                component       : PositionReportBubbleChartComponent,
+                canActivateChild: [AuthGuard]
+            },
+            {
+                path            : ROUTE_NAMES.DASHBOARD_INITIAL_MARGIN,
+                pathMatch       : 'full',
+                component       : LiquiGroupMarginTreemapComponent,
+                canActivateChild: [AuthGuard]
+            },
+            {
+                path      : '',
+                redirectTo: ROUTES.DASHBOARD_MARGIN_REQUIREMENT_OVERVIEW,
+                pathMatch : 'prefix'
+            }
+        ]
     },
     ...ACCOUNT_MARGIN,
     ...LIQUI_GROUP_MARGIN,
@@ -392,7 +419,7 @@ const ROUTER_DEFINITION: Route[] = [
     ...RISK_LIMIT_UTILIZATION,
     {
         path      : '**', // Otherwise
-        redirectTo: ROUTES.DASHBOARD
+        redirectTo: ROUTES.DASHBOARD_MARGIN_REQUIREMENT_OVERVIEW
     }
 ];
 

@@ -23,28 +23,27 @@
         </tr>
         </thead>
         <tbody *ngIf="pageRows && rowsTemplates" #mainBody>
-        <ng-template ngFor let-row [ngForOf]="pageRows" let-rowIndex="index" [ngForTrackBy]="trackByRowKey"
-                     expandable #expandable="expandable">
+        <ng-template ngFor let-row [ngForOf]="pageRows" let-rowIndex="index" [ngForTrackBy]="trackByRowKey">
             <tr *ngFor="let rowsTemplate of rowsTemplates; trackBy:trackByIndex"
-                (click)="expandable.expand(masterRow, !!detailRowGroups)"
+                (click)="row.toogle()"
                 #masterRow
                 [class.even]="rowIndex % 2 === 1"
                 [highlighter]="trackByRowKey"
-                [context]="{ row: row, storage: highlighterStorage, index: rowIndex}">
+                [context]="{ row: row.rowData, storage: highlighterStorage, index: rowIndex}">
                 <td *ngFor="let column of rowsTemplate; trackBy:trackByIndex"
                     [attr.rowspan]="column.rowspan"
                     [attr.colspan]="column.colspan"
                     [style.textAlign]="column.align">
                     <ng-template *ngIf="column.cellTemplate"
                                  [ngTemplateOutlet]="column.cellTemplate"
-                                 [ngTemplateOutletContext]="{ row: row }"></ng-template>
+                                 [ngTemplateOutletContext]="{ row: row.rowData, expanded: row.expanded }"></ng-template>
                 </td>
             </tr>
-            <tr *ngIf="detailRowGroups"
-                class="hidden detail"
+            <tr *ngIf="detailRowGroups && row.expanded"
+                class="detail"
                 [class.even]="rowIndex % 2 === 1"
                 [highlighter]="trackByRowKey"
-                [context]="{ row: row, storage: highlighterStorage, index: rowIndex}">
+                [context]="{ row: row.rowData, storage: highlighterStorage, index: rowIndex}">
                 <td [attr.colspan]="detailRowColspan">
                     <table>
                         <ng-template ngFor let-rowGroup [ngForOf]="detailRowGroups" [ngForTrackBy]="trackByIndex">
@@ -78,7 +77,7 @@
                                     [style.textAlign]="column.align">
                                     <ng-template *ngIf="column.cellTemplate"
                                                  [ngTemplateOutlet]="column.cellTemplate"
-                                                 [ngTemplateOutletContext]="{ row: row }"></ng-template>
+                                                 [ngTemplateOutletContext]="{ row: row.rowData, expanded: row.expanded }"></ng-template>
                                 </td>
                             </tr>
                             </tbody>

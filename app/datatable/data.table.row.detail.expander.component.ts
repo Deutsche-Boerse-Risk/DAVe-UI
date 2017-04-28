@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 export const selector = 'row-detail-expander';
 
@@ -7,11 +7,15 @@ export const selector = 'row-detail-expander';
     selector : selector,
     template : `
         <a md-icon-button mdTooltip="Show additional fields">
-            <md-icon>expand_more</md-icon>
+            <md-icon *ngIf="!expanded">expand_more</md-icon>
+            <md-icon *ngIf="expanded">expand_less</md-icon>
         </a>
     `,
     styleUrls: ['../common.component.css']
 })
 export class DataTableRowDetailExpander {
+
+    @Input()
+    public expanded: boolean;
 }
 

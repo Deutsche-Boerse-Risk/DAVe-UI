@@ -11,7 +11,6 @@ import {LiquiGroupMarginTree, LiquiGroupMarginTreeNode} from './liqui.group.marg
 
 @Component({
     moduleId   : module.id,
-    selector   : 'liqui-group-margin-treemap',
     templateUrl: 'liqui.group.margin.treemap.component.html',
     styleUrls  : ['../common.component.css'],
     styles     : [
@@ -21,7 +20,7 @@ import {LiquiGroupMarginTree, LiquiGroupMarginTreeNode} from './liqui.group.marg
 export class LiquiGroupMarginTreemapComponent extends AbstractComponentWithAutoRefresh {
 
     @Input()
-    public chartShown: boolean;
+    public chartShown: boolean = true;
 
     public initialLoad: boolean = true;
 

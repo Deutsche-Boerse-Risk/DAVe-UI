@@ -15,7 +15,6 @@ import {DataTableRowDetailDirective} from './data.table.row.detail.directive';
 import {PagingComponent} from './paging.component';
 
 import {DataTableRowDetailExpander} from './data.table.row.detail.expander.component';
-import {DataTableExpandableDirective} from './data.table.expandable.directive';
 
 import {DrillDownRowButtonComponent} from './drill.down.row.button.component';
 import {DetailRowButtonComponent} from './detail.row.button.component';
@@ -36,7 +35,6 @@ import {HighlighterDirective} from './highlighter.directive';
         HighlighterDirective,
         DataTableRowDetailDirective,
         DataTableRowDetailExpander,
-        DataTableExpandableDirective,
         PagingComponent,
         DrillDownRowButtonComponent,
         DetailRowButtonComponent

@@ -61,9 +61,14 @@
         color: mat-contrast($mat-grey, 100);
     }
 
+    .detail > td td {
+        background-color: map_get($mat-grey, 50);
+    }
+
     tbody > tr {
-        &.highlighted td {
-            background-color: rgba(map_get($mat-dbg-primary, 200), 0.5) !important;
+        &.highlighted td,
+        &.highlighted + .detail > td {
+            background-color: rgba(map_get($mat-dbg-primary, 200), 0.3) !important;
             color: mat-contrast($mat-dbg-primary, 200) !important;
         }
 
@@ -73,11 +78,9 @@
                 color: mat-contrast($mat-dbg-primary, 100) !important;
             }
 
-            + .detail {
-                td {
-                    background-color: map_get($mat-dbg-primary, 100) !important;
-                    color: mat-contrast($mat-dbg-primary, 100) !important;
-                }
+            + .detail > td {
+                background-color: map_get($mat-dbg-primary, 100) !important;
+                color: mat-contrast($mat-dbg-primary, 100) !important;
             }
         }
     }

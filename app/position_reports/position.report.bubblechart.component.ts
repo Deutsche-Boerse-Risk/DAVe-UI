@@ -15,7 +15,6 @@ export const compVarNegativeLegend = 'Negative';
 
 @Component({
     moduleId   : module.id,
-    selector   : 'position-report-bubblechart',
     templateUrl: 'position.report.bubblechart.component.html',
     styleUrls  : ['../common.component.css']
 })
@@ -28,7 +27,7 @@ export class PositionReportBubbleChartComponent extends AbstractComponentWithAut
     public title: string;
 
     @Input()
-    public chartShown: boolean;
+    public chartShown: boolean = true;
 
     public options: BubbleChartOptions = {
         explorer         : {
