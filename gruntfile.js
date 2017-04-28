@@ -117,31 +117,6 @@ module.exports = function (grunt) {
             }
         },
         copy: {
-            jQuery: {
-                src: providedJS('node_modules/jquery/dist/jquery.min.js'),
-                dest: destination
-            },
-            Bootstrap: {
-                src: providedJS('node_modules/bootstrap/dist/css/bootstrap.min.css')
-                    .concat(providedJS('node_modules/bootstrap/dist/js/bootstrap.min.js'))
-                    .concat(['node_modules/bootstrap/dist/fonts/**/*']),
-                dest: destination
-            },
-            MetisMenu: {
-                src: 'node_modules/metismenu/dist/metisMenu.min.css',
-                dest: destination
-            },
-            'sb-admin-2': {
-                src: 'node_modules/sb-admin-2/dist/css/sb-admin-2.css',
-                dest: destination
-            },
-            'font-awesome': {
-                src: [
-                    'node_modules/font-awesome/css/font-awesome.min.css',
-                    'node_modules/font-awesome/fonts/**/*'
-                ],
-                dest: destination
-            },
             shim: {
                 src: providedJS('node_modules/core-js/client/shim.min.js'),
                 dest: destination
@@ -181,6 +156,10 @@ module.exports = function (grunt) {
             },
             favicon: {
                 src: 'favicon.ico',
+                dest: destination
+            },
+            img: {
+                src: 'img/**/*',
                 dest: destination
             }
         },
