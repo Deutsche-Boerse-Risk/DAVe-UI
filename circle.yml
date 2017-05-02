@@ -53,8 +53,8 @@ deployment:
     commands:
       - ./dockerfile/create_docker.sh
       - ./deployment/kube_deploy.sh
-  material_layout:
-      branch: material_layout
+  material:
+      branch: material
       commands:
         - ./dockerfile/create_docker.sh
-#        - ./deployment/kube_deploy.sh
+        - ./deployment/kube_deploy.sh
