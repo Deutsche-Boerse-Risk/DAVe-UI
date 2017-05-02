@@ -30,18 +30,20 @@ export class DownloadMenuComponent {
     }
 
     public downloadAsCsv(): void {
-        let csvFile = '';
+        setTimeout(() => {
+            let csvFile = '';
 
-        if (this.columns) {
-            csvFile += this.createHeader();
+            if (this.columns) {
+                csvFile += this.createHeader();
 
-            for (let i = 0; i < this.data.length; i++) {
-                csvFile += this.processRow(this.data[i]);
+                for (let i = 0; i < this.data.length; i++) {
+                    csvFile += this.processRow(this.data[i]);
+                }
             }
-        }
 
-        const blob = new Blob([csvFile], {type: 'text/csv;charset=utf-8;'});
-        saveAs(blob, this.filename);
+            const blob = new Blob([csvFile], {type: 'text/csv;charset=utf-8;'});
+            saveAs(blob, this.filename);
+        });
     }
 
     private processRow(row: any): string {

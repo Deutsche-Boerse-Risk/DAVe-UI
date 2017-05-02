@@ -5,10 +5,14 @@
     Dashboard
 </a>
 
-<a md-button routerLinkActive="active" [mdMenuTriggerFor]="appMenu">
+<a md-button
+   routerLinkActive="active"
+   #menu="mdMenuTrigger"
+   [mdMenuTriggerFor]="appMenu"
+   [class.menuOpen]="menu.menuOpen">
     <md-icon>trending_up</md-icon>
     Margin Requirement
-    <md-menu #appMenu="mdMenu">
+    <md-menu #appMenu="mdMenu" [overlapTrigger]="false">
         <a md-menu-item
            routerLinkActive="active"
            [routerLink]="routerRoots.POSITION_REPORTS_LATEST"

@@ -137,6 +137,14 @@ $theme: mat-light-theme($grey-palette, $grey-palette, $grey-palette);
     }
 }
 
+.mat-icon-button, .mat-button {
+    &.active, &.menuOpen {
+        .mat-button-focus-overlay {
+            opacity: 1 !important;
+        }
+    }
+}
+
 .full-width {
     width: 100%;
 }

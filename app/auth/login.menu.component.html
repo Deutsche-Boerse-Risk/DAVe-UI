@@ -1,5 +1,6 @@
 <ng-template [ngIf]="orientation === 'row'">
-    <md-menu #appMenu="mdMenu">
+    <md-menu #loginMenu="mdMenu"
+             [overlapTrigger]="false">
         <button md-menu-item
                 (click)="logout()"
                 *ngIf="authStatus">
@@ -14,7 +15,10 @@
         </button>
     </md-menu>
 
-    <button md-icon-button [mdMenuTriggerFor]="appMenu">
+    <button md-icon-button
+            #menu="mdMenuTrigger"
+            [mdMenuTriggerFor]="loginMenu"
+            [class.menuOpen]="menu.menuOpen">
         <md-icon>person</md-icon>
     </button>
 </ng-template>

@@ -1,11 +1,15 @@
-<a md-button [mdMenuTriggerFor]="downloadMenu"
+<md-menu #downloadMenu="mdMenu" [overlapTrigger]="false">
+    <a md-menu-item
+       (click)="downloadAsCsv()">
+        As CSV file
+    </a>
+</md-menu>
+
+<a md-button
+   #menu="mdMenuTrigger"
+   [mdMenuTriggerFor]="downloadMenu"
+   [class.menuOpen]="menu.menuOpen"
    mdTooltip="Download">
     <md-icon>file_download</md-icon>
     Download
-    <md-menu #downloadMenu="mdMenu">
-        <a md-menu-item
-           (click)="downloadAsCsv()">
-            As CSV file
-        </a>
-    </md-menu>
 </a>
