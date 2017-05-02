@@ -17,7 +17,7 @@ import {exportKeys, routingKeys, valueGetters} from './liqui.group.margin.latest
 @Component({
     moduleId   : module.id,
     templateUrl: 'liqui.group.margin.history.component.html',
-    styleUrls  : ['../common.component.css']
+    styleUrls  : ['../component.css']
 })
 export class LiquiGroupMarginHistoryComponent extends AbstractHistoryListComponent<LiquiGroupMarginData> {
 

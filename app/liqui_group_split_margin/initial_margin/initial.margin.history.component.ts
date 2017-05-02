@@ -14,7 +14,7 @@ import {exportKeys, valueGetters} from './initial.margin.latest.component';
 @Component({
     moduleId   : module.id,
     templateUrl: 'initial.margin.history.component.html',
-    styleUrls  : ['../../common.component.css']
+    styleUrls  : ['../../component.css']
 })
 export class InitialMarginHistoryComponent extends AbstractLiquiGroupSplitMarginHistoryComponent {
 

@@ -7,8 +7,10 @@ import {ROUTES} from '../routes/routing.paths';
     moduleId   : module.id,
     selector   : 'login-menu',
     templateUrl: 'login.menu.component.html',
-    styleUrls  : ['../common.component.css'],
-    styles     : [':host { display: flex !important; }']
+    styleUrls  : [
+        '../component.css',
+        'login.menu.component.css'
+    ]
 })
 export class LoginMenuComponent {
 

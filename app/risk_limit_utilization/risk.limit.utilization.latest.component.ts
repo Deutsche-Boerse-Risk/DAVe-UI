@@ -15,7 +15,7 @@ export const routingKeys: string[] = ['clearer', 'member', 'maintainer', 'limitT
 @Component({
     moduleId   : module.id,
     templateUrl: 'risk.limit.utilization.latest.component.html',
-    styleUrls  : ['../common.component.css']
+    styleUrls  : ['../component.css']
 })
 export class RiskLimitUtilizationLatestComponent extends AbstractLatestListComponent<RiskLimitUtilizationData> {
 

@@ -11,7 +11,10 @@ import {UIDUtils} from '../uid.utils';
     moduleId : module.id,
     selector : 'google-chart',
     template : '<div #chartDiv [id]="id" [style.height]="height"></div>',
-    styleUrls: ['google.chart.component.css']
+    styleUrls: [
+        '../component.css',
+        'google.chart.component.css'
+    ]
 })
 export class GoogleChart implements OnInit, OnChanges, OnDestroy {
 

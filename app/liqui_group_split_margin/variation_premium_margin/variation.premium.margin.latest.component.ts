@@ -9,7 +9,7 @@ import {ExportColumn} from '../../list/download.menu.component';
 @Component({
     moduleId   : module.id,
     templateUrl: 'variation.premium.margin.latest.component.html',
-    styleUrls  : ['../../common.component.css']
+    styleUrls  : ['../../component.css']
 })
 export class VariationPremiumMarginLatestComponent extends AbstractLiquiGroupSplitMarginLatestComponent {
 

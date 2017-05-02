@@ -18,7 +18,7 @@ export const routingKeys: (keyof PositionReportsParams)[] = [
 @Component({
     moduleId   : module.id,
     templateUrl: 'position.report.latest.component.html',
-    styleUrls  : ['../common.component.css']
+    styleUrls  : ['../component.css']
 })
 export class PositionReportLatestComponent extends AbstractLatestListComponent<PositionReportData> {
 

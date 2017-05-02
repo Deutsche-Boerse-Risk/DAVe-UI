@@ -9,7 +9,7 @@ import {ExportColumn} from '../../list/download.menu.component';
 @Component({
     moduleId   : module.id,
     templateUrl: 'initial.margin.latest.component.html',
-    styleUrls  : ['../../common.component.css']
+    styleUrls  : ['../../component.css']
 })
 export class InitialMarginLatestComponent extends AbstractLiquiGroupSplitMarginLatestComponent {
 

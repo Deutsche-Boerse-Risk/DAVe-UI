@@ -17,7 +17,7 @@ import {exportKeys, routingKeys, valueGetters} from './position.report.latest.co
 @Component({
     moduleId   : module.id,
     templateUrl: 'position.report.history.component.html',
-    styleUrls  : ['../common.component.css']
+    styleUrls  : ['../component.css']
 })
 export class PositionReportHistoryComponent extends AbstractHistoryListComponent<PositionReportData> {
 

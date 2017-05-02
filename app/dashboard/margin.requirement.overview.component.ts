@@ -5,7 +5,7 @@ import {Component} from '@angular/core';
         <pool-margin-summary></pool-margin-summary>
         <liqui-group-margin-aggregation></liqui-group-margin-aggregation>
     `,
-    styleUrls: ['../common.component.css']
+    styleUrls: ['../component.css']
 })
 export class MarginRequirementOverviewComponent {
 }

@@ -1,4 +1,4 @@
-@import "app/_global";
+@import "global";
 
 body {
     font-size: $mat-menu-font-size;
@@ -135,4 +135,8 @@ $theme: mat-light-theme($grey-palette, $grey-palette, $grey-palette);
     .tableWrapper {
         @include disabeBoxShadow;
     }
+}
+
+.full-width {
+    width: 100%;
 }

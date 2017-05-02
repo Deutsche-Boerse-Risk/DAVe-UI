@@ -15,7 +15,7 @@ export const routingKeys: (keyof PoolMarginParams)[] = ['clearer', 'pool', 'marg
 @Component({
     moduleId   : module.id,
     templateUrl: 'pool.margin.latest.component.html',
-    styleUrls  : ['../common.component.css']
+    styleUrls  : ['../component.css']
 })
 export class PoolMarginLatestComponent extends AbstractLatestListComponent<PoolMarginData> {
 

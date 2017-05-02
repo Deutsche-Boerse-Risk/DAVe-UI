@@ -8,7 +8,10 @@ import {MdButtonToggle} from '@angular/material';
     moduleId   : module.id,
     selector   : 'paging',
     templateUrl: 'paging.component.html',
-    styleUrls  : ['paging.component.css']
+    styleUrls  : [
+        '../component.css',
+        'paging.component.css'
+    ]
 })
 export class PagingComponent implements OnChanges {
 

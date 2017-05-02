@@ -7,7 +7,10 @@ import {ROUTES} from '../routes/routing.paths';
 @Component({
     moduleId   : module.id,
     templateUrl: 'login.component.html',
-    styleUrls  : ['login.component.css']
+    styleUrls  : [
+        '../component.css',
+        'login.component.css'
+    ]
 })
 export class LoginComponent {
 

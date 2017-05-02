@@ -8,7 +8,7 @@ import {Component, Input} from '@angular/core';
             <md-icon>timeline</md-icon>
         </a>
     `,
-    styleUrls: ['../common.component.css']
+    styleUrls: ['../component.css']
 })
 export class DetailRowButtonComponent {
 

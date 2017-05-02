@@ -17,7 +17,7 @@ import {exportKeys, routingKeys, valueGetters} from './account.margin.latest.com
 @Component({
     moduleId   : module.id,
     templateUrl: 'account.margin.history.component.html',
-    styleUrls  : ['../common.component.css']
+    styleUrls  : ['../component.css']
 })
 export class AccountMarginHistoryComponent extends AbstractHistoryListComponent<AccountMarginData> {
 

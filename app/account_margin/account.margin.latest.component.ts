@@ -15,7 +15,7 @@ export const routingKeys: (keyof AccountMarginParams)[] = ['clearer', 'member', 
 @Component({
     moduleId   : module.id,
     templateUrl: 'account.margin.latest.component.html',
-    styleUrls  : ['../common.component.css']
+    styleUrls  : ['../component.css']
 })
 export class AccountMarginLatestComponent extends AbstractLatestListComponent<AccountMarginData> {
 

@@ -21,7 +21,7 @@ export const routingKeys: (keyof LiquiGroupMarginParams)[] = [
 @Component({
     moduleId   : module.id,
     templateUrl: 'liqui.group.margin.latest.component.html',
-    styleUrls  : ['../common.component.css']
+    styleUrls  : ['../component.css']
 })
 export class LiquiGroupMarginLatestComponent extends AbstractLatestListComponent<LiquiGroupMarginData> {
 

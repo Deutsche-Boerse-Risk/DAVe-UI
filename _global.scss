@@ -1,4 +1,4 @@
-@import '../node_modules/@angular/material/theming';
+@import 'node_modules/@angular/material/theming';
 
 @mixin clearfix {
     &:before,
@@ -25,7 +25,10 @@
 
 @mixin disabeBoxShadow {
     box-shadow: none !important;
-    border: 1px solid $_ambient-color !important;
+    border-top: 1px solid rgba($_ambient-color, 0.05) !important;
+    border-right: 2px solid $_ambient-color !important;
+    border-bottom: 2px solid $_ambient-color !important;
+    border-left: 1px solid rgba($_ambient-color, 0.05) !important;
     border-radius: 3px;
 }
 

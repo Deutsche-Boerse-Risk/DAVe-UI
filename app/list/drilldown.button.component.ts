@@ -4,7 +4,7 @@ import {Component, Input} from '@angular/core';
     moduleId   : module.id,
     selector   : 'drilldown-button',
     templateUrl: 'drilldown.button.component.html',
-    styleUrls  : ['../common.component.css']
+    styleUrls  : ['../component.css']
 })
 export class DrilldownButtonComponent {
 

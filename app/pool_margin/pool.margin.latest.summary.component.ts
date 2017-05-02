@@ -10,7 +10,10 @@ import {ErrorResponse} from '../http.service';
     moduleId   : module.id,
     selector   : 'pool-margin-summary',
     templateUrl: 'pool.margin.latest.summary.component.html',
-    styleUrls  : ['pool.margin.latest.summary.component.css']
+    styleUrls  : [
+        '../component.css',
+        'pool.margin.latest.summary.component.css'
+    ]
 })
 export class PoolMarginLatestSummaryComponent extends AbstractComponentWithAutoRefresh {
 

@@ -5,7 +5,10 @@ import {ROUTES} from '../routes/routing.paths';
     moduleId   : module.id,
     selector   : 'app-menu',
     templateUrl: 'menu.component.html',
-    styleUrls  : ['menu.component.css']
+    styleUrls  : [
+        '../component.css',
+        'menu.component.css'
+    ]
 })
 export class MenuComponent {
 

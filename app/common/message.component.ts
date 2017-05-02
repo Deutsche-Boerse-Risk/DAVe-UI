@@ -21,8 +21,9 @@ const COMPONENT_SELECTOR = ERROR_SELECTOR + ', ' + GOOD_SELECTOR + ', ' + INFO_S
             <ng-template [ngIf]="noData">No data available.</ng-template>
             <ng-template [ngIf]="updateError">Failed to update the data: {{message}}.</ng-template>
             <ng-template [ngIf]="!initialLoad && !noData && !updateError">{{message}}</ng-template>
+            <ng-content></ng-content>
         </md-card>`,
-    styleUrls: ['../common.component.css']
+    styleUrls: ['../component.css']
 })
 export class MessageComponent {
 

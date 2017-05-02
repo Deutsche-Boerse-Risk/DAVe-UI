@@ -15,7 +15,10 @@ import {LiquiGroupMarginService} from './liqui.group.margin.service';
     moduleId   : module.id,
     selector   : 'liqui-group-margin-aggregation',
     templateUrl: 'liqui.group.margin.aggregation.component.html',
-    styleUrls  : ['liqui.group.margin.aggregation.component.css']
+    styleUrls  : [
+        '../component.css',
+        'liqui.group.margin.aggregation.component.css'
+    ]
 })
 export class LiquiGroupMarginAggregationComponent extends AbstractComponentWithAutoRefresh {
 

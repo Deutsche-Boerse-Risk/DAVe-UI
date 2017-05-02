@@ -6,12 +6,12 @@
               [initialLoad]="initialLoad"
               [errorMessage]="errorMessage"
               [drilldownRouterLink]="[routerRoots.POSITION_REPORTS_LATEST, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', routeParams['liquidationGroup'] || '*', routeParams['liquidationGroupSplit'] || '*']">
-    <div class="panel-body" *ngIf="chartData?.rows?.length > 0">
+    <ng-template [ngIf]="chartData?.rows?.length > 0">
         <google-line-chart [chartOptions]="chartOptions"
                            [chartData]="chartData"
                            height="377px"
                            [showControls]="true"></google-line-chart>
-    </div>
+    </ng-template>
 
     <data-table [data]="data"
                 [pageSize]="pageSize"

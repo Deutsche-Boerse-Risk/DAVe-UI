@@ -13,7 +13,7 @@ declare let saveAs: (blob: Blob, filename: string) => {};
     moduleId   : module.id,
     selector   : 'download-menu',
     templateUrl: 'download.menu.component.html',
-    styleUrls  : ['../common.component.css']
+    styleUrls  : ['../component.css']
 })
 export class DownloadMenuComponent {
 

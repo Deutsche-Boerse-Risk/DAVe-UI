@@ -29,11 +29,11 @@
 
 <update-failed *ngIf="errorMessage" [message]="errorMessage"></update-failed>
 
-<md-card *ngIf="chartData?.rows.length && title" class="info">
+<info *ngIf="chartData?.rows.length && title">
     <div [innerHTML]="title"></div>
-</md-card>
+</info>
 
-<md-card style="height: 345px" *ngIf="chartData?.rows.length">
+<md-card class="chart" *ngIf="chartData?.rows.length">
     <google-chart *ngIf="chartShown && chartData?.rows.length"
                   [chartData]="chartData"
                   [chartOptions]="options"
@@ -45,7 +45,7 @@
 <a *ngIf="chartData?.rows.length"
    md-raised-button
    color="accent"
-   style="width: 100%"
+   class="full-width"
    [routerLink]="routerRoots.POSITION_REPORTS_LATEST">
     View Details
 </a>

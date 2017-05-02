@@ -22,7 +22,10 @@ export class Row {
     moduleId   : module.id,
     selector   : 'data-table',
     templateUrl: 'data.table.component.html',
-    styleUrls  : ['data.table.component.css']
+    styleUrls  : [
+        '../component.css',
+        'data.table.component.css'
+    ]
 })
 export class DataTableComponent implements OnChanges {
 

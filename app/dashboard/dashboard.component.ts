@@ -4,7 +4,10 @@ import {ROUTES} from '../routes/routing.paths';
 @Component({
     moduleId   : module.id,
     templateUrl: 'dashboard.component.html',
-    styleUrls  : ['dashboard.component.css']
+    styleUrls  : [
+        '../component.css',
+        'dashboard.component.css'
+    ]
 })
 export class DashboardComponent {
 

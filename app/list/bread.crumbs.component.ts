@@ -12,7 +12,10 @@ export interface RoutePart {
     moduleId   : module.id,
     selector   : 'bread-crumbs',
     templateUrl: 'bread.crumbs.component.html',
-    styleUrls  : ['bread.crumbs.component.css']
+    styleUrls  : [
+        '../component.css',
+        'bread.crumbs.component.css'
+    ]
 })
 export class BreadCrumbsComponent implements OnChanges {
 

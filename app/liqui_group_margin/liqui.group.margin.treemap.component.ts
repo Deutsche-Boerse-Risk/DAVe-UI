@@ -12,9 +12,9 @@ import {LiquiGroupMarginTree, LiquiGroupMarginTreeNode} from './liqui.group.marg
 @Component({
     moduleId   : module.id,
     templateUrl: 'liqui.group.margin.treemap.component.html',
-    styleUrls  : ['../common.component.css'],
-    styles     : [
-        ':host /deep/ rect[fill="#000099"] + text { fill: white !important;}'
+    styleUrls  : [
+        '../component.css',
+        'liqui.group.margin.treemap.component.css'
     ]
 })
 export class LiquiGroupMarginTreemapComponent extends AbstractComponentWithAutoRefresh {

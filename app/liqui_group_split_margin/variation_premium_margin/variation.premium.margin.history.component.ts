@@ -14,7 +14,7 @@ import {exportKeys, valueGetters} from './variation.premium.margin.latest.compon
 @Component({
     moduleId   : module.id,
     templateUrl: 'variation.premium.margin.history.component.html',
-    styleUrls  : ['../../common.component.css']
+    styleUrls  : ['../../component.css']
 })
 export class VariationPremiumMarginHistoryComponent extends AbstractLiquiGroupSplitMarginHistoryComponent {
 

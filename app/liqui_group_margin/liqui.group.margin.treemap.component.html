@@ -4,7 +4,7 @@
 
 <update-failed *ngIf="errorMessage" [message]="errorMessage"></update-failed>
 
-<md-card style="height: 345px" *ngIf="chartData?.rows?.length">
+<md-card class="chart" *ngIf="chartData?.rows?.length">
     <google-chart *ngIf="chartShown && chartData?.rows?.length > 0"
                   chartType="TreeMap"
                   [chartOptions]="chartOptions"
@@ -16,6 +16,5 @@
 <a *ngIf="chartData?.rows?.length"
    md-raised-button
    color="accent"
-   style="width: 100%"
-   [routerLink]="rootRoutePath"
-   class="btn btn-default btn-block">View Details</a>
+   class="full-width"
+   [routerLink]="rootRoutePath">View Details</a>

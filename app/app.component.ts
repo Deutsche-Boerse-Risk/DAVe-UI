@@ -7,7 +7,10 @@ import {ROUTES} from './routes/routing.paths';
     moduleId   : module.id,
     selector   : 'dave',
     templateUrl: 'app.component.html',
-    styleUrls  : ['app.component.css']
+    styleUrls  : [
+        'component.css',
+        'app.component.css'
+    ]
 })
 export class AppComponent {
 

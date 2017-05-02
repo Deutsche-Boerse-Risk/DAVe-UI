@@ -8,7 +8,10 @@ export const FILTER_TIMEOUT = 100;
     moduleId   : module.id,
     selector   : 'list-content',
     templateUrl: 'list.component.html',
-    styleUrls  : ['list.component.css']
+    styleUrls  : [
+        '../component.css',
+        'list.component.css'
+    ]
 })
 export class ListComponent {
 

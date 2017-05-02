@@ -17,7 +17,7 @@ import {exportKeys, routingKeys, valueGetters} from './pool.margin.latest.compon
 @Component({
     moduleId   : module.id,
     templateUrl: 'pool.margin.history.component.html',
-    styleUrls  : ['../common.component.css']
+    styleUrls  : ['../component.css']
 })
 export class PoolMarginHistoryComponent extends AbstractHistoryListComponent<PoolMarginData> {
 

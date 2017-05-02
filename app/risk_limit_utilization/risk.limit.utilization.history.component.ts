@@ -17,7 +17,7 @@ import {exportKeys, routingKeys, valueGetters} from './risk.limit.utilization.la
 @Component({
     moduleId   : module.id,
     templateUrl: 'risk.limit.utilization.history.component.html',
-    styleUrls  : ['../common.component.css']
+    styleUrls  : ['../component.css']
 })
 export class RiskLimitUtilizationHistoryComponent extends AbstractHistoryListComponent<RiskLimitUtilizationData> {
 
