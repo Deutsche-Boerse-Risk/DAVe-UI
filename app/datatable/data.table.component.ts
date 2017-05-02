@@ -86,22 +86,20 @@ export class DataTableComponent implements OnChanges {
 
     @Input()
     public set data(data: any[]) {
-        if (!data) {
+        if (!data || data.length === 0) {
             delete this._data;
             delete this._rows;
             return;
         }
 
         // Remember old data
-        let oldData: { [key: string]: { rowData: any, row: Row } } = {};
-        if (this._data && this._rows && this.trackByRowKey) {
-            this._data.forEach((value: any, index: number) => {
-                oldData[this.trackByRowKey(index, value)] = {
-                    rowData: value,
-                    row    : this._rows[index]
-                };
+        let oldData: { [key: string]: Row } = {};
+        if (this._rows && this.trackByRowKey) {
+            this._rows.forEach((value: Row, index: number) => {
+                oldData[this.trackByRowKey(index, value.rowData)] = value;
             });
             delete this._data;
+            delete this._rows;
         }
         this._data = [];
         this._rows = [];
@@ -109,7 +107,7 @@ export class DataTableComponent implements OnChanges {
         // Merge the new and old data into old array so angular is able to do change detection correctly
         for (let index = 0; index < data.length; ++index) {
             let newValue = data[index];
-            let oldValue: { rowData: any, row: Row };
+            let oldValue: Row;
             if (this.trackByRowKey && oldData) {
                 oldValue = oldData[this.trackByRowKey(index, newValue)];
             }
@@ -118,7 +116,7 @@ export class DataTableComponent implements OnChanges {
                 Object.keys(oldValue.rowData).concat(Object.keys(newValue)).forEach((key: string) => {
                     (<any>oldValue.rowData)[key] = (<any>newValue)[key];
                 });
-                this._rows.push(oldValue.row);
+                this._rows.push(oldValue);
             } else {
                 this._data.push(newValue);
                 this._rows.push(new Row(newValue));

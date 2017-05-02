@@ -2,7 +2,7 @@ export abstract class UIDUtils {
     public static computeUID(...data: any[]): string {
         if (data && data.length) {
             return data.map((value: any) => {
-                if (!value) {
+                if (value == null) {
                     return '';
                 }
                 return value.toString().replace('\.', '');
