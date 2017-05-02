@@ -12,7 +12,7 @@
 
         .huge {
             font-size: rem(2);
-            font-weight: bold;
+            font-family: $dbg-font-family-bold !important;
         }
     }
 }

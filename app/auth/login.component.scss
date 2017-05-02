@@ -1,3 +1,5 @@
+@import "../../global";
+
 :host {
     position: absolute;
     top: 50%;
@@ -8,6 +10,10 @@
 
 .mat-card-title-group {
     margin: 0;
+
+    .mat-card-title {
+        font-family: $dbg-font-family-bold !important;
+    }
 }
 
 .mat-card-actions {

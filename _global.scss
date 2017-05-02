@@ -1,38 +1,29 @@
 @import 'node_modules/@angular/material/theming';
+@import 'mixins';
 
-@mixin clearfix {
-    &:before,
-    &:after {
-        content: " ";
-        display: table;
-    }
-    &:after {
-        clear: both;
-    }
-}
-
-@mixin noTransition {
-    transition-duration: 0ms !important;
-    transition-delay: 0ms !important;
-}
-
-@mixin hoverTransition {
-    transition: opacity .2s cubic-bezier(.35, 0, .25, 1), background-color .2s cubic-bezier(.35, 0, .25, 1) !important;
-    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-        @include noTransition;
+@mixin _font($name) {
+    @font-face {
+        font-family: $name;
+        src: url("/fonts/" + $name + ".eot");
+        src: url("/fonts/" + $name + ".eot#iefix") format("embedded-opentype"), url("/fonts/" + $name + ".woff") format("woff"), url("/fonts/" + $name + ".ttf") format("truetype"), url("/fonts/" + $name + ".svg#NGT45__W") format("svg");
+        font-weight: normal;
+        font-style: normal;
     }
 }
 
-@mixin disabeBoxShadow {
-    box-shadow: none !important;
-    border-top: 1px solid rgba($_ambient-color, 0.05) !important;
-    border-right: 2px solid $_ambient-color !important;
-    border-bottom: 2px solid $_ambient-color !important;
-    border-left: 1px solid rgba($_ambient-color, 0.05) !important;
-    border-radius: 3px;
+@mixin dbgFontDefinition {
+    @include _font(newsGothic_light);
+    @include _font(newsGothic_roman);
+    @include _font(newsGothic_demi);
+    @include _font(newsGothic_bold);
 }
 
-$mat-dbg-primary: (
+$dbg-font-family-light: newsGothic_light, Arial, Verdana, Helvetica, sans-serif;
+$dbg-font-family: newsGothic_roman, Arial, Verdana, Helvetica, sans-serif;
+$dbg-font-family-bold: newsGothic_demi, Arial, Verdana, Helvetica, sans-serif;
+$dbg-font-family-bolder: newsGothic_bold, Arial, Verdana, Helvetica, sans-serif;
+
+$dbg-primary: (
         100: #D7EBFF, //
         200: #B4E1FF, //
         300: #7DCDFF, //
@@ -50,7 +41,7 @@ $mat-dbg-primary: (
         )
 );
 
-$mat-dbg-warn: (
+$dbg-warn: (
         100: #66CC33, //
         200: #A5B300, //
         300: #FFCC00, //
@@ -70,11 +61,11 @@ $mat-dbg-warn: (
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue.
-$dbg-app-primary-palette: mat-palette($mat-dbg-primary);
-$dbg-app-accent-palette: mat-palette($mat-dbg-primary, 200, 300, 400);
+$dbg-primary-palette: mat-palette($dbg-primary);
+$dbg-accent-palette: mat-palette($dbg-primary, 200, 300, 400);
 
 // The warn palette is optional (defaults to red).
-$dbg-app-warn-palette: mat-palette($mat-dbg-warn, 100, 300, 600);
+$dbg-warn-palette: mat-palette($dbg-warn, 100, 300, 600);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$dbg-app-theme: mat-light-theme($dbg-app-primary-palette, $dbg-app-accent-palette, $dbg-app-warn-palette);
+$dbg-theme: mat-light-theme($dbg-primary-palette, $dbg-accent-palette, $dbg-warn-palette);

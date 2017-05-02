@@ -9,12 +9,12 @@
         cursor: pointer;
         position: relative;
 
-        background-color: map_get($dbg-app-accent-palette, default);
-        color: map_get($dbg-app-accent-palette, default-contrast);
+        background-color: map_get($dbg-accent-palette, default);
+        color: map_get($dbg-accent-palette, default-contrast);
 
         &.mat-chip-selected {
-            background-color: map_get($dbg-app-accent-palette, 400);
-            color: mat-contrast($dbg-app-accent-palette, 400);
+            background-color: map_get($dbg-accent-palette, 400);
+            color: mat-contrast($dbg-accent-palette, 400);
         }
 
         &:after {

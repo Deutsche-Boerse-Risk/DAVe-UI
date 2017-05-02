@@ -29,7 +29,7 @@
     }
 
     .pageCount {
-        background-color: mat-color(map-get($dbg-app-theme, background), disabled-button-toggle);
+        background-color: mat-color(map-get($dbg-theme, background), disabled-button-toggle);
 
         display: inline-block;
         padding: 9px;
@@ -37,7 +37,7 @@
     }
 
     /deep/ .mat-button {
-        color: map_get($dbg-app-primary-palette, default);
+        color: map_get($dbg-primary-palette, default);
     }
 
     th, td {
@@ -46,11 +46,13 @@
     }
 
     thead th {
-        background-color: map_get($dbg-app-primary-palette, default);
-        color: map_get($dbg-app-primary-palette, default-contrast);
+        font-family: $dbg-font-family-bold !important;
+
+        background-color: map_get($dbg-primary-palette, default);
+        color: map_get($dbg-primary-palette, default-contrast);
 
         /deep/ .mat-button-focus-overlay {
-            background-color: rgba(mat-color($dbg-app-primary-palette, default-contrast), 0.3);
+            background-color: rgba(mat-color($dbg-primary-palette, default-contrast), 0.3);
         }
     }
 
@@ -71,19 +73,19 @@
     tbody > tr {
         &.highlighted td,
         &.highlighted + .detail > td {
-            background-color: rgba(map_get($mat-dbg-primary, 200), 0.3) !important;
-            color: mat-contrast($mat-dbg-primary, 200) !important;
+            background-color: rgba(map_get($dbg-primary, 200), 0.3) !important;
+            color: mat-contrast($dbg-primary, 200) !important;
         }
 
         &:hover:not(.detail) {
             td {
-                background-color: map_get($mat-dbg-primary, 100) !important;
-                color: mat-contrast($mat-dbg-primary, 100) !important;
+                background-color: map_get($dbg-primary, 100) !important;
+                color: mat-contrast($dbg-primary, 100) !important;
             }
 
             + .detail > td {
-                background-color: map_get($mat-dbg-primary, 100) !important;
-                color: mat-contrast($mat-dbg-primary, 100) !important;
+                background-color: map_get($dbg-primary, 100) !important;
+                color: mat-contrast($dbg-primary, 100) !important;
             }
         }
     }

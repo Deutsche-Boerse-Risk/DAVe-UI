@@ -1,14 +1,26 @@
 @import "global";
 
+@include dbgFontDefinition;
+
 body {
     font-size: $mat-menu-font-size;
-    font-family: $mat-font-family;
+    font-family: $dbg-font-family !important;
+    font-weight: normal !important;
     text-align: left;
     text-decoration: none; // necessary to reset anchor tags
 
     background-color: #fff;
     margin: 0;
     height: 100vh;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizelegibility;
+}
+
+*:not(.mat-icon) {
+    font-family: $dbg-font-family !important;
+    font-weight: normal !important;
 }
 
 h1 {
@@ -32,29 +44,29 @@ h3 {
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include mat-core-theme($dbg-app-theme);
+@include mat-core-theme($dbg-theme);
 //@include mat-autocomplete-theme($dbg-app-theme);
-@include mat-button-theme($dbg-app-theme);
-@include mat-button-toggle-theme($dbg-app-theme);
-@include mat-card-theme($dbg-app-theme);
+@include mat-button-theme($dbg-theme);
+@include mat-button-toggle-theme($dbg-theme);
+@include mat-card-theme($dbg-theme);
 //@include mat-checkbox-theme($dbg-app-theme);
-@include mat-chips-theme($dbg-app-theme);
+@include mat-chips-theme($dbg-theme);
 //@include mat-dialog-theme($dbg-app-theme);
 //@include mat-grid-list-theme($dbg-app-theme);
-@include mat-icon-theme($dbg-app-theme);
-@include mat-input-theme($dbg-app-theme);
+@include mat-icon-theme($dbg-theme);
+@include mat-input-theme($dbg-theme);
 //@include mat-list-theme($dbg-app-theme);
-@include mat-menu-theme($dbg-app-theme);
+@include mat-menu-theme($dbg-theme);
 //@include mat-progress-bar-theme($dbg-app-theme);
 //@include mat-progress-spinner-theme($dbg-app-theme);
 //@include mat-radio-theme($dbg-app-theme);
-@include mat-select-theme($dbg-app-theme);
-@include mat-sidenav-theme($dbg-app-theme);
+@include mat-select-theme($dbg-theme);
+@include mat-sidenav-theme($dbg-theme);
 //@include mat-slide-toggle-theme($dbg-app-theme);
 //@include mat-slider-theme($dbg-app-theme);
-@include mat-tabs-theme($dbg-app-theme);
-@include mat-toolbar-theme($dbg-app-theme);
-@include mat-tooltip-theme($dbg-app-theme);
+@include mat-tabs-theme($dbg-theme);
+@include mat-toolbar-theme($dbg-theme);
+@include mat-tooltip-theme($dbg-theme);
 
 .toolbar-spacer {
     flex: 1 1 auto;
@@ -64,23 +76,23 @@ h3 {
     margin-bottom: 10px;
 
     &.info {
-        background-color: map_get($dbg-app-primary-palette, lighter);
-        color: map_get($dbg-app-primary-palette, lighter-contrast);
+        background-color: map_get($dbg-primary-palette, lighter);
+        color: map_get($dbg-primary-palette, lighter-contrast);
     }
 
     &.good {
-        background-color: map_get($dbg-app-warn-palette, 100);
-        color: mat-contrast($dbg-app-warn-palette, 100);
+        background-color: map_get($dbg-warn-palette, 100);
+        color: mat-contrast($dbg-warn-palette, 100);
     }
 
     &.warn {
-        background-color: map_get($dbg-app-warn-palette, lighter);
-        color: map_get($dbg-app-warn-palette, lighter-contrast);
+        background-color: map_get($dbg-warn-palette, lighter);
+        color: map_get($dbg-warn-palette, lighter-contrast);
     }
 
     &.error {
-        background-color: map_get($dbg-app-warn-palette, 700);
-        color: mat-contrast($dbg-app-warn-palette, 700);
+        background-color: map_get($dbg-warn-palette, 700);
+        color: mat-contrast($dbg-warn-palette, 700);
     }
 }
 
@@ -114,7 +126,7 @@ $theme: mat-light-theme($grey-palette, $grey-palette, $grey-palette);
 
 .mat-toolbar {
     &.mat-primary .mat-button-focus-overlay {
-        background-color: rgba(mat-color($dbg-app-primary-palette, default-contrast), 0.30);
+        background-color: rgba(mat-color($dbg-primary-palette, default-contrast), 0.30);
     }
 }
 

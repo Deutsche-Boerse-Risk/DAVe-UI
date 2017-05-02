@@ -1,0 +1,31 @@
+@mixin clearfix {
+    &:before,
+    &:after {
+        content: " ";
+        display: table;
+    }
+    &:after {
+        clear: both;
+    }
+}
+
+@mixin noTransition {
+    transition-duration: 0ms !important;
+    transition-delay: 0ms !important;
+}
+
+@mixin hoverTransition {
+    transition: opacity .2s cubic-bezier(.35, 0, .25, 1), background-color .2s cubic-bezier(.35, 0, .25, 1) !important;
+    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+        @include noTransition;
+    }
+}
+
+@mixin disabeBoxShadow {
+    box-shadow: none !important;
+    border-top: 1px solid rgba($_ambient-color, 0.05) !important;
+    border-right: 2px solid $_ambient-color !important;
+    border-bottom: 2px solid $_ambient-color !important;
+    border-left: 1px solid rgba($_ambient-color, 0.05) !important;
+    border-radius: 3px;
+}

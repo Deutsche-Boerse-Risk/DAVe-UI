@@ -158,6 +158,10 @@ module.exports = function (grunt) {
                 src: 'favicon.ico',
                 dest: destination
             },
+            fonts: {
+                src: 'fonts/**/*',
+                dest: destination
+            },
             img: {
                 src: 'img/**/*',
                 dest: destination
