@@ -2,7 +2,7 @@ import {TestBed, async, fakeAsync} from '@angular/core/testing';
 
 import {LinkOnlyPage, RouterLinkStubDirective} from '../../testing';
 
-import {MaterialModule} from '../material/material.module';
+import {NoopAnimationsMaterialModule} from '../material/material.module';
 
 import {DetailRowButtonComponent} from './detail.row.button.component';
 
@@ -12,7 +12,7 @@ describe('DetailRowButtonComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports     : [MaterialModule],
+            imports     : [NoopAnimationsMaterialModule],
             declarations: [DetailRowButtonComponent, RouterLinkStubDirective]
         }).compileComponents();
     }));

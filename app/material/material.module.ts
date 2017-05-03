@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {
     MdButtonModule,
     MdButtonToggleModule,
@@ -18,7 +18,6 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 
 @NgModule({
     imports: [
-        BrowserAnimationsModule,
         FlexLayoutModule,
         MdButtonModule,
         MdButtonToggleModule,
@@ -49,5 +48,25 @@ import {FlexLayoutModule} from '@angular/flex-layout';
         MdTooltipModule
     ]
 })
+class MaterialModulePrivate {
+}
+
+@NgModule({
+    imports: [
+        BrowserAnimationsModule,
+        MaterialModulePrivate
+    ],
+    exports: [MaterialModulePrivate]
+})
 export class MaterialModule {
+}
+
+@NgModule({
+    imports: [
+        NoopAnimationsModule,
+        MaterialModulePrivate
+    ],
+    exports: [MaterialModulePrivate]
+})
+export class NoopAnimationsMaterialModule {
 }

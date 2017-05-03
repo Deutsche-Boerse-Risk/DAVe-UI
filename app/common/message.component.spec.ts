@@ -1,6 +1,6 @@
 import {TestBed, async, fakeAsync} from '@angular/core/testing';
 
-import {MaterialModule} from '../material/material.module';
+import {NoopAnimationsMaterialModule} from '../material/material.module';
 
 import {MessagePage, MessageHostedPage, TestMessageHostComponent} from '../../testing';
 
@@ -12,7 +12,7 @@ describe('MessageComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports     : [MaterialModule],
+            imports     : [NoopAnimationsMaterialModule],
             declarations: [MessageComponent]
         }).compileComponents();
     }));
@@ -36,7 +36,7 @@ describe('MessageComponent hosted', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports     : [MaterialModule],
+            imports     : [NoopAnimationsMaterialModule],
             declarations: [MessageComponent, TestMessageHostComponent]
         }).compileComponents();
     }));

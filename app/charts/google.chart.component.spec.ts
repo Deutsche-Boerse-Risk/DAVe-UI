@@ -2,7 +2,7 @@ import {fakeAsync, TestBed, async} from '@angular/core/testing';
 
 import {windowResize, ChartPage, TestChartHostComponent} from '../../testing';
 
-import {MaterialModule} from '../material/material.module';
+import {NoopAnimationsMaterialModule} from '../material/material.module';
 
 import {GoogleChart} from './google.chart.component';
 import {ChartData, LineChartOptions, loadGoogleCharts} from './chart.types';
@@ -80,7 +80,7 @@ describe('GoogleChart component', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports     : [MaterialModule],
+            imports     : [NoopAnimationsMaterialModule],
             declarations: [GoogleChart, TestChartHostComponent]
         }).compileComponents();
     }));
