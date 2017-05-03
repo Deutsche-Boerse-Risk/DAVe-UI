@@ -11,6 +11,7 @@
         @include mat-elevation(2);
 
         margin-bottom: 15px;
+        overflow: auto;
     }
 
     table {
@@ -78,9 +79,10 @@
 
     .pageCount {
         background-color: mat-color(map-get($dbg-theme, background), disabled-button-toggle);
+        font-size: 13px;
 
         display: inline-block;
-        padding: 9px;
+        padding: 4px;
         margin-bottom: 15px;
     }
 
