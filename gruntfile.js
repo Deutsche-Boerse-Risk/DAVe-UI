@@ -44,7 +44,7 @@ module.exports = function (grunt) {
     grunt.appFolders = ['app', 'testing'];
 
     // Populate paths
-    sassPattern = addAppFolders('**/*.scss', 'styles.scss');
+    sassPattern = addAppFolders('**/*.scss', 'styles.scss', '_global.scss', '_mixins.scss');
     cssPattern = addAppFolders('**/*.css', 'styles.css');
     htmlPattern = addAppFolders('**/*.html', 'index.html');
     jsPattern = addAppFolders('**/*.js', 'systemjs.config.js');
