@@ -8,7 +8,10 @@ import {Component, Input} from '@angular/core';
             <md-icon>my_location</md-icon>
         </a>
     `,
-    styleUrls: ['../component.css']
+    styleUrls: [
+        '../component.css',
+        'inline.button.scss'
+    ]
 })
 export class DrillDownRowButtonComponent {
 

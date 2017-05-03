@@ -28,18 +28,6 @@
         position: relative;
     }
 
-    .pageCount {
-        background-color: mat-color(map-get($dbg-theme, background), disabled-button-toggle);
-
-        display: inline-block;
-        padding: 9px;
-        margin-bottom: 15px;
-    }
-
-    /deep/ .mat-button {
-        color: map_get($dbg-primary-palette, default);
-    }
-
     th, td {
         padding: 8px;
         border: 1px solid map_get($mat-grey, 300);
@@ -52,20 +40,6 @@
         /deep/ .mat-button-focus-overlay {
             background-color: rgba(mat-color($dbg-primary-palette, default-contrast), 0.3);
         }
-    }
-
-    tfoot th {
-        background-color: map_get($mat-grey, 200);
-        color: mat-contrast($mat-grey, 200);
-    }
-
-    .striped > tbody > tr.even td {
-        background-color: map_get($mat-grey, 100);
-        color: mat-contrast($mat-grey, 100);
-    }
-
-    .detail > td td {
-        background-color: map_get($mat-grey, 50);
     }
 
     tbody > tr {
@@ -85,6 +59,44 @@
                 background-color: map_get($dbg-primary, 100) !important;
                 color: mat-contrast($dbg-primary, 100) !important;
             }
+        }
+    }
+
+    .striped > tbody > tr.even td {
+        background-color: map_get($mat-grey, 100);
+        color: mat-contrast($mat-grey, 100);
+    }
+
+    .detail > td td {
+        background-color: map_get($mat-grey, 50);
+    }
+
+    tfoot th {
+        background-color: map_get($mat-grey, 200);
+        color: mat-contrast($mat-grey, 200);
+    }
+
+    .pageCount {
+        background-color: mat-color(map-get($dbg-theme, background), disabled-button-toggle);
+
+        display: inline-block;
+        padding: 9px;
+        margin-bottom: 15px;
+    }
+
+    /deep/ {
+        .mat-button {
+            color: map_get($dbg-primary-palette, default);
+            margin: -10px 0;
+            line-height: 28px;
+            width: 100%;
+        }
+
+        .mat-icon-button {
+            width: 28px;
+            height: 28px;
+            line-height: 28px;
+            margin: -5px 0;
         }
     }
 }

@@ -11,7 +11,10 @@ export const selector = 'row-detail-expander';
             <md-icon *ngIf="expanded">expand_less</md-icon>
         </a>
     `,
-    styleUrls: ['../component.css']
+    styleUrls: [
+        '../component.css',
+        'inline.button.scss'
+    ]
 })
 export class DataTableRowDetailExpander {
 
