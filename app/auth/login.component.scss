@@ -6,6 +6,9 @@
     left: 50%;
     transform: translate(-50%, -50%);
     width: 400px;
+    // Max dimensions for smaller screens
+    max-width: 97vw;
+    max-height: 70vh;
 }
 
 .mat-card-title-group {
