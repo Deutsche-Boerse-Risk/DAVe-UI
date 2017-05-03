@@ -13,6 +13,11 @@
     /deep/ .mat-toolbar-row {
         flex-wrap: wrap;
         height: auto;
+        min-height: 64px;
+
+        @media (max-width: 600px) {
+            min-height: 56px;
+        }
 
         & > *:not(.toolbar-spacer) {
             flex: 0 1 auto;
