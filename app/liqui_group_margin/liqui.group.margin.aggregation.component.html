@@ -32,6 +32,7 @@
         </column>
         <column title="Premium Margin"
                 [sortingKey]="valueGetters.premiumMargin"
+                headerAlign="right"
                 contentAlign="right">
             <ng-template let-record="row" cell-template>
                 {{record.premiumMargin | number:'.2-2'}} {{record.marginCurrency}}
@@ -42,6 +43,7 @@
         </column>
         <column title="Current Liquidating Margin"
                 [sortingKey]="valueGetters.currentLiquidatingMargin"
+                headerAlign="right"
                 contentAlign="right">
             <ng-template let-record="row" cell-template>
                 {{record.currentLiquidatingMargin | number:'.2-2'}} {{record.marginCurrency}}
@@ -52,6 +54,7 @@
         </column>
         <column title="Initial Margin"
                 [sortingKey]="valueGetters.additionalMargin"
+                headerAlign="right"
                 contentAlign="right">
             <ng-template let-record="row" cell-template>
                 {{record.additionalMargin | number:'.2-2'}} {{record.marginCurrency}}
@@ -62,6 +65,7 @@
         </column>
         <column title="Unadjusted Margin"
                 [sortingKey]="valueGetters.unadjustedMarginRequirement"
+                headerAlign="right"
                 contentAlign="right">
             <ng-template let-record="row" cell-template>
                 {{record.unadjustedMarginRequirement | number:'.2-2'}} {{record.marginCurrency}}
@@ -72,6 +76,7 @@
         </column>
         <column title="Variation Premium Payment"
                 [sortingKey]="valueGetters.variationPremiumPayment"
+                headerAlign="right"
                 contentAlign="right">
             <ng-template let-record="row" cell-template>
                 {{record.variationPremiumPayment | number:'.2-2'}} {{record.marginCurrency}}

@@ -25,6 +25,8 @@
         </column>
         <column title="NetLS"
                 tooltip="Net position"
+                headerAlign="right"
+                contentAlign="right"
                 [sortingKey]="valueGetters.netQuantityLs">
             <ng-template let-record="row" cell-template>
                 {{record.netQuantityLs | number:'.2-2'}}
@@ -32,6 +34,8 @@
         </column>
         <column title="Position VaR"
                 tooltip="PnL of the position when calculating portfolio VaR"
+                headerAlign="right"
+                contentAlign="right"
                 [sortingKey]="valueGetters.compVar">
             <ng-template let-record="row" cell-template>
                 {{record.compVar | number:'.2-2'}}
@@ -39,6 +43,8 @@
         </column>
         <column title="EuroDelta"
                 tooltip="Position sensibility to underlying move in Euro"
+                headerAlign="right"
+                contentAlign="right"
                 [sortingKey]="valueGetters.normalizedDelta">
             <ng-template let-record="row" cell-template>
                 {{record.normalizedDelta | number:'.2-2'}}
@@ -46,6 +52,8 @@
         </column>
         <column title="LA"
                 tooltip="Liquidity Addon of the position"
+                headerAlign="right"
+                contentAlign="right"
                 [sortingKey]="valueGetters.compLiquidityAddOn">
             <ng-template let-record="row" cell-template>
                 {{record.compLiquidityAddOn | number:'.2-2'}}
@@ -69,59 +77,81 @@
                         {{record.productCurrency}}
                     </ng-template>
                 </column>
-                <column title="NetEA">
+                <column title="NetEA"
+                        headerAlign="right"
+                        contentAlign="right">
                     <ng-template let-record="row" cell-template>
                         {{record.netQuantityEa | number:'.2-2'}}
                     </ng-template>
                 </column>
-                <column title="CorrBreak">
+                <column title="CorrBreak"
+                        headerAlign="right"
+                        contentAlign="right">
                     <ng-template let-record="row" cell-template>
                         {{record.compCorrelationBreak | number:'.2-2'}}
                     </ng-template>
                 </column>
-                <column title="CopmError">
+                <column title="CopmError"
+                        headerAlign="right"
+                        contentAlign="right">
                     <ng-template let-record="row" cell-template>
                         {{record.compCompressionError | number:'.2-2'}}
                     </ng-template>
                 </column>
-                <column title="LonOptCredit">
+                <column title="LonOptCredit"
+                        headerAlign="right"
+                        contentAlign="right">
                     <ng-template let-record="row" cell-template>
                         {{record.compLongOptionCredit | number:'.2-2'}}
                     </ng-template>
                 </column>
-                <column title="PremPay">
+                <column title="PremPay"
+                        headerAlign="right"
+                        contentAlign="right">
                     <ng-template let-record="row" cell-template>
                         {{record.variationPremiumPayment | number:'.2-2'}}
                     </ng-template>
                 </column>
             </column-group>
             <column-group>
-                <column title="PremMrgn">
+                <column title="PremMrgn"
+                        headerAlign="right"
+                        contentAlign="right">
                     <ng-template let-record="row" cell-template>
                         {{record.premiumMargin | number:'.2-2'}}
                     </ng-template>
                 </column>
-                <column title="Gamma">
+                <column title="Gamma"
+                        headerAlign="right"
+                        contentAlign="right">
                     <ng-template let-record="row" cell-template>
                         {{record.normalizedGamma | number:'.2-2'}}
                     </ng-template>
                 </column>
-                <column title="Vega">
+                <column title="Vega"
+                        headerAlign="right"
+                        contentAlign="right">
                     <ng-template let-record="row" cell-template>
                         {{record.normalizedVega | number:'.2-2'}}
                     </ng-template>
                 </column>
-                <column title="Rho">
+                <column title="Rho"
+                        headerAlign="right"
+                        contentAlign="right">
                     <ng-template let-record="row" cell-template>
                         {{record.normalizedRho | number:'.2-2'}}
                     </ng-template>
                 </column>
-                <column title="Theta">
+                <column title="Theta"
+                        headerAlign="right"
+                        contentAlign="right">
                     <ng-template let-record="row" cell-template>
                         {{record.normalizedTheta | number:'.2-2'}}
                     </ng-template>
                 </column>
-                <column title="MVar">
+                <column title="MVar"
+                        headerAlign="right"
+                        contentAlign="right">
                     <ng-template let-record="row" cell-template>
                         {{record.mVar | number:'.2-2'}}
                     </ng-template>

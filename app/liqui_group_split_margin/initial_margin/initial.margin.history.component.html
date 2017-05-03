@@ -25,6 +25,7 @@
         </column>
         <column title="Market Risk"
                 [sortingKey]="valueGetters.marketRisk"
+                headerAlign="right"
                 contentAlign="right">
             <ng-template let-record="row" cell-template>
                 {{record.marketRisk | number:'.2-2'}} {{record.marginCurrency}}
@@ -32,6 +33,7 @@
         </column>
         <column title="Liqu Risk"
                 [sortingKey]="valueGetters.liquRisk"
+                headerAlign="right"
                 contentAlign="right">
             <ng-template let-record="row" cell-template>
                 {{record.liquRisk | number:'.2-2'}} {{record.marginCurrency}}
@@ -39,6 +41,7 @@
         </column>
         <column title="Long Option Credit"
                 [sortingKey]="valueGetters.longOptionCredit"
+                headerAlign="right"
                 contentAlign="right">
             <ng-template let-record="row" cell-template>
                 {{record.longOptionCredit | number:'.2-2'}} {{record.marginCurrency}}
@@ -46,6 +49,7 @@
         </column>
         <column title="Initial Margin"
                 [sortingKey]="valueGetters.additionalMargin"
+                headerAlign="right"
                 contentAlign="right">
             <ng-template let-record="row" cell-template>
                 {{record.additionalMargin | number:'.2-2'}} {{record.marginCurrency}}

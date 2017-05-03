@@ -22,48 +22,65 @@
                 {{record.received | date:'HH:mm:ss'}}
             </ng-template>
         </column>
-        <column title="Limit utilization"
+        <column title="Utilization"
+                headerAlign="right"
+                contentAlign="right"
                 [sortingKey]="valueGetters.utilization">
             <ng-template let-record="row" cell-template>
                 {{record.utilization | number:'.2-2'}}
             </ng-template>
         </column>
-        <column title="Warning Level">
+        <column title="Warning Level"
+                headerAlign="center">
             <column title="Limit"
+                    headerAlign="right"
+                    contentAlign="right"
                     [sortingKey]="valueGetters.warningLevel">
                 <ng-template let-record="row" cell-template>
                     {{record.warningLevel | number:'.2-2'}}
                 </ng-template>
             </column>
             <column title="Utilization"
+                    headerAlign="right"
+                    contentAlign="right"
                     [sortingKey]="valueGetters.warningUtil">
                 <ng-template let-record="row" cell-template>
                     {{record.warningUtil | percent:'.0-0'}}
                 </ng-template>
             </column>
         </column>
-        <column title="Throttle Level">
+        <column title="Throttle Level"
+                headerAlign="center">
             <column title="Limit"
+                    headerAlign="right"
+                    contentAlign="right"
                     [sortingKey]="valueGetters.throttleLevel">
                 <ng-template let-record="row" cell-template>
                     {{record.throttleLevel | number:'.2-2'}}
                 </ng-template>
             </column>
             <column title="Utilization"
+                    headerAlign="right"
+                    contentAlign="right"
                     [sortingKey]="valueGetters.throttleUtil">
                 <ng-template let-record="row" cell-template>
                     {{record.throttleUtil | percent:'.0-0'}}
                 </ng-template>
             </column>
         </column>
-        <column title="Stop Level">
+        <column title="Stop Level"
+                headerAlign="center">
             <column title="Limit"
+                    headerAlign="right"
+                    contentAlign="right"
                     [sortingKey]="valueGetters.rejectLevel">
                 <ng-template let-record="row" cell-template>
                     {{record.rejectLevel | number:'.2-2'}}
                 </ng-template>
             </column>
             <column title="Utilization"
+                    headerAlign="right"
+                    contentAlign="right"
                     [sortingKey]="valueGetters.rejectUtil">
                 <ng-template let-record="row" cell-template>
                     {{record.rejectUtil | percent:'.0-0'}}

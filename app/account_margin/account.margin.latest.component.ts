@@ -10,7 +10,12 @@ import {AbstractLatestListComponent} from '../list/abstract.latest.list.componen
 import {ExportColumn} from '../list/download.menu.component';
 import {OrderingCriteria, OrderingValueGetter} from '../datatable/data.table.column.directive';
 
-export const routingKeys: (keyof AccountMarginParams)[] = ['clearer', 'member', 'account', 'marginCurrency'];
+export const routingKeys: (keyof AccountMarginParams)[] = [
+    'clearer',
+    'member',
+    'account',
+    'marginCurrency'
+];
 
 @Component({
     moduleId   : module.id,

@@ -206,12 +206,6 @@ const LIQUI_GROUP_MARGIN: Route[] = [
         canActivate: [AuthGuard]
     },
     {
-        path       : ROUTE_NAMES.LIQUI_GROUP_MARGIN_LATEST + '/:clearer/:member/:account/:marginClass/:marginCurrency',
-        pathMatch  : 'full',
-        component  : LiquiGroupMarginLatestComponent,
-        canActivate: [AuthGuard]
-    },
-    {
         path       : ROUTE_NAMES.LIQUI_GROUP_MARGIN_HISTORY + '/:clearer/:member/:account/:marginClass/:marginCurrency',
         pathMatch  : 'full',
         component  : LiquiGroupMarginHistoryComponent,

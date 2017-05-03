@@ -14,8 +14,7 @@ export const routingKeys: (keyof LiquiGroupMarginParams)[] = [
     'clearer',
     'member',
     'account',
-    'marginClass',
-    'marginCurrency'
+    'marginClass'
 ];
 
 @Component({
@@ -32,11 +31,10 @@ export class LiquiGroupMarginLatestComponent extends AbstractLatestListComponent
 
     protected loadData(): void {
         this.liquiGroupMarginService.getLiquiGroupMarginLatest({
-            clearer       : this.routeParams['clearer'],
-            member        : this.routeParams['member'],
-            account       : this.routeParams['account'],
-            marginClass   : this.routeParams['marginClass'],
-            marginCurrency: this.routeParams['marginCurrency']
+            clearer    : this.routeParams['clearer'],
+            member     : this.routeParams['member'],
+            account    : this.routeParams['account'],
+            marginClass: this.routeParams['marginClass']
         }).subscribe(
             (rows: LiquiGroupMarginData[]) => {
                 this.processData(rows);

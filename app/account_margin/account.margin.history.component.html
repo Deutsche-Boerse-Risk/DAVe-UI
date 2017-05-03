@@ -5,7 +5,7 @@
               [data]="data"
               [initialLoad]="initialLoad"
               [errorMessage]="errorMessage"
-              [drilldownRouterLink]="[routerRoots.LIQUI_GROUP_MARGIN_LATEST, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'], '*', routeParams['marginCurrency'] || '*']">
+              [drilldownRouterLink]="[routerRoots.LIQUI_GROUP_MARGIN_LATEST, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account']]">
     <ng-template [ngIf]="chartData?.rows?.length > 0">
         <google-line-chart [chartOptions]="chartOptions"
                            [chartData]="chartData"
@@ -26,6 +26,7 @@
         </column>
         <column title="Margin requirement in margin currency"
                 [sortingKey]="valueGetters.marginReqInMarginCurr"
+                headerAlign="right"
                 contentAlign="right">
             <ng-template let-record="row" cell-template>
                 {{record.marginReqInMarginCurr | number:'.2-2'}} {{record.marginCurrency}}
@@ -33,6 +34,7 @@
         </column>
         <column title="Margin requirement in clearing currency"
                 [sortingKey]="valueGetters.marginReqInClrCurr"
+                headerAlign="right"
                 contentAlign="right">
             <ng-template let-record="row" cell-template>
                 {{record.marginReqInClrCurr | number:'.2-2'}} {{record.clearingCurrency}}
@@ -40,6 +42,7 @@
         </column>
         <column title="Unadjusted Margin"
                 [sortingKey]="valueGetters.unadjustedMarginRequirement"
+                headerAlign="right"
                 contentAlign="right">
             <ng-template let-record="row" cell-template>
                 {{record.unadjustedMarginRequirement | number:'.2-2'}} {{record.marginCurrency}}
@@ -47,6 +50,7 @@
         </column>
         <column title="Variation Premium Payment"
                 [sortingKey]="valueGetters.variationPremiumPayment"
+                headerAlign="right"
                 contentAlign="right">
             <ng-template let-record="row" cell-template>
                 {{record.variationPremiumPayment | number:'.2-2'}} {{record.marginCurrency}}

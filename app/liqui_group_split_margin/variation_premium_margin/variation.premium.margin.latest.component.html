@@ -10,6 +10,7 @@
                 [defaultOrdering]="defaultOrdering"
                 [trackByRowKey]="trackByRowKey">
         <column title="Member / Client"
+                headerAlign="center"
                 [sortingKey]="valueGetters.member">
             <ng-template let-record="row" cell-template>
                 <a md-button [routerLink]="[rootRoutePath, record.clearer || '*', record.member || '*']">
@@ -18,6 +19,7 @@
             </ng-template>
         </column>
         <column title="Account"
+                headerAlign="center"
                 [sortingKey]="valueGetters.account">
             <ng-template let-record="row" cell-template>
                 <a md-button
@@ -27,6 +29,7 @@
             </ng-template>
         </column>
         <column title="Liquidation Group"
+                headerAlign="center"
                 [sortingKey]="valueGetters.liquidationGroup">
             <ng-template let-record="row" cell-template>
                 <a md-button
@@ -43,6 +46,7 @@
         </column>
         <column title="Premium Margin"
                 [sortingKey]="valueGetters.premiumMargin"
+                headerAlign="right"
                 contentAlign="right">
             <ng-template let-record="row" cell-template>
                 {{record.premiumMargin | number:'.2-2'}} {{record.marginCurrency}}
@@ -50,6 +54,7 @@
         </column>
         <column title="Variation Premium Payment"
                 [sortingKey]="valueGetters.variationPremiumPayment"
+                headerAlign="right"
                 contentAlign="right">
             <ng-template let-record="row" cell-template>
                 {{record.variationPremiumPayment | number:'.2-2'}} {{record.marginCurrency}}

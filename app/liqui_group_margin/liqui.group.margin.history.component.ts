@@ -5,14 +5,23 @@ import {ActivatedRoute} from '@angular/router';
 import {ErrorResponse} from '../http.service';
 
 import {LiquiGroupMarginService} from './liqui.group.margin.service';
-import {LiquiGroupMarginData} from './liqui.group.margin.types';
+import {LiquiGroupMarginData, LiquiGroupMarginHistoryParams} from './liqui.group.margin.types';
 
 import {DateFormatter} from '../common/common.module';
 import {AbstractHistoryListComponent, LineChartColumn} from '../list/abstract.history.list.component';
+import {RoutePart} from '../list/bread.crumbs.component';
 import {ExportColumn} from '../list/download.menu.component';
 import {OrderingCriteria} from '../datatable/data.table.column.directive';
 
-import {exportKeys, routingKeys, valueGetters} from './liqui.group.margin.latest.component';
+import {exportKeys, valueGetters} from './liqui.group.margin.latest.component';
+
+export const routingKeys: (keyof LiquiGroupMarginHistoryParams)[] = [
+    'clearer',
+    'member',
+    'account',
+    'marginClass',
+    'marginCurrency'
+];
 
 @Component({
     moduleId   : module.id,
@@ -40,6 +49,14 @@ export class LiquiGroupMarginHistoryComponent extends AbstractHistoryListCompone
                 this.errorMessage = 'Server returned status ' + err.status;
                 this.initialLoad = false;
             });
+    }
+
+    protected createRoutePart(title: string, routePath: string, key: string, index: number): RoutePart {
+        let part: RoutePart = super.createRoutePart(title, routePath, key, index);
+        if (key === 'marginCurrency') {
+            part.inactive = true;
+        }
+        return part;
     }
 
     protected getTickFromRecord(record: LiquiGroupMarginData): LineChartColumn[] {
