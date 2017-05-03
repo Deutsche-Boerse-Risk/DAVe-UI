@@ -2,6 +2,8 @@ import {fakeAsync, TestBed, async} from '@angular/core/testing';
 
 import {windowResize, ChartPage, TestChartHostComponent} from '../../testing';
 
+import {MaterialModule} from '../material/material.module';
+
 import {GoogleChart} from './google.chart.component';
 import {ChartData, LineChartOptions, loadGoogleCharts} from './chart.types';
 
@@ -66,7 +68,7 @@ const dummyChartData: ChartData = {
     ]
 };
 
-xdescribe('GoogleChart component', () => {
+describe('GoogleChart component', () => {
 
     let page: ChartPage;
 
@@ -78,6 +80,7 @@ xdescribe('GoogleChart component', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
+            imports     : [MaterialModule],
             declarations: [GoogleChart, TestChartHostComponent]
         }).compileComponents();
     }));

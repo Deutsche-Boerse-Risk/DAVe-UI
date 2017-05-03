@@ -2,6 +2,8 @@ import {fakeAsync, TestBed, async} from '@angular/core/testing';
 
 import {LineChartPage, TestLineChartHostComponent} from '../../testing';
 
+import {MaterialModule} from '../material/material.module';
+
 import {GoogleLineChart} from './google.line.chart.component';
 import {ChartData, LineChartOptions, loadGoogleCharts} from './chart.types';
 import {GoogleChart} from './google.chart.component';
@@ -95,7 +97,7 @@ const chartOptions: LineChartOptions = {
     ]
 };
 
-xdescribe('GoogleLineChart component', () => {
+describe('GoogleLineChart component', () => {
 
     let page: LineChartPage;
 
@@ -107,6 +109,7 @@ xdescribe('GoogleLineChart component', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
+            imports     : [MaterialModule],
             declarations: [GoogleLineChart, GoogleChart, TestLineChartHostComponent]
         }).compileComponents();
     }));
