@@ -48,7 +48,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
         MdTooltipModule
     ]
 })
-class MaterialModulePrivate {
+export class MaterialModulePrivate {
 }
 
 @NgModule({
