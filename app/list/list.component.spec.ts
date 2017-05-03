@@ -1,10 +1,11 @@
 import {Component} from '@angular/core';
 import {By} from '@angular/platform-browser';
-import {RouterModule} from '@angular/router';
 
 import {TestBed, async, fakeAsync} from '@angular/core/testing';
 
-import {RouterLinkStubDirective, ListPage} from '../../testing';
+import {disableMaterialAnimations, ListPage, stubRouter} from '../../testing';
+
+import {CommonModule} from '../common/common.module';
 
 import {ListModule} from './list.module';
 import {RoutePart} from './bread.crumbs.component';
@@ -39,7 +40,7 @@ class TestComponent {
     }
 }
 
-xdescribe('ListComponent', () => {
+describe('ListComponent', () => {
 
     let page: ListPage<TestComponent>;
 
@@ -47,12 +48,10 @@ xdescribe('ListComponent', () => {
         TestBed.configureTestingModule({
             imports     : [ListModule],
             declarations: [TestComponent]
-        }).overrideModule(RouterModule, {
-            set: {
-                declarations: [RouterLinkStubDirective],
-                exports     : [RouterLinkStubDirective]
-            }
-        }).compileComponents();
+        });
+        disableMaterialAnimations(CommonModule);
+        disableMaterialAnimations(ListModule);
+        stubRouter().compileComponents();
     }));
 
     beforeEach(fakeAsync(() => {
@@ -60,9 +59,9 @@ xdescribe('ListComponent', () => {
         page.detectChanges();
     }));
 
-    it('has correct title', () => {
+    it('has correct title', fakeAsync(() => {
         expect(page.title).toBe(page.component.rootRouteTitle);
-    });
+    }));
 
     it('displays filter and filter works correctly', fakeAsync(() => {
         expect(page.filterShown).toBeTruthy('Filter is shown');
@@ -88,13 +87,13 @@ xdescribe('ListComponent', () => {
         expect(page.drilldownButton).not.toBeNull('Is shown');
     }));
 
-    it('has download menu', () => {
+    it('has download menu', fakeAsync(() => {
         expect(page.downloadMenu).not.toBeNull('Is shown');
-    });
+    }));
 
-    it('has bread crumbs', () => {
+    it('has bread crumbs', fakeAsync(() => {
         expect(page.breadCrumbs).not.toBeNull('Is shown');
-    });
+    }));
 
     it('initial load message works as expected', fakeAsync(() => {
         expect(page.initialLoadComponent).toBeNull('Not shown');
@@ -160,7 +159,7 @@ xdescribe('ListComponent', () => {
         expect(page.updateFailedComponent).not.toBeNull('Is shown');
     }));
 
-    it('has content', () => {
+    it('has content', fakeAsync(() => {
         expect(page.listElement.query(By.css('.testContent'))).not.toBeNull('Is shown');
-    });
+    }));
 });

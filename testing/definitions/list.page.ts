@@ -4,9 +4,11 @@ import {By} from '@angular/platform-browser';
 import {NgModel} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 
+import {MdInputContainer, MdMenuItem, MdToolbarRow} from '@angular/material';
+
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {setNgModelValue} from '../events';
+import {setNgModelValue, click} from '../events';
 
 import {BreadCrumbsDefinition} from './bread.crumbs.page';
 import {MessageComponentDef} from './message.def';
@@ -52,11 +54,11 @@ export class ListPage<T> extends PageWithLoading<T> {
     }
 
     public get header(): DebugElement {
-        return this.listElement.query(By.css('.panel-heading'));
+        return this.listElement.query(By.directive(MdToolbarRow));
     }
 
     public get filterGroup(): DebugElement {
-        return this.header.query(By.css('.input-group'));
+        return this.header.query(By.directive(MdInputContainer));
     }
 
     public get filterShown(): boolean {
@@ -79,7 +81,10 @@ export class ListPage<T> extends PageWithLoading<T> {
     public get downloadMenu(): DownloadLink {
         let downLoadMenu: DebugElement = this.header.query(By.directive(DownloadMenuComponent));
         if (downLoadMenu) {
-            return new DownloadLink(downLoadMenu.query(By.css('a')), this);
+            // Open the menu first
+            click(downLoadMenu.query(By.css('a')));
+            this.detectChanges(500);
+            return new DownloadLink(downLoadMenu.query(By.directive(MdMenuItem)), this);
         }
         return null;
     }

@@ -1,3 +1,9 @@
+import {Type} from '@angular/core';
+
+import {TestBed} from '@angular/core/testing';
+
+import {MaterialModule, NoopAnimationsMaterialModule} from '../app/material/material.module';
+
 import {OrderingValueGetter} from '../app/datatable/data.table.column.directive';
 
 import {DataTableDefinition, SortingHandle} from './definitions/data.table.definition';
@@ -63,5 +69,16 @@ export function chceckSorting(page: { detectChanges: () => void, dataTable: Data
             get       : criteria[index],
             descending: true
         });
+    });
+}
+
+export function disableMaterialAnimations(ngModule: Type<any>) {
+    TestBed.overrideModule(ngModule, {
+        remove: {
+            imports: [MaterialModule]
+        },
+        add   : {
+            imports: [NoopAnimationsMaterialModule]
+        }
     });
 }
