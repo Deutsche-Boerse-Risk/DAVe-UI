@@ -1,3 +1,21 @@
+<md-toolbar color="primary" class="mat-elevation-z3">
+    <a md-button [routerLink]="routerRoots.ROOT" class="logo">
+        <img src="/img/dbg-bw-logo.svg" height="30px">
+    </a>
+
+    <ng-template [ngIf]="authStatus">
+        <app-menu *ngIf="!mediaSmall"></app-menu>
+
+        <span class="toolbar-spacer"></span>
+
+        <login-menu *ngIf="!mediaSmall"></login-menu>
+
+        <button md-icon-button (click)="sidenav.toggle()" *ngIf="mediaSmall">
+            <md-icon>menu</md-icon>
+        </button>
+    </ng-template>
+</md-toolbar>
+
 <md-sidenav-container>
     <md-sidenav #sidenav (click)="authStatus? true : sidenav.close()">
         <app-menu *ngIf="authStatus" orientation="column"></app-menu>
@@ -7,24 +25,6 @@
         <login-menu *ngIf="authStatus"
                     orientation="column"></login-menu>
     </md-sidenav>
-
-    <md-toolbar color="primary" class="mat-elevation-z3">
-        <a md-button [routerLink]="routerRoots.ROOT" class="logo">
-            <img src="/img/dbg-bw-logo.svg" height="30px">
-        </a>
-
-        <ng-template [ngIf]="authStatus">
-            <app-menu *ngIf="!mediaSmall"></app-menu>
-
-            <span class="toolbar-spacer"></span>
-
-            <login-menu *ngIf="!mediaSmall"></login-menu>
-
-            <button md-icon-button (click)="sidenav.toggle()" *ngIf="mediaSmall">
-                <md-icon>menu</md-icon>
-            </button>
-        </ng-template>
-    </md-toolbar>
 
     <div class="content">
         <router-outlet></router-outlet>

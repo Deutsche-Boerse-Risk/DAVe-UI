@@ -8,6 +8,8 @@
 
 .mat-toolbar {
     border-radius: 0 !important;
+    position: fixed;
+    z-index: 100;
 }
 
 .content {
@@ -20,4 +22,20 @@
 
 :host, .mat-sidenav-container {
     height: 100%
+}
+
+.mat-sidenav-container {
+    padding-top: 64px;
+
+    @media (max-width: 600px) {
+        padding-top: 56px;
+    }
+}
+
+.mat-sidenav.mat-sidenav-opened:not(.mat-sidenav-side), .mat-sidenav.mat-sidenav-opening:not(.mat-sidenav-side) {
+    padding-top: 72px;
+
+    @media (max-width: 600px) {
+        padding-top: 64px;
+    }
 }
