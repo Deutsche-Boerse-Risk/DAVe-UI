@@ -10,7 +10,7 @@ import {Component, Input} from '@angular/core';
     `,
     styleUrls: [
         '../component.css',
-        'inline.button.scss'
+        'inline.button.css'
     ]
 })
 export class DetailRowButtonComponent {

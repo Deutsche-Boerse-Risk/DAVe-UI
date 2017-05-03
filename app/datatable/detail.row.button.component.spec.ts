@@ -2,14 +2,17 @@ import {TestBed, async, fakeAsync} from '@angular/core/testing';
 
 import {LinkOnlyPage, RouterLinkStubDirective} from '../../testing';
 
+import {MaterialModule} from '../material/material.module';
+
 import {DetailRowButtonComponent} from './detail.row.button.component';
 
-xdescribe('DetailRowButtonComponent', () => {
+describe('DetailRowButtonComponent', () => {
 
     let page: LinkOnlyPage<DetailRowButtonComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
+            imports     : [MaterialModule],
             declarations: [DetailRowButtonComponent, RouterLinkStubDirective]
         }).compileComponents();
     }));

@@ -2,14 +2,17 @@ import {TestBed, async, fakeAsync} from '@angular/core/testing';
 
 import {LinkOnlyPage, RouterLinkStubDirective} from '../../testing';
 
+import {MaterialModule} from '../material/material.module';
+
 import {DrillDownRowButtonComponent} from './drill.down.row.button.component';
 
-xdescribe('DrillDownRowButtonComponent', () => {
+describe('DrillDownRowButtonComponent', () => {
 
     let page: LinkOnlyPage<DrillDownRowButtonComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
+            imports     : [MaterialModule],
             declarations: [DrillDownRowButtonComponent, RouterLinkStubDirective]
         }).compileComponents();
     }));
