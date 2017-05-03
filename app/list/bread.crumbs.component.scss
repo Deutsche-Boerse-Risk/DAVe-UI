@@ -5,6 +5,10 @@
         outline: 0 none;
     }
 
+    /deep/ .mat-chip-list-wrapper .mat-chip:not(.mat-basic-chip) {
+        margin: 3px;
+    }
+
     .mat-chip:not([disabled]) {
         cursor: pointer;
         position: relative;

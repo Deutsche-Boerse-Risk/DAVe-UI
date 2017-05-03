@@ -2,5 +2,20 @@
     .mat-toolbar {
         margin-bottom: 15px;
         font-size: inherit;
+
+        @media (max-width: 600px) {
+            .toolbar-spacer {
+                display: none;
+            }
+        }
+    }
+
+    /deep/ .mat-toolbar-row {
+        flex-wrap: wrap;
+        height: auto;
+
+        & > *:not(.toolbar-spacer) {
+            flex: 0 1 auto;
+        }
     }
 }

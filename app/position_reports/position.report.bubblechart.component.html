@@ -1,4 +1,4 @@
-<md-card *ngIf="chartData?.rows.length">
+<md-card *ngIf="chartData?.rows.length" class="tools">
     <md-select placeholder="Member"
                [(ngModel)]="sourceData.memberSelection"
                (ngModelChange)="memberSelectionChanged()">
