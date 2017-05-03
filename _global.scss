@@ -1,27 +1,23 @@
 @import 'node_modules/@angular/material/theming';
 @import 'mixins';
 
-@mixin _font($name) {
+@mixin _font($name, $file, $weight) {
     @font-face {
         font-family: $name;
-        src: url("/fonts/" + $name + ".eot");
-        src: url("/fonts/" + $name + ".eot#iefix") format("embedded-opentype"), url("/fonts/" + $name + ".woff") format("woff"), url("/fonts/" + $name + ".ttf") format("truetype"), url("/fonts/" + $name + ".svg#NGT45__W") format("svg");
-        font-weight: normal;
-        font-style: normal;
+        src: url("/fonts/" + $file + ".eot");
+        src: url("/fonts/" + $file + ".eot#iefix") format("embedded-opentype"), url("/fonts/" + $file + ".woff") format("woff"), url("/fonts/" + $file + ".ttf") format("truetype"), url("/fonts/" + $file + ".svg#NGT45__W") format("svg");
+        font-weight: $weight;
     }
 }
 
 @mixin dbgFontDefinition {
-    @include _font(newsGothic_light);
-    @include _font(newsGothic_roman);
-    @include _font(newsGothic_demi);
-    @include _font(newsGothic_bold);
+    @include _font("newsGothic", newsGothic_light, 300);
+    @include _font("newsGothic", newsGothic_roman, normal);
+    @include _font("newsGothic", newsGothic_demi, 500);
+    @include _font("newsGothic", newsGothic_bold, bold);
 }
 
-$dbg-font-family-light: newsGothic_light, Arial, Verdana, Helvetica, sans-serif;
-$dbg-font-family: newsGothic_roman, Arial, Verdana, Helvetica, sans-serif;
-$dbg-font-family-bold: newsGothic_demi, Arial, Verdana, Helvetica, sans-serif;
-$dbg-font-family-bolder: newsGothic_bold, Arial, Verdana, Helvetica, sans-serif;
+$dbg-font-family: "newsGothic", Arial, Verdana, Helvetica, sans-serif;
 
 $dbg-primary: (
         100: #D7EBFF, //

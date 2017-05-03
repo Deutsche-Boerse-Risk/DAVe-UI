@@ -2,10 +2,14 @@
 
 @include dbgFontDefinition;
 
+*:not(.mat-icon) {
+    // Force our font for all components, exept icons.
+    font-family: $dbg-font-family !important;
+}
+
 body {
     font-size: $mat-menu-font-size;
-    font-family: $dbg-font-family !important;
-    font-weight: normal !important;
+    font-weight: normal;
     text-align: left;
     text-decoration: none; // necessary to reset anchor tags
 
@@ -16,11 +20,6 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizelegibility;
-}
-
-*:not(.mat-icon) {
-    font-family: $dbg-font-family !important;
-    font-weight: normal !important;
 }
 
 h1 {

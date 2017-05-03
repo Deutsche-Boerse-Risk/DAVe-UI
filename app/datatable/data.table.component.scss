@@ -46,8 +46,6 @@
     }
 
     thead th {
-        font-family: $dbg-font-family-bold !important;
-
         background-color: map_get($dbg-primary-palette, default);
         color: map_get($dbg-primary-palette, default-contrast);
 
