@@ -3,6 +3,8 @@ import {By} from '@angular/platform-browser';
 
 import {ComponentFixture} from '@angular/core/testing';
 
+import {MdMenuItem, MdMenuTrigger} from '@angular/material';
+
 import {click} from '../events';
 import {Page} from './page.base';
 
@@ -16,7 +18,11 @@ export class DownloadMenuPage extends Page<DownloadMenuComponent> {
     }
 
     public get downloadLink(): DownloadLink {
-        return new DownloadLink(this.debugElement.query(By.css('a')), this);
+        // Open the menu first
+        click(this.debugElement.query(By.directive(MdMenuTrigger)));
+        this.detectChanges(500);
+
+        return new DownloadLink(this.debugElement.query(By.directive(MdMenuItem)), this);
     }
 }
 

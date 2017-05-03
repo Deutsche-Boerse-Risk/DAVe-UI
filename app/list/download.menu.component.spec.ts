@@ -4,15 +4,17 @@ import {TestBed, async, fakeAsync, inject} from '@angular/core/testing';
 import {DownloadMenuPage} from '../../testing';
 
 import {DateFormatter, DATE_FORMAT} from '../common/common.module';
+import {MaterialModule} from '../material/material.module';
 
 import {DownloadMenuComponent} from './download.menu.component';
 
-xdescribe('Download menu', () => {
+describe('Download menu', () => {
 
     let page: DownloadMenuPage;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
+            imports     : [MaterialModule],
             declarations: [DownloadMenuComponent],
             providers   : [
                 DatePipe,
