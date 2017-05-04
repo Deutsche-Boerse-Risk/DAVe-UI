@@ -2,7 +2,7 @@ import {Component, DebugElement, DebugNode} from '@angular/core';
 import {ComponentFixture} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
 
-import {MdAnchor, MdButton, MdIcon, MdTooltip} from '@angular/material';
+import {MdAnchor, MdButton, MdButtonToggle, MdIcon, MdTooltip} from '@angular/material';
 
 import {OrderingValueGetter, OrderingCriteria} from '../../app/datatable/data.table.column.directive';
 import {DataTableComponent} from '../../app/datatable/data.table.component';
@@ -403,47 +403,52 @@ export class Pager {
     }
 
     public get pageButtons(): DebugElement[] {
-        return this.element.queryAll(By.css('li'));
+        return this.element.queryAll(By.directive(MdButtonToggle));
     }
 
     public expectLeadingButtonsDisabled() {
         for (let i = 0; i < 2; i++) {
-            expect(this.pageButtons[i].nativeElement.classList).toContain('disabled', 'First two are disabled.');
+            expect(this.pageButtons[i].classes['mat-button-toggle-disabled'])
+                .toBeTruthy('First two are disabled.');
         }
     }
 
     public expectLeadingButtonsNotDisabled() {
         for (let i = 0; i < 2; i++) {
-            expect(this.pageButtons[i].nativeElement.classList).not
-                .toContain('disabled', 'First two are not disabled.');
+            expect(this.pageButtons[i].classes['mat-button-toggle-disabled'])
+                .not.toBeTruthy('First two are not disabled.');
         }
     }
 
     public expectTrailingButtonsDisabled() {
         for (let i = this.pageButtons.length - 1; i > this.pageButtons.length - 3; i--) {
-            expect(this.pageButtons[i].nativeElement.classList).toContain('disabled', 'Last two are disabled.');
+            expect(this.pageButtons[i].classes['mat-button-toggle-disabled'])
+                .toBeTruthy('Last two are disabled.');
         }
     }
 
     public expectTrailingButtonsNotDisabled() {
         for (let i = this.pageButtons.length - 1; i > this.pageButtons.length - 3; i--) {
-            expect(this.pageButtons[i].nativeElement.classList).not.toContain('disabled', 'Last two are not disabled.');
+            expect(this.pageButtons[i].classes['mat-button-toggle-disabled'])
+                .not.toBeTruthy('Last two are not disabled.');
         }
     }
 
     public expectButtonNumbers(numbers: number[]) {
         for (let i = 0; i < numbers.length; i++) {
-            expect(this.pageButtons[i + 2].query(By.css('a')).nativeElement.textContent)
+            expect(this.pageButtons[i + 2].query(By.css('.mat-button-toggle-label-content'))
+                .nativeElement.textContent.trim())
                 .toEqual(numbers[i] + '', 'Button numbers are correct');
         }
     }
 
     public expectButtonActive(index: number) {
-        expect(this.pageButtons[index].nativeElement.classList).toContain('active', 'Button is active.');
+        expect(this.pageButtons[index].classes['mat-button-toggle-checked'])
+            .toBeTruthy('Button is active.');
     }
 
     public click(index: number) {
-        click(this.pageButtons[index]);
+        click(this.pageButtons[index].query(By.css('.mat-button-toggle-label-content')).nativeElement);
         this.page.detectChanges();
     }
 }

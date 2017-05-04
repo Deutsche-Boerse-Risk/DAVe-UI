@@ -4,7 +4,7 @@ import {HighLighterDirectivePage, HighLighterDirectiveTestComponent} from '../..
 
 import {HighlighterDirective, HIGHLIGHTER_TIMEOUT, HIGHLIGHTER_CLASS} from './highlighter.directive';
 
-xdescribe('Highlighter directive', () => {
+describe('Highlighter directive', () => {
     let page: HighLighterDirectivePage;
 
     beforeEach(async(() => {

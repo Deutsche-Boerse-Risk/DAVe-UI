@@ -1,10 +1,10 @@
 import {async, TestBed, fakeAsync} from '@angular/core/testing';
 
-import {TestHostComponent, DataTableDefinitionHosted} from '../../testing';
+import {TestHostComponent, DataTableDefinitionHosted, disableMaterialAnimations} from '../../testing';
 
 import {DataTableModule} from './data.table.module';
 
-xdescribe('DataTable component shows pager', () => {
+describe('DataTable component shows pager', () => {
 
     let table: DataTableDefinitionHosted;
 
@@ -12,7 +12,9 @@ xdescribe('DataTable component shows pager', () => {
         TestBed.configureTestingModule({
             imports     : [DataTableModule],
             declarations: [TestHostComponent]
-        }).compileComponents();
+        });
+        disableMaterialAnimations(DataTableModule);
+        TestBed.compileComponents();
     }));
 
     beforeEach(fakeAsync(() => {

@@ -1,6 +1,6 @@
 import {async, TestBed, fakeAsync} from '@angular/core/testing';
 
-import {TestHostComponent, DataTableDefinitionHosted} from '../../testing';
+import {TestHostComponent, DataTableDefinitionHosted, disableMaterialAnimations} from '../../testing';
 
 import {DataTableModule} from './data.table.module';
 import {OrderingCriteria} from './data.table.column.directive';
@@ -13,7 +13,9 @@ describe('DataTable component', () => {
         TestBed.configureTestingModule({
             imports     : [DataTableModule],
             declarations: [TestHostComponent]
-        }).compileComponents();
+        });
+        disableMaterialAnimations(DataTableModule);
+        TestBed.compileComponents();
     }));
 
     beforeEach(fakeAsync(() => {
