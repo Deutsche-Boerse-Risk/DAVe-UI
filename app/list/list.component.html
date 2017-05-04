@@ -25,6 +25,9 @@
 
     <drilldown-button *ngIf="drilldownRouterLink"
                       [routerLink]="drilldownRouterLink"></drilldown-button>
+
+    <drillup-button *ngIf="drillupRouterLink"
+                    [routerLink]="drillupRouterLink"></drillup-button>
 </md-toolbar>
 
 <initial-load *ngIf="initialLoad && !errorMessage"></initial-load>

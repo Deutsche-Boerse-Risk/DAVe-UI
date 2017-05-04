@@ -6,13 +6,15 @@ import {LiquiGroupSplitMarginService} from './liqui.group.split.margin.service';
 import {LiquiGroupSplitMarginData, LiquiGroupSplitMarginParams} from './liqui.group.split.margin.types';
 
 import {AbstractLatestListComponent} from '../list/abstract.latest.list.component';
+import {RoutePart} from '../list/bread.crumbs.component';
 import {OrderingCriteria, OrderingValueGetter} from '../datatable/data.table.column.directive';
 
 export const routingKeys: (keyof LiquiGroupSplitMarginParams)[] = [
     'clearer',
     'member',
     'account',
-    'liquidationGroup'
+    'liquidationGroup',
+    'liquidationGroupSplit'
 ];
 
 export abstract class AbstractLiquiGroupSplitMarginLatestComponent
@@ -25,10 +27,11 @@ export abstract class AbstractLiquiGroupSplitMarginLatestComponent
 
     protected loadData(): void {
         this.liquiGroupSplitMarginService.getLiquiGroupSplitMarginLatest({
-            clearer         : this.routeParams['clearer'],
-            member          : this.routeParams['member'],
-            account         : this.routeParams['account'],
-            liquidationGroup: this.routeParams['liquidationGroup']
+            clearer              : this.routeParams['clearer'],
+            member               : this.routeParams['member'],
+            account              : this.routeParams['account'],
+            liquidationGroup     : this.routeParams['liquidationGroup'],
+            liquidationGroupSplit: this.routeParams['liquidationGroupSplit']
         }).subscribe(
             (rows: LiquiGroupSplitMarginData[]) => {
                 this.processData(rows);
@@ -37,6 +40,14 @@ export abstract class AbstractLiquiGroupSplitMarginLatestComponent
                 this.errorMessage = 'Server returned status ' + err.status;
                 this.initialLoad = false;
             });
+    }
+
+    protected createRoutePart(title: string, routePath: string, key: string, index: number): RoutePart {
+        let part: RoutePart = super.createRoutePart(title, routePath, key, index);
+        if (key === 'liquidationGroupSplit') {
+            part.inactive = true;
+        }
+        return part;
     }
 
     public get defaultOrdering(): (

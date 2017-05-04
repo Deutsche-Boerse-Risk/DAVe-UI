@@ -8,6 +8,7 @@ import {MdInputContainer, MdMenuItem, MdToolbarRow} from '@angular/material';
 
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
+import {disableMaterialAnimations} from '../index';
 import {setNgModelValue, click} from '../events';
 
 import {BreadCrumbsDefinition} from './bread.crumbs.page';
@@ -23,7 +24,7 @@ import {GoogleLineChartStub} from '../stubs/google.chart.component.stub';
 
 import {HttpService} from '../../app/http.service';
 
-import {DateFormatter, DATE_FORMAT} from '../../app/common/common.module';
+import {DateFormatter, DATE_FORMAT, CommonModule} from '../../app/common/common.module';
 import {INITIAL_LOAD_SELECTOR, NO_DATA_SELECTOR, UPDATE_FAILED_SELECTOR} from '../../app/common/message.component';
 
 import {DataTableModule} from '../../app/datatable/data.table.module';
@@ -32,7 +33,7 @@ import {HIGHLIGHTER_TIMEOUT} from '../../app/datatable/highlighter.directive';
 
 import {ListModule} from '../../app/list/list.module';
 import {ListComponent, FILTER_TIMEOUT} from '../../app/list/list.component';
-import {DrilldownButtonComponent} from '../../app/list/drilldown.button.component';
+import {DrillUpDownButtonComponent} from '../../app/list/drill.updown.button.component';
 import {DownloadMenuComponent} from '../../app/list/download.menu.component';
 import {BreadCrumbsComponent} from '../../app/list/bread.crumbs.component';
 
@@ -76,7 +77,15 @@ export class ListPage<T> extends PageWithLoading<T> {
     }
 
     public get drilldownButton(): DebugElement {
-        return this.header.query(By.directive(DrilldownButtonComponent));
+        return this.header.queryAll(By.directive(DrillUpDownButtonComponent))
+                .find((element: DebugElement) =>
+                    !(element.componentInstance as DrillUpDownButtonComponent).drillUp) || null;
+    }
+
+    public get drillupButton(): DebugElement {
+        return this.header.queryAll(By.directive(DrillUpDownButtonComponent))
+                .find((element: DebugElement) =>
+                    (element.componentInstance as DrillUpDownButtonComponent).drillUp) || null;
     }
 
     public get downloadMenu(): DownloadLink {
@@ -147,6 +156,9 @@ export class LatestListPage<T> extends ListPage<T> {
                 }
             ]
         });
+        disableMaterialAnimations(CommonModule);
+        disableMaterialAnimations(ListModule);
+        disableMaterialAnimations(DataTableModule);
         stubRouter().compileComponents();
     }
 
@@ -239,6 +251,9 @@ export class HistoryListPage<T> extends LatestListPage<T> {
             ]
             // schemas: [NO_ERRORS_SCHEMA]
         });
+        disableMaterialAnimations(CommonModule);
+        disableMaterialAnimations(ListModule);
+        disableMaterialAnimations(DataTableModule);
         stubRouter().compileComponents();
     }
 

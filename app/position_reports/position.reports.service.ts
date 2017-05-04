@@ -108,13 +108,14 @@ export class PositionReportsService {
 
     private static processPositionReportsDataRow(record: PositionReportServerData): PositionReportData {
         return {
-            uid     : UIDUtils.computeUID(record.clearer, record.member, record.account, record.liquidationGroup,
+            uid         : UIDUtils.computeUID(record.clearer, record.member, record.account, record.liquidationGroup,
                 record.liquidationGroupSplit, record.product, record.callPut,
                 record.contractYear,
                 record.contractMonth, record.expiryDay, record.exercisePrice, record.version,
                 record.flexContractSymbol, record.snapshotID),
             ...record,
-            received: parseServerDate(record.timestamp) //?
+            received    : parseServerDate(record.timestamp),
+            contractDate: new Date(record.contractYear, record.contractMonth - 1, record.expiryDay || 1, 0, 0, 0, 0)
         };
     }
 }

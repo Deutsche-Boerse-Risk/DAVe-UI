@@ -58,14 +58,9 @@ export class PositionReportHistoryComponent extends AbstractHistoryListComponent
                 value: record.received
             },
             {
-                label: 'NetLS',
+                label: 'Net position',
                 type : 'number',
                 value: record.netQuantityLs
-            },
-            {
-                label: 'Position VaR',
-                type : 'number',
-                value: record.compVar
             },
             {
                 label: 'EuroDelta',
@@ -76,36 +71,6 @@ export class PositionReportHistoryComponent extends AbstractHistoryListComponent
                 label: 'LA',
                 type : 'number',
                 value: record.compLiquidityAddOn
-            },
-            {
-                label: 'NetEA',
-                type : 'number',
-                value: record.netQuantityEa
-            },
-            {
-                label: 'CorrBreak',
-                type : 'number',
-                value: record.compCorrelationBreak
-            },
-            {
-                label: 'CopmError',
-                type : 'number',
-                value: record.compCompressionError
-            },
-            {
-                label: 'LonOptCredit',
-                type : 'number',
-                value: record.compLongOptionCredit
-            },
-            {
-                label: 'PremPay',
-                type : 'number',
-                value: record.variationPremiumPayment
-            },
-            {
-                label: 'PremMrgn',
-                type : 'number',
-                value: record.premiumMargin
             },
             {
                 label: 'Gamma',
@@ -126,11 +91,6 @@ export class PositionReportHistoryComponent extends AbstractHistoryListComponent
                 label: 'Theta',
                 type : 'number',
                 value: record.normalizedTheta
-            },
-            {
-                label: 'MVar',
-                type : 'number',
-                value: record.mVar
             }
         ];
     }

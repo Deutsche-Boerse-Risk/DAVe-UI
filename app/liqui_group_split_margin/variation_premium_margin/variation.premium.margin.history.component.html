@@ -29,7 +29,7 @@
                 {{record.premiumMargin | number:'.2-2'}} {{record.marginCurrency}}
             </ng-template>
         </column>
-        <column title="Variation Premium Payment"
+        <column title="Variation / Premium Cash Flow"
                 [sortingKey]="valueGetters.variationPremiumPayment">
             <ng-template let-record="row" cell-template>
                 {{record.variationPremiumPayment | number:'.2-2'}} {{record.marginCurrency}}

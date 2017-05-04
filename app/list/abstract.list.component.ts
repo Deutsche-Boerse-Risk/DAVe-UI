@@ -49,7 +49,10 @@ export abstract class AbstractListComponent<T extends { uid: string }> extends A
         ];
         this.routingKeys.forEach((param: string, index: number) => {
             if (pathParams[param]) {
-                this.routeParts.push(this.createRoutePart(pathParams[param], pathParams[param], param, index + 1));
+                let part = this.createRoutePart(pathParams[param], pathParams[param], param, index + 1);
+                if (part) {
+                    this.routeParts.push(part);
+                }
             }
         });
     }

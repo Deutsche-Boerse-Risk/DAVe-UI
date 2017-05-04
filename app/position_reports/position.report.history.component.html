@@ -23,8 +23,7 @@
                 {{record.received | date:'HH:mm:ss'}}
             </ng-template>
         </column>
-        <column title="NetLS"
-                tooltip="Net position"
+        <column title="Net position"
                 headerAlign="right"
                 contentAlign="right"
                 [sortingKey]="valueGetters.netQuantityLs">
@@ -33,7 +32,7 @@
             </ng-template>
         </column>
         <column title="Position VaR"
-                tooltip="PnL of the position when calculating portfolio VaR"
+                tooltip="PnL of the position when calculating portfolio VaR. Positive value means position contributes to total VaR."
                 headerAlign="right"
                 contentAlign="right"
                 [sortingKey]="valueGetters.compVar">
@@ -154,11 +153,6 @@
                         contentAlign="right">
                     <ng-template let-record="row" cell-template>
                         {{record.mVar | number:'.2-2'}}
-                    </ng-template>
-                </column>
-                <column title="Underlying">
-                    <ng-template let-record="row" cell-template>
-                        {{record.underlying}}
                     </ng-template>
                 </column>
             </column-group>

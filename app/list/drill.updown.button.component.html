@@ -1,0 +1,13 @@
+<button md-button
+        color="primary"
+        [routerLink]="routerLink"
+        [mdTooltip]="'Drill ' + (drillUp ? 'up' : 'down')">
+    <ng-template [ngIf]="drillUp">
+        <md-icon>arrow_upward</md-icon>
+        Drill up
+    </ng-template>
+    <ng-template [ngIf]="!drillUp">
+        <md-icon>my_location</md-icon>
+        Drill down
+    </ng-template>
+</button>

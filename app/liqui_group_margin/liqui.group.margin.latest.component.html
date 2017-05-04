@@ -4,7 +4,8 @@
               [data]="data"
               [initialLoad]="initialLoad"
               [errorMessage]="errorMessage"
-              (filterChanged)="filter($event)">
+              (filterChanged)="filter($event)"
+              [drillupRouterLink]="[routerRoots.ACCOUNT_MARGIN_LATEST, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*']">
     <data-table [data]="data"
                 [pageSize]="pageSize"
                 [defaultOrdering]="defaultOrdering"
@@ -70,7 +71,7 @@
                 {{record.unadjustedMarginRequirement | number:'.2-2'}} {{record.marginCurrency}}
             </ng-template>
         </column>
-        <column title="Variation Premium Payment"
+        <column title="Variation / Premium Cash Flow"
                 [sortingKey]="valueGetters.variationPremiumPayment"
                 headerAlign="right"
                 contentAlign="right">

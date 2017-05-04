@@ -1,7 +1,7 @@
 import {Directive, ElementRef, OnInit, Input, OnDestroy} from '@angular/core';
 
 export const HIGHLIGHTER_CLASS = 'highlighted';
-export const HIGHLIGHTER_TIMEOUT = 15000;
+export const HIGHLIGHTER_TIMEOUT = 5000;
 
 @Directive({
     selector: '[highlighter]'

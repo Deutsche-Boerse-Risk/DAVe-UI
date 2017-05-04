@@ -94,7 +94,8 @@ export const valueGetters = {
     compVar           : (row: PositionReportData) => row.compVar,
     normalizedDelta   : (row: PositionReportData) => row.normalizedDelta,
     compLiquidityAddOn: (row: PositionReportData) => row.compLiquidityAddOn,
-    received          : (row: PositionReportData) => row.received
+    received          : (row: PositionReportData) => row.received,
+    contractDate      : (row: PositionReportData) => row.contractDate
 };
 
 const defaultOrdering: (OrderingCriteria<PositionReportData> | OrderingValueGetter<PositionReportData>)[] = [
@@ -132,8 +133,12 @@ export const exportKeys: ExportColumn<PositionReportData>[] = [
         header: 'Business date'
     },
     {
+        get   : (row: PositionReportData) => row.underlying,
+        header: 'Underlying'
+    },
+    {
         get   : valueGetters.product,
-        header: 'Product symbol'
+        header: 'Product ID'
     },
     {
         get   : valueGetters.callPut,
@@ -145,7 +150,7 @@ export const exportKeys: ExportColumn<PositionReportData>[] = [
     },
     {
         get   : valueGetters.version,
-        header: 'Version number (Options only)'
+        header: 'Version'
     },
     {
         get   : valueGetters.contractYear,
@@ -161,7 +166,7 @@ export const exportKeys: ExportColumn<PositionReportData>[] = [
     },
     {
         get   : valueGetters.netQuantityLs,
-        header: 'NetLS'
+        header: 'Net position'
     },
     {
         get   : valueGetters.compVar,
@@ -238,10 +243,6 @@ export const exportKeys: ExportColumn<PositionReportData>[] = [
     {
         get   : (row: PositionReportData) => row.mVar,
         header: 'MVar'
-    },
-    {
-        get   : (row: PositionReportData) => row.underlying,
-        header: 'Underlying'
     },
     {
         get   : valueGetters.received,

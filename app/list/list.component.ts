@@ -40,6 +40,9 @@ export class ListComponent {
     public drilldownRouterLink: any[] | string;
 
     @Input()
+    public drillupRouterLink: any[] | string;
+
+    @Input()
     public errorMessage: string;
 
     public filterQuery: string;

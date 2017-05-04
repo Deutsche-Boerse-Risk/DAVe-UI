@@ -86,7 +86,7 @@ export class LiquiGroupMarginHistoryComponent extends AbstractHistoryListCompone
                 value: record.unadjustedMarginRequirement
             },
             {
-                label: 'Variation Premium Payment',
+                label: 'Variation / Premium Cash Flow',
                 type : 'number',
                 value: record.variationPremiumPayment
             }

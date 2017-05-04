@@ -9,7 +9,7 @@ import {MaterialModule} from '../material/material.module';
 import {DownloadMenuComponent} from './download.menu.component';
 import {BreadCrumbsComponent} from './bread.crumbs.component';
 import {ListComponent} from './list.component';
-import {DrilldownButtonComponent} from './drilldown.button.component';
+import {DrillUpDownButtonComponent} from './drill.updown.button.component';
 
 @NgModule({
     imports     : [
@@ -23,7 +23,7 @@ import {DrilldownButtonComponent} from './drilldown.button.component';
         ListComponent,
         DownloadMenuComponent,
         BreadCrumbsComponent,
-        DrilldownButtonComponent
+        DrillUpDownButtonComponent
     ],
     exports     : [
         ListComponent

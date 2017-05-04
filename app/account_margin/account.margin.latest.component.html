@@ -4,7 +4,8 @@
               [data]="data"
               [initialLoad]="initialLoad"
               [errorMessage]="errorMessage"
-              (filterChanged)="filter($event)">
+              (filterChanged)="filter($event)"
+              [drillupRouterLink]="[routerRoots.POOL_MARGIN_LATEST, routeParams['clearer'] || '*', '*', routeParams['marginCurrency'] || '*']">
     <data-table [data]="data"
                 [pageSize]="pageSize"
                 [defaultOrdering]="defaultOrdering"

@@ -4,21 +4,21 @@ import {LinkOnlyPage, RouterLinkStubDirective} from '../../testing';
 
 import {NoopAnimationsMaterialModule} from '../material/material.module';
 
-import {DrilldownButtonComponent} from './drilldown.button.component';
+import {DrillUpDownButtonComponent} from './drill.updown.button.component';
 
-describe('DrilldownButtonComponent', () => {
+describe('DrillUpDownButtonComponent', () => {
 
-    let page: LinkOnlyPage<DrilldownButtonComponent>;
+    let page: LinkOnlyPage<DrillUpDownButtonComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports     : [NoopAnimationsMaterialModule],
-            declarations: [DrilldownButtonComponent, RouterLinkStubDirective]
+            declarations: [DrillUpDownButtonComponent, RouterLinkStubDirective]
         }).compileComponents();
     }));
 
     beforeEach(fakeAsync(() => {
-        page = new LinkOnlyPage<DrilldownButtonComponent>(TestBed.createComponent(DrilldownButtonComponent));
+        page = new LinkOnlyPage<DrillUpDownButtonComponent>(TestBed.createComponent(DrillUpDownButtonComponent));
         page.detectChanges();
     }));
 

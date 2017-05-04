@@ -4,7 +4,8 @@
               [data]="data"
               [initialLoad]="initialLoad"
               [errorMessage]="errorMessage"
-              (filterChanged)="filter($event)">
+              (filterChanged)="filter($event)"
+              [drillupRouterLink]="[routerRoots.INITIAL_MARGIN_LATEST, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', routeParams['liquidationGroup'] || '*', routeParams['liquidationGroupSplit'] || '*']">
     <data-table [data]="data"
                 [pageSize]="pageSize"
                 [defaultOrdering]="defaultOrdering"
@@ -28,8 +29,13 @@
                 </a>
             </ng-template>
         </column>
-        <column title="Symbol"
-                tooltip="Product symbol"
+        <column title="Underlying">
+            <ng-template let-record="row" cell-template>
+                {{record.underlying}}
+            </ng-template>
+        </column>
+        <column title="Product ID"
+                tooltip="Eurex Product code"
                 headerAlign="center"
                 [sortingKey]="valueGetters.product">
             <ng-template let-record="row" cell-template>
@@ -50,33 +56,13 @@
                 </a>
             </ng-template>
         </column>
-        <column title="Contract year"
+        <column title="Contract date"
                 headerAlign="center"
-                [sortingKey]="valueGetters.contractYear">
-            <ng-template let-record="row" cell-template>
-                <a md-button
-                   [routerLink]="[rootRoutePath, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', record.liquidationGroup || '*',record.liquidationGroupSplit || '*', record.product || '*', record.callPut || '*', record.contractYear + '' || '*']">
-                    {{record.contractYear}}
-                </a>
-            </ng-template>
-        </column>
-        <column title="Contract month"
-                headerAlign="center"
-                [sortingKey]="valueGetters.contractMonth">
-            <ng-template let-record="row" cell-template>
-                <a md-button
-                   [routerLink]="[rootRoutePath, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', record.liquidationGroup || '*',record.liquidationGroupSplit || '*', record.product || '*', record.callPut || '*', record.contractYear + '' || '*', record.contractMonth + '' || '*']">
-                    {{record.contractMonth}}
-                </a>
-            </ng-template>
-        </column>
-        <column title="Expiry day"
-                headerAlign="center"
-                [sortingKey]="valueGetters.expiryDay">
+                [sortingKey]="valueGetters.contractDate">
             <ng-template let-record="row" cell-template>
                 <a md-button
                    [routerLink]="[rootRoutePath, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', record.liquidationGroup || '*',record.liquidationGroupSplit || '*', record.product || '*', record.callPut || '*', record.contractYear + '' || '*', record.contractMonth + '' || '*', record.expiryDay + '' || '*']">
-                    {{record.expiryDay}}
+                    {{record.contractDate | date:'MM/yyyy'}}
                 </a>
             </ng-template>
         </column>
@@ -91,7 +77,7 @@
                 </a>
             </ng-template>
         </column>
-        <column title="Opt"
+        <column title="Version"
                 tooltip="Version number (Options only)"
                 headerAlign="center"
                 [sortingKey]="valueGetters.version">
@@ -102,8 +88,7 @@
                 </a>
             </ng-template>
         </column>
-        <column title="NetLS"
-                tooltip="Net position"
+        <column title="Net position"
                 headerAlign="right"
                 contentAlign="right"
                 [sortingKey]="valueGetters.netQuantityLs">
@@ -112,7 +97,7 @@
             </ng-template>
         </column>
         <column title="Position VaR"
-                tooltip="PnL of the position when calculating portfolio VaR"
+                tooltip="PnL of the position when calculating portfolio VaR. Positive value means position contributes to total VaR."
                 headerAlign="right"
                 contentAlign="right"
                 [sortingKey]="valueGetters.compVar">
@@ -206,6 +191,8 @@
                         {{record.compCompressionError | number:'.2-2'}}
                     </ng-template>
                 </column>
+            </column-group>
+            <column-group>
                 <column title="LonOptCredit"
                         headerAlign="right"
                         contentAlign="right">
@@ -213,8 +200,6 @@
                         {{record.compLongOptionCredit | number:'.2-2'}}
                     </ng-template>
                 </column>
-            </column-group>
-            <column-group>
                 <column title="PremPay"
                         headerAlign="right"
                         contentAlign="right">
@@ -262,11 +247,6 @@
                         contentAlign="right">
                     <ng-template let-record="row" cell-template>
                         {{record.mVar | number:'.2-2'}}
-                    </ng-template>
-                </column>
-                <column title="Underlying">
-                    <ng-template let-record="row" cell-template>
-                        {{record.underlying}}
                     </ng-template>
                 </column>
             </column-group>

@@ -37,12 +37,15 @@ module.exports = function (config) {
             // System.js for module loading
             'node_modules/systemjs/dist/system.src.js',
             'node_modules/systemjs/dist/system-polyfills.js',
+            {pattern: 'node_modules/systemjs/dist/system-polyfills.js.map', included: false, watched: false},
 
             // Polyfills
             'node_modules/core-js/client/shim.js',
             'node_modules/web-animations-js/web-animations.min.js',
+            {pattern: 'node_modules/web-animations-js/web-animations.min.js.map', included: false, watched: false},
             'node_modules/file-saver/FileSaver.min.js',
             'node_modules/intl/dist/Intl.min.js',
+            {pattern: 'node_modules/intl/dist/Intl.min.js.map', included: false, watched: false},
             'node_modules/intl/locale-data/jsonp/en-US.js',
             'ie.intl.shim.js',
 
@@ -83,7 +86,13 @@ module.exports = function (config) {
             // (these paths need to be rewritten, see proxies section)
             {pattern: 'index.html', included: false, watched: true},
             {pattern: appBase + '**/*.html', included: false, watched: true},
-            {pattern: appBase + '**/*.css', included: false, watched: true},
+            {pattern: appBase + '**/*.css', included: false, watched: false},
+            'styles.css',
+            {pattern: 'fonts/**/*.eot', included: false, watched: false},
+            {pattern: 'fonts/**/*.woff', included: false, watched: false},
+            {pattern: 'fonts/**/*.ttf', included: false, watched: false},
+            {pattern: 'fonts/**/*.svg', included: false, watched: false},
+            {pattern: 'img/**/*.svg', included: false, watched: false},
 
             // Paths for debugging with source maps in dev tools
             {pattern: appBase + '**/*.ts', included: false, watched: false},
@@ -95,7 +104,9 @@ module.exports = function (config) {
         // Proxied base paths for loading assets
         proxies: {
             // required for modules fetched by SystemJS
-            '/base/src/node_modules/': '/base/node_modules/'
+            '/base/src/node_modules/': '/base/node_modules/',
+            '/fonts/': '/base/fonts/',
+            '/img/': '/base/img/'
         },
 
         exclude: [],

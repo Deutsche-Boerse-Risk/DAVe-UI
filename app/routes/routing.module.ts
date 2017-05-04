@@ -245,6 +245,12 @@ const INITIAL_MARGIN: Route[] = [
         canActivate: [AuthGuard]
     },
     {
+        path       : ROUTE_NAMES.INITIAL_MARGIN_LATEST + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit',
+        pathMatch  : 'full',
+        component  : InitialMarginLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
         path       : ROUTE_NAMES.INITIAL_MARGIN_HISTORY + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:marginCurrency',
         pathMatch  : 'full',
         component  : InitialMarginHistoryComponent,

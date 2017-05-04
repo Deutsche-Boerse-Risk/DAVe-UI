@@ -21,6 +21,7 @@ import {ROUTES} from '../routes/routing.paths';
                       [initialLoad]="initialLoad"
                       [errorMessage]="errorMessage"
                       [drilldownRouterLink]="drilldownRouterLink"
+                      [drillupRouterLink]="drillupRouterLink"
                       (filterChanged)="filtered($event)">
             <div class="testContent"></div>
         </list-content>`
@@ -34,6 +35,7 @@ class TestComponent {
     public initialLoad: boolean;
     public errorMessage: string;
     public drilldownRouterLink: any[] | string;
+    public drillupRouterLink: any[] | string;
 
     public filtered(query: string): string {
         return query;
@@ -85,6 +87,15 @@ describe('ListComponent', () => {
         page.detectChanges();
 
         expect(page.drilldownButton).not.toBeNull('Is shown');
+    }));
+
+    it('displays drillup-button', fakeAsync(() => {
+        expect(page.drillupButton).toBeNull('Not shown');
+
+        page.component.drillupRouterLink = [ROUTES.POSITION_REPORTS_LATEST, 'clearer'];
+        page.detectChanges();
+
+        expect(page.drillupButton).not.toBeNull('Is shown');
     }));
 
     it('has download menu', fakeAsync(() => {

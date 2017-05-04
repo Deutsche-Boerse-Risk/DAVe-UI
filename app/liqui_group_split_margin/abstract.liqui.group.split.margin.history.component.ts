@@ -48,7 +48,7 @@ export abstract class AbstractLiquiGroupSplitMarginHistoryComponent
 
     protected createRoutePart(title: string, routePath: string, key: string, index: number): RoutePart {
         let part: RoutePart = super.createRoutePart(title, routePath, key, index);
-        if (key === 'liquidationGroupSplit' || key === 'marginCurrency') {
+        if (key === 'marginCurrency') {
             part.inactive = true;
         }
         return part;

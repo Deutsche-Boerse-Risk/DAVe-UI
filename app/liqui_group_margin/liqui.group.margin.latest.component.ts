@@ -150,7 +150,7 @@ export const exportKeys: ExportColumn<LiquiGroupMarginData>[] = [
     },
     {
         get   : valueGetters.variationPremiumPayment,
-        header: 'Variation Premium Payment'
+        header: 'Variation / Premium Cash Flow'
     },
     {
         get   : valueGetters.received,

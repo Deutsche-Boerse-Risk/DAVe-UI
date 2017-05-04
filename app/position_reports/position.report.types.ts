@@ -70,6 +70,7 @@ export interface PositionReportServerData {
 export interface PositionReportData extends PositionReportServerData {
     uid: string;
     received: Date;
+    contractDate: Date;
 }
 
 export type SelectValues = {
