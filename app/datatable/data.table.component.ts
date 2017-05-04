@@ -29,7 +29,6 @@ export class Row {
 })
 export class DataTableComponent implements OnChanges {
 
-    public _data: any[];
     public _rows: Row[];
 
     @Input()
@@ -87,7 +86,6 @@ export class DataTableComponent implements OnChanges {
     @Input()
     public set data(data: any[]) {
         if (!data || data.length === 0) {
-            delete this._data;
             delete this._rows;
             return;
         }
@@ -98,10 +96,8 @@ export class DataTableComponent implements OnChanges {
             this._rows.forEach((value: Row, index: number) => {
                 oldData[this.trackByRowKey(index, value.rowData)] = value;
             });
-            delete this._data;
             delete this._rows;
         }
-        this._data = [];
         this._rows = [];
 
         // Merge the new and old data into old array so angular is able to do change detection correctly
@@ -112,13 +108,11 @@ export class DataTableComponent implements OnChanges {
                 oldValue = oldData[this.trackByRowKey(index, newValue)];
             }
             if (oldValue) {
-                this._data.push(oldValue.rowData);
                 Object.keys(oldValue.rowData).concat(Object.keys(newValue)).forEach((key: string) => {
                     (<any>oldValue.rowData)[key] = (<any>newValue)[key];
                 });
                 this._rows.push(oldValue);
             } else {
-                this._data.push(newValue);
                 this._rows.push(new Row(newValue));
             }
         }
@@ -126,7 +120,10 @@ export class DataTableComponent implements OnChanges {
     }
 
     public get data(): any[] {
-        return this._data;
+        if (!this._rows) {
+            return null;
+        }
+        return this._rows.map((row: Row) => row.rowData);
     }
 
     @Input()

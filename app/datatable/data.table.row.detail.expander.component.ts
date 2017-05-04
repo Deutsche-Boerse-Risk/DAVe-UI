@@ -13,7 +13,7 @@ export const selector = 'row-detail-expander';
     `,
     styleUrls: [
         '../component.css',
-        'inline.button.scss'
+        'inline.button.css'
     ]
 })
 export class DataTableRowDetailExpander {

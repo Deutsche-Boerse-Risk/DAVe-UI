@@ -5,7 +5,7 @@ import {TestHostComponent, DataTableDefinitionHosted} from '../../testing';
 import {DataTableModule} from './data.table.module';
 import {OrderingCriteria} from './data.table.column.directive';
 
-xdescribe('DataTable component', () => {
+describe('DataTable component', () => {
 
     let table: DataTableDefinitionHosted;
 
@@ -68,22 +68,22 @@ xdescribe('DataTable component', () => {
         let row = table.dataTable.body.rows[0];
 
         // Detail hidden
-        expect(row.rowDetail.expanded).toBeFalsy('Is hidden');
-        expect(row.expander.nativeElement.classList).toContain('fa-chevron-circle-down');
+        expect(row.rowDetail).toBeNull('Is hidden');
+        expect(row.expander.closed).toBeTruthy('Detail closed.');
 
         // Click master row
         row.expandRow();
 
         // Detail shown
-        expect(row.rowDetail.expanded).toBeTruthy('Is shown');
-        expect(row.expander.nativeElement.classList).toContain('fa-chevron-circle-up');
+        expect(row.rowDetail).not.toBeNull('Is shown');
+        expect(row.expander.opened).toBeTruthy('Detail opened.');
 
         // Click master row
         row.expandRow();
 
         // Detail hidden
-        expect(row.rowDetail.expanded).toBeFalsy('Is hidden');
-        expect(row.expander.nativeElement.classList).toContain('fa-chevron-circle-down');
+        expect(row.rowDetail).toBeNull('Is hidden');
+        expect(row.expander.closed).toBeTruthy('Detail closed.');
     }));
 
     xit('has correct footer', fakeAsync(() => {
@@ -148,6 +148,10 @@ xdescribe('DataTable component', () => {
     it('can be sorted from header in row detail', fakeAsync(() => {
         expect(table.dataTable.element).not.toBeNull('Table is shown');
 
+        // Open the first row
+        if (!table.dataTable.body.rows[0].rowDetail) {
+            table.dataTable.body.rows[0].expandRow();
+        }
         expect(table.dataTable.sorting.detailRowHandles).not.toBeNull('Handles available');
         expect(table.dataTable.sorting.detailRowHandles.length).toBe(1, 'Exactly 1 handle');
 
@@ -160,6 +164,10 @@ xdescribe('DataTable component', () => {
             return item.descending;
         })).toEqual([true, false]);
 
+        // Open the first row
+        if (!table.dataTable.body.rows[0].rowDetail) {
+            table.dataTable.body.rows[0].expandRow();
+        }
         // Click handle 1
         table.dataTable.sorting.detailRowHandles[0].click();
         table.detectChanges();
@@ -173,6 +181,10 @@ xdescribe('DataTable component', () => {
         // Check current ordering
         table.dataTable.sorting.checkSorting(250);
 
+        // Open the first row
+        if (!table.dataTable.body.rows[0].rowDetail) {
+            table.dataTable.body.rows[0].expandRow();
+        }
         // Click handle 1
         table.dataTable.sorting.detailRowHandles[0].click();
         table.detectChanges();
@@ -186,6 +198,10 @@ xdescribe('DataTable component', () => {
             return item.descending;
         })).toEqual([true, true, false]);
 
+        // Open the first row
+        if (!table.dataTable.body.rows[0].rowDetail) {
+            table.dataTable.body.rows[0].expandRow();
+        }
         // Click handle 1
         table.dataTable.sorting.detailRowHandles[0].click();
         table.detectChanges();

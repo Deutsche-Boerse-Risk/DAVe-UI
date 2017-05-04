@@ -1,6 +1,8 @@
-import {Component, DebugElement} from '@angular/core';
+import {Component, DebugElement, DebugNode} from '@angular/core';
 import {ComponentFixture} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
+
+import {MdAnchor, MdButton, MdIcon, MdTooltip} from '@angular/material';
 
 import {OrderingValueGetter, OrderingCriteria} from '../../app/datatable/data.table.column.directive';
 import {DataTableComponent} from '../../app/datatable/data.table.component';
@@ -25,7 +27,7 @@ export class DataTableDefinition {
     }
 
     public get element(): DebugElement {
-        return this.debugElement.query(By.css('.table.table-bordered.table-hover'));
+        return this.debugElement.query(By.css('.tableWrapper > table'));
     }
 
     public get header(): TableHeader {
@@ -45,7 +47,7 @@ export class DataTableDefinition {
     }
 
     public get recordsCount(): RecordsCount {
-        return new RecordsCount(this.debugElement.query(By.css('.panel-footer')));
+        return new RecordsCount(this.debugElement.query(By.css('.pageCount')));
     }
 
     public get pager(): Pager {
@@ -91,7 +93,7 @@ export class TableHeaderCell {
     }
 
     public get sortingHandle(): SortingHandle {
-        let handle = this.element.query(By.css('.fa-sort'));
+        let handle = this.element.query(By.directive(MdButton));
         if (handle) {
             return new SortingHandle(this.page, handle);
         }
@@ -99,15 +101,16 @@ export class TableHeaderCell {
     }
 
     public get tooltip(): string {
-        let handle = this.element.query(By.css('.fa-question-circle'));
+        let handle = this.element.query(By.directive(MdTooltip));
         if (handle) {
-            return handle.nativeElement.title;
+            return handle.injector.get(MdTooltip).message;
         }
         return null;
     }
 
     public get title(): string {
-        return this.element.nativeElement.textContent.trim();
+        return this.element.childNodes.find((node: DebugNode) => node.nativeNode.nodeType === Node.TEXT_NODE)
+            .nativeNode.textContent.trim();
     }
 
     public get colspan(): number {
@@ -128,7 +131,7 @@ export class TableSorting {
     }
 
     public get handles(): SortingHandle[] {
-        let handles = this.table.debugElement.query(de => de.references['mainHeader']).queryAll(By.css('.fa-sort'));
+        let handles = this.table.debugElement.query(de => de.references['mainHeader']).queryAll(By.directive(MdButton));
         if (!handles) {
             return null;
         }
@@ -138,7 +141,8 @@ export class TableSorting {
     }
 
     public get detailRowHandles(): SortingHandle[] {
-        let handles = this.table.debugElement.query(By.css('.table-condensed')).queryAll(By.css('thead .fa-sort'));
+        let handles = this.table.debugElement.query(By.css('.detail')).query(By.css('thead'))
+            .queryAll(By.directive(MdButton));
         if (!handles) {
             return null;
         }
@@ -228,8 +232,9 @@ export class TableBodyRow {
         this.page.detectChanges();
     }
 
-    public get expander(): DebugElement {
-        return this.element.query(By.directive(DataTableRowDetailExpander)).query(By.css('.fa'));
+    public get expander(): RowExpander {
+        return new RowExpander(
+            this.element.query(By.directive(DataTableRowDetailExpander)).query(By.directive(MdAnchor)));
     }
 
     public get cells(): TableBodyCell[] {
@@ -241,13 +246,30 @@ export class TableBodyRow {
     public get rowDetail(): TableBodyDetail {
         let next = this.element.parent.children[this.element.parent.children.indexOf(this.element) + 1];
         if (next && !next.references['masterRow']) {
-            return new TableBodyDetail(next, this, this.page);
+            return new TableBodyDetail(next, this.page);
         }
         return null;
     }
 
     public get highlighted(): boolean {
         return this.element.nativeElement.classList.contains(HIGHLIGHTER_CLASS);
+    }
+}
+
+export class RowExpander {
+    constructor(public element: DebugElement) {
+    }
+
+    public get icon(): string {
+        return this.element.query(By.directive(MdIcon)).nativeElement.textContent.trim();
+    }
+
+    public get opened(): boolean {
+        return this.icon === 'expand_less';
+    }
+
+    public get closed(): boolean {
+        return this.icon === 'expand_more';
     }
 }
 
@@ -269,8 +291,7 @@ export class TableBodyCell {
 
 export class TableBodyDetail {
 
-    constructor(public element: DebugElement, private owner: TableBodyRow,
-        private page: { detectChanges: () => void }) {
+    constructor(public element: DebugElement, private page: { detectChanges: () => void }) {
     }
 
     public header(): TableHeader {
@@ -279,14 +300,6 @@ export class TableBodyDetail {
 
     public get body(): TableBodyDetailBody {
         return new TableBodyDetailBody(this.element.query(By.css('tbody')));
-    }
-
-    public expand(): void {
-        this.owner.expandRow();
-    }
-
-    public get expanded(): boolean {
-        return !this.element.nativeElement.classList.contains('hidden');
     }
 
     public get highlighted(): boolean {
