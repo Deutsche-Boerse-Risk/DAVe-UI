@@ -17,6 +17,7 @@ import {DownloadLink} from './download.menu.page';
 import {PageWithLoading} from './page.base';
 
 import {stubRouter} from '../stubs/router/router.module.stub';
+import {RouterStub} from '../stubs/router/router.stub';
 import {HttpAsyncServiceStub} from '../stubs/http.service.stub';
 import {GoogleLineChartStub} from '../stubs/google.chart.component.stub';
 
@@ -159,6 +160,10 @@ export class LatestListPage<T> extends ListPage<T> {
 
     public checkBreadCrumbs(routeParams: string[], rootPath: string, rootText: string,
         firstActive: boolean = true, lastNInactive: number = 0): void {
+        // Get router stub
+        let router: RouterStub = TestBed.get(RouterStub);
+        let routerSpy = spyOn(router, 'navigate');
+
         let crumbs = this.breadCrumbs.crumbs;
         let filteredParams = routeParams.filter((param: string) => param !== '*');
 
@@ -167,8 +172,8 @@ export class LatestListPage<T> extends ListPage<T> {
         expect(crumbs[0].text).toBe(rootText);
         if (firstActive) {
             expect(crumbs[0].active).toBeTruthy('First active');
-            crumbs[0].link.click();
-            expect(crumbs[0].link.stub.navigatedTo).toEqual([rootPath], 'Navigation works correctly');
+            crumbs[0].click();
+            expect(routerSpy.calls.mostRecent().args).toEqual([rootPath], 'Navigation works correctly');
         } else {
             expect(crumbs[0].active).toBeFalsy('First inactive');
         }
@@ -187,7 +192,7 @@ export class LatestListPage<T> extends ListPage<T> {
         let path = [rootPath];
         let j = 0;
         for (let i = 1; i < crumbs.length; i++) {
-            expect(crumbs[i].link.text).toBe(filteredParams[i - 1]);
+            expect(crumbs[i].text).toBe(filteredParams[i - 1]);
             if (i < crumbs.length - lastNInactive) {
                 while (routeParams[j] === '*') {
                     path.push(routeParams[j]);
@@ -195,8 +200,8 @@ export class LatestListPage<T> extends ListPage<T> {
                 }
                 path.push(routeParams[j]);
                 j++;
-                crumbs[i].link.click();
-                expect(crumbs[i].link.stub.navigatedTo).toEqual(path, 'Navigation works correctly');
+                crumbs[i].click();
+                expect(routerSpy.calls.mostRecent().args[0]).toEqual(path, 'Navigation works correctly');
             }
         }
     };

@@ -1,12 +1,14 @@
-import {Component, DebugElement, DebugNode} from '@angular/core';
+import {Component, DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
+
+import {MdChip} from '@angular/material';
 
 import {ComponentFixture} from '@angular/core/testing';
 
+import {click} from '../events';
 import {Page} from './page.base';
 
 import {RoutePart, BreadCrumbsComponent} from '../../app/list/bread.crumbs.component';
-import {LinkDefinition} from './link.definition';
 
 export class BreadCrumbsDefinition {
 
@@ -17,36 +19,21 @@ export class BreadCrumbsDefinition {
     }
 
     public get crumbs(): Crumb[] {
-        let nodes = this.element.childNodes.filter((node: DebugNode) => {
-            return node.nativeNode.nodeType === Node.TEXT_NODE && node.nativeNode.textContent.trim()
-                || (node as DebugElement).name;
-        }).map((node: DebugNode) => {
-            if (node.nativeNode.wholeText) {
-                return node.nativeNode.wholeText.trim();
-            }
-            return node;
-        });
-
-        let crumbs: Crumb[] = [];
-        for (let i = 0; i < nodes.length; i += 2) {
-            crumbs.push(new Crumb(this.page, nodes[i] as DebugElement, nodes[i + 1] as string));
-        }
-
-        return crumbs;
+        return this.element.queryAll(By.directive(MdChip)).map((item: DebugElement) => new Crumb(this.page, item));
     }
 
     public get active(): DebugElement[] {
-        return this.element.queryAll(By.css('a'));
+        return this.element.queryAll(By.directive(MdChip)).filter((item: DebugElement) => !item.attributes['disabled']);
     }
 
     public get inactive(): DebugElement[] {
-        return this.element.queryAll(By.css('span'));
+        return this.element.queryAll(By.directive(MdChip)).filter((item: DebugElement) => item.attributes['disabled']);
     }
 }
 
 export class Crumb {
 
-    constructor(private page: Page<any>, private item: DebugElement, public separatorAfter: string) {
+    constructor(private page: Page<any>, private item: DebugElement) {
     }
 
     public get text(): string {
@@ -54,11 +41,16 @@ export class Crumb {
     }
 
     public get active(): boolean {
-        return this.item.name === 'a';
+        return this.item.attributes['disabled'] == null;
     }
 
-    public get link(): LinkDefinition {
-        return new LinkDefinition(this.page, this.item);
+    public get primary(): boolean {
+        return this.item.classes['mat-chip-selected'];
+    }
+
+    public click() {
+        click(this.item.nativeElement);
+        this.page.advanceAndDetectChanges();
     }
 }
 
