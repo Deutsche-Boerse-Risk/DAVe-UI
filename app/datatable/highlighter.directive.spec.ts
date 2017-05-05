@@ -2,6 +2,7 @@ import {async, TestBed, fakeAsync} from '@angular/core/testing';
 
 import {HighLighterDirectivePage, HighLighterDirectiveTestComponent} from '../../testing';
 
+import {Row} from './data.table.component';
 import {HighlighterDirective, HIGHLIGHTER_TIMEOUT, HIGHLIGHTER_CLASS} from './highlighter.directive';
 
 describe('Highlighter directive', () => {
@@ -22,9 +23,23 @@ describe('Highlighter directive', () => {
         expect(page.classList).not.toContain(HIGHLIGHTER_CLASS);
     }));
 
+    it('does nothing if context is disabled', fakeAsync(() => {
+        page.component.context = {
+            row    : new Row('key'),
+            index  : 0,
+            storage: {},
+            enabled: false
+        };
+        page.detectChanges();
+
+        page.highlighter.ngOnInit();
+
+        expect(page.classList).not.toContain(HIGHLIGHTER_CLASS);
+    }));
+
     it('does nothing if context does not contain storage', fakeAsync(() => {
         page.component.context = {
-            row    : {},
+            row    : new Row({}),
             index  : 0,
             enabled: true
         };
@@ -37,7 +52,7 @@ describe('Highlighter directive', () => {
 
     it('does nothing if storage contains the key', fakeAsync(() => {
         page.component.context = {
-            row    : 'key',
+            row    : new Row('key'),
             index  : 0,
             storage: {key: true},
             enabled: true
@@ -51,7 +66,7 @@ describe('Highlighter directive', () => {
 
     it('adds class if no key is in storage and removes the class after timeout', fakeAsync(() => {
         page.component.context = {
-            row    : 'key',
+            row    : new Row('key'),
             index  : 0,
             storage: {},
             enabled: true
