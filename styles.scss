@@ -129,6 +129,10 @@ $theme: mat-light-theme($grey-palette, $grey-palette, $grey-palette);
     }
 }
 
+.mat-dialog-container {
+    background-color: map_get($mat-grey, 50);
+}
+
 //IE 11 Performance fixes
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
     @for $zValue from 0 through 24 {
