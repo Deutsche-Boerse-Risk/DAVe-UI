@@ -5,6 +5,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {MaterialModule} from '../material/material.module';
 
 import {MessageComponent} from './message.component';
+import {RemoveDialogComponent} from './remove.dialog.component';
 
 import {PercentPipe} from './percent.pipe';
 
@@ -21,19 +22,24 @@ export class DateFormatter {
 }
 
 @NgModule({
-    imports     : [
+    imports        : [
         BrowserModule,
         MaterialModule
     ],
-    declarations: [
+    declarations   : [
         MessageComponent,
+        RemoveDialogComponent,
         PercentPipe
     ],
-    exports     : [
+    exports        : [
         MessageComponent,
+        RemoveDialogComponent,
         PercentPipe
     ],
-    providers   : [
+    entryComponents: [
+        RemoveDialogComponent
+    ],
+    providers      : [
         DecimalPipe,
         DatePipe,
         DateFormatter,

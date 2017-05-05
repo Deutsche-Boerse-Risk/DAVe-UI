@@ -1,0 +1,15 @@
+@import "../../global";
+
+.message {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-bottom: 2px solid map_get($dbg-primary-palette, default);
+
+    h3 {
+        margin: 0;
+    }
+
+    small {
+        font-size: rem(1);
+    }
+}

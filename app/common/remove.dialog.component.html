@@ -1,0 +1,6 @@
+<div class="message">
+    <h3>{{message}}</h3>
+    <small *ngIf="note">NOTE: {{note}}</small>
+</div>
+<a md-button color="warn" (click)="dialogRef.close(true)">Remove</a>
+<a md-button (click)="dialogRef.close(false)">Cancel</a>
