@@ -61,7 +61,7 @@ $dbg-primary-palette: mat-palette($dbg-primary);
 $dbg-accent-palette: mat-palette($dbg-primary, 200, 300, 400);
 
 // The warn palette is optional (defaults to red).
-$dbg-warn-palette: mat-palette($dbg-warn, 100, 300, 600);
+$dbg-warn-palette: mat-palette($dbg-warn, 600, 100, 700);
 
 // Create the theme object (a Sass map containing all of the palettes).
 $dbg-theme: mat-light-theme($dbg-primary-palette, $dbg-accent-palette, $dbg-warn-palette);
