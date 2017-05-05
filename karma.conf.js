@@ -44,6 +44,7 @@ module.exports = function (config) {
             'node_modules/web-animations-js/web-animations.min.js',
             {pattern: 'node_modules/web-animations-js/web-animations.min.js.map', included: false, watched: false},
             'node_modules/file-saver/FileSaver.min.js',
+            'node_modules/hammerjs/hammer.min.js',
             'node_modules/intl/dist/Intl.min.js',
             {pattern: 'node_modules/intl/dist/Intl.min.js.map', included: false, watched: false},
             'node_modules/intl/locale-data/jsonp/en-US.js',
