@@ -5,6 +5,7 @@ import {ComponentFixture} from '@angular/core/testing';
 
 import {Page} from './page.base';
 
+import {Row} from '../../app/datatable/data.table.component';
 import {HighlighterDirective} from '../../app/datatable/highlighter.directive';
 
 @Component({
@@ -15,8 +16,8 @@ export class HighLighterDirectiveTestComponent {
 
     public context: { row: any, storage?: any, index: number };
 
-    public trackBy(index: number, row: any): any {
-        return row;
+    public trackBy(index: number, row: Row<any>): any {
+        return row.rowData;
     }
 }
 

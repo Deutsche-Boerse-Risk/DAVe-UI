@@ -85,8 +85,8 @@ h3 {
     }
 
     &.warn {
-        background-color: map_get($dbg-warn-palette, lighter);
-        color: map_get($dbg-warn-palette, lighter-contrast);
+        background-color: map_get($dbg-warn-palette, 300);
+        color: mat-contrast($dbg-warn-palette, 300);
     }
 
     &.error {

@@ -3,6 +3,8 @@ import {ActivatedRoute, Params} from '@angular/router';
 
 import {AbstractComponentWithAutoRefresh} from '../abstract.component';
 
+import {Row} from '../datatable/data.table.component';
+
 import {RoutePart} from './bread.crumbs.component';
 import {ExportColumn} from './download.menu.component';
 import {OrderingCriteria, OrderingValueGetter} from '../datatable/data.table.column.directive';
@@ -71,8 +73,8 @@ export abstract class AbstractListComponent<T extends { uid: string }> extends A
         this.initialLoad = false;
     }
 
-    public trackByRowKey(index: number, row: T): string {
-        return row.uid;
+    public trackByRowKey(index: number, row: Row<T>): string {
+        return row.rowData.uid;
     }
 
 }

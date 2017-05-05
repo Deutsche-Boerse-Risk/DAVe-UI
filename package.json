@@ -12,15 +12,15 @@
         "ngc": "ngc -p ./tsconfig.aot.json"
     },
     "dependencies": {
-        "@angular/animations": "^4.1.0",
-        "@angular/common": "^4.1.0",
-        "@angular/compiler": "^4.1.0",
-        "@angular/core": "^4.1.0",
-        "@angular/forms": "^4.1.0",
-        "@angular/http": "^4.1.0",
-        "@angular/platform-browser": "^4.1.0",
-        "@angular/platform-browser-dynamic": "^4.1.0",
-        "@angular/router": "^4.1.0",
+        "@angular/animations": "^4.1.1",
+        "@angular/common": "^4.1.1",
+        "@angular/compiler": "^4.1.1",
+        "@angular/core": "^4.1.1",
+        "@angular/forms": "^4.1.1",
+        "@angular/http": "^4.1.1",
+        "@angular/platform-browser": "^4.1.1",
+        "@angular/platform-browser-dynamic": "^4.1.1",
+        "@angular/router": "^4.1.1",
 
         "@angular/material": "^2.0.0-beta.3",
         "@angular/flex-layout": "2.0.0-beta.8",
@@ -32,7 +32,7 @@
         "rxjs": "~5.1.1",
         "systemjs": "^0.19.47",
         "web-animations-js": "^2.2.5",
-        "zone.js": "^0.8.9",
+        "zone.js": "^0.8.10",
 
         "angular2-jwt": "^0.2.3"
     },
@@ -54,8 +54,8 @@
         "typescript": "^2.3.2",
         "@types/node": "^6.0.71",
 
-        "@angular/compiler-cli": "^4.1.0",
-        "@angular/platform-server": "^4.1.0",
+        "@angular/compiler-cli": "^4.1.1",
+        "@angular/platform-server": "^4.1.1",
 
         "rollup": "^0.37.2",
         "rollup-plugin-commonjs": "^5.0.5",

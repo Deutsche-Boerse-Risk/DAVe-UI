@@ -1,5 +1,7 @@
 import {Directive, ElementRef, OnInit, Input, OnDestroy} from '@angular/core';
 
+import {Row} from './data.table.component';
+
 export const HIGHLIGHTER_CLASS = 'highlighted';
 export const HIGHLIGHTER_TIMEOUT = 5000;
 
@@ -9,7 +11,7 @@ export const HIGHLIGHTER_TIMEOUT = 5000;
 export class HighlighterDirective implements OnInit, OnDestroy {
 
     @Input('highlighter')
-    public trackBy: (index: number, row: any) => any;
+    public trackBy: (index: number, row: Row<any>) => any;
 
     @Input()
     public context: { row: any, storage: any, index: number };

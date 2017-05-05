@@ -30,7 +30,7 @@
                     #masterRow
                     [class.even]="rowIndex % 2 === 1"
                     [highlighter]="trackByRowKey"
-                    [context]="{ row: row.rowData, storage: highlighterStorage, index: rowIndex}">
+                    [context]="{ row: row, storage: highlighterStorage, index: rowIndex}">
                     <td *ngFor="let column of rowsTemplate; trackBy:trackByIndex"
                         [attr.rowspan]="column.rowspan"
                         [attr.colspan]="column.colspan"
@@ -44,7 +44,7 @@
                     class="detail"
                     [class.even]="rowIndex % 2 === 1"
                     [highlighter]="trackByRowKey"
-                    [context]="{ row: row.rowData, storage: highlighterStorage, index: rowIndex}">
+                    [context]="{ row: row, storage: highlighterStorage, index: rowIndex}">
                     <td [attr.colspan]="detailRowColspan">
                         <div class="tableWrapper">
                             <table>

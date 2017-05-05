@@ -3,6 +3,7 @@ import {Component} from '@angular/core';
 import {AbstractComponentWithAutoRefresh} from '../abstract.component';
 
 import {OrderingCriteria, OrderingValueGetter} from '../datatable/data.table.column.directive';
+import {Row} from '../datatable/data.table.component';
 
 import {ErrorResponse} from '../http.service';
 import {
@@ -67,8 +68,8 @@ export class LiquiGroupMarginAggregationComponent extends AbstractComponentWithA
                 });
     }
 
-    public trackByRowKey(index: number, row: LiquiGroupMarginData): string {
-        return row.uid;
+    public trackByRowKey(index: number, row: Row<LiquiGroupMarginData>): string {
+        return row.rowData.uid;
     }
 
     public get valueGetters() {

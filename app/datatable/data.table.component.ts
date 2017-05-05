@@ -6,11 +6,11 @@ import {DataTableColumnGroupDirective} from './data.table.column.group.directive
 
 import {DataTableDefinition, DataTableCell, DataTableUtils} from './data.table.utils';
 
-export class Row {
+export class Row<T> {
 
     public expanded: boolean;
 
-    constructor(public rowData: any) {
+    constructor(public rowData: T) {
     }
 
     public toogle(): void {
@@ -29,7 +29,7 @@ export class Row {
 })
 export class DataTableComponent implements OnChanges {
 
-    public _rows: Row[];
+    public _rows: Row<any>[];
 
     @Input()
     public footer: any;
@@ -46,9 +46,9 @@ export class DataTableComponent implements OnChanges {
     public showFooter: boolean = true;
 
     @Input()
-    public trackByRowKey: (index: number, row: any) => any;
+    public trackByRowKey: (index: number, row: Row<any>) => any;
 
-    public pageRows: Row[];
+    public pageRows: Row<any>[];
 
     public highlighterStorage: any = {};
 
@@ -91,10 +91,10 @@ export class DataTableComponent implements OnChanges {
         }
 
         // Remember old data
-        let oldData: { [key: string]: Row } = {};
+        let oldData: { [key: string]: Row<any> } = {};
         if (this._rows && this.trackByRowKey) {
-            this._rows.forEach((value: Row, index: number) => {
-                oldData[this.trackByRowKey(index, value.rowData)] = value;
+            this._rows.forEach((value: Row<any>, index: number) => {
+                oldData[this.trackByRowKey(index, value)] = value;
             });
             delete this._rows;
         }
@@ -103,9 +103,9 @@ export class DataTableComponent implements OnChanges {
         // Merge the new and old data into old array so angular is able to do change detection correctly
         for (let index = 0; index < data.length; ++index) {
             let newValue = data[index];
-            let oldValue: Row;
+            let oldValue: Row<any>;
             if (this.trackByRowKey && oldData) {
-                oldValue = oldData[this.trackByRowKey(index, newValue)];
+                oldValue = oldData[this.trackByRowKey(index, new Row(newValue))];
             }
             if (oldValue) {
                 Object.keys(oldValue.rowData).concat(Object.keys(newValue)).forEach((key: string) => {
@@ -123,7 +123,7 @@ export class DataTableComponent implements OnChanges {
         if (!this._rows) {
             return null;
         }
-        return this._rows.map((row: Row) => row.rowData);
+        return this._rows.map((row: Row<any>) => row.rowData);
     }
 
     @Input()
@@ -178,7 +178,7 @@ export class DataTableComponent implements OnChanges {
             this.ordering = [];
         }
 
-        this._rows.sort((a: Row, b: Row) => {
+        this._rows.sort((a: Row<any>, b: Row<any>) => {
             let comp: number = 0;
             this.ordering.some((sortingKey: OrderingCriteria<any>) => {
                 let direction = sortingKey.descending ? -1 : 1;
