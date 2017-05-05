@@ -24,8 +24,9 @@ describe('Highlighter directive', () => {
 
     it('does nothing if context does not contain storage', fakeAsync(() => {
         page.component.context = {
-            row  : {},
-            index: 0
+            row    : {},
+            index  : 0,
+            enabled: true
         };
         page.detectChanges();
 
@@ -38,7 +39,8 @@ describe('Highlighter directive', () => {
         page.component.context = {
             row    : 'key',
             index  : 0,
-            storage: {key: true}
+            storage: {key: true},
+            enabled: true
         };
         page.detectChanges();
 
@@ -51,7 +53,8 @@ describe('Highlighter directive', () => {
         page.component.context = {
             row    : 'key',
             index  : 0,
-            storage: {}
+            storage: {},
+            enabled: true
         };
         page.detectChanges();
 

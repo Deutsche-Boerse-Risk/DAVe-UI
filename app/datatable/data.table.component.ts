@@ -48,6 +48,9 @@ export class DataTableComponent implements OnChanges {
     @Input()
     public trackByRowKey: (index: number, row: Row<any>) => any;
 
+    @Input()
+    public highlighting: boolean = true;
+
     public pageRows: Row<any>[];
 
     public highlighterStorage: any = {};

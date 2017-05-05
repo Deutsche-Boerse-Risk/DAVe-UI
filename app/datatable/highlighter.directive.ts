@@ -13,8 +13,8 @@ export class HighlighterDirective implements OnInit, OnDestroy {
     @Input('highlighter')
     public trackBy: (index: number, row: Row<any>) => any;
 
-    @Input()
-    public context: { row: any, storage: any, index: number };
+    @Input('highlighterContext')
+    public context: { row: any, storage: any, index: number, enabled: boolean };
 
     private el: HTMLElement;
 
@@ -25,7 +25,7 @@ export class HighlighterDirective implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        if (this.trackBy && this.context && this.context.storage) {
+        if (this.trackBy && this.context && this.context.storage && this.context.enabled) {
             let rowKey = this.trackBy(this.context.index, this.context.row);
             if (!this.context.storage[rowKey]) {
                 this.context.storage[rowKey] = true;
