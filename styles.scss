@@ -35,6 +35,10 @@ h3 {
     font-size: rem(2);
 }
 
+hr {
+    border: 1px solid map_get($dbg-primary-palette, default);
+}
+
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
@@ -44,25 +48,25 @@ h3 {
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include mat-core-theme($dbg-theme);
-//@include mat-autocomplete-theme($dbg-app-theme);
+//@include mat-autocomplete-theme($dbg-theme);
 @include mat-button-theme($dbg-theme);
 @include mat-button-toggle-theme($dbg-theme);
 @include mat-card-theme($dbg-theme);
-//@include mat-checkbox-theme($dbg-app-theme);
+//@include mat-checkbox-theme($dbg-theme);
 @include mat-chips-theme($dbg-theme);
-//@include mat-dialog-theme($dbg-app-theme);
-//@include mat-grid-list-theme($dbg-app-theme);
+//@include mat-dialog-theme($dbg-theme);
+//@include mat-grid-list-theme($dbg-theme);
 @include mat-icon-theme($dbg-theme);
 @include mat-input-theme($dbg-theme);
-//@include mat-list-theme($dbg-app-theme);
+//@include mat-list-theme($dbg-theme);
 @include mat-menu-theme($dbg-theme);
-//@include mat-progress-bar-theme($dbg-app-theme);
-//@include mat-progress-spinner-theme($dbg-app-theme);
-//@include mat-radio-theme($dbg-app-theme);
+//@include mat-progress-bar-theme($dbg-theme);
+//@include mat-progress-spinner-theme($dbg-theme);
+//@include mat-radio-theme($dbg-theme);
 @include mat-select-theme($dbg-theme);
 @include mat-sidenav-theme($dbg-theme);
-//@include mat-slide-toggle-theme($dbg-app-theme);
-//@include mat-slider-theme($dbg-app-theme);
+//@include mat-slide-toggle-theme($dbg-theme);
+//@include mat-slider-theme($dbg-theme);
 @include mat-tabs-theme($dbg-theme);
 @include mat-toolbar-theme($dbg-theme);
 @include mat-tooltip-theme($dbg-theme);

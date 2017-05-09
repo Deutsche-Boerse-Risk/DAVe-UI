@@ -134,6 +134,10 @@ module.exports = function (grunt) {
                 src: providedJS('ie.intl.shim.js'),
                 dest: destination
             },
+            'hammer.js': {
+                src: providedJS('node_modules/hammerjs/hammer.min.js'),
+                dest: destination
+            },
             'web-animations-js': {
                 src: providedJS('node_modules/web-animations-js/web-animations.min.js'),
                 dest: destination
