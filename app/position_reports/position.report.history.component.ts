@@ -31,6 +31,7 @@ export class PositionReportHistoryComponent extends AbstractHistoryListComponent
             clearer              : this.routeParams['clearer'],
             member               : this.routeParams['member'],
             account              : this.routeParams['account'],
+            underlying           : this.routeParams['underlying'],
             liquidationGroup     : this.routeParams['liquidationGroup'],
             liquidationGroupSplit: this.routeParams['liquidationGroupSplit'],
             product              : this.routeParams['product'],

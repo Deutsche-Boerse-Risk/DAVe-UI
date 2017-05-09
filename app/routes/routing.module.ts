@@ -107,67 +107,73 @@ const POSITION_REPORTS: Route[] = [
         canActivate: [AuthGuard]
     },
     {
-        path       : ROUTE_NAMES.POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:liquidationGroup',
+        path       : ROUTE_NAMES.POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:underlying',
         pathMatch  : 'full',
         component  : PositionReportLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : ROUTE_NAMES.POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit',
+        path       : ROUTE_NAMES.POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:underlying/:liquidationGroup',
         pathMatch  : 'full',
         component  : PositionReportLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : ROUTE_NAMES.POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:product',
+        path       : ROUTE_NAMES.POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:underlying/:liquidationGroup/:liquidationGroupSplit',
         pathMatch  : 'full',
         component  : PositionReportLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : ROUTE_NAMES.POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:product/:callPut',
+        path       : ROUTE_NAMES.POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:underlying/:liquidationGroup/:liquidationGroupSplit/:product',
         pathMatch  : 'full',
         component  : PositionReportLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : ROUTE_NAMES.POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:product/:callPut/:contractYear',
+        path       : ROUTE_NAMES.POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:underlying/:liquidationGroup/:liquidationGroupSplit/:product/:callPut',
         pathMatch  : 'full',
         component  : PositionReportLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : ROUTE_NAMES.POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:product/:callPut/:contractYear/:contractMonth',
+        path       : ROUTE_NAMES.POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:underlying/:liquidationGroup/:liquidationGroupSplit/:product/:callPut/:contractYear',
         pathMatch  : 'full',
         component  : PositionReportLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : ROUTE_NAMES.POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:product/:callPut/:contractYear/:contractMonth/:expiryDay',
+        path       : ROUTE_NAMES.POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:underlying/:liquidationGroup/:liquidationGroupSplit/:product/:callPut/:contractYear/:contractMonth',
         pathMatch  : 'full',
         component  : PositionReportLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : ROUTE_NAMES.POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:product/:callPut/:contractYear/:contractMonth/:expiryDay/:exercisePrice',
+        path       : ROUTE_NAMES.POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:underlying/:liquidationGroup/:liquidationGroupSplit/:product/:callPut/:contractYear/:contractMonth/:expiryDay',
         pathMatch  : 'full',
         component  : PositionReportLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : ROUTE_NAMES.POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:product/:callPut/:contractYear/:contractMonth/:expiryDay/:exercisePrice/:version',
+        path       : ROUTE_NAMES.POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:underlying/:liquidationGroup/:liquidationGroupSplit/:product/:callPut/:contractYear/:contractMonth/:expiryDay/:exercisePrice',
         pathMatch  : 'full',
         component  : PositionReportLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : ROUTE_NAMES.POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:product/:callPut/:contractYear/:contractMonth/:expiryDay/:exercisePrice/:version/:flexContractSymbol',
+        path       : ROUTE_NAMES.POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:underlying/:liquidationGroup/:liquidationGroupSplit/:product/:callPut/:contractYear/:contractMonth/:expiryDay/:exercisePrice/:version',
         pathMatch  : 'full',
         component  : PositionReportLatestComponent,
         canActivate: [AuthGuard]
     },
     {
-        path       : ROUTE_NAMES.POSITION_REPORTS_HISTORY + '/:clearer/:member/:account/:liquidationGroup/:liquidationGroupSplit/:product/:callPut/:contractYear/:contractMonth/:expiryDay/:exercisePrice/:version/:flexContractSymbol',
+        path       : ROUTE_NAMES.POSITION_REPORTS_LATEST + '/:clearer/:member/:account/:underlying/:liquidationGroup/:liquidationGroupSplit/:product/:callPut/:contractYear/:contractMonth/:expiryDay/:exercisePrice/:version/:flexContractSymbol',
+        pathMatch  : 'full',
+        component  : PositionReportLatestComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path       : ROUTE_NAMES.POSITION_REPORTS_HISTORY + '/:clearer/:member/:account/:underlying/:liquidationGroup/:liquidationGroupSplit/:product/:callPut/:contractYear/:contractMonth/:expiryDay/:exercisePrice/:version/:flexContractSymbol',
         pathMatch  : 'full',
         component  : PositionReportHistoryComponent,
         canActivate: [AuthGuard]

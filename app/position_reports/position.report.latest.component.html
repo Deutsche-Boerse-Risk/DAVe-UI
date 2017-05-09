@@ -31,7 +31,10 @@
         </column>
         <column title="Underlying">
             <ng-template let-record="row" cell-template>
-                {{record.underlying}}
+                <a md-button
+                   [routerLink]="[rootRoutePath, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', record.underlying || '*']">
+                    {{record.underlying}}
+                </a>
             </ng-template>
         </column>
         <column title="Product ID"
@@ -40,7 +43,7 @@
                 [sortingKey]="valueGetters.product">
             <ng-template let-record="row" cell-template>
                 <a md-button
-                   [routerLink]="[rootRoutePath, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', record.liquidationGroup || '*',record.liquidationGroupSplit || '*', record.product || '*']">
+                   [routerLink]="[rootRoutePath, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', record.underlying || '*', record.liquidationGroup || '*',record.liquidationGroupSplit || '*', record.product || '*']">
                     {{record.product}}
                 </a>
             </ng-template>
@@ -51,7 +54,7 @@
                 [sortingKey]="valueGetters.callPut">
             <ng-template let-record="row" cell-template>
                 <a md-button
-                   [routerLink]="[rootRoutePath, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', record.liquidationGroup || '*',record.liquidationGroupSplit || '*', record.product || '*', record.callPut || '*']">
+                   [routerLink]="[rootRoutePath, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', record.underlying || '*', record.liquidationGroup || '*',record.liquidationGroupSplit || '*', record.product || '*', record.callPut || '*']">
                     {{record.callPut}}
                 </a>
             </ng-template>
@@ -61,7 +64,7 @@
                 [sortingKey]="valueGetters.contractDate">
             <ng-template let-record="row" cell-template>
                 <a md-button
-                   [routerLink]="[rootRoutePath, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', record.liquidationGroup || '*',record.liquidationGroupSplit || '*', record.product || '*', record.callPut || '*', record.contractYear + '' || '*', record.contractMonth + '' || '*', record.expiryDay + '' || '*']">
+                   [routerLink]="[rootRoutePath, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', record.underlying || '*', record.liquidationGroup || '*',record.liquidationGroupSplit || '*', record.product || '*', record.callPut || '*', record.contractYear + '' || '*', record.contractMonth + '' || '*', record.expiryDay + '' || '*']">
                     {{record.contractDate | date:'MM/yyyy'}}
                 </a>
             </ng-template>
@@ -72,7 +75,7 @@
                 [sortingKey]="valueGetters.exercisePrice">
             <ng-template let-record="row" cell-template>
                 <a md-button
-                   [routerLink]="[rootRoutePath, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', record.liquidationGroup || '*',record.liquidationGroupSplit || '*', record.product || '*', record.callPut || '*', record.contractYear + '' || '*', record.contractMonth + '' || '*', record.expiryDay + '' || '*', record.exercisePrice + '' || '*']">
+                   [routerLink]="[rootRoutePath, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', record.underlying || '*', record.liquidationGroup || '*',record.liquidationGroupSplit || '*', record.product || '*', record.callPut || '*', record.contractYear + '' || '*', record.contractMonth + '' || '*', record.expiryDay + '' || '*', record.exercisePrice + '' || '*']">
                     {{record.exercisePrice | number:'.2-2'}}
                 </a>
             </ng-template>
@@ -83,7 +86,7 @@
                 [sortingKey]="valueGetters.version">
             <ng-template let-record="row" cell-template>
                 <a md-button
-                   [routerLink]="[rootRoutePath, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', record.liquidationGroup || '*',record.liquidationGroupSplit || '*', record.product || '*', record.callPut || '*', record.contractYear + '' || '*', record.contractMonth + '' || '*', record.expiryDay + '' || '*', record.exercisePrice + '' || '*', record.version || '*']">
+                   [routerLink]="[rootRoutePath, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', record.underlying || '*', record.liquidationGroup || '*',record.liquidationGroupSplit || '*', record.product || '*', record.callPut || '*', record.contractYear + '' || '*', record.contractMonth + '' || '*', record.expiryDay + '' || '*', record.exercisePrice + '' || '*', record.version || '*']">
                     {{record.version}}
                 </a>
             </ng-template>
@@ -127,7 +130,7 @@
             <ng-template let-record="row" let-expanded="expanded" cell-template>
                 <row-detail-expander [expanded]="expanded"></row-detail-expander>
                 <detail-row-button
-                        [routerLink]="[routerRoots.POSITION_REPORTS_HISTORY, record.clearer || '*', record.member || '*', record.account || '*', record.liquidationGroup || '*', record.liquidationGroupSplit || '*', record.product || '*', record.callPut || '*', record.contractYear + '' || '*', record.contractMonth + '' || '*', record.expiryDay + '' || '*', record.exercisePrice + '' || '*', record.version || '*', record.flexContractSymbol || '*']"></detail-row-button>
+                        [routerLink]="[routerRoots.POSITION_REPORTS_HISTORY, record.clearer || '*', record.member || '*', record.account || '*', record.underlying || '*', record.liquidationGroup || '*', record.liquidationGroupSplit || '*', record.product || '*', record.callPut || '*', record.contractYear + '' || '*', record.contractMonth + '' || '*', record.expiryDay + '' || '*', record.exercisePrice + '' || '*', record.version || '*', record.flexContractSymbol || '*']"></detail-row-button>
             </ng-template>
         </column>
         <!-- Sub detail -->
@@ -137,7 +140,7 @@
                         headerAlign="center">
                     <ng-template let-record="row" cell-template>
                         <a md-button
-                           [routerLink]="[rootRoutePath, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['record.account'] || '*', record.liquidationGroup || '*']">
+                           [routerLink]="[rootRoutePath, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['record.account'] || '*', record.underlying || '*', record.liquidationGroup || '*']">
                             {{record.liquidationGroup}}
                         </a>
                     </ng-template>
@@ -146,7 +149,7 @@
                         headerAlign="center">
                     <ng-template let-record="row" cell-template>
                         <a md-button
-                           [routerLink]="[rootRoutePath, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['record.account'] || '*', record.liquidationGroup || '*', record.liquidationGroupSplit || '*']">
+                           [routerLink]="[rootRoutePath, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['record.account'] || '*', record.underlying || '*', record.liquidationGroup || '*', record.liquidationGroupSplit || '*']">
                             {{record.liquidationGroupSplit}}
                         </a>
                     </ng-template>
@@ -155,7 +158,7 @@
                         headerAlign="center">
                     <ng-template let-record="row" cell-template>
                         <a md-button
-                           [routerLink]="[rootRoutePath, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['record.account'] || '*', record.liquidationGroup || '*', record.liquidationGroupSplit || '*' || '*', record.product || '*', record.callPut || '*', record.contractYear || '*', record.contractMonth || '*', record.expiryDay || '*', record.exercisePrice + '' || '*', record.version || '*', record.flexContractSymbol || '*']">
+                           [routerLink]="[rootRoutePath, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['record.account'] || '*', record.underlying || '*', record.liquidationGroup || '*', record.liquidationGroupSplit || '*' || '*', record.product || '*', record.callPut || '*', record.contractYear || '*', record.contractMonth || '*', record.expiryDay || '*', record.exercisePrice + '' || '*', record.version || '*', record.flexContractSymbol || '*']">
                             {{record.flexContractSymbol}}
                         </a>
                     </ng-template>

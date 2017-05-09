@@ -318,10 +318,10 @@ xdescribe('Position reports latest component', () => {
 
                 routeParams.push('D');
                 activatedRoute.testParams = {
-                    clearer         : routeParams[0],
-                    member          : routeParams[1],
-                    account         : routeParams[2],
-                    liquidationGroup: routeParams[3]
+                    clearer   : routeParams[0],
+                    member    : routeParams[1],
+                    account   : routeParams[2],
+                    underlying: routeParams[3]
                 };
                 page.detectChanges();
 
@@ -331,11 +331,11 @@ xdescribe('Position reports latest component', () => {
 
                 routeParams.push('E');
                 activatedRoute.testParams = {
-                    clearer              : routeParams[0],
-                    member               : routeParams[1],
-                    account              : routeParams[2],
-                    liquidationGroup     : routeParams[3],
-                    liquidationGroupSplit: routeParams[4]
+                    clearer         : routeParams[0],
+                    member          : routeParams[1],
+                    account         : routeParams[2],
+                    underlying      : routeParams[3],
+                    liquidationGroup: routeParams[4]
                 };
                 page.detectChanges();
 
@@ -348,9 +348,9 @@ xdescribe('Position reports latest component', () => {
                     clearer              : routeParams[0],
                     member               : routeParams[1],
                     account              : routeParams[2],
-                    liquidationGroup     : routeParams[3],
-                    liquidationGroupSplit: routeParams[4],
-                    product              : routeParams[5]
+                    underlying           : routeParams[3],
+                    liquidationGroup     : routeParams[4],
+                    liquidationGroupSplit: routeParams[5]
                 };
                 page.detectChanges();
 
@@ -363,10 +363,10 @@ xdescribe('Position reports latest component', () => {
                     clearer              : routeParams[0],
                     member               : routeParams[1],
                     account              : routeParams[2],
-                    liquidationGroup     : routeParams[3],
-                    liquidationGroupSplit: routeParams[4],
-                    product              : routeParams[5],
-                    callPut              : routeParams[6]
+                    underlying           : routeParams[3],
+                    liquidationGroup     : routeParams[4],
+                    liquidationGroupSplit: routeParams[5],
+                    product              : routeParams[6]
                 };
                 page.detectChanges();
 
@@ -379,11 +379,11 @@ xdescribe('Position reports latest component', () => {
                     clearer              : routeParams[0],
                     member               : routeParams[1],
                     account              : routeParams[2],
-                    liquidationGroup     : routeParams[3],
-                    liquidationGroupSplit: routeParams[4],
-                    product              : routeParams[5],
-                    callPut              : routeParams[6],
-                    contractYear         : routeParams[7]
+                    underlying           : routeParams[3],
+                    liquidationGroup     : routeParams[4],
+                    liquidationGroupSplit: routeParams[5],
+                    product              : routeParams[6],
+                    callPut              : routeParams[7]
                 };
                 page.detectChanges();
 
@@ -396,12 +396,12 @@ xdescribe('Position reports latest component', () => {
                     clearer              : routeParams[0],
                     member               : routeParams[1],
                     account              : routeParams[2],
-                    liquidationGroup     : routeParams[3],
-                    liquidationGroupSplit: routeParams[4],
-                    product              : routeParams[5],
-                    callPut              : routeParams[6],
-                    contractYear         : routeParams[7],
-                    contractMonth        : routeParams[8]
+                    underlying           : routeParams[3],
+                    liquidationGroup     : routeParams[4],
+                    liquidationGroupSplit: routeParams[5],
+                    product              : routeParams[6],
+                    callPut              : routeParams[7],
+                    contractYear         : routeParams[8]
                 };
                 page.detectChanges();
 
@@ -414,13 +414,13 @@ xdescribe('Position reports latest component', () => {
                     clearer              : routeParams[0],
                     member               : routeParams[1],
                     account              : routeParams[2],
-                    liquidationGroup     : routeParams[3],
-                    liquidationGroupSplit: routeParams[4],
-                    product              : routeParams[5],
-                    callPut              : routeParams[6],
-                    contractYear         : routeParams[7],
-                    contractMonth        : routeParams[8],
-                    expiryDay            : routeParams[9]
+                    underlying           : routeParams[3],
+                    liquidationGroup     : routeParams[4],
+                    liquidationGroupSplit: routeParams[5],
+                    product              : routeParams[6],
+                    callPut              : routeParams[7],
+                    contractYear         : routeParams[8],
+                    contractMonth        : routeParams[9]
                 };
                 page.detectChanges();
 
@@ -433,14 +433,14 @@ xdescribe('Position reports latest component', () => {
                     clearer              : routeParams[0],
                     member               : routeParams[1],
                     account              : routeParams[2],
-                    liquidationGroup     : routeParams[3],
-                    liquidationGroupSplit: routeParams[4],
-                    product              : routeParams[5],
-                    callPut              : routeParams[6],
-                    contractYear         : routeParams[7],
-                    contractMonth        : routeParams[8],
-                    expiryDay            : routeParams[9],
-                    exercisePrice        : routeParams[10]
+                    underlying           : routeParams[3],
+                    liquidationGroup     : routeParams[4],
+                    liquidationGroupSplit: routeParams[5],
+                    product              : routeParams[6],
+                    callPut              : routeParams[7],
+                    contractYear         : routeParams[8],
+                    contractMonth        : routeParams[9],
+                    expiryDay            : routeParams[10]
                 };
                 page.detectChanges();
 
@@ -453,15 +453,15 @@ xdescribe('Position reports latest component', () => {
                     clearer              : routeParams[0],
                     member               : routeParams[1],
                     account              : routeParams[2],
-                    liquidationGroup     : routeParams[3],
-                    liquidationGroupSplit: routeParams[4],
-                    product              : routeParams[5],
-                    callPut              : routeParams[6],
-                    contractYear         : routeParams[7],
-                    contractMonth        : routeParams[8],
-                    expiryDay            : routeParams[9],
-                    exercisePrice        : routeParams[10],
-                    version              : routeParams[11]
+                    underlying           : routeParams[3],
+                    liquidationGroup     : routeParams[4],
+                    liquidationGroupSplit: routeParams[5],
+                    product              : routeParams[6],
+                    callPut              : routeParams[7],
+                    contractYear         : routeParams[8],
+                    contractMonth        : routeParams[9],
+                    expiryDay            : routeParams[10],
+                    exercisePrice        : routeParams[11]
                 };
                 page.detectChanges();
 
@@ -474,16 +474,39 @@ xdescribe('Position reports latest component', () => {
                     clearer              : routeParams[0],
                     member               : routeParams[1],
                     account              : routeParams[2],
-                    liquidationGroup     : routeParams[3],
-                    liquidationGroupSplit: routeParams[4],
-                    product              : routeParams[5],
-                    callPut              : routeParams[6],
-                    contractYear         : routeParams[7],
-                    contractMonth        : routeParams[8],
-                    expiryDay            : routeParams[9],
-                    exercisePrice        : routeParams[10],
-                    version              : routeParams[11],
-                    flexContractSymbol   : routeParams[12]
+                    underlying           : routeParams[3],
+                    liquidationGroup     : routeParams[4],
+                    liquidationGroupSplit: routeParams[5],
+                    product              : routeParams[6],
+                    callPut              : routeParams[7],
+                    contractYear         : routeParams[8],
+                    contractMonth        : routeParams[9],
+                    expiryDay            : routeParams[10],
+                    exercisePrice        : routeParams[11],
+                    version              : routeParams[12]
+                };
+                page.detectChanges();
+
+                page.checkBreadCrumbs(routeParams,
+                    ROUTES.POSITION_REPORTS_LATEST,
+                    'Latest Position Reports');
+
+                routeParams.push('N');
+                activatedRoute.testParams = {
+                    clearer              : routeParams[0],
+                    member               : routeParams[1],
+                    account              : routeParams[2],
+                    underlying           : routeParams[3],
+                    liquidationGroup     : routeParams[4],
+                    liquidationGroupSplit: routeParams[5],
+                    product              : routeParams[6],
+                    callPut              : routeParams[7],
+                    contractYear         : routeParams[8],
+                    contractMonth        : routeParams[9],
+                    expiryDay            : routeParams[10],
+                    exercisePrice        : routeParams[11],
+                    version              : routeParams[12],
+                    flexContractSymbol   : routeParams[13]
                 };
                 page.detectChanges();
 

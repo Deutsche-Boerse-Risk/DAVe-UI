@@ -11,8 +11,20 @@ import {ExportColumn} from '../list/download.menu.component';
 import {OrderingCriteria, OrderingValueGetter} from '../datatable/data.table.column.directive';
 
 export const routingKeys: (keyof PositionReportsParams)[] = [
-    'clearer', 'member', 'account', 'liquidationGroup', 'liquidationGroupSplit', 'product', 'callPut', 'contractYear',
-    'contractMonth', 'expiryDay', 'exercisePrice', 'version', 'flexContractSymbol'
+    'clearer',
+    'member',
+    'account',
+    'underlying',
+    'liquidationGroup',
+    'liquidationGroupSplit',
+    'product',
+    'callPut',
+    'contractYear',
+    'contractMonth',
+    'expiryDay',
+    'exercisePrice',
+    'version',
+    'flexContractSymbol'
 ];
 
 @Component({
@@ -32,6 +44,7 @@ export class PositionReportLatestComponent extends AbstractLatestListComponent<P
             clearer              : this.routeParams['clearer'],
             member               : this.routeParams['member'],
             account              : this.routeParams['account'],
+            underlying           : this.routeParams['underlying'],
             liquidationGroup     : this.routeParams['liquidationGroup'],
             liquidationGroupSplit: this.routeParams['liquidationGroupSplit'],
             product              : this.routeParams['product'],

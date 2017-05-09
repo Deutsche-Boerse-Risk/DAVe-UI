@@ -24,7 +24,7 @@ import {ROUTES} from '../routes/routing.paths';
 
 xdescribe('Position reports history component', () => {
     let page: HistoryListPage<PositionReportHistoryComponent>;
-    let testingParams = ['A', 'A', 'B', 'C', '*', 'P', '152', '*', '201211', 'D', 'F', 'G', 'H'];
+    let testingParams = ['A', 'A', 'B', 'C', 'C', '*', 'P', '152', '*', '201211', 'D', 'F', 'G', 'H'];
 
     beforeEach(async(() => {
         HistoryListPage.initTestBed(PositionReportHistoryComponent, PositionReportsService);
@@ -41,16 +41,17 @@ xdescribe('Position reports history component', () => {
                 clearer              : testingParams[0],
                 member               : testingParams[1],
                 account              : testingParams[2],
-                liquidationGroup     : testingParams[3],
-                liquidationGroupSplit: testingParams[4],
-                product              : testingParams[5],
-                callPut              : testingParams[6],
-                contractYear         : testingParams[7],
-                contractMonth        : testingParams[8],
-                expiryDay            : testingParams[9],
-                exercisePrice        : testingParams[10],
-                version              : testingParams[11],
-                flexContractSymbol   : testingParams[12]
+                underlying           : testingParams[3],
+                liquidationGroup     : testingParams[4],
+                liquidationGroupSplit: testingParams[5],
+                product              : testingParams[6],
+                callPut              : testingParams[7],
+                contractYear         : testingParams[8],
+                contractMonth        : testingParams[9],
+                expiryDay            : testingParams[10],
+                exercisePrice        : testingParams[11],
+                version              : testingParams[12],
+                flexContractSymbol   : testingParams[13]
             };
 
             // Create component
@@ -313,6 +314,7 @@ xdescribe('Position reports history component', () => {
                     'A',
                     'B',
                     'C',
+                    'C',
                     'D',
                     'P',
                     '152',
@@ -328,16 +330,17 @@ xdescribe('Position reports history component', () => {
                     clearer              : routeParams[0],
                     member               : routeParams[1],
                     account              : routeParams[2],
-                    liquidationGroup     : routeParams[3],
-                    liquidationGroupSplit: routeParams[4],
-                    product              : routeParams[5],
-                    callPut              : routeParams[6],
-                    contractYear         : routeParams[7],
-                    contractMonth        : routeParams[8],
-                    expiryDay            : routeParams[9],
-                    exercisePrice        : routeParams[10],
-                    version              : routeParams[11],
-                    flexContractSymbol   : routeParams[12]
+                    underlying           : routeParams[3],
+                    liquidationGroup     : routeParams[4],
+                    liquidationGroupSplit: routeParams[5],
+                    product              : routeParams[6],
+                    callPut              : routeParams[7],
+                    contractYear         : routeParams[8],
+                    contractMonth        : routeParams[9],
+                    expiryDay            : routeParams[10],
+                    exercisePrice        : routeParams[11],
+                    version              : routeParams[12],
+                    flexContractSymbol   : routeParams[13]
                 };
                 page.detectChanges();
 
