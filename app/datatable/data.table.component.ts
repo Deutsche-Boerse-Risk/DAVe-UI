@@ -181,25 +181,27 @@ export class DataTableComponent implements OnChanges {
             this.ordering = [];
         }
 
-        this._rows.sort((a: Row<any>, b: Row<any>) => {
-            let comp: number = 0;
-            this.ordering.some((sortingKey: OrderingCriteria<any>) => {
-                let direction = sortingKey.descending ? -1 : 1;
-                let first = sortingKey.get(a.rowData);
-                let second = sortingKey.get(b.rowData);
+        if (this.ordering.length > 0) {
+            this._rows.sort((a: Row<any>, b: Row<any>) => {
+                let comp: number = 0;
+                this.ordering.some((sortingKey: OrderingCriteria<any>) => {
+                    let direction = sortingKey.descending ? -1 : 1;
+                    let first = sortingKey.get(a.rowData);
+                    let second = sortingKey.get(b.rowData);
 
-                if (first < second) {
-                    comp = -1 * direction;
-                }
-                if (first > second) {
-                    comp = direction;
-                }
+                    if (first < second) {
+                        comp = -1 * direction;
+                    }
+                    if (first > second) {
+                        comp = direction;
+                    }
 
-                return comp !== 0;
+                    return comp !== 0;
 
+                });
+                return comp;
             });
-            return comp;
-        });
+        }
         this.updatePage(this.currentPage);
     }
 
