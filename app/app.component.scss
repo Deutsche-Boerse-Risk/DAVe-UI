@@ -1,12 +1,7 @@
-.logo {
-    width: 200px;
-
-    img {
-        opacity: .87;
-    }
-}
+@import "../global";
 
 .mat-toolbar {
+    border-bottom: 5px solid map_get($dbg-primary-palette, default);
     border-radius: 0 !important;
     position: fixed;
     z-index: 100;
@@ -25,17 +20,17 @@
 }
 
 .mat-sidenav-container {
-    padding-top: 64px;
+    padding-top: 69px;
 
     @media (max-width: 600px) {
-        padding-top: 56px;
+        padding-top: 61px;
     }
 }
 
 .mat-sidenav.mat-sidenav-opened:not(.mat-sidenav-side), .mat-sidenav.mat-sidenav-opening:not(.mat-sidenav-side) {
-    padding-top: 72px;
+    padding-top: 77px;
 
     @media (max-width: 600px) {
-        padding-top: 64px;
+        padding-top: 69px;
     }
 }
