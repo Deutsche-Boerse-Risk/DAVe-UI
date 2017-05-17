@@ -66,6 +66,10 @@ export class DataTableComponent implements OnChanges {
         this.sort();
     }
 
+    public get rows(): Row<any>[] {
+        return this._rows;
+    }
+
     public updatePage(page: number): void {
         if (!this._rows) {
             return;
@@ -122,7 +126,7 @@ export class DataTableComponent implements OnChanges {
         oldData = null;
     }
 
-    public get data(): any[] {
+    public get plainData(): any[] {
         if (!this._rows) {
             return null;
         }

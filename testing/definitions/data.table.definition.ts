@@ -23,7 +23,7 @@ export class DataTableDefinition {
     }
 
     public get data(): any[] {
-        return this.component.data;
+        return this.component.plainData;
     }
 
     public get element(): DebugElement {

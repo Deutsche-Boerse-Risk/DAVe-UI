@@ -1,4 +1,4 @@
-<ng-template [ngIf]="data?.length">
+<ng-template [ngIf]="rows?.length">
     <div class="tableWrapper">
         <table [class.striped]="striped">
             <thead *ngIf="headerTemplates" #mainHeader>
@@ -107,10 +107,10 @@
     </div>
 </ng-template>
 
-<ng-template [ngIf]="showFooter && data?.length">
-    <paging *ngIf="pageSize && data?.length / pageSize > 1" [pageSize]="pageSize"
-            [totalRecords]="data?.length"
+<ng-template [ngIf]="showFooter && rows?.length">
+    <paging *ngIf="pageSize && rows?.length / pageSize > 1" [pageSize]="pageSize"
+            [totalRecords]="rows?.length"
             (pageChanged)="updatePage($event)"></paging>
 
-    <span class="pageCount mat-elevation-z2">Showing {{pageRows?.length}} records out of {{data?.length}}</span>
+    <span class="pageCount mat-elevation-z2">Showing {{pageRows?.length}} records out of {{rows?.length}}</span>
 </ng-template>
