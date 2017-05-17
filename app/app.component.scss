@@ -1,5 +1,9 @@
 @import "../global";
 
+.logo {
+    width: 162px;
+}
+
 .mat-toolbar {
     border-bottom: 5px solid map_get($dbg-primary-palette, default);
     border-radius: 0 !important;
