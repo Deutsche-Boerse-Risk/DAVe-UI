@@ -2,6 +2,16 @@
 
 @include dbgFontDefinition;
 
+html {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+}
+
 *:not(.mat-icon) {
     // Force our font for all components, exept icons.
     font-family: $dbg-font-family !important;
