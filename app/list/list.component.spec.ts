@@ -42,7 +42,7 @@ class TestComponent {
     }
 }
 
-describe('ListComponent', () => {
+xdescribe('ListComponent', () => {
 
     let page: ListPage<TestComponent>;
 
