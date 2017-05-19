@@ -1,3 +1,4 @@
+import {Component} from '@angular/core';
 import {TestBed, async, fakeAsync} from '@angular/core/testing';
 
 import {NoopAnimationsMaterialModule} from '../material/material.module';
@@ -5,6 +6,14 @@ import {NoopAnimationsMaterialModule} from '../material/material.module';
 import {MessagePage, MessageHostedPage, TestMessageHostComponent} from '../../testing';
 
 import {MessageComponent} from './message.component';
+import {SpinnerComponent} from './spinner.component';
+
+@Component({
+    selector: 'spinner',
+    template: ''
+})
+export class SpinnerStubComponent extends SpinnerComponent {
+}
 
 describe('MessageComponent', () => {
 
@@ -13,7 +22,10 @@ describe('MessageComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports     : [NoopAnimationsMaterialModule],
-            declarations: [MessageComponent]
+            declarations: [
+                MessageComponent,
+                SpinnerStubComponent
+            ]
         }).compileComponents();
     }));
 
@@ -37,7 +49,11 @@ describe('MessageComponent hosted', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports     : [NoopAnimationsMaterialModule],
-            declarations: [MessageComponent, TestMessageHostComponent]
+            declarations: [
+                MessageComponent,
+                SpinnerStubComponent,
+                TestMessageHostComponent
+            ]
         }).compileComponents();
     }));
 
