@@ -17,13 +17,19 @@ const COMPONENT_SELECTOR = ERROR_SELECTOR + ', ' + GOOD_SELECTOR + ', ' + INFO_S
     selector : COMPONENT_SELECTOR,
     template : `
         <md-card [ngClass]="color">
-            <ng-template [ngIf]="initialLoad">Loading...</ng-template>
+            <ng-template [ngIf]="initialLoad">
+                <spinner viewportSize="50px"></spinner>
+                Loading...
+            </ng-template>
             <ng-template [ngIf]="noData">No data available.</ng-template>
             <ng-template [ngIf]="updateError">Failed to update the data: {{message}}.</ng-template>
             <ng-template [ngIf]="!initialLoad && !noData && !updateError">{{message}}</ng-template>
             <ng-content></ng-content>
         </md-card>`,
-    styleUrls: ['../component.css']
+    styleUrls: [
+        '../component.css',
+        'message.component.css'
+    ]
 })
 export class MessageComponent {
 

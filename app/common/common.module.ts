@@ -5,6 +5,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {MaterialModule} from '../material/material.module';
 
 import {MessageComponent} from './message.component';
+import {SpinnerComponent} from './spinner.component';
 import {RemoveDialogComponent} from './remove.dialog.component';
 
 import {PercentPipe} from './percent.pipe';
@@ -28,11 +29,13 @@ export class DateFormatter {
     ],
     declarations   : [
         MessageComponent,
+        SpinnerComponent,
         RemoveDialogComponent,
         PercentPipe
     ],
     exports        : [
         MessageComponent,
+        SpinnerComponent,
         RemoveDialogComponent,
         PercentPipe
     ],

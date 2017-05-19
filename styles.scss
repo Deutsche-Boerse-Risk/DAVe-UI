@@ -54,14 +54,14 @@ hr {
 @include mat-card-theme($dbg-theme);
 //@include mat-checkbox-theme($dbg-theme);
 @include mat-chips-theme($dbg-theme);
-//@include mat-dialog-theme($dbg-theme);
+@include mat-dialog-theme($dbg-theme);
 //@include mat-grid-list-theme($dbg-theme);
 @include mat-icon-theme($dbg-theme);
 @include mat-input-theme($dbg-theme);
 //@include mat-list-theme($dbg-theme);
 @include mat-menu-theme($dbg-theme);
 //@include mat-progress-bar-theme($dbg-theme);
-//@include mat-progress-spinner-theme($dbg-theme);
+@include mat-progress-spinner-theme($dbg-theme);
 //@include mat-radio-theme($dbg-theme);
 @include mat-select-theme($dbg-theme);
 @include mat-sidenav-theme($dbg-theme);
@@ -131,10 +131,6 @@ $theme: mat-light-theme($grey-palette, $grey-palette, $grey-palette);
     &.mat-primary .mat-button-focus-overlay {
         background-color: rgba(mat-color($dbg-primary-palette, default-contrast), 0.30);
     }
-}
-
-.mat-dialog-container {
-    background-color: map_get($mat-grey, 50);
 }
 
 //IE 11 Performance fixes
