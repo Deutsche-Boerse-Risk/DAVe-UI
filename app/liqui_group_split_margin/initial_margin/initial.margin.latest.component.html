@@ -80,7 +80,7 @@
         <column>
             <ng-template let-record="row" cell-template>
                 <drilldown-row-button
-                        [routerLink]="[routerRoots.POSITION_REPORTS_LATEST, record.clearer || '*', record.member || '*', record.account || '*', record.liquidationGroup || '*', record.liquidationGroupSplit || '*']">
+                        [routerLink]="[routerRoots.POSITION_REPORTS_LATEST, record.clearer || '*', record.member || '*', record.account || '*', '*', record.liquidationGroup || '*', record.liquidationGroupSplit || '*']">
                     ]">
                 </drilldown-row-button>
                 <detail-row-button
