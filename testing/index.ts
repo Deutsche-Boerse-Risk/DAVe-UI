@@ -1,30 +1,8 @@
-import {Type} from '@angular/core';
-
-import {TestBed} from '@angular/core/testing';
-
-import {MaterialModule, NoopAnimationsMaterialModule} from '../app/material/material.module';
-
-import {OrderingValueGetter} from '../app/datatable/data.table.column.directive';
-
-import {DataTableDefinition, SortingHandle} from './definitions/data.table.definition';
-
-export * from './definitions/app.component.page';
 export * from './definitions/bread.crumbs.page';
 export * from './definitions/bubble.chart.page';
-export * from './definitions/chart.page';
 export * from './definitions/dashboard.page';
-export * from './definitions/download.menu.page';
-export * from './definitions/data.table.definition';
-export * from './definitions/highlighter.directive.page';
-export * from './definitions/link.definition';
-export * from './definitions/link.only.page';
 export * from './definitions/liqui.group.margin.aggregation.page';
 export * from './definitions/list.page';
-export * from './definitions/login.menu.page';
-export * from './definitions/login.page';
-export * from './definitions/menu.page';
-export * from './definitions/message.page';
-export * from './definitions/page.base';
 export * from './definitions/pool.margin.summary.page';
 export * from './definitions/treemap.page';
 
@@ -34,51 +12,3 @@ export * from './mock/liqui.group.split.margin.generator';
 export * from './mock/pool.margin.generator';
 export * from './mock/position.reports.generator';
 export * from './mock/risk.limit.utilization.generator';
-
-export * from './stubs/auth.service.stub';
-export * from './stubs/google.chart.component.stub';
-export * from './stubs/http.service.stub';
-
-export * from './stubs/router/activated.route.stub';
-export * from './stubs/router/router.link.stub';
-export * from './stubs/router/router.stub';
-export * from './stubs/router/router.module.stub';
-
-export {windowResize} from './events';
-
-export function chceckSorting(page: { detectChanges: () => void, dataTable: DataTableDefinition },
-    criteria: OrderingValueGetter<any>[]) {
-    page.dataTable.sorting.checkSorting(150);
-
-    page.dataTable.sorting.handles.forEach((handle: SortingHandle, index: number) => {
-        // Tigger sort based on a handle
-        handle.click();
-        page.detectChanges();
-
-        // Check the sorting
-        page.dataTable.sorting.checkSorting(150, {
-            get: criteria[index]
-        });
-
-        // Tigger sort based on a handle
-        handle.click();
-        page.detectChanges();
-
-        // Check the sorting
-        page.dataTable.sorting.checkSorting(150, {
-            get       : criteria[index],
-            descending: true
-        });
-    });
-}
-
-export function disableMaterialAnimations(ngModule: Type<any>) {
-    TestBed.overrideModule(ngModule, {
-        remove: {
-            imports: [MaterialModule]
-        },
-        add   : {
-            imports: [NoopAnimationsMaterialModule]
-        }
-    });
-}

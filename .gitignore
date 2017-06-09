@@ -8,6 +8,7 @@ npm-debug.log
 
 # App files
 node_modules/
+/package-lock.json
 *.css
 *.js
 *.js.map
@@ -27,6 +28,7 @@ dist/
 ngFactories/
 reports/
 coverage/
+*.tgz
 
 # BrowserStack tunel binaries
 browserStackBin/

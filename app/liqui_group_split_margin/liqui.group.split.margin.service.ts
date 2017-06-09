@@ -1,9 +1,7 @@
 import {Injectable} from '@angular/core';
 
-import {HttpService} from '../http.service';
+import {DateUtils, HttpService, UIDUtils} from '@dbg-riskit/DAVe-common';
 import {Observable} from 'rxjs/Observable';
-import {UIDUtils} from '../uid.utils';
-import {parseServerDate} from '../date.utils';
 
 import {
     LiquiGroupSplitMarginServerData,
@@ -40,11 +38,12 @@ export class LiquiGroupSplitMarginService {
 
     private static processLiquiGroupSplitMarginData(record: LiquiGroupSplitMarginServerData): LiquiGroupSplitMarginData {
         return {
-            uid             : UIDUtils.computeUID(record.clearer, record.member, record.account, record.liquidationGroup,
+            uid             : UIDUtils.computeUID(record.clearer, record.member, record.account,
+                record.liquidationGroup,
                 record.liquidationGroupSplit, record.marginCurrency, record.snapshotID),
             ...record,
             additionalMargin: (record.marketRisk || 0) + (record.liquRisk || 0) + (record.longOptionCredit || 0),
-            received        : parseServerDate(record.timestamp)
+            received        : DateUtils.utcTimestampToDate(record.timestamp)
         };
     }
 }

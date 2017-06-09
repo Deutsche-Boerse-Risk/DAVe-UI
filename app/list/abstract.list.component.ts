@@ -1,13 +1,11 @@
 import {OnInit} from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
 
+import {CSVExportColumn, OrderingCriteria, Row, ValueGetter} from '@dbg-riskit/DAVe-common';
+
 import {AbstractComponentWithAutoRefresh} from '../abstract.component';
 
-import {Row} from '../datatable/data.table.component';
-
 import {RoutePart} from './bread.crumbs.component';
-import {ExportColumn} from './download.menu.component';
-import {OrderingCriteria, OrderingValueGetter} from '../datatable/data.table.column.directive';
 
 export abstract class AbstractListComponent<T extends { uid: string }> extends AbstractComponentWithAutoRefresh
     implements OnInit {
@@ -34,9 +32,9 @@ export abstract class AbstractListComponent<T extends { uid: string }> extends A
         super.ngOnInit();
     }
 
-    public abstract get defaultOrdering(): (OrderingCriteria<T> | OrderingValueGetter<T>)[];
+    public abstract get defaultOrdering(): (OrderingCriteria<T> | ValueGetter<T>)[];
 
-    public abstract get exportKeys(): ExportColumn<T>[];
+    public abstract get exportKeys(): CSVExportColumn<T>[];
 
     protected abstract get routingKeys(): string[];
 

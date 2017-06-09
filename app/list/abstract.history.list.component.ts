@@ -1,10 +1,9 @@
 import {DecimalPipe} from '@angular/common';
 import {ActivatedRoute} from '@angular/router';
 
-import {DateFormatter} from '../common/common.module';
-import {AbstractListComponent} from './abstract.list.component';
+import {ChartColumn, ChartData, DateFormatter, LineChartOptions} from '@dbg-riskit/DAVe-common';
 
-import {ChartData, ChartColumn, LineChartOptions} from '../charts/chart.types';
+import {AbstractListComponent} from './abstract.list.component';
 
 import {RoutePart} from './bread.crumbs.component';
 

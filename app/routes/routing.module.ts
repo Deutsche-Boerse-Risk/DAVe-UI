@@ -1,10 +1,15 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Route, Router} from '@angular/router';
 
-import {AuthGuard} from '../auth/auth.routing.guard';
-import {AuthService} from '../auth/auth.service';
-import {LoginComponent} from '../auth/login.component';
-import {AuthModule} from '../auth/auth.module';
+import {
+    AuthGuard,
+    AuthModule,
+    AuthService,
+    LOGIN_ROUTE,
+    LoginModule,
+    LoginComponent,
+    MAIN_ROUTE
+} from '@dbg-riskit/DAVe-common';
 
 import {DashboardModule} from '../dashboard/dashboard.module';
 import {DashboardComponent} from '../dashboard/dashboard.component';
@@ -430,9 +435,10 @@ const ROUTER_DEFINITION: Route[] = [
 ];
 
 @NgModule({
-    imports: [
+    imports  : [
         RouterModule.forRoot(ROUTER_DEFINITION),
         AuthModule,
+        LoginModule,
         DashboardModule,
         PositionReportsModule,
         AccountMarginModule,
@@ -441,7 +447,17 @@ const ROUTER_DEFINITION: Route[] = [
         LiquiGroupSplitMarginModule,
         RiskLimitUtilizationModule
     ],
-    exports: [RouterModule]
+    exports  : [RouterModule],
+    providers: [
+        {
+            provide : MAIN_ROUTE,
+            useValue: ROUTES.DASHBOARD_MARGIN_REQUIREMENT_OVERVIEW
+        },
+        {
+            provide : LOGIN_ROUTE,
+            useValue: ROUTES.LOGIN
+        }
+    ]
 })
 export class RoutingModule {
 

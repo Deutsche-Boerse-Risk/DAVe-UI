@@ -2,22 +2,26 @@ import {DecimalPipe} from '@angular/common';
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {ErrorResponse} from '../http.service';
+import {
+    COMPONENT_CSS,
+    CSVExportColumn,
+    DateFormatter,
+    ErrorResponse,
+    OrderingCriteria,
+    ValueGetter
+} from '@dbg-riskit/DAVe-common';
 
 import {PoolMarginService} from './pool.margin.service';
 import {PoolMarginData} from './pool.margin.types';
 
-import {DateFormatter} from '../common/common.module';
 import {AbstractHistoryListComponent, LineChartColumn} from '../list/abstract.history.list.component';
-import {ExportColumn} from '../list/download.menu.component';
-import {OrderingCriteria, OrderingValueGetter} from '../datatable/data.table.column.directive';
 
 import {exportKeys, routingKeys, valueGetters} from './pool.margin.latest.component';
 
 @Component({
     moduleId   : module.id,
     templateUrl: 'pool.margin.history.component.html',
-    styleUrls  : ['../component.css']
+    styleUrls  : ['../../' + COMPONENT_CSS]
 })
 export class PoolMarginHistoryComponent extends AbstractHistoryListComponent<PoolMarginData> {
 
@@ -90,11 +94,11 @@ export class PoolMarginHistoryComponent extends AbstractHistoryListComponent<Poo
         ];
     }
 
-    public get defaultOrdering(): (OrderingCriteria<PoolMarginData> | OrderingValueGetter<PoolMarginData>)[] {
+    public get defaultOrdering(): (OrderingCriteria<PoolMarginData> | ValueGetter<PoolMarginData>)[] {
         return defaultOrdering;
     }
 
-    public get exportKeys(): ExportColumn<PoolMarginData>[] {
+    public get exportKeys(): CSVExportColumn<PoolMarginData>[] {
         return exportKeys;
     }
 
@@ -119,7 +123,7 @@ export class PoolMarginHistoryComponent extends AbstractHistoryListComponent<Poo
 
 const defaultOrdering: (
     OrderingCriteria<PoolMarginData>
-    | OrderingValueGetter<PoolMarginData>)[] = [
+    | ValueGetter<PoolMarginData>)[] = [
     {
         get       : valueGetters.received,
         descending: true

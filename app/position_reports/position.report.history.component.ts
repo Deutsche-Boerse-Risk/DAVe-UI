@@ -2,22 +2,26 @@ import {DecimalPipe} from '@angular/common';
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {ErrorResponse} from '../http.service';
+import {
+    COMPONENT_CSS,
+    CSVExportColumn,
+    DateFormatter,
+    ErrorResponse,
+    OrderingCriteria,
+    ValueGetter
+} from '@dbg-riskit/DAVe-common';
 
 import {PositionReportData} from './position.report.types';
 import {PositionReportsService} from './position.reports.service';
 
-import {DateFormatter} from '../common/common.module';
 import {AbstractHistoryListComponent, LineChartColumn} from '../list/abstract.history.list.component';
-import {ExportColumn} from '../list/download.menu.component';
-import {OrderingCriteria, OrderingValueGetter} from '../datatable/data.table.column.directive';
 
 import {exportKeys, routingKeys, valueGetters} from './position.report.latest.component';
 
 @Component({
     moduleId   : module.id,
     templateUrl: 'position.report.history.component.html',
-    styleUrls  : ['../component.css']
+    styleUrls  : ['../../' + COMPONENT_CSS]
 })
 export class PositionReportHistoryComponent extends AbstractHistoryListComponent<PositionReportData> {
 
@@ -96,11 +100,11 @@ export class PositionReportHistoryComponent extends AbstractHistoryListComponent
         ];
     }
 
-    public get defaultOrdering(): (OrderingCriteria<PositionReportData> | OrderingValueGetter<PositionReportData>)[] {
+    public get defaultOrdering(): (OrderingCriteria<PositionReportData> | ValueGetter<PositionReportData>)[] {
         return defaultOrdering;
     }
 
-    public get exportKeys(): ExportColumn<PositionReportData>[] {
+    public get exportKeys(): CSVExportColumn<PositionReportData>[] {
         return exportKeys;
     }
 
@@ -123,7 +127,7 @@ export class PositionReportHistoryComponent extends AbstractHistoryListComponent
 
 //<editor-fold defaultstate="collapsed" desc="Value getters, default ordering, exported columns">
 
-const defaultOrdering: (OrderingCriteria<PositionReportData> | OrderingValueGetter<PositionReportData>)[] = [
+const defaultOrdering: (OrderingCriteria<PositionReportData> | ValueGetter<PositionReportData>)[] = [
     {
         get       : valueGetters.received,
         descending: true

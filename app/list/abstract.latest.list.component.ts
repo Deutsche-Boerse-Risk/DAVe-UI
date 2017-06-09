@@ -1,5 +1,6 @@
+import {CSVExportColumn} from '@dbg-riskit/DAVe-common';
+
 import {AbstractListComponent} from './abstract.list.component';
-import {ExportColumn} from './download.menu.component';
 
 export abstract class AbstractLatestListComponent<T extends { uid: string }> extends AbstractListComponent<T> {
 
@@ -59,7 +60,7 @@ export abstract class AbstractLatestListComponent<T extends { uid: string }> ext
     }
 
     private matchObject(item: any, search: string): boolean {
-        return this.exportKeys.some((key: ExportColumn<T>) => {
+        return this.exportKeys.some((key: CSVExportColumn<T>) => {
             let value = key.get(item);
             if (typeof value !== 'string') {
                 return false;

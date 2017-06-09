@@ -1,5 +1,7 @@
 import {Component, EventEmitter, Output, Input} from '@angular/core';
 
+import {COMPONENT_CSS} from '@dbg-riskit/DAVe-common';
+
 import {RoutePart} from './bread.crumbs.component';
 
 export const FILTER_TIMEOUT = 100;
@@ -9,7 +11,7 @@ export const FILTER_TIMEOUT = 100;
     selector   : 'list-content',
     templateUrl: 'list.component.html',
     styleUrls  : [
-        '../component.css',
+        '../../' + COMPONENT_CSS,
         'list.component.css'
     ]
 })

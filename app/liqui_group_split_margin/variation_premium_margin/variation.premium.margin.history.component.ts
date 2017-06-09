@@ -2,9 +2,9 @@ import {DecimalPipe} from '@angular/common';
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {DateFormatter} from '../../common/common.module';
+import {COMPONENT_CSS, CSVExportColumn, DateFormatter} from '@dbg-riskit/DAVe-common';
+
 import {LineChartColumn} from '../../list/abstract.history.list.component';
-import {ExportColumn} from '../../list/download.menu.component';
 
 import {AbstractLiquiGroupSplitMarginHistoryComponent} from '../abstract.liqui.group.split.margin.history.component';
 import {LiquiGroupSplitMarginService} from '../liqui.group.split.margin.service';
@@ -14,7 +14,7 @@ import {exportKeys, valueGetters} from './variation.premium.margin.latest.compon
 @Component({
     moduleId   : module.id,
     templateUrl: 'variation.premium.margin.history.component.html',
-    styleUrls  : ['../../component.css']
+    styleUrls  : ['../../../' + COMPONENT_CSS]
 })
 export class VariationPremiumMarginHistoryComponent extends AbstractLiquiGroupSplitMarginHistoryComponent {
 
@@ -42,7 +42,7 @@ export class VariationPremiumMarginHistoryComponent extends AbstractLiquiGroupSp
         ];
     }
 
-    public get exportKeys(): ExportColumn<LiquiGroupSplitMarginData>[] {
+    public get exportKeys(): CSVExportColumn<LiquiGroupSplitMarginData>[] {
         return exportKeys;
     }
 

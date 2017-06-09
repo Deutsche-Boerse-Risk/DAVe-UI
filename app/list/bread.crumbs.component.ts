@@ -1,6 +1,8 @@
 import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {Router} from '@angular/router';
 
+import {COMPONENT_CSS} from '@dbg-riskit/DAVe-common';
+
 export interface RoutePart {
     title: string;
     routePart: string;
@@ -13,7 +15,7 @@ export interface RoutePart {
     selector   : 'bread-crumbs',
     templateUrl: 'bread.crumbs.component.html',
     styleUrls  : [
-        '../component.css',
+        '../../' + COMPONENT_CSS,
         'bread.crumbs.component.css'
     ]
 })

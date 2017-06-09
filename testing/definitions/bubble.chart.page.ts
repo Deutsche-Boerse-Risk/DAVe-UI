@@ -3,13 +3,16 @@ import {By} from '@angular/platform-browser';
 
 import {ComponentFixture} from '@angular/core/testing';
 
-import {LinkOnlyPage} from './link.only.page';
-import {setNgModelSelectValue} from '../events';
-
-import {INITIAL_LOAD_SELECTOR, NO_DATA_SELECTOR, UPDATE_FAILED_SELECTOR} from '../../app/common/message.component';
+import {LinkOnlyPage} from '@dbg-riskit/DAVe-common/testing';
+import {setNgModelSelectValue} from '@dbg-riskit/DAVe-common/testing/events';
 
 import {PositionReportBubbleChartComponent} from '../../app/position_reports/position.report.bubblechart.component';
 import {PositionReportBubble} from '../../app/position_reports/position.report.types';
+import {
+    INITIAL_LOAD_SELECTOR,
+    NO_DATA_SELECTOR,
+    UPDATE_FAILED_SELECTOR
+} from '@dbg-riskit/DAVe-common/typings/view/message.component';
 
 export class BubbleChartPage extends LinkOnlyPage<PositionReportBubbleChartComponent> {
 

@@ -1,32 +1,16 @@
-<md-toolbar class="mat-elevation-z3">
-    <a md-button [routerLink]="routerRoots.ROOT" class="logo">
-        <img src="/img/eurex-clearing-logo.svg" height="30px">
-    </a>
+<main-layout>
 
-    <ng-template [ngIf]="authStatus">
-        <app-menu *ngIf="!mediaSmall"></app-menu>
+    <!--  menu-horizontal -->
+    <app-menu menu-horizontal></app-menu>
+    <span class="toolbar-spacer" menu-horizontal></span>
+    <login-menu menu-horizontal></login-menu>
+    <!--  menu-horizontal -->
 
-        <span class="toolbar-spacer"></span>
+    <!--  menu-vertical -->
+    <app-menu orientation="column" menu-vertical></app-menu>
+    <hr menu-vertical>
+    <login-menu orientation="column" menu-vertical></login-menu>
+    <!--  menu-vertical -->
 
-        <login-menu *ngIf="!mediaSmall"></login-menu>
-
-        <button md-icon-button (click)="sidenav.toggle()" *ngIf="mediaSmall">
-            <md-icon>menu</md-icon>
-        </button>
-    </ng-template>
-</md-toolbar>
-
-<md-sidenav-container>
-    <md-sidenav #sidenav (click)="authStatus? true : sidenav.close()">
-        <app-menu *ngIf="authStatus" orientation="column"></app-menu>
-
-        <hr>
-
-        <login-menu *ngIf="authStatus"
-                    orientation="column"></login-menu>
-    </md-sidenav>
-
-    <div class="content">
-        <router-outlet></router-outlet>
-    </div>
-</md-sidenav-container>
+    <router-outlet></router-outlet>
+</main-layout>

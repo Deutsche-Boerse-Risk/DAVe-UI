@@ -29,7 +29,10 @@ function initApp() {
 
             // Material Design components
             '@angular/material': 'npm:@angular/material/bundles/material.umd.js',
-            '@angular/flex-layout': 'npm:@angular/flex-layout/bundles/flex-layout.umd.js',
+            '@angular/flex-layout/index': 'npm:@angular/flex-layout/bundles/flex-layout.umd.js',
+
+            // DAVe-Common
+            '@dbg-riskit/DAVe-common': 'npm:@dbg-riskit/DAVe-common/bundles/DAVe-common.cjs.js',
 
             // other libraries
             'rxjs': 'npm:rxjs',

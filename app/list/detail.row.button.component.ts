@@ -1,5 +1,7 @@
 import {Component, Input} from '@angular/core';
 
+import {COMPONENT_CSS} from '@dbg-riskit/DAVe-common';
+
 @Component({
     moduleId : module.id,
     selector : 'detail-row-button',
@@ -9,7 +11,7 @@ import {Component, Input} from '@angular/core';
         </a>
     `,
     styleUrls: [
-        '../component.css',
+        '../../' + COMPONENT_CSS,
         'inline.button.css'
     ]
 })

@@ -1,14 +1,12 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {ErrorResponse} from '../http.service';
+import {COMPONENT_CSS, CSVExportColumn, ErrorResponse, OrderingCriteria, ValueGetter} from '@dbg-riskit/DAVe-common';
 
 import {PositionReportData, PositionReportsParams} from './position.report.types';
 import {PositionReportsService} from './position.reports.service';
 
 import {AbstractLatestListComponent} from '../list/abstract.latest.list.component';
-import {ExportColumn} from '../list/download.menu.component';
-import {OrderingCriteria, OrderingValueGetter} from '../datatable/data.table.column.directive';
 
 export const routingKeys: (keyof PositionReportsParams)[] = [
     'clearer',
@@ -30,7 +28,7 @@ export const routingKeys: (keyof PositionReportsParams)[] = [
 @Component({
     moduleId   : module.id,
     templateUrl: 'position.report.latest.component.html',
-    styleUrls  : ['../component.css']
+    styleUrls  : ['../../' + COMPONENT_CSS]
 })
 export class PositionReportLatestComponent extends AbstractLatestListComponent<PositionReportData> {
 
@@ -65,11 +63,11 @@ export class PositionReportLatestComponent extends AbstractLatestListComponent<P
             });
     }
 
-    public get defaultOrdering(): (OrderingCriteria<PositionReportData> | OrderingValueGetter<PositionReportData>)[] {
+    public get defaultOrdering(): (OrderingCriteria<PositionReportData> | ValueGetter<PositionReportData>)[] {
         return defaultOrdering;
     }
 
-    public get exportKeys(): ExportColumn<PositionReportData>[] {
+    public get exportKeys(): CSVExportColumn<PositionReportData>[] {
         return exportKeys;
     }
 
@@ -111,7 +109,7 @@ export const valueGetters = {
     contractDate      : (row: PositionReportData) => row.contractDate
 };
 
-const defaultOrdering: (OrderingCriteria<PositionReportData> | OrderingValueGetter<PositionReportData>)[] = [
+const defaultOrdering: (OrderingCriteria<PositionReportData> | ValueGetter<PositionReportData>)[] = [
     {
         get       : (row: PositionReportData) => Math.abs(row.compVar),
         descending: true
@@ -128,7 +126,7 @@ const defaultOrdering: (OrderingCriteria<PositionReportData> | OrderingValueGett
     valueGetters.expiryDay
 ];
 
-export const exportKeys: ExportColumn<PositionReportData>[] = [
+export const exportKeys: CSVExportColumn<PositionReportData>[] = [
     {
         get   : valueGetters.clearer,
         header: 'Clearer'

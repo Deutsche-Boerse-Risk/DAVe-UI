@@ -1,14 +1,11 @@
 import {Component} from '@angular/core';
 
+import {COMPONENT_CSS, ErrorResponse, OrderingCriteria, Row, ValueGetter} from '@dbg-riskit/DAVe-common';
+
 import {AbstractComponentWithAutoRefresh} from '../abstract.component';
 
-import {OrderingCriteria, OrderingValueGetter} from '../datatable/data.table.column.directive';
-import {Row} from '../datatable/data.table.component';
-
-import {ErrorResponse} from '../http.service';
 import {
-    LiquiGroupMarginAggregationData, LiquiGroupMarginBaseData,
-    LiquiGroupMarginData
+    LiquiGroupMarginAggregationData, LiquiGroupMarginBaseData, LiquiGroupMarginData
 } from './liqui.group.margin.types';
 import {LiquiGroupMarginService} from './liqui.group.margin.service';
 
@@ -17,7 +14,7 @@ import {LiquiGroupMarginService} from './liqui.group.margin.service';
     selector   : 'liqui-group-margin-aggregation',
     templateUrl: 'liqui.group.margin.aggregation.component.html',
     styleUrls  : [
-        '../component.css',
+        '../../' + COMPONENT_CSS,
         'liqui.group.margin.aggregation.component.css'
     ]
 })
@@ -37,7 +34,7 @@ export class LiquiGroupMarginAggregationComponent extends AbstractComponentWithA
 
     public get defaultOrdering(): (
         OrderingCriteria<LiquiGroupMarginBaseData>
-        | OrderingValueGetter<LiquiGroupMarginBaseData>)[] {
+        | ValueGetter<LiquiGroupMarginBaseData>)[] {
         return defaultOrdering;
     }
 
@@ -92,7 +89,7 @@ export const valueGetters = {
 
 const defaultOrdering: (
     OrderingCriteria<LiquiGroupMarginData>
-    | OrderingValueGetter<LiquiGroupMarginData>)[] = [
+    | ValueGetter<LiquiGroupMarginData>)[] = [
     {
         get       : (row: LiquiGroupMarginData) => Math.abs(row.additionalMargin),
         descending: true

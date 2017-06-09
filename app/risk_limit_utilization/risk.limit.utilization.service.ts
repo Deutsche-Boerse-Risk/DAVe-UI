@@ -1,9 +1,7 @@
 import {Injectable} from '@angular/core';
 
-import {HttpService} from '../http.service';
+import {DateUtils, HttpService, UIDUtils} from '@dbg-riskit/DAVe-common';
 import {Observable} from 'rxjs/Observable';
-import {UIDUtils} from '../uid.utils';
-import {parseServerDate} from '../date.utils';
 
 import {
     RiskLimitUtilizationServerData,
@@ -58,7 +56,7 @@ export class RiskLimitUtilizationService {
             warningUtil : warningUtil,
             throttleUtil: throttleUtil,
             rejectUtil  : rejectUtil,
-            received    : parseServerDate(record.timestamp)
+            received    : DateUtils.utcTimestampToDate(record.timestamp)
         };
     }
 }

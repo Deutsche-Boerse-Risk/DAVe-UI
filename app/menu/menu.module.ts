@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
 
-import {MaterialModule} from '../material/material.module';
+import {CommonViewModule} from '@dbg-riskit/DAVe-common';
 
 import {MenuComponent} from './menu.component';
 import {RouterLinkActiveDirective} from './router.link.active.directive';
@@ -12,7 +12,7 @@ import {RouterSubLinkDirective} from './router.sub.link.directive';
     imports     : [
         BrowserModule,
         RouterModule,
-        MaterialModule
+        CommonViewModule
     ],
     declarations: [
         MenuComponent,

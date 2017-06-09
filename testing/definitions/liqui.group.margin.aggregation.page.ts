@@ -2,15 +2,6 @@ import {By} from '@angular/platform-browser';
 
 import {ComponentFixture} from '@angular/core/testing';
 
-import {RouterLinkStubDirective} from '../stubs/router/router.link.stub';
-
-import {PageWithLoading} from './page.base';
-import {DataTableDefinition} from './data.table.definition';
-import {LinkDefinition} from './link.definition';
-
-import {DataTableComponent} from '../../app/datatable/data.table.component';
-import {HIGHLIGHTER_TIMEOUT} from '../../app/datatable/highlighter.directive';
-
 import {LiquiGroupMarginAggregationComponent} from '../../app/liqui_group_margin/liqui.group.margin.aggregation.component';
 
 export class AggregationPage extends PageWithLoading<LiquiGroupMarginAggregationComponent> {

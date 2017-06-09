@@ -1,9 +1,7 @@
 import {Injectable} from '@angular/core';
 
-import {HttpService} from '../http.service';
+import {DateUtils, HttpService, UIDUtils} from '@dbg-riskit/DAVe-common';
 import {Observable} from 'rxjs/Observable';
-import {UIDUtils} from '../uid.utils';
-import {parseServerDate} from '../date.utils';
 
 import {
     PositionReportServerData, PositionReportData, PositionReportBubble, PositionReportChartData, SelectValues,
@@ -114,7 +112,7 @@ export class PositionReportsService {
                 record.contractMonth, record.expiryDay, record.exercisePrice, record.version,
                 record.flexContractSymbol, record.snapshotID),
             ...record,
-            received    : parseServerDate(record.timestamp),
+            received    : DateUtils.utcTimestampToDate(record.timestamp),
             contractDate: new Date(record.contractYear, record.contractMonth - 1, record.expiryDay || 1, 0, 0, 0, 0)
         };
     }

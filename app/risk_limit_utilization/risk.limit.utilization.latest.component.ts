@@ -1,21 +1,19 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {ErrorResponse} from '../http.service';
+import {COMPONENT_CSS, CSVExportColumn, ErrorResponse, OrderingCriteria, ValueGetter} from '@dbg-riskit/DAVe-common';
 
 import {RiskLimitUtilizationService} from './risk.limit.utilization.service';
 import {RiskLimitUtilizationData} from './risk.limit.utilization.types';
 
 import {AbstractLatestListComponent} from '../list/abstract.latest.list.component';
-import {ExportColumn} from '../list/download.menu.component';
-import {OrderingCriteria, OrderingValueGetter} from '../datatable/data.table.column.directive';
 
 export const routingKeys: string[] = ['clearer', 'member', 'maintainer', 'limitType'];
 
 @Component({
     moduleId   : module.id,
     templateUrl: 'risk.limit.utilization.latest.component.html',
-    styleUrls  : ['../component.css']
+    styleUrls  : ['../../' + COMPONENT_CSS]
 })
 export class RiskLimitUtilizationLatestComponent extends AbstractLatestListComponent<RiskLimitUtilizationData> {
 
@@ -42,11 +40,11 @@ export class RiskLimitUtilizationLatestComponent extends AbstractLatestListCompo
 
     public get defaultOrdering(): (
         OrderingCriteria<RiskLimitUtilizationData>
-        | OrderingValueGetter<RiskLimitUtilizationData>)[] {
+        | ValueGetter<RiskLimitUtilizationData>)[] {
         return defaultOrdering;
     }
 
-    public get exportKeys(): ExportColumn<RiskLimitUtilizationData>[] {
+    public get exportKeys(): CSVExportColumn<RiskLimitUtilizationData>[] {
         return exportKeys;
     }
 
@@ -86,7 +84,7 @@ export const valueGetters = {
 
 const defaultOrdering: (
     OrderingCriteria<RiskLimitUtilizationData>
-    | OrderingValueGetter<RiskLimitUtilizationData>)[] = [
+    | ValueGetter<RiskLimitUtilizationData>)[] = [
     {
         get       : valueGetters.rejectUtil,
         descending: true
@@ -97,7 +95,7 @@ const defaultOrdering: (
     valueGetters.limitType
 ];
 
-export const exportKeys: ExportColumn<RiskLimitUtilizationData>[] = [
+export const exportKeys: CSVExportColumn<RiskLimitUtilizationData>[] = [
     {
         get   : valueGetters.clearer,
         header: 'Clearer'

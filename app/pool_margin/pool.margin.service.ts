@@ -1,9 +1,7 @@
 import {Injectable} from '@angular/core';
 
-import {HttpService} from '../http.service';
+import {DateUtils, HttpService, UIDUtils} from '@dbg-riskit/DAVe-common';
 import {Observable} from 'rxjs/Observable';
-import {UIDUtils} from '../uid.utils';
-import {parseServerDate} from '../date.utils';
 
 import {
     PoolMarginServerData, PoolMarginSummaryData, PoolMarginData, PoolMarginParams, PoolMarginHistoryParams
@@ -62,7 +60,7 @@ export class PoolMarginService {
         return {
             uid     : UIDUtils.computeUID(record.clearer, record.pool, record.marginCurrency, record.snapshotID),
             ...record,
-            received: parseServerDate(record.timestamp)
+            received: DateUtils.utcTimestampToDate(record.timestamp)
         };
     }
 }

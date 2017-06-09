@@ -1,13 +1,12 @@
 import {ActivatedRoute} from '@angular/router';
 
-import {ErrorResponse} from '../http.service';
+import {ErrorResponse, OrderingCriteria, ValueGetter} from '@dbg-riskit/DAVe-common';
 
 import {LiquiGroupSplitMarginService} from './liqui.group.split.margin.service';
 import {LiquiGroupSplitMarginData, LiquiGroupSplitMarginParams} from './liqui.group.split.margin.types';
 
 import {AbstractLatestListComponent} from '../list/abstract.latest.list.component';
 import {RoutePart} from '../list/bread.crumbs.component';
-import {OrderingCriteria, OrderingValueGetter} from '../datatable/data.table.column.directive';
 
 export const routingKeys: (keyof LiquiGroupSplitMarginParams)[] = [
     'clearer',
@@ -52,7 +51,7 @@ export abstract class AbstractLiquiGroupSplitMarginLatestComponent
 
     public get defaultOrdering(): (
         OrderingCriteria<LiquiGroupSplitMarginData>
-        | OrderingValueGetter<LiquiGroupSplitMarginData>)[] {
+        | ValueGetter<LiquiGroupSplitMarginData>)[] {
         return defaultOrdering;
     }
 
@@ -64,7 +63,7 @@ export abstract class AbstractLiquiGroupSplitMarginLatestComponent
 //<editor-fold defaultstate="collapsed" desc="Value getters, default ordering, exported columns">
 
 const defaultOrdering: (
-    OrderingCriteria<LiquiGroupSplitMarginData> | OrderingValueGetter<LiquiGroupSplitMarginData>)[] = [
+    OrderingCriteria<LiquiGroupSplitMarginData> | ValueGetter<LiquiGroupSplitMarginData>)[] = [
     (row: LiquiGroupSplitMarginData) => row.clearer,
     (row: LiquiGroupSplitMarginData) => row.member,
     (row: LiquiGroupSplitMarginData) => row.account,

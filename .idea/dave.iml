@@ -8,8 +8,6 @@
       <sourceFolder url="file://$MODULE_DIR$/doc" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/dockerfile" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/deployment" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/fonts" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/img" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/testing" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/tools" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />

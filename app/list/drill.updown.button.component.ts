@@ -1,10 +1,12 @@
 import {Component, ElementRef, Input} from '@angular/core';
 
+import {COMPONENT_CSS} from '@dbg-riskit/DAVe-common';
+
 @Component({
     moduleId   : module.id,
     selector   : 'drilldown-button, drillup-button',
     templateUrl: 'drill.updown.button.component.html',
-    styleUrls  : ['../component.css']
+    styleUrls  : ['../../' + COMPONENT_CSS]
 })
 export class DrillUpDownButtonComponent {
 

@@ -1,11 +1,14 @@
 import {Component} from '@angular/core';
+
+import {COMPONENT_CSS} from '@dbg-riskit/DAVe-common';
+
 import {ROUTES} from '../routes/routing.paths';
 
 @Component({
     moduleId   : module.id,
     templateUrl: 'dashboard.component.html',
     styleUrls  : [
-        '../component.css',
+        '../../' + COMPONENT_CSS,
         'dashboard.component.css'
     ]
 })

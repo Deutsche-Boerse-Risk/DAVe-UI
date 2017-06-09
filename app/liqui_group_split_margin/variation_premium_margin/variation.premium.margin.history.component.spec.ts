@@ -16,7 +16,7 @@ import {LiquiGroupSplitMarginService} from '../liqui.group.split.margin.service'
 import {HttpService} from '../../http.service';
 
 import {DATA_REFRESH_INTERVAL} from '../../abstract.component';
-import {ExportColumn} from '../../list/download.menu.component';
+import {CSVExportColumn} from '../../list/download.menu.component';
 
 import {valueGetters, exportKeys} from './variation.premium.margin.latest.component';
 import {VariationPremiumMarginHistoryComponent} from './variation.premium.margin.history.component';
@@ -321,9 +321,9 @@ xdescribe('Variation / Premium Margin history component', () => {
             let exportedData = downloadLink.blobSpy.calls.mostRecent().args[0][0];
             expect(exportedData).not.toBeNull();
             expect(exportedData.split('\n')[0]).toEqual(exportKeys.map(
-                (key: ExportColumn<any>) => key.header).join(','));
+                (key: CSVExportColumn<any>) => key.header).join(','));
             expect(exportedData.split('\n')[1]).toContain(exportKeys.slice(0, exportKeys.length - 1).map(
-                (key: ExportColumn<any>) =>
+                (key: CSVExportColumn<any>) =>
                     key.get(page.dataTable.data[0]) ? key.get(page.dataTable.data[0]).toString() : '')
                 .join(','));
             let cells = exportedData.split('\n')[1].split(',');

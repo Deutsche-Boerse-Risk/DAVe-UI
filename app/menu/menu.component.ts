@@ -1,4 +1,7 @@
 import {Component, HostBinding, Input} from '@angular/core';
+
+import {COMPONENT_CSS} from '@dbg-riskit/DAVe-common';
+
 import {ROUTES} from '../routes/routing.paths';
 
 @Component({
@@ -6,7 +9,7 @@ import {ROUTES} from '../routes/routing.paths';
     selector   : 'app-menu',
     templateUrl: 'menu.component.html',
     styleUrls  : [
-        '../component.css',
+        '../../' + COMPONENT_CSS,
         'menu.component.css'
     ]
 })

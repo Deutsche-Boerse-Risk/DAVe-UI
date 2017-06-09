@@ -2,22 +2,26 @@ import {DecimalPipe} from '@angular/common';
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {ErrorResponse} from '../http.service';
+import {
+    COMPONENT_CSS,
+    CSVExportColumn,
+    DateFormatter,
+    ErrorResponse,
+    OrderingCriteria,
+    ValueGetter
+} from '@dbg-riskit/DAVe-common';
 
 import {AccountMarginService} from './account.margin.service';
 import {AccountMarginData} from './account.margin.types';
 
-import {DateFormatter} from '../common/common.module';
 import {AbstractHistoryListComponent, LineChartColumn} from '../list/abstract.history.list.component';
-import {ExportColumn} from '../list/download.menu.component';
-import {OrderingCriteria, OrderingValueGetter} from '../datatable/data.table.column.directive';
 
 import {exportKeys, routingKeys, valueGetters} from './account.margin.latest.component';
 
 @Component({
     moduleId   : module.id,
     templateUrl: 'account.margin.history.component.html',
-    styleUrls  : ['../component.css']
+    styleUrls  : ['../../' + COMPONENT_CSS]
 })
 export class AccountMarginHistoryComponent extends AbstractHistoryListComponent<AccountMarginData> {
 
@@ -71,11 +75,11 @@ export class AccountMarginHistoryComponent extends AbstractHistoryListComponent<
         ];
     }
 
-    public get defaultOrdering(): (OrderingCriteria<AccountMarginData> | OrderingValueGetter<AccountMarginData>)[] {
+    public get defaultOrdering(): (OrderingCriteria<AccountMarginData> | ValueGetter<AccountMarginData>)[] {
         return defaultOrdering;
     }
 
-    public get exportKeys(): ExportColumn<AccountMarginData>[] {
+    public get exportKeys(): CSVExportColumn<AccountMarginData>[] {
         return exportKeys;
     }
 
@@ -98,7 +102,7 @@ export class AccountMarginHistoryComponent extends AbstractHistoryListComponent<
 
 //<editor-fold defaultstate="collapsed" desc="Value getters, default ordering, exported columns">
 
-const defaultOrdering: (OrderingCriteria<AccountMarginData> | OrderingValueGetter<AccountMarginData>)[] = [
+const defaultOrdering: (OrderingCriteria<AccountMarginData> | ValueGetter<AccountMarginData>)[] = [
     {
         get       : valueGetters.received,
         descending: true

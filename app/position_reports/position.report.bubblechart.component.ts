@@ -1,11 +1,16 @@
 import {DecimalPipe} from '@angular/common';
 import {Component, Input} from '@angular/core';
 
+import {
+    BubbleChartOptions,
+    ChartData,
+    ChartRow,
+    ChartValue,
+    COMPONENT_CSS,
+    ErrorResponse
+} from '@dbg-riskit/DAVe-common';
+
 import {AbstractComponentWithAutoRefresh} from '../abstract.component';
-
-import {ErrorResponse} from '../http.service';
-
-import {BubbleChartOptions, ChartData, ChartRow, ChartValue} from '../charts/chart.types';
 
 import {PositionReportsService} from './position.reports.service';
 import {PositionReportChartData, PositionReportBubble, SelectValues} from './position.report.types';
@@ -17,7 +22,7 @@ export const compVarNegativeLegend = 'Negative';
     moduleId   : module.id,
     templateUrl: 'position.report.bubblechart.component.html',
     styleUrls  : [
-        '../component.css',
+        '../../' + COMPONENT_CSS,
         'position.report.bubblechart.component.css'
     ]
 })

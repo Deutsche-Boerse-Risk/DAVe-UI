@@ -3,8 +3,8 @@ import {By} from '@angular/platform-browser';
 
 import {ComponentFixture} from '@angular/core/testing';
 
-import {click} from '../events';
-import {Page} from './page.base';
+import {click} from '@dbg-riskit/DAVe-common/testing/events';
+import {Page} from '@dbg-riskit/DAVe-common/testing/definitions/page.base';
 
 import {DashboardComponent} from '../../app/dashboard/dashboard.component';
 

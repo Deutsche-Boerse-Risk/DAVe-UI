@@ -1,14 +1,12 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {ErrorResponse} from '../http.service';
+import {COMPONENT_CSS, CSVExportColumn, ErrorResponse, OrderingCriteria, ValueGetter} from '@dbg-riskit/DAVe-common';
 
 import {LiquiGroupMarginService} from './liqui.group.margin.service';
 import {LiquiGroupMarginData, LiquiGroupMarginParams} from './liqui.group.margin.types';
 
 import {AbstractLatestListComponent} from '../list/abstract.latest.list.component';
-import {ExportColumn} from '../list/download.menu.component';
-import {OrderingCriteria, OrderingValueGetter} from '../datatable/data.table.column.directive';
 
 export const routingKeys: (keyof LiquiGroupMarginParams)[] = [
     'clearer',
@@ -20,7 +18,7 @@ export const routingKeys: (keyof LiquiGroupMarginParams)[] = [
 @Component({
     moduleId   : module.id,
     templateUrl: 'liqui.group.margin.latest.component.html',
-    styleUrls  : ['../component.css']
+    styleUrls  : ['../../' + COMPONENT_CSS]
 })
 export class LiquiGroupMarginLatestComponent extends AbstractLatestListComponent<LiquiGroupMarginData> {
 
@@ -47,11 +45,11 @@ export class LiquiGroupMarginLatestComponent extends AbstractLatestListComponent
 
     public get defaultOrdering(): (
         OrderingCriteria<LiquiGroupMarginData>
-        | OrderingValueGetter<LiquiGroupMarginData>)[] {
+        | ValueGetter<LiquiGroupMarginData>)[] {
         return defaultOrdering;
     }
 
-    public get exportKeys(): ExportColumn<LiquiGroupMarginData>[] {
+    public get exportKeys(): CSVExportColumn<LiquiGroupMarginData>[] {
         return exportKeys;
     }
 
@@ -87,7 +85,7 @@ export const valueGetters = {
     received                   : (row: LiquiGroupMarginData) => row.received
 };
 
-const defaultOrdering: (OrderingCriteria<LiquiGroupMarginData> | OrderingValueGetter<LiquiGroupMarginData>)[] = [
+const defaultOrdering: (OrderingCriteria<LiquiGroupMarginData> | ValueGetter<LiquiGroupMarginData>)[] = [
     {
         get       : (row: LiquiGroupMarginData) => Math.abs(row.additionalMargin),
         descending: true
@@ -99,7 +97,7 @@ const defaultOrdering: (OrderingCriteria<LiquiGroupMarginData> | OrderingValueGe
     (row: LiquiGroupMarginData) => row.marginCurrency
 ];
 
-export const exportKeys: ExportColumn<LiquiGroupMarginData>[] = [
+export const exportKeys: CSVExportColumn<LiquiGroupMarginData>[] = [
     {
         get   : valueGetters.clearer,
         header: 'Clearer'

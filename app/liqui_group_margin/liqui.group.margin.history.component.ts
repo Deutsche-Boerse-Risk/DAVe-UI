@@ -2,16 +2,13 @@ import {DecimalPipe} from '@angular/common';
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {ErrorResponse} from '../http.service';
+import {COMPONENT_CSS, CSVExportColumn, DateFormatter, ErrorResponse, OrderingCriteria} from '@dbg-riskit/DAVe-common';
 
 import {LiquiGroupMarginService} from './liqui.group.margin.service';
 import {LiquiGroupMarginData, LiquiGroupMarginHistoryParams} from './liqui.group.margin.types';
 
-import {DateFormatter} from '../common/common.module';
 import {AbstractHistoryListComponent, LineChartColumn} from '../list/abstract.history.list.component';
 import {RoutePart} from '../list/bread.crumbs.component';
-import {ExportColumn} from '../list/download.menu.component';
-import {OrderingCriteria} from '../datatable/data.table.column.directive';
 
 import {exportKeys, valueGetters} from './liqui.group.margin.latest.component';
 
@@ -26,7 +23,7 @@ export const routingKeys: (keyof LiquiGroupMarginHistoryParams)[] = [
 @Component({
     moduleId   : module.id,
     templateUrl: 'liqui.group.margin.history.component.html',
-    styleUrls  : ['../component.css']
+    styleUrls  : ['../../' + COMPONENT_CSS]
 })
 export class LiquiGroupMarginHistoryComponent extends AbstractHistoryListComponent<LiquiGroupMarginData> {
 
@@ -97,7 +94,7 @@ export class LiquiGroupMarginHistoryComponent extends AbstractHistoryListCompone
         return defaultOrdering;
     }
 
-    public get exportKeys(): ExportColumn<LiquiGroupMarginData>[] {
+    public get exportKeys(): CSVExportColumn<LiquiGroupMarginData>[] {
         return exportKeys;
     }
 

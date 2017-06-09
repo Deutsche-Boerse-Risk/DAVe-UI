@@ -2,22 +2,26 @@ import {DecimalPipe} from '@angular/common';
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {ErrorResponse} from '../http.service';
+import {
+    COMPONENT_CSS,
+    CSVExportColumn,
+    DateFormatter,
+    ErrorResponse,
+    OrderingCriteria,
+    ValueGetter
+} from '@dbg-riskit/DAVe-common';
 
 import {RiskLimitUtilizationService} from './risk.limit.utilization.service';
 import {RiskLimitUtilizationData} from './risk.limit.utilization.types';
 
-import {DateFormatter} from '../common/common.module';
 import {AbstractHistoryListComponent, LineChartColumn} from '../list/abstract.history.list.component';
-import {ExportColumn} from '../list/download.menu.component';
-import {OrderingCriteria, OrderingValueGetter} from '../datatable/data.table.column.directive';
 
 import {exportKeys, routingKeys, valueGetters} from './risk.limit.utilization.latest.component';
 
 @Component({
     moduleId   : module.id,
     templateUrl: 'risk.limit.utilization.history.component.html',
-    styleUrls  : ['../component.css']
+    styleUrls  : ['../../' + COMPONENT_CSS]
 })
 export class RiskLimitUtilizationHistoryComponent extends AbstractHistoryListComponent<RiskLimitUtilizationData> {
 
@@ -73,11 +77,11 @@ export class RiskLimitUtilizationHistoryComponent extends AbstractHistoryListCom
 
     public get defaultOrdering(): (
         OrderingCriteria<RiskLimitUtilizationData>
-        | OrderingValueGetter<RiskLimitUtilizationData>)[] {
+        | ValueGetter<RiskLimitUtilizationData>)[] {
         return defaultOrdering;
     }
 
-    public get exportKeys(): ExportColumn<RiskLimitUtilizationData>[] {
+    public get exportKeys(): CSVExportColumn<RiskLimitUtilizationData>[] {
         return exportKeys;
     }
 
@@ -102,7 +106,7 @@ export class RiskLimitUtilizationHistoryComponent extends AbstractHistoryListCom
 
 const defaultOrdering: (
     OrderingCriteria<RiskLimitUtilizationData>
-    | OrderingValueGetter<RiskLimitUtilizationData>)[] = [
+    | ValueGetter<RiskLimitUtilizationData>)[] = [
     {
         get       : valueGetters.received,
         descending: true

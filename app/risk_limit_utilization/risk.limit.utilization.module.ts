@@ -2,9 +2,8 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
 
-import {MaterialModule} from '../material/material.module';
-import {ChartsModule} from '../charts/charts.module';
-import {DataTableModule} from '../datatable/data.table.module';
+import {ChartsModule, CommonViewModule, DataTableModule} from '@dbg-riskit/DAVe-common';
+
 import {ListModule} from '../list/list.module';
 
 import {RiskLimitUtilizationService} from './risk.limit.utilization.service';
@@ -18,8 +17,8 @@ import {RiskLimitUtilizationHistoryComponent} from './risk.limit.utilization.his
         RouterModule,
         ChartsModule,
         DataTableModule,
-        ListModule,
-        MaterialModule
+        CommonViewModule,
+        ListModule
     ],
     declarations: [
         RiskLimitUtilizationLatestComponent,

@@ -1,10 +1,16 @@
 import {Component, Input} from '@angular/core';
 import {Router} from '@angular/router';
 
-import {AbstractComponentWithAutoRefresh} from '../abstract.component';
-import {ErrorResponse} from '../http.service';
+import {
+    ChartData,
+    ChartRow,
+    ErrorResponse,
+    SelectionEvent,
+    TreeMapOptions,
+    COMPONENT_CSS
+} from '@dbg-riskit/DAVe-common';
 
-import {ChartData, TreeMapOptions, ChartRow, SelectionEvent} from '../charts/chart.types';
+import {AbstractComponentWithAutoRefresh} from '../abstract.component';
 
 import {LiquiGroupMarginService} from './liqui.group.margin.service';
 import {LiquiGroupMarginTree, LiquiGroupMarginTreeNode} from './liqui.group.margin.types';
@@ -13,7 +19,7 @@ import {LiquiGroupMarginTree, LiquiGroupMarginTreeNode} from './liqui.group.marg
     moduleId   : module.id,
     templateUrl: 'liqui.group.margin.treemap.component.html',
     styleUrls  : [
-        '../component.css',
+        '../../' + COMPONENT_CSS,
         'liqui.group.margin.treemap.component.css'
     ]
 })

@@ -1,14 +1,12 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {ErrorResponse} from '../http.service';
+import {COMPONENT_CSS, CSVExportColumn, ErrorResponse, OrderingCriteria, ValueGetter} from '@dbg-riskit/DAVe-common';
 
 import {AccountMarginService} from './account.margin.service';
 import {AccountMarginData, AccountMarginParams} from './account.margin.types';
 
 import {AbstractLatestListComponent} from '../list/abstract.latest.list.component';
-import {ExportColumn} from '../list/download.menu.component';
-import {OrderingCriteria, OrderingValueGetter} from '../datatable/data.table.column.directive';
 
 export const routingKeys: (keyof AccountMarginParams)[] = [
     'clearer',
@@ -20,7 +18,7 @@ export const routingKeys: (keyof AccountMarginParams)[] = [
 @Component({
     moduleId   : module.id,
     templateUrl: 'account.margin.latest.component.html',
-    styleUrls  : ['../component.css']
+    styleUrls  : ['../../' + COMPONENT_CSS]
 })
 export class AccountMarginLatestComponent extends AbstractLatestListComponent<AccountMarginData> {
 
@@ -45,11 +43,11 @@ export class AccountMarginLatestComponent extends AbstractLatestListComponent<Ac
             });
     }
 
-    public get defaultOrdering(): (OrderingCriteria<AccountMarginData> | OrderingValueGetter<AccountMarginData>)[] {
+    public get defaultOrdering(): (OrderingCriteria<AccountMarginData> | ValueGetter<AccountMarginData>)[] {
         return defaultOrdering;
     }
 
-    public get exportKeys(): ExportColumn<AccountMarginData>[] {
+    public get exportKeys(): CSVExportColumn<AccountMarginData>[] {
         return exportKeys;
     }
 
@@ -85,7 +83,7 @@ export const valueGetters = {
     received                   : (row: AccountMarginData) => row.received
 };
 
-const defaultOrdering: (OrderingCriteria<AccountMarginData> | OrderingValueGetter<AccountMarginData>)[] = [
+const defaultOrdering: (OrderingCriteria<AccountMarginData> | ValueGetter<AccountMarginData>)[] = [
     {
         get       : valueGetters.marginReqInMarginCurr,
         descending: true
@@ -96,7 +94,7 @@ const defaultOrdering: (OrderingCriteria<AccountMarginData> | OrderingValueGette
     valueGetters.marginCurrency
 ];
 
-export const exportKeys: ExportColumn<AccountMarginData>[] = [
+export const exportKeys: CSVExportColumn<AccountMarginData>[] = [
     {
         get   : valueGetters.clearer,
         header: 'Clearer'

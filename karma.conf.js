@@ -1,6 +1,6 @@
 module.exports = function (config) {
 
-    var browsers = require('./browser-providers.conf');
+    var browsers = require('@dbg-riskit/DAVe-common/tools/browser-providers.conf');
 
     var debugTests = false;
 
@@ -41,14 +41,11 @@ module.exports = function (config) {
 
             // Polyfills
             'node_modules/core-js/client/shim.js',
-            'node_modules/web-animations-js/web-animations.min.js',
-            {pattern: 'node_modules/web-animations-js/web-animations.min.js.map', included: false, watched: false},
-            'node_modules/file-saver/FileSaver.min.js',
             'node_modules/hammerjs/hammer.min.js',
             'node_modules/intl/dist/Intl.min.js',
             {pattern: 'node_modules/intl/dist/Intl.min.js.map', included: false, watched: false},
             'node_modules/intl/locale-data/jsonp/en-US.js',
-            'ie.intl.shim.js',
+            'node_modules/@dbg-riskit/DAVe-common/ie.intl.shim.js',
 
             // zone.js
             'node_modules/zone.js/dist/zone.js',
@@ -59,10 +56,6 @@ module.exports = function (config) {
             'node_modules/zone.js/dist/async-test.js',
             'node_modules/zone.js/dist/fake-async-test.js',
 
-            // JWT
-            {pattern: 'node_modules/angular2-jwt/**/*.js', included: false, watched: false},
-            {pattern: 'node_modules/angular2-jwt/**/*.js.map', included: false, watched: false},
-
             // RxJs
             {pattern: 'node_modules/rxjs/**/*.js', included: false, watched: false},
             {pattern: 'node_modules/rxjs/**/*.js.map', included: false, watched: false},
@@ -72,8 +65,10 @@ module.exports = function (config) {
             {pattern: 'node_modules/@angular/**/*.js', included: false, watched: false},
             {pattern: 'node_modules/@angular/**/*.js.map', included: false, watched: false},
 
-            // Load google charts
-            'https://www.gstatic.com/charts/loader.js',
+            // @dbg-riskit/DAVe-common
+            {pattern: 'node_modules/@dbg-riskit/DAVe-common/**/*.js', included: false, watched: false},
+            {pattern: 'node_modules/@dbg-riskit/DAVe-common/**/*.html', included: false, watched: false},
+            {pattern: 'node_modules/@dbg-riskit/DAVe-common/**/*.css', included: false, watched: false},
 
             {pattern: 'systemjs.config.js', included: false, watched: false},
             'karma-test-shim.js', // optionally extend SystemJS mapping e.g., with barrels
@@ -88,12 +83,16 @@ module.exports = function (config) {
             {pattern: 'index.html', included: false, watched: true},
             {pattern: appBase + '**/*.html', included: false, watched: true},
             {pattern: appBase + '**/*.css', included: false, watched: false},
-            'styles.css',
-            {pattern: 'fonts/**/*.eot', included: false, watched: false},
-            {pattern: 'fonts/**/*.woff', included: false, watched: false},
-            {pattern: 'fonts/**/*.ttf', included: false, watched: false},
-            {pattern: 'fonts/**/*.svg', included: false, watched: false},
-            {pattern: 'img/**/*.svg', included: false, watched: false},
+            'node_modules/@dbg-riskit/DAVe-common/styles.css',
+            {pattern: 'node_modules/@dbg-riskit/DAVe-common/resources/fonts/**/*.eot', included: false, watched: false},
+            {
+                pattern: 'node_modules/@dbg-riskit/DAVe-common/resources/fonts/**/*.woff',
+                included: false,
+                watched: false
+            },
+            {pattern: 'node_modules/@dbg-riskit/DAVe-common/resources/fonts/**/*.ttf', included: false, watched: false},
+            {pattern: 'node_modules/@dbg-riskit/DAVe-common/resources/fonts/**/*.svg', included: false, watched: false},
+            {pattern: 'node_modules/@dbg-riskit/DAVe-common/resources/img/**/*.svg', included: false, watched: false},
 
             // Paths for debugging with source maps in dev tools
             {pattern: appBase + '**/*.ts', included: false, watched: false},
@@ -106,8 +105,8 @@ module.exports = function (config) {
         proxies: {
             // required for modules fetched by SystemJS
             '/base/src/node_modules/': '/base/node_modules/',
-            '/fonts/': '/base/fonts/',
-            '/img/': '/base/img/'
+            '/fonts/': '/base/node_modules/@dbg-riskit/DAVe-common/resources/fonts/',
+            '/img/': '/base/node_modules/@dbg-riskit/DAVe-common/resources/img/'
         },
 
         exclude: [],
@@ -135,9 +134,9 @@ module.exports = function (config) {
 
         browserStack: {
             binaryBasePath: 'browserStackBin/',
-            project: 'DAVe-UI',
-            build: 'DAVe-UI/Karma test local',
-            name: 'DAVe-UI - Karma test',
+            project: 'DAVe-MarginEstimator',
+            build: 'DAVe-MarginEstimator/Karma test local',
+            name: 'DAVe-MarginEstimator - Karma test',
             retryLimit: 3,
             timeout: 1800, // Timeout in seconds (30 min.)
             pollingTimeout: 10000

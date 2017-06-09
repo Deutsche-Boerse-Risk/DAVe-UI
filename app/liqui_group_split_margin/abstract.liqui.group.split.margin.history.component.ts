@@ -1,14 +1,12 @@
 import {DecimalPipe} from '@angular/common';
 import {ActivatedRoute} from '@angular/router';
 
-import {ErrorResponse} from '../http.service';
+import {DateFormatter, ErrorResponse, OrderingCriteria} from '@dbg-riskit/DAVe-common';
 
 import {LiquiGroupSplitMarginService} from './liqui.group.split.margin.service';
 import {LiquiGroupSplitMarginData, LiquiGroupSplitMarginHistoryParams} from './liqui.group.split.margin.types';
 
-import {DateFormatter} from '../common/common.module';
 import {AbstractHistoryListComponent} from '../list/abstract.history.list.component';
-import {OrderingCriteria} from '../datatable/data.table.column.directive';
 
 import {RoutePart} from '../list/bread.crumbs.component';
 
