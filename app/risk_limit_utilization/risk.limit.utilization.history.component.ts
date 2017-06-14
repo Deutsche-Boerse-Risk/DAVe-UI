@@ -2,14 +2,10 @@ import {DecimalPipe} from '@angular/common';
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {
-    COMPONENT_CSS,
-    CSVExportColumn,
-    DateFormatter,
-    ErrorResponse,
-    OrderingCriteria,
-    ValueGetter
-} from '@dbg-riskit/DAVe-common';
+import {COMPONENT_CSS, ErrorResponse, ValueGetter} from '@dbg-riskit/DAVe-UI-common';
+import {OrderingCriteria} from '@dbg-riskit/DAVe-UI-datatable';
+import {CSVExportColumn} from '@dbg-riskit/DAVe-UI-file';
+import {DateFormatter} from '@dbg-riskit/DAVe-UI-view';
 
 import {RiskLimitUtilizationService} from './risk.limit.utilization.service';
 import {RiskLimitUtilizationData} from './risk.limit.utilization.types';

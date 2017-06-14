@@ -3,7 +3,8 @@ import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
 import {FormsModule} from '@angular/forms';
 
-import {CommonViewModule, FileModule} from '@dbg-riskit/DAVe-common';
+import {CommonViewModule} from '@dbg-riskit/DAVe-UI-view';
+import {FileModule} from '@dbg-riskit/DAVe-UI-file';
 
 import {ListComponent} from './list.component';
 import {BreadCrumbsComponent} from './bread.crumbs.component';

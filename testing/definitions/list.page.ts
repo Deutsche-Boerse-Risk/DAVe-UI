@@ -1,4 +1,4 @@
-import {DatePipe, DecimalPipe} from '@angular/common';
+import {CommonModule, DatePipe, DecimalPipe} from '@angular/common';
 import {DebugElement, Type} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {NgModel} from '@angular/forms';
@@ -8,33 +8,31 @@ import {MdInputContainer, MdMenuItem, MdToolbarRow} from '@angular/material';
 
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {disableMaterialAnimations} from '../index';
-import {setNgModelValue, click} from '../events';
+import {
+    click,
+    DataTableDefinition,
+    disableMaterialAnimations,
+    DownloadLink,
+    GoogleLineChartStub,
+    HttpAsyncServiceStub,
+    MessageComponentDef,
+    PageWithLoading,
+    RouterStub,
+    setNgModelValue,
+    stubRouter
+} from '@dbg-riskit/DAVe-UI-testing';
+
+import {DATE_FORMAT} from '@dbg-riskit/DAVe-UI-common';
+import {DataTableComponent, DataTableModule, HIGHLIGHTER_TIMEOUT} from '@dbg-riskit/DAVe-UI-datatable';
+import {CSVDownloadMenuComponent} from '@dbg-riskit/DAVe-UI-file';
+import {HttpService} from '@dbg-riskit/DAVe-UI-http';
+import {DateFormatter, INITIAL_LOAD_SELECTOR, NO_DATA_SELECTOR, UPDATE_FAILED_SELECTOR} from '@dbg-riskit/DAVe-UI-view';
 
 import {BreadCrumbsDefinition} from './bread.crumbs.page';
-import {MessageComponentDef} from './message.def';
-import {DataTableDefinition} from './data.table.definition';
-import {DownloadLink} from './download.menu.page';
-import {PageWithLoading} from './page.base';
-
-import {stubRouter} from '../stubs/router/router.module.stub';
-import {RouterStub} from '../stubs/router/router.stub';
-import {HttpAsyncServiceStub} from '../stubs/http.service.stub';
-import {GoogleLineChartStub} from '../stubs/google.chart.component.stub';
-
-import {HttpService} from '../../app/http.service';
-
-import {DateFormatter, DATE_FORMAT, CommonModule} from '../../app/common/common.module';
-import {INITIAL_LOAD_SELECTOR, NO_DATA_SELECTOR, UPDATE_FAILED_SELECTOR} from '../../app/common/message.component';
-
-import {DataTableModule} from '../../app/datatable/data.table.module';
-import {DataTableComponent} from '../../app/datatable/data.table.component';
-import {HIGHLIGHTER_TIMEOUT} from '../../app/datatable/highlighter.directive';
 
 import {ListModule} from '../../app/list/list.module';
 import {ListComponent, FILTER_TIMEOUT} from '../../app/list/list.component';
 import {DrillUpDownButtonComponent} from '../../app/list/drill.updown.button.component';
-import {DownloadMenuComponent} from '../../app/list/download.menu.component';
 import {BreadCrumbsComponent} from '../../app/list/bread.crumbs.component';
 
 export class ListPage<T> extends PageWithLoading<T> {
@@ -89,7 +87,7 @@ export class ListPage<T> extends PageWithLoading<T> {
     }
 
     public get downloadMenu(): DownloadLink {
-        let downLoadMenu: DebugElement = this.header.query(By.directive(DownloadMenuComponent));
+        let downLoadMenu: DebugElement = this.header.query(By.directive(CSVDownloadMenuComponent));
         if (downLoadMenu) {
             // Open the menu first
             click(downLoadMenu.query(By.css('a')));

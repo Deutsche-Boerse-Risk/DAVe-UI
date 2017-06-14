@@ -1,15 +1,9 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Route, Router} from '@angular/router';
 
-import {
-    AuthGuard,
-    AuthModule,
-    AuthService,
-    LOGIN_ROUTE,
-    LoginModule,
-    LoginComponent,
-    MAIN_ROUTE
-} from '@dbg-riskit/DAVe-common';
+import {LOGIN_ROUTE, MAIN_ROUTE} from '@dbg-riskit/DAVe-UI-common';
+import {AuthGuard, AuthModule, AuthService} from '@dbg-riskit/DAVe-UI-auth';
+import {LoginComponent, LoginModule} from '@dbg-riskit/DAVe-UI-login';
 
 import {DashboardModule} from '../dashboard/dashboard.module';
 import {DashboardComponent} from '../dashboard/dashboard.component';

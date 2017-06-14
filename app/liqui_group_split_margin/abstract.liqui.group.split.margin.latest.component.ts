@@ -1,6 +1,7 @@
 import {ActivatedRoute} from '@angular/router';
 
-import {ErrorResponse, OrderingCriteria, ValueGetter} from '@dbg-riskit/DAVe-common';
+import {ErrorResponse, ValueGetter} from '@dbg-riskit/DAVe-UI-common';
+import {OrderingCriteria} from '@dbg-riskit/DAVe-UI-datatable';
 
 import {LiquiGroupSplitMarginService} from './liqui.group.split.margin.service';
 import {LiquiGroupSplitMarginData, LiquiGroupSplitMarginParams} from './liqui.group.split.margin.types';

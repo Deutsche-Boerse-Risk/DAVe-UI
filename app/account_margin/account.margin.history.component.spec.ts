@@ -2,21 +2,17 @@ import {ActivatedRoute} from '@angular/router';
 
 import {async, TestBed, fakeAsync, inject} from '@angular/core/testing';
 
-import {
-    ActivatedRouteStub,
-    HistoryListPage,
-    TableBodyRow,
-    HttpAsyncServiceStub,
-    generateAccountMarginHistory,
-    chceckSorting
-} from '../../testing';
+import {ActivatedRouteStub, chceckSorting, HttpAsyncServiceStub, TableBodyRow} from '@dbg-riskit/DAVe-UI-testing';
+
+import {CSVExportColumn} from '@dbg-riskit/DAVe-UI-file';
+import {HttpService} from '@dbg-riskit/DAVe-UI-http';
+
+import {HistoryListPage, generateAccountMarginHistory} from '../../testing';
 
 import {AccountMarginHistoryParams, AccountMarginServerData} from './account.margin.types';
 import {AccountMarginService} from './account.margin.service';
-import {HttpService} from '../http.service';
 
 import {DATA_REFRESH_INTERVAL} from '../abstract.component';
-import {CSVExportColumn} from '../list/download.menu.component';
 
 import {valueGetters, exportKeys} from './account.margin.latest.component';
 import {AccountMarginHistoryComponent} from './account.margin.history.component';

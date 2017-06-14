@@ -1,7 +1,9 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {COMPONENT_CSS, CSVExportColumn, ErrorResponse, OrderingCriteria, ValueGetter} from '@dbg-riskit/DAVe-common';
+import {COMPONENT_CSS, ErrorResponse, ValueGetter} from '@dbg-riskit/DAVe-UI-common';
+import {OrderingCriteria} from '@dbg-riskit/DAVe-UI-datatable';
+import {CSVExportColumn} from '@dbg-riskit/DAVe-UI-file';
 
 import {LiquiGroupMarginService} from './liqui.group.margin.service';
 import {LiquiGroupMarginData, LiquiGroupMarginParams} from './liqui.group.margin.types';

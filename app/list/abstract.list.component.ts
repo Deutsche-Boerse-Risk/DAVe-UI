@@ -1,7 +1,9 @@
 import {OnInit} from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
 
-import {CSVExportColumn, OrderingCriteria, Row, ValueGetter} from '@dbg-riskit/DAVe-common';
+import {ValueGetter} from '@dbg-riskit/DAVe-UI-common';
+import {OrderingCriteria, Row} from '@dbg-riskit/DAVe-UI-datatable';
+import {CSVExportColumn} from '@dbg-riskit/DAVe-UI-file';
 
 import {AbstractComponentWithAutoRefresh} from '../abstract.component';
 

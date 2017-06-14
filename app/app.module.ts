@@ -1,6 +1,10 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import {AuthModule, CommonViewModule, DATE_FORMAT, LoginModule} from '@dbg-riskit/DAVe-common';
+
+import {DATE_FORMAT} from '@dbg-riskit/DAVe-UI-common';
+import {AuthModule} from '@dbg-riskit/DAVe-UI-auth';
+import {LoginModule} from '@dbg-riskit/DAVe-UI-login';
+import {CommonViewModule} from '@dbg-riskit/DAVe-UI-view';
 
 import {AppComponent} from './app.component';
 

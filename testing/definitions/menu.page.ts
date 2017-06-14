@@ -3,8 +3,7 @@ import {By} from '@angular/platform-browser';
 
 import {ComponentFixture} from '@angular/core/testing';
 
-import {click} from '../events';
-import {Page} from './page.base';
+import {click, Page} from '@dbg-riskit/DAVe-UI-testing';
 
 import {MenuComponent} from '../../app/menu/menu.component';
 import {RouterLinkActiveDirective} from '../../app/menu/router.link.active.directive';

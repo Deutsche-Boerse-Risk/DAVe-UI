@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 
-import {COMPONENT_CSS, ErrorResponse, OrderingCriteria, Row, ValueGetter} from '@dbg-riskit/DAVe-common';
+import {COMPONENT_CSS, ErrorResponse, ValueGetter} from '@dbg-riskit/DAVe-UI-common';
+import {OrderingCriteria, Row} from '@dbg-riskit/DAVe-UI-datatable';
 
 import {AbstractComponentWithAutoRefresh} from '../abstract.component';
 

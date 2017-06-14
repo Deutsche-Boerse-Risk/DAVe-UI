@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 
-import {COMPONENT_CSS} from '@dbg-riskit/DAVe-common';
+import {COMPONENT_CSS} from '@dbg-riskit/DAVe-UI-common';
 
 @Component({
     moduleId : module.id,

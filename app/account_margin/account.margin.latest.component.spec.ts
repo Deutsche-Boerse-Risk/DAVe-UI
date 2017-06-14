@@ -2,27 +2,19 @@ import {ActivatedRoute} from '@angular/router';
 
 import {async, TestBed, fakeAsync, inject} from '@angular/core/testing';
 
-import {
-    LatestListPage,
-    TableBodyRow,
-    ActivatedRouteStub,
-    HttpAsyncServiceStub,
-    generateAccountMargin,
-    generateAccountMarginHistory,
-    chceckSorting
-} from '../../testing';
+import {ActivatedRouteStub, chceckSorting, HttpAsyncServiceStub, TableBodyRow} from '@dbg-riskit/DAVe-UI-testing';
+
+import {LatestListPage, generateAccountMargin, generateAccountMarginHistory} from '../../testing';
+
+import {CSVExportColumn} from '@dbg-riskit/DAVe-UI-file';
+import {HttpService} from '@dbg-riskit/DAVe-UI-http';
 
 import {AccountMarginServerData, AccountMarginData, AccountMarginParams} from './account.margin.types';
 import {AccountMarginService} from './account.margin.service';
-import {HttpService} from '../http.service';
 
 import {DATA_REFRESH_INTERVAL} from '../abstract.component';
-import {CSVExportColumn} from '../list/download.menu.component';
 
-import {
-    AccountMarginLatestComponent, valueGetters,
-    exportKeys
-} from './account.margin.latest.component';
+import {AccountMarginLatestComponent, valueGetters, exportKeys} from './account.margin.latest.component';
 import {ROUTES} from '../routes/routing.paths';
 
 xdescribe('Account margin latest component', () => {

@@ -2,7 +2,10 @@ import {DecimalPipe} from '@angular/common';
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {COMPONENT_CSS, CSVExportColumn, DateFormatter, ErrorResponse, OrderingCriteria} from '@dbg-riskit/DAVe-common';
+import {COMPONENT_CSS, ErrorResponse} from '@dbg-riskit/DAVe-UI-common';
+import {OrderingCriteria} from '@dbg-riskit/DAVe-UI-datatable';
+import {CSVExportColumn} from '@dbg-riskit/DAVe-UI-file';
+import {DateFormatter} from '@dbg-riskit/DAVe-UI-view';
 
 import {LiquiGroupMarginService} from './liqui.group.margin.service';
 import {LiquiGroupMarginData, LiquiGroupMarginHistoryParams} from './liqui.group.margin.types';

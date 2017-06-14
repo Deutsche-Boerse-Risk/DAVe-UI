@@ -1,7 +1,9 @@
 import {DecimalPipe} from '@angular/common';
 import {ActivatedRoute} from '@angular/router';
 
-import {DateFormatter, ErrorResponse, OrderingCriteria} from '@dbg-riskit/DAVe-common';
+import {ErrorResponse} from '@dbg-riskit/DAVe-UI-common';
+import {OrderingCriteria} from '@dbg-riskit/DAVe-UI-datatable';
+import {DateFormatter} from '@dbg-riskit/DAVe-UI-view';
 
 import {LiquiGroupSplitMarginService} from './liqui.group.split.margin.service';
 import {LiquiGroupSplitMarginData, LiquiGroupSplitMarginHistoryParams} from './liqui.group.split.margin.types';

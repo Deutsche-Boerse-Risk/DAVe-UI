@@ -2,6 +2,15 @@ import {By} from '@angular/platform-browser';
 
 import {ComponentFixture} from '@angular/core/testing';
 
+import {
+    DataTableDefinition,
+    LinkDefinition,
+    PageWithLoading,
+    RouterLinkStubDirective
+} from '@dbg-riskit/DAVe-UI-testing';
+
+import {DataTableComponent, HIGHLIGHTER_TIMEOUT} from '@dbg-riskit/DAVe-UI-datatable';
+
 import {LiquiGroupMarginAggregationComponent} from '../../app/liqui_group_margin/liqui.group.margin.aggregation.component';
 
 export class AggregationPage extends PageWithLoading<LiquiGroupMarginAggregationComponent> {

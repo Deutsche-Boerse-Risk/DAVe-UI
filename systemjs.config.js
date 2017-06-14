@@ -32,7 +32,14 @@ function initApp() {
             '@angular/flex-layout/index': 'npm:@angular/flex-layout/bundles/flex-layout.umd.js',
 
             // DAVe-Common
-            '@dbg-riskit/DAVe-common': 'npm:@dbg-riskit/DAVe-common/bundles/DAVe-common.cjs.js',
+            '@dbg-riskit/DAVe-UI-auth': 'npm:@dbg-riskit/DAVe-UI-auth/bundles/DAVe-UI-auth.cjs.js',
+            '@dbg-riskit/DAVe-UI-charts': 'npm:@dbg-riskit/DAVe-UI-charts/bundles/DAVe-UI-charts.cjs.js',
+            '@dbg-riskit/DAVe-UI-common': 'npm:@dbg-riskit/DAVe-UI-common/bundles/DAVe-UI-common.cjs.js',
+            '@dbg-riskit/DAVe-UI-datatable': 'npm:@dbg-riskit/DAVe-UI-datatable/bundles/DAVe-UI-datatable.cjs.js',
+            '@dbg-riskit/DAVe-UI-file': 'npm:@dbg-riskit/DAVe-UI-file/bundles/DAVe-UI-file.cjs.js',
+            '@dbg-riskit/DAVe-UI-http': 'npm:@dbg-riskit/DAVe-UI-http/bundles/DAVe-UI-http.cjs.js',
+            '@dbg-riskit/DAVe-UI-login': 'npm:@dbg-riskit/DAVe-UI-login/bundles/DAVe-UI-login.cjs.js',
+            '@dbg-riskit/DAVe-UI-view': 'npm:@dbg-riskit/DAVe-UI-view/bundles/DAVe-UI-view.cjs.js',
 
             // other libraries
             'rxjs': 'npm:rxjs',

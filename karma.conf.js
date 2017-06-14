@@ -1,6 +1,6 @@
 module.exports = function (config) {
 
-    var browsers = require('@dbg-riskit/DAVe-common/tools/browser-providers.conf');
+    var browsers = require('@dbg-riskit/DAVe-UI-common/tools/browser-providers.conf');
 
     var debugTests = false;
 
@@ -45,7 +45,7 @@ module.exports = function (config) {
             'node_modules/intl/dist/Intl.min.js',
             {pattern: 'node_modules/intl/dist/Intl.min.js.map', included: false, watched: false},
             'node_modules/intl/locale-data/jsonp/en-US.js',
-            'node_modules/@dbg-riskit/DAVe-common/ie.intl.shim.js',
+            'node_modules/@dbg-riskit/DAVe-UI-common/ie.intl.shim.js',
 
             // zone.js
             'node_modules/zone.js/dist/zone.js',
@@ -65,10 +65,10 @@ module.exports = function (config) {
             {pattern: 'node_modules/@angular/**/*.js', included: false, watched: false},
             {pattern: 'node_modules/@angular/**/*.js.map', included: false, watched: false},
 
-            // @dbg-riskit/DAVe-common
-            {pattern: 'node_modules/@dbg-riskit/DAVe-common/**/*.js', included: false, watched: false},
-            {pattern: 'node_modules/@dbg-riskit/DAVe-common/**/*.html', included: false, watched: false},
-            {pattern: 'node_modules/@dbg-riskit/DAVe-common/**/*.css', included: false, watched: false},
+            // @dbg-riskit/DAVe-UI-common
+            {pattern: 'node_modules/@dbg-riskit/DAVe-UI-common/**/*.js', included: false, watched: false},
+            {pattern: 'node_modules/@dbg-riskit/DAVe-UI-common/**/*.html', included: false, watched: false},
+            {pattern: 'node_modules/@dbg-riskit/DAVe-UI-common/**/*.css', included: false, watched: false},
 
             {pattern: 'systemjs.config.js', included: false, watched: false},
             'karma-test-shim.js', // optionally extend SystemJS mapping e.g., with barrels
@@ -83,16 +83,32 @@ module.exports = function (config) {
             {pattern: 'index.html', included: false, watched: true},
             {pattern: appBase + '**/*.html', included: false, watched: true},
             {pattern: appBase + '**/*.css', included: false, watched: false},
-            'node_modules/@dbg-riskit/DAVe-common/styles.css',
-            {pattern: 'node_modules/@dbg-riskit/DAVe-common/resources/fonts/**/*.eot', included: false, watched: false},
+            'node_modules/@dbg-riskit/DAVe-UI-common/styles.css',
             {
-                pattern: 'node_modules/@dbg-riskit/DAVe-common/resources/fonts/**/*.woff',
+                pattern: 'node_modules/@dbg-riskit/DAVe-UI-common/resources/fonts/**/*.eot',
                 included: false,
                 watched: false
             },
-            {pattern: 'node_modules/@dbg-riskit/DAVe-common/resources/fonts/**/*.ttf', included: false, watched: false},
-            {pattern: 'node_modules/@dbg-riskit/DAVe-common/resources/fonts/**/*.svg', included: false, watched: false},
-            {pattern: 'node_modules/@dbg-riskit/DAVe-common/resources/img/**/*.svg', included: false, watched: false},
+            {
+                pattern: 'node_modules/@dbg-riskit/DAVe-UI-common/resources/fonts/**/*.woff',
+                included: false,
+                watched: false
+            },
+            {
+                pattern: 'node_modules/@dbg-riskit/DAVe-UI-common/resources/fonts/**/*.ttf',
+                included: false,
+                watched: false
+            },
+            {
+                pattern: 'node_modules/@dbg-riskit/DAVe-UI-common/resources/fonts/**/*.svg',
+                included: false,
+                watched: false
+            },
+            {
+                pattern: 'node_modules/@dbg-riskit/DAVe-UI-common/resources/img/**/*.svg',
+                included: false,
+                watched: false
+            },
 
             // Paths for debugging with source maps in dev tools
             {pattern: appBase + '**/*.ts', included: false, watched: false},
@@ -105,8 +121,8 @@ module.exports = function (config) {
         proxies: {
             // required for modules fetched by SystemJS
             '/base/src/node_modules/': '/base/node_modules/',
-            '/fonts/': '/base/node_modules/@dbg-riskit/DAVe-common/resources/fonts/',
-            '/img/': '/base/node_modules/@dbg-riskit/DAVe-common/resources/img/'
+            '/fonts/': '/base/node_modules/@dbg-riskit/DAVe-UI-common/resources/fonts/',
+            '/img/': '/base/node_modules/@dbg-riskit/DAVe-UI-common/resources/img/'
         },
 
         exclude: [],

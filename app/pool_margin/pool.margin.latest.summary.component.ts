@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 
-import {COMPONENT_CSS, ErrorResponse} from '@dbg-riskit/DAVe-common';
+import {COMPONENT_CSS, ErrorResponse} from '@dbg-riskit/DAVe-UI-common';
 
 import {AbstractComponentWithAutoRefresh} from '../abstract.component';
 
