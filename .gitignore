@@ -29,6 +29,7 @@ ngFactories/
 reports/
 coverage/
 *.tgz
+*.tmp.txt
 
 # BrowserStack tunel binaries
 browserStackBin/
