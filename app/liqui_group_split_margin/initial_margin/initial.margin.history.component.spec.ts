@@ -7,37 +7,48 @@ import {ActivatedRouteStub, chceckSorting, HttpAsyncServiceStub, TableBodyRow} f
 import {CSVExportColumn} from '@dbg-riskit/DAVe-UI-file';
 import {HttpService} from '@dbg-riskit/DAVe-UI-http';
 
-import {generateRiskLimitUtilization, generateRiskLimitUtilizationHistory, LatestListPage} from '../../testing';
+import {generateLiquiGroupSplitMarginHistory, HistoryListPage} from '../../../testing';
 
-import {
-    RiskLimitUtilizationData,
-    RiskLimitUtilizationParams,
-    RiskLimitUtilizationServerData
-} from './risk.limit.utilization.types';
-import {RiskLimitUtilizationService} from './risk.limit.utilization.service';
+import {LiquiGroupSplitMarginHistoryParams, LiquiGroupSplitMarginServerData} from '../liqui.group.split.margin.types';
+import {LiquiGroupSplitMarginService} from '../liqui.group.split.margin.service';
 
-import {DATA_REFRESH_INTERVAL} from '../abstract.component';
+import {DATA_REFRESH_INTERVAL} from '../../abstract.component';
 
-import {exportKeys, RiskLimitUtilizationLatestComponent, valueGetters} from './risk.limit.utilization.latest.component';
-import {ROUTES} from '../routes/routing.paths';
+import {exportKeys, valueGetters} from './initial.margin.latest.component';
+import {InitialMarginHistoryComponent} from './initial.margin.history.component';
+import {ROUTES} from '../../routes/routing.paths';
 
-xdescribe('Risk limit utilization latest component', () => {
-    let page: LatestListPage<RiskLimitUtilizationLatestComponent>;
+xdescribe('Initial Margin history component', () => {
+    let page: HistoryListPage<InitialMarginHistoryComponent>;
+    let testingParams = ['A', 'A', 'B', 'C', '*', 'D'];
 
     beforeEach(async(() => {
-        LatestListPage.initTestBed(RiskLimitUtilizationLatestComponent, RiskLimitUtilizationService);
+        HistoryListPage.initTestBed(InitialMarginHistoryComponent, LiquiGroupSplitMarginService);
     }));
 
-    beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<RiskLimitUtilizationServerData[]>) => {
-        // Generate test data
-        http.returnValue(generateRiskLimitUtilization());
-        // Create component
-        page = new LatestListPage<RiskLimitUtilizationLatestComponent>(
-            TestBed.createComponent(RiskLimitUtilizationLatestComponent));
-    })));
+    beforeEach(fakeAsync(inject([HttpService, ActivatedRoute],
+        (http: HttpAsyncServiceStub<LiquiGroupSplitMarginServerData[]>,
+            activatedRoute: ActivatedRouteStub<LiquiGroupSplitMarginHistoryParams>) => {
+            // Generate test data
+            http.returnValue(generateLiquiGroupSplitMarginHistory());
+
+            // Set input parameters
+            activatedRoute.testParams = {
+                clearer              : testingParams[0],
+                member               : testingParams[1],
+                account              : testingParams[2],
+                liquidationGroup     : testingParams[3],
+                liquidationGroupSplit: testingParams[4],
+                marginCurrency       : testingParams[5]
+            };
+
+            // Create component
+            page = new HistoryListPage<InitialMarginHistoryComponent>(
+                TestBed.createComponent(InitialMarginHistoryComponent));
+        })));
 
     it('displays error correctly', fakeAsync(inject([HttpService],
-        (http: HttpAsyncServiceStub<RiskLimitUtilizationServerData[]>) => {
+        (http: HttpAsyncServiceStub<LiquiGroupSplitMarginServerData[]>) => {
             // Init component
             page.detectChanges();
             // Do not trigger periodic interval
@@ -51,6 +62,7 @@ xdescribe('Risk limit utilization latest component', () => {
                 .toBeNull('Update failed component not visible.');
             expect(page.dataTable.element)
                 .toBeNull('Data table not visible.');
+            expect(page.lineChart).toBeNull('Chart not visible.');
 
             // Return error
             http.throwError({
@@ -67,10 +79,11 @@ xdescribe('Risk limit utilization latest component', () => {
                 .toBeNull('Update failed component visible.');
             expect(page.dataTable.element)
                 .toBeNull('Data table not visible.');
+            expect(page.lineChart).toBeNull('Chart not visible.');
         })));
 
     it('displays no-data correctly', fakeAsync(inject([HttpService],
-        (http: HttpAsyncServiceStub<RiskLimitUtilizationServerData[]>) => {
+        (http: HttpAsyncServiceStub<LiquiGroupSplitMarginServerData[]>) => {
             // Init component
             page.detectChanges();
             // Do not trigger periodic interval
@@ -84,6 +97,7 @@ xdescribe('Risk limit utilization latest component', () => {
                 .toBeNull('Update failed component not visible.');
             expect(page.dataTable.element)
                 .toBeNull('Data table not visible.');
+            expect(page.lineChart).toBeNull('Chart not visible.');
 
             // Return no data
             http.popReturnValue(); // Remove from queue
@@ -98,33 +112,54 @@ xdescribe('Risk limit utilization latest component', () => {
                 .toBeNull('Update failed component not visible.');
             expect(page.dataTable.element)
                 .toBeNull('Data table not visible.');
+            expect(page.lineChart).toBeNull('Chart not visible.');
         })));
 
-    it('displays data table', fakeAsync(() => {
-        // Init component
-        page.detectChanges();
-        // Do not trigger periodic interval
-        clearInterval((page.component as any).intervalHandle);
+    it('displays data table', fakeAsync(inject([HttpService],
+        (http: HttpAsyncServiceStub<LiquiGroupSplitMarginServerData[]>) => {
+            let httpSpy = spyOn(http, 'get').and.callThrough();
+            // Init component
+            page.detectChanges();
+            // Do not trigger periodic interval
+            clearInterval((page.component as any).intervalHandle);
 
-        expect(page.initialLoadComponent).not.toBeNull('Initial load component visible.');
-        expect(page.noDataComponent).toBeNull('No data component not visible.');
-        expect(page.updateFailedComponent).toBeNull('Update failed component not visible.');
-        expect(page.dataTable.element).toBeNull('Data table not visible.');
+            expect(page.initialLoadComponent).not
+                .toBeNull('Initial load component visible.');
+            expect(page.noDataComponent)
+                .toBeNull('No data component not visible.');
+            expect(page.updateFailedComponent)
+                .toBeNull('Update failed component not visible.');
+            expect(page.dataTable.element).toBeNull('Data table not visible.');
+            expect(page.lineChart).toBeNull('Chart not visible.');
 
-        // Return data
-        page.advanceHTTP();
+            // Return data
+            page.advanceHTTP();
 
-        expect(page.initialLoadComponent).toBeNull('Initial load component not visible.');
-        expect(page.noDataComponent).toBeNull('No data component not visible.');
-        expect(page.updateFailedComponent).toBeNull('Update failed component not visible.');
-        expect(page.dataTable.element).not.toBeNull('Data table visible.');
+            expect(httpSpy).toHaveBeenCalled();
+            expect(httpSpy.calls.mostRecent().args[0].params).toEqual({
+                clearer              : testingParams[0],
+                member               : testingParams[1],
+                account              : testingParams[2],
+                liquidationGroup     : testingParams[3],
+                liquidationGroupSplit: testingParams[4],
+                marginCurrency       : testingParams[5]
+            });
 
-        // Fire highlighters
-        page.advanceHighlighter();
-    }));
+            expect(page.initialLoadComponent)
+                .toBeNull('Initial load component not visible.');
+            expect(page.noDataComponent)
+                .toBeNull('No data component not visible.');
+            expect(page.updateFailedComponent)
+                .toBeNull('Update failed component not visible.');
+            expect(page.dataTable.element).not.toBeNull('Data table visible.');
+            expect(page.lineChart).not.toBeNull('Chart visible.');
 
-    it('refresh data correctly', fakeAsync(inject([HttpService],
-        (http: HttpAsyncServiceStub<RiskLimitUtilizationServerData[]>) => {
+            // Fire highlighters
+            page.advanceHighlighter();
+        })));
+
+    it('data correctly refreshed', fakeAsync(inject([HttpService],
+        (http: HttpAsyncServiceStub<LiquiGroupSplitMarginServerData[]>) => {
             // Init component
             page.detectChanges();
             // Return data
@@ -138,6 +173,7 @@ xdescribe('Risk limit utilization latest component', () => {
                 .toBeNull('Update failed component not visible.');
             expect(page.dataTable.element).not
                 .toBeNull('Data table visible.');
+            expect(page.lineChart).not.toBeNull('Chart visible.');
 
             expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
                 return row.highlighted;
@@ -151,7 +187,7 @@ xdescribe('Risk limit utilization latest component', () => {
             })).toBeTruthy('No rows are highlighted');
 
             // Push new data
-            let newData = generateRiskLimitUtilizationHistory();
+            let newData = generateLiquiGroupSplitMarginHistory(50);
             http.returnValue(newData);
             // Trigger reload
             page.advanceAndDetectChangesUsingOffset(DATA_REFRESH_INTERVAL);
@@ -159,6 +195,7 @@ xdescribe('Risk limit utilization latest component', () => {
 
             expect(page.dataTable.element).not
                 .toBeNull('Data table visible.');
+            expect(page.lineChart).not.toBeNull('Chart visible.');
 
             expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
                 return row.highlighted;
@@ -186,7 +223,7 @@ xdescribe('Risk limit utilization latest component', () => {
         })));
 
     it('has correct pager',
-        fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<RiskLimitUtilizationServerData[]>) => {
+        fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<LiquiGroupSplitMarginServerData[]>) => {
             // Init component
             page.detectChanges();
             // Return data
@@ -194,28 +231,32 @@ xdescribe('Risk limit utilization latest component', () => {
             // Fire highlighters
             page.advanceHighlighter();
 
-            expect(page.dataTable.pager.element).not.toBeNull('Pager visible');
-            expect(page.dataTable.recordsCount.message).toContain('Showing 20 records out of ' + Math.pow(3, 3));
+            expect(page.dataTable.pager.element).toBeNull('Pager not visible');
+            expect(page.dataTable.recordsCount.message).toContain('Showing 16 records out of 16');
 
-            page.dataTable.pager.expectButtonNumbers([1, 2]);
+            let newData = generateLiquiGroupSplitMarginHistory()
+                .concat(generateLiquiGroupSplitMarginHistory())
+                .concat(generateLiquiGroupSplitMarginHistory());
+            http.returnValue(newData);
+            // Trigger reload
+            page.advanceAndDetectChangesUsingOffset(DATA_REFRESH_INTERVAL);
+            page.advanceHTTP();
+            page.detectChanges();
+
+            expect(page.dataTable.pager.element).not.toBeNull('Pager visible');
+            expect(page.dataTable.recordsCount.message).toContain('Showing 20 records out of ' + 3 * 16);
+
+            page.dataTable.pager.expectButtonNumbers([1, 2, 3]);
             page.dataTable.pager.expectButtonActive(2);
             page.dataTable.pager.expectLeadingButtonsDisabled();
             page.dataTable.pager.expectTrailingButtonsNotDisabled();
 
-            page.dataTable.pager.click(3);
+            page.dataTable.pager.click(4);
 
-            page.dataTable.pager.expectButtonNumbers([1, 2]);
-            page.dataTable.pager.expectButtonActive(3);
+            page.dataTable.pager.expectButtonNumbers([1, 2, 3]);
+            page.dataTable.pager.expectButtonActive(4);
             page.dataTable.pager.expectLeadingButtonsNotDisabled();
             page.dataTable.pager.expectTrailingButtonsDisabled();
-
-            http.returnValue(generateRiskLimitUtilizationHistory());
-            // Trigger reload
-            page.advanceAndDetectChangesUsingOffset(DATA_REFRESH_INTERVAL);
-            page.advanceHTTP();
-
-            expect(page.dataTable.pager.element).toBeNull('Pager not visible');
-            expect(page.dataTable.recordsCount.message).toContain('Showing 16 records out of 16');
 
             // Fire highlighters
             page.advanceHighlighter();
@@ -239,98 +280,33 @@ xdescribe('Risk limit utilization latest component', () => {
         xit('displays data correctly', fakeAsync(() => {
         }));
 
-        it('has filtering working', fakeAsync(() => {
-            let firstRow = page.dataTable.data[0];
-            let originalItems = page.dataTable.data.length;
-            let items = originalItems;
-            let filter = '';
-            let idParts = firstRow.uid.split('-');
-            for (let id of idParts) {
-                filter += id + '-';
-                page.filter(filter);
-                expect(items >= page.dataTable.data.length).toBeTruthy();
-                items = page.dataTable.data.length;
-                page.dataTable.data.forEach((row: RiskLimitUtilizationData) => {
-                    expect(row.uid).toMatch('^' + filter);
-                });
-                if (items === 1) {
-                    break;
-                }
-            }
-
-            // Clear the field
-            page.filter('');
-
-            expect(page.dataTable.data.length).toBe(originalItems);
-
-            filter = idParts.join('- -');
-            page.filter(filter);
-
-            page.dataTable.data.forEach((row: RiskLimitUtilizationData) => {
-                expect(row.uid).toMatch('(' + idParts.join('|-') + '){' + idParts.length + '}');
-            });
-
-            // Remove highlight
-            page.advanceHighlighter();
+        xit('has chart data correctly processed', fakeAsync(() => {
         }));
 
         it('has correct breadcrumbs navigation', fakeAsync(inject([ActivatedRoute],
-            (activatedRoute: ActivatedRouteStub<RiskLimitUtilizationParams>) => {
-                let routeParams: string[] = [];
+            (activatedRoute: ActivatedRouteStub<LiquiGroupSplitMarginHistoryParams>) => {
+                page.checkBreadCrumbs(testingParams,
+                    ROUTES.INITIAL_MARGIN_LATEST,
+                    'Initial Margin History',
+                    false, 2);
 
-                page.checkBreadCrumbs(routeParams,
-                    ROUTES.RISK_LIMIT_UTILIZATION_LATEST,
-                    'Latest Risk Limit Utilization');
+                let routeParams = ['A', 'A', 'B', 'C', 'D', 'E'];
 
-                routeParams.push('A');
                 activatedRoute.testParams = {
-                    clearer: routeParams[0]
+                    clearer              : routeParams[0],
+                    member               : routeParams[1],
+                    account              : routeParams[2],
+                    liquidationGroup     : routeParams[3],
+                    liquidationGroupSplit: routeParams[4],
+                    marginCurrency       : routeParams[5]
                 };
                 page.detectChanges();
 
                 page.checkBreadCrumbs(routeParams,
-                    ROUTES.RISK_LIMIT_UTILIZATION_LATEST,
-                    'Latest Risk Limit Utilization');
-
-                routeParams.push('B');
-                activatedRoute.testParams = {
-                    clearer: routeParams[0],
-                    member : routeParams[1]
-                };
-                page.detectChanges();
-
-                page.checkBreadCrumbs(routeParams,
-                    ROUTES.RISK_LIMIT_UTILIZATION_LATEST,
-                    'Latest Risk Limit Utilization');
-
-                routeParams.push('C');
-                activatedRoute.testParams = {
-                    clearer   : routeParams[0],
-                    member    : routeParams[1],
-                    maintainer: routeParams[2]
-                };
-                page.detectChanges();
-
-                page.checkBreadCrumbs(routeParams,
-                    ROUTES.RISK_LIMIT_UTILIZATION_LATEST,
-                    'Latest Risk Limit Utilization');
-
-                routeParams.push('D');
-                activatedRoute.testParams = {
-                    clearer   : routeParams[0],
-                    member    : routeParams[1],
-                    maintainer: routeParams[2],
-                    limitType : routeParams[3]
-                };
-                page.detectChanges();
-
-                page.checkBreadCrumbs(routeParams,
-                    ROUTES.RISK_LIMIT_UTILIZATION_LATEST,
-                    'Latest Risk Limit Utilization');
+                    ROUTES.INITIAL_MARGIN_LATEST,
+                    'Initial Margin History',
+                    false, 2);
             })));
-
-        xit('has correct row navigation', fakeAsync(() => {
-        }));
 
         it('has download working', fakeAsync(() => {
             let downloadLink = page.downloadMenu;
@@ -349,19 +325,17 @@ xdescribe('Risk limit utilization latest component', () => {
             let cells = exportedData.split('\n')[1].split(',');
             expect(cells[cells.length - 1])
                 .toMatch(/^\d{2}\. \d{2}\. \d{4} \d{2}:\d{2}:\d{2}$/);
-            expect(exportedData.split('\n').length).toBe(Math.pow(3, 3) + 2);
+            expect(exportedData.split('\n').length).toBe(18);
         }));
 
         it('can be sorted correctly', fakeAsync(() => {
             chceckSorting(page, [
-                valueGetters.member, valueGetters.maintainer, valueGetters.limitType,
-                valueGetters.utilization, valueGetters.warningLevel, valueGetters.warningUtil,
-                valueGetters.throttleLevel, valueGetters.throttleUtil, valueGetters.rejectLevel,
-                valueGetters.rejectUtil
+                valueGetters.received,
+                valueGetters.marketRisk,
+                valueGetters.liquRisk,
+                valueGetters.longOptionCredit,
+                valueGetters.additionalMargin
             ]);
-
-            // Fire highlighters
-            page.advanceHighlighter();
         }));
     });
 });

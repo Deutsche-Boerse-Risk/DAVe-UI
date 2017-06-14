@@ -2,17 +2,14 @@ import {NO_ERRORS_SCHEMA} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {Router} from '@angular/router';
 
-import {async, TestBed, fakeAsync, inject} from '@angular/core/testing';
+import {async, fakeAsync, inject, TestBed} from '@angular/core/testing';
 
-import {
-    RouterLinkStubDirective,
-    HttpAsyncServiceStub,
-    RouterStub,
-    TreeMapPage,
-    generateLiquiGroupMargin
-} from '../../testing';
+import {HttpAsyncServiceStub, RouterLinkStubDirective, RouterStub} from '@dbg-riskit/DAVe-UI-testing';
 
-import {HttpService} from '../http.service';
+import {HttpService} from '@dbg-riskit/DAVe-UI-http';
+
+import {generateLiquiGroupMargin, TreeMapPage} from '../../testing';
+
 import {LiquiGroupMarginService} from './liqui.group.margin.service';
 
 import {LiquiGroupMarginTreemapComponent} from './liqui.group.margin.treemap.component';

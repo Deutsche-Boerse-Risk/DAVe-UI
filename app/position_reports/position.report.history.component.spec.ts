@@ -1,24 +1,20 @@
 import {ActivatedRoute} from '@angular/router';
 
-import {async, TestBed, fakeAsync, inject} from '@angular/core/testing';
+import {async, fakeAsync, inject, TestBed} from '@angular/core/testing';
 
-import {
-    ActivatedRouteStub,
-    HistoryListPage,
-    TableBodyRow,
-    HttpAsyncServiceStub,
-    generatePositionReportsHistory,
-    chceckSorting
-} from '../../testing';
+import {ActivatedRouteStub, chceckSorting, HttpAsyncServiceStub, TableBodyRow} from '@dbg-riskit/DAVe-UI-testing';
+
+import {CSVExportColumn} from '@dbg-riskit/DAVe-UI-file';
+import {HttpService} from '@dbg-riskit/DAVe-UI-http';
+
+import {generatePositionReportsHistory, HistoryListPage} from '../../testing';
 
 import {PositionReportServerData, PositionReportsHistoryParams} from './position.report.types';
 import {PositionReportsService} from './position.reports.service';
-import {HttpService} from '../http.service';
 
 import {DATA_REFRESH_INTERVAL} from '../abstract.component';
-import {CSVExportColumn} from '../list/download.menu.component';
 
-import {valueGetters, exportKeys} from './position.report.latest.component';
+import {exportKeys, valueGetters} from './position.report.latest.component';
 import {PositionReportHistoryComponent} from './position.report.history.component';
 import {ROUTES} from '../routes/routing.paths';
 

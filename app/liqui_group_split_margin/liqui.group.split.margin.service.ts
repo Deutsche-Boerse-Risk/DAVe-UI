@@ -6,10 +6,10 @@ import {HttpService} from '@dbg-riskit/DAVe-UI-http';
 import {Observable} from 'rxjs/Observable';
 
 import {
-    LiquiGroupSplitMarginServerData,
     LiquiGroupSplitMarginData,
+    LiquiGroupSplitMarginHistoryParams,
     LiquiGroupSplitMarginParams,
-    LiquiGroupSplitMarginHistoryParams
+    LiquiGroupSplitMarginServerData
 } from './liqui.group.split.margin.types';
 
 export const liquiGroupSplitMarginLatestURL: string = '/lgsm/latest';

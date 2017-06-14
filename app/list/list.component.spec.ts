@@ -1,11 +1,13 @@
 import {Component} from '@angular/core';
 import {By} from '@angular/platform-browser';
 
-import {TestBed, async, fakeAsync} from '@angular/core/testing';
+import {async, fakeAsync, TestBed} from '@angular/core/testing';
 
-import {disableMaterialAnimations, ListPage, stubRouter} from '../../testing';
+import {disableMaterialAnimations, stubRouter} from '@dbg-riskit/DAVe-UI-testing';
 
-import {CommonModule} from '../common/common.module';
+import {FileModule} from '@dbg-riskit/DAVe-UI-file';
+
+import {ListPage} from '../../testing';
 
 import {ListModule} from './list.module';
 import {RoutePart} from './bread.crumbs.component';
@@ -51,8 +53,8 @@ xdescribe('ListComponent', () => {
             imports     : [ListModule],
             declarations: [TestComponent]
         });
-        disableMaterialAnimations(CommonModule);
         disableMaterialAnimations(ListModule);
+        disableMaterialAnimations(FileModule);
         stubRouter().compileComponents();
     }));
 

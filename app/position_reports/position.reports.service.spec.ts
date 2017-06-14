@@ -1,15 +1,21 @@
-import {TestBed, inject} from '@angular/core/testing';
+import {inject, TestBed} from '@angular/core/testing';
 
-import {HttpServiceStub, generatePositionReports} from '../../testing';
-import Spy = jasmine.Spy;
+import {HttpServiceStub} from '@dbg-riskit/DAVe-UI-testing';
 
-import {HttpService, Request} from '../http.service';
+import {Request} from '@dbg-riskit/DAVe-UI-common';
+import {HttpService} from '@dbg-riskit/DAVe-UI-http';
 
-import {PositionReportsService, historyURL, latestURL, chartsURL} from './position.reports.service';
+import {generatePositionReports} from '../../testing';
+
+import {chartsURL, historyURL, latestURL, PositionReportsService} from './position.reports.service';
 import {
-    PositionReportServerData, PositionReportData, PositionReportChartData,
-    PositionReportBubble
+    PositionReportBubble,
+    PositionReportChartData,
+    PositionReportData,
+    PositionReportServerData
 } from './position.report.types';
+
+import Spy = jasmine.Spy;
 
 describe('PositionReportsService', () => {
     let httpSyp: Spy;

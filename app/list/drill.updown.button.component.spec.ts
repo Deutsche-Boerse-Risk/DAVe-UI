@@ -1,8 +1,8 @@
-import {TestBed, async, fakeAsync} from '@angular/core/testing';
+import {async, fakeAsync, TestBed} from '@angular/core/testing';
 
-import {LinkOnlyPage, RouterLinkStubDirective} from '../../testing';
+import {LinkOnlyPage, RouterLinkStubDirective} from '@dbg-riskit/DAVe-UI-testing';
 
-import {NoopAnimationsMaterialModule} from '../material/material.module';
+import {NoopAnimationsCommonViewModule} from '@dbg-riskit/DAVe-UI-view';
 
 import {DrillUpDownButtonComponent} from './drill.updown.button.component';
 
@@ -12,7 +12,7 @@ describe('DrillUpDownButtonComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports     : [NoopAnimationsMaterialModule],
+            imports     : [NoopAnimationsCommonViewModule],
             declarations: [DrillUpDownButtonComponent, RouterLinkStubDirective]
         }).compileComponents();
     }));

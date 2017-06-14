@@ -1,17 +1,15 @@
 import {BrowserModule} from '@angular/platform-browser';
 
-import {async, TestBed, fakeAsync, inject} from '@angular/core/testing';
+import {async, fakeAsync, inject, TestBed} from '@angular/core/testing';
 
-import {
-    PoolMarginSummaryPage,
-    Panel,
-    HttpAsyncServiceStub,
-    generatePoolMarginLatest
-} from '../../testing';
+import {HttpAsyncServiceStub} from '@dbg-riskit/DAVe-UI-testing';
+
+import {HttpService} from '@dbg-riskit/DAVe-UI-http';
+
+import {generatePoolMarginLatest, Panel, PoolMarginSummaryPage} from '../../testing';
 
 import {PoolMarginServerData} from './pool.margin.types';
 import {PoolMarginService} from './pool.margin.service';
-import {HttpService} from '../http.service';
 
 import {PoolMarginLatestSummaryComponent} from './pool.margin.latest.summary.component';
 

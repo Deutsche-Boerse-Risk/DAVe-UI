@@ -1,25 +1,20 @@
 import {ActivatedRoute} from '@angular/router';
 
-import {async, TestBed, fakeAsync, inject} from '@angular/core/testing';
+import {async, fakeAsync, inject, TestBed} from '@angular/core/testing';
 
-import {
-    LatestListPage,
-    TableBodyRow,
-    ActivatedRouteStub,
-    HttpAsyncServiceStub,
-    generatePositionReports,
-    generatePositionReportsHistory,
-    chceckSorting
-} from '../../testing';
+import {ActivatedRouteStub, chceckSorting, HttpAsyncServiceStub, TableBodyRow} from '@dbg-riskit/DAVe-UI-testing';
 
-import {PositionReportServerData, PositionReportData, PositionReportsParams} from './position.report.types';
+import {CSVExportColumn} from '@dbg-riskit/DAVe-UI-file';
+import {HttpService} from '@dbg-riskit/DAVe-UI-http';
+
+import {generatePositionReports, generatePositionReportsHistory, LatestListPage} from '../../testing';
+
+import {PositionReportData, PositionReportServerData, PositionReportsParams} from './position.report.types';
 import {PositionReportsService} from './position.reports.service';
-import {HttpService} from '../http.service';
 
 import {DATA_REFRESH_INTERVAL} from '../abstract.component';
-import {CSVExportColumn} from '../list/download.menu.component';
 
-import {PositionReportLatestComponent, valueGetters, exportKeys} from './position.report.latest.component';
+import {exportKeys, PositionReportLatestComponent, valueGetters} from './position.report.latest.component';
 import {ROUTES} from '../routes/routing.paths';
 
 xdescribe('Position reports latest component', () => {

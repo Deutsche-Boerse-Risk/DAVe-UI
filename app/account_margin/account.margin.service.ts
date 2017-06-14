@@ -1,12 +1,15 @@
 import {Injectable} from '@angular/core';
 
-import {UIDUtils, DateUtils} from '@dbg-riskit/DAVe-UI-common';
+import {DateUtils, UIDUtils} from '@dbg-riskit/DAVe-UI-common';
 import {HttpService} from '@dbg-riskit/DAVe-UI-http';
 
 import {Observable} from 'rxjs/Observable';
 
 import {
-    AccountMarginServerData, AccountMarginData, AccountMarginParams, AccountMarginHistoryParams
+    AccountMarginData,
+    AccountMarginHistoryParams,
+    AccountMarginParams,
+    AccountMarginServerData
 } from './account.margin.types';
 
 export const accountMarginLatestURL: string = '/am/latest';

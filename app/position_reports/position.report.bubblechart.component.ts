@@ -7,7 +7,7 @@ import {BubbleChartOptions, ChartData, ChartRow, ChartValue} from '@dbg-riskit/D
 import {AbstractComponentWithAutoRefresh} from '../abstract.component';
 
 import {PositionReportsService} from './position.reports.service';
-import {PositionReportChartData, PositionReportBubble, SelectValues} from './position.report.types';
+import {PositionReportBubble, PositionReportChartData, SelectValues} from './position.report.types';
 
 export const compVarPositiveLegend = 'Positive';
 export const compVarNegativeLegend = 'Negative';

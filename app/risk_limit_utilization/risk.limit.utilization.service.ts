@@ -6,10 +6,10 @@ import {HttpService} from '@dbg-riskit/DAVe-UI-http';
 import {Observable} from 'rxjs/Observable';
 
 import {
-    RiskLimitUtilizationServerData,
     RiskLimitUtilizationData,
+    RiskLimitUtilizationHistoryParams,
     RiskLimitUtilizationParams,
-    RiskLimitUtilizationHistoryParams
+    RiskLimitUtilizationServerData
 } from './risk.limit.utilization.types';
 
 export const riskLimitUtilizationLatestURL: string = '/rlu/latest';

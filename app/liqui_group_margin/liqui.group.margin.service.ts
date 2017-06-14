@@ -6,14 +6,14 @@ import {HttpService} from '@dbg-riskit/DAVe-UI-http';
 import {Observable} from 'rxjs/Observable';
 
 import {
-    LiquiGroupMarginServerData,
-    LiquiGroupMarginData,
-    LiquiGroupMarginBaseData,
     LiquiGroupMarginAggregationData,
-    LiquiGroupMarginTree,
-    LiquiGroupMarginTreeNode,
+    LiquiGroupMarginBaseData,
+    LiquiGroupMarginData,
+    LiquiGroupMarginHistoryParams,
     LiquiGroupMarginParams,
-    LiquiGroupMarginHistoryParams
+    LiquiGroupMarginServerData,
+    LiquiGroupMarginTree,
+    LiquiGroupMarginTreeNode
 } from './liqui.group.margin.types';
 
 export const liquiGroupMarginAggregationURL: string = '/lgm/latest';

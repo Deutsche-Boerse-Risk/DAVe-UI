@@ -1,24 +1,20 @@
 import {ActivatedRoute} from '@angular/router';
 
-import {async, TestBed, fakeAsync, inject} from '@angular/core/testing';
+import {async, fakeAsync, inject, TestBed} from '@angular/core/testing';
 
-import {
-    ActivatedRouteStub,
-    HistoryListPage,
-    TableBodyRow,
-    HttpAsyncServiceStub,
-    generateRiskLimitUtilizationHistory,
-    chceckSorting
-} from '../../testing';
+import {ActivatedRouteStub, chceckSorting, HttpAsyncServiceStub, TableBodyRow} from '@dbg-riskit/DAVe-UI-testing';
+
+import {CSVExportColumn} from '@dbg-riskit/DAVe-UI-file';
+import {HttpService} from '@dbg-riskit/DAVe-UI-http';
+
+import {generateRiskLimitUtilizationHistory, HistoryListPage} from '../../testing';
 
 import {RiskLimitUtilizationHistoryParams, RiskLimitUtilizationServerData} from './risk.limit.utilization.types';
 import {RiskLimitUtilizationService} from './risk.limit.utilization.service';
-import {HttpService} from '../http.service';
 
 import {DATA_REFRESH_INTERVAL} from '../abstract.component';
-import {CSVExportColumn} from '../list/download.menu.component';
 
-import {valueGetters, exportKeys} from './risk.limit.utilization.latest.component';
+import {exportKeys, valueGetters} from './risk.limit.utilization.latest.component';
 import {RiskLimitUtilizationHistoryComponent} from './risk.limit.utilization.history.component';
 import {ROUTES} from '../routes/routing.paths';
 

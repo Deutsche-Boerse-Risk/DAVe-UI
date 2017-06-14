@@ -1,4 +1,4 @@
-import {CommonModule, DatePipe, DecimalPipe} from '@angular/common';
+import {DatePipe, DecimalPipe} from '@angular/common';
 import {DebugElement, Type} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {NgModel} from '@angular/forms';
@@ -24,7 +24,7 @@ import {
 
 import {DATE_FORMAT} from '@dbg-riskit/DAVe-UI-common';
 import {DataTableComponent, DataTableModule, HIGHLIGHTER_TIMEOUT} from '@dbg-riskit/DAVe-UI-datatable';
-import {CSVDownloadMenuComponent} from '@dbg-riskit/DAVe-UI-file';
+import {CSVDownloadMenuComponent, FileModule} from '@dbg-riskit/DAVe-UI-file';
 import {HttpService} from '@dbg-riskit/DAVe-UI-http';
 import {DateFormatter, INITIAL_LOAD_SELECTOR, NO_DATA_SELECTOR, UPDATE_FAILED_SELECTOR} from '@dbg-riskit/DAVe-UI-view';
 
@@ -154,8 +154,8 @@ export class LatestListPage<T> extends ListPage<T> {
                 }
             ]
         });
-        disableMaterialAnimations(CommonModule);
         disableMaterialAnimations(ListModule);
+        disableMaterialAnimations(FileModule);
         disableMaterialAnimations(DataTableModule);
         stubRouter().compileComponents();
     }
@@ -249,8 +249,8 @@ export class HistoryListPage<T> extends LatestListPage<T> {
             ]
             // schemas: [NO_ERRORS_SCHEMA]
         });
-        disableMaterialAnimations(CommonModule);
         disableMaterialAnimations(ListModule);
+        disableMaterialAnimations(FileModule);
         disableMaterialAnimations(DataTableModule);
         stubRouter().compileComponents();
     }

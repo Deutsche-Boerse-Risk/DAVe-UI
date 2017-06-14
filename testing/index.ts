@@ -3,6 +3,7 @@ export * from './definitions/bubble.chart.page';
 export * from './definitions/dashboard.page';
 export * from './definitions/liqui.group.margin.aggregation.page';
 export * from './definitions/list.page';
+export * from './definitions/menu.page';
 export * from './definitions/pool.margin.summary.page';
 export * from './definitions/treemap.page';
 

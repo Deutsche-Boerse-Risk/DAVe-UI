@@ -6,7 +6,9 @@ import {OrderingCriteria, Row} from '@dbg-riskit/DAVe-UI-datatable';
 import {AbstractComponentWithAutoRefresh} from '../abstract.component';
 
 import {
-    LiquiGroupMarginAggregationData, LiquiGroupMarginBaseData, LiquiGroupMarginData
+    LiquiGroupMarginAggregationData,
+    LiquiGroupMarginBaseData,
+    LiquiGroupMarginData
 } from './liqui.group.margin.types';
 import {LiquiGroupMarginService} from './liqui.group.margin.service';
 

@@ -1,25 +1,20 @@
 import {ActivatedRoute} from '@angular/router';
 
-import {async, TestBed, fakeAsync, inject} from '@angular/core/testing';
+import {async, fakeAsync, inject, TestBed} from '@angular/core/testing';
 
-import {
-    LatestListPage,
-    TableBodyRow,
-    ActivatedRouteStub,
-    HttpAsyncServiceStub,
-    generateLiquiGroupMargin,
-    generateLiquiGroupMarginHistory,
-    chceckSorting
-} from '../../testing';
+import {ActivatedRouteStub, chceckSorting, HttpAsyncServiceStub, TableBodyRow} from '@dbg-riskit/DAVe-UI-testing';
 
-import {LiquiGroupMarginServerData, LiquiGroupMarginData, LiquiGroupMarginParams} from './liqui.group.margin.types';
+import {CSVExportColumn} from '@dbg-riskit/DAVe-UI-file';
+import {HttpService} from '@dbg-riskit/DAVe-UI-http';
+
+import {generateLiquiGroupMargin, generateLiquiGroupMarginHistory, LatestListPage} from '../../testing';
+
+import {LiquiGroupMarginData, LiquiGroupMarginParams, LiquiGroupMarginServerData} from './liqui.group.margin.types';
 import {LiquiGroupMarginService} from './liqui.group.margin.service';
-import {HttpService} from '../http.service';
 
 import {DATA_REFRESH_INTERVAL} from '../abstract.component';
-import {CSVExportColumn} from '../list/download.menu.component';
 
-import {LiquiGroupMarginLatestComponent, valueGetters, exportKeys} from './liqui.group.margin.latest.component';
+import {exportKeys, LiquiGroupMarginLatestComponent, valueGetters} from './liqui.group.margin.latest.component';
 import {ROUTES} from '../routes/routing.paths';
 
 xdescribe('Liquidation Group Margin latest component', () => {

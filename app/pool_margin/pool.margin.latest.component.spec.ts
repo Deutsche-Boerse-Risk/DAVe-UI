@@ -1,28 +1,20 @@
 import {ActivatedRoute} from '@angular/router';
 
-import {async, TestBed, fakeAsync, inject} from '@angular/core/testing';
+import {async, fakeAsync, inject, TestBed} from '@angular/core/testing';
 
-import {
-    LatestListPage,
-    TableBodyRow,
-    ActivatedRouteStub,
-    HttpAsyncServiceStub,
-    generatePoolMarginLatest,
-    generatePoolMarginHistory,
-    chceckSorting
-} from '../../testing';
+import {ActivatedRouteStub, chceckSorting, HttpAsyncServiceStub, TableBodyRow} from '@dbg-riskit/DAVe-UI-testing';
 
-import {PoolMarginServerData, PoolMarginData, PoolMarginParams} from './pool.margin.types';
+import {CSVExportColumn} from '@dbg-riskit/DAVe-UI-file';
+import {HttpService} from '@dbg-riskit/DAVe-UI-http';
+
+import {generatePoolMarginHistory, generatePoolMarginLatest, LatestListPage} from '../../testing';
+
+import {PoolMarginData, PoolMarginParams, PoolMarginServerData} from './pool.margin.types';
 import {PoolMarginService} from './pool.margin.service';
-import {HttpService} from '../http.service';
 
 import {DATA_REFRESH_INTERVAL} from '../abstract.component';
-import {CSVExportColumn} from '../list/download.menu.component';
 
-import {
-    PoolMarginLatestComponent, valueGetters,
-    exportKeys
-} from './pool.margin.latest.component';
+import {exportKeys, PoolMarginLatestComponent, valueGetters} from './pool.margin.latest.component';
 import {ROUTES} from '../routes/routing.paths';
 
 xdescribe('Pool Margin latest component', () => {

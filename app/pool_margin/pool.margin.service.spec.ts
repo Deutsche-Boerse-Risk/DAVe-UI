@@ -1,12 +1,16 @@
-import {TestBed, inject} from '@angular/core/testing';
+import {inject, TestBed} from '@angular/core/testing';
 
-import {HttpServiceStub, generatePoolMarginLatest} from '../../testing';
-import Spy = jasmine.Spy;
+import {HttpServiceStub} from '@dbg-riskit/DAVe-UI-testing';
 
-import {HttpService, Request} from '../http.service';
+import {Request} from '@dbg-riskit/DAVe-UI-common';
+import {HttpService} from '@dbg-riskit/DAVe-UI-http';
 
-import {PoolMarginService, poolMarginHistoryURL, poolMarginLatestURL} from './pool.margin.service';
+import {generatePoolMarginLatest} from '../../testing';
+
+import {poolMarginHistoryURL, poolMarginLatestURL, PoolMarginService} from './pool.margin.service';
 import {PoolMarginData, PoolMarginServerData, PoolMarginSummaryData} from './pool.margin.types';
+
+import Spy = jasmine.Spy;
 
 describe('PoolMarginService', () => {
     let httpSyp: Spy;

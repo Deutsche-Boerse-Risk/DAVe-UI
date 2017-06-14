@@ -1,6 +1,6 @@
 import {NO_ERRORS_SCHEMA} from '@angular/core';
 
-import {TestBed, async, fakeAsync} from '@angular/core/testing';
+import {async, fakeAsync, TestBed} from '@angular/core/testing';
 
 import {DashboardPage, Tab} from '../../testing';
 

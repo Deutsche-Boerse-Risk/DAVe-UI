@@ -1,9 +1,11 @@
 import {ContentChildren} from '@angular/core';
 import {Router} from '@angular/router';
 
-import {TestBed, async, inject, fakeAsync} from '@angular/core/testing';
+import {async, fakeAsync, inject, TestBed} from '@angular/core/testing';
 
-import {MenuPage, RouterStub, RouterLinkStubDirective, stubRouter} from '../../testing';
+import {RouterLinkStubDirective, RouterStub, stubRouter} from '@dbg-riskit/DAVe-UI-testing';
+
+import {MenuPage} from '../../testing';
 
 import {MenuModule} from './menu.module';
 import {MenuComponent} from './menu.component';

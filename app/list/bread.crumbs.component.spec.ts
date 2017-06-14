@@ -1,17 +1,13 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {Router, RouterModule} from '@angular/router';
 
-import {TestBed, async, fakeAsync, inject} from '@angular/core/testing';
+import {async, fakeAsync, inject, TestBed} from '@angular/core/testing';
 
-import {NoopAnimationsMaterialModule} from '../material/material.module';
+import {RouterStub, stubRouter} from '@dbg-riskit/DAVe-UI-testing';
 
-import {
-    BreadCrumbsPage,
-    TestBreadCrumbsComponent,
-    stubRouter,
-    RouterStub,
-    Crumb
-} from '../../testing';
+import {NoopAnimationsCommonViewModule} from '@dbg-riskit/DAVe-UI-view';
+
+import {BreadCrumbsPage, Crumb, TestBreadCrumbsComponent} from '../../testing';
 
 import {BreadCrumbsComponent} from './bread.crumbs.component';
 
@@ -24,7 +20,7 @@ describe('BreadCrumbsComponent', () => {
             imports     : [
                 BrowserModule,
                 RouterModule,
-                NoopAnimationsMaterialModule
+                NoopAnimationsCommonViewModule
             ],
             declarations: [
                 TestBreadCrumbsComponent,

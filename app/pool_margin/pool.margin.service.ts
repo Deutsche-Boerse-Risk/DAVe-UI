@@ -6,7 +6,11 @@ import {HttpService} from '@dbg-riskit/DAVe-UI-http';
 import {Observable} from 'rxjs/Observable';
 
 import {
-    PoolMarginServerData, PoolMarginSummaryData, PoolMarginData, PoolMarginParams, PoolMarginHistoryParams
+    PoolMarginData,
+    PoolMarginHistoryParams,
+    PoolMarginParams,
+    PoolMarginServerData,
+    PoolMarginSummaryData
 } from './pool.margin.types';
 
 export const poolMarginLatestURL: string = '/pm/latest';

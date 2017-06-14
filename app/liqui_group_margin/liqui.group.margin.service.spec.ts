@@ -1,22 +1,29 @@
-import {TestBed, inject} from '@angular/core/testing';
+import {inject, TestBed} from '@angular/core/testing';
 
-import {HttpServiceStub, generateLiquiGroupMargin} from '../../testing';
-import Spy = jasmine.Spy;
+import {HttpServiceStub} from '@dbg-riskit/DAVe-UI-testing';
 
-import {HttpService, Request} from '../http.service';
+import {Request} from '@dbg-riskit/DAVe-UI-common';
+import {HttpService} from '@dbg-riskit/DAVe-UI-http';
+
+import {generateLiquiGroupMargin} from '../../testing';
 
 import {
-    LiquiGroupMarginService,
-    liquiGroupMarginLatestURL,
+    liquiGroupMarginAggregationURL,
     liquiGroupMarginHistoryURL,
-    liquiGroupMarginAggregationURL, liquiGroupMarginTreemapURL
+    liquiGroupMarginLatestURL,
+    LiquiGroupMarginService,
+    liquiGroupMarginTreemapURL
 } from './liqui.group.margin.service';
 import {
-    LiquiGroupMarginServerData,
-    LiquiGroupMarginData,
     LiquiGroupMarginAggregationData,
-    LiquiGroupMarginBaseData, LiquiGroupMarginTree, LiquiGroupMarginTreeNode
+    LiquiGroupMarginBaseData,
+    LiquiGroupMarginData,
+    LiquiGroupMarginServerData,
+    LiquiGroupMarginTree,
+    LiquiGroupMarginTreeNode
 } from './liqui.group.margin.types';
+
+import Spy = jasmine.Spy;
 
 describe('LiquiGroupMarginService', () => {
     let httpSyp: Spy;

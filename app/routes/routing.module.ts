@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {RouterModule, Route, Router} from '@angular/router';
+import {Route, Router, RouterModule} from '@angular/router';
 
 import {LOGIN_ROUTE, MAIN_ROUTE} from '@dbg-riskit/DAVe-UI-common';
 import {AuthGuard, AuthModule, AuthService} from '@dbg-riskit/DAVe-UI-auth';
@@ -36,10 +36,7 @@ import {AccountMarginHistoryComponent} from '../account_margin/account.margin.hi
 import {RiskLimitUtilizationModule} from '../risk_limit_utilization/risk.limit.utilization.module';
 import {RiskLimitUtilizationLatestComponent} from '../risk_limit_utilization/risk.limit.utilization.latest.component';
 import {RiskLimitUtilizationHistoryComponent} from '../risk_limit_utilization/risk.limit.utilization.history.component';
-import {
-    ROUTES,
-    ROUTE_NAMES
-} from './routing.paths';
+import {ROUTE_NAMES, ROUTES} from './routing.paths';
 
 const ACCOUNT_MARGIN: Route[] = [
     {

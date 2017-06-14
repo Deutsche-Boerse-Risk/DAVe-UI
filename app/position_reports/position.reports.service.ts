@@ -6,8 +6,14 @@ import {HttpService} from '@dbg-riskit/DAVe-UI-http';
 import {Observable} from 'rxjs/Observable';
 
 import {
-    PositionReportServerData, PositionReportData, PositionReportBubble, PositionReportChartData, SelectValues,
-    PositionReportChartDataSelect, PositionReportsParams, PositionReportsHistoryParams
+    PositionReportBubble,
+    PositionReportChartData,
+    PositionReportChartDataSelect,
+    PositionReportData,
+    PositionReportServerData,
+    PositionReportsHistoryParams,
+    PositionReportsParams,
+    SelectValues
 } from './position.report.types';
 
 export const chartsURL: string = '/pr/latest';

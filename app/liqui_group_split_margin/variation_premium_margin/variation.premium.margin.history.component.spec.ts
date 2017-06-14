@@ -1,24 +1,20 @@
 import {ActivatedRoute} from '@angular/router';
 
-import {async, TestBed, fakeAsync, inject} from '@angular/core/testing';
+import {async, fakeAsync, inject, TestBed} from '@angular/core/testing';
 
-import {
-    ActivatedRouteStub,
-    HistoryListPage,
-    TableBodyRow,
-    HttpAsyncServiceStub,
-    generateLiquiGroupSplitMarginHistory,
-    chceckSorting
-} from '../../../testing';
+import {ActivatedRouteStub, chceckSorting, HttpAsyncServiceStub, TableBodyRow} from '@dbg-riskit/DAVe-UI-testing';
+
+import {CSVExportColumn} from '@dbg-riskit/DAVe-UI-file';
+import {HttpService} from '@dbg-riskit/DAVe-UI-http';
+
+import {generateLiquiGroupSplitMarginHistory, HistoryListPage} from '../../../testing';
 
 import {LiquiGroupSplitMarginHistoryParams, LiquiGroupSplitMarginServerData} from '../liqui.group.split.margin.types';
 import {LiquiGroupSplitMarginService} from '../liqui.group.split.margin.service';
-import {HttpService} from '../../http.service';
 
 import {DATA_REFRESH_INTERVAL} from '../../abstract.component';
-import {CSVExportColumn} from '../../list/download.menu.component';
 
-import {valueGetters, exportKeys} from './variation.premium.margin.latest.component';
+import {exportKeys, valueGetters} from './variation.premium.margin.latest.component';
 import {VariationPremiumMarginHistoryComponent} from './variation.premium.margin.history.component';
 import {ROUTES} from '../../routes/routing.paths';
 
