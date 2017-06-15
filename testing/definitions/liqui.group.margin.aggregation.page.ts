@@ -7,9 +7,9 @@ import {
     LinkDefinition,
     PageWithLoading,
     RouterLinkStubDirective
-} from '@dbg-riskit/DAVe-UI-testing';
+} from '@dbg-riskit/dave-ui-testing';
 
-import {DataTableComponent, HIGHLIGHTER_TIMEOUT} from '@dbg-riskit/DAVe-UI-datatable';
+import {DataTableComponent, HIGHLIGHTER_TIMEOUT} from '@dbg-riskit/dave-ui-datatable';
 
 import {LiquiGroupMarginAggregationComponent} from '../../app/liqui_group_margin/liqui.group.margin.aggregation.component';
 

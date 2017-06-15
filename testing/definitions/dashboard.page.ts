@@ -3,7 +3,7 @@ import {By} from '@angular/platform-browser';
 
 import {ComponentFixture} from '@angular/core/testing';
 
-import {click, Page} from '@dbg-riskit/DAVe-UI-testing';
+import {click, Page} from '@dbg-riskit/dave-ui-testing';
 
 import {DashboardComponent} from '../../app/dashboard/dashboard.component';
 

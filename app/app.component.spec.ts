@@ -5,8 +5,8 @@
 // import {AppComponentPage} from '../testing';
 //
 // import {AppComponent} from './app.component';
-// import {AuthService} from '@dbg-riskit/DAVe-UI-auth';
-// import {AuthServiceStub} from '@dbg-riskit/DAVe-UI-testing';
+// import {AuthService} from '@dbg-riskit/dave-ui-auth';
+// import {AuthServiceStub} from '@dbg-riskit/dave-ui-testing';
 //
 // xdescribe('AppComponent', () => {
 //

@@ -3,10 +3,10 @@ import {By} from '@angular/platform-browser';
 
 import {async, fakeAsync, TestBed} from '@angular/core/testing';
 
-import {disableMaterialAnimations, stubRouter} from '@dbg-riskit/DAVe-UI-testing';
+import {disableMaterialAnimations, stubRouter} from '@dbg-riskit/dave-ui-testing';
 
-import {DATE_FORMAT} from '@dbg-riskit/DAVe-UI-common';
-import {FileModule} from '@dbg-riskit/DAVe-UI-file';
+import {DATE_FORMAT} from '@dbg-riskit/dave-ui-common';
+import {FileModule} from '@dbg-riskit/dave-ui-file';
 
 import {ListPage} from '../../testing';
 

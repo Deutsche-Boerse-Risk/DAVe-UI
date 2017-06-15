@@ -5,7 +5,7 @@ import {MdChip} from '@angular/material';
 
 import {ComponentFixture} from '@angular/core/testing';
 
-import {click, Page} from '@dbg-riskit/DAVe-UI-testing';
+import {click, Page} from '@dbg-riskit/dave-ui-testing';
 
 import {RoutePart, BreadCrumbsComponent} from '../../app/list/bread.crumbs.component';
 

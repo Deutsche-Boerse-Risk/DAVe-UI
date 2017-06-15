@@ -1,8 +1,8 @@
 import {async, fakeAsync, TestBed} from '@angular/core/testing';
 
-import {LinkOnlyPage, RouterLinkStubDirective} from '@dbg-riskit/DAVe-UI-testing';
+import {LinkOnlyPage, RouterLinkStubDirective} from '@dbg-riskit/dave-ui-testing';
 
-import {NoopAnimationsCommonViewModule} from '@dbg-riskit/DAVe-UI-view';
+import {NoopAnimationsCommonViewModule} from '@dbg-riskit/dave-ui-view';
 
 import {DetailRowButtonComponent} from './detail.row.button.component';
 

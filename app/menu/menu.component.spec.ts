@@ -3,7 +3,7 @@ import {Router} from '@angular/router';
 
 import {async, fakeAsync, inject, TestBed} from '@angular/core/testing';
 
-import {RouterLinkStubDirective, RouterStub, stubRouter} from '@dbg-riskit/DAVe-UI-testing';
+import {RouterLinkStubDirective, RouterStub, stubRouter} from '@dbg-riskit/dave-ui-testing';
 
 import {MenuPage} from '../../testing';
 

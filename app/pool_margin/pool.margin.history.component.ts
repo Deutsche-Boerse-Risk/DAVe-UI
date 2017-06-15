@@ -2,10 +2,10 @@ import {DecimalPipe} from '@angular/common';
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {COMPONENT_CSS, ErrorResponse, ValueGetter} from '@dbg-riskit/DAVe-UI-common';
-import {OrderingCriteria} from '@dbg-riskit/DAVe-UI-datatable';
-import {CSVExportColumn} from '@dbg-riskit/DAVe-UI-file';
-import {DateFormatter} from '@dbg-riskit/DAVe-UI-view';
+import {COMPONENT_CSS, ErrorResponse, ValueGetter} from '@dbg-riskit/dave-ui-common';
+import {OrderingCriteria} from '@dbg-riskit/dave-ui-datatable';
+import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
+import {DateFormatter} from '@dbg-riskit/dave-ui-view';
 
 import {PoolMarginService} from './pool.margin.service';
 import {PoolMarginData} from './pool.margin.types';

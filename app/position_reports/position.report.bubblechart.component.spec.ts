@@ -5,10 +5,10 @@ import {FormsModule} from '@angular/forms';
 
 import {async, fakeAsync, inject, TestBed} from '@angular/core/testing';
 
-import {HttpAsyncServiceStub, RouterLinkStubDirective} from '@dbg-riskit/DAVe-UI-testing';
+import {HttpAsyncServiceStub, RouterLinkStubDirective} from '@dbg-riskit/dave-ui-testing';
 
-import {HttpService} from '@dbg-riskit/DAVe-UI-http';
-import {ChartRow} from '@dbg-riskit/DAVe-UI-charts';
+import {HttpService} from '@dbg-riskit/dave-ui-http';
+import {ChartRow} from '@dbg-riskit/dave-ui-charts';
 
 import {BubbleChartPage, generatePositionReports} from '../../testing';
 

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 
-import {DateUtils, UIDUtils} from '@dbg-riskit/DAVe-UI-common';
-import {HttpService} from '@dbg-riskit/DAVe-UI-http';
+import {DateUtils, UIDUtils} from '@dbg-riskit/dave-ui-common';
+import {HttpService} from '@dbg-riskit/dave-ui-http';
 
 import {Observable} from 'rxjs/Observable';
 

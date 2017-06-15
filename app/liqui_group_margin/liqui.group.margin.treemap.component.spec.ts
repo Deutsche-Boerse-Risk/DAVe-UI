@@ -4,9 +4,9 @@ import {Router} from '@angular/router';
 
 import {async, fakeAsync, inject, TestBed} from '@angular/core/testing';
 
-import {HttpAsyncServiceStub, RouterLinkStubDirective, RouterStub} from '@dbg-riskit/DAVe-UI-testing';
+import {HttpAsyncServiceStub, RouterLinkStubDirective, RouterStub} from '@dbg-riskit/dave-ui-testing';
 
-import {HttpService} from '@dbg-riskit/DAVe-UI-http';
+import {HttpService} from '@dbg-riskit/dave-ui-http';
 
 import {generateLiquiGroupMargin, TreeMapPage} from '../../testing';
 

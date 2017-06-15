@@ -2,13 +2,13 @@ import {RouterModule} from '@angular/router';
 
 import {async, fakeAsync, inject, TestBed} from '@angular/core/testing';
 
-import {chceckSorting, HttpAsyncServiceStub, stubRouter, TableBodyRow} from '@dbg-riskit/DAVe-UI-testing';
+import {chceckSorting, HttpAsyncServiceStub, stubRouter, TableBodyRow} from '@dbg-riskit/dave-ui-testing';
 
 import {AggregationPage, generateLiquiGroupMargin, generateLiquiGroupMarginHistory} from '../../testing';
 
 import {CommonModule} from '@angular/common';
-import {DataTableModule} from '@dbg-riskit/DAVe-UI-datatable';
-import {HttpService} from '@dbg-riskit/DAVe-UI-http';
+import {DataTableModule} from '@dbg-riskit/dave-ui-datatable';
+import {HttpService} from '@dbg-riskit/dave-ui-http';
 
 import {LiquiGroupMarginService} from './liqui.group.margin.service';
 import {LiquiGroupMarginServerData} from './liqui.group.margin.types';

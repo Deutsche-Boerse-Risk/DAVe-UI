@@ -20,13 +20,13 @@ import {
     RouterStub,
     setNgModelValue,
     stubRouter
-} from '@dbg-riskit/DAVe-UI-testing';
+} from '@dbg-riskit/dave-ui-testing';
 
-import {DATE_FORMAT} from '@dbg-riskit/DAVe-UI-common';
-import {DataTableComponent, DataTableModule, HIGHLIGHTER_TIMEOUT} from '@dbg-riskit/DAVe-UI-datatable';
-import {CSVDownloadMenuComponent, FileModule} from '@dbg-riskit/DAVe-UI-file';
-import {HttpService} from '@dbg-riskit/DAVe-UI-http';
-import {DateFormatter, INITIAL_LOAD_SELECTOR, NO_DATA_SELECTOR, UPDATE_FAILED_SELECTOR} from '@dbg-riskit/DAVe-UI-view';
+import {DATE_FORMAT} from '@dbg-riskit/dave-ui-common';
+import {DataTableComponent, DataTableModule, HIGHLIGHTER_TIMEOUT} from '@dbg-riskit/dave-ui-datatable';
+import {CSVDownloadMenuComponent, FileModule} from '@dbg-riskit/dave-ui-file';
+import {HttpService} from '@dbg-riskit/dave-ui-http';
+import {DateFormatter, INITIAL_LOAD_SELECTOR, NO_DATA_SELECTOR, UPDATE_FAILED_SELECTOR} from '@dbg-riskit/dave-ui-view';
 
 import {BreadCrumbsDefinition} from './bread.crumbs.page';
 

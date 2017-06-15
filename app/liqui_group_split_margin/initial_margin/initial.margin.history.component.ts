@@ -2,9 +2,9 @@ import {DecimalPipe} from '@angular/common';
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {COMPONENT_CSS} from '@dbg-riskit/DAVe-UI-common';
-import {CSVExportColumn} from '@dbg-riskit/DAVe-UI-file';
-import {DateFormatter} from '@dbg-riskit/DAVe-UI-view';
+import {COMPONENT_CSS} from '@dbg-riskit/dave-ui-common';
+import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
+import {DateFormatter} from '@dbg-riskit/dave-ui-view';
 
 import {LineChartColumn} from '../../list/abstract.history.list.component';
 

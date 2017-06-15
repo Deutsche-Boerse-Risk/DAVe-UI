@@ -1,9 +1,9 @@
 import {inject, TestBed} from '@angular/core/testing';
 
-import {HttpServiceStub} from '@dbg-riskit/DAVe-UI-testing';
+import {HttpServiceStub} from '@dbg-riskit/dave-ui-testing';
 
-import {Request} from '@dbg-riskit/DAVe-UI-common';
-import {HttpService} from '@dbg-riskit/DAVe-UI-http';
+import {Request} from '@dbg-riskit/dave-ui-common';
+import {HttpService} from '@dbg-riskit/dave-ui-http';
 
 import {generatePoolMarginLatest} from '../../testing';
 

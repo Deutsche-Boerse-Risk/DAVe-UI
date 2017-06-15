@@ -1,8 +1,8 @@
 import {Component, Input} from '@angular/core';
 import {Router} from '@angular/router';
 
-import {COMPONENT_CSS, ErrorResponse} from '@dbg-riskit/DAVe-UI-common';
-import {ChartData, ChartRow, SelectionEvent, TreeMapOptions} from '@dbg-riskit/DAVe-UI-charts';
+import {COMPONENT_CSS, ErrorResponse} from '@dbg-riskit/dave-ui-common';
+import {ChartData, ChartRow, SelectionEvent, TreeMapOptions} from '@dbg-riskit/dave-ui-charts';
 
 import {AbstractComponentWithAutoRefresh} from '../abstract.component';
 

@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
 
-import {CommonViewModule} from '@dbg-riskit/DAVe-UI-view';
+import {CommonViewModule} from '@dbg-riskit/dave-ui-view';
 
 import {LiquiGroupMarginModule} from '../liqui_group_margin/liqui.group.margin.module';
 import {PoolMarginModule} from '../pool_margin/pool.margin.module';

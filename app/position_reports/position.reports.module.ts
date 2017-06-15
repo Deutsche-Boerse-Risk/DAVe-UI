@@ -3,9 +3,9 @@ import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 
-import {ChartsModule} from '@dbg-riskit/DAVe-UI-charts';
-import {DataTableModule} from '@dbg-riskit/DAVe-UI-datatable';
-import {CommonViewModule} from '@dbg-riskit/DAVe-UI-view';
+import {ChartsModule} from '@dbg-riskit/dave-ui-charts';
+import {DataTableModule} from '@dbg-riskit/dave-ui-datatable';
+import {CommonViewModule} from '@dbg-riskit/dave-ui-view';
 
 import {ListModule} from '../list/list.module';
 

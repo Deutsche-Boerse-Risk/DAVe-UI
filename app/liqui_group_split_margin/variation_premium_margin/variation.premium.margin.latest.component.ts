@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {COMPONENT_CSS} from '@dbg-riskit/DAVe-UI-common';
-import {CSVExportColumn} from '@dbg-riskit/DAVe-UI-file';
+import {COMPONENT_CSS} from '@dbg-riskit/dave-ui-common';
+import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
 
 import {AbstractLiquiGroupSplitMarginLatestComponent} from '../abstract.liqui.group.split.margin.latest.component';
 import {LiquiGroupSplitMarginService} from '../liqui.group.split.margin.service';

@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {COMPONENT_CSS, ErrorResponse, ValueGetter} from '@dbg-riskit/DAVe-UI-common';
-import {OrderingCriteria} from '@dbg-riskit/DAVe-UI-datatable';
-import {CSVExportColumn} from '@dbg-riskit/DAVe-UI-file';
+import {COMPONENT_CSS, ErrorResponse, ValueGetter} from '@dbg-riskit/dave-ui-common';
+import {OrderingCriteria} from '@dbg-riskit/dave-ui-datatable';
+import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
 
 import {RiskLimitUtilizationService} from './risk.limit.utilization.service';
 import {RiskLimitUtilizationData} from './risk.limit.utilization.types';

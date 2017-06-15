@@ -32,15 +32,15 @@ function initApp() {
             '@angular/flex-layout/index': 'npm:@angular/flex-layout/bundles/flex-layout.umd.js',
 
             // DAVe-Common
-            '@dbg-riskit/DAVe-UI-auth': 'npm:@dbg-riskit/DAVe-UI-auth/bundles/DAVe-UI-auth.cjs.js',
-            '@dbg-riskit/DAVe-UI-charts': 'npm:@dbg-riskit/DAVe-UI-charts/bundles/DAVe-UI-charts.cjs.js',
-            '@dbg-riskit/DAVe-UI-common': 'npm:@dbg-riskit/DAVe-UI-common/bundles/DAVe-UI-common.cjs.js',
-            '@dbg-riskit/DAVe-UI-datatable': 'npm:@dbg-riskit/DAVe-UI-datatable/bundles/DAVe-UI-datatable.cjs.js',
-            '@dbg-riskit/DAVe-UI-dummy-layout': 'npm:@dbg-riskit/DAVe-UI-dummy-layout/bundles/DAVe-UI-dummy-layout.cjs.js',
-            '@dbg-riskit/DAVe-UI-file': 'npm:@dbg-riskit/DAVe-UI-file/bundles/DAVe-UI-file.cjs.js',
-            '@dbg-riskit/DAVe-UI-http': 'npm:@dbg-riskit/DAVe-UI-http/bundles/DAVe-UI-http.cjs.js',
-            '@dbg-riskit/DAVe-UI-login': 'npm:@dbg-riskit/DAVe-UI-login/bundles/DAVe-UI-login.cjs.js',
-            '@dbg-riskit/DAVe-UI-view': 'npm:@dbg-riskit/DAVe-UI-view/bundles/DAVe-UI-view.cjs.js',
+            '@dbg-riskit/dave-ui-auth': 'npm:@dbg-riskit/dave-ui-auth/bundles/dave-ui-auth.cjs.js',
+            '@dbg-riskit/dave-ui-charts': 'npm:@dbg-riskit/dave-ui-charts/bundles/dave-ui-charts.cjs.js',
+            '@dbg-riskit/dave-ui-common': 'npm:@dbg-riskit/dave-ui-common/bundles/dave-ui-common.cjs.js',
+            '@dbg-riskit/dave-ui-datatable': 'npm:@dbg-riskit/dave-ui-datatable/bundles/dave-ui-datatable.cjs.js',
+            '@dbg-riskit/dave-ui-dummy-layout': 'npm:@dbg-riskit/dave-ui-dummy-layout/bundles/dave-ui-dummy-layout.cjs.js',
+            '@dbg-riskit/dave-ui-file': 'npm:@dbg-riskit/dave-ui-file/bundles/dave-ui-file.cjs.js',
+            '@dbg-riskit/dave-ui-http': 'npm:@dbg-riskit/dave-ui-http/bundles/dave-ui-http.cjs.js',
+            '@dbg-riskit/dave-ui-login': 'npm:@dbg-riskit/dave-ui-login/bundles/dave-ui-login.cjs.js',
+            '@dbg-riskit/dave-ui-view': 'npm:@dbg-riskit/dave-ui-view/bundles/dave-ui-view.cjs.js',
 
             // other libraries
             'rxjs': 'npm:rxjs',

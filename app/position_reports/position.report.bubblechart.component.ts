@@ -1,8 +1,8 @@
 import {DecimalPipe} from '@angular/common';
 import {Component, Input} from '@angular/core';
 
-import {COMPONENT_CSS, ErrorResponse} from '@dbg-riskit/DAVe-UI-common';
-import {BubbleChartOptions, ChartData, ChartRow, ChartValue} from '@dbg-riskit/DAVe-UI-charts';
+import {COMPONENT_CSS, ErrorResponse} from '@dbg-riskit/dave-ui-common';
+import {BubbleChartOptions, ChartData, ChartRow, ChartValue} from '@dbg-riskit/dave-ui-charts';
 
 import {AbstractComponentWithAutoRefresh} from '../abstract.component';
 

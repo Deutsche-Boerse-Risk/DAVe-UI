@@ -2,10 +2,10 @@ import {ActivatedRoute} from '@angular/router';
 
 import {async, fakeAsync, inject, TestBed} from '@angular/core/testing';
 
-import {ActivatedRouteStub, chceckSorting, HttpAsyncServiceStub, TableBodyRow} from '@dbg-riskit/DAVe-UI-testing';
+import {ActivatedRouteStub, chceckSorting, HttpAsyncServiceStub, TableBodyRow} from '@dbg-riskit/dave-ui-testing';
 
-import {CSVExportColumn} from '@dbg-riskit/DAVe-UI-file';
-import {HttpService} from '@dbg-riskit/DAVe-UI-http';
+import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
+import {HttpService} from '@dbg-riskit/dave-ui-http';
 
 import {generatePoolMarginHistory, HistoryListPage} from '../../testing';
 

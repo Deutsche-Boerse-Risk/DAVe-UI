@@ -1,4 +1,4 @@
-import {CSVExportColumn} from '@dbg-riskit/DAVe-UI-file';
+import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
 
 import {AbstractListComponent} from './abstract.list.component';
 

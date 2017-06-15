@@ -3,9 +3,9 @@ import {Router, RouterModule} from '@angular/router';
 
 import {async, fakeAsync, inject, TestBed} from '@angular/core/testing';
 
-import {RouterStub, stubRouter} from '@dbg-riskit/DAVe-UI-testing';
+import {RouterStub, stubRouter} from '@dbg-riskit/dave-ui-testing';
 
-import {NoopAnimationsCommonViewModule} from '@dbg-riskit/DAVe-UI-view';
+import {NoopAnimationsCommonViewModule} from '@dbg-riskit/dave-ui-view';
 
 import {BreadCrumbsPage, Crumb, TestBreadCrumbsComponent} from '../../testing';
 

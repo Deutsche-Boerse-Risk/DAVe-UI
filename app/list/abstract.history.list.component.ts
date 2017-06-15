@@ -1,8 +1,8 @@
 import {DecimalPipe} from '@angular/common';
 import {ActivatedRoute} from '@angular/router';
 
-import {ChartColumn, ChartData, LineChartOptions} from '@dbg-riskit/DAVe-UI-charts';
-import {DateFormatter} from '@dbg-riskit/DAVe-UI-view';
+import {ChartColumn, ChartData, LineChartOptions} from '@dbg-riskit/dave-ui-charts';
+import {DateFormatter} from '@dbg-riskit/dave-ui-view';
 
 import {AbstractListComponent} from './abstract.list.component';
 

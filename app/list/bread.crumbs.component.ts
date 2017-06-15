@@ -1,7 +1,7 @@
 import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {Router} from '@angular/router';
 
-import {COMPONENT_CSS} from '@dbg-riskit/DAVe-UI-common';
+import {COMPONENT_CSS} from '@dbg-riskit/dave-ui-common';
 
 export interface RoutePart {
     title: string;
