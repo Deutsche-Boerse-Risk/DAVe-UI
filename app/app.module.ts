@@ -3,6 +3,7 @@ import {BrowserModule} from '@angular/platform-browser';
 
 import {DATE_FORMAT} from '@dbg-riskit/DAVe-UI-common';
 import {AuthModule} from '@dbg-riskit/DAVe-UI-auth';
+import {LayoutModule} from '@dbg-riskit/DAVe-UI-dummy-layout';
 import {LoginModule} from '@dbg-riskit/DAVe-UI-login';
 import {CommonViewModule} from '@dbg-riskit/DAVe-UI-view';
 
@@ -18,7 +19,8 @@ import {RoutingModule} from './routes/routing.module';
         CommonViewModule,
         RoutingModule,
         MenuModule,
-        LoginModule
+        LoginModule,
+        LayoutModule
     ],
     declarations: [
         AppComponent

@@ -1,4 +1,4 @@
-@import "@dbg-riskit/DAVe-UI-common/global";
+@import "@dbg-riskit/DAVe-UI-dummy-layout/sass/global";
 
 :host {
     .mat-chip {
@@ -13,12 +13,12 @@
         cursor: pointer;
         position: relative;
 
-        background-color: map_get($dbg-accent-palette, default);
-        color: map_get($dbg-accent-palette, default-contrast);
+        background-color: map_get($dave-accent-palette, default);
+        color: map_get($dave-accent-palette, default-contrast);
 
         &.mat-chip-selected {
-            background-color: map_get($dbg-accent-palette, 400);
-            color: mat-contrast($dbg-accent-palette, 400);
+            background-color: map_get($dave-accent-palette, 400);
+            color: mat-contrast($dave-accent-palette, 400);
         }
 
         &:after {

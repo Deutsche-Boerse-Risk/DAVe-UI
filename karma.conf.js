@@ -13,38 +13,37 @@ module.exports = function (config) {
         {pattern: 'systemjs.config.js', included: false, watched: false},
         'karma-test-shim.js', // optionally extend SystemJS mapping e.g., with barrels
 
-        'node_modules/@dbg-riskit/DAVe-UI-common/styles.css',
+        'node_modules/@dbg-riskit/DAVe-UI-dummy-layout/styles.css',
 
         // @dbg-riskit/DAVe-UI-*
         {pattern: 'node_modules/@dbg-riskit/DAVe-UI-*/**/*.js', included: false, watched: false},
-        {pattern: 'node_modules/@dbg-riskit/DAVe-UI-*/**/*.html', included: false, watched: false},
         {pattern: 'node_modules/@dbg-riskit/DAVe-UI-*/**/*.css', included: false, watched: false},
 
         // Asset (HTML & CSS) paths loaded via Angular's component compiler
         // (these paths need to be rewritten, see proxies section)
         {pattern: 'index.html', included: false, watched: true},
+        // {
+        //     pattern: 'node_modules/@dbg-riskit/DAVe-UI-common/resources/fonts/**/*.eot',
+        //     included: false,
+        //     watched: false
+        // },
+        // {
+        //     pattern: 'node_modules/@dbg-riskit/DAVe-UI-common/resources/fonts/**/*.woff',
+        //     included: false,
+        //     watched: false
+        // },
+        // {
+        //     pattern: 'node_modules/@dbg-riskit/DAVe-UI-common/resources/fonts/**/*.ttf',
+        //     included: false,
+        //     watched: false
+        // },
+        // {
+        //     pattern: 'node_modules/@dbg-riskit/DAVe-UI-common/resources/fonts/**/*.svg',
+        //     included: false,
+        //     watched: false
+        // },
         {
-            pattern: 'node_modules/@dbg-riskit/DAVe-UI-common/resources/fonts/**/*.eot',
-            included: false,
-            watched: false
-        },
-        {
-            pattern: 'node_modules/@dbg-riskit/DAVe-UI-common/resources/fonts/**/*.woff',
-            included: false,
-            watched: false
-        },
-        {
-            pattern: 'node_modules/@dbg-riskit/DAVe-UI-common/resources/fonts/**/*.ttf',
-            included: false,
-            watched: false
-        },
-        {
-            pattern: 'node_modules/@dbg-riskit/DAVe-UI-common/resources/fonts/**/*.svg',
-            included: false,
-            watched: false
-        },
-        {
-            pattern: 'node_modules/@dbg-riskit/DAVe-UI-common/resources/img/**/*.svg',
+            pattern: 'node_modules/@dbg-riskit/DAVe-UI-dummy-layout/resources/img/**/*.svg',
             included: false,
             watched: false
         }
@@ -53,6 +52,6 @@ module.exports = function (config) {
     // Proxied base paths for loading assets
 
     // remap resources
-    config.proxies['/resources/fonts/'] = '/base/node_modules/@dbg-riskit/DAVe-UI-common/resources/fonts/';
-    config.proxies['/resources/img/'] = '/base/node_modules/@dbg-riskit/DAVe-UI-common/resources/img/';
+    // config.proxies['/resources/fonts/'] = '/base/node_modules/@dbg-riskit/DAVe-UI-common/resources/fonts/';
+    config.proxies['/resources/img/'] = '/base/node_modules/@dbg-riskit/DAVe-UI-dummy-layout/resources/img/';
 };
