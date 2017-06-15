@@ -4,7 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import {DateFormatter} from '../common/common.module';
 import {AbstractListComponent} from './abstract.list.component';
 
-import {ChartData, ChartColumn, LineChartOptions} from '../common/chart.types';
+import {ChartData, ChartColumn, LineChartOptions} from '../charts/chart.types';
 
 import {RoutePart} from './bread.crumbs.component';
 
@@ -12,55 +12,55 @@ export interface LineChartColumn extends ChartColumn {
     value: any;
 }
 
-export abstract class AbstractHistoryListComponent<T extends {uid: string}> extends AbstractListComponent<T> {
+export abstract class AbstractHistoryListComponent<T extends { uid: string }> extends AbstractListComponent<T> {
 
     protected rawChartData: LineChartColumn[][];
 
     public chartData: ChartData;
 
     public chartOptions: LineChartOptions = {
-        animation: {
-            startup: true,
+        animation  : {
+            startup : true,
             duration: 300,
-            easing: 'inAndOut'
+            easing  : 'inAndOut'
         },
-        vAxis: {
+        vAxis      : {
             textStyle: {
-                color: 'gray',
+                color   : 'gray',
                 fontSize: 12
             }
         },
-        hAxis: {
-            textStyle: {
-                color: 'gray',
+        hAxis      : {
+            textStyle     : {
+                color   : 'gray',
                 fontSize: 12
             },
-            gridlines: {
+            gridlines     : {
                 count: -1,
                 units: {
-                    hours: {format: ['HH:mm', ':mm']},
+                    hours: {format: ['HH:mm', ':mm']}
                 }
             },
             minorGridlines: {
                 units: {
-                    hours: {format: ['HH:mm', ':mm']},
+                    hours  : {format: ['HH:mm', ':mm']},
                     minutes: {format: ['HH:mm', ':mm']}
                 }
             }
         },
-        chartArea: {
-            top: 4,
+        chartArea  : {
+            top   : 4,
             bottom: 16,
             height: '100%',
-            left: 150,
-            right: 40,
-            width: '100%'
+            left  : 150,
+            right : 40,
+            width : '100%'
         },
-        legend: {position: 'none'},
-        pointShape: 'circle',
+        legend     : {position: 'none'},
+        pointShape : 'circle',
         focusTarget: 'category',
-        pointSize: 5,
-        series: [
+        pointSize  : 5,
+        series     : [
             {
                 color: '#31C0BE'
             },
@@ -78,6 +78,66 @@ export abstract class AbstractHistoryListComponent<T extends {uid: string}> exte
             },
             {
                 color: '#006fff'
+            },
+            {
+                color: '#3366CC'
+            },
+            {
+                color: '#DC3912'
+            },
+            {
+                color: '#FF9900'
+            },
+            {
+                color: '#109618'
+            },
+            {
+                color: '#990099'
+            },
+            {
+                color: '#3B3EAC'
+            },
+            {
+                color: '#0099C6'
+            },
+            {
+                color: '#DD4477'
+            },
+            {
+                color: '#66AA00'
+            },
+            {
+                color: '#B82E2E'
+            },
+            {
+                color: '#316395'
+            },
+            {
+                color: '#994499'
+            },
+            {
+                color: '#22AA99'
+            },
+            {
+                color: '#AAAA11'
+            },
+            {
+                color: '#6633CC'
+            },
+            {
+                color: '#E67300'
+            },
+            {
+                color: '#8B0707'
+            },
+            {
+                color: '#329262'
+            },
+            {
+                color: '#5574A6'
+            },
+            {
+                color: '#3B3EAC'
             }
         ]
     };
@@ -92,7 +152,7 @@ export abstract class AbstractHistoryListComponent<T extends {uid: string}> exte
             part.inactive = true;
             return part;
         }
-        return super.createRoutePart(title, routePath, key, index)
+        return super.createRoutePart(title, routePath, key, index);
     }
 
     protected processData(data: T[]): void {
@@ -143,17 +203,17 @@ export abstract class AbstractHistoryListComponent<T extends {uid: string}> exte
                         return {
                             v: column.value,
                             f: this.dateFormatter.transform(column.value)
-                        }
+                        };
                     }
                     if (column.type === 'number') {
                         return {
                             v: column.value,
                             f: this.numberPipe.transform(column.value, '.2-2')
-                        }
+                        };
                     }
                     return {
                         v: column.value
-                    }
+                    };
                 })
             };
         });

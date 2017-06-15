@@ -9,12 +9,12 @@
         </li>
         <li class="divider"></li>-->
         <li (click)="logout()" *ngIf="authStatus">
-            <a routerLink="/login">
+            <a>
                 <i class="fa fa-sign-out fa-fw"></i> Logout
             </a>
         </li>
         <li *ngIf="!authStatus">
-            <a routerLink="/login">
+            <a [routerLink]="routerRoots.LOGIN">
                 <i class="fa fa-sign-out fa-fw"></i> Login
             </a>
         </li>

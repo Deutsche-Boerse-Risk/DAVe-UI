@@ -15,12 +15,13 @@ describe('AppComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [AppComponent],
-            providers: [
+            providers   : [
                 {
-                    provide: AuthService, useClass: AuthServiceStub
+                    provide : AuthService,
+                    useClass: AuthServiceStub
                 }
             ],
-            schemas: [NO_ERRORS_SCHEMA]
+            schemas     : [NO_ERRORS_SCHEMA]
         }).compileComponents();
     }));
 

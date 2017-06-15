@@ -24,7 +24,7 @@ export class DownloadLink {
     private _blobSpy: jasmine.Spy;
     private _saveBlobSpy: jasmine.Spy;
 
-    constructor(public element: DebugElement, private page: {detectChanges: () => void}) {
+    constructor(public element: DebugElement, private page: { detectChanges: () => void }) {
     }
 
     public click(): void {

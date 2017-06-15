@@ -1,12 +1,13 @@
 import {TestBed, async, inject, fakeAsync} from '@angular/core/testing';
 
-import {AuthServiceStub, RouterLinkStubDirective, LinkOnlyPage} from '../../testing';
+import {AuthServiceStub, RouterLinkStubDirective, LoginMenuPage} from '../../testing';
 
 import {AuthService} from './auth.service';
 import {LoginMenuComponent} from './login.menu.component';
+import {ROUTES} from '../routes/routing.paths';
 
 describe('Login menu', () => {
-    let page: LinkOnlyPage<LoginMenuComponent>;
+    let page: LoginMenuPage;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -14,40 +15,37 @@ describe('Login menu', () => {
                 LoginMenuComponent,
                 RouterLinkStubDirective
             ],
-            providers: [
+            providers   : [
                 {
-                    provide: AuthService, useClass: AuthServiceStub
+                    provide : AuthService,
+                    useClass: AuthServiceStub
                 }
             ]
         }).compileComponents();
     }));
 
     beforeEach(fakeAsync(() => {
-        page = new LinkOnlyPage<LoginMenuComponent>(TestBed.createComponent(LoginMenuComponent));
+        page = new LoginMenuPage(TestBed.createComponent(LoginMenuComponent));
         page.detectChanges();
     }));
 
     it('works as expected', fakeAsync(inject([AuthService], (auth: AuthServiceStub) => {
         let clickSpy = spyOn(page.component, 'logout').and.callThrough();
 
-        expect(page.link.text).toContain('Login');
+        expect(page.loginLink.text).toContain('Login');
 
-        page.link.click();
+        page.loginLink.click();
 
         expect(clickSpy).not.toHaveBeenCalled();
-        expect(page.link.stub.navigatedTo).toContain('/login');
-
-        page.link.stub.navigatedTo = null;
+        expect(page.loginLink.stub.navigatedTo).toContain(ROUTES.LOGIN);
 
         auth.login('testUser', 'somePassword');
         page.detectChanges();
 
-        expect(page.link.text).toContain('Logout');
+        expect(page.logoutLink.text).toContain('Logout');
 
-        let stub = page.link.stub;
-        page.link.click();
+        page.logoutLink.click();
 
         expect(clickSpy).toHaveBeenCalled();
-        expect(stub.navigatedTo).toContain('/login');
     })));
 });

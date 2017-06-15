@@ -1,0 +1,55 @@
+<list-content [title]="rootRouteTitle"
+              [isHistory]="true"
+              [routeParts]="routeParts"
+              [exportKeys]="exportKeys"
+              [data]="data"
+              [initialLoad]="initialLoad"
+              [errorMessage]="errorMessage"
+              [drilldownRouterLink]="[routerRoots.POSITION_REPORTS_LATEST, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', routeParams['liquidationGroup'] || '*', routeParams['liquidationGroupSplit'] || '*']">
+    <div class="panel-body" *ngIf="chartData?.rows?.length > 0">
+        <google-line-chart [chartOptions]="chartOptions"
+                           [chartData]="chartData"
+                           height="377px"
+                           [showControls]="true"></google-line-chart>
+    </div>
+
+    <data-table [data]="data"
+                [pageSize]="pageSize"
+                [defaultOrdering]="defaultOrdering"
+                [trackByRowKey]="trackByRowKey">
+        <column title="Last update"
+                [sortingKey]="valueGetters.received">
+            <ng-template let-record="row" cell-template>
+                {{record.received | date:'HH:mm:ss'}}
+            </ng-template>
+        </column>
+        <column title="Market Risk"
+                [sortingKey]="valueGetters.marketRisk"
+                contentAlign="right">
+            <ng-template let-record="row" cell-template>
+                {{record.marketRisk | number:'.2-2'}} {{record.marginCurrency}}
+            </ng-template>
+        </column>
+        <column title="Liqu Risk"
+                [sortingKey]="valueGetters.liquRisk"
+                contentAlign="right">
+            <ng-template let-record="row" cell-template>
+                {{record.liquRisk | number:'.2-2'}} {{record.marginCurrency}}
+            </ng-template>
+        </column>
+        <column title="Long Option Credit"
+                [sortingKey]="valueGetters.longOptionCredit"
+                contentAlign="right">
+            <ng-template let-record="row" cell-template>
+                {{record.longOptionCredit | number:'.2-2'}} {{record.marginCurrency}}
+            </ng-template>
+        </column>
+        <column title="Initial Margin"
+                [sortingKey]="valueGetters.additionalMargin"
+                contentAlign="right">
+            <ng-template let-record="row" cell-template>
+                {{record.additionalMargin | number:'.2-2'}} {{record.marginCurrency}}
+            </ng-template>
+        </column>
+    </data-table>
+</list-content>

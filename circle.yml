@@ -6,8 +6,7 @@ machine:
 
 dependencies:
   pre:
-    - npm install -g grunt-cli
-    - npm install -g typescript
+    - npm install -g grunt-cli@^1.2.0
     - npm install -g codeclimate-test-reporter
   override:
     - npm install
@@ -17,19 +16,31 @@ dependencies:
     - npm list || true
     - npm list -g || true
 
+# Build first and move to artifacts directory
+# We need to export the variable DAVE_UI_DIST into "~/.circlerc" so ./dockerfile/create_docker.sh can find the
+# artifacts. CircleCI sources the "~/.circlerc" file for each subshell.
+compile:
+  pre:
+    - mkdir -p $CIRCLE_ARTIFACTS/dist/
+    - echo "export DAVE_UI_DIST=$CIRCLE_ARTIFACTS/dist/" >> ~/.circlerc
+  override:
+    - grunt dist
+  post:
+    - mv dist/* $CIRCLE_ARTIFACTS/dist/
+
+# Clean and run tests
 test:
   pre:
     - ./tools/wait-for-bs.sh
   override:
-    - grunt testCircleCI
+    - ./tools/ci-tests.sh
+  post:
+    - grunt browserstack_cleanup
     - mkdir -p $CIRCLE_TEST_REPORTS/karma/
     - find . -type f -regex ".*/reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/karma/ \;
     - find . -type f -regex "\./coverage/.*lcov.info" -exec sh -c 'codeclimate-test-reporter < "{}"' \;
     - mkdir -p $CIRCLE_ARTIFACTS/coverage/
     - mv coverage/* $CIRCLE_ARTIFACTS/coverage/
-  post:
-    - grunt browserstack_cleanup
-    - grunt dist
 
 deployment:
   staging:

@@ -4,11 +4,11 @@ import {ComponentFixture} from '@angular/core/testing';
 
 import {LinkOnlyPage} from './link.only.page';
 
-import {MarginComponentsTreemapComponent} from '../../app/margin/margin.components.treemap.component';
+import {LiquiGroupMarginTreemapComponent} from '../../app/liqui_group_margin/liqui.group.margin.treemap.component';
 
-export class TreeMapPage extends LinkOnlyPage<MarginComponentsTreemapComponent> {
+export class TreeMapPage extends LinkOnlyPage<LiquiGroupMarginTreemapComponent> {
 
-    constructor(fixture: ComponentFixture<MarginComponentsTreemapComponent>) {
+    constructor(fixture: ComponentFixture<LiquiGroupMarginTreemapComponent>) {
         super(fixture);
     }
 

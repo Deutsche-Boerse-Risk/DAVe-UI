@@ -10,15 +10,21 @@ import {RouterLinkStubDirective} from './router.link.stub';
 export function stubRouter(customOverrides?: MetadataOverride<NgModule>): typeof TestBed {
     let override: MetadataOverride<NgModule> = {
         set: {
-            imports: [],
+            imports     : [],
             declarations: [
                 RouterLinkStubDirective
             ],
-            providers: [
-                {provide: Router, useClass: RouterStub},
-                {provide: ActivatedRoute, useClass: ActivatedRouteStub},
+            providers   : [
+                {
+                    provide : Router,
+                    useClass: RouterStub
+                },
+                {
+                    provide : ActivatedRoute,
+                    useClass: ActivatedRouteStub
+                }
             ],
-            exports: [
+            exports     : [
                 RouterLinkStubDirective
             ]
         }

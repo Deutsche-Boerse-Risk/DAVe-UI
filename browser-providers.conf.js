@@ -31,20 +31,20 @@ var customLaunchers = {
         os: 'Windows',
         os_version: '10'
     },
-    // BS_IE9: {
-    //     base: 'BrowserStack',
-    //     browser: 'IE',
-    //     browser_version: '9.0',
-    //     os: 'Windows',
-    //     os_version: '7'
-    // },
-    // BS_IE10: {
-    //     base: 'BrowserStack',
-    //     browser: 'IE',
-    //     browser_version: '10.0',
-    //     os: 'Windows',
-    //     os_version: '7'
-    // },
+    BS_IE9: {
+        base: 'BrowserStack',
+        browser: 'IE',
+        browser_version: '9.0',
+        os: 'Windows',
+        os_version: '7'
+    },
+    BS_IE10: {
+        base: 'BrowserStack',
+        browser: 'IE',
+        browser_version: '10.0',
+        os: 'Windows',
+        os_version: '7'
+    },
     BS_IE11: {
         base: 'BrowserStack',
         browser: 'IE',
@@ -106,8 +106,16 @@ var customLaunchers = {
 
 var BrowserStack = {
     ALL: Object.keys(customLaunchers).filter(function (item) {
+        if (customLaunchers[item].browser === 'IE') {
+            switch (customLaunchers[item].browser_version) {
+                case '9.0':
+                case '10.0':   // TODO: optimze to test IE 10 and 9
+                    return false;
+            }
+        }
         return customLaunchers[item].base === 'BrowserStack';
     }),
+    MINIMAL: ['BS_IE11', 'BS_CHROME50', 'BS_FIREFOX50', 'BS_SAFARI7', 'BS_IOS7'],
     CHROME: ['BS_CHROME50', 'BS_CHROME_LATEST'],
     FIREFOX: ['BS_FIREFOX50', 'BS_FIREFOX_LATEST'],
     IE: [/*'BS_IE9', 'BS_IE10', */'BS_IE11'], // TODO: optimze to test IE 10 and 9
@@ -126,8 +134,20 @@ var LOCAL = {
     IE: [localBrowsers.IE]
 };
 
+var BrowserSync = {
+    CHROME: [localBrowsers.CHROME, 'google chrome'], // 'google chrome' has to be added so it will work in Mac OS as well
+    FIREFOX: [localBrowsers.FIREFOX],
+    SAFARI: [localBrowsers.SAFARI],
+    IE: [localBrowsers.IE]
+};
+
 module.exports = {
+    // Custom launchers for Karma
     customLaunchers: customLaunchers,
+    // Remote browsers for Karma (using BrowserStack)
     BrowserStack: BrowserStack,
-    Local: LOCAL
+    // Local browsers for Karma
+    Local: LOCAL,
+    // Default browser for BrowserSync (local development)
+    BrowserSync: BrowserSync.CHROME
 };

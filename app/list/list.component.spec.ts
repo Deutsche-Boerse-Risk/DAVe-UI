@@ -8,20 +8,21 @@ import {RouterLinkStubDirective, ListPage} from '../../testing';
 
 import {ListModule} from './list.module';
 import {RoutePart} from './bread.crumbs.component';
+import {ROUTES} from '../routes/routing.paths';
 
 @Component({
     template: `
-<list-content [title]="rootRouteTitle"
-              [isHistory]="isHistory"
-              [routeParts]="routeParts"
-              [exportKeys]="exportKeys"
-              [data]="data"
-              [initialLoad]="initialLoad"
-              [errorMessage]="errorMessage"
-              [drilldownRouterLink]="drilldownRouterLink"
-              (filterChanged)="filtered($event)">
-    <div class="testContent"></div>
-</list-content>`
+        <list-content [title]="rootRouteTitle"
+                      [isHistory]="isHistory"
+                      [routeParts]="routeParts"
+                      [exportKeys]="exportKeys"
+                      [data]="data"
+                      [initialLoad]="initialLoad"
+                      [errorMessage]="errorMessage"
+                      [drilldownRouterLink]="drilldownRouterLink"
+                      (filterChanged)="filtered($event)">
+            <div class="testContent"></div>
+        </list-content>`
 })
 class TestComponent {
     public rootRouteTitle: string = 'Test title';
@@ -44,12 +45,12 @@ describe('ListComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [ListModule],
+            imports     : [ListModule],
             declarations: [TestComponent]
         }).overrideModule(RouterModule, {
             set: {
                 declarations: [RouterLinkStubDirective],
-                exports: [RouterLinkStubDirective]
+                exports     : [RouterLinkStubDirective]
             }
         }).compileComponents();
     }));
@@ -81,7 +82,7 @@ describe('ListComponent', () => {
     it('displays drilldown-button', fakeAsync(() => {
         expect(page.drilldownButton).toBeNull('Not shown');
 
-        page.component.drilldownRouterLink = ['/positionReportLatest', 'clearer'];
+        page.component.drilldownRouterLink = [ROUTES.POSITION_REPORTS_LATEST, 'clearer'];
         page.detectChanges();
 
         expect(page.drilldownButton).not.toBeNull('Is shown');

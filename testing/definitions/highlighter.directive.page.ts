@@ -8,11 +8,12 @@ import {Page} from './page.base';
 import {HighlighterDirective} from '../../app/datatable/highlighter.directive';
 
 @Component({
-    template: `<div [highlighter]="trackBy" [context]="context"></div>`
+    template: `
+        <div [highlighter]="trackBy" [context]="context"></div>`
 })
 export class HighLighterDirectiveTestComponent {
 
-    public context: {row: any, storage?: any, index: number};
+    public context: { row: any, storage?: any, index: number };
 
     public trackBy(index: number, row: any): any {
         return row;

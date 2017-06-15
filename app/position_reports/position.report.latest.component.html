@@ -1,0 +1,223 @@
+<list-content title="Position Reports"
+              [routeParts]="routeParts"
+              [exportKeys]="exportKeys"
+              [data]="data"
+              [initialLoad]="initialLoad"
+              [errorMessage]="errorMessage"
+              (filterChanged)="filter($event)">
+    <data-table [data]="data"
+                [pageSize]="pageSize"
+                [defaultOrdering]="defaultOrdering"
+                [striped]="false"
+                [trackByRowKey]="trackByRowKey">
+        <column title="Member / Client"
+                [sortingKey]="valueGetters.member">
+            <ng-template let-record="row" cell-template>
+                <a [routerLink]="[rootRoutePath, record.clearer || '*', record.member || '*']">
+                    {{record.member}}
+                </a>
+            </ng-template>
+        </column>
+        <column title="Account"
+                [sortingKey]="valueGetters.account">
+            <ng-template let-record="row" cell-template>
+                <a [routerLink]="[rootRoutePath, record.clearer || '*', record.member || '*', record.account || '*']">
+                    {{record.account}}
+                </a>
+            </ng-template>
+        </column>
+        <column title="Symbol"
+                tooltip="Product symbol"
+                [sortingKey]="valueGetters.product">
+            <ng-template let-record="row" cell-template>
+                <a [routerLink]="[rootRoutePath, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', record.liquidationGroup || '*',record.liquidationGroupSplit || '*', record.product || '*']">
+                    {{record.product}}
+                </a>
+            </ng-template>
+        </column>
+        <column title="P/C"
+                tooltip="Put / Call flag (Options only)"
+                [sortingKey]="valueGetters.callPut">
+            <ng-template let-record="row" cell-template>
+                <a [routerLink]="[rootRoutePath, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', record.liquidationGroup || '*',record.liquidationGroupSplit || '*', record.product || '*', record.callPut || '*']">
+                    {{record.callPut}}
+                </a>
+            </ng-template>
+        </column>
+        <column title="Contract year"
+                [sortingKey]="valueGetters.contractYear">
+            <ng-template let-record="row" cell-template>
+                <a [routerLink]="[rootRoutePath, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', record.liquidationGroup || '*',record.liquidationGroupSplit || '*', record.product || '*', record.callPut || '*', record.contractYear || '*']">
+                    {{record.contractYear}}
+                </a>
+            </ng-template>
+        </column>
+        <column title="Contract month"
+                [sortingKey]="valueGetters.contractMonth">
+            <ng-template let-record="row" cell-template>
+                <a [routerLink]="[rootRoutePath, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', record.liquidationGroup || '*',record.liquidationGroupSplit || '*', record.product || '*', record.callPut || '*', record.contractYear || '*', record.contractMonth || '*']">
+                    {{record.contractMonth}}
+                </a>
+            </ng-template>
+        </column>
+        <column title="Expiry day"
+                [sortingKey]="valueGetters.expiryDay">
+            <ng-template let-record="row" cell-template>
+                <a [routerLink]="[rootRoutePath, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', record.liquidationGroup || '*',record.liquidationGroupSplit || '*', record.product || '*', record.callPut || '*', record.contractYear || '*', record.contractMonth || '*', record.expiryDay || '*']">
+                    {{record.expiryDay}}
+                </a>
+            </ng-template>
+        </column>
+        <column title="Strk"
+                tooltip="Strike (exercise) price (Options only)"
+                [sortingKey]="valueGetters.exercisePrice">
+            <ng-template let-record="row" cell-template>
+                <a [routerLink]="[rootRoutePath, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', record.liquidationGroup || '*',record.liquidationGroupSplit || '*', record.product || '*', record.callPut || '*', record.contractYear || '*', record.contractMonth || '*', record.expiryDay || '*', record.exercisePrice || '*']">
+                    {{record.exercisePrice | number:'.2-2'}}
+                </a>
+            </ng-template>
+        </column>
+        <column title="Opt"
+                tooltip="Version number (Options only)"
+                [sortingKey]="valueGetters.version">
+            <ng-template let-record="row" cell-template>
+                <a [routerLink]="[rootRoutePath, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', record.liquidationGroup || '*',record.liquidationGroupSplit || '*', record.product || '*', record.callPut || '*', record.contractYear || '*', record.contractMonth || '*', record.expiryDay || '*', record.exercisePrice || '*', record.version || '*']">
+                    {{record.version}}
+                </a>
+            </ng-template>
+        </column>
+        <column title="NetLS"
+                tooltip="Net position"
+                [sortingKey]="valueGetters.netQuantityLs">
+            <ng-template let-record="row" cell-template>
+                {{record.netQuantityLs | number:'.2-2'}}
+            </ng-template>
+        </column>
+        <column title="Position VaR"
+                tooltip="PnL of the position when calculating portfolio VaR"
+                [sortingKey]="valueGetters.compVar">
+            <ng-template let-record="row" cell-template>
+                {{record.compVar | number:'.2-2'}}
+            </ng-template>
+        </column>
+        <column title="EuroDelta"
+                tooltip="Position sensibility to underlying move in Euro"
+                [sortingKey]="valueGetters.normalizedDelta">
+            <ng-template let-record="row" cell-template>
+                {{record.normalizedDelta | number:'.2-2'}}
+            </ng-template>
+        </column>
+        <column title="LA"
+                tooltip="Liquidity Addon of the position"
+                [sortingKey]="valueGetters.compLiquidityAddOn">
+            <ng-template let-record="row" cell-template>
+                {{record.compLiquidityAddOn | number:'.2-2'}}
+            </ng-template>
+        </column>
+        <column>
+            <ng-template let-record="row" cell-template>
+                <row-detail-expander></row-detail-expander>
+                <detail-row-button
+                        [routerLink]="[routerRoots.POSITION_REPORTS_HISTORY, record.clearer || '*', record.member || '*', record.account || '*', record.liquidationGroup || '*', record.liquidationGroupSplit || '*', record.product || '*', record.callPut || '*', record.contractYear || '*', record.contractMonth || '*', record.expiryDay || '*', record.exercisePrice || '*', record.version || '*', record.flexContractSymbol || '*']"></detail-row-button>
+            </ng-template>
+        </column>
+        <!-- Sub detail -->
+        <row-detail>
+            <column-group>
+                <column title="Liqui Group">
+                    <ng-template let-record="row" cell-template>
+                        <a [routerLink]="[rootRoutePath, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['record.account'] || '*', record.liquidationGroup || '*']">
+                            {{record.liquidationGroup}}
+                        </a>
+                    </ng-template>
+                </column>
+                <column title="Liqui Group Split">
+                    <ng-template let-record="row" cell-template>
+                        <a [routerLink]="[rootRoutePath, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['record.account'] || '*', record.liquidationGroup || '*', record.liquidationGroupSplit || '*']">
+                            {{record.liquidationGroupSplit}}
+                        </a>
+                    </ng-template>
+                </column>
+                <column title="Flex Contract Symbol">
+                    <ng-template let-record="row" cell-template>
+                        <a [routerLink]="[rootRoutePath, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['record.account'] || '*', record.liquidationGroup || '*', record.liquidationGroupSplit || '*' || '*', record.product || '*', record.callPut || '*', record.contractYear || '*', record.contractMonth || '*', record.expiryDay || '*', record.exercisePrice || '*', record.version || '*', record.flexContractSymbol || '*']">
+                            {{record.flexContractSymbol}}
+                        </a>
+                    </ng-template>
+                </column>
+                <column title="Clearing Ccy">
+                    <ng-template let-record="row" cell-template>
+                        {{record.clearingCurrency}}
+                    </ng-template>
+                </column>
+                <column title="Product Ccy">
+                    <ng-template let-record="row" cell-template>
+                        {{record.productCurrency}}
+                    </ng-template>
+                </column>
+                <column title="NetEA">
+                    <ng-template let-record="row" cell-template>
+                        {{record.netQuantityEa | number:'.2-2'}}
+                    </ng-template>
+                </column>
+                <column title="CorrBreak">
+                    <ng-template let-record="row" cell-template>
+                        {{record.compCorrelationBreak | number:'.2-2'}}
+                    </ng-template>
+                </column>
+                <column title="CopmError">
+                    <ng-template let-record="row" cell-template>
+                        {{record.compCompressionError | number:'.2-2'}}
+                    </ng-template>
+                </column>
+                <column title="LonOptCredit">
+                    <ng-template let-record="row" cell-template>
+                        {{record.compLongOptionCredit | number:'.2-2'}}
+                    </ng-template>
+                </column>
+            </column-group>
+            <column-group>
+                <column title="PremPay">
+                    <ng-template let-record="row" cell-template>
+                        {{record.variationPremiumPayment | number:'.2-2'}}
+                    </ng-template>
+                </column>
+                <column title="PremMrgn">
+                    <ng-template let-record="row" cell-template>
+                        {{record.premiumMargin | number:'.2-2'}}
+                    </ng-template>
+                </column>
+                <column title="Gamma">
+                    <ng-template let-record="row" cell-template>
+                        {{record.normalizedGamma | number:'.2-2'}}
+                    </ng-template>
+                </column>
+                <column title="Vega">
+                    <ng-template let-record="row" cell-template>
+                        {{record.normalizedVega | number:'.2-2'}}
+                    </ng-template>
+                </column>
+                <column title="Rho">
+                    <ng-template let-record="row" cell-template>
+                        {{record.normalizedRho | number:'.2-2'}}
+                    </ng-template>
+                </column>
+                <column title="Theta">
+                    <ng-template let-record="row" cell-template>
+                        {{record.normalizedTheta | number:'.2-2'}}
+                    </ng-template>
+                </column>
+                <column title="MVar">
+                    <ng-template let-record="row" cell-template>
+                        {{record.mVar | number:'.2-2'}}
+                    </ng-template>
+                </column>
+                <column title="Underlying">
+                    <ng-template let-record="row" cell-template>
+                        {{record.underlying}}
+                    </ng-template>
+                </column>
+            </column-group>
+        </row-detail>
+    </data-table>
+</list-content>

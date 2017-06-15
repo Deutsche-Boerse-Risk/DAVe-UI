@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-npm install -g grunt-cli
-npm install -g typescript
-#npm update -g
+npm cache clean
+npm install -g grunt-cli@^1.2.0
+npm update -g
 
 npm install
 npm update

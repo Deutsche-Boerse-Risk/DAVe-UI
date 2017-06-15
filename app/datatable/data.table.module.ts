@@ -20,7 +20,7 @@ import {DetailRowButtonComponent} from './detail.row.button.component';
 import {HighlighterDirective} from './highlighter.directive';
 
 @NgModule({
-    imports: [
+    imports     : [
         BrowserModule,
         RouterModule
     ],
@@ -38,7 +38,7 @@ import {HighlighterDirective} from './highlighter.directive';
         DrillDownRowButtonComponent,
         DetailRowButtonComponent
     ],
-    exports: [
+    exports     : [
         DataTableComponent,
         DataTableColumnDirective,
         DataTableColumnGroupDirective,

@@ -1,5 +1,6 @@
 #Exclude testing files
 testing/**
+tools/**
 **.spec.ts
 
 #Exlude JS files. These are configuration only.

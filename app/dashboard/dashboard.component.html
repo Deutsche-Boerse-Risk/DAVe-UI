@@ -25,13 +25,13 @@
                 <position-report-bubblechart></position-report-bubblechart>
             </div>
             <div class="tab-pane fade" id="im" *ngIf="activeTab === 'im'">
-                <margin-components-treemap></margin-components-treemap>
+                <liqui-group-margin-treemap></liqui-group-margin-treemap>
             </div>
             <div class="tab-pane fade in active" id="overview" *ngIf="activeTab === 'overview'">
                 <div class="panel panel-default" style="border-top: 0">
                     <div class="panel-body">
-                        <margin-shortfall-surplus-summary></margin-shortfall-surplus-summary>
-                        <margin-components-aggregation></margin-components-aggregation>
+                        <pool-margin-summary></pool-margin-summary>
+                        <liqui-group-margin-aggregation></liqui-group-margin-aggregation>
                     </div>
                 </div>
             </div>

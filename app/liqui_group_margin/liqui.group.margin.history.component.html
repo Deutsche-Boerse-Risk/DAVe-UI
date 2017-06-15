@@ -1,0 +1,62 @@
+<list-content [title]="rootRouteTitle"
+              [isHistory]="true"
+              [routeParts]="routeParts"
+              [exportKeys]="exportKeys"
+              [data]="data"
+              [initialLoad]="initialLoad"
+              [errorMessage]="errorMessage"
+              [drilldownRouterLink]="[routerRoots.INITIAL_MARGIN_LATEST, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', routeParams['marginClass'] || '*']">
+    <div class="panel-body" *ngIf="chartData?.rows?.length > 0">
+        <google-line-chart [chartOptions]="chartOptions"
+                           [chartData]="chartData"
+                           height="377px"
+                           [showControls]="true"></google-line-chart>
+    </div>
+
+    <data-table [data]="data"
+                [pageSize]="pageSize"
+                [defaultOrdering]="defaultOrdering"
+                [trackByRowKey]="trackByRowKey">
+        <column title="Last update"
+                [sortingKey]="valueGetters.received">
+            <ng-template let-record="row" cell-template>
+                {{record.received | date:'HH:mm:ss'}}
+            </ng-template>
+        </column>
+        <column title="Premium Margin"
+                [sortingKey]="valueGetters.premiumMargin"
+                contentAlign="right">
+            <ng-template let-record="row" cell-template>
+                {{record.premiumMargin | number:'.2-2'}} {{record.marginCurrency}}
+            </ng-template>
+        </column>
+        <column title="Current Liquidating Margin"
+                [sortingKey]="valueGetters.currentLiquidatingMargin"
+                contentAlign="right">
+            <ng-template let-record="row" cell-template>
+                {{record.currentLiquidatingMargin | number:'.2-2'}} {{record.marginCurrency}}
+            </ng-template>
+        </column>
+        <column title="Initial Margin"
+                [sortingKey]="valueGetters.additionalMargin"
+                contentAlign="right">
+            <ng-template let-record="row" cell-template>
+                {{record.additionalMargin | number:'.2-2'}} {{record.marginCurrency}}
+            </ng-template>
+        </column>
+        <column title="Unadjusted Margin"
+                [sortingKey]="valueGetters.unadjustedMarginRequirement"
+                contentAlign="right">
+            <ng-template let-record="row" cell-template>
+                {{record.unadjustedMarginRequirement | number:'.2-2'}} {{record.marginCurrency}}
+            </ng-template>
+        </column>
+        <column title="Variation Premium Payment"
+                [sortingKey]="valueGetters.variationPremiumPayment"
+                contentAlign="right">
+            <ng-template let-record="row" cell-template>
+                {{record.variationPremiumPayment | number:'.2-2'}} {{record.marginCurrency}}
+            </ng-template>
+        </column>
+    </data-table>
+</list-content>
