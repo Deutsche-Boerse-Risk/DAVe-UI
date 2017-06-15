@@ -5,6 +5,7 @@ import {async, fakeAsync, TestBed} from '@angular/core/testing';
 
 import {disableMaterialAnimations, stubRouter} from '@dbg-riskit/DAVe-UI-testing';
 
+import {DATE_FORMAT} from '@dbg-riskit/DAVe-UI-common';
 import {FileModule} from '@dbg-riskit/DAVe-UI-file';
 
 import {ListPage} from '../../testing';
@@ -44,14 +45,20 @@ class TestComponent {
     }
 }
 
-xdescribe('ListComponent', () => {
+describe('ListComponent', () => {
 
     let page: ListPage<TestComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports     : [ListModule],
-            declarations: [TestComponent]
+            declarations: [TestComponent],
+            providers   : [
+                {
+                    provide : DATE_FORMAT,
+                    useValue: 'dd. MM. yyyy HH:mm:ss'
+                }
+            ]
         });
         disableMaterialAnimations(ListModule);
         disableMaterialAnimations(FileModule);

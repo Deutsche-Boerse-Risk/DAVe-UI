@@ -17,7 +17,8 @@ import {Subscription} from 'rxjs/Subscription';
 import {RouterSubLinkDirective} from './router.sub.link.directive';
 
 @Directive({
-    selector: '[routerLinkActive]'
+    selector: '[routerLinkActive]',
+    exportAs: 'routerLinkActive'
 })
 export class RouterLinkActiveDirective implements OnChanges, OnDestroy, AfterContentInit {
 
@@ -49,6 +50,13 @@ export class RouterLinkActiveDirective implements OnChanges, OnDestroy, AfterCon
         this.linksWithHrefs.changes.subscribe(s => this.update());
         this.subLinks.changes.subscribe(s => this.update());
         this.update();
+    }
+
+    public get isActive(): boolean {
+        if (!this.links || !this.linksWithHrefs || !this.subLinks || !this.router.navigated) {
+            return false;
+        }
+        return this.hasActiveLink();
     }
 
     @Input()

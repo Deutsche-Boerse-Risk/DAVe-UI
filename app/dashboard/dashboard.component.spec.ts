@@ -1,26 +1,59 @@
-import {NO_ERRORS_SCHEMA} from '@angular/core';
+import {ContentChildren, NO_ERRORS_SCHEMA} from '@angular/core';
+import {Router, RouterModule} from '@angular/router';
 
 import {async, fakeAsync, TestBed} from '@angular/core/testing';
 
+import {RouterLinkStubDirective, stubRouter} from '@dbg-riskit/DAVe-UI-testing';
+
+import {NoopAnimationsCommonViewModule} from '@dbg-riskit/DAVe-UI-view';
+
 import {DashboardPage, Tab} from '../../testing';
 
-import {DashboardComponent} from './dashboard.component';
+import {RouterLinkActiveDirective} from '../menu/router.link.active.directive';
 
-xdescribe('DashboardComponent', () => {
+import {DashboardComponent} from './dashboard.component';
+import {BrowserModule} from '@angular/platform-browser';
+import {ROUTES} from '../routes/routing.paths';
+
+describe('DashboardComponent', () => {
 
     let page: DashboardPage;
+    // Get @ContentChildren in RouterLinkActiveDirective
+    let linksDecorator: ContentChildren = (Reflect as any).getMetadata('propMetadata',
+        RouterLinkActiveDirective).links[0];
+    let oldSelector = linksDecorator.selector;
 
     beforeEach(async(() => {
+        // Use stub to override @ContentChildren in RouterLinkActiveDirective
+        linksDecorator.selector = RouterLinkStubDirective;
         TestBed.configureTestingModule({
-            declarations: [DashboardComponent],
+            imports     : [
+                BrowserModule,
+                RouterModule,
+                NoopAnimationsCommonViewModule
+            ],
+            declarations: [
+                DashboardComponent,
+                RouterLinkActiveDirective
+            ],
             schemas     : [NO_ERRORS_SCHEMA]
-        }).compileComponents();
+        });
+        stubRouter().compileComponents();
     }));
 
     beforeEach(fakeAsync(() => {
         page = new DashboardPage(TestBed.createComponent(DashboardComponent));
         page.detectChanges();
+
+        let router = TestBed.get(Router);
+        router.navigateByUrl(ROUTES.DASHBOARD_MARGIN_REQUIREMENT_OVERVIEW);
+        page.detectChanges();
     }));
+
+    afterEach(() => {
+        // Restore component definition
+        linksDecorator.selector = oldSelector;
+    });
 
     it('has tabs with correct lables', fakeAsync(() => {
         expect(page.tabs.length).toBe(3, '3 tabs');
@@ -29,7 +62,7 @@ xdescribe('DashboardComponent', () => {
         expect(page.activeTab.label).toEqual('Margin Requirement Overview');
     }));
 
-    it('has correct content in tab panels', fakeAsync(() => {
+    xit('has correct content in tab panels', fakeAsync(() => {
         expect(page.contains('pool-margin-summary')).toBeTruthy('PoolMargin summary visible');
         expect(page.contains('liqui-group-margin-aggregation')).toBeTruthy('Margin components aggergetaion visible');
         expect(page.contains('liqui-group-margin-treemap')).toBeFalsy('Margin components treemap not visible');
