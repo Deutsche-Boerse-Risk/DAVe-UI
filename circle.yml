@@ -15,6 +15,7 @@ dependencies:
   post:
     - npm list || true
     - npm list -g || true
+    - grunt printConfig
 
 # Build first and move to artifacts directory
 # We need to export the variable DAVE_UI_DIST into "~/.circlerc" so ./dockerfile/create_docker.sh can find the

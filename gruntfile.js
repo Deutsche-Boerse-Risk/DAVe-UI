@@ -12,6 +12,10 @@ module.exports = function (grunt) {
         }
     });
 
+    grunt.registerTask('printConfig', function () {
+        grunt.log.writeln(JSON.stringify(grunt.config(), null, 2));
+    });
+
 
     grunt.loadNpmTasks('grunt-coveralls');
 
@@ -29,5 +33,5 @@ module.exports = function (grunt) {
     // CircleCI test tasks
     grunt.registerTask('testCircleCI', ['testBrowserStack', 'coveralls']);
     grunt.registerTask('testCircleCIMinimal', ['testBrowserStackMinimal', 'coveralls']);
-    grunt.registerTask('testCircleCIChrome', ['testBrowserStackChrome', 'coveralls']);
+    grunt.registerTask('testCircleCIChrome', ['testChrome', 'coveralls']);
 };
