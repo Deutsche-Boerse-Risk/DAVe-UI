@@ -2,22 +2,31 @@ import {DecimalPipe} from '@angular/common';
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {ErrorResponse} from '../http.service';
+import {COMPONENT_CSS, ErrorResponse} from '@dbg-riskit/dave-ui-common';
+import {OrderingCriteria} from '@dbg-riskit/dave-ui-datatable';
+import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
+import {DateFormatter} from '@dbg-riskit/dave-ui-view';
 
 import {LiquiGroupMarginService} from './liqui.group.margin.service';
-import {LiquiGroupMarginData} from './liqui.group.margin.types';
+import {LiquiGroupMarginData, LiquiGroupMarginHistoryParams} from './liqui.group.margin.types';
 
-import {DateFormatter} from '../common/common.module';
 import {AbstractHistoryListComponent, LineChartColumn} from '../list/abstract.history.list.component';
-import {ExportColumn} from '../list/download.menu.component';
-import {OrderingCriteria} from '../datatable/data.table.column.directive';
+import {RoutePart} from '../list/bread.crumbs.component';
 
-import {exportKeys, routingKeys, valueGetters} from './liqui.group.margin.latest.component';
+import {exportKeys, valueGetters} from './liqui.group.margin.latest.component';
+
+export const routingKeys: (keyof LiquiGroupMarginHistoryParams)[] = [
+    'clearer',
+    'member',
+    'account',
+    'marginClass',
+    'marginCurrency'
+];
 
 @Component({
     moduleId   : module.id,
     templateUrl: 'liqui.group.margin.history.component.html',
-    styleUrls  : ['../common.component.css']
+    styleUrls  : ['../../' + COMPONENT_CSS]
 })
 export class LiquiGroupMarginHistoryComponent extends AbstractHistoryListComponent<LiquiGroupMarginData> {
 
@@ -40,6 +49,14 @@ export class LiquiGroupMarginHistoryComponent extends AbstractHistoryListCompone
                 this.errorMessage = 'Server returned status ' + err.status;
                 this.initialLoad = false;
             });
+    }
+
+    protected createRoutePart(title: string, routePath: string, key: string, index: number): RoutePart {
+        let part: RoutePart = super.createRoutePart(title, routePath, key, index);
+        if (key === 'marginCurrency') {
+            part.inactive = true;
+        }
+        return part;
     }
 
     protected getTickFromRecord(record: LiquiGroupMarginData): LineChartColumn[] {
@@ -69,7 +86,7 @@ export class LiquiGroupMarginHistoryComponent extends AbstractHistoryListCompone
                 value: record.unadjustedMarginRequirement
             },
             {
-                label: 'Variation Premium Payment',
+                label: 'Variation / Premium Cash Flow',
                 type : 'number',
                 value: record.variationPremiumPayment
             }
@@ -80,7 +97,7 @@ export class LiquiGroupMarginHistoryComponent extends AbstractHistoryListCompone
         return defaultOrdering;
     }
 
-    public get exportKeys(): ExportColumn<LiquiGroupMarginData>[] {
+    public get exportKeys(): CSVExportColumn<LiquiGroupMarginData>[] {
         return exportKeys;
     }
 

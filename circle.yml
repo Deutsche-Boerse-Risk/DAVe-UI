@@ -1,6 +1,6 @@
 machine:
   node:
-    version: 6.1.0 # Requires NodeJS 5+ to be used with Angular 4
+    version: 6.11.0 # Requires NodeJS 5+ to be used with Angular 4
   services:
     - docker
 
@@ -15,6 +15,7 @@ dependencies:
   post:
     - npm list || true
     - npm list -g || true
+    - grunt printConfig
 
 # Build first and move to artifacts directory
 # We need to export the variable DAVE_UI_DIST into "~/.circlerc" so ./dockerfile/create_docker.sh can find the
@@ -53,3 +54,8 @@ deployment:
     commands:
       - ./dockerfile/create_docker.sh
       - ./deployment/kube_deploy.sh
+  material:
+      branch: material
+      commands:
+        - ./dockerfile/create_docker.sh
+        - ./deployment/kube_deploy.sh

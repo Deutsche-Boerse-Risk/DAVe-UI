@@ -1,34 +1,40 @@
-<list-content title="Initial Margin"
+<list-content header="Initial Margin"
               [routeParts]="routeParts"
               [exportKeys]="exportKeys"
               [data]="data"
               [initialLoad]="initialLoad"
               [errorMessage]="errorMessage"
-              (filterChanged)="filter($event)">
+              (filterChanged)="filter($event)"
+              [drillupRouterLink]="[routerRoots.LIQUI_GROUP_MARGIN_LATEST, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', routeParams['liquidationGroup'] || '*']">
     <data-table [data]="data"
                 [pageSize]="pageSize"
                 [defaultOrdering]="defaultOrdering"
                 [trackByRowKey]="trackByRowKey">
         <column title="Member / Client"
+                headerAlign="center"
                 [sortingKey]="valueGetters.member">
             <ng-template let-record="row" cell-template>
-                <a [routerLink]="[rootRoutePath, record.clearer || '*', record.member || '*']">
+                <a md-button [routerLink]="[rootRoutePath, record.clearer || '*', record.member || '*']">
                     {{record.member}}
                 </a>
             </ng-template>
         </column>
         <column title="Account"
+                headerAlign="center"
                 [sortingKey]="valueGetters.account">
             <ng-template let-record="row" cell-template>
-                <a [routerLink]="[rootRoutePath, record.clearer || '*', record.member || '*', record.account || '*']">
+                <a md-button
+                   [routerLink]="[rootRoutePath, record.clearer || '*', record.member || '*', record.account || '*']">
                     {{record.account}}
                 </a>
             </ng-template>
         </column>
         <column title="Liquidation Group"
+                headerAlign="center"
                 [sortingKey]="valueGetters.liquidationGroup">
             <ng-template let-record="row" cell-template>
-                <a [routerLink]="[rootRoutePath, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', record.liquidationGroup || '*']">
+                <a md-button
+                   [routerLink]="[rootRoutePath, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', record.liquidationGroup || '*']">
                     {{record.liquidationGroup}}
                 </a>
             </ng-template>
@@ -41,6 +47,7 @@
         </column>
         <column title="Market Risk"
                 [sortingKey]="valueGetters.marketRisk"
+                headerAlign="right"
                 contentAlign="right">
             <ng-template let-record="row" cell-template>
                 {{record.marketRisk | number:'.2-2'}} {{record.marginCurrency}}
@@ -48,6 +55,7 @@
         </column>
         <column title="Liqu Risk"
                 [sortingKey]="valueGetters.liquRisk"
+                headerAlign="right"
                 contentAlign="right">
             <ng-template let-record="row" cell-template>
                 {{record.liquRisk | number:'.2-2'}} {{record.marginCurrency}}
@@ -55,6 +63,7 @@
         </column>
         <column title="Long Option Credit"
                 [sortingKey]="valueGetters.longOptionCredit"
+                headerAlign="right"
                 contentAlign="right">
             <ng-template let-record="row" cell-template>
                 {{record.longOptionCredit | number:'.2-2'}} {{record.marginCurrency}}
@@ -62,6 +71,7 @@
         </column>
         <column title="Initial Margin"
                 [sortingKey]="valueGetters.additionalMargin"
+                headerAlign="right"
                 contentAlign="right">
             <ng-template let-record="row" cell-template>
                 {{record.additionalMargin | number:'.2-2'}} {{record.marginCurrency}}
@@ -70,7 +80,7 @@
         <column>
             <ng-template let-record="row" cell-template>
                 <drilldown-row-button
-                        [routerLink]="[routerRoots.POSITION_REPORTS_LATEST, record.clearer || '*', record.member || '*', record.account || '*', record.liquidationGroup || '*', record.liquidationGroupSplit || '*']">
+                        [routerLink]="[routerRoots.POSITION_REPORTS_LATEST, record.clearer || '*', record.member || '*', record.account || '*', '*', record.liquidationGroup || '*', record.liquidationGroupSplit || '*']">
                     ]">
                 </drilldown-row-button>
                 <detail-row-button

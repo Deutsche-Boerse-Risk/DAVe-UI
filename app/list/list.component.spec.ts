@@ -1,10 +1,14 @@
 import {Component} from '@angular/core';
 import {By} from '@angular/platform-browser';
-import {RouterModule} from '@angular/router';
 
-import {TestBed, async, fakeAsync} from '@angular/core/testing';
+import {fakeAsync, TestBed} from '@angular/core/testing';
 
-import {RouterLinkStubDirective, ListPage} from '../../testing';
+import {disableMaterialAnimations, stubRouter} from '@dbg-riskit/dave-ui-testing';
+
+import {DATE_FORMAT} from '@dbg-riskit/dave-ui-common';
+import {FileModule} from '@dbg-riskit/dave-ui-file';
+
+import {ListPage} from '../../testing';
 
 import {ListModule} from './list.module';
 import {RoutePart} from './bread.crumbs.component';
@@ -12,7 +16,7 @@ import {ROUTES} from '../routes/routing.paths';
 
 @Component({
     template: `
-        <list-content [title]="rootRouteTitle"
+        <list-content [header]="rootRouteTitle"
                       [isHistory]="isHistory"
                       [routeParts]="routeParts"
                       [exportKeys]="exportKeys"
@@ -20,6 +24,7 @@ import {ROUTES} from '../routes/routing.paths';
                       [initialLoad]="initialLoad"
                       [errorMessage]="errorMessage"
                       [drilldownRouterLink]="drilldownRouterLink"
+                      [drillupRouterLink]="drillupRouterLink"
                       (filterChanged)="filtered($event)">
             <div class="testContent"></div>
         </list-content>`
@@ -33,6 +38,7 @@ class TestComponent {
     public initialLoad: boolean;
     public errorMessage: string;
     public drilldownRouterLink: any[] | string;
+    public drillupRouterLink: any[] | string;
 
     public filtered(query: string): string {
         return query;
@@ -43,26 +49,31 @@ describe('ListComponent', () => {
 
     let page: ListPage<TestComponent>;
 
-    beforeEach(async(() => {
+    beforeEach((done: DoneFn) => {
         TestBed.configureTestingModule({
             imports     : [ListModule],
-            declarations: [TestComponent]
-        }).overrideModule(RouterModule, {
-            set: {
-                declarations: [RouterLinkStubDirective],
-                exports     : [RouterLinkStubDirective]
-            }
-        }).compileComponents();
-    }));
+            declarations: [TestComponent],
+            providers   : [
+                {
+                    provide : DATE_FORMAT,
+                    useValue: 'dd. MM. yyyy HH:mm:ss'
+                }
+            ]
+        });
+        disableMaterialAnimations(ListModule);
+        disableMaterialAnimations(FileModule);
+        stubRouter().compileComponents()
+            .then(done);
+    });
 
     beforeEach(fakeAsync(() => {
         page = new ListPage<TestComponent>(TestBed.createComponent(TestComponent));
         page.detectChanges();
     }));
 
-    it('has correct title', () => {
+    it('has correct title', fakeAsync(() => {
         expect(page.title).toBe(page.component.rootRouteTitle);
-    });
+    }));
 
     it('displays filter and filter works correctly', fakeAsync(() => {
         expect(page.filterShown).toBeTruthy('Filter is shown');
@@ -88,13 +99,22 @@ describe('ListComponent', () => {
         expect(page.drilldownButton).not.toBeNull('Is shown');
     }));
 
-    it('has download menu', () => {
-        expect(page.downloadMenu).not.toBeNull('Is shown');
-    });
+    it('displays drillup-button', fakeAsync(() => {
+        expect(page.drillupButton).toBeNull('Not shown');
 
-    it('has bread crumbs', () => {
+        page.component.drillupRouterLink = [ROUTES.POSITION_REPORTS_LATEST, 'clearer'];
+        page.detectChanges();
+
+        expect(page.drillupButton).not.toBeNull('Is shown');
+    }));
+
+    it('has download menu', fakeAsync(() => {
+        expect(page.downloadMenu).not.toBeNull('Is shown');
+    }));
+
+    it('has bread crumbs', fakeAsync(() => {
         expect(page.breadCrumbs).not.toBeNull('Is shown');
-    });
+    }));
 
     it('initial load message works as expected', fakeAsync(() => {
         expect(page.initialLoadComponent).toBeNull('Not shown');
@@ -160,7 +180,7 @@ describe('ListComponent', () => {
         expect(page.updateFailedComponent).not.toBeNull('Is shown');
     }));
 
-    it('has content', () => {
+    it('has content', fakeAsync(() => {
         expect(page.listElement.query(By.css('.testContent'))).not.toBeNull('Is shown');
-    });
+    }));
 });

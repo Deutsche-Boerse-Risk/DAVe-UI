@@ -1,32 +1,43 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Router} from '@angular/router';
 
-import {AbstractComponentWithAutoRefresh} from '../abstract.component';
-import {ErrorResponse} from '../http.service';
+import {COMPONENT_CSS, ErrorResponse} from '@dbg-riskit/dave-ui-common';
+import {ChartData, ChartRow, SelectionEvent, TreeMapOptions} from '@dbg-riskit/dave-ui-charts';
 
-import {ChartData, TreeMapOptions, ChartRow, SelectionEvent} from '../charts/chart.types';
+import {AbstractComponentWithAutoRefresh} from '../abstract.component';
 
 import {LiquiGroupMarginService} from './liqui.group.margin.service';
 import {LiquiGroupMarginTree, LiquiGroupMarginTreeNode} from './liqui.group.margin.types';
 
 @Component({
     moduleId   : module.id,
-    selector   : 'liqui-group-margin-treemap',
     templateUrl: 'liqui.group.margin.treemap.component.html',
-    styleUrls  : ['../common.component.css']
+    styleUrls  : [
+        '../../' + COMPONENT_CSS,
+        'liqui.group.margin.treemap.component.css'
+    ]
 })
 export class LiquiGroupMarginTreemapComponent extends AbstractComponentWithAutoRefresh {
+
+    @Input()
+    public chartShown: boolean = true;
 
     public initialLoad: boolean = true;
 
     public errorMessage: string;
 
     public chartOptions: TreeMapOptions = {
-        minColor            : '#f39d3c',
-        midColor            : '#ec7a08',
-        maxColor            : '#b35c00',
+        headerColor         : '#000099',
+        headerHighlightColor: '#000099',
+        minColor            : '#7DCDFF',
+        midColor            : '#7DCDFF',
+        maxColor            : '#7DCDFF',
+        minHighlightColor   : '#D7EBFF',
+        midHighlightColor   : '#D7EBFF',
+        maxHighlightColor   : '#D7EBFF',
         fontColor           : 'black',
         showScale           : false,
+        showTooltips        : false,
         highlightOnMouseOver: true,
         headerHeight        : 15,
         maxDepth            : 1,

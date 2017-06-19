@@ -3,33 +3,33 @@ import {NO_ERRORS_SCHEMA} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms';
 
-import {async, TestBed, fakeAsync, inject} from '@angular/core/testing';
+import {fakeAsync, inject, TestBed} from '@angular/core/testing';
 
-import {
-    RouterLinkStubDirective,
-    HttpAsyncServiceStub,
-    BubbleChartPage,
-    generatePositionReports
-} from '../../testing';
+import {HttpAsyncServiceStub, RouterLinkStubDirective} from '@dbg-riskit/dave-ui-testing';
 
-import {HttpService} from '../http.service';
+import {HttpService} from '@dbg-riskit/dave-ui-http';
+import {ChartRow} from '@dbg-riskit/dave-ui-charts';
+
+import {BubbleChartPage, generatePositionReports} from '../../testing';
+
 import {PositionReportsService} from './position.reports.service';
 
 import {DATA_REFRESH_INTERVAL} from '../abstract.component';
 
 import {
-    PositionReportBubbleChartComponent, compVarPositiveLegend, compVarNegativeLegend
+    compVarNegativeLegend,
+    compVarPositiveLegend,
+    PositionReportBubbleChartComponent
 } from './position.report.bubblechart.component';
 import {PositionReportServerData} from './position.report.types';
-import {ChartRow} from '../charts/chart.types';
 import {ROUTES} from '../routes/routing.paths';
 
-describe('Position reports bubble chart component', () => {
+xdescribe('Position reports bubble chart component', () => {
     let page: BubbleChartPage;
 
-    beforeEach(async(() => {
+    beforeEach((done: DoneFn) => {
         TestBed.configureTestingModule({
-            imports: [
+            imports     : [
                 BrowserModule,
                 FormsModule
             ],
@@ -46,8 +46,9 @@ describe('Position reports bubble chart component', () => {
                 DecimalPipe
             ],
             schemas     : [NO_ERRORS_SCHEMA]
-        }).compileComponents();
-    }));
+        }).compileComponents()
+            .then(done);
+    });
 
     beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<PositionReportServerData[]>) => {
         // Generate test data

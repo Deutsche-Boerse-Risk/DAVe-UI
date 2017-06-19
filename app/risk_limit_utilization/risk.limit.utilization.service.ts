@@ -1,15 +1,15 @@
 import {Injectable} from '@angular/core';
 
-import {HttpService} from '../http.service';
+import {DateUtils, UIDUtils} from '@dbg-riskit/dave-ui-common';
+import {HttpService} from '@dbg-riskit/dave-ui-http';
+
 import {Observable} from 'rxjs/Observable';
-import {UIDUtils} from '../uid.utils';
-import {parseServerDate} from '../date.utils';
 
 import {
-    RiskLimitUtilizationServerData,
     RiskLimitUtilizationData,
+    RiskLimitUtilizationHistoryParams,
     RiskLimitUtilizationParams,
-    RiskLimitUtilizationHistoryParams
+    RiskLimitUtilizationServerData
 } from './risk.limit.utilization.types';
 
 export const riskLimitUtilizationLatestURL: string = '/rlu/latest';
@@ -58,7 +58,7 @@ export class RiskLimitUtilizationService {
             warningUtil : warningUtil,
             throttleUtil: throttleUtil,
             rejectUtil  : rejectUtil,
-            received    : parseServerDate(record.timestamp)
+            received    : DateUtils.utcTimestampToDate(record.timestamp)
         };
     }
 }

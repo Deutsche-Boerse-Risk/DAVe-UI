@@ -1,10 +1,10 @@
 import {DecimalPipe} from '@angular/common';
 import {ActivatedRoute} from '@angular/router';
 
-import {DateFormatter} from '../common/common.module';
-import {AbstractListComponent} from './abstract.list.component';
+import {ChartColumn, ChartData, LineChartOptions} from '@dbg-riskit/dave-ui-charts';
+import {DateFormatter} from '@dbg-riskit/dave-ui-view';
 
-import {ChartData, ChartColumn, LineChartOptions} from '../charts/chart.types';
+import {AbstractListComponent} from './abstract.list.component';
 
 import {RoutePart} from './bread.crumbs.component';
 
@@ -62,37 +62,34 @@ export abstract class AbstractHistoryListComponent<T extends { uid: string }> ex
         pointSize  : 5,
         series     : [
             {
-                color: '#31C0BE'
+                color: '#000099'
             },
             {
-                color: '#c7254e'
+                color: '#4B9BFF'
             },
             {
-                color: '#800000'
+                color: '#7DCDFF'
             },
             {
-                color: '#808000'
+                color: '#B4E1FF'
             },
             {
-                color: '#FF00FF'
+                color: '#D7EBFF'
             },
             {
-                color: '#006fff'
+                color: '#D2D2D2'
             },
             {
-                color: '#3366CC'
+                color: '#AFAFAF'
             },
             {
-                color: '#DC3912'
+                color: '#919191'
             },
             {
-                color: '#FF9900'
+                color: '#6E6E6E'
             },
             {
-                color: '#109618'
-            },
-            {
-                color: '#990099'
+                color: '#000000'
             },
             {
                 color: '#3B3EAC'
@@ -108,36 +105,6 @@ export abstract class AbstractHistoryListComponent<T extends { uid: string }> ex
             },
             {
                 color: '#B82E2E'
-            },
-            {
-                color: '#316395'
-            },
-            {
-                color: '#994499'
-            },
-            {
-                color: '#22AA99'
-            },
-            {
-                color: '#AAAA11'
-            },
-            {
-                color: '#6633CC'
-            },
-            {
-                color: '#E67300'
-            },
-            {
-                color: '#8B0707'
-            },
-            {
-                color: '#329262'
-            },
-            {
-                color: '#5574A6'
-            },
-            {
-                color: '#3B3EAC'
             }
         ]
     };

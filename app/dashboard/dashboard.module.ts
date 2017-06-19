@@ -1,19 +1,27 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
+import {RouterModule} from '@angular/router';
 
-import {DashboardComponent} from './dashboard.component';
-import {PositionReportsModule} from '../position_reports/position.reports.module';
+import {CommonViewModule} from '@dbg-riskit/dave-ui-view';
+
 import {LiquiGroupMarginModule} from '../liqui_group_margin/liqui.group.margin.module';
 import {PoolMarginModule} from '../pool_margin/pool.margin.module';
+
+import {DashboardComponent} from './dashboard.component';
+import {MarginRequirementOverviewComponent} from './margin.requirement.overview.component';
 
 @NgModule({
     imports     : [
         BrowserModule,
-        PositionReportsModule,
+        RouterModule,
+        CommonViewModule,
         LiquiGroupMarginModule,
         PoolMarginModule
     ],
-    declarations: [DashboardComponent]
+    declarations: [
+        DashboardComponent,
+        MarginRequirementOverviewComponent
+    ]
 })
 export class DashboardModule {
 }

@@ -1,43 +1,38 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import {HttpModule, JsonpModule, Http} from '@angular/http';
 
-import {HttpService} from './http.service';
+import {DATE_FORMAT} from '@dbg-riskit/dave-ui-common';
+import {AuthModule} from '@dbg-riskit/dave-ui-auth';
+import {LayoutModule} from '@dbg-riskit/dave-ui-dummy-layout';
+import {LoginModule} from '@dbg-riskit/dave-ui-login';
+import {CommonViewModule} from '@dbg-riskit/dave-ui-view';
 
 import {AppComponent} from './app.component';
-
-import {AuthModule} from './auth/auth.module';
-import {AuthHttp} from 'angular2-jwt';
 
 import {MenuModule} from './menu/menu.module';
 import {RoutingModule} from './routes/routing.module';
 
-export function HttpServiceFactory(http: Http, authHttp: AuthHttp): HttpService<any> {
-    return new HttpService(http, authHttp);
-}
-
 @NgModule({
     imports     : [
+        AuthModule,
         BrowserModule,
+        CommonViewModule,
         RoutingModule,
-        HttpModule,
-        JsonpModule,
         MenuModule,
-        AuthModule
+        LoginModule,
+        LayoutModule
     ],
     declarations: [
         AppComponent
     ],
-    providers   : [
-        {
-            provide   : HttpService,
-            deps      : [Http, AuthHttp],
-            useFactory: HttpServiceFactory
-        }
-
-    ],
     bootstrap   : [
         AppComponent
+    ],
+    providers   : [
+        {
+            provide : DATE_FORMAT,
+            useValue: 'dd. MM. yyyy HH:mm:ss'
+        }
     ]
 })
 export class AppModule {

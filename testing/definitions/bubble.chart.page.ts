@@ -3,8 +3,9 @@ import {By} from '@angular/platform-browser';
 
 import {ComponentFixture} from '@angular/core/testing';
 
-import {LinkOnlyPage} from './link.only.page';
-import {setNgModelSelectValue} from '../events';
+import {LinkOnlyPage, setNgModelSelectValue} from '@dbg-riskit/dave-ui-testing';
+
+import {INITIAL_LOAD_SELECTOR, NO_DATA_SELECTOR, UPDATE_FAILED_SELECTOR} from '@dbg-riskit/dave-ui-view';
 
 import {PositionReportBubbleChartComponent} from '../../app/position_reports/position.report.bubblechart.component';
 import {PositionReportBubble} from '../../app/position_reports/position.report.types';
@@ -76,15 +77,15 @@ export class BubbleChartPage extends LinkOnlyPage<PositionReportBubbleChartCompo
     }
 
     public get initialLoadVisible(): boolean {
-        return this.debugElement.query(By.css('initial-load')) !== null;
+        return this.debugElement.query(By.css(INITIAL_LOAD_SELECTOR)) !== null;
     }
 
     public get noDataVisible(): boolean {
-        return this.debugElement.query(By.css('no-data')) !== null;
+        return this.debugElement.query(By.css(NO_DATA_SELECTOR)) !== null;
     }
 
     public get updateFailedVisible(): boolean {
-        return this.debugElement.query(By.css('update-failed')) !== null;
+        return this.debugElement.query(By.css(UPDATE_FAILED_SELECTOR)) !== null;
     }
 
     public get googleChartVisible(): boolean {

@@ -1,4 +1,4 @@
-import {OnInit, OnDestroy} from '@angular/core';
+import {OnDestroy, OnInit} from '@angular/core';
 import {ROUTES} from './routes/routing.paths';
 
 export const DATA_REFRESH_INTERVAL = 60000;

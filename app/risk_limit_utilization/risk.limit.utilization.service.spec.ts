@@ -1,16 +1,20 @@
-import {TestBed, inject} from '@angular/core/testing';
+import {inject, TestBed} from '@angular/core/testing';
 
-import {HttpServiceStub, generateRiskLimitUtilization} from '../../testing';
-import Spy = jasmine.Spy;
+import {HttpServiceStub} from '@dbg-riskit/dave-ui-testing';
 
-import {HttpService, Request} from '../http.service';
+import {Request} from '@dbg-riskit/dave-ui-common';
+import {HttpService} from '@dbg-riskit/dave-ui-http';
+
+import {generateRiskLimitUtilization} from '../../testing';
 
 import {
-    RiskLimitUtilizationService,
+    riskLimitUtilizationHistoryURL,
     riskLimitUtilizationLatestURL,
-    riskLimitUtilizationHistoryURL
+    RiskLimitUtilizationService
 } from './risk.limit.utilization.service';
-import {RiskLimitUtilizationServerData, RiskLimitUtilizationData} from './risk.limit.utilization.types';
+import {RiskLimitUtilizationData, RiskLimitUtilizationServerData} from './risk.limit.utilization.types';
+
+import Spy = jasmine.Spy;
 
 describe('RiskLimitUtilizationService', () => {
     let httpSyp: Spy;

@@ -2,22 +2,22 @@ import {DecimalPipe} from '@angular/common';
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {ErrorResponse} from '../http.service';
+import {COMPONENT_CSS, ErrorResponse, ValueGetter} from '@dbg-riskit/dave-ui-common';
+import {OrderingCriteria} from '@dbg-riskit/dave-ui-datatable';
+import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
+import {DateFormatter} from '@dbg-riskit/dave-ui-view';
 
 import {PositionReportData} from './position.report.types';
 import {PositionReportsService} from './position.reports.service';
 
-import {DateFormatter} from '../common/common.module';
 import {AbstractHistoryListComponent, LineChartColumn} from '../list/abstract.history.list.component';
-import {ExportColumn} from '../list/download.menu.component';
-import {OrderingCriteria, OrderingValueGetter} from '../datatable/data.table.column.directive';
 
 import {exportKeys, routingKeys, valueGetters} from './position.report.latest.component';
 
 @Component({
     moduleId   : module.id,
     templateUrl: 'position.report.history.component.html',
-    styleUrls  : ['../common.component.css']
+    styleUrls  : ['../../' + COMPONENT_CSS]
 })
 export class PositionReportHistoryComponent extends AbstractHistoryListComponent<PositionReportData> {
 
@@ -31,6 +31,7 @@ export class PositionReportHistoryComponent extends AbstractHistoryListComponent
             clearer              : this.routeParams['clearer'],
             member               : this.routeParams['member'],
             account              : this.routeParams['account'],
+            underlying           : this.routeParams['underlying'],
             liquidationGroup     : this.routeParams['liquidationGroup'],
             liquidationGroupSplit: this.routeParams['liquidationGroupSplit'],
             product              : this.routeParams['product'],
@@ -58,14 +59,9 @@ export class PositionReportHistoryComponent extends AbstractHistoryListComponent
                 value: record.received
             },
             {
-                label: 'NetLS',
+                label: 'Net position',
                 type : 'number',
                 value: record.netQuantityLs
-            },
-            {
-                label: 'Position VaR',
-                type : 'number',
-                value: record.compVar
             },
             {
                 label: 'EuroDelta',
@@ -76,36 +72,6 @@ export class PositionReportHistoryComponent extends AbstractHistoryListComponent
                 label: 'LA',
                 type : 'number',
                 value: record.compLiquidityAddOn
-            },
-            {
-                label: 'NetEA',
-                type : 'number',
-                value: record.netQuantityEa
-            },
-            {
-                label: 'CorrBreak',
-                type : 'number',
-                value: record.compCorrelationBreak
-            },
-            {
-                label: 'CopmError',
-                type : 'number',
-                value: record.compCompressionError
-            },
-            {
-                label: 'LonOptCredit',
-                type : 'number',
-                value: record.compLongOptionCredit
-            },
-            {
-                label: 'PremPay',
-                type : 'number',
-                value: record.variationPremiumPayment
-            },
-            {
-                label: 'PremMrgn',
-                type : 'number',
-                value: record.premiumMargin
             },
             {
                 label: 'Gamma',
@@ -126,20 +92,15 @@ export class PositionReportHistoryComponent extends AbstractHistoryListComponent
                 label: 'Theta',
                 type : 'number',
                 value: record.normalizedTheta
-            },
-            {
-                label: 'MVar',
-                type : 'number',
-                value: record.mVar
             }
         ];
     }
 
-    public get defaultOrdering(): (OrderingCriteria<PositionReportData> | OrderingValueGetter<PositionReportData>)[] {
+    public get defaultOrdering(): (OrderingCriteria<PositionReportData> | ValueGetter<PositionReportData>)[] {
         return defaultOrdering;
     }
 
-    public get exportKeys(): ExportColumn<PositionReportData>[] {
+    public get exportKeys(): CSVExportColumn<PositionReportData>[] {
         return exportKeys;
     }
 
@@ -162,7 +123,7 @@ export class PositionReportHistoryComponent extends AbstractHistoryListComponent
 
 //<editor-fold defaultstate="collapsed" desc="Value getters, default ordering, exported columns">
 
-const defaultOrdering: (OrderingCriteria<PositionReportData> | OrderingValueGetter<PositionReportData>)[] = [
+const defaultOrdering: (OrderingCriteria<PositionReportData> | ValueGetter<PositionReportData>)[] = [
     {
         get       : valueGetters.received,
         descending: true

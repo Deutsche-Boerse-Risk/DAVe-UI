@@ -2,9 +2,10 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
 
-import {CommonModule} from '../common/common.module';
-import {ChartsModule} from '../charts/charts.module';
-import {DataTableModule} from '../datatable/data.table.module';
+import {ChartsModule} from '@dbg-riskit/dave-ui-charts';
+import {DataTableModule} from '@dbg-riskit/dave-ui-datatable';
+import {CommonViewModule} from '@dbg-riskit/dave-ui-view';
+
 import {ListModule} from '../list/list.module';
 
 import {LiquiGroupMarginService} from './liqui.group.margin.service';
@@ -18,8 +19,8 @@ import {LiquiGroupMarginTreemapComponent} from './liqui.group.margin.treemap.com
         BrowserModule,
         RouterModule,
         ChartsModule,
-        CommonModule,
         DataTableModule,
+        CommonViewModule,
         ListModule
     ],
     declarations: [

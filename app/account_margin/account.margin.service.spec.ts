@@ -1,12 +1,16 @@
-import {TestBed, inject} from '@angular/core/testing';
+import {inject, TestBed} from '@angular/core/testing';
 
-import {HttpServiceStub, generateAccountMargin} from '../../testing';
+import {HttpServiceStub} from '@dbg-riskit/dave-ui-testing';
+
+import {Request} from '@dbg-riskit/dave-ui-common';
+import {HttpService} from '@dbg-riskit/dave-ui-http';
+
+import {generateAccountMargin} from '../../testing';
+
+import {accountMarginHistoryURL, accountMarginLatestURL, AccountMarginService} from './account.margin.service';
+import {AccountMarginData, AccountMarginServerData} from './account.margin.types';
+
 import Spy = jasmine.Spy;
-
-import {HttpService, Request} from '../http.service';
-
-import {AccountMarginService, accountMarginLatestURL, accountMarginHistoryURL} from './account.margin.service';
-import {AccountMarginServerData, AccountMarginData} from './account.margin.types';
 
 describe('AccountMarginService', () => {
     let httpSyp: Spy;

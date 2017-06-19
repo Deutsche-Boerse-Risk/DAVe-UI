@@ -1,21 +1,21 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {ErrorResponse} from '../http.service';
+import {COMPONENT_CSS, ErrorResponse, ValueGetter} from '@dbg-riskit/dave-ui-common';
+import {OrderingCriteria} from '@dbg-riskit/dave-ui-datatable';
+import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
 
 import {PoolMarginService} from './pool.margin.service';
 import {PoolMarginData, PoolMarginParams} from './pool.margin.types';
 
 import {AbstractLatestListComponent} from '../list/abstract.latest.list.component';
-import {ExportColumn} from '../list/download.menu.component';
-import {OrderingCriteria, OrderingValueGetter} from '../datatable/data.table.column.directive';
 
 export const routingKeys: (keyof PoolMarginParams)[] = ['clearer', 'pool', 'marginCurrency'];
 
 @Component({
     moduleId   : module.id,
     templateUrl: 'pool.margin.latest.component.html',
-    styleUrls  : ['../common.component.css']
+    styleUrls  : ['../../' + COMPONENT_CSS]
 })
 export class PoolMarginLatestComponent extends AbstractLatestListComponent<PoolMarginData> {
 
@@ -41,11 +41,11 @@ export class PoolMarginLatestComponent extends AbstractLatestListComponent<PoolM
 
     public get defaultOrdering(): (
         OrderingCriteria<PoolMarginData>
-        | OrderingValueGetter<PoolMarginData>)[] {
+        | ValueGetter<PoolMarginData>)[] {
         return defaultOrdering;
     }
 
-    public get exportKeys(): ExportColumn<PoolMarginData>[] {
+    public get exportKeys(): CSVExportColumn<PoolMarginData>[] {
         return exportKeys;
     }
 
@@ -87,12 +87,12 @@ export const valueGetters = {
 
 const defaultOrdering: (
     OrderingCriteria<PoolMarginData>
-    | OrderingValueGetter<PoolMarginData>)[] = [
+    | ValueGetter<PoolMarginData>)[] = [
     valueGetters.clearer,
     valueGetters.pool
 ];
 
-export const exportKeys: ExportColumn<PoolMarginData>[] = [
+export const exportKeys: CSVExportColumn<PoolMarginData>[] = [
     {
         get   : valueGetters.clearer,
         header: 'Clearer'

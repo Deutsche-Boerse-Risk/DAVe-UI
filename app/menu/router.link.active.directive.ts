@@ -1,15 +1,24 @@
 import {
-    Directive, Input, AfterContentInit, OnDestroy, OnChanges, ContentChildren, QueryList,
-    ElementRef, Renderer2, SimpleChanges
+    AfterContentInit,
+    ContentChildren,
+    Directive,
+    ElementRef,
+    Input,
+    OnChanges,
+    OnDestroy,
+    QueryList,
+    Renderer2,
+    SimpleChanges
 } from '@angular/core';
-import {Router, NavigationEnd, RouterLinkWithHref, RouterLink} from '@angular/router';
+import {NavigationEnd, Router, RouterLink, RouterLinkWithHref} from '@angular/router';
 
 import {Subscription} from 'rxjs/Subscription';
 
 import {RouterSubLinkDirective} from './router.sub.link.directive';
 
 @Directive({
-    selector: '[routerLinkActive]'
+    selector: '[routerLinkActive]',
+    exportAs: 'routerLinkActive'
 })
 export class RouterLinkActiveDirective implements OnChanges, OnDestroy, AfterContentInit {
 
@@ -41,6 +50,13 @@ export class RouterLinkActiveDirective implements OnChanges, OnDestroy, AfterCon
         this.linksWithHrefs.changes.subscribe(s => this.update());
         this.subLinks.changes.subscribe(s => this.update());
         this.update();
+    }
+
+    public get isActive(): boolean {
+        if (!this.links || !this.linksWithHrefs || !this.subLinks || !this.router.navigated) {
+            return false;
+        }
+        return this.hasActiveLink();
     }
 
     @Input()
@@ -78,9 +94,9 @@ export class RouterLinkActiveDirective implements OnChanges, OnDestroy, AfterCon
     }
 
     private isLinkActive(router: Router): (link: (
-            RouterSubLinkDirective
-            | RouterLink
-            | RouterLinkWithHref)) => boolean {
+        RouterSubLinkDirective
+        | RouterLink
+        | RouterLinkWithHref)) => boolean {
         return (link: RouterSubLinkDirective | RouterLink | RouterLinkWithHref) =>
             router.isActive(link.urlTree, this.routerLinkActiveOptions.exact);
     }

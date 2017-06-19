@@ -2,27 +2,24 @@ import {NO_ERRORS_SCHEMA} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {Router} from '@angular/router';
 
-import {async, TestBed, fakeAsync, inject} from '@angular/core/testing';
+import {fakeAsync, inject, TestBed} from '@angular/core/testing';
 
-import {
-    RouterLinkStubDirective,
-    HttpAsyncServiceStub,
-    RouterStub,
-    TreeMapPage,
-    generateLiquiGroupMargin
-} from '../../testing';
+import {HttpAsyncServiceStub, RouterLinkStubDirective, RouterStub} from '@dbg-riskit/dave-ui-testing';
 
-import {HttpService} from '../http.service';
+import {HttpService} from '@dbg-riskit/dave-ui-http';
+
+import {generateLiquiGroupMargin, TreeMapPage} from '../../testing';
+
 import {LiquiGroupMarginService} from './liqui.group.margin.service';
 
 import {LiquiGroupMarginTreemapComponent} from './liqui.group.margin.treemap.component';
 import {LiquiGroupMarginServerData} from './liqui.group.margin.types';
 import {ROUTES} from '../routes/routing.paths';
 
-describe('Margin components TreeMap component', () => {
+xdescribe('Margin components TreeMap component', () => {
     let page: TreeMapPage;
 
-    beforeEach(async(() => {
+    beforeEach((done: DoneFn) => {
         TestBed.configureTestingModule({
             imports     : [
                 BrowserModule
@@ -43,8 +40,9 @@ describe('Margin components TreeMap component', () => {
                 }
             ],
             schemas     : [NO_ERRORS_SCHEMA]
-        }).compileComponents();
-    }));
+        }).compileComponents()
+            .then(done);
+    });
 
     beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<LiquiGroupMarginServerData[]>) => {
         // Generate test data

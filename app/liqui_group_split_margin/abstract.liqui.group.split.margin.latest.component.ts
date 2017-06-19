@@ -1,18 +1,20 @@
 import {ActivatedRoute} from '@angular/router';
 
-import {ErrorResponse} from '../http.service';
+import {ErrorResponse, ValueGetter} from '@dbg-riskit/dave-ui-common';
+import {OrderingCriteria} from '@dbg-riskit/dave-ui-datatable';
 
 import {LiquiGroupSplitMarginService} from './liqui.group.split.margin.service';
 import {LiquiGroupSplitMarginData, LiquiGroupSplitMarginParams} from './liqui.group.split.margin.types';
 
 import {AbstractLatestListComponent} from '../list/abstract.latest.list.component';
-import {OrderingCriteria, OrderingValueGetter} from '../datatable/data.table.column.directive';
+import {RoutePart} from '../list/bread.crumbs.component';
 
 export const routingKeys: (keyof LiquiGroupSplitMarginParams)[] = [
     'clearer',
     'member',
     'account',
-    'liquidationGroup'
+    'liquidationGroup',
+    'liquidationGroupSplit'
 ];
 
 export abstract class AbstractLiquiGroupSplitMarginLatestComponent
@@ -25,10 +27,11 @@ export abstract class AbstractLiquiGroupSplitMarginLatestComponent
 
     protected loadData(): void {
         this.liquiGroupSplitMarginService.getLiquiGroupSplitMarginLatest({
-            clearer         : this.routeParams['clearer'],
-            member          : this.routeParams['member'],
-            account         : this.routeParams['account'],
-            liquidationGroup: this.routeParams['liquidationGroup']
+            clearer              : this.routeParams['clearer'],
+            member               : this.routeParams['member'],
+            account              : this.routeParams['account'],
+            liquidationGroup     : this.routeParams['liquidationGroup'],
+            liquidationGroupSplit: this.routeParams['liquidationGroupSplit']
         }).subscribe(
             (rows: LiquiGroupSplitMarginData[]) => {
                 this.processData(rows);
@@ -39,9 +42,17 @@ export abstract class AbstractLiquiGroupSplitMarginLatestComponent
             });
     }
 
+    protected createRoutePart(title: string, routePath: string, key: string, index: number): RoutePart {
+        let part: RoutePart = super.createRoutePart(title, routePath, key, index);
+        if (key === 'liquidationGroupSplit') {
+            part.inactive = true;
+        }
+        return part;
+    }
+
     public get defaultOrdering(): (
         OrderingCriteria<LiquiGroupSplitMarginData>
-        | OrderingValueGetter<LiquiGroupSplitMarginData>)[] {
+        | ValueGetter<LiquiGroupSplitMarginData>)[] {
         return defaultOrdering;
     }
 
@@ -53,7 +64,7 @@ export abstract class AbstractLiquiGroupSplitMarginLatestComponent
 //<editor-fold defaultstate="collapsed" desc="Value getters, default ordering, exported columns">
 
 const defaultOrdering: (
-    OrderingCriteria<LiquiGroupSplitMarginData> | OrderingValueGetter<LiquiGroupSplitMarginData>)[] = [
+    OrderingCriteria<LiquiGroupSplitMarginData> | ValueGetter<LiquiGroupSplitMarginData>)[] = [
     (row: LiquiGroupSplitMarginData) => row.clearer,
     (row: LiquiGroupSplitMarginData) => row.member,
     (row: LiquiGroupSplitMarginData) => row.account,

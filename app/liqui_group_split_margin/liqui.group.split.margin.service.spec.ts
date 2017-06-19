@@ -1,16 +1,20 @@
-import {TestBed, inject} from '@angular/core/testing';
+import {inject, TestBed} from '@angular/core/testing';
 
-import {HttpServiceStub, generateLiquiGroupSplitMargin} from '../../testing';
-import Spy = jasmine.Spy;
+import {HttpServiceStub} from '@dbg-riskit/dave-ui-testing';
 
-import {HttpService, Request} from '../http.service';
+import {Request} from '@dbg-riskit/dave-ui-common';
+import {HttpService} from '@dbg-riskit/dave-ui-http';
+
+import {generateLiquiGroupSplitMargin} from '../../testing';
 
 import {
-    LiquiGroupSplitMarginService,
+    liquiGroupSplitMarginHistoryURL,
     liquiGroupSplitMarginLatestURL,
-    liquiGroupSplitMarginHistoryURL
+    LiquiGroupSplitMarginService
 } from './liqui.group.split.margin.service';
-import {LiquiGroupSplitMarginServerData, LiquiGroupSplitMarginData} from './liqui.group.split.margin.types';
+import {LiquiGroupSplitMarginData, LiquiGroupSplitMarginServerData} from './liqui.group.split.margin.types';
+
+import Spy = jasmine.Spy;
 
 describe('LiquiGroupSplitMarginService', () => {
     let httpSyp: Spy;

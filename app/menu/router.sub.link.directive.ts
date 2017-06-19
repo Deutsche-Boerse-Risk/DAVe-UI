@@ -1,5 +1,5 @@
 import {Directive, Input} from '@angular/core';
-import {UrlTree, ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, UrlTree} from '@angular/router';
 
 @Directive({selector: '[routerSubLink]'})
 export class RouterSubLinkDirective {

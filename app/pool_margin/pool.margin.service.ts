@@ -1,12 +1,16 @@
 import {Injectable} from '@angular/core';
 
-import {HttpService} from '../http.service';
+import {DateUtils, UIDUtils} from '@dbg-riskit/dave-ui-common';
+import {HttpService} from '@dbg-riskit/dave-ui-http';
+
 import {Observable} from 'rxjs/Observable';
-import {UIDUtils} from '../uid.utils';
-import {parseServerDate} from '../date.utils';
 
 import {
-    PoolMarginServerData, PoolMarginSummaryData, PoolMarginData, PoolMarginParams, PoolMarginHistoryParams
+    PoolMarginData,
+    PoolMarginHistoryParams,
+    PoolMarginParams,
+    PoolMarginServerData,
+    PoolMarginSummaryData
 } from './pool.margin.types';
 
 export const poolMarginLatestURL: string = '/pm/latest';
@@ -62,7 +66,7 @@ export class PoolMarginService {
         return {
             uid     : UIDUtils.computeUID(record.clearer, record.pool, record.marginCurrency, record.snapshotID),
             ...record,
-            received: parseServerDate(record.timestamp)
+            received: DateUtils.utcTimestampToDate(record.timestamp)
         };
     }
 }

@@ -1,27 +1,26 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {ErrorResponse} from '../http.service';
+import {COMPONENT_CSS, ErrorResponse, ValueGetter} from '@dbg-riskit/dave-ui-common';
+import {OrderingCriteria} from '@dbg-riskit/dave-ui-datatable';
+import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
 
 import {LiquiGroupMarginService} from './liqui.group.margin.service';
 import {LiquiGroupMarginData, LiquiGroupMarginParams} from './liqui.group.margin.types';
 
 import {AbstractLatestListComponent} from '../list/abstract.latest.list.component';
-import {ExportColumn} from '../list/download.menu.component';
-import {OrderingCriteria, OrderingValueGetter} from '../datatable/data.table.column.directive';
 
 export const routingKeys: (keyof LiquiGroupMarginParams)[] = [
     'clearer',
     'member',
     'account',
-    'marginClass',
-    'marginCurrency'
+    'marginClass'
 ];
 
 @Component({
     moduleId   : module.id,
     templateUrl: 'liqui.group.margin.latest.component.html',
-    styleUrls  : ['../common.component.css']
+    styleUrls  : ['../../' + COMPONENT_CSS]
 })
 export class LiquiGroupMarginLatestComponent extends AbstractLatestListComponent<LiquiGroupMarginData> {
 
@@ -32,11 +31,10 @@ export class LiquiGroupMarginLatestComponent extends AbstractLatestListComponent
 
     protected loadData(): void {
         this.liquiGroupMarginService.getLiquiGroupMarginLatest({
-            clearer       : this.routeParams['clearer'],
-            member        : this.routeParams['member'],
-            account       : this.routeParams['account'],
-            marginClass   : this.routeParams['marginClass'],
-            marginCurrency: this.routeParams['marginCurrency']
+            clearer    : this.routeParams['clearer'],
+            member     : this.routeParams['member'],
+            account    : this.routeParams['account'],
+            marginClass: this.routeParams['marginClass']
         }).subscribe(
             (rows: LiquiGroupMarginData[]) => {
                 this.processData(rows);
@@ -49,11 +47,11 @@ export class LiquiGroupMarginLatestComponent extends AbstractLatestListComponent
 
     public get defaultOrdering(): (
         OrderingCriteria<LiquiGroupMarginData>
-        | OrderingValueGetter<LiquiGroupMarginData>)[] {
+        | ValueGetter<LiquiGroupMarginData>)[] {
         return defaultOrdering;
     }
 
-    public get exportKeys(): ExportColumn<LiquiGroupMarginData>[] {
+    public get exportKeys(): CSVExportColumn<LiquiGroupMarginData>[] {
         return exportKeys;
     }
 
@@ -89,7 +87,7 @@ export const valueGetters = {
     received                   : (row: LiquiGroupMarginData) => row.received
 };
 
-const defaultOrdering: (OrderingCriteria<LiquiGroupMarginData> | OrderingValueGetter<LiquiGroupMarginData>)[] = [
+const defaultOrdering: (OrderingCriteria<LiquiGroupMarginData> | ValueGetter<LiquiGroupMarginData>)[] = [
     {
         get       : (row: LiquiGroupMarginData) => Math.abs(row.additionalMargin),
         descending: true
@@ -101,7 +99,7 @@ const defaultOrdering: (OrderingCriteria<LiquiGroupMarginData> | OrderingValueGe
     (row: LiquiGroupMarginData) => row.marginCurrency
 ];
 
-export const exportKeys: ExportColumn<LiquiGroupMarginData>[] = [
+export const exportKeys: CSVExportColumn<LiquiGroupMarginData>[] = [
     {
         get   : valueGetters.clearer,
         header: 'Clearer'
@@ -152,7 +150,7 @@ export const exportKeys: ExportColumn<LiquiGroupMarginData>[] = [
     },
     {
         get   : valueGetters.variationPremiumPayment,
-        header: 'Variation Premium Payment'
+        header: 'Variation / Premium Cash Flow'
     },
     {
         get   : valueGetters.received,

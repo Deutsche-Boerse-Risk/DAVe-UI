@@ -1,15 +1,15 @@
 import {Injectable} from '@angular/core';
 
-import {HttpService} from '../http.service';
+import {DateUtils, UIDUtils} from '@dbg-riskit/dave-ui-common';
+import {HttpService} from '@dbg-riskit/dave-ui-http';
+
 import {Observable} from 'rxjs/Observable';
-import {UIDUtils} from '../uid.utils';
-import {parseServerDate} from '../date.utils';
 
 import {
-    LiquiGroupSplitMarginServerData,
     LiquiGroupSplitMarginData,
+    LiquiGroupSplitMarginHistoryParams,
     LiquiGroupSplitMarginParams,
-    LiquiGroupSplitMarginHistoryParams
+    LiquiGroupSplitMarginServerData
 } from './liqui.group.split.margin.types';
 
 export const liquiGroupSplitMarginLatestURL: string = '/lgsm/latest';
@@ -40,11 +40,12 @@ export class LiquiGroupSplitMarginService {
 
     private static processLiquiGroupSplitMarginData(record: LiquiGroupSplitMarginServerData): LiquiGroupSplitMarginData {
         return {
-            uid             : UIDUtils.computeUID(record.clearer, record.member, record.account, record.liquidationGroup,
+            uid             : UIDUtils.computeUID(record.clearer, record.member, record.account,
+                record.liquidationGroup,
                 record.liquidationGroupSplit, record.marginCurrency, record.snapshotID),
             ...record,
             additionalMargin: (record.marketRisk || 0) + (record.liquRisk || 0) + (record.longOptionCredit || 0),
-            received        : parseServerDate(record.timestamp)
+            received        : DateUtils.utcTimestampToDate(record.timestamp)
         };
     }
 }

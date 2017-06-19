@@ -1,13 +1,15 @@
 import {Injectable} from '@angular/core';
 
-import {HttpService} from '../http.service';
+import {DateUtils, UIDUtils} from '@dbg-riskit/dave-ui-common';
+import {HttpService} from '@dbg-riskit/dave-ui-http';
+
 import {Observable} from 'rxjs/Observable';
-import {UIDUtils} from '../uid.utils';
-import {parseServerDate} from '../date.utils';
 
 import {
-    AccountMarginServerData, AccountMarginData, AccountMarginParams,
-    AccountMarginHistoryParams
+    AccountMarginData,
+    AccountMarginHistoryParams,
+    AccountMarginParams,
+    AccountMarginServerData
 } from './account.margin.types';
 
 export const accountMarginLatestURL: string = '/am/latest';
@@ -40,7 +42,7 @@ export class AccountMarginService {
             uid     : UIDUtils.computeUID(record.clearer, record.member, record.account, record.marginCurrency,
                 record.snapshotID),
             ...record,
-            received: parseServerDate(record.timestamp)
+            received: DateUtils.utcTimestampToDate(record.timestamp)
         };
     }
 }

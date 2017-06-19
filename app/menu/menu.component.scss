@@ -1,5 +1,11 @@
-@import "../component";
+:host {
+    display: flex;
+}
 
-a[routerLink] {
-    cursor: pointer;
+.mat-button {
+    margin: 0 3px;
+}
+
+.mat-menu-item.active {
+    background: rgba(0, 0, 0, .1);
 }

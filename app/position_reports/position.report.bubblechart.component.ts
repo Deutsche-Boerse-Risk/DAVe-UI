@@ -1,23 +1,24 @@
 import {DecimalPipe} from '@angular/common';
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
+
+import {COMPONENT_CSS, ErrorResponse} from '@dbg-riskit/dave-ui-common';
+import {BubbleChartOptions, ChartData, ChartRow, ChartValue} from '@dbg-riskit/dave-ui-charts';
 
 import {AbstractComponentWithAutoRefresh} from '../abstract.component';
 
-import {ErrorResponse} from '../http.service';
-
-import {BubbleChartOptions, ChartData, ChartRow, ChartValue} from '../charts/chart.types';
-
 import {PositionReportsService} from './position.reports.service';
-import {PositionReportChartData, PositionReportBubble, SelectValues} from './position.report.types';
+import {PositionReportBubble, PositionReportChartData, SelectValues} from './position.report.types';
 
 export const compVarPositiveLegend = 'Positive';
 export const compVarNegativeLegend = 'Negative';
 
 @Component({
     moduleId   : module.id,
-    selector   : 'position-report-bubblechart',
     templateUrl: 'position.report.bubblechart.component.html',
-    styleUrls  : ['../common.component.css']
+    styleUrls  : [
+        '../../' + COMPONENT_CSS,
+        'position.report.bubblechart.component.css'
+    ]
 })
 export class PositionReportBubbleChartComponent extends AbstractComponentWithAutoRefresh {
 
@@ -26,6 +27,9 @@ export class PositionReportBubbleChartComponent extends AbstractComponentWithAut
     public initialLoad: boolean = true;
 
     public title: string;
+
+    @Input()
+    public chartShown: boolean = true;
 
     public options: BubbleChartOptions = {
         explorer         : {
@@ -56,10 +60,10 @@ export class PositionReportBubbleChartComponent extends AbstractComponentWithAut
         },
         series           : {
             [compVarPositiveLegend]: {
-                color: 'red'
+                color: '#CC3333'
             },
             [compVarNegativeLegend]: {
-                color: 'green'
+                color: '#66CC33'
             }
         },
         sortBubblesBySize: true,
@@ -176,10 +180,10 @@ export class PositionReportBubbleChartComponent extends AbstractComponentWithAut
         });
         positiveBubbles = positiveBubbles.sort((a: PositionReportBubble, b: PositionReportBubble) => {
             return b.radius - a.radius;
-        }).slice(1, this.topRecordsCount + 1);
+        }).slice(0, this.topRecordsCount);
         negativeBubbles = negativeBubbles.sort((a: PositionReportBubble, b: PositionReportBubble) => {
             return a.radius - b.radius;
-        }).slice(1, this.topRecordsCount + 1);
+        }).slice(0, this.topRecordsCount);
         positiveBubbles.forEach((bubble: PositionReportBubble) => {
             topNPositiveCompVar += bubble.radius;
         });

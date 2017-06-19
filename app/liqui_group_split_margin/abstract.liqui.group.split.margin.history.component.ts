@@ -1,14 +1,14 @@
 import {DecimalPipe} from '@angular/common';
 import {ActivatedRoute} from '@angular/router';
 
-import {ErrorResponse} from '../http.service';
+import {ErrorResponse} from '@dbg-riskit/dave-ui-common';
+import {OrderingCriteria} from '@dbg-riskit/dave-ui-datatable';
+import {DateFormatter} from '@dbg-riskit/dave-ui-view';
 
 import {LiquiGroupSplitMarginService} from './liqui.group.split.margin.service';
 import {LiquiGroupSplitMarginData, LiquiGroupSplitMarginHistoryParams} from './liqui.group.split.margin.types';
 
-import {DateFormatter} from '../common/common.module';
 import {AbstractHistoryListComponent} from '../list/abstract.history.list.component';
-import {OrderingCriteria} from '../datatable/data.table.column.directive';
 
 import {RoutePart} from '../list/bread.crumbs.component';
 
@@ -48,7 +48,7 @@ export abstract class AbstractLiquiGroupSplitMarginHistoryComponent
 
     protected createRoutePart(title: string, routePath: string, key: string, index: number): RoutePart {
         let part: RoutePart = super.createRoutePart(title, routePath, key, index);
-        if (key === 'liquidationGroupSplit' || key === 'marginCurrency') {
+        if (key === 'marginCurrency') {
             part.inactive = true;
         }
         return part;

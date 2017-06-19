@@ -1,34 +1,40 @@
-<list-content title="Account Margin"
+<list-content header="Account Margin"
               [routeParts]="routeParts"
               [exportKeys]="exportKeys"
               [data]="data"
               [initialLoad]="initialLoad"
               [errorMessage]="errorMessage"
-              (filterChanged)="filter($event)">
+              (filterChanged)="filter($event)"
+              [drillupRouterLink]="[routerRoots.POOL_MARGIN_LATEST, routeParams['clearer'] || '*', '*', routeParams['marginCurrency'] || '*']">
     <data-table [data]="data"
                 [pageSize]="pageSize"
                 [defaultOrdering]="defaultOrdering"
                 [trackByRowKey]="trackByRowKey">
         <column title="Member / Client"
+                headerAlign="center"
                 [sortingKey]="valueGetters.member">
             <ng-template let-record="row" cell-template>
-                <a [routerLink]="[rootRoutePath, record.clearer || '*', record.member || '*']">
+                <a md-button [routerLink]="[rootRoutePath, record.clearer || '*', record.member || '*']">
                     {{record.member}}
                 </a>
             </ng-template>
         </column>
         <column title="Account"
+                headerAlign="center"
                 [sortingKey]="valueGetters.account">
             <ng-template let-record="row" cell-template>
-                <a [routerLink]="[rootRoutePath, record.clearer || '*', record.member || '*', record.account || '*']">
+                <a md-button
+                   [routerLink]="[rootRoutePath, record.clearer || '*', record.member || '*', record.account || '*']">
                     {{record.account}}
                 </a>
             </ng-template>
         </column>
         <column title="Margin currency"
+                headerAlign="center"
                 [sortingKey]="valueGetters.marginCurrency">
             <ng-template let-record="row" cell-template>
-                <a [routerLink]="[rootRoutePath, record.clearer || '*', record.member || '*', record.account || '*', record.marginCurrency || '*']">
+                <a md-button
+                   [routerLink]="[rootRoutePath, record.clearer || '*', record.member || '*', record.account || '*', record.marginCurrency || '*']">
                     {{record.marginCurrency}}
                 </a>
             </ng-template>
@@ -41,6 +47,7 @@
         </column>
         <column title="Margin requirement in margin currency"
                 [sortingKey]="valueGetters.marginReqInMarginCurr"
+                headerAlign="right"
                 contentAlign="right">
             <ng-template let-record="row" cell-template>
                 {{record.marginReqInMarginCurr | number:'.2-2'}} {{record.marginCurrency}}
@@ -48,6 +55,7 @@
         </column>
         <column title="Margin requirement in clearing currency"
                 [sortingKey]="valueGetters.marginReqInClrCurr"
+                headerAlign="right"
                 contentAlign="right">
             <ng-template let-record="row" cell-template>
                 {{record.marginReqInClrCurr | number:'.2-2'}} {{record.clearingCurrency}}
@@ -55,6 +63,7 @@
         </column>
         <column title="Unadjusted Margin"
                 [sortingKey]="valueGetters.unadjustedMarginRequirement"
+                headerAlign="right"
                 contentAlign="right">
             <ng-template let-record="row" cell-template>
                 {{record.unadjustedMarginRequirement | number:'.2-2'}} {{record.marginCurrency}}
@@ -62,6 +71,7 @@
         </column>
         <column title="Variation Premium Payment"
                 [sortingKey]="valueGetters.variationPremiumPayment"
+                headerAlign="right"
                 contentAlign="right">
             <ng-template let-record="row" cell-template>
                 {{record.variationPremiumPayment | number:'.2-2'}} {{record.marginCurrency}}
@@ -70,7 +80,7 @@
         <column>
             <ng-template let-record="row" cell-template>
                 <drilldown-row-button
-                        [routerLink]="[routerRoots.LIQUI_GROUP_MARGIN_LATEST, record.clearer || '*', record.member || '*', record.account, '*', record.marginCurrency || '*']"></drilldown-row-button>
+                        [routerLink]="[routerRoots.LIQUI_GROUP_MARGIN_LATEST, record.clearer || '*', record.member || '*', record.account]"></drilldown-row-button>
                 <detail-row-button
                         [routerLink]="[routerRoots.ACCOUNT_MARGIN_HISTORY, record.clearer || '*', record.member || '*', record.account || '*', record.marginCurrency || '*']"></detail-row-button>
             </ng-template>

@@ -1,19 +1,19 @@
 import {Injectable} from '@angular/core';
 
-import {HttpService} from '../http.service';
+import {DateUtils, UIDUtils} from '@dbg-riskit/dave-ui-common';
+import {HttpService} from '@dbg-riskit/dave-ui-http';
+
 import {Observable} from 'rxjs/Observable';
-import {UIDUtils} from '../uid.utils';
-import {parseServerDate} from '../date.utils';
 
 import {
-    LiquiGroupMarginServerData,
-    LiquiGroupMarginData,
-    LiquiGroupMarginBaseData,
     LiquiGroupMarginAggregationData,
-    LiquiGroupMarginTree,
-    LiquiGroupMarginTreeNode,
+    LiquiGroupMarginBaseData,
+    LiquiGroupMarginData,
+    LiquiGroupMarginHistoryParams,
     LiquiGroupMarginParams,
-    LiquiGroupMarginHistoryParams
+    LiquiGroupMarginServerData,
+    LiquiGroupMarginTree,
+    LiquiGroupMarginTreeNode
 } from './liqui.group.margin.types';
 
 export const liquiGroupMarginAggregationURL: string = '/lgm/latest';
@@ -176,7 +176,7 @@ export class LiquiGroupMarginService {
                         newViewWindow[fKey] = {
                             uid     : fKey,
                             ...record,
-                            received: parseServerDate(record.timestamp)
+                            received: DateUtils.utcTimestampToDate(record.timestamp)
                         };
                     }
                 });
@@ -211,7 +211,7 @@ export class LiquiGroupMarginService {
             uid     : UIDUtils.computeUID(record.clearer, record.member, record.account, record.marginClass,
                 record.marginCurrency, record.snapshotID),
             ...record,
-            received: parseServerDate(record.timestamp)
+            received: DateUtils.utcTimestampToDate(record.timestamp)
         };
     }
 }

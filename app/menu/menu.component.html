@@ -1,58 +1,61 @@
-<ul class="nav navbar-nav">
-    <li class="nav-divider"></li>
-    <li routerLinkActive="active">
-        <a [routerLink]="routerRoots.DASHBOARD">
-            <i class="fa fa-dashboard fa-fw"></i> Dashboard
+<a md-button
+   routerLinkActive="active"
+   [routerLink]="routerRoots.DASHBOARD">
+    <md-icon *ngIf="orientation === 'column'">whatshot</md-icon>
+    Dashboard
+</a>
+
+<a md-button
+   routerLinkActive="active"
+   #menu="mdMenuTrigger"
+   [mdMenuTriggerFor]="appMenu"
+   [class.menuOpen]="menu.menuOpen">
+    <md-icon>trending_up</md-icon>
+    Margin Requirement
+    <md-menu #appMenu="mdMenu" [overlapTrigger]="false">
+        <a md-menu-item
+           routerLinkActive="active"
+           [routerLink]="routerRoots.POSITION_REPORTS_LATEST"
+           [routerSubLink]="routerRoots.POSITION_REPORTS_HISTORY">
+            Position Reports
         </a>
-    </li>
-    <li class="dropdown"
-        routerLinkActive="active">
-        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-           aria-expanded="false"><i class="fa fa-line-chart fa-fw"></i> Margin Requirement <span
-                class="caret"></span></a>
-        <ul class="dropdown-menu">
-            <li routerLinkActive="active">
-                <a [routerLink]="routerRoots.POSITION_REPORTS_LATEST"
-                   [routerSubLink]="routerRoots.POSITION_REPORTS_HISTORY">
-                    Position Reports
-                </a>
-            </li>
-            <li routerLinkActive="active">
-                <a [routerLink]="routerRoots.VARIATION_PREMIUM_MARGIN_LATEST"
-                   [routerSubLink]="routerRoots.VARIATION_PREMIUM_MARGIN_HISTORY">
-                    Variation / Premium Margin
-                </a>
-            </li>
-            <li routerLinkActive="active">
-                <a [routerLink]="routerRoots.INITIAL_MARGIN_LATEST"
-                   [routerSubLink]="routerRoots.INITIAL_MARGIN_HISTORY">
-                    Initial Margin
-                </a>
-            </li>
-            <li routerLinkActive="active">
-                <a [routerLink]="routerRoots.LIQUI_GROUP_MARGIN_LATEST"
-                   [routerSubLink]="routerRoots.LIQUI_GROUP_MARGIN_HISTORY">
-                    Liquidation Group Margin
-                </a>
-            </li>
-            <li routerLinkActive="active">
-                <a [routerLink]="routerRoots.ACCOUNT_MARGIN_LATEST"
-                   [routerSubLink]="routerRoots.ACCOUNT_MARGIN_HISTORY">
-                    Account Margin
-                </a>
-            </li>
-            <li routerLinkActive="active">
-                <a [routerLink]="routerRoots.POOL_MARGIN_LATEST"
-                   [routerSubLink]="routerRoots.POOL_MARGIN_HISTORY">
-                    Pool Margin
-                </a>
-            </li>
-        </ul>
-    </li>
-    <li routerLinkActive="active">
-        <a [routerLink]="routerRoots.RISK_LIMIT_UTILIZATION_LATEST"
-           [routerSubLink]="routerRoots.RISK_LIMIT_UTILIZATION_HISTORY">
-            <i class="fa fa-fire-extinguisher fa-fw"></i> Risk Limit Utilization
+        <a md-menu-item
+           routerLinkActive="active"
+           [routerLink]="routerRoots.VARIATION_PREMIUM_MARGIN_LATEST"
+           [routerSubLink]="routerRoots.VARIATION_PREMIUM_MARGIN_HISTORY">
+            Variation / Premium Margin
         </a>
-    </li>
-</ul>
+        <a md-menu-item
+           routerLinkActive="active"
+           [routerLink]="routerRoots.INITIAL_MARGIN_LATEST"
+           [routerSubLink]="routerRoots.INITIAL_MARGIN_HISTORY">
+            Initial Margin
+        </a>
+        <a md-menu-item
+           routerLinkActive="active"
+           [routerLink]="routerRoots.LIQUI_GROUP_MARGIN_LATEST"
+           [routerSubLink]="routerRoots.LIQUI_GROUP_MARGIN_HISTORY">
+            Liquidation Group Margin
+        </a>
+        <a md-menu-item
+           routerLinkActive="active"
+           [routerLink]="routerRoots.ACCOUNT_MARGIN_LATEST"
+           [routerSubLink]="routerRoots.ACCOUNT_MARGIN_HISTORY">
+            Account Margin
+        </a>
+        <a md-menu-item
+           routerLinkActive="active"
+           [routerLink]="routerRoots.POOL_MARGIN_LATEST"
+           [routerSubLink]="routerRoots.POOL_MARGIN_HISTORY">
+            Pool Margin
+        </a>
+    </md-menu>
+</a>
+
+<a md-button
+   routerLinkActive="active"
+   [routerLink]="routerRoots.RISK_LIMIT_UTILIZATION_LATEST"
+   [routerSubLink]="routerRoots.RISK_LIMIT_UTILIZATION_HISTORY">
+    <md-icon>flash_on</md-icon>
+    Risk Limit Utilization
+</a>

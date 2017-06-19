@@ -1,15 +1,17 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
+import {COMPONENT_CSS} from '@dbg-riskit/dave-ui-common';
+import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
+
 import {AbstractLiquiGroupSplitMarginLatestComponent} from '../abstract.liqui.group.split.margin.latest.component';
 import {LiquiGroupSplitMarginService} from '../liqui.group.split.margin.service';
 import {LiquiGroupSplitMarginData} from '../liqui.group.split.margin.types';
-import {ExportColumn} from '../../list/download.menu.component';
 
 @Component({
     moduleId   : module.id,
     templateUrl: 'variation.premium.margin.latest.component.html',
-    styleUrls  : ['../../common.component.css']
+    styleUrls  : ['../../../' + COMPONENT_CSS]
 })
 export class VariationPremiumMarginLatestComponent extends AbstractLiquiGroupSplitMarginLatestComponent {
 
@@ -17,7 +19,7 @@ export class VariationPremiumMarginLatestComponent extends AbstractLiquiGroupSpl
         super(liquiGroupSplitMarginService, route);
     }
 
-    public get exportKeys(): ExportColumn<LiquiGroupSplitMarginData>[] {
+    public get exportKeys(): CSVExportColumn<LiquiGroupSplitMarginData>[] {
         return exportKeys;
     }
 
@@ -47,7 +49,7 @@ export const valueGetters = {
     received               : (row: LiquiGroupSplitMarginData) => row.received
 };
 
-export const exportKeys: ExportColumn<LiquiGroupSplitMarginData>[] = [
+export const exportKeys: CSVExportColumn<LiquiGroupSplitMarginData>[] = [
     {
         get   : valueGetters.clearer,
         header: 'Clearer'
@@ -82,7 +84,7 @@ export const exportKeys: ExportColumn<LiquiGroupSplitMarginData>[] = [
     },
     {
         get   : valueGetters.variationPremiumPayment,
-        header: 'Variation Premium Payment'
+        header: 'Variation / Premium Cash Flow'
     },
     {
         get   : valueGetters.received,

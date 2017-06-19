@@ -2,8 +2,10 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
 
-import {ChartsModule} from '../charts/charts.module';
-import {DataTableModule} from '../datatable/data.table.module';
+import {ChartsModule} from '@dbg-riskit/dave-ui-charts';
+import {DataTableModule} from '@dbg-riskit/dave-ui-datatable';
+import {CommonViewModule} from '@dbg-riskit/dave-ui-view';
+
 import {ListModule} from '../list/list.module';
 
 import {RiskLimitUtilizationService} from './risk.limit.utilization.service';
@@ -17,6 +19,7 @@ import {RiskLimitUtilizationHistoryComponent} from './risk.limit.utilization.his
         RouterModule,
         ChartsModule,
         DataTableModule,
+        CommonViewModule,
         ListModule
     ],
     declarations: [

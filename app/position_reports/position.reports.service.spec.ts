@@ -1,15 +1,21 @@
-import {TestBed, inject} from '@angular/core/testing';
+import {inject, TestBed} from '@angular/core/testing';
 
-import {HttpServiceStub, generatePositionReports} from '../../testing';
-import Spy = jasmine.Spy;
+import {HttpServiceStub} from '@dbg-riskit/dave-ui-testing';
 
-import {HttpService, Request} from '../http.service';
+import {Request} from '@dbg-riskit/dave-ui-common';
+import {HttpService} from '@dbg-riskit/dave-ui-http';
 
-import {PositionReportsService, historyURL, latestURL, chartsURL} from './position.reports.service';
+import {generatePositionReports} from '../../testing';
+
+import {chartsURL, historyURL, latestURL, PositionReportsService} from './position.reports.service';
 import {
-    PositionReportServerData, PositionReportData, PositionReportChartData,
-    PositionReportBubble
+    PositionReportBubble,
+    PositionReportChartData,
+    PositionReportData,
+    PositionReportServerData
 } from './position.report.types';
+
+import Spy = jasmine.Spy;
 
 describe('PositionReportsService', () => {
     let httpSyp: Spy;
@@ -46,6 +52,7 @@ describe('PositionReportsService', () => {
                 clearer              : 'a',
                 member               : 'b',
                 account              : 'c',
+                underlying           : 'x',
                 liquidationGroup     : 'd',
                 liquidationGroupSplit: 'e',
                 product              : 'f',
@@ -63,6 +70,7 @@ describe('PositionReportsService', () => {
                     clearer              : 'a',
                     member               : 'b',
                     account              : 'c',
+                    underlying           : 'x',
                     liquidationGroup     : 'd',
                     liquidationGroupSplit: 'e',
                     product              : 'f',
@@ -87,6 +95,7 @@ describe('PositionReportsService', () => {
                 clearer              : '*',
                 member               : '*',
                 account              : '*',
+                underlying           : '*',
                 liquidationGroup     : '*',
                 liquidationGroupSplit: '*',
                 product              : '*',
@@ -104,6 +113,7 @@ describe('PositionReportsService', () => {
                     clearer              : '*',
                     member               : '*',
                     account              : '*',
+                    underlying           : '*',
                     liquidationGroup     : '*',
                     liquidationGroupSplit: '*',
                     product              : '*',
@@ -123,6 +133,7 @@ describe('PositionReportsService', () => {
                 clearer              : 'a',
                 member               : 'b',
                 account              : 'c',
+                underlying           : 'x',
                 liquidationGroup     : 'd',
                 liquidationGroupSplit: 'e',
                 product              : 'f',
@@ -140,6 +151,7 @@ describe('PositionReportsService', () => {
                     clearer              : 'a',
                     member               : 'b',
                     account              : 'c',
+                    underlying           : 'x',
                     liquidationGroup     : 'd',
                     liquidationGroupSplit: 'e',
                     product              : 'f',

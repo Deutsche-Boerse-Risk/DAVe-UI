@@ -2,6 +2,7 @@ export interface PositionReportsParams {
     clearer?: string,
     member?: string,
     account?: string,
+    underlying?: string,
     liquidationGroup?: string,
     liquidationGroupSplit?: string,
     product?: string,
@@ -18,6 +19,7 @@ export interface PositionReportsHistoryParams extends PositionReportsParams {
     clearer: string,
     member: string,
     account: string,
+    underlying: string,
     liquidationGroup: string,
     liquidationGroupSplit: string,
     product: string,
@@ -70,6 +72,7 @@ export interface PositionReportServerData {
 export interface PositionReportData extends PositionReportServerData {
     uid: string;
     received: Date;
+    contractDate: Date;
 }
 
 export type SelectValues = {
@@ -100,6 +103,17 @@ export class PositionReportChartDataSelect {
         return this.options[key] = {
             subRecords: new PositionReportChartDataSelect(key)
         };
+    }
+
+    public sort(): void {
+        this.options = Object.keys(this.options).sort()
+            .reduce((newOptions: { [key: string]: SelectValues }, key: string) => {
+                newOptions[key] = this.options[key];
+                if (newOptions[key].subRecords) {
+                    newOptions[key].subRecords.sort();
+                }
+                return newOptions;
+            }, {});
     }
 }
 

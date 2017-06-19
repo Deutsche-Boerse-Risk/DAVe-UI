@@ -1,19 +1,20 @@
 import {Component} from '@angular/core';
 
+import {COMPONENT_CSS} from '@dbg-riskit/dave-ui-common';
+
+import {ROUTES} from '../routes/routing.paths';
+
 @Component({
     moduleId   : module.id,
     templateUrl: 'dashboard.component.html',
-    styleUrls  : ['../common.component.css']
+    styleUrls  : [
+        '../../' + COMPONENT_CSS,
+        'dashboard.component.css'
+    ]
 })
 export class DashboardComponent {
 
-    private _activeTab: string = 'overview';
-
-    public get activeTab(): string {
-        return this._activeTab;
-    }
-
-    public setActiveTab(tab: string): void {
-        this._activeTab = tab;
+    public get routerRoots() {
+        return ROUTES;
     }
 }

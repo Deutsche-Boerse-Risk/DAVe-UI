@@ -1,9 +1,0 @@
-@import "../component";
-
-:host {
-    float: right;
-
-    & > ul {
-        @include clearfix;
-    }
-}

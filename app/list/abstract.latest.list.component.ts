@@ -1,8 +1,11 @@
+import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
+
 import {AbstractListComponent} from './abstract.list.component';
 
 export abstract class AbstractLatestListComponent<T extends { uid: string }> extends AbstractListComponent<T> {
 
     public filterQuery: string;
+    private _currentFilters: string[];
 
     private sourceData: T[];
 
@@ -21,7 +24,14 @@ export abstract class AbstractLatestListComponent<T extends { uid: string }> ext
         }
 
         if (this.filterQuery) {
-            let filters: string[] = this.filterQuery.toLowerCase().split(' ');
+            let filters: string[] = this.filterQuery.toLowerCase().split(' ')
+                .filter((filter: string) => filter.trim() !== '');
+            if (this._currentFilters && !filters.some(
+                    (filter: string) => this._currentFilters.indexOf(filter) === -1)) {
+                return;
+            }
+            this._currentFilters = filters;
+
             let index: number;
             let index2: number;
             let filteredItems: T[] = [];
@@ -29,8 +39,8 @@ export abstract class AbstractLatestListComponent<T extends { uid: string }> ext
             for (index = 0; index < this.sourceData.length; index++) {
                 let match = true;
 
-                for (index2 = 0; index2 < filters.length; index2++) {
-                    if (!MatchObject(this.sourceData[index], filters[index2])) {
+                for (index2 = 0; index2 < this._currentFilters.length; index2++) {
+                    if (!this.matchObject(this.sourceData[index], this._currentFilters[index2])) {
                         match = false;
                         break;
                     }
@@ -47,13 +57,15 @@ export abstract class AbstractLatestListComponent<T extends { uid: string }> ext
             this.data = this.sourceData;
         }
 
-        function MatchObject(item: any, search: string): boolean {
-            return Object.keys(item).some((key: string) => {
-                if (item[key] instanceof Date) {
-                    return false;
-                }
-                return String(item[key]).toLowerCase().indexOf(search) !== -1;
-            });
-        }
+    }
+
+    private matchObject(item: any, search: string): boolean {
+        return this.exportKeys.some((key: CSVExportColumn<T>) => {
+            let value = key.get(item);
+            if (typeof value !== 'string') {
+                return false;
+            }
+            return value.toLowerCase().indexOf(search) !== -1;
+        });
     }
 }

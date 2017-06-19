@@ -1,24 +1,12 @@
 import {Component} from '@angular/core';
 
-import {AuthService} from './auth/auth.service';
-import {ROUTES} from './routes/routing.paths';
+import {COMPONENT_CSS} from '@dbg-riskit/dave-ui-common';
 
 @Component({
     moduleId   : module.id,
     selector   : 'dave',
     templateUrl: 'app.component.html',
-    styleUrls  : ['common.component.css']
+    styleUrls  : ['../' + COMPONENT_CSS]
 })
 export class AppComponent {
-
-    constructor(private authService: AuthService) {
-    }
-
-    public get authStatus(): boolean {
-        return this.authService.isLoggedIn();
-    };
-
-    public get routerRoots() {
-        return ROUTES;
-    }
 }

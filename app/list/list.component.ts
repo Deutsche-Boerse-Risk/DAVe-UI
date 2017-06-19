@@ -1,4 +1,6 @@
-import {Component, EventEmitter, Output, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+
+import {COMPONENT_CSS} from '@dbg-riskit/dave-ui-common';
 
 import {RoutePart} from './bread.crumbs.component';
 
@@ -8,11 +10,14 @@ export const FILTER_TIMEOUT = 100;
     moduleId   : module.id,
     selector   : 'list-content',
     templateUrl: 'list.component.html',
-    styleUrls  : ['list.component.css']
+    styleUrls  : [
+        '../../' + COMPONENT_CSS,
+        'list.component.css'
+    ]
 })
 export class ListComponent {
 
-    @Input()
+    @Input('header')
     public title: string;
 
     @Input()
@@ -37,6 +42,9 @@ export class ListComponent {
     public drilldownRouterLink: any[] | string;
 
     @Input()
+    public drillupRouterLink: any[] | string;
+
+    @Input()
     public errorMessage: string;
 
     public filterQuery: string;
@@ -46,7 +54,11 @@ export class ListComponent {
     public filterAfterTimeout(): void {
         clearTimeout(this.filterTimeoutHandle);
         this.filterTimeoutHandle = setTimeout(() => {
-            this.filterChanged.emit(this.filterQuery);
+            this.filter();
         }, FILTER_TIMEOUT);
+    }
+
+    public filter(): void {
+        this.filterChanged.emit(this.filterQuery);
     }
 }

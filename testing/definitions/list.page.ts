@@ -4,35 +4,36 @@ import {By} from '@angular/platform-browser';
 import {NgModel} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 
+import {MdInputContainer, MdMenuItem, MdToolbarRow} from '@angular/material';
+
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {setNgModelValue} from '../events';
-import {PageWithLoading} from './page.base';
-import {DataTableDefinition} from './data.table.definition';
+import {
+    click,
+    DataTableDefinition,
+    disableMaterialAnimations,
+    DownloadLink,
+    GoogleLineChartStub,
+    HttpAsyncServiceStub,
+    MessageComponentDef,
+    PageWithLoading,
+    RouterStub,
+    setNgModelValue,
+    stubRouter
+} from '@dbg-riskit/dave-ui-testing';
+
+import {DATE_FORMAT} from '@dbg-riskit/dave-ui-common';
+import {DataTableComponent, DataTableModule, HIGHLIGHTER_TIMEOUT} from '@dbg-riskit/dave-ui-datatable';
+import {CSVDownloadMenuComponent, FileModule} from '@dbg-riskit/dave-ui-file';
+import {HttpService} from '@dbg-riskit/dave-ui-http';
+import {DateFormatter, INITIAL_LOAD_SELECTOR, NO_DATA_SELECTOR, UPDATE_FAILED_SELECTOR} from '@dbg-riskit/dave-ui-view';
+
 import {BreadCrumbsDefinition} from './bread.crumbs.page';
-
-import {stubRouter} from '../stubs/router/router.module.stub';
-import {HttpAsyncServiceStub} from '../stubs/http.service.stub';
-import {GoogleLineChartStub} from '../stubs/google.chart.component.stub';
-
-import {HttpService} from '../../app/http.service';
-
-import {DateFormatter, DATE_FORMAT} from '../../app/common/common.module';
-import {InitialLoadComponent} from '../../app/common/initial.load.component';
-import {NoDataComponent} from '../../app/common/no.data.component';
-import {UpdateFailedComponent} from '../../app/common/update.failed.component';
-
-import {DataTableModule} from '../../app/datatable/data.table.module';
-import {DataTableComponent} from '../../app/datatable/data.table.component';
-import {HIGHLIGHTER_TIMEOUT} from '../../app/datatable/highlighter.directive';
 
 import {ListModule} from '../../app/list/list.module';
 import {ListComponent, FILTER_TIMEOUT} from '../../app/list/list.component';
-import {DrilldownButtonComponent} from '../../app/list/drilldown.button.component';
-import {DownloadMenuComponent} from '../../app/list/download.menu.component';
+import {DrillUpDownButtonComponent} from '../../app/list/drill.updown.button.component';
 import {BreadCrumbsComponent} from '../../app/list/bread.crumbs.component';
-
-import {DownloadLink} from './download.menu.page';
 
 export class ListPage<T> extends PageWithLoading<T> {
 
@@ -53,11 +54,11 @@ export class ListPage<T> extends PageWithLoading<T> {
     }
 
     public get header(): DebugElement {
-        return this.listElement.query(By.css('.panel-heading'));
+        return this.listElement.query(By.directive(MdToolbarRow));
     }
 
     public get filterGroup(): DebugElement {
-        return this.header.query(By.css('.input-group'));
+        return this.header.query(By.directive(MdInputContainer));
     }
 
     public get filterShown(): boolean {
@@ -74,13 +75,24 @@ export class ListPage<T> extends PageWithLoading<T> {
     }
 
     public get drilldownButton(): DebugElement {
-        return this.header.query(By.directive(DrilldownButtonComponent));
+        return this.header.queryAll(By.directive(DrillUpDownButtonComponent))
+                .find((element: DebugElement) =>
+                    !(element.componentInstance as DrillUpDownButtonComponent).drillUp) || null;
+    }
+
+    public get drillupButton(): DebugElement {
+        return this.header.queryAll(By.directive(DrillUpDownButtonComponent))
+                .find((element: DebugElement) =>
+                    (element.componentInstance as DrillUpDownButtonComponent).drillUp) || null;
     }
 
     public get downloadMenu(): DownloadLink {
-        let downLoadMenu: DebugElement = this.header.query(By.directive(DownloadMenuComponent));
+        let downLoadMenu: DebugElement = this.header.query(By.directive(CSVDownloadMenuComponent));
         if (downLoadMenu) {
-            return new DownloadLink(downLoadMenu.query(By.css('a')), this);
+            // Open the menu first
+            click(downLoadMenu.query(By.css('a')));
+            this.detectChanges(500);
+            return new DownloadLink(downLoadMenu.query(By.directive(MdMenuItem)), this);
         }
         return null;
     }
@@ -93,16 +105,28 @@ export class ListPage<T> extends PageWithLoading<T> {
         return null;
     }
 
-    public get initialLoadComponent(): DebugElement {
-        return this.listElement.query(By.directive(InitialLoadComponent));
+    public get initialLoadComponent(): MessageComponentDef {
+        const element = this.listElement.query(By.css(INITIAL_LOAD_SELECTOR));
+        if (element) {
+            return new MessageComponentDef(element);
+        }
+        return null;
     }
 
-    public get noDataComponent(): DebugElement {
-        return this.listElement.query(By.directive(NoDataComponent));
+    public get noDataComponent(): MessageComponentDef {
+        const element = this.listElement.query(By.css(NO_DATA_SELECTOR));
+        if (element) {
+            return new MessageComponentDef(element);
+        }
+        return null;
     }
 
-    public get updateFailedComponent(): DebugElement {
-        return this.listElement.query(By.directive(UpdateFailedComponent));
+    public get updateFailedComponent(): MessageComponentDef {
+        const element = this.listElement.query(By.css(UPDATE_FAILED_SELECTOR));
+        if (element) {
+            return new MessageComponentDef(element);
+        }
+        return null;
     }
 }
 
@@ -112,7 +136,7 @@ export class LatestListPage<T> extends ListPage<T> {
         super(fixture);
     }
 
-    static initTestBed(component: Type<any>, service: Type<any>) {
+    static initTestBed(component: Type<any>, service: Type<any>): Promise<any> {
         TestBed.configureTestingModule({
             imports     : [
                 ListModule,
@@ -130,7 +154,10 @@ export class LatestListPage<T> extends ListPage<T> {
                 }
             ]
         });
-        stubRouter().compileComponents();
+        disableMaterialAnimations(ListModule);
+        disableMaterialAnimations(FileModule);
+        disableMaterialAnimations(DataTableModule);
+        return stubRouter().compileComponents();
     }
 
     public advanceHighlighter(): void {
@@ -143,6 +170,10 @@ export class LatestListPage<T> extends ListPage<T> {
 
     public checkBreadCrumbs(routeParams: string[], rootPath: string, rootText: string,
         firstActive: boolean = true, lastNInactive: number = 0): void {
+        // Get router stub
+        let router: RouterStub = TestBed.get(RouterStub);
+        let routerSpy = spyOn(router, 'navigate');
+
         let crumbs = this.breadCrumbs.crumbs;
         let filteredParams = routeParams.filter((param: string) => param !== '*');
 
@@ -151,8 +182,8 @@ export class LatestListPage<T> extends ListPage<T> {
         expect(crumbs[0].text).toBe(rootText);
         if (firstActive) {
             expect(crumbs[0].active).toBeTruthy('First active');
-            crumbs[0].link.click();
-            expect(crumbs[0].link.stub.navigatedTo).toEqual([rootPath], 'Navigation works correctly');
+            crumbs[0].click();
+            expect(routerSpy.calls.mostRecent().args).toEqual([rootPath], 'Navigation works correctly');
         } else {
             expect(crumbs[0].active).toBeFalsy('First inactive');
         }
@@ -171,7 +202,7 @@ export class LatestListPage<T> extends ListPage<T> {
         let path = [rootPath];
         let j = 0;
         for (let i = 1; i < crumbs.length; i++) {
-            expect(crumbs[i].link.text).toBe(filteredParams[i - 1]);
+            expect(crumbs[i].text).toBe(filteredParams[i - 1]);
             if (i < crumbs.length - lastNInactive) {
                 while (routeParams[j] === '*') {
                     path.push(routeParams[j]);
@@ -179,8 +210,8 @@ export class LatestListPage<T> extends ListPage<T> {
                 }
                 path.push(routeParams[j]);
                 j++;
-                crumbs[i].link.click();
-                expect(crumbs[i].link.stub.navigatedTo).toEqual(path, 'Navigation works correctly');
+                crumbs[i].click();
+                expect(routerSpy.calls.mostRecent().args[0]).toEqual(path, 'Navigation works correctly');
             }
         }
     };
@@ -192,7 +223,7 @@ export class HistoryListPage<T> extends LatestListPage<T> {
         super(fixture);
     }
 
-    static initTestBed(component: Type<any>, service: Type<any>) {
+    static initTestBed(component: Type<any>, service: Type<any>): Promise<any> {
         TestBed.configureTestingModule({
             imports     : [
                 ListModule,
@@ -218,7 +249,10 @@ export class HistoryListPage<T> extends LatestListPage<T> {
             ]
             // schemas: [NO_ERRORS_SCHEMA]
         });
-        stubRouter().compileComponents();
+        disableMaterialAnimations(ListModule);
+        disableMaterialAnimations(FileModule);
+        disableMaterialAnimations(DataTableModule);
+        return stubRouter().compileComponents();
     }
 
     public get lineChart(): DebugElement {

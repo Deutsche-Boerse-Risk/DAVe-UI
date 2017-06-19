@@ -3,7 +3,7 @@ import {By} from '@angular/platform-browser';
 
 import {ComponentFixture} from '@angular/core/testing';
 
-import {Page} from './page.base';
+import {Page} from '@dbg-riskit/dave-ui-testing';
 
 import {PoolMarginLatestSummaryComponent} from '../../app/pool_margin/pool.margin.latest.summary.component';
 

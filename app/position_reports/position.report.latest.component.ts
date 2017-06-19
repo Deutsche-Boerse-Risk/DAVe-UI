@@ -1,24 +1,36 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {ErrorResponse} from '../http.service';
+import {COMPONENT_CSS, ErrorResponse, ValueGetter} from '@dbg-riskit/dave-ui-common';
+import {OrderingCriteria} from '@dbg-riskit/dave-ui-datatable';
+import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
 
 import {PositionReportData, PositionReportsParams} from './position.report.types';
 import {PositionReportsService} from './position.reports.service';
 
 import {AbstractLatestListComponent} from '../list/abstract.latest.list.component';
-import {ExportColumn} from '../list/download.menu.component';
-import {OrderingCriteria, OrderingValueGetter} from '../datatable/data.table.column.directive';
 
 export const routingKeys: (keyof PositionReportsParams)[] = [
-    'clearer', 'member', 'account', 'liquidationGroup', 'liquidationGroupSplit', 'product', 'callPut', 'contractYear',
-    'contractMonth', 'expiryDay', 'exercisePrice', 'version', 'flexContractSymbol'
+    'clearer',
+    'member',
+    'account',
+    'underlying',
+    'liquidationGroup',
+    'liquidationGroupSplit',
+    'product',
+    'callPut',
+    'contractYear',
+    'contractMonth',
+    'expiryDay',
+    'exercisePrice',
+    'version',
+    'flexContractSymbol'
 ];
 
 @Component({
     moduleId   : module.id,
     templateUrl: 'position.report.latest.component.html',
-    styleUrls  : ['../common.component.css']
+    styleUrls  : ['../../' + COMPONENT_CSS]
 })
 export class PositionReportLatestComponent extends AbstractLatestListComponent<PositionReportData> {
 
@@ -32,6 +44,7 @@ export class PositionReportLatestComponent extends AbstractLatestListComponent<P
             clearer              : this.routeParams['clearer'],
             member               : this.routeParams['member'],
             account              : this.routeParams['account'],
+            underlying           : this.routeParams['underlying'],
             liquidationGroup     : this.routeParams['liquidationGroup'],
             liquidationGroupSplit: this.routeParams['liquidationGroupSplit'],
             product              : this.routeParams['product'],
@@ -52,11 +65,11 @@ export class PositionReportLatestComponent extends AbstractLatestListComponent<P
             });
     }
 
-    public get defaultOrdering(): (OrderingCriteria<PositionReportData> | OrderingValueGetter<PositionReportData>)[] {
+    public get defaultOrdering(): (OrderingCriteria<PositionReportData> | ValueGetter<PositionReportData>)[] {
         return defaultOrdering;
     }
 
-    public get exportKeys(): ExportColumn<PositionReportData>[] {
+    public get exportKeys(): CSVExportColumn<PositionReportData>[] {
         return exportKeys;
     }
 
@@ -94,10 +107,11 @@ export const valueGetters = {
     compVar           : (row: PositionReportData) => row.compVar,
     normalizedDelta   : (row: PositionReportData) => row.normalizedDelta,
     compLiquidityAddOn: (row: PositionReportData) => row.compLiquidityAddOn,
-    received          : (row: PositionReportData) => row.received
+    received          : (row: PositionReportData) => row.received,
+    contractDate      : (row: PositionReportData) => row.contractDate
 };
 
-const defaultOrdering: (OrderingCriteria<PositionReportData> | OrderingValueGetter<PositionReportData>)[] = [
+const defaultOrdering: (OrderingCriteria<PositionReportData> | ValueGetter<PositionReportData>)[] = [
     {
         get       : (row: PositionReportData) => Math.abs(row.compVar),
         descending: true
@@ -114,7 +128,7 @@ const defaultOrdering: (OrderingCriteria<PositionReportData> | OrderingValueGett
     valueGetters.expiryDay
 ];
 
-export const exportKeys: ExportColumn<PositionReportData>[] = [
+export const exportKeys: CSVExportColumn<PositionReportData>[] = [
     {
         get   : valueGetters.clearer,
         header: 'Clearer'
@@ -132,8 +146,12 @@ export const exportKeys: ExportColumn<PositionReportData>[] = [
         header: 'Business date'
     },
     {
+        get   : (row: PositionReportData) => row.underlying,
+        header: 'Underlying'
+    },
+    {
         get   : valueGetters.product,
-        header: 'Product symbol'
+        header: 'Product ID'
     },
     {
         get   : valueGetters.callPut,
@@ -145,7 +163,7 @@ export const exportKeys: ExportColumn<PositionReportData>[] = [
     },
     {
         get   : valueGetters.version,
-        header: 'Version number (Options only)'
+        header: 'Version'
     },
     {
         get   : valueGetters.contractYear,
@@ -161,7 +179,7 @@ export const exportKeys: ExportColumn<PositionReportData>[] = [
     },
     {
         get   : valueGetters.netQuantityLs,
-        header: 'NetLS'
+        header: 'Net position'
     },
     {
         get   : valueGetters.compVar,
@@ -238,10 +256,6 @@ export const exportKeys: ExportColumn<PositionReportData>[] = [
     {
         get   : (row: PositionReportData) => row.mVar,
         header: 'MVar'
-    },
-    {
-        get   : (row: PositionReportData) => row.underlying,
-        header: 'Underlying'
     },
     {
         get   : valueGetters.received,

@@ -1,12 +1,26 @@
-@import "../component";
-
 :host {
-    .pull-right {
-        @include clearfix;
+    .mat-toolbar {
+        margin-bottom: 15px;
+        font-size: inherit;
+
+        @media (max-width: 600px) {
+            .toolbar-spacer {
+                display: none;
+            }
+        }
     }
 
-    .filter {
-        margin-right: -18px;
-        margin-top: -4px;
+    /deep/ .mat-toolbar-row {
+        flex-wrap: wrap;
+        height: auto;
+        min-height: 64px;
+
+        @media (max-width: 600px) {
+            min-height: 56px;
+        }
+
+        & > *:not(.toolbar-spacer) {
+            flex: 0 1 auto;
+        }
     }
 }

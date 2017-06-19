@@ -1,10 +1,9 @@
-import {DebugElement} from '@angular/core';
+import {DebugElement, DebugNode} from '@angular/core';
 import {By} from '@angular/platform-browser';
 
 import {ComponentFixture} from '@angular/core/testing';
 
-import {click} from '../events';
-import {Page} from './page.base';
+import {click, Page} from '@dbg-riskit/dave-ui-testing';
 
 import {DashboardComponent} from '../../app/dashboard/dashboard.component';
 
@@ -15,17 +14,16 @@ export class DashboardPage extends Page<DashboardComponent> {
     }
 
     public get tabs(): Tab[] {
-        return this.debugElement.queryAll(By.css('a[data-toggle="tab"]'))
+        return this.debugElement.queryAll(By.css('a.mat-tab-link'))
             .map((el: DebugElement) => new Tab(el, this));
     }
 
     public get contentPane(): DebugElement {
-        return this.debugElement.query(By.css('.tab-pane'));
+        return this.debugElement.query(By.css('.mat-tab-body'));
     }
 
     public get activeTab(): Tab {
-        return new Tab(this.debugElement.query(By.css('.nav-tabs [data-target="#'
-            + this.contentPane.attributes.id + '"]')), this);
+        return new Tab(this.debugElement.query(By.css('a.mat-tab-link[ng-reflect-active="true"]')), this);
     }
 
     public contains(selector: string): boolean {
@@ -40,7 +38,10 @@ export class Tab {
     }
 
     public get label(): string {
-        return this.handle.nativeElement.textContent.trim();
+        let textNodes: string[] = this.handle.childNodes.filter((childNode: DebugNode) => {
+            return childNode.nativeNode.nodeType === Node.TEXT_NODE;
+        }).map((textNode: DebugNode) => textNode.nativeNode.textContent.trim());
+        return textNodes.join(' ').trim();
     }
 
     public click(): void {

@@ -1,5 +1,5 @@
 // /*global jasmine, __karma__, window*/
-Error.stackTraceLimit = 0;
+Error.stackTraceLimit = 10;
 
 // Add a global variable to know if the google charts lib was loaded
 window.googleLoaded = false;
@@ -57,7 +57,9 @@ System.config({
         '@angular/platform-browser-dynamic/testing': 'npm:@angular/platform-browser-dynamic/bundles/platform-browser-dynamic-testing.umd.js',
         '@angular/http/testing': 'npm:@angular/http/bundles/http-testing.umd.js',
         '@angular/router/testing': 'npm:@angular/router/bundles/router-testing.umd.js',
-        '@angular/forms/testing': 'npm:@angular/forms/bundles/forms-testing.umd.js'
+        '@angular/forms/testing': 'npm:@angular/forms/bundles/forms-testing.umd.js',
+
+        '@dbg-riskit/dave-ui-testing': 'npm:@dbg-riskit/dave-ui-testing/bundles/dave-ui-testing.cjs.js'
     }
 });
 

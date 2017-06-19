@@ -1,16 +1,20 @@
 import {Component} from '@angular/core';
 
+import {COMPONENT_CSS, ErrorResponse} from '@dbg-riskit/dave-ui-common';
+
 import {AbstractComponentWithAutoRefresh} from '../abstract.component';
 
 import {PoolMarginService} from './pool.margin.service';
 import {PoolMarginSummaryData} from './pool.margin.types';
-import {ErrorResponse} from '../http.service';
 
 @Component({
     moduleId   : module.id,
     selector   : 'pool-margin-summary',
     templateUrl: 'pool.margin.latest.summary.component.html',
-    styleUrls  : ['pool.margin.latest.summary.component.css']
+    styleUrls  : [
+        '../../' + COMPONENT_CSS,
+        'pool.margin.latest.summary.component.css'
+    ]
 })
 export class PoolMarginLatestSummaryComponent extends AbstractComponentWithAutoRefresh {
 

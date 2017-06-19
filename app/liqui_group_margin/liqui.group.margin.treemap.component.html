@@ -1,21 +1,20 @@
-<div class="panel panel-default" style="border-top: 0">
-    <div class="panel-body">
+<initial-load *ngIf="initialLoad && !errorMessage"></initial-load>
 
-        <initial-load *ngIf="initialLoad && !errorMessage"></initial-load>
+<no-data *ngIf="!initialLoad && !errorMessage && chartData?.rows?.length < 1"></no-data>
 
-        <no-data *ngIf="!initialLoad && !errorMessage && chartData?.rows?.length < 1"></no-data>
+<update-failed *ngIf="errorMessage" [message]="errorMessage"></update-failed>
 
-        <update-failed *ngIf="errorMessage" [message]="errorMessage"></update-failed>
+<md-card class="chart" *ngIf="chartData?.rows?.length">
+    <google-chart *ngIf="chartShown && chartData?.rows?.length > 0"
+                  chartType="TreeMap"
+                  [chartOptions]="chartOptions"
+                  [chartData]="chartData"
+                  height="345px"
+                  (selected)="selectHandler($event)"></google-chart>
+</md-card>
 
-        <google-chart *ngIf="chartData?.rows?.length > 0"
-                      chartType="TreeMap"
-                      [chartOptions]="chartOptions"
-                      [chartData]="chartData"
-                      height="345px"
-                      (selected)="selectHandler($event)"></google-chart>
-        <br>
-        <a *ngIf="chartData?.rows?.length"
-           [routerLink]="rootRoutePath"
-           class="btn btn-default btn-block">View Details</a>
-    </div>
-</div>
+<a *ngIf="chartData?.rows?.length"
+   md-raised-button
+   color="accent"
+   class="full-width"
+   [routerLink]="rootRoutePath">View Details</a>

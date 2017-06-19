@@ -1,4 +1,4 @@
-<list-content [title]="rootRouteTitle"
+<list-content [header]="rootRouteTitle"
               [isHistory]="true"
               [routeParts]="routeParts"
               [exportKeys]="exportKeys"
@@ -6,12 +6,12 @@
               [initialLoad]="initialLoad"
               [errorMessage]="errorMessage"
               [drilldownRouterLink]="[routerRoots.ACCOUNT_MARGIN_LATEST, routeParams['clearer'] || '*', '*', '*', routeParams['marginCurrency'] || '*']">
-    <div class="panel-body" *ngIf="chartData?.rows?.length > 0">
+    <ng-template [ngIf]="chartData?.rows?.length > 0">
         <google-line-chart [chartOptions]="chartOptions"
                            [chartData]="chartData"
                            height="377px"
                            [showControls]="true"></google-line-chart>
-    </div>
+    </ng-template>
 
     <data-table [data]="data"
                 [pageSize]="pageSize"
@@ -30,48 +30,64 @@
             </ng-template>
         </column>
         <column title="Required Margin"
+                headerAlign="right"
+                contentAlign="right"
                 [sortingKey]="valueGetters.requiredMargin">
             <ng-template let-record="row" cell-template>
                 {{record.requiredMargin | number:'.2-2'}}
             </ng-template>
         </column>
         <column title="Cash Collateral Amount"
+                headerAlign="right"
+                contentAlign="right"
                 [sortingKey]="valueGetters.cashCollateralAmount">
             <ng-template let-record="row" cell-template>
                 {{record.cashCollateralAmount| number:'.2-2'}}
             </ng-template>
         </column>
         <column title="Adjusted Securities"
+                headerAlign="right"
+                contentAlign="right"
                 [sortingKey]="valueGetters.adjustedSecurities">
             <ng-template let-record="row" cell-template>
                 {{record.adjustedSecurities | number:'.2-2'}}
             </ng-template>
         </column>
         <column title="Adjusted Guarantee"
+                headerAlign="right"
+                contentAlign="right"
                 [sortingKey]="valueGetters.adjustedGuarantee">
             <ng-template let-record="row" cell-template>
                 {{record.adjustedGuarantee | number:'.2-2'}}
             </ng-template>
         </column>
         <column title="overUnderInMarginCurr"
+                headerAlign="right"
+                contentAlign="right"
                 [sortingKey]="valueGetters.overUnderInMarginCurr">
             <ng-template let-record="row" cell-template>
                 {{record.overUnderInMarginCurr | number:'.2-2'}}
             </ng-template>
         </column>
         <column title="overUnderInClrRptCurr"
+                headerAlign="right"
+                contentAlign="right"
                 [sortingKey]="valueGetters.overUnderInClrRptCurr">
             <ng-template let-record="row" cell-template>
                 {{record.overUnderInClrRptCurr | number:'.2-2'}}
             </ng-template>
         </column>
         <column title="variPremInMarginCurr"
+                headerAlign="right"
+                contentAlign="right"
                 [sortingKey]="valueGetters.variPremInMarginCurr">
             <ng-template let-record="row" cell-template>
                 {{record.variPremInMarginCurr | number:'.2-2'}}
             </ng-template>
         </column>
         <column title="Adjusted Exchange Rate"
+                headerAlign="right"
+                contentAlign="right"
                 [sortingKey]="valueGetters.adjustedExchangeRate">
             <ng-template let-record="row" cell-template>
                 {{record.adjustedExchangeRate | number:'.2-2'}}

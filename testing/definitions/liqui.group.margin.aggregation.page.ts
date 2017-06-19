@@ -2,14 +2,14 @@ import {By} from '@angular/platform-browser';
 
 import {ComponentFixture} from '@angular/core/testing';
 
-import {RouterLinkStubDirective} from '../stubs/router/router.link.stub';
+import {
+    DataTableDefinition,
+    LinkDefinition,
+    PageWithLoading,
+    RouterLinkStubDirective
+} from '@dbg-riskit/dave-ui-testing';
 
-import {PageWithLoading} from './page.base';
-import {DataTableDefinition} from './data.table.definition';
-import {LinkDefinition} from './link.definition';
-
-import {DataTableComponent} from '../../app/datatable/data.table.component';
-import {HIGHLIGHTER_TIMEOUT} from '../../app/datatable/highlighter.directive';
+import {DataTableComponent, HIGHLIGHTER_TIMEOUT} from '@dbg-riskit/dave-ui-datatable';
 
 import {LiquiGroupMarginAggregationComponent} from '../../app/liqui_group_margin/liqui.group.margin.aggregation.component';
 

@@ -1,0 +1,7 @@
+.chart {
+    height: 345px;
+}
+
+:host /deep/ rect[fill="#000099"] + text {
+    fill: white !important;
+}

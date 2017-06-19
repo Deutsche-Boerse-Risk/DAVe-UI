@@ -1,29 +1,8 @@
-<ng-template [ngIf]="filteredRouteParts?.length > 0">
-    <a *ngIf="!filteredRouteParts[0].inactive"
-       [routerLink]="getRoute(0)">
-        {{filteredRouteParts[0].title}}
-    </a>
-    <span *ngIf="filteredRouteParts[0].inactive">
-        {{filteredRouteParts[0].title}}
-    </span>
-</ng-template>
-<ng-template [ngIf]="filteredRouteParts?.length > 1">:
-    <a [routerLink]="getRoute(1)"
-       *ngIf="!filteredRouteParts[1].inactive">
-        {{filteredRouteParts[1].title}}
-    </a>
-    <span *ngIf="filteredRouteParts[1].inactive">
-        {{filteredRouteParts[1].title}}
-    </span>
-</ng-template>
-<ng-template [ngIf]="filteredRouteParts?.length > 2">
-    <ng-template ngFor let-route [ngForOf]="getAdditionalRoutes()" let-i="index" [ngForTrackBy]="trackByIndex"> /
-        <a [routerLink]="getRoute(i + 2)"
-           *ngIf="!filteredRouteParts[route].inactive">
-            {{filteredRouteParts[route].title}}
-        </a>
-        <span *ngIf="filteredRouteParts[route].inactive">
-            {{filteredRouteParts[route].title}}
-        </span>
-    </ng-template>
-</ng-template>
+<md-chip-list *ngIf="filteredRouteParts?.length > 0">
+    <md-chip *ngFor="let part of filteredRouteParts; trackBy:trackByIndex" #chip
+             [disabled]="part.inactive"
+             [selected]="filteredRouteParts.indexOf(part) === 0"
+             (click)="navigate(part)">
+        {{part.title}}
+    </md-chip>
+</md-chip-list>

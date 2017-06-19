@@ -1,42 +1,29 @@
-<div class="row">
-    <div class="col-lg-12">
-        <h3>Dashboard</h3>
-    </div>
-    <div class="col-lg-12">
-        <ul class="nav nav-tabs">
-            <li class="active">
-                <a data-target="#overview" (click)="setActiveTab('overview')" data-toggle="tab">
-                    <i class="fa fa-table" aria-hidden="true"></i> Margin Requirement Overview
-                </a>
-            </li>
-            <li>
-                <a data-target="#cv" (click)="setActiveTab('cv')" data-toggle="tab">
-                    <i class="fa fa-adjust" aria-hidden="true"></i> Position Level Risk
-                </a>
-            </li>
-            <li>
-                <a data-target="#im" (click)="setActiveTab('im')" data-toggle="tab">
-                    <i class="fa fa-th fa-fw"></i> Initial Margin
-                </a>
-            </li>
-        </ul>
-        <div class="tab-content">
-            <div class="tab-pane fade" id="cv" *ngIf="activeTab === 'cv'">
-                <position-report-bubblechart></position-report-bubblechart>
-            </div>
-            <div class="tab-pane fade" id="im" *ngIf="activeTab === 'im'">
-                <liqui-group-margin-treemap></liqui-group-margin-treemap>
-            </div>
-            <div class="tab-pane fade in active" id="overview" *ngIf="activeTab === 'overview'">
-                <div class="panel panel-default" style="border-top: 0">
-                    <div class="panel-body">
-                        <pool-margin-summary></pool-margin-summary>
-                        <liqui-group-margin-aggregation></liqui-group-margin-aggregation>
-                    </div>
-                </div>
-            </div>
-        </div>
+<h3>Dashboard</h3>
 
-    </div>
-    <!-- /.col-lg-12 -->
+<nav md-tab-nav-bar>
+    <a md-tab-link
+       [routerLink]="routerRoots.DASHBOARD_MARGIN_REQUIREMENT_OVERVIEW"
+       routerLinkActive #mro="routerLinkActive"
+       [active]="mro.isActive">
+        <md-icon>grid_on</md-icon>
+        Margin Requirement Overview
+    </a>
+    <a md-tab-link
+       [routerLink]="routerRoots.DASHBOARD_POSITION_LEVEL_RISK"
+       routerLinkActive #plr="routerLinkActive"
+       [active]="plr.isActive">
+        <md-icon>bubble_chart</md-icon>
+        Position Level Risk
+    </a>
+    <a md-tab-link
+       [routerLink]="routerRoots.DASHBOARD_INITIAL_MARGIN"
+       routerLinkActive #il="routerLinkActive"
+       [active]="il.isActive">
+        <md-icon>dashboard</md-icon>
+        Initial Margin
+    </a>
+</nav>
+
+<div class="mat-tab-body">
+    <router-outlet></router-outlet>
 </div>

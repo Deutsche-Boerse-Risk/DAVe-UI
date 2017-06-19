@@ -1,5 +1,18 @@
-@import "../component";
+@import "@dbg-riskit/dave-ui-dummy-layout/sass/global";
 
-:host > div {
-    @include clearfix;
+:host {
+    & > div {
+        @include clearfix;
+    }
+
+    .mat-card {
+        margin: 0 5px 10px;
+        text-align: right;
+        font-size: rem(1.2);
+
+        .huge {
+            font-size: rem(2);
+            font-weight: bold;
+        }
+    }
 }

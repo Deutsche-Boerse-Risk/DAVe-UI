@@ -3,6 +3,7 @@ export interface LiquiGroupSplitMarginParams {
     member?: string;
     account?: string;
     liquidationGroup?: string;
+    liquidationGroupSplit?: string;
 }
 
 export interface LiquiGroupSplitMarginHistoryParams extends LiquiGroupSplitMarginParams {
