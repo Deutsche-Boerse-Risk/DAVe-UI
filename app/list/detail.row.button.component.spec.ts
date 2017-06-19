@@ -16,7 +16,7 @@ describe('DetailRowButtonComponent', () => {
             declarations: [DetailRowButtonComponent, RouterLinkStubDirective]
         }).compileComponents()
             .then(done);
-    });
+    }, (window as any).COMPILE_TIMEOUT_INTERVAL);
 
     beforeEach(fakeAsync(() => {
         page = new LinkOnlyPage<DetailRowButtonComponent>(TestBed.createComponent(DetailRowButtonComponent));

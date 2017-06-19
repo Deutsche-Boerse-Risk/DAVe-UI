@@ -25,7 +25,7 @@ xdescribe('Account margin history component', () => {
     beforeEach((done: DoneFn) => {
         HistoryListPage.initTestBed(AccountMarginHistoryComponent, AccountMarginService)
             .then(done);
-    });
+    }, (window as any).COMPILE_TIMEOUT_INTERVAL);
 
     beforeEach(fakeAsync(inject([HttpService, ActivatedRoute],
         (http: HttpAsyncServiceStub<AccountMarginServerData[]>,

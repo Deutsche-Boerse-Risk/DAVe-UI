@@ -23,7 +23,7 @@ xdescribe('Liquidation Group Margin latest component', () => {
     beforeEach((done: DoneFn) => {
         LatestListPage.initTestBed(LiquiGroupMarginLatestComponent, LiquiGroupMarginService)
             .then(done);
-    });
+    }, (window as any).COMPILE_TIMEOUT_INTERVAL);
 
     beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<LiquiGroupMarginServerData[]>) => {
         // Generate test data

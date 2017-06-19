@@ -27,7 +27,7 @@ xdescribe('Risk limit utilization latest component', () => {
     beforeEach((done: DoneFn) => {
         LatestListPage.initTestBed(RiskLimitUtilizationLatestComponent, RiskLimitUtilizationService)
             .then(done);
-    });
+    }, (window as any).COMPILE_TIMEOUT_INTERVAL);
 
     beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<RiskLimitUtilizationServerData[]>) => {
         // Generate test data

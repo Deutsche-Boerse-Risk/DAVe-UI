@@ -23,7 +23,7 @@ xdescribe('Pool Margin latest component', () => {
     beforeEach((done: DoneFn) => {
         LatestListPage.initTestBed(PoolMarginLatestComponent, PoolMarginService)
             .then(done);
-    });
+    }, (window as any).COMPILE_TIMEOUT_INTERVAL);
 
     beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<PoolMarginServerData[]>) => {
         // Generate test data

@@ -25,7 +25,7 @@ xdescribe('Position reports history component', () => {
     beforeEach((done: DoneFn) => {
         HistoryListPage.initTestBed(PositionReportHistoryComponent, PositionReportsService)
             .then(done);
-    });
+    }, (window as any).COMPILE_TIMEOUT_INTERVAL);
 
     beforeEach(fakeAsync(inject([HttpService, ActivatedRoute],
         (http: HttpAsyncServiceStub<PositionReportServerData[]>,

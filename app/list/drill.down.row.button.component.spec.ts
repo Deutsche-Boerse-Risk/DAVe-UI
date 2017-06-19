@@ -16,7 +16,7 @@ describe('DrillDownRowButtonComponent', () => {
             declarations: [DrillDownRowButtonComponent, RouterLinkStubDirective]
         }).compileComponents()
             .then(done);
-    });
+    }, (window as any).COMPILE_TIMEOUT_INTERVAL);
 
     beforeEach(fakeAsync(() => {
         page = new LinkOnlyPage<DrillDownRowButtonComponent>(TestBed.createComponent(DrillDownRowButtonComponent));

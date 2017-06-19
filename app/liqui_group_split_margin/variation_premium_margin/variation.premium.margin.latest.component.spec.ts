@@ -31,7 +31,7 @@ xdescribe('Variation / Premium Margin latest component', () => {
     beforeEach((done: DoneFn) => {
         LatestListPage.initTestBed(VariationPremiumMarginLatestComponent, LiquiGroupSplitMarginService)
             .then(done);
-    });
+    }, (window as any).COMPILE_TIMEOUT_INTERVAL);
 
     beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<LiquiGroupSplitMarginServerData[]>) => {
         // Generate test data

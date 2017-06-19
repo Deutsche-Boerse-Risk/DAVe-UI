@@ -48,7 +48,7 @@ xdescribe('Position reports bubble chart component', () => {
             schemas     : [NO_ERRORS_SCHEMA]
         }).compileComponents()
             .then(done);
-    });
+    }, (window as any).COMPILE_TIMEOUT_INTERVAL);
 
     beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<PositionReportServerData[]>) => {
         // Generate test data

@@ -24,7 +24,7 @@
 //             schemas     : [NO_ERRORS_SCHEMA]
 //         }).compileComponents()
 //           .then(done);
-//     });
+//     }, (window as any).COMPILE_TIMEOUT_INTERVAL);
 //
 //     beforeEach(fakeAsync(() => {
 //         page = new AppComponentPage(TestBed.createComponent(AppComponent));

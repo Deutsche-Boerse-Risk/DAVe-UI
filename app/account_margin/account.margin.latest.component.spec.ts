@@ -23,7 +23,7 @@ xdescribe('Account margin latest component', () => {
     beforeEach((done: DoneFn) => {
         LatestListPage.initTestBed(AccountMarginLatestComponent, AccountMarginService)
             .then(done);
-    });
+    }, (window as any).COMPILE_TIMEOUT_INTERVAL);
 
     beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<AccountMarginServerData[]>) => {
         // Generate test data

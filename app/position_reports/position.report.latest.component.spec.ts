@@ -23,7 +23,7 @@ xdescribe('Position reports latest component', () => {
     beforeEach((done: DoneFn) => {
         LatestListPage.initTestBed(PositionReportLatestComponent, PositionReportsService)
             .then(done);
-    });
+    }, (window as any).COMPILE_TIMEOUT_INTERVAL);
 
     beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<PositionReportServerData[]>) => {
         // Generate test data

@@ -64,8 +64,7 @@ describe('ListComponent', () => {
         disableMaterialAnimations(FileModule);
         stubRouter().compileComponents()
             .then(done);
-// NOTE: Wait at least 30s for IE 11 as it does not make it for such complicated screen
-    }, 30000);
+    }, (window as any).COMPILE_TIMEOUT_INTERVAL);
 
     beforeEach(fakeAsync(() => {
         page = new ListPage<TestComponent>(TestBed.createComponent(TestComponent));

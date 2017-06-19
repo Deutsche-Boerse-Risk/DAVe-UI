@@ -25,7 +25,7 @@ xdescribe('Variation / Premium Margin history component', () => {
     beforeEach((done: DoneFn) => {
         HistoryListPage.initTestBed(VariationPremiumMarginHistoryComponent, LiquiGroupSplitMarginService)
             .then(done);
-    });
+    }, (window as any).COMPILE_TIMEOUT_INTERVAL);
 
     beforeEach(fakeAsync(inject([HttpService, ActivatedRoute],
         (http: HttpAsyncServiceStub<LiquiGroupSplitMarginServerData[]>,

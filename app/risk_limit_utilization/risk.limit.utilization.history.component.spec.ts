@@ -25,7 +25,7 @@ xdescribe('Risk limit utilization history component', () => {
     beforeEach((done: DoneFn) => {
         HistoryListPage.initTestBed(RiskLimitUtilizationHistoryComponent, RiskLimitUtilizationService)
             .then(done);
-    });
+    }, (window as any).COMPILE_TIMEOUT_INTERVAL);
 
     beforeEach(fakeAsync(inject([HttpService, ActivatedRoute],
         (http: HttpAsyncServiceStub<RiskLimitUtilizationServerData[]>,

@@ -5,6 +5,7 @@ Error.stackTraceLimit = 10;
 window.googleLoaded = false;
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+window.COMPILE_TIMEOUT_INTERVAL = 30000;
 
 // builtPaths: root paths for output ("built") files
 // get from karma.config.js, then prefix with '/base/' (default is '')
