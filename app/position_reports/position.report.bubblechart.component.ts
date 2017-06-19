@@ -180,10 +180,10 @@ export class PositionReportBubbleChartComponent extends AbstractComponentWithAut
         });
         positiveBubbles = positiveBubbles.sort((a: PositionReportBubble, b: PositionReportBubble) => {
             return b.radius - a.radius;
-        }).slice(1, this.topRecordsCount + 1);
+        }).slice(0, this.topRecordsCount);
         negativeBubbles = negativeBubbles.sort((a: PositionReportBubble, b: PositionReportBubble) => {
             return a.radius - b.radius;
-        }).slice(1, this.topRecordsCount + 1);
+        }).slice(0, this.topRecordsCount);
         positiveBubbles.forEach((bubble: PositionReportBubble) => {
             topNPositiveCompVar += bubble.radius;
         });
