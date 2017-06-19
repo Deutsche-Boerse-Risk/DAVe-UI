@@ -25,7 +25,7 @@
 
 <initial-load *ngIf="initialLoad && !errorMessage"></initial-load>
 
-<no-data *ngIf="!initialLoad && !errorMessage && chartData?.rows.length <= 1"></no-data>
+<no-data *ngIf="!initialLoad && !errorMessage && !chartData?.rows.length"></no-data>
 
 <update-failed *ngIf="errorMessage" [message]="errorMessage"></update-failed>
 
@@ -38,7 +38,7 @@
                   [chartData]="chartData"
                   [chartOptions]="options"
                   chartType="BubbleChart"
-                  height="345px">
+                  height="500px">
     </google-chart>
 </md-card>
 
