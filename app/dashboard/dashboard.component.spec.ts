@@ -1,7 +1,7 @@
 import {ContentChildren, NO_ERRORS_SCHEMA} from '@angular/core';
 import {Router, RouterModule} from '@angular/router';
 
-import {async, fakeAsync, TestBed} from '@angular/core/testing';
+import {fakeAsync, TestBed} from '@angular/core/testing';
 
 import {RouterLinkStubDirective, stubRouter} from '@dbg-riskit/dave-ui-testing';
 
@@ -23,7 +23,7 @@ describe('DashboardComponent', () => {
         RouterLinkActiveDirective).links[0];
     let oldSelector = linksDecorator.selector;
 
-    beforeEach(async(() => {
+    beforeEach((done: DoneFn) => {
         // Use stub to override @ContentChildren in RouterLinkActiveDirective
         linksDecorator.selector = RouterLinkStubDirective;
         TestBed.configureTestingModule({
@@ -38,8 +38,9 @@ describe('DashboardComponent', () => {
             ],
             schemas     : [NO_ERRORS_SCHEMA]
         });
-        stubRouter().compileComponents();
-    }));
+        stubRouter().compileComponents()
+            .then(done);
+    });
 
     beforeEach(fakeAsync(() => {
         page = new DashboardPage(TestBed.createComponent(DashboardComponent));

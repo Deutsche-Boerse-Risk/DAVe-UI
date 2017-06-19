@@ -1,6 +1,6 @@
 import {ActivatedRoute} from '@angular/router';
 
-import {async, fakeAsync, inject, TestBed} from '@angular/core/testing';
+import {fakeAsync, inject, TestBed} from '@angular/core/testing';
 
 import {ActivatedRouteStub, chceckSorting, HttpAsyncServiceStub, TableBodyRow} from '@dbg-riskit/dave-ui-testing';
 
@@ -24,9 +24,10 @@ import {ROUTES} from '../../routes/routing.paths';
 xdescribe('Initial Margin latest component', () => {
     let page: LatestListPage<InitialMarginLatestComponent>;
 
-    beforeEach(async(() => {
-        LatestListPage.initTestBed(InitialMarginLatestComponent, LiquiGroupSplitMarginService);
-    }));
+    beforeEach((done: DoneFn) => {
+        LatestListPage.initTestBed(InitialMarginLatestComponent, LiquiGroupSplitMarginService)
+            .then(done);
+    });
 
     beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<LiquiGroupSplitMarginServerData[]>) => {
         // Generate test data

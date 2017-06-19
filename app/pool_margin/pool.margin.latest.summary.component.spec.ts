@@ -1,6 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 
-import {async, fakeAsync, inject, TestBed} from '@angular/core/testing';
+import {fakeAsync, inject, TestBed} from '@angular/core/testing';
 
 import {HttpAsyncServiceStub} from '@dbg-riskit/dave-ui-testing';
 
@@ -18,7 +18,7 @@ xdescribe('Pool Margin summary', () => {
 
     let labels = ['Margin Shortfall/Surplus', 'Margin Requirement', 'Collateral', 'Cash Balance'];
 
-    beforeEach(async(() => {
+    beforeEach((done: DoneFn) => {
         TestBed.configureTestingModule({
             imports     : [
                 BrowserModule
@@ -33,8 +33,9 @@ xdescribe('Pool Margin summary', () => {
                     useClass: HttpAsyncServiceStub
                 }
             ]
-        }).compileComponents();
-    }));
+        }).compileComponents()
+            .then(done);
+    });
 
     beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<PoolMarginServerData[]>) => {
         // Generate test data

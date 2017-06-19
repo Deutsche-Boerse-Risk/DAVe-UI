@@ -136,7 +136,7 @@ export class LatestListPage<T> extends ListPage<T> {
         super(fixture);
     }
 
-    static initTestBed(component: Type<any>, service: Type<any>) {
+    static initTestBed(component: Type<any>, service: Type<any>): Promise<any> {
         TestBed.configureTestingModule({
             imports     : [
                 ListModule,
@@ -157,7 +157,7 @@ export class LatestListPage<T> extends ListPage<T> {
         disableMaterialAnimations(ListModule);
         disableMaterialAnimations(FileModule);
         disableMaterialAnimations(DataTableModule);
-        stubRouter().compileComponents();
+        return stubRouter().compileComponents();
     }
 
     public advanceHighlighter(): void {
@@ -223,7 +223,7 @@ export class HistoryListPage<T> extends LatestListPage<T> {
         super(fixture);
     }
 
-    static initTestBed(component: Type<any>, service: Type<any>) {
+    static initTestBed(component: Type<any>, service: Type<any>): Promise<any> {
         TestBed.configureTestingModule({
             imports     : [
                 ListModule,
@@ -252,7 +252,7 @@ export class HistoryListPage<T> extends LatestListPage<T> {
         disableMaterialAnimations(ListModule);
         disableMaterialAnimations(FileModule);
         disableMaterialAnimations(DataTableModule);
-        stubRouter().compileComponents();
+        return stubRouter().compileComponents();
     }
 
     public get lineChart(): DebugElement {

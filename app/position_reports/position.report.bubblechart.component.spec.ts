@@ -3,7 +3,7 @@ import {NO_ERRORS_SCHEMA} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms';
 
-import {async, fakeAsync, inject, TestBed} from '@angular/core/testing';
+import {fakeAsync, inject, TestBed} from '@angular/core/testing';
 
 import {HttpAsyncServiceStub, RouterLinkStubDirective} from '@dbg-riskit/dave-ui-testing';
 
@@ -27,7 +27,7 @@ import {ROUTES} from '../routes/routing.paths';
 xdescribe('Position reports bubble chart component', () => {
     let page: BubbleChartPage;
 
-    beforeEach(async(() => {
+    beforeEach((done: DoneFn) => {
         TestBed.configureTestingModule({
             imports     : [
                 BrowserModule,
@@ -46,8 +46,9 @@ xdescribe('Position reports bubble chart component', () => {
                 DecimalPipe
             ],
             schemas     : [NO_ERRORS_SCHEMA]
-        }).compileComponents();
-    }));
+        }).compileComponents()
+            .then(done);
+    });
 
     beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<PositionReportServerData[]>) => {
         // Generate test data

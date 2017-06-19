@@ -1,4 +1,4 @@
-import {async, fakeAsync, TestBed} from '@angular/core/testing';
+import {fakeAsync, TestBed} from '@angular/core/testing';
 
 import {LinkOnlyPage, RouterLinkStubDirective} from '@dbg-riskit/dave-ui-testing';
 
@@ -10,12 +10,13 @@ describe('DetailRowButtonComponent', () => {
 
     let page: LinkOnlyPage<DetailRowButtonComponent>;
 
-    beforeEach(async(() => {
+    beforeEach((done: DoneFn) => {
         TestBed.configureTestingModule({
             imports     : [NoopAnimationsCommonViewModule],
             declarations: [DetailRowButtonComponent, RouterLinkStubDirective]
-        }).compileComponents();
-    }));
+        }).compileComponents()
+            .then(done);
+    });
 
     beforeEach(fakeAsync(() => {
         page = new LinkOnlyPage<DetailRowButtonComponent>(TestBed.createComponent(DetailRowButtonComponent));

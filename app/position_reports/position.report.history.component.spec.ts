@@ -1,6 +1,6 @@
 import {ActivatedRoute} from '@angular/router';
 
-import {async, fakeAsync, inject, TestBed} from '@angular/core/testing';
+import {fakeAsync, inject, TestBed} from '@angular/core/testing';
 
 import {ActivatedRouteStub, chceckSorting, HttpAsyncServiceStub, TableBodyRow} from '@dbg-riskit/dave-ui-testing';
 
@@ -22,9 +22,10 @@ xdescribe('Position reports history component', () => {
     let page: HistoryListPage<PositionReportHistoryComponent>;
     let testingParams = ['A', 'A', 'B', 'C', 'C', '*', 'P', '152', '*', '201211', 'D', 'F', 'G', 'H'];
 
-    beforeEach(async(() => {
-        HistoryListPage.initTestBed(PositionReportHistoryComponent, PositionReportsService);
-    }));
+    beforeEach((done: DoneFn) => {
+        HistoryListPage.initTestBed(PositionReportHistoryComponent, PositionReportsService)
+            .then(done);
+    });
 
     beforeEach(fakeAsync(inject([HttpService, ActivatedRoute],
         (http: HttpAsyncServiceStub<PositionReportServerData[]>,

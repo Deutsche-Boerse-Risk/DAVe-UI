@@ -1,7 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {Router, RouterModule} from '@angular/router';
 
-import {async, fakeAsync, inject, TestBed} from '@angular/core/testing';
+import {fakeAsync, inject, TestBed} from '@angular/core/testing';
 
 import {RouterStub, stubRouter} from '@dbg-riskit/dave-ui-testing';
 
@@ -15,7 +15,7 @@ describe('BreadCrumbsComponent', () => {
 
     let page: BreadCrumbsPage;
 
-    beforeEach(async(() => {
+    beforeEach((done: DoneFn) => {
         TestBed.configureTestingModule({
             imports     : [
                 BrowserModule,
@@ -27,8 +27,9 @@ describe('BreadCrumbsComponent', () => {
                 BreadCrumbsComponent
             ]
         });
-        stubRouter().compileComponents();
-    }));
+        stubRouter().compileComponents()
+            .then(done);
+    });
 
     beforeEach(fakeAsync(() => {
         page = new BreadCrumbsPage(TestBed.createComponent(TestBreadCrumbsComponent));

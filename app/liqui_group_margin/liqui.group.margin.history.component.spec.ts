@@ -1,6 +1,6 @@
 import {ActivatedRoute} from '@angular/router';
 
-import {async, fakeAsync, inject, TestBed} from '@angular/core/testing';
+import {fakeAsync, inject, TestBed} from '@angular/core/testing';
 
 import {ActivatedRouteStub, chceckSorting, HttpAsyncServiceStub, TableBodyRow} from '@dbg-riskit/dave-ui-testing';
 
@@ -22,9 +22,10 @@ xdescribe('Liquidation Group Margin history component', () => {
     let page: HistoryListPage<LiquiGroupMarginHistoryComponent>;
     let testingParams = ['A', 'A', 'B', 'C', '*'];
 
-    beforeEach(async(() => {
-        HistoryListPage.initTestBed(LiquiGroupMarginHistoryComponent, LiquiGroupMarginService);
-    }));
+    beforeEach((done: DoneFn) => {
+        HistoryListPage.initTestBed(LiquiGroupMarginHistoryComponent, LiquiGroupMarginService)
+            .then(done);
+    });
 
     beforeEach(fakeAsync(inject([HttpService, ActivatedRoute],
         (http: HttpAsyncServiceStub<LiquiGroupMarginServerData[]>,

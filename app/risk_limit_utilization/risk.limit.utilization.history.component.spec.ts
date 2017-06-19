@@ -1,6 +1,6 @@
 import {ActivatedRoute} from '@angular/router';
 
-import {async, fakeAsync, inject, TestBed} from '@angular/core/testing';
+import {fakeAsync, inject, TestBed} from '@angular/core/testing';
 
 import {ActivatedRouteStub, chceckSorting, HttpAsyncServiceStub, TableBodyRow} from '@dbg-riskit/dave-ui-testing';
 
@@ -22,9 +22,10 @@ xdescribe('Risk limit utilization history component', () => {
     let page: HistoryListPage<RiskLimitUtilizationHistoryComponent>;
     let testingParams = ['A', '*', 'B', 'C'];
 
-    beforeEach(async(() => {
-        HistoryListPage.initTestBed(RiskLimitUtilizationHistoryComponent, RiskLimitUtilizationService);
-    }));
+    beforeEach((done: DoneFn) => {
+        HistoryListPage.initTestBed(RiskLimitUtilizationHistoryComponent, RiskLimitUtilizationService)
+            .then(done);
+    });
 
     beforeEach(fakeAsync(inject([HttpService, ActivatedRoute],
         (http: HttpAsyncServiceStub<RiskLimitUtilizationServerData[]>,

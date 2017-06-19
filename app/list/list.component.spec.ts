@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {By} from '@angular/platform-browser';
 
-import {async, fakeAsync, TestBed} from '@angular/core/testing';
+import {fakeAsync, TestBed} from '@angular/core/testing';
 
 import {disableMaterialAnimations, stubRouter} from '@dbg-riskit/dave-ui-testing';
 
@@ -49,7 +49,7 @@ describe('ListComponent', () => {
 
     let page: ListPage<TestComponent>;
 
-    beforeEach(async(() => {
+    beforeEach((done: DoneFn) => {
         TestBed.configureTestingModule({
             imports     : [ListModule],
             declarations: [TestComponent],
@@ -62,8 +62,9 @@ describe('ListComponent', () => {
         });
         disableMaterialAnimations(ListModule);
         disableMaterialAnimations(FileModule);
-        stubRouter().compileComponents();
-    }));
+        stubRouter().compileComponents()
+            .then(done);
+    });
 
     beforeEach(fakeAsync(() => {
         page = new ListPage<TestComponent>(TestBed.createComponent(TestComponent));
