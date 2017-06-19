@@ -30,17 +30,12 @@ export class PositionReportsService {
         return this.http.get({resourceURL: chartsURL}).map((data: PositionReportServerData[]) => {
             let chartRecords: PositionReportBubble[] = [];
             let selection: PositionReportChartDataSelect = new PositionReportChartDataSelect();
-            let memberSelection: PositionReportBubble = null;
-            let accountSelection: PositionReportBubble = null;
 
             if (data) {
-                let bubblesMap: Map<string, PositionReportBubble> = new Map();
-
-                data.forEach((record: PositionReportServerData) => {
+                data.reduce((bubblesMap: Map<string, PositionReportBubble>, record: PositionReportServerData) => {
                     let memberKey = UIDUtils.computeUID(record.clearer, record.member);
                     let bubbleKey: string = UIDUtils.computeUID(memberKey, record.account, record.product,
-                        record.contractYear, record.contractMonth,
-                        record.expiryDay);
+                        record.contractYear, record.contractMonth, record.expiryDay);
 
                     let bubble = {
                         key              : bubbleKey,
@@ -68,30 +63,25 @@ export class PositionReportsService {
                     if (!(selectValues)) {
                         selectValues = selection.create(memberKey);
                         selectValues.record = bubble;
-                        if (!memberSelection) {
-                            memberSelection = bubble;
-                        }
                     }
 
                     if (!(selectValues.subRecords.get(record.account))) {
                         selectValues = selectValues.subRecords.create(record.account);
                         selectValues.record = bubble;
-
-                        if (!accountSelection) {
-                            accountSelection = bubble;
-                        }
                     }
-                });
-
-                bubblesMap.forEach((bubble: PositionReportBubble) => {
-                    chartRecords.push(bubble);
-                });
+                    return bubblesMap;
+                }, new Map())
+                    .forEach((bubble: PositionReportBubble) => {
+                        chartRecords.push(bubble);
+                    });
             }
+            selection.sort();
+            let options = selection.getOptions();
             return {
                 bubbles         : chartRecords,
                 selection       : selection,
-                memberSelection : memberSelection,
-                accountSelection: accountSelection
+                memberSelection : options[0],
+                accountSelection: options[0]
             };
         });
     }

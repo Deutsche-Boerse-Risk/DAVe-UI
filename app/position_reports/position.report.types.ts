@@ -104,6 +104,17 @@ export class PositionReportChartDataSelect {
             subRecords: new PositionReportChartDataSelect(key)
         };
     }
+
+    public sort(): void {
+        this.options = Object.keys(this.options).sort()
+            .reduce((newOptions: { [key: string]: SelectValues }, key: string) => {
+                newOptions[key] = this.options[key];
+                if (newOptions[key].subRecords) {
+                    newOptions[key].subRecords.sort();
+                }
+                return newOptions;
+            }, {});
+    }
 }
 
 export interface PositionReportBubble {

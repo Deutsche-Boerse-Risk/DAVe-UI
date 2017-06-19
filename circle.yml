@@ -1,6 +1,6 @@
 machine:
   node:
-    version: 6.1.0 # Requires NodeJS 5+ to be used with Angular 4
+    version: 6.11.0 # Requires NodeJS 5+ to be used with Angular 4
   services:
     - docker
 
