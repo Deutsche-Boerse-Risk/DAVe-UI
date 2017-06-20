@@ -12,8 +12,8 @@ import {
     RiskLimitUtilizationServerData
 } from './risk.limit.utilization.types';
 
-export const riskLimitUtilizationLatestURL: string = '/rlu/latest';
-export const riskLimitUtilizationHistoryURL: string = '/rlu/history';
+export const riskLimitUtilizationLatestURL: string = '/api/v1.0/rlu/latest';
+export const riskLimitUtilizationHistoryURL: string = '/api/v1.0/rlu/history';
 
 @Injectable()
 export class RiskLimitUtilizationService {

@@ -12,8 +12,8 @@ import {
     LiquiGroupSplitMarginServerData
 } from './liqui.group.split.margin.types';
 
-export const liquiGroupSplitMarginLatestURL: string = '/lgsm/latest';
-export const liquiGroupSplitMarginHistoryURL: string = '/lgsm/history';
+export const liquiGroupSplitMarginLatestURL: string = '/api/v1.0/lgsm/latest';
+export const liquiGroupSplitMarginHistoryURL: string = '/api/v1.0/lgsm/history';
 
 @Injectable()
 export class LiquiGroupSplitMarginService {

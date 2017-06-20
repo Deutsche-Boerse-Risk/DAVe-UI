@@ -13,8 +13,8 @@ import {
     PoolMarginSummaryData
 } from './pool.margin.types';
 
-export const poolMarginLatestURL: string = '/pm/latest';
-export const poolMarginHistoryURL: string = '/pm/history';
+export const poolMarginLatestURL: string = '/api/v1.0/pm/latest';
+export const poolMarginHistoryURL: string = '/api/v1.0/pm/history';
 
 @Injectable()
 export class PoolMarginService {

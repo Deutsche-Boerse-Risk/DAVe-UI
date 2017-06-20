@@ -12,8 +12,8 @@ import {
     AccountMarginServerData
 } from './account.margin.types';
 
-export const accountMarginLatestURL: string = '/am/latest';
-export const accountMarginHistoryURL: string = '/am/history';
+export const accountMarginLatestURL: string = '/api/v1.0/am/latest';
+export const accountMarginHistoryURL: string = '/api/v1.0/am/history';
 
 @Injectable()
 export class AccountMarginService {

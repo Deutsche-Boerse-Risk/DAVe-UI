@@ -16,10 +16,10 @@ import {
     LiquiGroupMarginTreeNode
 } from './liqui.group.margin.types';
 
-export const liquiGroupMarginAggregationURL: string = '/lgm/latest';
-export const liquiGroupMarginTreemapURL: string = '/lgm/latest';
-export const liquiGroupMarginLatestURL: string = '/lgm/latest';
-export const liquiGroupMarginHistoryURL: string = '/lgm/history';
+export const liquiGroupMarginAggregationURL: string = '/api/v1.0/lgm/latest';
+export const liquiGroupMarginTreemapURL: string = '/api/v1.0/lgm/latest';
+export const liquiGroupMarginLatestURL: string = '/api/v1.0/lgm/latest';
+export const liquiGroupMarginHistoryURL: string = '/api/v1.0/lgm/history';
 
 @Injectable()
 export class LiquiGroupMarginService {

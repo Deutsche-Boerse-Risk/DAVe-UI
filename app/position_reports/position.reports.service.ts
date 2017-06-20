@@ -16,9 +16,9 @@ import {
     SelectValues
 } from './position.report.types';
 
-export const chartsURL: string = '/pr/latest';
-export const latestURL: string = '/pr/latest';
-export const historyURL: string = '/pr/history';
+export const chartsURL: string = '/api/v1.0/pr/latest';
+export const latestURL: string = '/api/v1.0/pr/latest';
+export const historyURL: string = '/api/v1.0/pr/history';
 
 @Injectable()
 export class PositionReportsService {
