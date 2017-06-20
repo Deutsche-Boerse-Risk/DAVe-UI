@@ -3,7 +3,7 @@ import {Router, RouterModule} from '@angular/router';
 
 import {fakeAsync, TestBed} from '@angular/core/testing';
 
-import {RouterLinkStubDirective, stubRouter} from '@dbg-riskit/dave-ui-testing';
+import {compileTestBed, RouterLinkStubDirective, stubRouter} from '@dbg-riskit/dave-ui-testing';
 
 import {NoopAnimationsCommonViewModule} from '@dbg-riskit/dave-ui-view';
 
@@ -23,7 +23,7 @@ describe('DashboardComponent', () => {
         RouterLinkActiveDirective).links[0];
     let oldSelector = linksDecorator.selector;
 
-    beforeEach((done: DoneFn) => {
+    compileTestBed(() => {
         // Use stub to override @ContentChildren in RouterLinkActiveDirective
         linksDecorator.selector = RouterLinkStubDirective;
         TestBed.configureTestingModule({
@@ -38,9 +38,8 @@ describe('DashboardComponent', () => {
             ],
             schemas     : [NO_ERRORS_SCHEMA]
         });
-        stubRouter().compileComponents()
-            .then(done);
-    }, (window as any).COMPILE_TIMEOUT_INTERVAL);
+        return stubRouter().compileComponents();
+    });
 
     beforeEach(fakeAsync(() => {
         page = new DashboardPage(TestBed.createComponent(DashboardComponent));

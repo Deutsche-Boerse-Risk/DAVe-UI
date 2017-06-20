@@ -2,7 +2,13 @@ import {RouterModule} from '@angular/router';
 
 import {fakeAsync, inject, TestBed} from '@angular/core/testing';
 
-import {chceckSorting, HttpAsyncServiceStub, stubRouter, TableBodyRow} from '@dbg-riskit/dave-ui-testing';
+import {
+    chceckSorting,
+    compileTestBed,
+    HttpAsyncServiceStub,
+    stubRouter,
+    TableBodyRow
+} from '@dbg-riskit/dave-ui-testing';
 
 import {AggregationPage, generateLiquiGroupMargin, generateLiquiGroupMarginHistory} from '../../testing';
 
@@ -21,7 +27,7 @@ import {ROUTES} from '../routes/routing.paths';
 xdescribe('Liqui Group Margin aggregation component', () => {
     let page: AggregationPage;
 
-    beforeEach((done: DoneFn) => {
+    compileTestBed(() => {
         TestBed.configureTestingModule({
             imports     : [
                 CommonModule,
@@ -39,9 +45,8 @@ xdescribe('Liqui Group Margin aggregation component', () => {
                 }
             ]
         });
-        stubRouter().compileComponents()
-            .then(done);
-    }, (window as any).COMPILE_TIMEOUT_INTERVAL);
+        return stubRouter().compileComponents();
+    });
 
     beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<LiquiGroupMarginServerData[]>) => {
         // Generate test data

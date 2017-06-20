@@ -3,7 +3,7 @@ import {Router, RouterModule} from '@angular/router';
 
 import {fakeAsync, inject, TestBed} from '@angular/core/testing';
 
-import {RouterStub, stubRouter} from '@dbg-riskit/dave-ui-testing';
+import {compileTestBed, RouterStub, stubRouter} from '@dbg-riskit/dave-ui-testing';
 
 import {NoopAnimationsCommonViewModule} from '@dbg-riskit/dave-ui-view';
 
@@ -15,7 +15,7 @@ describe('BreadCrumbsComponent', () => {
 
     let page: BreadCrumbsPage;
 
-    beforeEach((done: DoneFn) => {
+    compileTestBed(() => {
         TestBed.configureTestingModule({
             imports     : [
                 BrowserModule,
@@ -27,9 +27,8 @@ describe('BreadCrumbsComponent', () => {
                 BreadCrumbsComponent
             ]
         });
-        stubRouter().compileComponents()
-            .then(done);
-    }, (window as any).COMPILE_TIMEOUT_INTERVAL);
+        return stubRouter().compileComponents();
+    });
 
     beforeEach(fakeAsync(() => {
         page = new BreadCrumbsPage(TestBed.createComponent(TestBreadCrumbsComponent));

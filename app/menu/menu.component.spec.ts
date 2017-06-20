@@ -3,7 +3,7 @@ import {Router} from '@angular/router';
 
 import {fakeAsync, inject, TestBed} from '@angular/core/testing';
 
-import {RouterLinkStubDirective, RouterStub, stubRouter} from '@dbg-riskit/dave-ui-testing';
+import {compileTestBed, RouterLinkStubDirective, RouterStub, stubRouter} from '@dbg-riskit/dave-ui-testing';
 
 import {MenuPage} from '../../testing';
 
@@ -20,15 +20,14 @@ describe('Menu component', () => {
         RouterLinkActiveDirective).links[0];
     let oldSelector = linksDecorator.selector;
 
-    beforeEach((done: DoneFn) => {
+    compileTestBed(() => {
         // Use stub to override @ContentChildren in RouterLinkActiveDirective
         linksDecorator.selector = RouterLinkStubDirective;
         TestBed.configureTestingModule({
             imports: [MenuModule]
         });
-        stubRouter().compileComponents()
-            .then(done);
-    }, (window as any).COMPILE_TIMEOUT_INTERVAL);
+        return stubRouter().compileComponents();
+    });
 
     beforeEach(fakeAsync(() => {
         page = new MenuPage(TestBed.createComponent(MenuComponent));
