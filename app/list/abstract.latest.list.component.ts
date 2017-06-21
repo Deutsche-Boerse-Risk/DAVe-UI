@@ -1,4 +1,8 @@
+import {DecimalPipe} from '@angular/common';
+import {ActivatedRoute} from '@angular/router';
+
 import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
+import {DateFormatter} from '@dbg-riskit/dave-ui-view';
 
 import {AbstractListComponent} from './abstract.list.component';
 
@@ -9,13 +13,20 @@ export abstract class AbstractLatestListComponent<T extends { uid: string }> ext
 
     private sourceData: T[];
 
+    constructor(route: ActivatedRoute, private dateFormatter: DateFormatter, private numberFormatter: DecimalPipe) {
+        super(route);
+    }
+
     protected processData(data: T[]): void {
         super.processData(data);
 
         delete this.sourceData;
         this.sourceData = this.data;
 
-        this.filter();
+        let filterQuery = (this._currentFilters || []).join(' ');
+        this._currentFilters = null;
+
+        this.filter(filterQuery);
     }
 
     public filter(filterQuery?: string): void {
@@ -54,18 +65,26 @@ export abstract class AbstractLatestListComponent<T extends { uid: string }> ext
             this.data = filteredItems;
         }
         else {
+            this._currentFilters = null;
             this.data = this.sourceData;
         }
 
     }
 
-    private matchObject(item: any, search: string): boolean {
+    public matchObject(item: any, search: string): boolean {
         return this.exportKeys.some((key: CSVExportColumn<T>) => {
             let value = key.get(item);
+            if (typeof value === 'number') {
+                value = this.numberFormatter.transform(value, '.2-2');
+            }
+            if (value instanceof Date) {
+                value = this.dateFormatter.transform(value);
+            }
             if (typeof value !== 'string') {
                 return false;
             }
-            return value.toLowerCase().indexOf(search) !== -1;
+
+            return value.toLowerCase().indexOf((search || '').toLowerCase()) !== -1;
         });
     }
 }

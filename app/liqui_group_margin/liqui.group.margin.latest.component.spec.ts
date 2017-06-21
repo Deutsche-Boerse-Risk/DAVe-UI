@@ -24,7 +24,7 @@ import {DATA_REFRESH_INTERVAL} from '../periodic.http.service';
 import {exportKeys, LiquiGroupMarginLatestComponent, valueGetters} from './liqui.group.margin.latest.component';
 import {ROUTES} from '../routes/routing.paths';
 
-xdescribe('Liquidation Group Margin latest component', () => {
+describe('Liquidation Group Margin latest component', () => {
     let page: LatestListPage<LiquiGroupMarginLatestComponent>;
 
     compileTestBed(() => {
@@ -253,16 +253,15 @@ xdescribe('Liquidation Group Margin latest component', () => {
             let filter = '';
             let idParts = firstRow.uid.split('-');
             for (let id of idParts) {
-                filter += id + '-';
+                filter += id + ' ';
                 page.filter(filter);
                 expect(items >= page.dataTable.data.length).toBeTruthy();
                 items = page.dataTable.data.length;
                 page.dataTable.data.forEach((row: LiquiGroupMarginData) => {
-                    expect(row.uid).toMatch('^' + filter);
+                    expect(filter.trim().split(' ').every(
+                        (part: string) => page.component.matchObject(row, part)))
+                        .toBeTruthy('Has to contain all parts of the filter.');
                 });
-                if (items === 1) {
-                    break;
-                }
             }
 
             // Clear the field
@@ -270,11 +269,13 @@ xdescribe('Liquidation Group Margin latest component', () => {
 
             expect(page.dataTable.data.length).toBe(originalItems);
 
-            filter = idParts.join('- -');
+            filter = idParts.join(' ');
             page.filter(filter);
 
             page.dataTable.data.forEach((row: LiquiGroupMarginData) => {
-                expect(row.uid).toMatch('(' + idParts.join('|-') + '){' + idParts.length + '}');
+                expect(idParts.every(
+                    (part: string) => page.component.matchObject(row, part)))
+                    .toBeTruthy('Has to contain all parts of the filter.');
             });
 
             // Remove highlight

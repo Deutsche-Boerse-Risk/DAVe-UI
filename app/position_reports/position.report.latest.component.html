@@ -1,11 +1,12 @@
 <list-content header="Position Reports"
               [routeParts]="routeParts"
               [exportKeys]="exportKeys"
-              [data]="data"
+              [dataTable]="dataTable"
               [initialLoad]="initialLoad"
               (filterChanged)="filter($event)"
               [drillupRouterLink]="[routerRoots.INITIAL_MARGIN_LATEST, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', routeParams['liquidationGroup'] || '*', routeParams['liquidationGroupSplit'] || '*']">
     <data-table [data]="data"
+                #dataTable="dataTable"
                 [pageSize]="pageSize"
                 [defaultOrdering]="defaultOrdering"
                 [trackByRowKey]="trackByRowKey">

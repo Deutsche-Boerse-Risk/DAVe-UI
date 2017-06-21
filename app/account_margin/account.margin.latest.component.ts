@@ -1,9 +1,11 @@
+import {DecimalPipe} from '@angular/common';
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
 import {COMPONENT_CSS, ValueGetter} from '@dbg-riskit/dave-ui-common';
 import {OrderingCriteria} from '@dbg-riskit/dave-ui-datatable';
 import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
+import {DateFormatter} from '@dbg-riskit/dave-ui-view';
 
 import {AccountMarginService} from './account.margin.service';
 import {AccountMarginData, AccountMarginParams} from './account.margin.types';
@@ -26,9 +28,9 @@ export const routingKeys: (keyof AccountMarginParams)[] = [
 })
 export class AccountMarginLatestComponent extends AbstractLatestListComponent<AccountMarginData> {
 
-    constructor(private accountMarginService: AccountMarginService,
-        route: ActivatedRoute) {
-        super(route);
+    constructor(private accountMarginService: AccountMarginService, route: ActivatedRoute, dateFormatter: DateFormatter,
+        numberFormatter: DecimalPipe) {
+        super(route, dateFormatter, numberFormatter);
     }
 
     protected loadData(): Subscription {

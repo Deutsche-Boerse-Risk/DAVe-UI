@@ -1,8 +1,7 @@
-import {DatePipe, DecimalPipe} from '@angular/common';
 import {DebugElement, Type} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {NgModel} from '@angular/forms';
-import {RouterModule} from '@angular/router';
+import {Router, RouterModule} from '@angular/router';
 
 import {MdInputContainer, MdMenuItem, MdToolbarRow} from '@angular/material';
 
@@ -29,7 +28,7 @@ import {DataTableComponent, DataTableModule, HIGHLIGHTER_TIMEOUT} from '@dbg-ris
 import {ErrorCollectorService} from '@dbg-riskit/dave-ui-error';
 import {CSVDownloadMenuComponent, FileModule} from '@dbg-riskit/dave-ui-file';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
-import {DateFormatter, INITIAL_LOAD_SELECTOR, NO_DATA_SELECTOR, UPDATE_FAILED_SELECTOR} from '@dbg-riskit/dave-ui-view';
+import {INITIAL_LOAD_SELECTOR, NO_DATA_SELECTOR, UPDATE_FAILED_SELECTOR} from '@dbg-riskit/dave-ui-view';
 
 import {BreadCrumbsDefinition} from './bread.crumbs.page';
 
@@ -162,6 +161,10 @@ export class LatestListPage<T> extends ListPage<T> {
                 {
                     provide : AuthService,
                     useClass: AuthServiceStub
+                },
+                {
+                    provide : DATE_FORMAT,
+                    useValue: 'dd. MM. yyyy HH:mm:ss'
                 }
             ]
         });
@@ -182,7 +185,9 @@ export class LatestListPage<T> extends ListPage<T> {
     public checkBreadCrumbs(routeParams: string[], rootPath: string, rootText: string,
         firstActive: boolean = true, lastNInactive: number = 0): void {
         // Get router stub
-        let router: RouterStub = TestBed.get(RouterStub);
+        let router: RouterStub = TestBed.get(Router);
+
+        jasmine.getEnv().allowRespy(true);
         let routerSpy = spyOn(router, 'navigate');
 
         let crumbs = this.breadCrumbs.crumbs;
@@ -194,7 +199,7 @@ export class LatestListPage<T> extends ListPage<T> {
         if (firstActive) {
             expect(crumbs[0].active).toBeTruthy('First active');
             crumbs[0].click();
-            expect(routerSpy.calls.mostRecent().args).toEqual([rootPath], 'Navigation works correctly');
+            expect(routerSpy.calls.mostRecent().args[0]).toEqual([rootPath], 'Navigation works correctly');
         } else {
             expect(crumbs[0].active).toBeFalsy('First inactive');
         }
@@ -225,6 +230,8 @@ export class LatestListPage<T> extends ListPage<T> {
                 expect(routerSpy.calls.mostRecent().args[0]).toEqual(path, 'Navigation works correctly');
             }
         }
+
+        jasmine.getEnv().allowRespy(false);
     };
 }
 
@@ -238,7 +245,8 @@ export class HistoryListPage<T> extends LatestListPage<T> {
         TestBed.configureTestingModule({
             imports     : [
                 ListModule,
-                DataTableModule
+                DataTableModule,
+                RouterModule
             ],
             declarations: [
                 GoogleLineChartStub,
@@ -256,15 +264,11 @@ export class HistoryListPage<T> extends LatestListPage<T> {
                     provide : AuthService,
                     useClass: AuthServiceStub
                 },
-                DecimalPipe,
-                DatePipe,
-                DateFormatter,
                 {
                     provide : DATE_FORMAT,
                     useValue: 'dd. MM. yyyy HH:mm:ss'
                 }
             ]
-            // schemas: [NO_ERRORS_SCHEMA]
         });
         disableMaterialAnimations(ListModule);
         disableMaterialAnimations(FileModule);

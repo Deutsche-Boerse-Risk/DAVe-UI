@@ -32,7 +32,7 @@ import {
 } from './variation.premium.margin.latest.component';
 import {ROUTES} from '../../routes/routing.paths';
 
-xdescribe('Variation / Premium Margin latest component', () => {
+describe('Variation / Premium Margin latest component', () => {
     let page: LatestListPage<VariationPremiumMarginLatestComponent>;
 
     compileTestBed(() => {
@@ -238,7 +238,7 @@ xdescribe('Variation / Premium Margin latest component', () => {
             clearInterval((page.component as any).intervalHandle);
         })));
 
-    xdescribe('(after data are ready)', () => {
+    describe('(after data are ready)', () => {
         beforeEach(fakeAsync(() => {
             // Init component
             page.detectChanges();
@@ -261,16 +261,15 @@ xdescribe('Variation / Premium Margin latest component', () => {
             let filter = '';
             let idParts = firstRow.uid.split('-');
             for (let id of idParts) {
-                filter += id + '-';
+                filter += id + ' ';
                 page.filter(filter);
                 expect(items >= page.dataTable.data.length).toBeTruthy();
                 items = page.dataTable.data.length;
                 page.dataTable.data.forEach((row: LiquiGroupSplitMarginData) => {
-                    expect(row.uid).toMatch('^' + filter);
+                    expect(filter.trim().split(' ').every(
+                        (part: string) => page.component.matchObject(row, part)))
+                        .toBeTruthy('Has to contain all parts of the filter.');
                 });
-                if (items === 1) {
-                    break;
-                }
             }
 
             // Clear the field
@@ -278,11 +277,13 @@ xdescribe('Variation / Premium Margin latest component', () => {
 
             expect(page.dataTable.data.length).toBe(originalItems);
 
-            filter = idParts.join('- -');
+            filter = idParts.join(' ');
             page.filter(filter);
 
             page.dataTable.data.forEach((row: LiquiGroupSplitMarginData) => {
-                expect(row.uid).toMatch('(' + idParts.join('|-') + '){' + idParts.length + '}');
+                expect(idParts.every(
+                    (part: string) => page.component.matchObject(row, part)))
+                    .toBeTruthy('Has to contain all parts of the filter.');
             });
 
             // Remove highlight

@@ -24,7 +24,7 @@ import {DATA_REFRESH_INTERVAL} from '../periodic.http.service';
 import {AccountMarginLatestComponent, exportKeys, valueGetters} from './account.margin.latest.component';
 import {ROUTES} from '../routes/routing.paths';
 
-xdescribe('Account margin latest component', () => {
+describe('Account margin latest component', () => {
     let page: LatestListPage<AccountMarginLatestComponent>;
 
     compileTestBed(() => {
@@ -230,7 +230,7 @@ xdescribe('Account margin latest component', () => {
         clearInterval((page.component as any).intervalHandle);
     })));
 
-    xdescribe('(after data are ready)', () => {
+    describe('(after data are ready)', () => {
         beforeEach(fakeAsync(() => {
             // Init component
             page.detectChanges();
@@ -253,16 +253,15 @@ xdescribe('Account margin latest component', () => {
             let filter = '';
             let idParts = firstRow.uid.split('-');
             for (let id of idParts) {
-                filter += id + '-';
+                filter += id + ' ';
                 page.filter(filter);
                 expect(items >= page.dataTable.data.length).toBeTruthy();
                 items = page.dataTable.data.length;
                 page.dataTable.data.forEach((row: AccountMarginData) => {
-                    expect(row.uid).toMatch('^' + filter);
+                    expect(filter.trim().split(' ').every(
+                        (part: string) => page.component.matchObject(row, part)))
+                        .toBeTruthy('Has to contain all parts of the filter.');
                 });
-                if (items === 1) {
-                    break;
-                }
             }
 
             // Clear the field
@@ -270,11 +269,13 @@ xdescribe('Account margin latest component', () => {
 
             expect(page.dataTable.data.length).toBe(originalItems);
 
-            filter = idParts.join('- -');
+            filter = idParts.join(' ');
             page.filter(filter);
 
             page.dataTable.data.forEach((row: AccountMarginData) => {
-                expect(row.uid).toMatch('(' + idParts.join('|-') + '){' + idParts.length + '}');
+                expect(idParts.every(
+                    (part: string) => page.component.matchObject(row, part)))
+                    .toBeTruthy('Has to contain all parts of the filter.');
             });
 
             // Remove highlight

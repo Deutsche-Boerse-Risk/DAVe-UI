@@ -2,7 +2,7 @@
               [isHistory]="true"
               [routeParts]="routeParts"
               [exportKeys]="exportKeys"
-              [data]="data"
+              [dataTable]="dataTable"
               [initialLoad]="initialLoad">
     <ng-template [ngIf]="chartData?.rows?.length > 0">
         <google-line-chart [chartOptions]="chartOptions"
@@ -12,6 +12,7 @@
     </ng-template>
 
     <data-table [data]="data"
+                #dataTable="dataTable"
                 [pageSize]="pageSize"
                 [defaultOrdering]="defaultOrdering"
                 [trackByRowKey]="trackByRowKey">

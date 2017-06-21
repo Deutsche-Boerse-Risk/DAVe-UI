@@ -1,9 +1,11 @@
+import {DecimalPipe} from '@angular/common';
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
 import {COMPONENT_CSS, ValueGetter} from '@dbg-riskit/dave-ui-common';
 import {OrderingCriteria} from '@dbg-riskit/dave-ui-datatable';
 import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
+import {DateFormatter} from '@dbg-riskit/dave-ui-view';
 
 import {PoolMarginService} from './pool.margin.service';
 import {PoolMarginData, PoolMarginParams} from './pool.margin.types';
@@ -21,9 +23,9 @@ export const routingKeys: (keyof PoolMarginParams)[] = ['clearer', 'pool', 'marg
 })
 export class PoolMarginLatestComponent extends AbstractLatestListComponent<PoolMarginData> {
 
-    constructor(private poolMarginService: PoolMarginService,
-        route: ActivatedRoute) {
-        super(route);
+    constructor(private poolMarginService: PoolMarginService, route: ActivatedRoute, dateFormatter: DateFormatter,
+        numberFormatter: DecimalPipe) {
+        super(route, dateFormatter, numberFormatter);
     }
 
     protected loadData(): Subscription {

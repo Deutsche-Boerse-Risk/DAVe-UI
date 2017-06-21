@@ -1,8 +1,11 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 import {COMPONENT_CSS} from '@dbg-riskit/dave-ui-common';
+import {DataTableComponent, Row} from '@dbg-riskit/dave-ui-datatable';
 
 import {RoutePart} from './bread.crumbs.component';
+import {Observable} from 'rxjs/Observable';
+import {Subscriber} from 'rxjs/Subscriber';
 
 export const FILTER_TIMEOUT = 500;
 
@@ -30,7 +33,7 @@ export class ListComponent {
     public exportKeys: string[];
 
     @Input()
-    public data: any[];
+    public dataTable: DataTableComponent;
 
     @Output()
     public filterChanged: EventEmitter<string> = new EventEmitter<string>();
@@ -47,6 +50,16 @@ export class ListComponent {
     public filterQuery: string;
 
     private filterTimeoutHandle: NodeJS.Timer;
+
+    public get exportData(): Observable<any[]> {
+        return new Observable((subscriber: Subscriber<any[]>) => {
+            setTimeout(() => {
+                let rows = this.dataTable ? this.dataTable.rows : [];
+                subscriber.next(rows.map((row: Row<any>) => row.rowData));
+                subscriber.complete();
+            });
+        });
+    }
 
     public filterAfterTimeout(): void {
         clearTimeout(this.filterTimeoutHandle);
