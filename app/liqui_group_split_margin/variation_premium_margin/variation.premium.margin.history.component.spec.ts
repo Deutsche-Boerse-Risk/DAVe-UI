@@ -25,7 +25,7 @@ import {exportKeys, valueGetters} from './variation.premium.margin.latest.compon
 import {VariationPremiumMarginHistoryComponent} from './variation.premium.margin.history.component';
 import {ROUTES} from '../../routes/routing.paths';
 
-xdescribe('Variation / Premium Margin history component', () => {
+describe('Variation / Premium Margin history component', () => {
     let page: HistoryListPage<VariationPremiumMarginHistoryComponent>;
     let testingParams = ['A', 'A', 'B', 'C', '*', 'D'];
 
@@ -272,7 +272,7 @@ xdescribe('Variation / Premium Margin history component', () => {
             clearInterval((page.component as any).intervalHandle);
         })));
 
-    xdescribe('(after data are ready)', () => {
+    describe('(after data are ready)', () => {
         beforeEach(fakeAsync(() => {
             // Init component
             page.detectChanges();

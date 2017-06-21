@@ -25,7 +25,7 @@ import {exportKeys, valueGetters} from './liqui.group.margin.latest.component';
 import {LiquiGroupMarginHistoryComponent} from './liqui.group.margin.history.component';
 import {ROUTES} from '../routes/routing.paths';
 
-xdescribe('Liquidation Group Margin history component', () => {
+describe('Liquidation Group Margin history component', () => {
     let page: HistoryListPage<LiquiGroupMarginHistoryComponent>;
     let testingParams = ['A', 'A', 'B', 'C', '*'];
 
@@ -270,7 +270,7 @@ xdescribe('Liquidation Group Margin history component', () => {
             clearInterval((page.component as any).intervalHandle);
         })));
 
-    xdescribe('(after data are ready)', () => {
+    describe('(after data are ready)', () => {
         beforeEach(fakeAsync(() => {
             // Init component
             page.detectChanges();

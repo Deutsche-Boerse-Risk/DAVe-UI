@@ -25,7 +25,7 @@ import {exportKeys, valueGetters} from './risk.limit.utilization.latest.componen
 import {RiskLimitUtilizationHistoryComponent} from './risk.limit.utilization.history.component';
 import {ROUTES} from '../routes/routing.paths';
 
-xdescribe('Risk limit utilization history component', () => {
+describe('Risk limit utilization history component', () => {
     let page: HistoryListPage<RiskLimitUtilizationHistoryComponent>;
     let testingParams = ['A', '*', 'B', 'C'];
 
@@ -268,7 +268,7 @@ xdescribe('Risk limit utilization history component', () => {
             clearInterval((page.component as any).intervalHandle);
         })));
 
-    xdescribe('(after data are ready)', () => {
+    describe('(after data are ready)', () => {
         beforeEach(fakeAsync(() => {
             // Init component
             page.detectChanges();

@@ -25,7 +25,7 @@ import {exportKeys, valueGetters} from './pool.margin.latest.component';
 import {PoolMarginHistoryComponent} from './pool.margin.history.component';
 import {ROUTES} from '../routes/routing.paths';
 
-xdescribe('Pool Margin history component', () => {
+describe('Pool Margin history component', () => {
     let page: HistoryListPage<PoolMarginHistoryComponent>;
     let testingParams = ['A', '*', 'B'];
 
@@ -266,7 +266,7 @@ xdescribe('Pool Margin history component', () => {
             clearInterval((page.component as any).intervalHandle);
         })));
 
-    xdescribe('(after data are ready)', () => {
+    describe('(after data are ready)', () => {
         beforeEach(fakeAsync(() => {
             // Init component
             page.detectChanges();

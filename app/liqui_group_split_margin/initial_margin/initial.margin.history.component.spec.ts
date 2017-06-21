@@ -25,7 +25,7 @@ import {exportKeys, valueGetters} from './initial.margin.latest.component';
 import {InitialMarginHistoryComponent} from './initial.margin.history.component';
 import {ROUTES} from '../../routes/routing.paths';
 
-xdescribe('Initial Margin history component', () => {
+describe('Initial Margin history component', () => {
     let page: HistoryListPage<InitialMarginHistoryComponent>;
     let testingParams = ['A', 'A', 'B', 'C', '*', 'D'];
 
@@ -272,7 +272,7 @@ xdescribe('Initial Margin history component', () => {
             clearInterval((page.component as any).intervalHandle);
         })));
 
-    xdescribe('(after data are ready)', () => {
+    describe('(after data are ready)', () => {
         beforeEach(fakeAsync(() => {
             // Init component
             page.detectChanges();
