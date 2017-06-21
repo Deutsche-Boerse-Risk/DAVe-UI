@@ -5,7 +5,7 @@ import {FormsModule} from '@angular/forms';
 
 import {fakeAsync, inject, TestBed} from '@angular/core/testing';
 
-import {HttpAsyncServiceStub, RouterLinkStubDirective} from '@dbg-riskit/dave-ui-testing';
+import {compileTestBed, HttpAsyncServiceStub, RouterLinkStubDirective} from '@dbg-riskit/dave-ui-testing';
 
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 import {ChartRow} from '@dbg-riskit/dave-ui-charts';
@@ -27,8 +27,8 @@ import {ROUTES} from '../routes/routing.paths';
 xdescribe('Position reports bubble chart component', () => {
     let page: BubbleChartPage;
 
-    beforeEach((done: DoneFn) => {
-        TestBed.configureTestingModule({
+    compileTestBed(() => {
+        return TestBed.configureTestingModule({
             imports     : [
                 BrowserModule,
                 FormsModule
@@ -46,8 +46,7 @@ xdescribe('Position reports bubble chart component', () => {
                 DecimalPipe
             ],
             schemas     : [NO_ERRORS_SCHEMA]
-        }).compileComponents()
-            .then(done);
+        }).compileComponents();
     });
 
     beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<PositionReportServerData[]>) => {

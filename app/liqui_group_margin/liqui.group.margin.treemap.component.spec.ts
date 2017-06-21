@@ -4,7 +4,7 @@ import {Router} from '@angular/router';
 
 import {fakeAsync, inject, TestBed} from '@angular/core/testing';
 
-import {HttpAsyncServiceStub, RouterLinkStubDirective, RouterStub} from '@dbg-riskit/dave-ui-testing';
+import {compileTestBed, HttpAsyncServiceStub, RouterLinkStubDirective, RouterStub} from '@dbg-riskit/dave-ui-testing';
 
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 
@@ -19,8 +19,8 @@ import {ROUTES} from '../routes/routing.paths';
 xdescribe('Margin components TreeMap component', () => {
     let page: TreeMapPage;
 
-    beforeEach((done: DoneFn) => {
-        TestBed.configureTestingModule({
+    compileTestBed(() => {
+        return TestBed.configureTestingModule({
             imports     : [
                 BrowserModule
             ],
@@ -40,8 +40,7 @@ xdescribe('Margin components TreeMap component', () => {
                 }
             ],
             schemas     : [NO_ERRORS_SCHEMA]
-        }).compileComponents()
-            .then(done);
+        }).compileComponents();
     });
 
     beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<LiquiGroupMarginServerData[]>) => {

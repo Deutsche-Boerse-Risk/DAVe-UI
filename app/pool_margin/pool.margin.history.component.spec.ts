@@ -2,7 +2,13 @@ import {ActivatedRoute} from '@angular/router';
 
 import {fakeAsync, inject, TestBed} from '@angular/core/testing';
 
-import {ActivatedRouteStub, chceckSorting, HttpAsyncServiceStub, TableBodyRow} from '@dbg-riskit/dave-ui-testing';
+import {
+    ActivatedRouteStub,
+    chceckSorting,
+    compileTestBed,
+    HttpAsyncServiceStub,
+    TableBodyRow
+} from '@dbg-riskit/dave-ui-testing';
 
 import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
@@ -22,9 +28,8 @@ xdescribe('Pool Margin history component', () => {
     let page: HistoryListPage<PoolMarginHistoryComponent>;
     let testingParams = ['A', '*', 'B'];
 
-    beforeEach((done: DoneFn) => {
-        HistoryListPage.initTestBed(PoolMarginHistoryComponent, PoolMarginService)
-            .then(done);
+    compileTestBed(() => {
+        return HistoryListPage.initTestBed(PoolMarginHistoryComponent, PoolMarginService);
     });
 
     beforeEach(fakeAsync(inject([HttpService, ActivatedRoute],

@@ -2,7 +2,13 @@ import {ActivatedRoute} from '@angular/router';
 
 import {fakeAsync, inject, TestBed} from '@angular/core/testing';
 
-import {ActivatedRouteStub, chceckSorting, HttpAsyncServiceStub, TableBodyRow} from '@dbg-riskit/dave-ui-testing';
+import {
+    ActivatedRouteStub,
+    chceckSorting,
+    compileTestBed,
+    HttpAsyncServiceStub,
+    TableBodyRow
+} from '@dbg-riskit/dave-ui-testing';
 
 import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
@@ -22,9 +28,8 @@ xdescribe('Liquidation Group Margin history component', () => {
     let page: HistoryListPage<LiquiGroupMarginHistoryComponent>;
     let testingParams = ['A', 'A', 'B', 'C', '*'];
 
-    beforeEach((done: DoneFn) => {
-        HistoryListPage.initTestBed(LiquiGroupMarginHistoryComponent, LiquiGroupMarginService)
-            .then(done);
+    compileTestBed(() => {
+        return HistoryListPage.initTestBed(LiquiGroupMarginHistoryComponent, LiquiGroupMarginService);
     });
 
     beforeEach(fakeAsync(inject([HttpService, ActivatedRoute],

@@ -3,7 +3,7 @@ import {By} from '@angular/platform-browser';
 
 import {fakeAsync, TestBed} from '@angular/core/testing';
 
-import {disableMaterialAnimations, stubRouter} from '@dbg-riskit/dave-ui-testing';
+import {compileTestBed, disableMaterialAnimations, stubRouter} from '@dbg-riskit/dave-ui-testing';
 
 import {DATE_FORMAT} from '@dbg-riskit/dave-ui-common';
 import {FileModule} from '@dbg-riskit/dave-ui-file';
@@ -49,7 +49,7 @@ describe('ListComponent', () => {
 
     let page: ListPage<TestComponent>;
 
-    beforeEach((done: DoneFn) => {
+    compileTestBed(() => {
         TestBed.configureTestingModule({
             imports     : [ListModule],
             declarations: [TestComponent],
@@ -62,10 +62,8 @@ describe('ListComponent', () => {
         });
         disableMaterialAnimations(ListModule);
         disableMaterialAnimations(FileModule);
-        stubRouter().compileComponents()
-            .then(done);
-// NOTE: Wait at least 30s for IE 11 as it does not make it for such complicated screen
-    }, 30000);
+        return stubRouter().compileComponents();
+    });
 
     beforeEach(fakeAsync(() => {
         page = new ListPage<TestComponent>(TestBed.createComponent(TestComponent));

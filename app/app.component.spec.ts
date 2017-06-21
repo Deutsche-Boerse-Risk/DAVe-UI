@@ -12,8 +12,8 @@
 //
 //     let page: AppComponentPage;
 //
-//     beforeEach((done: DoneFn) => {
-//         TestBed.configureTestingModule({
+//     compileTestBed(() => {
+//         return TestBed.configureTestingModule({
 //             declarations: [AppComponent],
 //             providers   : [
 //                 {
@@ -22,8 +22,7 @@
 //                 }
 //             ],
 //             schemas     : [NO_ERRORS_SCHEMA]
-//         }).compileComponents()
-//           .then(done);
+//         }).compileComponents();
 //     });
 //
 //     beforeEach(fakeAsync(() => {

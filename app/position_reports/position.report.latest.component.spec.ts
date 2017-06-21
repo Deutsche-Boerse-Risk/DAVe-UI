@@ -2,7 +2,13 @@ import {ActivatedRoute} from '@angular/router';
 
 import {fakeAsync, inject, TestBed} from '@angular/core/testing';
 
-import {ActivatedRouteStub, chceckSorting, HttpAsyncServiceStub, TableBodyRow} from '@dbg-riskit/dave-ui-testing';
+import {
+    ActivatedRouteStub,
+    chceckSorting,
+    compileTestBed,
+    HttpAsyncServiceStub,
+    TableBodyRow
+} from '@dbg-riskit/dave-ui-testing';
 
 import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
@@ -20,9 +26,8 @@ import {ROUTES} from '../routes/routing.paths';
 xdescribe('Position reports latest component', () => {
     let page: LatestListPage<PositionReportLatestComponent>;
 
-    beforeEach((done: DoneFn) => {
-        LatestListPage.initTestBed(PositionReportLatestComponent, PositionReportsService)
-            .then(done);
+    compileTestBed(() => {
+        return LatestListPage.initTestBed(PositionReportLatestComponent, PositionReportsService);
     });
 
     beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<PositionReportServerData[]>) => {

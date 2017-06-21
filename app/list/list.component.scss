@@ -1,3 +1,6 @@
+@import "@dbg-riskit/dave-ui-dummy-layout/sass/global";
+@import "@dbg-riskit/dave-ui-dummy-layout/sass/base_typography";
+
 :host {
     .mat-toolbar {
         margin-bottom: 15px;
@@ -21,6 +24,19 @@
 
         & > *:not(.toolbar-spacer) {
             flex: 0 1 auto;
+        }
+
+        & > .mat-input-container {
+            font: {
+                size: mat-font-size($dave-typography-config, subheading-2);
+                weight: mat-font-weight($dave-typography-config, subheading-2);
+            }
+            line-height: normal;
+            margin-bottom: -1.296875em;
+
+            .mat-input-infix {
+                border: 0;
+            }
         }
     }
 }

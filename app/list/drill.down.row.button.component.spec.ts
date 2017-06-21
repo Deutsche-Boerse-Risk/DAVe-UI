@@ -1,6 +1,6 @@
 import {fakeAsync, TestBed} from '@angular/core/testing';
 
-import {LinkOnlyPage, RouterLinkStubDirective} from '@dbg-riskit/dave-ui-testing';
+import {compileTestBed, LinkOnlyPage, RouterLinkStubDirective} from '@dbg-riskit/dave-ui-testing';
 
 import {NoopAnimationsCommonViewModule} from '@dbg-riskit/dave-ui-view';
 
@@ -10,12 +10,11 @@ describe('DrillDownRowButtonComponent', () => {
 
     let page: LinkOnlyPage<DrillDownRowButtonComponent>;
 
-    beforeEach((done: DoneFn) => {
-        TestBed.configureTestingModule({
+    compileTestBed(() => {
+        return TestBed.configureTestingModule({
             imports     : [NoopAnimationsCommonViewModule],
             declarations: [DrillDownRowButtonComponent, RouterLinkStubDirective]
-        }).compileComponents()
-            .then(done);
+        }).compileComponents();
     });
 
     beforeEach(fakeAsync(() => {
