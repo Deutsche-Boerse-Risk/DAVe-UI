@@ -4,7 +4,7 @@ import {COMPONENT_CSS} from '@dbg-riskit/dave-ui-common';
 
 import {RoutePart} from './bread.crumbs.component';
 
-export const FILTER_TIMEOUT = 100;
+export const FILTER_TIMEOUT = 500;
 
 @Component({
     moduleId   : module.id,
