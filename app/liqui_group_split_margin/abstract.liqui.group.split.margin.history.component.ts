@@ -48,6 +48,9 @@ export abstract class AbstractLiquiGroupSplitMarginHistoryComponent
         if (key === 'marginCurrency') {
             part.inactive = true;
         }
+        if (key === 'liquidationGroupSplit') {
+            part.inactive = true;
+        }
         return part;
     }
 

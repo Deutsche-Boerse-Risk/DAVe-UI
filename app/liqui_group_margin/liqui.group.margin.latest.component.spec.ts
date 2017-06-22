@@ -341,20 +341,6 @@ describe('Liquidation Group Margin latest component', () => {
                 page.checkBreadCrumbs(routeParams,
                     ROUTES.LIQUI_GROUP_MARGIN_LATEST,
                     'Latest Liquidation Group Margin');
-
-                routeParams.push('E');
-                activatedRoute.testParams = {
-                    clearer       : routeParams[0],
-                    member        : routeParams[1],
-                    account       : routeParams[2],
-                    marginClass   : routeParams[3],
-                    marginCurrency: routeParams[4]
-                };
-                page.detectChanges();
-
-                page.checkBreadCrumbs(routeParams,
-                    ROUTES.LIQUI_GROUP_MARGIN_LATEST,
-                    'Latest Liquidation Group Margin');
             })));
 
         xit('has correct row navigation', fakeAsync(() => {

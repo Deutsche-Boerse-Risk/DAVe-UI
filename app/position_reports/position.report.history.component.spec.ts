@@ -162,16 +162,17 @@ describe('Position reports history component', () => {
                 clearer              : testingParams[0],
                 member               : testingParams[1],
                 account              : testingParams[2],
-                liquidationGroup     : testingParams[3],
-                liquidationGroupSplit: testingParams[4],
-                product              : testingParams[5],
-                callPut              : testingParams[6],
-                contractYear         : testingParams[7],
-                contractMonth        : testingParams[8],
-                expiryDay            : testingParams[9],
-                exercisePrice        : testingParams[10],
-                version              : testingParams[11],
-                flexContractSymbol   : testingParams[12]
+                underlying           : testingParams[3],
+                liquidationGroup     : testingParams[4],
+                liquidationGroupSplit: testingParams[5],
+                product              : testingParams[6],
+                callPut              : testingParams[7],
+                contractYear         : testingParams[8],
+                contractMonth        : testingParams[9],
+                expiryDay            : testingParams[10],
+                exercisePrice        : testingParams[11],
+                version              : testingParams[12],
+                flexContractSymbol   : testingParams[13]
             });
 
             expect(page.initialLoadComponent)

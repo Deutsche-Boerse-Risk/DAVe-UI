@@ -300,7 +300,7 @@ describe('Liquidation Group Margin history component', () => {
                 page.checkBreadCrumbs(testingParams,
                     ROUTES.LIQUI_GROUP_MARGIN_LATEST,
                     'Liquidation Group Margin History',
-                    false);
+                    false, 1);
 
                 let routeParams = ['A', 'A', 'B', 'C', 'D'];
 
@@ -316,7 +316,7 @@ describe('Liquidation Group Margin history component', () => {
                 page.checkBreadCrumbs(routeParams,
                     ROUTES.LIQUI_GROUP_MARGIN_LATEST,
                     'Liquidation Group Margin History',
-                    false);
+                    false, 1);
             })));
 
         it('has download working', fakeAsync(() => {
