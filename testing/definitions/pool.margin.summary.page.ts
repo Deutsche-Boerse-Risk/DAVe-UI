@@ -1,6 +1,8 @@
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
 
+import {MdCard} from '@angular/material';
+
 import {ComponentFixture} from '@angular/core/testing';
 
 import {Page} from '@dbg-riskit/dave-ui-testing';
@@ -14,7 +16,7 @@ export class PoolMarginSummaryPage extends Page<PoolMarginLatestSummaryComponent
     }
 
     public get panels(): Panel[] {
-        return this.debugElement.queryAll(By.css('.panel')).map((element: DebugElement) => {
+        return this.debugElement.queryAll(By.directive(MdCard)).map((element: DebugElement) => {
             return new Panel(element);
         });
     }
@@ -31,14 +33,14 @@ export class Panel {
     }
 
     public get title(): string {
-        return this.element.query(By.css('.text-right')).query(By.css('div:not(.huge)')).nativeElement.textContent;
+        return this.element.query(By.css('div:not(.huge)')).nativeElement.textContent;
     }
 
     public get green(): boolean {
-        return this.element.nativeElement.classList.contains('panel-green');
+        return this.element.nativeElement.classList.contains('good');
     }
 
     public get red(): boolean {
-        return this.element.nativeElement.classList.contains('panel-red');
+        return this.element.nativeElement.classList.contains('error');
     }
 }

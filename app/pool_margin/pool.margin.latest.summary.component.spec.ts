@@ -6,6 +6,7 @@ import {compileTestBed, HttpAsyncServiceStub} from '@dbg-riskit/dave-ui-testing'
 
 import {ErrorType} from '@dbg-riskit/dave-ui-common';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
+import {NoopAnimationsCommonViewModule} from '@dbg-riskit/dave-ui-view';
 
 import {generatePoolMarginLatest, Panel, PoolMarginSummaryPage} from '@dave/testing';
 
@@ -14,7 +15,7 @@ import {PoolMarginService} from './pool.margin.service';
 
 import {PoolMarginLatestSummaryComponent} from './pool.margin.latest.summary.component';
 
-xdescribe('Pool Margin summary', () => {
+describe('Pool Margin summary', () => {
     let page: PoolMarginSummaryPage;
 
     let labels = ['Margin Shortfall/Surplus', 'Margin Requirement', 'Collateral', 'Cash Balance'];
@@ -22,7 +23,8 @@ xdescribe('Pool Margin summary', () => {
     compileTestBed(() => {
         return TestBed.configureTestingModule({
             imports     : [
-                BrowserModule
+                BrowserModule,
+                NoopAnimationsCommonViewModule
             ],
             declarations: [
                 PoolMarginLatestSummaryComponent

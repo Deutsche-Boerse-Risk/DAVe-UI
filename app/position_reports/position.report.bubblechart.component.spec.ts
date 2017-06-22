@@ -1,15 +1,20 @@
 import {DecimalPipe} from '@angular/common';
-import {NO_ERRORS_SCHEMA} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms';
 
 import {fakeAsync, inject, TestBed} from '@angular/core/testing';
 
-import {compileTestBed, HttpAsyncServiceStub, RouterLinkStubDirective} from '@dbg-riskit/dave-ui-testing';
+import {
+    compileTestBed,
+    GoogleChartStub,
+    HttpAsyncServiceStub,
+    RouterLinkStubDirective
+} from '@dbg-riskit/dave-ui-testing';
 
 import {ErrorType} from '@dbg-riskit/dave-ui-common';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 import {ChartRow} from '@dbg-riskit/dave-ui-charts';
+import {NoopAnimationsCommonViewModule} from '@dbg-riskit/dave-ui-view';
 
 import {BubbleChartPage, generatePositionReports} from '@dave/testing';
 
@@ -32,11 +37,13 @@ xdescribe('Position reports bubble chart component', () => {
         return TestBed.configureTestingModule({
             imports     : [
                 BrowserModule,
+                NoopAnimationsCommonViewModule,
                 FormsModule
             ],
             declarations: [
                 PositionReportBubbleChartComponent,
-                RouterLinkStubDirective
+                RouterLinkStubDirective,
+                GoogleChartStub
             ],
             providers   : [
                 PositionReportsService,
@@ -45,8 +52,7 @@ xdescribe('Position reports bubble chart component', () => {
                     useClass: HttpAsyncServiceStub
                 },
                 DecimalPipe
-            ],
-            schemas     : [NO_ERRORS_SCHEMA]
+            ]
         }).compileComponents();
     });
 
