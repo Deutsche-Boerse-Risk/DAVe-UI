@@ -5,6 +5,7 @@ import {fakeAsync, inject, TestBed} from '@angular/core/testing';
 import {
     chceckSorting,
     compileTestBed,
+    disableMaterialAnimations,
     HttpAsyncServiceStub,
     stubRouter,
     TableBodyRow
@@ -12,7 +13,6 @@ import {
 
 import {AggregationPage, generateLiquiGroupMargin, generateLiquiGroupMarginHistory} from '@dave/testing';
 
-import {CommonModule} from '@angular/common';
 import {ErrorType} from '@dbg-riskit/dave-ui-common';
 import {DataTableModule} from '@dbg-riskit/dave-ui-datatable';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
@@ -24,19 +24,22 @@ import {DATA_REFRESH_INTERVAL} from '../periodic.http.service';
 
 import {LiquiGroupMarginAggregationComponent, valueGetters} from './liqui.group.margin.aggregation.component';
 import {ROUTES} from '../routes/routing.paths';
+import {NoopAnimationsCommonViewModule} from '@dbg-riskit/dave-ui-view';
+import {DrillDownRowButtonComponent} from '../list/drill.down.row.button.component';
 
-xdescribe('Liqui Group Margin aggregation component', () => {
+describe('Liqui Group Margin aggregation component', () => {
     let page: AggregationPage;
 
     compileTestBed(() => {
         TestBed.configureTestingModule({
             imports     : [
-                CommonModule,
+                NoopAnimationsCommonViewModule,
                 DataTableModule,
                 RouterModule
             ],
             declarations: [
-                LiquiGroupMarginAggregationComponent
+                LiquiGroupMarginAggregationComponent,
+                DrillDownRowButtonComponent
             ],
             providers   : [
                 LiquiGroupMarginService,
@@ -46,6 +49,7 @@ xdescribe('Liqui Group Margin aggregation component', () => {
                 }
             ]
         });
+        disableMaterialAnimations(DataTableModule);
         return stubRouter().compileComponents();
     });
 
@@ -69,7 +73,7 @@ xdescribe('Liqui Group Margin aggregation component', () => {
                 .toBeNull('No data component not visible.');
             expect(page.updateFailedComponent)
                 .toBeNull('Update failed component not visible.');
-            expect(page.dataTable.element)
+            expect(page.dataTable.debugElement)
                 .toBeNull('Data table not visible.');
 
             // Return error
@@ -86,7 +90,7 @@ xdescribe('Liqui Group Margin aggregation component', () => {
                 .toBeNull('No data component not visible.');
             expect(page.updateFailedComponent).not
                 .toBeNull('Update failed component visible.');
-            expect(page.dataTable.element)
+            expect(page.dataTable.debugElement)
                 .toBeNull('Data table not visible.');
         })));
 
@@ -103,7 +107,7 @@ xdescribe('Liqui Group Margin aggregation component', () => {
                 .toBeNull('No data component not visible.');
             expect(page.updateFailedComponent)
                 .toBeNull('Update failed component not visible.');
-            expect(page.dataTable.element)
+            expect(page.dataTable.debugElement)
                 .toBeNull('Data table not visible.');
 
             // Return no data
@@ -117,7 +121,7 @@ xdescribe('Liqui Group Margin aggregation component', () => {
                 .toBeNull('No data component visible.');
             expect(page.updateFailedComponent)
                 .toBeNull('Update failed component not visible.');
-            expect(page.dataTable.element)
+            expect(page.dataTable.debugElement)
                 .toBeNull('Data table not visible.');
         })));
 
@@ -130,7 +134,7 @@ xdescribe('Liqui Group Margin aggregation component', () => {
         expect(page.initialLoadComponent).not.toBeNull('Initial load component visible.');
         expect(page.noDataComponent).toBeNull('No data component not visible.');
         expect(page.updateFailedComponent).toBeNull('Update failed component not visible.');
-        expect(page.dataTable.element).toBeNull('Data table not visible.');
+        expect(page.dataTable.debugElement).toBeNull('Data table not visible.');
 
         // Return data
         page.advanceHTTP();
@@ -138,7 +142,7 @@ xdescribe('Liqui Group Margin aggregation component', () => {
         expect(page.initialLoadComponent).toBeNull('Initial load component not visible.');
         expect(page.noDataComponent).toBeNull('No data component not visible.');
         expect(page.updateFailedComponent).toBeNull('Update failed component not visible.');
-        expect(page.dataTable.element).not.toBeNull('Data table visible.');
+        expect(page.dataTable.debugElement).not.toBeNull('Data table visible.');
 
         // Fire highlighters
         page.advanceHighlighter();
@@ -157,7 +161,7 @@ xdescribe('Liqui Group Margin aggregation component', () => {
                 .toBeNull('No data component not visible.');
             expect(page.updateFailedComponent)
                 .toBeNull('Update failed component not visible.');
-            expect(page.dataTable.element).not
+            expect(page.dataTable.debugElement).not
                 .toBeNull('Data table visible.');
 
             expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
@@ -178,7 +182,7 @@ xdescribe('Liqui Group Margin aggregation component', () => {
             page.advanceAndDetectChangesUsingOffset(DATA_REFRESH_INTERVAL);
             page.advanceHTTP();
 
-            expect(page.dataTable.element).not
+            expect(page.dataTable.debugElement).not
                 .toBeNull('Data table visible.');
 
             expect(page.dataTable.body.rows.every((row: TableBodyRow) => {
@@ -224,7 +228,7 @@ xdescribe('Liqui Group Margin aggregation component', () => {
         page.advanceHighlighter();
     }));
 
-    xdescribe('(after data are ready)', () => {
+    describe('(after data are ready)', () => {
         beforeEach(fakeAsync(() => {
             // Init component
             page.detectChanges();
