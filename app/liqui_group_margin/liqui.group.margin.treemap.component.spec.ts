@@ -1,13 +1,19 @@
-import {NO_ERRORS_SCHEMA} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {Router} from '@angular/router';
 
 import {fakeAsync, inject, TestBed} from '@angular/core/testing';
 
-import {compileTestBed, HttpAsyncServiceStub, RouterLinkStubDirective, RouterStub} from '@dbg-riskit/dave-ui-testing';
+import {
+    compileTestBed,
+    GoogleChartStub,
+    HttpAsyncServiceStub,
+    RouterLinkStubDirective,
+    RouterStub
+} from '@dbg-riskit/dave-ui-testing';
 
 import {ErrorType} from '@dbg-riskit/dave-ui-common';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
+import {NoopAnimationsCommonViewModule} from '@dbg-riskit/dave-ui-view';
 
 import {generateLiquiGroupMargin, TreeMapPage} from '@dave/testing';
 
@@ -17,17 +23,19 @@ import {LiquiGroupMarginTreemapComponent} from './liqui.group.margin.treemap.com
 import {LiquiGroupMarginServerData} from './liqui.group.margin.types';
 import {ROUTES} from '../routes/routing.paths';
 
-xdescribe('Margin components TreeMap component', () => {
+describe('Margin components TreeMap component', () => {
     let page: TreeMapPage;
 
     compileTestBed(() => {
         return TestBed.configureTestingModule({
             imports     : [
-                BrowserModule
+                BrowserModule,
+                NoopAnimationsCommonViewModule
             ],
             declarations: [
                 LiquiGroupMarginTreemapComponent,
-                RouterLinkStubDirective
+                RouterLinkStubDirective,
+                GoogleChartStub
             ],
             providers   : [
                 LiquiGroupMarginService,
@@ -39,8 +47,7 @@ xdescribe('Margin components TreeMap component', () => {
                     provide : Router,
                     useClass: RouterStub
                 }
-            ],
-            schemas     : [NO_ERRORS_SCHEMA]
+            ]
         }).compileComponents();
     });
 

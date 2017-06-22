@@ -16,16 +16,16 @@ import {AggregationPage, generateLiquiGroupMargin, generateLiquiGroupMarginHisto
 import {ErrorType} from '@dbg-riskit/dave-ui-common';
 import {DataTableModule} from '@dbg-riskit/dave-ui-datatable';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
+import {NoopAnimationsCommonViewModule} from '@dbg-riskit/dave-ui-view';
 
 import {LiquiGroupMarginService} from './liqui.group.margin.service';
 import {LiquiGroupMarginServerData} from './liqui.group.margin.types';
 
 import {DATA_REFRESH_INTERVAL} from '../periodic.http.service';
+import {DrillDownRowButtonComponent} from '../list/drill.down.row.button.component';
 
 import {LiquiGroupMarginAggregationComponent, valueGetters} from './liqui.group.margin.aggregation.component';
 import {ROUTES} from '../routes/routing.paths';
-import {NoopAnimationsCommonViewModule} from '@dbg-riskit/dave-ui-view';
-import {DrillDownRowButtonComponent} from '../list/drill.down.row.button.component';
 
 describe('Liqui Group Margin aggregation component', () => {
     let page: AggregationPage;
