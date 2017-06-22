@@ -31,7 +31,13 @@ describe('Variation / Premium Margin history component', () => {
 
     compileTestBed(() => {
         return HistoryListPage.initTestBed(VariationPremiumMarginHistoryComponent, LiquiGroupSplitMarginService);
-    });
+    }, fakeAsync(inject([HttpService],
+        (http: HttpAsyncServiceStub<any>) => {
+            // Generate test data
+            http.returnValue([]);
+            // Push empty array
+            page.advanceHTTP();
+        })));
 
     beforeEach(fakeAsync(inject([HttpService, ActivatedRoute],
         (http: HttpAsyncServiceStub<LiquiGroupSplitMarginServerData[]>,

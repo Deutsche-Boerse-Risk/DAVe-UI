@@ -33,7 +33,13 @@ describe('Risk limit utilization latest component', () => {
 
     compileTestBed(() => {
         return LatestListPage.initTestBed(RiskLimitUtilizationLatestComponent, RiskLimitUtilizationService);
-    });
+    }, fakeAsync(inject([HttpService],
+        (http: HttpAsyncServiceStub<any>) => {
+            // Generate test data
+            http.returnValue([]);
+            // Push empty array
+            page.advanceHTTP();
+        })));
 
     beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<RiskLimitUtilizationServerData[]>) => {
         // Generate test data

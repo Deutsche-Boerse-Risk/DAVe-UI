@@ -29,7 +29,13 @@ describe('Pool Margin latest component', () => {
 
     compileTestBed(() => {
         return LatestListPage.initTestBed(PoolMarginLatestComponent, PoolMarginService);
-    });
+    }, fakeAsync(inject([HttpService],
+        (http: HttpAsyncServiceStub<any>) => {
+            // Generate test data
+            http.returnValue([]);
+            // Push empty array
+            page.advanceHTTP();
+        })));
 
     beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<PoolMarginServerData[]>) => {
         // Generate test data

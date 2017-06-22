@@ -33,7 +33,13 @@ describe('Initial Margin latest component', () => {
 
     compileTestBed(() => {
         return LatestListPage.initTestBed(InitialMarginLatestComponent, LiquiGroupSplitMarginService);
-    });
+    }, fakeAsync(inject([HttpService],
+        (http: HttpAsyncServiceStub<any>) => {
+            // Generate test data
+            http.returnValue([]);
+            // Push empty array
+            page.advanceHTTP();
+        })));
 
     beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<LiquiGroupSplitMarginServerData[]>) => {
         // Generate test data

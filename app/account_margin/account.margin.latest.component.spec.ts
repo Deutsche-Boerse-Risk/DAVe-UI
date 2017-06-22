@@ -29,7 +29,13 @@ describe('Account margin latest component', () => {
 
     compileTestBed(() => {
         return LatestListPage.initTestBed(AccountMarginLatestComponent, AccountMarginService);
-    });
+    }, fakeAsync(inject([HttpService],
+        (http: HttpAsyncServiceStub<any>) => {
+            // Generate test data
+            http.returnValue([]);
+            // Push empty array
+            page.advanceHTTP();
+        })));
 
     beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<AccountMarginServerData[]>) => {
         // Generate test data

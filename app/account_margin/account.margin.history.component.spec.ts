@@ -31,7 +31,13 @@ describe('Account margin history component', () => {
 
     compileTestBed(() => {
         return HistoryListPage.initTestBed(AccountMarginHistoryComponent, AccountMarginService);
-    });
+    }, fakeAsync(inject([HttpService],
+        (http: HttpAsyncServiceStub<any>) => {
+            // Generate test data
+            http.returnValue([]);
+            // Push empty array
+            page.advanceHTTP();
+        })));
 
     beforeEach(fakeAsync(inject([HttpService, ActivatedRoute],
         (http: HttpAsyncServiceStub<AccountMarginServerData[]>,

@@ -31,7 +31,13 @@ describe('Liquidation Group Margin history component', () => {
 
     compileTestBed(() => {
         return HistoryListPage.initTestBed(LiquiGroupMarginHistoryComponent, LiquiGroupMarginService);
-    });
+    }, fakeAsync(inject([HttpService],
+        (http: HttpAsyncServiceStub<any>) => {
+            // Generate test data
+            http.returnValue([]);
+            // Push empty array
+            page.advanceHTTP();
+        })));
 
     beforeEach(fakeAsync(inject([HttpService, ActivatedRoute],
         (http: HttpAsyncServiceStub<LiquiGroupMarginServerData[]>,
