@@ -1,5 +1,5 @@
 // /*global jasmine, __karma__, window*/
-Error.stackTraceLimit = 0;
+Error.stackTraceLimit = 10;
 
 // Add a global variable to know if the google charts lib was loaded
 window.googleLoaded = false;
