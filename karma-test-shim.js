@@ -1,5 +1,5 @@
 // /*global jasmine, __karma__, window*/
-Error.stackTraceLimit = 10;
+Error.stackTraceLimit = 0;
 
 // Add a global variable to know if the google charts lib was loaded
 window.googleLoaded = false;
@@ -7,6 +7,12 @@ window.googleLoaded = false;
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 5000;
 // Never brake component compilations
 window.COMPILE_TIMEOUT_INTERVAL = Math.pow(2, 31) - 1;
+
+// TODO: Quick fix for memory leaks
+window.addEventListener = function () {
+};
+window.document.addEventListener = function () {
+};
 
 // builtPaths: root paths for output ("built") files
 // get from karma.config.js, then prefix with '/base/' (default is '')
