@@ -49,6 +49,8 @@ describe('Margin components TreeMap component', () => {
                 }
             ]
         }).compileComponents();
+    }, () => {
+        page = null;
     });
 
     beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<LiquiGroupMarginServerData[]>) => {

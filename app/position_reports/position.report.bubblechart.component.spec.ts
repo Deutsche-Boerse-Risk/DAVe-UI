@@ -54,6 +54,8 @@ xdescribe('Position reports bubble chart component', () => {
                 DecimalPipe
             ]
         }).compileComponents();
+    }, () => {
+        page = null;
     });
 
     beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<PositionReportServerData[]>) => {

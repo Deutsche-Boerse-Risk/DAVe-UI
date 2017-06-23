@@ -51,6 +51,8 @@ describe('Liqui Group Margin aggregation component', () => {
         });
         disableMaterialAnimations(DataTableModule);
         return stubRouter().compileComponents();
+    }, () => {
+        page = null;
     });
 
     beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<LiquiGroupMarginServerData[]>) => {

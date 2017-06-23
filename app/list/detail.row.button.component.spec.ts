@@ -15,6 +15,8 @@ describe('DetailRowButtonComponent', () => {
             imports     : [NoopAnimationsCommonViewModule],
             declarations: [DetailRowButtonComponent, RouterLinkStubDirective]
         }).compileComponents();
+    }, () => {
+        page = null;
     });
 
     beforeEach(fakeAsync(() => {

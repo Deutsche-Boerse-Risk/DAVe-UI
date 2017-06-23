@@ -37,6 +37,8 @@ describe('Pool Margin summary', () => {
                 }
             ]
         }).compileComponents();
+    }, () => {
+        page = null;
     });
 
     beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<PoolMarginServerData[]>) => {

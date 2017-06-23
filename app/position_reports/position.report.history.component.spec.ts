@@ -37,6 +37,7 @@ describe('Position reports history component', () => {
             http.returnValue([]);
             // Push empty array
             page.advanceHTTP();
+            page = null;
         })));
 
     beforeEach(fakeAsync(inject([HttpService, ActivatedRoute],

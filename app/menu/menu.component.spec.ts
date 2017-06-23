@@ -27,6 +27,8 @@ describe('Menu component', () => {
             imports: [MenuModule]
         });
         return stubRouter().compileComponents();
+    }, () => {
+        page = null;
     });
 
     beforeEach(fakeAsync(() => {

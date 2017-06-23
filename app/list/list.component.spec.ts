@@ -70,6 +70,8 @@ describe('ListComponent', () => {
         disableMaterialAnimations(ListModule);
         disableMaterialAnimations(FileModule);
         return stubRouter().compileComponents();
+    }, () => {
+        page = null;
     });
 
     beforeEach(fakeAsync(() => {

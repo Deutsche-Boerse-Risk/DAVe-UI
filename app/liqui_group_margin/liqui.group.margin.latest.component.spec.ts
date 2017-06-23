@@ -35,6 +35,7 @@ describe('Liquidation Group Margin latest component', () => {
             http.returnValue([]);
             // Push empty array
             page.advanceHTTP();
+            page = null;
         })));
 
     beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<LiquiGroupMarginServerData[]>) => {

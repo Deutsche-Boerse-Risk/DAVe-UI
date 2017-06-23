@@ -1,13 +1,7 @@
 import {NO_ERRORS_SCHEMA} from '@angular/core';
 import {fakeAsync, inject, TestBed} from '@angular/core/testing';
 
-import {
-    AuthServiceStub,
-    compileTestBed,
-    fakeMatchMedia,
-    RouterOutletStub,
-    stubRouter
-} from '@dbg-riskit/dave-ui-testing';
+import {AuthServiceStub, compileTestBed, RouterOutletStub, stubRouter} from '@dbg-riskit/dave-ui-testing';
 
 import {AUTH_PROVIDER, LOGIN_ROUTE, MAIN_LOGO, MAIN_ROUTE} from '@dbg-riskit/dave-ui-common';
 import {AuthService} from '@dbg-riskit/dave-ui-auth';
@@ -22,12 +16,8 @@ import {AppComponent} from './app.component';
 describe('AppComponent', () => {
 
     let page: AppComponentPage;
-    let matchMedia: any;
 
     compileTestBed(() => {
-        matchMedia = window.matchMedia;
-        window.matchMedia = fakeMatchMedia();
-
         TestBed.configureTestingModule({
             imports     : [NoopAnimationsCommonViewModule],
             declarations: [
@@ -62,7 +52,7 @@ describe('AppComponent', () => {
         });
         return stubRouter().compileComponents();
     }, () => {
-        window.matchMedia = matchMedia;
+        page = null;
     });
 
     beforeEach(fakeAsync(() => {

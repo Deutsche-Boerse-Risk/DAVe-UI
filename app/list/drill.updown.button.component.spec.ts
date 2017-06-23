@@ -15,6 +15,8 @@ describe('DrillUpDownButtonComponent', () => {
             imports     : [NoopAnimationsCommonViewModule],
             declarations: [DrillUpDownButtonComponent, RouterLinkStubDirective]
         }).compileComponents();
+    }, () => {
+        page = null;
     });
 
     beforeEach(fakeAsync(() => {
