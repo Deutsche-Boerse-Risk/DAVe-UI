@@ -36,7 +36,7 @@ function initApp() {
             '@dbg-riskit/dave-ui-charts': 'npm:@dbg-riskit/dave-ui-charts/bundles/dave-ui-charts.cjs.js',
             '@dbg-riskit/dave-ui-common': 'npm:@dbg-riskit/dave-ui-common/bundles/dave-ui-common.cjs.js',
             '@dbg-riskit/dave-ui-datatable': 'npm:@dbg-riskit/dave-ui-datatable/bundles/dave-ui-datatable.cjs.js',
-            '@dbg-riskit/dave-ui-dbg-layout': 'npm:@dbg-riskit/dave-ui-dummy-layout/bundles/dave-ui-dbg-layout.cjs.js',
+            '@dbg-riskit/dave-ui-dbg-layout': 'npm:@dbg-riskit/dave-ui-dbg-layout/bundles/dave-ui-dbg-layout.cjs.js',
             '@dbg-riskit/dave-ui-dummy-layout': 'npm:@dbg-riskit/dave-ui-dummy-layout/bundles/dave-ui-dummy-layout.cjs.js',
             '@dbg-riskit/dave-ui-error': 'npm:@dbg-riskit/dave-ui-error/bundles/dave-ui-error.cjs.js',
             '@dbg-riskit/dave-ui-file': 'npm:@dbg-riskit/dave-ui-file/bundles/dave-ui-file.cjs.js',

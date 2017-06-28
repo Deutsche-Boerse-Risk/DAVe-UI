@@ -52,7 +52,6 @@ module.exports = function (config) {
     ]);
 
     // Proxied base paths for loading assets
-
     // remap resources
     config.proxies['/resources/'] = '/base/node_modules/@dbg-riskit/' + layout + '/resources/';
 };
