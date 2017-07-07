@@ -1,6 +1,7 @@
+import {map} from '@angular/cdk';
 import {Injectable} from '@angular/core';
 
-import {DateUtils, UIDUtils} from '@dbg-riskit/dave-ui-common';
+import {DateUtils, RxChain, StrictRxChain, UIDUtils} from '@dbg-riskit/dave-ui-common';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 
 import {Observable} from 'rxjs/Observable';
@@ -22,9 +23,9 @@ export class PoolMarginService {
     constructor(private http: HttpService<PoolMarginServerData[]>) {
     }
 
-    public getPoolMarginSummaryData(): Observable<PoolMarginSummaryData> {
-        return this.http.get({resourceURL: poolMarginLatestURL}).map(
-            (data: PoolMarginServerData[]) => {
+    public getPoolMarginSummaryData(): Observable<PoolMarginSummaryData | {}> {
+        return RxChain.from(this.http.get({resourceURL: poolMarginLatestURL}))
+            .call(map, (data: PoolMarginServerData[]) => {
                 if (!data) {
                     return {};
                 }
@@ -43,23 +44,23 @@ export class PoolMarginService {
                     result.cashBalance += record.cashCollateralAmount + record.variPremInMarginCurr;
                 });
                 return result;
-            });
+            }).result();
     }
 
     public getPoolMarginLatest(params: PoolMarginParams): Observable<PoolMarginData[]> {
-        return this.loadData(poolMarginLatestURL, params);
+        return this.loadData(poolMarginLatestURL, params).result();
     }
 
     public getPoolMarginHistory(params: PoolMarginHistoryParams): Observable<PoolMarginData[]> {
-        return this.loadData(poolMarginHistoryURL, params);
+        return this.loadData(poolMarginHistoryURL, params).result();
     }
 
-    private loadData(url: string, params: PoolMarginParams): Observable<PoolMarginData[]> {
-        return this.http.get({
+    private loadData(url: string, params: PoolMarginParams): StrictRxChain<PoolMarginData[]> {
+        return RxChain.from(this.http.get({
             resourceURL: url,
             params     : params
-        }).map((data: PoolMarginServerData[]) => data || [])
-            .map((data: PoolMarginServerData[]) => data.map(PoolMarginService.processPoolMarginData));
+        })).call(map, (data: PoolMarginServerData[]) => data || [])
+            .call(map, (data: PoolMarginServerData[]) => data.map(PoolMarginService.processPoolMarginData));
     }
 
     private static processPoolMarginData(record: PoolMarginServerData): PoolMarginData {

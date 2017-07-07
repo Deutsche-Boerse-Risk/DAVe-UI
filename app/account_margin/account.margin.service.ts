@@ -1,6 +1,7 @@
+import {map} from '@angular/cdk';
 import {Injectable} from '@angular/core';
 
-import {DateUtils, UIDUtils} from '@dbg-riskit/dave-ui-common';
+import {DateUtils, RxChain, UIDUtils} from '@dbg-riskit/dave-ui-common';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 
 import {Observable} from 'rxjs/Observable';
@@ -22,19 +23,20 @@ export class AccountMarginService {
     }
 
     public getAccountMarginLatest(params: AccountMarginParams): Observable<AccountMarginData[]> {
-        return this.loadData(accountMarginLatestURL, params);
+        return this.loadData(accountMarginLatestURL, params).result();
     }
 
     public getAccountMarginHistory(params: AccountMarginHistoryParams): Observable<AccountMarginData[]> {
-        return this.loadData(accountMarginHistoryURL, params);
+        return this.loadData(accountMarginHistoryURL, params).result();
     }
 
     private loadData(url: string, params: AccountMarginParams) {
-        return this.http.get({
+        return RxChain.from(this.http.get({
             resourceURL: url,
             params     : params
-        }).map((data: AccountMarginServerData[]) => data || [])
-            .map((data: AccountMarginServerData[]) => data.map(AccountMarginService.processAccountMarginDataRow));
+        })).call(map, (data: AccountMarginServerData[]) => data || [])
+            .call(map, (data: AccountMarginServerData[]) =>
+                data.map(AccountMarginService.processAccountMarginDataRow));
     }
 
     private static processAccountMarginDataRow(record: AccountMarginServerData): AccountMarginData {

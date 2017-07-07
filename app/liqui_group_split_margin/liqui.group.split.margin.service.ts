@@ -1,6 +1,7 @@
+import {map} from '@angular/cdk';
 import {Injectable} from '@angular/core';
 
-import {DateUtils, UIDUtils} from '@dbg-riskit/dave-ui-common';
+import {DateUtils, RxChain, StrictRxChain, UIDUtils} from '@dbg-riskit/dave-ui-common';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 
 import {Observable} from 'rxjs/Observable';
@@ -22,19 +23,19 @@ export class LiquiGroupSplitMarginService {
     }
 
     public getLiquiGroupSplitMarginLatest(params: LiquiGroupSplitMarginParams): Observable<LiquiGroupSplitMarginData[]> {
-        return this.loadData(liquiGroupSplitMarginLatestURL, params);
+        return this.loadData(liquiGroupSplitMarginLatestURL, params).result();
     }
 
     public getLiquiGroupSplitMarginHistory(params: LiquiGroupSplitMarginHistoryParams): Observable<LiquiGroupSplitMarginData[]> {
-        return this.loadData(liquiGroupSplitMarginHistoryURL, params);
+        return this.loadData(liquiGroupSplitMarginHistoryURL, params).result();
     }
 
-    private loadData(url: string, params: LiquiGroupSplitMarginParams): Observable<LiquiGroupSplitMarginData[]> {
-        return this.http.get({
+    private loadData(url: string, params: LiquiGroupSplitMarginParams): StrictRxChain<LiquiGroupSplitMarginData[]> {
+        return RxChain.from(this.http.get({
             resourceURL: url,
             params     : params
-        }).map((data: LiquiGroupSplitMarginServerData[]) => data || [])
-            .map((data: LiquiGroupSplitMarginServerData[]) => data.map(
+        })).call(map, (data: LiquiGroupSplitMarginServerData[]) => data || [])
+            .call(map, (data: LiquiGroupSplitMarginServerData[]) => data.map(
                 LiquiGroupSplitMarginService.processLiquiGroupSplitMarginData));
     }
 

@@ -1,6 +1,7 @@
+import {map} from '@angular/cdk';
 import {Injectable} from '@angular/core';
 
-import {DateUtils, UIDUtils} from '@dbg-riskit/dave-ui-common';
+import {DateUtils, RxChain, StrictRxChain, UIDUtils} from '@dbg-riskit/dave-ui-common';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 
 import {Observable} from 'rxjs/Observable';
@@ -28,18 +29,18 @@ export class LiquiGroupMarginService {
     }
 
     public getLiquiGroupMarginTreeMapData(): Observable<LiquiGroupMarginTree> {
-        return this.http.get({resourceURL: liquiGroupMarginTreemapURL}).map(
-            (data: LiquiGroupMarginServerData[]) => {
+        return RxChain.from(this.http.get({resourceURL: liquiGroupMarginTreemapURL}))
+            .call(map, (data: LiquiGroupMarginServerData[]) => {
                 if (!data || !data.length) {
                     return {
                         traverseDF: () => {
                         }
-                    };
+                    } as any;
                 }
                 let members: { [key: string]: boolean } = {};
                 let accounts: { [key: string]: boolean } = {};
                 let classes: { [key: string]: boolean } = {};
-                let tree = new LiquiGroupMarginTree({
+                let tree: LiquiGroupMarginTree = new LiquiGroupMarginTree({
                     id   : 'all',
                     text : 'all',
                     value: 0
@@ -137,14 +138,14 @@ export class LiquiGroupMarginService {
                     }
                 });
                 return tree;
-            });
+            }).result();
     }
 
     public getLiquiGroupMarginAggregationData(): Observable<LiquiGroupMarginAggregationData> {
-        return this.http.get({resourceURL: liquiGroupMarginAggregationURL}).map(
-            (data: LiquiGroupMarginServerData[]) => {
+        return RxChain.from(this.http.get({resourceURL: liquiGroupMarginAggregationURL}))
+            .call(map, (data: LiquiGroupMarginServerData[]) => {
                 if (!data) {
-                    return {};
+                    return {} as LiquiGroupMarginAggregationData;
                 }
                 let newViewWindow: { [key: string]: LiquiGroupMarginData } = {};
                 let footerData: LiquiGroupMarginBaseData = {
@@ -187,23 +188,24 @@ export class LiquiGroupMarginService {
                     }),
                     summary       : footerData
                 };
-            });
+            }).result();
     }
 
     public getLiquiGroupMarginLatest(params: LiquiGroupMarginParams): Observable<LiquiGroupMarginData[]> {
-        return this.loadData(liquiGroupMarginLatestURL, params);
+        return this.loadData(liquiGroupMarginLatestURL, params).result();
     }
 
     public getLiquiGroupMarginHistory(params: LiquiGroupMarginHistoryParams): Observable<LiquiGroupMarginData[]> {
-        return this.loadData(liquiGroupMarginHistoryURL, params);
+        return this.loadData(liquiGroupMarginHistoryURL, params).result();
     }
 
-    private loadData(url: string, params: LiquiGroupMarginParams): Observable<LiquiGroupMarginData[]> {
-        return this.http.get({
+    private loadData(url: string, params: LiquiGroupMarginParams): StrictRxChain<LiquiGroupMarginData[]> {
+        return RxChain.from(this.http.get({
             resourceURL: url,
             params     : params
-        }).map((data: LiquiGroupMarginServerData[]) => data || [])
-            .map((data: LiquiGroupMarginServerData[]) => data.map(LiquiGroupMarginService.processLiquiGroupMarginData));
+        })).call(map, (data: LiquiGroupMarginServerData[]) => data || [])
+            .call(map, (data: LiquiGroupMarginServerData[]) =>
+                data.map(LiquiGroupMarginService.processLiquiGroupMarginData));
     }
 
     private static processLiquiGroupMarginData(record: LiquiGroupMarginServerData): LiquiGroupMarginData {
