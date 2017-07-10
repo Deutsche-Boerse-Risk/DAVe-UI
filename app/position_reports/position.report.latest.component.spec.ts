@@ -24,7 +24,7 @@ import {DATA_REFRESH_INTERVAL} from '../periodic.http.service';
 import {exportKeys, PositionReportLatestComponent, valueGetters} from './position.report.latest.component';
 import {ROUTES} from '../routes/routing.paths';
 
-xdescribe('Position reports latest component', () => {
+describe('Position reports latest component', () => {
     let page: LatestListPage<PositionReportLatestComponent>;
 
     compileTestBed(() => {
