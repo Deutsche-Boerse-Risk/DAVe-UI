@@ -551,10 +551,17 @@ describe('Position reports latest component', () => {
 
         it('can be sorted correctly', fakeAsync(() => {
             chceckSorting(page, [
-                valueGetters.member, valueGetters.account, valueGetters.product,
-                valueGetters.callPut, valueGetters.contractYear, valueGetters.contractMonth,
-                valueGetters.expiryDay, valueGetters.exercisePrice, valueGetters.version, valueGetters.netQuantityLs,
-                valueGetters.compVar, valueGetters.normalizedDelta, valueGetters.compLiquidityAddOn
+                valueGetters.member,
+                valueGetters.account,
+                valueGetters.product,
+                valueGetters.callPut,
+                valueGetters.contractDate,
+                valueGetters.exercisePrice,
+                valueGetters.version,
+                valueGetters.netQuantityLs,
+                valueGetters.compVar,
+                valueGetters.normalizedDelta,
+                valueGetters.compLiquidityAddOn
             ]);
 
             // Fire highlighters

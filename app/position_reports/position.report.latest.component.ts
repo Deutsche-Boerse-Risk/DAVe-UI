@@ -166,16 +166,8 @@ export const exportKeys: CSVExportColumn<PositionReportData>[] = [
         header: 'Version'
     },
     {
-        get   : valueGetters.contractYear,
-        header: 'Contract year'
-    },
-    {
-        get   : valueGetters.contractMonth,
-        header: 'Contract month'
-    },
-    {
-        get   : valueGetters.expiryDay,
-        header: 'Expiry day'
+        get   : (row: PositionReportData) => row.contractMonth + '/' + row.contractYear,
+        header: 'Maturity'
     },
     {
         get   : valueGetters.netQuantityLs,
