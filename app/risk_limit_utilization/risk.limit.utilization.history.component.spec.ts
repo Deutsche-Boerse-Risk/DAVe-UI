@@ -327,9 +327,9 @@ describe('Risk limit utilization history component', () => {
             expect(exportedData).not.toBeNull();
             expect(exportedData.split('\n')[0]).toEqual(exportKeys.map(
                 (key: CSVExportColumn<any>) => key.header).join(','));
+            let data = page.dataTable.data;
             expect(exportedData.split('\n')[1]).toContain(exportKeys.slice(0, exportKeys.length - 1).map(
-                (key: CSVExportColumn<any>) =>
-                    key.get(page.dataTable.data[0]) ? key.get(page.dataTable.data[0]).toString() : '')
+                (key: CSVExportColumn<any>) => key.get(data[0]) ? key.get(data[0]).toString() : '')
                 .join(','));
             let cells = exportedData.split('\n')[1].split(',');
             expect(cells[cells.length - 1])

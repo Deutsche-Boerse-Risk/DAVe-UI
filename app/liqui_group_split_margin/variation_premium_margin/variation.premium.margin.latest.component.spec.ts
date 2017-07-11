@@ -262,17 +262,20 @@ describe('Variation / Premium Margin latest component', () => {
         }));
 
         it('has filtering working', fakeAsync(() => {
-            let firstRow = page.dataTable.data[0];
-            let originalItems = page.dataTable.data.length;
+            let data = page.dataTable.data;
+            let firstRow = data[0];
+            let originalItems = data.length;
             let items = originalItems;
             let filter = '';
             let idParts = firstRow.uid.split('-');
             for (let id of idParts) {
                 filter += id + ' ';
                 page.filter(filter);
-                expect(items >= page.dataTable.data.length).toBeTruthy();
-                items = page.dataTable.data.length;
-                page.dataTable.data.forEach((row: LiquiGroupSplitMarginData) => {
+                data = page.dataTable.data;
+
+                expect(items >= data.length).toBeTruthy();
+                items = data.length;
+                data.forEach((row: LiquiGroupSplitMarginData) => {
                     expect(filter.trim().split(' ').every(
                         (part: string) => page.component.matchObject(row, part)))
                         .toBeTruthy('Has to contain all parts of the filter.');
@@ -281,13 +284,15 @@ describe('Variation / Premium Margin latest component', () => {
 
             // Clear the field
             page.filter('');
+            data = page.dataTable.data;
 
-            expect(page.dataTable.data.length).toBe(originalItems);
+            expect(data.length).toBe(originalItems);
 
             filter = idParts.join(' ');
             page.filter(filter);
+            data = page.dataTable.data;
 
-            page.dataTable.data.forEach((row: LiquiGroupSplitMarginData) => {
+            data.forEach((row: LiquiGroupSplitMarginData) => {
                 expect(idParts.every(
                     (part: string) => page.component.matchObject(row, part)))
                     .toBeTruthy('Has to contain all parts of the filter.');
@@ -365,9 +370,9 @@ describe('Variation / Premium Margin latest component', () => {
             expect(exportedData).not.toBeNull();
             expect(exportedData.split('\n')[0]).toEqual(exportKeys.map(
                 (key: CSVExportColumn<any>) => key.header).join(','));
+            let data = page.dataTable.data;
             expect(exportedData.split('\n')[1]).toContain(exportKeys.slice(0, exportKeys.length - 1).map(
-                (key: CSVExportColumn<any>) =>
-                    key.get(page.dataTable.data[0]) ? key.get(page.dataTable.data[0]).toString() : '')
+                (key: CSVExportColumn<any>) => key.get(data[0]) ? key.get(data[0]).toString() : '')
                 .join(','));
             let cells = exportedData.split('\n')[1].split(',');
             expect(cells[cells.length - 1])
