@@ -16,7 +16,7 @@ node_modules/
 !gruntfile.js
 !selectedLayout.js
 !restUrl.js
-!ie.intl.shim.js
+!intl.perf.patch.js
 !systemjs.config.js
 
 # Test files

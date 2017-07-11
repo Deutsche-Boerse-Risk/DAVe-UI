@@ -48,7 +48,9 @@ module.exports = function (config) {
             pattern: 'node_modules/@dbg-riskit/' + layout + '/resources/img/**/*.svg',
             included: false,
             watched: false
-        }
+        },
+
+        'intl.perf.patch.js'
     ]);
 
     // Proxied base paths for loading assets
