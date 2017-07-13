@@ -1,12 +1,13 @@
-import {Component, ElementRef, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, Input} from '@angular/core';
 
 import {COMPONENT_CSS} from '@dbg-riskit/dave-ui-common';
 
 @Component({
-    moduleId   : module.id,
-    selector   : 'drilldown-button, drillup-button',
-    templateUrl: 'drill.updown.button.component.html',
-    styleUrls  : ['../../' + COMPONENT_CSS]
+    moduleId       : module.id,
+    selector       : 'drilldown-button, drillup-button',
+    templateUrl    : 'drill.updown.button.component.html',
+    styleUrls      : ['../../' + COMPONENT_CSS],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DrillUpDownButtonComponent {
 

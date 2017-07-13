@@ -21,12 +21,11 @@ describe('DrillDownRowButtonComponent', () => {
 
     beforeEach(fakeAsync(() => {
         page = new LinkOnlyPage<DrillDownRowButtonComponent>(TestBed.createComponent(DrillDownRowButtonComponent));
+        page.component.routerLink = ['/test', 'url'];
         page.detectChanges();
     }));
 
     it('navigates correctly', fakeAsync(() => {
-        page.component.routerLink = ['/test', 'url'];
-        page.detectChanges();
 
         let navigateSpy = spyOn(page.link.stub, 'onClick').and.callThrough();
 
