@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {ChangeDetectorRef, Component} from '@angular/core';
 import {By} from '@angular/platform-browser';
 
 import {fakeAsync, TestBed} from '@angular/core/testing';
@@ -39,8 +39,8 @@ class TestComponent {
     public drilldownRouterLink: any[] | string;
     public drillupRouterLink: any[] | string;
 
-    constructor() {
-        this.dataTable = new DataTableComponent();
+    constructor(_changeDetectorRef: ChangeDetectorRef) {
+        this.dataTable = new DataTableComponent(_changeDetectorRef);
     }
 
     public set data(rows: any[]) {
