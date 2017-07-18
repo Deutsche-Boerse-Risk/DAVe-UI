@@ -9,6 +9,8 @@ import {LiquiGroupSplitMarginData, LiquiGroupSplitMarginParams} from './liqui.gr
 import {AbstractLatestListComponent} from '../list/abstract.latest.list.component';
 import {RoutePart} from '../list/bread.crumbs.component';
 
+import {Subscription} from 'rxjs/Subscription';
+
 export const routingKeys: (keyof LiquiGroupSplitMarginParams)[] = [
     'clearer',
     'member',
@@ -25,8 +27,8 @@ export abstract class AbstractLiquiGroupSplitMarginLatestComponent
         super(route);
     }
 
-    protected loadData(): void {
-        this.liquiGroupSplitMarginService.getLiquiGroupSplitMarginLatest({
+    protected loadData(): Subscription {
+        return this.liquiGroupSplitMarginService.getLiquiGroupSplitMarginLatest({
             clearer              : this.routeParams['clearer'],
             member               : this.routeParams['member'],
             account              : this.routeParams['account'],

@@ -1,8 +1,7 @@
 import {map} from '@angular/cdk';
 import {Injectable} from '@angular/core';
 
-import {DateUtils, RxChain, StrictRxChain, UIDUtils} from '@dbg-riskit/dave-ui-common';
-import {HttpService} from '@dbg-riskit/dave-ui-http';
+import {DateUtils, StrictRxChain, UIDUtils} from '@dbg-riskit/dave-ui-common';
 
 import {Observable} from 'rxjs/Observable';
 
@@ -13,13 +12,15 @@ import {
     LiquiGroupSplitMarginServerData
 } from './liqui.group.split.margin.types';
 
+import {PeriodicHttpService} from '../periodic.http.service';
+
 export const liquiGroupSplitMarginLatestURL: string = '/api/v1.0/lgsm/latest';
 export const liquiGroupSplitMarginHistoryURL: string = '/api/v1.0/lgsm/history';
 
 @Injectable()
 export class LiquiGroupSplitMarginService {
 
-    constructor(private http: HttpService<LiquiGroupSplitMarginServerData[]>) {
+    constructor(private http: PeriodicHttpService<LiquiGroupSplitMarginServerData[]>) {
     }
 
     public getLiquiGroupSplitMarginLatest(params: LiquiGroupSplitMarginParams): Observable<LiquiGroupSplitMarginData[]> {
@@ -31,10 +32,10 @@ export class LiquiGroupSplitMarginService {
     }
 
     private loadData(url: string, params: LiquiGroupSplitMarginParams): StrictRxChain<LiquiGroupSplitMarginData[]> {
-        return RxChain.from(this.http.get({
+        return this.http.get({
             resourceURL: url,
             params     : params
-        })).call(map, (data: LiquiGroupSplitMarginServerData[]) => data || [])
+        }).call(map, (data: LiquiGroupSplitMarginServerData[]) => data || [])
             .call(map, (data: LiquiGroupSplitMarginServerData[]) => data.map(
                 LiquiGroupSplitMarginService.processLiquiGroupSplitMarginData));
     }

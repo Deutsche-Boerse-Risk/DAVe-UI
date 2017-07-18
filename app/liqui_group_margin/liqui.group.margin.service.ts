@@ -1,8 +1,7 @@
 import {map} from '@angular/cdk';
 import {Injectable} from '@angular/core';
 
-import {DateUtils, RxChain, StrictRxChain, UIDUtils} from '@dbg-riskit/dave-ui-common';
-import {HttpService} from '@dbg-riskit/dave-ui-http';
+import {DateUtils, StrictRxChain, UIDUtils} from '@dbg-riskit/dave-ui-common';
 
 import {Observable} from 'rxjs/Observable';
 
@@ -17,6 +16,8 @@ import {
     LiquiGroupMarginTreeNode
 } from './liqui.group.margin.types';
 
+import {PeriodicHttpService} from '../periodic.http.service';
+
 export const liquiGroupMarginAggregationURL: string = '/api/v1.0/lgm/latest';
 export const liquiGroupMarginTreemapURL: string = '/api/v1.0/lgm/latest';
 export const liquiGroupMarginLatestURL: string = '/api/v1.0/lgm/latest';
@@ -25,11 +26,11 @@ export const liquiGroupMarginHistoryURL: string = '/api/v1.0/lgm/history';
 @Injectable()
 export class LiquiGroupMarginService {
 
-    constructor(private http: HttpService<LiquiGroupMarginServerData[]>) {
+    constructor(private http: PeriodicHttpService<LiquiGroupMarginServerData[]>) {
     }
 
     public getLiquiGroupMarginTreeMapData(): Observable<LiquiGroupMarginTree> {
-        return RxChain.from(this.http.get({resourceURL: liquiGroupMarginTreemapURL}))
+        return this.http.get({resourceURL: liquiGroupMarginTreemapURL})
             .call(map, (data: LiquiGroupMarginServerData[]) => {
                 if (!data || !data.length) {
                     return {
@@ -142,7 +143,7 @@ export class LiquiGroupMarginService {
     }
 
     public getLiquiGroupMarginAggregationData(): Observable<LiquiGroupMarginAggregationData> {
-        return RxChain.from(this.http.get({resourceURL: liquiGroupMarginAggregationURL}))
+        return this.http.get({resourceURL: liquiGroupMarginAggregationURL})
             .call(map, (data: LiquiGroupMarginServerData[]) => {
                 if (!data) {
                     return {} as LiquiGroupMarginAggregationData;
@@ -200,10 +201,10 @@ export class LiquiGroupMarginService {
     }
 
     private loadData(url: string, params: LiquiGroupMarginParams): StrictRxChain<LiquiGroupMarginData[]> {
-        return RxChain.from(this.http.get({
+        return this.http.get({
             resourceURL: url,
             params     : params
-        })).call(map, (data: LiquiGroupMarginServerData[]) => data || [])
+        }).call(map, (data: LiquiGroupMarginServerData[]) => data || [])
             .call(map, (data: LiquiGroupMarginServerData[]) =>
                 data.map(LiquiGroupMarginService.processLiquiGroupMarginData));
     }

@@ -14,6 +14,8 @@ import {AbstractHistoryListComponent, LineChartColumn} from '../list/abstract.hi
 
 import {exportKeys, routingKeys, valueGetters} from './risk.limit.utilization.latest.component';
 
+import {Subscription} from 'rxjs/Subscription';
+
 @Component({
     moduleId   : module.id,
     templateUrl: 'risk.limit.utilization.history.component.html',
@@ -26,8 +28,8 @@ export class RiskLimitUtilizationHistoryComponent extends AbstractHistoryListCom
         super(route, dateFormatter, numberPipe);
     }
 
-    protected loadData(): void {
-        this.riskLimitUtilizationService.getRiskLimitUtilizationHistory({
+    protected loadData(): Subscription {
+        return this.riskLimitUtilizationService.getRiskLimitUtilizationHistory({
             clearer   : this.routeParams['clearer'],
             member    : this.routeParams['member'],
             maintainer: this.routeParams['maintainer'],

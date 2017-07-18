@@ -10,6 +10,8 @@ import {AccountMarginData, AccountMarginParams} from './account.margin.types';
 
 import {AbstractLatestListComponent} from '../list/abstract.latest.list.component';
 
+import {Subscription} from 'rxjs/Subscription';
+
 export const routingKeys: (keyof AccountMarginParams)[] = [
     'clearer',
     'member',
@@ -29,8 +31,8 @@ export class AccountMarginLatestComponent extends AbstractLatestListComponent<Ac
         super(route);
     }
 
-    protected loadData(): void {
-        this.accountMarginService.getAccountMarginLatest({
+    protected loadData(): Subscription {
+        return this.accountMarginService.getAccountMarginLatest({
             clearer       : this.routeParams['clearer'],
             member        : this.routeParams['member'],
             account       : this.routeParams['account'],

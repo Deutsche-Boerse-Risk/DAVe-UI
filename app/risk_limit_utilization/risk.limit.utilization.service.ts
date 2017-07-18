@@ -1,8 +1,7 @@
 import {map} from '@angular/cdk';
 import {Injectable} from '@angular/core';
 
-import {DateUtils, RxChain, StrictRxChain, UIDUtils} from '@dbg-riskit/dave-ui-common';
-import {HttpService} from '@dbg-riskit/dave-ui-http';
+import {DateUtils, StrictRxChain, UIDUtils} from '@dbg-riskit/dave-ui-common';
 
 import {Observable} from 'rxjs/Observable';
 
@@ -13,13 +12,15 @@ import {
     RiskLimitUtilizationServerData
 } from './risk.limit.utilization.types';
 
+import {PeriodicHttpService} from '../periodic.http.service';
+
 export const riskLimitUtilizationLatestURL: string = '/api/v1.0/rlu/latest';
 export const riskLimitUtilizationHistoryURL: string = '/api/v1.0/rlu/history';
 
 @Injectable()
 export class RiskLimitUtilizationService {
 
-    constructor(private http: HttpService<RiskLimitUtilizationServerData[]>) {
+    constructor(private http: PeriodicHttpService<RiskLimitUtilizationServerData[]>) {
     }
 
     public getRiskLimitUtilizationLatest(params: RiskLimitUtilizationParams): Observable<RiskLimitUtilizationData[]> {
@@ -31,10 +32,10 @@ export class RiskLimitUtilizationService {
     }
 
     private loadData(url: string, params: RiskLimitUtilizationParams): StrictRxChain<RiskLimitUtilizationData[]> {
-        return RxChain.from(this.http.get({
+        return this.http.get({
             resourceURL: url,
             params     : params
-        })).call(map, (data: RiskLimitUtilizationServerData[]) => data || [])
+        }).call(map, (data: RiskLimitUtilizationServerData[]) => data || [])
             .call(map, (data: RiskLimitUtilizationServerData[]) => data.map(
                 RiskLimitUtilizationService.processRiskLimitUtilizationDataRow));
     }

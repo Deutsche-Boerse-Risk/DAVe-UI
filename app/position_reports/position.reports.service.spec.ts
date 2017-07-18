@@ -1,19 +1,21 @@
-import {inject, TestBed} from '@angular/core/testing';
+import {fakeAsync, inject, TestBed, tick} from '@angular/core/testing';
 
 import {HttpServiceStub} from '@dbg-riskit/dave-ui-testing';
 
 import {Request} from '@dbg-riskit/dave-ui-common';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 
-import {generatePositionReports} from '../../testing';
+import {generatePositionReports} from '@dave/testing';
 
-import {chartsURL, historyURL, latestURL, PositionReportsService} from './position.reports.service';
+import {historyURL, latestURL, PositionReportsService} from './position.reports.service';
 import {
     PositionReportBubble,
     PositionReportChartData,
     PositionReportData,
     PositionReportServerData
 } from './position.report.types';
+
+import {DATA_REFRESH_INTERVAL, PeriodicHttpService} from '../periodic.http.service';
 
 import Spy = jasmine.Spy;
 
@@ -27,7 +29,8 @@ describe('PositionReportsService', () => {
                 {
                     provide : HttpService,
                     useClass: HttpServiceStub
-                }
+                },
+                PeriodicHttpService
             ]
         });
     });
@@ -37,61 +40,39 @@ describe('PositionReportsService', () => {
         httpSyp = spyOn(http, 'get').and.callThrough();
     }));
 
-    it('latest data are correctly processed',
-        inject([PositionReportsService, HttpService], (positionReportsService: PositionReportsService,
+    it('latest data are correctly processed', fakeAsync(inject([PositionReportsService, HttpService],
+        (positionReportsService: PositionReportsService,
             http: HttpServiceStub<PositionReportServerData[]>) => {
-            positionReportsService.getPositionReportLatest({}).subscribe((data: PositionReportData[]) => {
-                expect(httpSyp).toHaveBeenCalledTimes(1);
-                expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL).toBe(latestURL);
-                expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params).toEqual({});
-                expect(data.length).toBe(Math.pow(2, 10));
-            });
-
-            http.returnValue(null);
-            positionReportsService.getPositionReportLatest({
-                clearer              : 'a',
-                member               : 'b',
-                account              : 'c',
-                underlying           : 'x',
-                liquidationGroup     : 'd',
-                liquidationGroupSplit: 'e',
-                product              : 'f',
-                callPut              : 'g',
-                contractYear         : 'h',
-                contractMonth        : 'i',
-                expiryDay            : 'j',
-                exercisePrice        : 'k',
-                version              : 'l',
-                flexContractSymbol   : 'm'
-            }).subscribe((data: PositionReportData[]) => {
-                expect(httpSyp).toHaveBeenCalledTimes(2);
-                expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL).toBe(latestURL);
-                expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params).toEqual({
-                    clearer              : 'a',
-                    member               : 'b',
-                    account              : 'c',
-                    underlying           : 'x',
-                    liquidationGroup     : 'd',
-                    liquidationGroupSplit: 'e',
-                    product              : 'f',
-                    callPut              : 'g',
-                    contractYear         : 'h',
-                    contractMonth        : 'i',
-                    expiryDay            : 'j',
-                    exercisePrice        : 'k',
-                    version              : 'l',
-                    flexContractSymbol   : 'm'
+            let subscription = positionReportsService.getPositionReportLatest({})
+                .subscribe((data: PositionReportData[]) => {
+                    expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL).toBe(latestURL);
+                    expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params).toBeUndefined();
+                    expect(data.length).toBe(Math.pow(2, 10));
                 });
-                expect(data).toBeDefined();
-                expect(data.length).toBe(0);
-            });
-        })
-    );
 
-    it('history data are correctly processed',
-        inject([PositionReportsService, HttpService], (positionReportsService: PositionReportsService,
+            tick();
+            expect(httpSyp).toHaveBeenCalledTimes(1);
+
+            http.returnValue(generatePositionReports());
+            tick(DATA_REFRESH_INTERVAL);
+            expect(httpSyp).toHaveBeenCalledTimes(2);
+            subscription.unsubscribe();
+
+            // Cleanup timer after test
+            //noinspection JSDeprecatedSymbols
+            positionReportsService.destroyPeriodicTimer();
+        })
+    ));
+
+    it('history data are correctly processed', fakeAsync(inject([PositionReportsService, HttpService],
+        (positionReportsService: PositionReportsService,
             http: HttpServiceStub<PositionReportServerData[]>) => {
-            positionReportsService.getPositionReportHistory({
+
+            // Cleanup timer for latest data as we are going to test history records only
+            //noinspection JSDeprecatedSymbols
+            positionReportsService.destroyPeriodicTimer();
+
+            let subscription = positionReportsService.getPositionReportHistory({
                 clearer              : '*',
                 member               : '*',
                 account              : '*',
@@ -107,7 +88,6 @@ describe('PositionReportsService', () => {
                 version              : '*',
                 flexContractSymbol   : '*'
             }).subscribe((data: PositionReportData[]) => {
-                expect(httpSyp).toHaveBeenCalledTimes(1);
                 expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL).toBe(historyURL);
                 expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params).toEqual({
                     clearer              : '*',
@@ -128,8 +108,12 @@ describe('PositionReportsService', () => {
                 expect(data.length).toBe(Math.pow(2, 10));
             });
 
+            tick();
+            expect(httpSyp).toHaveBeenCalledTimes(1);
+            subscription.unsubscribe();
+
             http.returnValue(null);
-            positionReportsService.getPositionReportHistory({
+            let subscription2 = positionReportsService.getPositionReportHistory({
                 clearer              : 'a',
                 member               : 'b',
                 account              : 'c',
@@ -145,7 +129,6 @@ describe('PositionReportsService', () => {
                 version              : 'l',
                 flexContractSymbol   : 'm'
             }).subscribe((data: PositionReportData[]) => {
-                expect(httpSyp).toHaveBeenCalledTimes(2);
                 expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL).toBe(historyURL);
                 expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params).toEqual({
                     clearer              : 'a',
@@ -166,18 +149,24 @@ describe('PositionReportsService', () => {
                 expect(data).toBeDefined();
                 expect(data.length).toBe(0);
             });
-        })
-    );
 
-    it('chart data are aggregeted',
-        inject([PositionReportsService, HttpService], (positionReportsService: PositionReportsService,
-            http: HttpServiceStub<PositionReportServerData[]>) => {
+            tick();
+            expect(httpSyp).toHaveBeenCalledTimes(2);
+
+            http.returnValue(null);
+            tick(DATA_REFRESH_INTERVAL);
+            expect(httpSyp).toHaveBeenCalledTimes(3);
+            subscription2.unsubscribe();
+        })
+    ));
+
+    it('chart data are aggregeted', fakeAsync(inject([PositionReportsService, HttpService],
+        (positionReportsService: PositionReportsService, http: HttpServiceStub<PositionReportServerData[]>) => {
             let rawData = http.popReturnValue();
             http.returnValue(rawData);
-            positionReportsService.getPositionReportsChartData()
+            let subscription = positionReportsService.getPositionReportsChartData()
                 .subscribe((data: PositionReportChartData) => {
-                    expect(httpSyp).toHaveBeenCalledTimes(1);
-                    expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL).toBe(chartsURL);
+                    expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL).toBe(latestURL);
                     expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params).toBeUndefined();
 
                     expect(data.bubbles).toBeDefined();
@@ -195,11 +184,23 @@ describe('PositionReportsService', () => {
 
                     expect(bubbleRadius).toBe(originalRadius);
                 });
-        })
-    );
 
-    it('chart data contain select items',
-        inject([PositionReportsService], (positionReportsService: PositionReportsService) => {
+            tick();
+            expect(httpSyp).toHaveBeenCalledTimes(1);
+
+            http.returnValue(generatePositionReports());
+            tick(DATA_REFRESH_INTERVAL);
+            expect(httpSyp).toHaveBeenCalledTimes(2);
+            subscription.unsubscribe();
+
+            // Cleanup timer after test
+            //noinspection JSDeprecatedSymbols
+            positionReportsService.destroyPeriodicTimer();
+        })
+    ));
+
+    it('chart data contain select items', fakeAsync(inject([PositionReportsService, HttpService],
+        (positionReportsService: PositionReportsService, http: HttpServiceStub<PositionReportServerData[]>) => {
             let expectSelectItems = function (data: PositionReportChartData, clearer: string, member: string,
                 account: string) {
                 expect(data.selection.get(clearer + '-' + member).subRecords).toBeDefined();
@@ -210,10 +211,9 @@ describe('PositionReportsService', () => {
                 expect(data.selection.get(clearer + '-' + member).subRecords.get(account).record.member).toBe(member);
                 expect(data.selection.get(clearer + '-' + member).subRecords.get(account).record.account).toBe(account);
             };
-            positionReportsService.getPositionReportsChartData()
+            let subscription = positionReportsService.getPositionReportsChartData()
                 .subscribe((data: PositionReportChartData) => {
-                    expect(httpSyp).toHaveBeenCalledTimes(1);
-                    expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL).toBe(chartsURL);
+                    expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL).toBe(latestURL);
                     expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params).toBeUndefined();
 
                     expect(data.selection.getOptions()).toBeDefined();
@@ -229,6 +229,18 @@ describe('PositionReportsService', () => {
                     expect(data.accountSelection.member).toBe('F');
                     expect(data.accountSelection.account).toBe('I');
                 });
+
+            tick();
+            expect(httpSyp).toHaveBeenCalledTimes(1);
+
+            http.returnValue(generatePositionReports());
+            tick(DATA_REFRESH_INTERVAL);
+            expect(httpSyp).toHaveBeenCalledTimes(2);
+            subscription.unsubscribe();
+
+            // Cleanup timer after test
+            //noinspection JSDeprecatedSymbols
+            positionReportsService.destroyPeriodicTimer();
         })
-    );
+    ));
 });

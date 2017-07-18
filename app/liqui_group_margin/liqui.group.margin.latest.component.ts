@@ -10,6 +10,8 @@ import {LiquiGroupMarginData, LiquiGroupMarginParams} from './liqui.group.margin
 
 import {AbstractLatestListComponent} from '../list/abstract.latest.list.component';
 
+import {Subscription} from 'rxjs/Subscription';
+
 export const routingKeys: (keyof LiquiGroupMarginParams)[] = [
     'clearer',
     'member',
@@ -29,8 +31,8 @@ export class LiquiGroupMarginLatestComponent extends AbstractLatestListComponent
         super(route);
     }
 
-    protected loadData(): void {
-        this.liquiGroupMarginService.getLiquiGroupMarginLatest({
+    protected loadData(): Subscription {
+        return this.liquiGroupMarginService.getLiquiGroupMarginLatest({
             clearer    : this.routeParams['clearer'],
             member     : this.routeParams['member'],
             account    : this.routeParams['account'],

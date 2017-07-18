@@ -1,8 +1,7 @@
 import {map} from '@angular/cdk';
 import {Injectable} from '@angular/core';
 
-import {DateUtils, RxChain, StrictRxChain, UIDUtils} from '@dbg-riskit/dave-ui-common';
-import {HttpService} from '@dbg-riskit/dave-ui-http';
+import {DateUtils, StrictRxChain, UIDUtils} from '@dbg-riskit/dave-ui-common';
 
 import {Observable} from 'rxjs/Observable';
 
@@ -14,17 +13,19 @@ import {
     PoolMarginSummaryData
 } from './pool.margin.types';
 
+import {PeriodicHttpService} from '../periodic.http.service';
+
 export const poolMarginLatestURL: string = '/api/v1.0/pm/latest';
 export const poolMarginHistoryURL: string = '/api/v1.0/pm/history';
 
 @Injectable()
 export class PoolMarginService {
 
-    constructor(private http: HttpService<PoolMarginServerData[]>) {
+    constructor(private http: PeriodicHttpService<PoolMarginServerData[]>) {
     }
 
     public getPoolMarginSummaryData(): Observable<PoolMarginSummaryData | {}> {
-        return RxChain.from(this.http.get({resourceURL: poolMarginLatestURL}))
+        return this.http.get({resourceURL: poolMarginLatestURL})
             .call(map, (data: PoolMarginServerData[]) => {
                 if (!data) {
                     return {};
@@ -56,10 +57,10 @@ export class PoolMarginService {
     }
 
     private loadData(url: string, params: PoolMarginParams): StrictRxChain<PoolMarginData[]> {
-        return RxChain.from(this.http.get({
+        return this.http.get({
             resourceURL: url,
             params     : params
-        })).call(map, (data: PoolMarginServerData[]) => data || [])
+        }).call(map, (data: PoolMarginServerData[]) => data || [])
             .call(map, (data: PoolMarginServerData[]) => data.map(PoolMarginService.processPoolMarginData));
     }
 

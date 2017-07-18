@@ -10,11 +10,11 @@ import {compileTestBed, HttpAsyncServiceStub, RouterLinkStubDirective} from '@db
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 import {ChartRow} from '@dbg-riskit/dave-ui-charts';
 
-import {BubbleChartPage, generatePositionReports} from '../../testing';
+import {BubbleChartPage, generatePositionReports} from '@dave/testing';
 
 import {PositionReportsService} from './position.reports.service';
 
-import {DATA_REFRESH_INTERVAL} from '../abstract.component';
+import {DATA_REFRESH_INTERVAL} from '../periodic.http.service';
 
 import {
     compVarNegativeLegend,

@@ -8,7 +8,7 @@ import {compileTestBed, disableMaterialAnimations, stubRouter} from '@dbg-riskit
 import {DATE_FORMAT} from '@dbg-riskit/dave-ui-common';
 import {FileModule} from '@dbg-riskit/dave-ui-file';
 
-import {ListPage} from '../../testing';
+import {ListPage} from '@dave/testing';
 
 import {ListModule} from './list.module';
 import {RoutePart} from './bread.crumbs.component';

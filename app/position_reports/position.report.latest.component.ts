@@ -10,6 +10,8 @@ import {PositionReportsService} from './position.reports.service';
 
 import {AbstractLatestListComponent} from '../list/abstract.latest.list.component';
 
+import {Subscription} from 'rxjs/Subscription';
+
 export const routingKeys: (keyof PositionReportsParams)[] = [
     'clearer',
     'member',
@@ -39,8 +41,8 @@ export class PositionReportLatestComponent extends AbstractLatestListComponent<P
         super(route);
     }
 
-    protected loadData(): void {
-        this.positionReportsService.getPositionReportLatest({
+    protected loadData(): Subscription {
+        return this.positionReportsService.getPositionReportLatest({
             clearer              : this.routeParams['clearer'],
             member               : this.routeParams['member'],
             account              : this.routeParams['account'],

@@ -13,12 +13,12 @@ import {
 import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 
-import {generatePositionReportsHistory, HistoryListPage} from '../../testing';
+import {generatePositionReportsHistory, HistoryListPage} from '@dave/testing';
 
 import {PositionReportServerData, PositionReportsHistoryParams} from './position.report.types';
 import {PositionReportsService} from './position.reports.service';
 
-import {DATA_REFRESH_INTERVAL} from '../abstract.component';
+import {DATA_REFRESH_INTERVAL} from '../periodic.http.service';
 
 import {exportKeys, valueGetters} from './position.report.latest.component';
 import {PositionReportHistoryComponent} from './position.report.history.component';

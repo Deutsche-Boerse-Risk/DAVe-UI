@@ -14,6 +14,8 @@ import {AbstractHistoryListComponent, LineChartColumn} from '../list/abstract.hi
 
 import {exportKeys, routingKeys, valueGetters} from './position.report.latest.component';
 
+import {Subscription} from 'rxjs/Subscription';
+
 @Component({
     moduleId   : module.id,
     templateUrl: 'position.report.history.component.html',
@@ -26,8 +28,8 @@ export class PositionReportHistoryComponent extends AbstractHistoryListComponent
         super(route, dateFormatter, numberPipe);
     }
 
-    protected loadData(): void {
-        this.positionReportsService.getPositionReportHistory({
+    protected loadData(): Subscription {
+        return this.positionReportsService.getPositionReportHistory({
             clearer              : this.routeParams['clearer'],
             member               : this.routeParams['member'],
             account              : this.routeParams['account'],

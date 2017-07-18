@@ -6,7 +6,7 @@ import {compileTestBed, HttpAsyncServiceStub} from '@dbg-riskit/dave-ui-testing'
 
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 
-import {generatePoolMarginLatest, Panel, PoolMarginSummaryPage} from '../../testing';
+import {generatePoolMarginLatest, Panel, PoolMarginSummaryPage} from '@dave/testing';
 
 import {PoolMarginServerData} from './pool.margin.types';
 import {PoolMarginService} from './pool.margin.service';

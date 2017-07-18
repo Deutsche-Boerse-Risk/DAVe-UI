@@ -13,12 +13,12 @@ import {
 import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 
-import {generatePoolMarginHistory, HistoryListPage} from '../../testing';
+import {generatePoolMarginHistory, HistoryListPage} from '@dave/testing';
 
 import {PoolMarginHistoryParams, PoolMarginServerData} from './pool.margin.types';
 import {PoolMarginService} from './pool.margin.service';
 
-import {DATA_REFRESH_INTERVAL} from '../abstract.component';
+import {DATA_REFRESH_INTERVAL} from '../periodic.http.service';
 
 import {exportKeys, valueGetters} from './pool.margin.latest.component';
 import {PoolMarginHistoryComponent} from './pool.margin.history.component';

@@ -12,6 +12,8 @@ import {AppComponent} from './app.component';
 import {MenuModule} from './menu/menu.module';
 import {RoutingModule} from './routes/routing.module';
 
+import {PeriodicHttpService} from './periodic.http.service';
+
 @NgModule({
     imports     : [
         AuthModule,
@@ -32,7 +34,8 @@ import {RoutingModule} from './routes/routing.module';
         {
             provide : DATE_FORMAT,
             useValue: 'dd. MM. yyyy HH:mm:ss'
-        }
+        },
+        PeriodicHttpService
     ]
 })
 export class AppModule {

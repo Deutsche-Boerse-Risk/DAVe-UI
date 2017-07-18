@@ -13,7 +13,7 @@ import {
 import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 
-import {generateRiskLimitUtilization, generateRiskLimitUtilizationHistory, LatestListPage} from '../../testing';
+import {generateRiskLimitUtilization, generateRiskLimitUtilizationHistory, LatestListPage} from '@dave/testing';
 
 import {
     RiskLimitUtilizationData,
@@ -22,7 +22,7 @@ import {
 } from './risk.limit.utilization.types';
 import {RiskLimitUtilizationService} from './risk.limit.utilization.service';
 
-import {DATA_REFRESH_INTERVAL} from '../abstract.component';
+import {DATA_REFRESH_INTERVAL} from '../periodic.http.service';
 
 import {exportKeys, RiskLimitUtilizationLatestComponent, valueGetters} from './risk.limit.utilization.latest.component';
 import {ROUTES} from '../routes/routing.paths';

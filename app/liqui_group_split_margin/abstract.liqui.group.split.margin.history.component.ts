@@ -12,6 +12,8 @@ import {AbstractHistoryListComponent} from '../list/abstract.history.list.compon
 
 import {RoutePart} from '../list/bread.crumbs.component';
 
+import {Subscription} from 'rxjs/Subscription';
+
 export const routingKeys: (keyof LiquiGroupSplitMarginHistoryParams)[] = [
     'clearer',
     'member',
@@ -29,8 +31,8 @@ export abstract class AbstractLiquiGroupSplitMarginHistoryComponent
         super(route, dateFormatter, numberPipe);
     }
 
-    protected loadData(): void {
-        this.liquiGroupSplitMarginService.getLiquiGroupSplitMarginHistory({
+    protected loadData(): Subscription {
+        return this.liquiGroupSplitMarginService.getLiquiGroupSplitMarginHistory({
             clearer              : this.routeParams['clearer'],
             member               : this.routeParams['member'],
             account              : this.routeParams['account'],

@@ -4,10 +4,12 @@ import {Router} from '@angular/router';
 import {COMPONENT_CSS, ErrorResponse} from '@dbg-riskit/dave-ui-common';
 import {ChartData, ChartRow, SelectionEvent, TreeMapOptions} from '@dbg-riskit/dave-ui-charts';
 
-import {AbstractComponentWithAutoRefresh} from '../abstract.component';
+import {AbstractComponent} from '../abstract.component';
 
 import {LiquiGroupMarginService} from './liqui.group.margin.service';
 import {LiquiGroupMarginTree, LiquiGroupMarginTreeNode} from './liqui.group.margin.types';
+
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
     moduleId   : module.id,
@@ -17,7 +19,7 @@ import {LiquiGroupMarginTree, LiquiGroupMarginTreeNode} from './liqui.group.marg
         'liqui.group.margin.treemap.component.css'
     ]
 })
-export class LiquiGroupMarginTreemapComponent extends AbstractComponentWithAutoRefresh {
+export class LiquiGroupMarginTreemapComponent extends AbstractComponent {
 
     @Input()
     public chartShown: boolean = true;
@@ -51,8 +53,8 @@ export class LiquiGroupMarginTreemapComponent extends AbstractComponentWithAutoR
         super();
     }
 
-    protected loadData(): void {
-        this.liquiGroupMarginService.getLiquiGroupMarginTreeMapData().subscribe(
+    protected loadData(): Subscription {
+        return this.liquiGroupMarginService.getLiquiGroupMarginTreeMapData().subscribe(
             (tree: LiquiGroupMarginTree) => {
                 this.chartData = {
                     cols: [

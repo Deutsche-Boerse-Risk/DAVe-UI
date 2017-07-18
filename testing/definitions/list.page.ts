@@ -31,9 +31,11 @@ import {DateFormatter, INITIAL_LOAD_SELECTOR, NO_DATA_SELECTOR, UPDATE_FAILED_SE
 import {BreadCrumbsDefinition} from './bread.crumbs.page';
 
 import {ListModule} from '../../app/list/list.module';
-import {ListComponent, FILTER_TIMEOUT} from '../../app/list/list.component';
+import {FILTER_TIMEOUT, ListComponent} from '../../app/list/list.component';
 import {DrillUpDownButtonComponent} from '../../app/list/drill.updown.button.component';
 import {BreadCrumbsComponent} from '../../app/list/bread.crumbs.component';
+
+import {PeriodicHttpService} from '../../app/periodic.http.service';
 
 export class ListPage<T> extends PageWithLoading<T> {
 
@@ -151,7 +153,8 @@ export class LatestListPage<T> extends ListPage<T> {
                 {
                     provide : HttpService,
                     useClass: HttpAsyncServiceStub
-                }
+                },
+                PeriodicHttpService
             ]
         });
         disableMaterialAnimations(ListModule);
@@ -239,6 +242,7 @@ export class HistoryListPage<T> extends LatestListPage<T> {
                     provide : HttpService,
                     useClass: HttpAsyncServiceStub
                 },
+                PeriodicHttpService,
                 DecimalPipe,
                 DatePipe,
                 DateFormatter,

@@ -14,6 +14,8 @@ import {AbstractHistoryListComponent, LineChartColumn} from '../list/abstract.hi
 
 import {exportKeys, routingKeys, valueGetters} from './pool.margin.latest.component';
 
+import {Subscription} from 'rxjs/Subscription';
+
 @Component({
     moduleId   : module.id,
     templateUrl: 'pool.margin.history.component.html',
@@ -26,8 +28,8 @@ export class PoolMarginHistoryComponent extends AbstractHistoryListComponent<Poo
         super(route, dateFormatter, numberPipe);
     }
 
-    protected loadData(): void {
-        this.poolMarginService.getPoolMarginHistory({
+    protected loadData(): Subscription {
+        return this.poolMarginService.getPoolMarginHistory({
             clearer       : this.routeParams['clearer'],
             pool          : this.routeParams['pool'],
             marginCurrency: this.routeParams['marginCurrency']

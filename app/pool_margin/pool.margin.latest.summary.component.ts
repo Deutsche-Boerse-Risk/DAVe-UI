@@ -2,10 +2,12 @@ import {Component} from '@angular/core';
 
 import {COMPONENT_CSS, ErrorResponse} from '@dbg-riskit/dave-ui-common';
 
-import {AbstractComponentWithAutoRefresh} from '../abstract.component';
+import {AbstractComponent} from '../abstract.component';
 
 import {PoolMarginService} from './pool.margin.service';
 import {PoolMarginSummaryData} from './pool.margin.types';
+
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
     moduleId   : module.id,
@@ -16,7 +18,7 @@ import {PoolMarginSummaryData} from './pool.margin.types';
         'pool.margin.latest.summary.component.css'
     ]
 })
-export class PoolMarginLatestSummaryComponent extends AbstractComponentWithAutoRefresh {
+export class PoolMarginLatestSummaryComponent extends AbstractComponent {
 
     public data: PoolMarginSummaryData;
 
@@ -24,8 +26,8 @@ export class PoolMarginLatestSummaryComponent extends AbstractComponentWithAutoR
         super();
     }
 
-    protected loadData(): void {
-        this.marginService.getPoolMarginSummaryData()
+    protected loadData(): Subscription {
+        return this.marginService.getPoolMarginSummaryData()
             .subscribe((data: PoolMarginSummaryData) => {
                 this.data = data;
             }, (error: ErrorResponse) => {

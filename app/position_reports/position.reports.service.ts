@@ -2,9 +2,11 @@ import {map} from '@angular/cdk';
 import {Injectable} from '@angular/core';
 
 import {DateUtils, RxChain, StrictRxChain, UIDUtils} from '@dbg-riskit/dave-ui-common';
-import {HttpService} from '@dbg-riskit/dave-ui-http';
 
 import {Observable} from 'rxjs/Observable';
+import {ReplaySubject} from 'rxjs/ReplaySubject';
+
+import {PeriodicHttpService} from '../periodic.http.service';
 
 import {
     PositionReportBubble,
@@ -17,25 +19,46 @@ import {
     SelectValues
 } from './position.report.types';
 
-export const chartsURL: string = '/api/v1.0/pr/latest';
+import {Subscription} from 'rxjs/Subscription';
+
 export const latestURL: string = '/api/v1.0/pr/latest';
 export const historyURL: string = '/api/v1.0/pr/history';
 
 @Injectable()
 export class PositionReportsService {
 
-    constructor(private http: HttpService<PositionReportServerData[]>) {
+    private latestSubject: ReplaySubject<PositionReportData[]> = new ReplaySubject(1);
+    private chartsSubject: ReplaySubject<PositionReportChartData> = new ReplaySubject(1);
+    private latestSubscription: Subscription;
+
+    constructor(private http: PeriodicHttpService<PositionReportServerData[]>) {
+        this.setupLatestLoader();
+        this.setupChartsDataLoader();
     }
 
-    public getPositionReportsChartData(): Observable<PositionReportChartData> {
-        return RxChain.from(this.http.get({resourceURL: chartsURL}))
-            .call(map, (data: PositionReportServerData[]) => {
+    /**
+     * @deprecated Use for tests only
+     */
+    public destroyPeriodicTimer(): void {
+        this.latestSubscription.unsubscribe();
+    }
+
+    private setupLatestLoader(): void {
+        this.latestSubscription = this.loadData(latestURL)
+            .subscribe(
+                (data: PositionReportData[]) => this.latestSubject.next(data),
+                (err: any) => this.latestSubject.error(err));
+    }
+
+    private setupChartsDataLoader() {
+        RxChain.from(this.latestSubject)
+            .call(map, (data: PositionReportData[]) => {
                 let chartRecords: PositionReportBubble[] = [];
                 let selection: PositionReportChartDataSelect = new PositionReportChartDataSelect();
 
                 if (data) {
                     data.reduce(
-                        (bubblesMap: Map<string, PositionReportBubble>, record: PositionReportServerData) => {
+                        (bubblesMap: Map<string, PositionReportBubble>, record: PositionReportData) => {
                             let memberKey = UIDUtils.computeUID(record.clearer, record.member);
                             let bubbleKey: string = UIDUtils.computeUID(memberKey, record.account, record.product,
                                 record.contractYear, record.contractMonth, record.expiryDay);
@@ -86,22 +109,36 @@ export class PositionReportsService {
                     memberSelection : options[0],
                     accountSelection: options[0]
                 };
-            }).result();
+            })
+            .subscribe(
+                (chartData: PositionReportChartData) => this.chartsSubject.next(chartData),
+                (err: any) => this.chartsSubject.error(err));
+    }
+
+    public getPositionReportsChartData(): Observable<PositionReportChartData> {
+        return this.chartsSubject;
     }
 
     public getPositionReportLatest(params: PositionReportsParams): Observable<PositionReportData[]> {
-        return this.loadData(latestURL, params).result();
+        return RxChain.from(this.latestSubject)
+            .call(map, (data: PositionReportData[]) => {
+                return data.filter((row: PositionReportData) => {
+                    return Object.keys(params).every(
+                        (key: keyof PositionReportsParams) => params[key] === '*' || params[key] == null || params[key] == row[key]);
+                });
+            })
+            .result();
     }
 
     public getPositionReportHistory(params: PositionReportsHistoryParams): Observable<PositionReportData[]> {
         return this.loadData(historyURL, params).result();
     }
 
-    private loadData(url: string, params: PositionReportsParams): StrictRxChain<PositionReportData[]> {
-        return RxChain.from(this.http.get({
+    private loadData(url: string, params?: PositionReportsParams): StrictRxChain<PositionReportData[]> {
+        return this.http.get({
             resourceURL: url,
             params     : params
-        })).call(map, (data: PositionReportServerData[]) => data || [])
+        }).call(map, (data: PositionReportServerData[]) => data || [])
             .call(map,
                 (data: PositionReportServerData[]) => data.map(PositionReportsService.processPositionReportsDataRow));
     }

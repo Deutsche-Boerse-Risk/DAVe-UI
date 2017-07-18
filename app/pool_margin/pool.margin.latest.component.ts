@@ -10,6 +10,8 @@ import {PoolMarginData, PoolMarginParams} from './pool.margin.types';
 
 import {AbstractLatestListComponent} from '../list/abstract.latest.list.component';
 
+import {Subscription} from 'rxjs/Subscription';
+
 export const routingKeys: (keyof PoolMarginParams)[] = ['clearer', 'pool', 'marginCurrency'];
 
 @Component({
@@ -24,8 +26,8 @@ export class PoolMarginLatestComponent extends AbstractLatestListComponent<PoolM
         super(route);
     }
 
-    protected loadData(): void {
-        this.poolMarginService.getPoolMarginLatest({
+    protected loadData(): Subscription {
+        return this.poolMarginService.getPoolMarginLatest({
             clearer       : this.routeParams['clearer'],
             pool          : this.routeParams['pool'],
             marginCurrency: this.routeParams['marginCurrency']

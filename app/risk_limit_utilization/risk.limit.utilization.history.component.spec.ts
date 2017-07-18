@@ -13,12 +13,12 @@ import {
 import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 
-import {generateRiskLimitUtilizationHistory, HistoryListPage} from '../../testing';
+import {generateRiskLimitUtilizationHistory, HistoryListPage} from '@dave/testing';
 
 import {RiskLimitUtilizationHistoryParams, RiskLimitUtilizationServerData} from './risk.limit.utilization.types';
 import {RiskLimitUtilizationService} from './risk.limit.utilization.service';
 
-import {DATA_REFRESH_INTERVAL} from '../abstract.component';
+import {DATA_REFRESH_INTERVAL} from '../periodic.http.service';
 
 import {exportKeys, valueGetters} from './risk.limit.utilization.latest.component';
 import {RiskLimitUtilizationHistoryComponent} from './risk.limit.utilization.history.component';

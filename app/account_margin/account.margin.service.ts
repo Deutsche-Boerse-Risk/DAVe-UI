@@ -1,8 +1,7 @@
 import {map} from '@angular/cdk';
 import {Injectable} from '@angular/core';
 
-import {DateUtils, RxChain, UIDUtils} from '@dbg-riskit/dave-ui-common';
-import {HttpService} from '@dbg-riskit/dave-ui-http';
+import {DateUtils, UIDUtils} from '@dbg-riskit/dave-ui-common';
 
 import {Observable} from 'rxjs/Observable';
 
@@ -13,13 +12,15 @@ import {
     AccountMarginServerData
 } from './account.margin.types';
 
+import {PeriodicHttpService} from '../periodic.http.service';
+
 export const accountMarginLatestURL: string = '/api/v1.0/am/latest';
 export const accountMarginHistoryURL: string = '/api/v1.0/am/history';
 
 @Injectable()
 export class AccountMarginService {
 
-    constructor(private http: HttpService<AccountMarginServerData[]>) {
+    constructor(private http: PeriodicHttpService<AccountMarginServerData[]>) {
     }
 
     public getAccountMarginLatest(params: AccountMarginParams): Observable<AccountMarginData[]> {
@@ -31,10 +32,10 @@ export class AccountMarginService {
     }
 
     private loadData(url: string, params: AccountMarginParams) {
-        return RxChain.from(this.http.get({
+        return this.http.get({
             resourceURL: url,
             params     : params
-        })).call(map, (data: AccountMarginServerData[]) => data || [])
+        }).call(map, (data: AccountMarginServerData[]) => data || [])
             .call(map, (data: AccountMarginServerData[]) =>
                 data.map(AccountMarginService.processAccountMarginDataRow));
     }

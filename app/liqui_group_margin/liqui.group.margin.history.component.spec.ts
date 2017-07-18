@@ -13,12 +13,12 @@ import {
 import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 
-import {generateLiquiGroupMarginHistory, HistoryListPage} from '../../testing';
+import {generateLiquiGroupMarginHistory, HistoryListPage} from '@dave/testing';
 
 import {LiquiGroupMarginHistoryParams, LiquiGroupMarginServerData} from './liqui.group.margin.types';
 import {LiquiGroupMarginService} from './liqui.group.margin.service';
 
-import {DATA_REFRESH_INTERVAL} from '../abstract.component';
+import {DATA_REFRESH_INTERVAL} from '../periodic.http.service';
 
 import {exportKeys, valueGetters} from './liqui.group.margin.latest.component';
 import {LiquiGroupMarginHistoryComponent} from './liqui.group.margin.history.component';

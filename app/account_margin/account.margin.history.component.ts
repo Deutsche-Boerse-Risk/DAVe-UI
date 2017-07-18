@@ -14,6 +14,8 @@ import {AbstractHistoryListComponent, LineChartColumn} from '../list/abstract.hi
 
 import {exportKeys, routingKeys, valueGetters} from './account.margin.latest.component';
 
+import {Subscription} from 'rxjs/Subscription';
+
 @Component({
     moduleId   : module.id,
     templateUrl: 'account.margin.history.component.html',
@@ -26,8 +28,8 @@ export class AccountMarginHistoryComponent extends AbstractHistoryListComponent<
         super(route, dateFormatter, numberPipe);
     }
 
-    protected loadData(): void {
-        this.accountMarginService.getAccountMarginHistory({
+    protected loadData(): Subscription {
+        return this.accountMarginService.getAccountMarginHistory({
             clearer       : this.routeParams['clearer'],
             member        : this.routeParams['member'],
             account       : this.routeParams['account'],

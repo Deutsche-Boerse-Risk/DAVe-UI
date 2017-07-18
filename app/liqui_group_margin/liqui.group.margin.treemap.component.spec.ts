@@ -8,7 +8,7 @@ import {compileTestBed, HttpAsyncServiceStub, RouterLinkStubDirective, RouterStu
 
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 
-import {generateLiquiGroupMargin, TreeMapPage} from '../../testing';
+import {generateLiquiGroupMargin, TreeMapPage} from '@dave/testing';
 
 import {LiquiGroupMarginService} from './liqui.group.margin.service';
 

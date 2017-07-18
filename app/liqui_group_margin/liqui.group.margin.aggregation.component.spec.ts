@@ -10,7 +10,7 @@ import {
     TableBodyRow
 } from '@dbg-riskit/dave-ui-testing';
 
-import {AggregationPage, generateLiquiGroupMargin, generateLiquiGroupMarginHistory} from '../../testing';
+import {AggregationPage, generateLiquiGroupMargin, generateLiquiGroupMarginHistory} from '@dave/testing';
 
 import {CommonModule} from '@angular/common';
 import {DataTableModule} from '@dbg-riskit/dave-ui-datatable';
@@ -19,7 +19,7 @@ import {HttpService} from '@dbg-riskit/dave-ui-http';
 import {LiquiGroupMarginService} from './liqui.group.margin.service';
 import {LiquiGroupMarginServerData} from './liqui.group.margin.types';
 
-import {DATA_REFRESH_INTERVAL} from '../abstract.component';
+import {DATA_REFRESH_INTERVAL} from '../periodic.http.service';
 
 import {LiquiGroupMarginAggregationComponent, valueGetters} from './liqui.group.margin.aggregation.component';
 import {ROUTES} from '../routes/routing.paths';

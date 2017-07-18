@@ -10,6 +10,8 @@ import {RiskLimitUtilizationData} from './risk.limit.utilization.types';
 
 import {AbstractLatestListComponent} from '../list/abstract.latest.list.component';
 
+import {Subscription} from 'rxjs/Subscription';
+
 export const routingKeys: string[] = ['clearer', 'member', 'maintainer', 'limitType'];
 
 @Component({
@@ -24,8 +26,8 @@ export class RiskLimitUtilizationLatestComponent extends AbstractLatestListCompo
         super(route);
     }
 
-    protected loadData(): void {
-        this.riskLimitUtilizationService.getRiskLimitUtilizationLatest({
+    protected loadData(): Subscription {
+        return this.riskLimitUtilizationService.getRiskLimitUtilizationLatest({
             clearer   : this.routeParams['clearer'],
             member    : this.routeParams['member'],
             maintainer: this.routeParams['maintainer'],
