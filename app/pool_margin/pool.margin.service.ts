@@ -49,7 +49,7 @@ export class PoolMarginService {
 
     private setupSummaryLoader(): void {
         RxChain.from(this.latestSubject).call(map, (data: PoolMarginServerData[]) => {
-            if (!data) {
+            if (!data || !data.length) {
                 return {};
             }
             let result: PoolMarginSummaryData = {

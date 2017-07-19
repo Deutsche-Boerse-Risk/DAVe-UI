@@ -2,7 +2,7 @@ import {fakeAsync, inject, TestBed, tick} from '@angular/core/testing';
 
 import {HttpServiceStub} from '@dbg-riskit/dave-ui-testing';
 
-import {Request} from '@dbg-riskit/dave-ui-common';
+import {Request, UIDUtils} from '@dbg-riskit/dave-ui-common';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 
 import {generateAccountMargin} from '@dave/testing';
@@ -42,8 +42,7 @@ describe('AccountMarginService', () => {
                 .subscribe((data: AccountMarginData[]) => {
                     expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL)
                         .toBe(accountMarginLatestURL);
-                    expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params)
-                        .toEqual({});
+                    expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params).toBeUndefined();
                     expect(data.length).toBe(Math.pow(2, 4));
                 });
 
@@ -51,39 +50,83 @@ describe('AccountMarginService', () => {
             expect(httpSyp).toHaveBeenCalledTimes(1);
             subscription.unsubscribe();
 
-            http.returnValue(null);
+            http.returnValue([
+                {
+                    clearer       : 'a',
+                    member        : 'b',
+                    account       : 'c',
+                    marginCurrency: 'd'
+                },
+                {
+                    clearer       : 'aa',
+                    member        : 'b',
+                    account       : 'c',
+                    marginCurrency: 'd'
+                },
+                {
+                    clearer       : 'a',
+                    member        : 'ba',
+                    account       : 'c',
+                    marginCurrency: 'd'
+                },
+                {
+                    clearer       : 'a',
+                    member        : 'b',
+                    account       : 'ca',
+                    marginCurrency: 'd'
+                },
+                {
+                    clearer       : 'a',
+                    member        : 'b',
+                    account       : 'c',
+                    marginCurrency: 'da'
+                }
+            ] as AccountMarginServerData[]);
+            tick(DATA_REFRESH_INTERVAL);
+
             let subscription2 = accountMarginService.getAccountMarginLatest({
                 clearer       : 'a',
                 member        : 'b',
                 account       : 'c',
                 marginCurrency: 'd'
             }).subscribe((data: AccountMarginData[]) => {
-                expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL)
-                    .toBe(accountMarginLatestURL);
-                expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params)
-                    .toEqual({
-                        clearer       : 'a',
-                        member        : 'b',
-                        account       : 'c',
-                        marginCurrency: 'd'
-                    });
                 expect(data).toBeDefined();
-                expect(data.length).toBe(0);
+                expect(data.length).toBe(1);
+                expect(data[0].uid).toEqual(UIDUtils.computeUID('a', 'b', 'c', 'd', null));
             });
 
-            tick();
             expect(httpSyp).toHaveBeenCalledTimes(2);
+            subscription2.unsubscribe();
 
             http.returnValue(null);
             tick(DATA_REFRESH_INTERVAL);
             expect(httpSyp).toHaveBeenCalledTimes(3);
-            subscription2.unsubscribe();
+
+            let subscription3 = accountMarginService.getAccountMarginLatest({})
+                .subscribe((data: AccountMarginData[]) => {
+                    expect(data).toBeDefined();
+                    expect(data.length).toBe(0);
+                });
+
+            http.returnValue(null);
+            tick(DATA_REFRESH_INTERVAL);
+            expect(httpSyp).toHaveBeenCalledTimes(4);
+            subscription3.unsubscribe();
+
+            // Cleanup timer after test
+            //noinspection JSDeprecatedSymbols
+            accountMarginService.destroyPeriodicTimer();
         })
     ));
 
     it('history data are correctly processed', fakeAsync(inject([AccountMarginService, HttpService],
         (accountMarginService: AccountMarginService,
             http: HttpServiceStub<AccountMarginServerData[]>) => {
+
+            // Cleanup timer for latest data as we are going to test history records only
+            //noinspection JSDeprecatedSymbols
+            accountMarginService.destroyPeriodicTimer();
+
             let subscription = accountMarginService.getAccountMarginHistory({
                 clearer       : '*',
                 member        : '*',

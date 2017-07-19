@@ -2,7 +2,7 @@ import {fakeAsync, inject, TestBed, tick} from '@angular/core/testing';
 
 import {HttpServiceStub} from '@dbg-riskit/dave-ui-testing';
 
-import {Request} from '@dbg-riskit/dave-ui-common';
+import {Request, UIDUtils} from '@dbg-riskit/dave-ui-common';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 
 import {generatePositionReports} from '@dave/testing';
@@ -52,11 +52,39 @@ describe('PositionReportsService', () => {
 
             tick();
             expect(httpSyp).toHaveBeenCalledTimes(1);
+            subscription.unsubscribe();
 
             http.returnValue(generatePositionReports());
             tick(DATA_REFRESH_INTERVAL);
+
+            let subscription2 = positionReportsService.getPositionReportLatest({
+                clearer   : 'B',
+                member    : 'F',
+                account   : 'I',
+                underlying: 'UIO'
+            }).subscribe((data: PositionReportData[]) => {
+                expect(data).toBeDefined();
+                expect(data.length).toBe(Math.pow(2, 7));
+                expect(data[0].uid).toMatch('^' + UIDUtils.computeUID('B', 'F', 'I'));
+            });
+
             expect(httpSyp).toHaveBeenCalledTimes(2);
-            subscription.unsubscribe();
+            subscription2.unsubscribe();
+
+            http.returnValue(null);
+            tick(DATA_REFRESH_INTERVAL);
+            expect(httpSyp).toHaveBeenCalledTimes(3);
+
+            let subscription3 = positionReportsService.getPositionReportLatest({})
+                .subscribe((data: PositionReportData[]) => {
+                    expect(data).toBeDefined();
+                    expect(data.length).toBe(0);
+                });
+
+            http.returnValue(null);
+            tick(DATA_REFRESH_INTERVAL);
+            expect(httpSyp).toHaveBeenCalledTimes(4);
+            subscription3.unsubscribe();
 
             // Cleanup timer after test
             //noinspection JSDeprecatedSymbols

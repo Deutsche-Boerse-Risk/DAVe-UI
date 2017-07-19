@@ -2,7 +2,7 @@ import {fakeAsync, inject, TestBed, tick} from '@angular/core/testing';
 
 import {HttpServiceStub} from '@dbg-riskit/dave-ui-testing';
 
-import {Request} from '@dbg-riskit/dave-ui-common';
+import {Request, UIDUtils} from '@dbg-riskit/dave-ui-common';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 
 import {generateRiskLimitUtilization} from '@dave/testing';
@@ -46,8 +46,7 @@ describe('RiskLimitUtilizationService', () => {
                 .subscribe((data: RiskLimitUtilizationData[]) => {
                     expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL)
                         .toBe(riskLimitUtilizationLatestURL);
-                    expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params)
-                        .toEqual({});
+                    expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params).toBeUndefined();
                     expect(data.length).toBe(Math.pow(3, 3));
                     data.forEach((row: RiskLimitUtilizationData) => {
                         if (row.warningLevel > 0) {
@@ -72,75 +71,117 @@ describe('RiskLimitUtilizationService', () => {
             expect(httpSyp).toHaveBeenCalledTimes(1);
             subscription.unsubscribe();
 
-            http.returnValue(null);
+            http.returnValue([
+                {
+                    clearer   : 'a',
+                    member    : 'b',
+                    maintainer: 'c',
+                    limitType : 'd'
+                },
+                {
+                    clearer   : 'aa',
+                    member    : 'b',
+                    maintainer: 'c',
+                    limitType : 'd'
+                },
+                {
+                    clearer   : 'a',
+                    member    : 'ba',
+                    maintainer: 'c',
+                    limitType : 'd'
+                },
+                {
+                    clearer   : 'a',
+                    member    : 'b',
+                    maintainer: 'ca',
+                    limitType : 'd'
+                },
+                {
+                    clearer   : 'a',
+                    member    : 'b',
+                    maintainer: 'c',
+                    limitType : 'da'
+                }
+            ] as RiskLimitUtilizationServerData[]);
+            tick(DATA_REFRESH_INTERVAL);
+
             let subscription2 = riskLimitUtilizationService.getRiskLimitUtilizationLatest({
                 clearer   : 'a',
                 member    : 'b',
                 maintainer: 'c',
                 limitType : 'd'
-            })
-                .subscribe((data: RiskLimitUtilizationData[]) => {
-                    expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL)
-                        .toBe(riskLimitUtilizationLatestURL);
-                    expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params)
-                        .toEqual({
-                            clearer   : 'a',
-                            member    : 'b',
-                            maintainer: 'c',
-                            limitType : 'd'
-                        });
-                    expect(data).toBeDefined();
-                    expect(data.length).toBe(0);
-                });
+            }).subscribe((data: RiskLimitUtilizationData[]) => {
+                expect(data).toBeDefined();
+                expect(data.length).toBe(1);
+                expect(data[0].uid).toEqual(UIDUtils.computeUID('a', 'b', 'c', 'd', null));
+            });
 
-            tick();
             expect(httpSyp).toHaveBeenCalledTimes(2);
+            subscription2.unsubscribe();
 
             http.returnValue(null);
             tick(DATA_REFRESH_INTERVAL);
             expect(httpSyp).toHaveBeenCalledTimes(3);
-            subscription2.unsubscribe();
+
+            let subscription3 = riskLimitUtilizationService.getRiskLimitUtilizationLatest({})
+                .subscribe((data: RiskLimitUtilizationData[]) => {
+                    expect(data).toBeDefined();
+                    expect(data.length).toBe(0);
+                });
+
+            http.returnValue(null);
+            tick(DATA_REFRESH_INTERVAL);
+            expect(httpSyp).toHaveBeenCalledTimes(4);
+            subscription3.unsubscribe();
+
+            // Cleanup timer after test
+            //noinspection JSDeprecatedSymbols
+            riskLimitUtilizationService.destroyPeriodicTimer();
         })
     ));
 
     it('history data are correctly processed', fakeAsync(inject([RiskLimitUtilizationService, HttpService],
         (riskLimitUtilizationService: RiskLimitUtilizationService,
             http: HttpServiceStub<RiskLimitUtilizationServerData[]>) => {
+
+            // Cleanup timer for latest data as we are going to test history records only
+            //noinspection JSDeprecatedSymbols
+            riskLimitUtilizationService.destroyPeriodicTimer();
+
             let subscription = riskLimitUtilizationService.getRiskLimitUtilizationHistory({
                 clearer   : '*',
                 member    : '*',
                 maintainer: '*',
                 limitType : '*'
-            })
-                .subscribe((data: RiskLimitUtilizationData[]) => {
-                    expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL)
-                        .toBe(riskLimitUtilizationHistoryURL);
-                    expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params)
-                        .toEqual({
-                            clearer   : '*',
-                            member    : '*',
-                            maintainer: '*',
-                            limitType : '*'
-                        });
-                    expect(data.length).toBe(Math.pow(3, 3));
-                    data.forEach((row: RiskLimitUtilizationData) => {
-                        if (row.warningLevel > 0) {
-                            expect(row.warningUtil).toBe(row.utilization / row.warningLevel * 100);
-                        } else {
-                            expect(row.warningUtil).toBeUndefined();
-                        }
-                        if (row.throttleLevel > 0) {
-                            expect(row.throttleUtil).toBe(row.utilization / row.throttleLevel * 100);
-                        } else {
-                            expect(row.throttleUtil).toBeUndefined();
-                        }
-                        if (row.rejectLevel > 0) {
-                            expect(row.rejectUtil).toBe(row.utilization / row.rejectLevel * 100);
-                        } else {
-                            expect(row.rejectUtil).toBeUndefined();
-                        }
+            }).subscribe((data: RiskLimitUtilizationData[]) => {
+                expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL)
+                    .toBe(riskLimitUtilizationHistoryURL);
+                expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params)
+                    .toEqual({
+                        clearer   : '*',
+                        member    : '*',
+                        maintainer: '*',
+                        limitType : '*'
                     });
+                expect(data.length).toBe(Math.pow(3, 3));
+                data.forEach((row: RiskLimitUtilizationData) => {
+                    if (row.warningLevel > 0) {
+                        expect(row.warningUtil).toBe(row.utilization / row.warningLevel * 100);
+                    } else {
+                        expect(row.warningUtil).toBeUndefined();
+                    }
+                    if (row.throttleLevel > 0) {
+                        expect(row.throttleUtil).toBe(row.utilization / row.throttleLevel * 100);
+                    } else {
+                        expect(row.throttleUtil).toBeUndefined();
+                    }
+                    if (row.rejectLevel > 0) {
+                        expect(row.rejectUtil).toBe(row.utilization / row.rejectLevel * 100);
+                    } else {
+                        expect(row.rejectUtil).toBeUndefined();
+                    }
                 });
+            });
 
             tick();
             expect(httpSyp).toHaveBeenCalledTimes(1);
@@ -152,20 +193,19 @@ describe('RiskLimitUtilizationService', () => {
                 member    : 'b',
                 maintainer: 'c',
                 limitType : 'd'
-            })
-                .subscribe((data: RiskLimitUtilizationData[]) => {
-                    expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL)
-                        .toBe(riskLimitUtilizationHistoryURL);
-                    expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params)
-                        .toEqual({
-                            clearer   : 'a',
-                            member    : 'b',
-                            maintainer: 'c',
-                            limitType : 'd'
-                        });
-                    expect(data).toBeDefined();
-                    expect(data.length).toBe(0);
-                });
+            }).subscribe((data: RiskLimitUtilizationData[]) => {
+                expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL)
+                    .toBe(riskLimitUtilizationHistoryURL);
+                expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params)
+                    .toEqual({
+                        clearer   : 'a',
+                        member    : 'b',
+                        maintainer: 'c',
+                        limitType : 'd'
+                    });
+                expect(data).toBeDefined();
+                expect(data.length).toBe(0);
+            });
 
             tick();
             expect(httpSyp).toHaveBeenCalledTimes(2);

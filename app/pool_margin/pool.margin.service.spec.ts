@@ -2,7 +2,7 @@ import {fakeAsync, inject, TestBed, tick} from '@angular/core/testing';
 
 import {HttpServiceStub} from '@dbg-riskit/dave-ui-testing';
 
-import {Request} from '@dbg-riskit/dave-ui-common';
+import {Request, UIDUtils} from '@dbg-riskit/dave-ui-common';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 
 import {generatePoolMarginLatest} from '@dave/testing';
@@ -42,8 +42,7 @@ describe('PoolMarginService', () => {
                 (data: PoolMarginData[]) => {
                     expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL)
                         .toBe(poolMarginLatestURL);
-                    expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params)
-                        .toEqual({});
+                    expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params).toBeUndefined();
                     expect(data.length).toBe(Math.pow(2, 3));
                 });
 
@@ -51,36 +50,72 @@ describe('PoolMarginService', () => {
             expect(httpSyp).toHaveBeenCalledTimes(1);
             subscription.unsubscribe();
 
-            http.returnValue(null);
+            http.returnValue([
+                {
+                    clearer       : 'a',
+                    pool          : 'b',
+                    marginCurrency: 'c'
+                },
+                {
+                    clearer       : 'aa',
+                    pool          : 'b',
+                    marginCurrency: 'c'
+                },
+                {
+                    clearer       : 'a',
+                    pool          : 'ba',
+                    marginCurrency: 'c'
+                },
+                {
+                    clearer       : 'a',
+                    pool          : 'b',
+                    marginCurrency: 'ca'
+                }
+            ] as PoolMarginServerData[]);
+            tick(DATA_REFRESH_INTERVAL);
+
             let subscription2 = poolMarginService.getPoolMarginLatest({
                 clearer       : 'a',
                 pool          : 'b',
                 marginCurrency: 'c'
             }).subscribe((data: PoolMarginData[]) => {
-                expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL)
-                    .toBe(poolMarginLatestURL);
-                expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params).toEqual({
-                    clearer       : 'a',
-                    pool          : 'b',
-                    marginCurrency: 'c'
-                });
                 expect(data).toBeDefined();
-                expect(data.length).toBe(0);
+                expect(data.length).toBe(1);
+                expect(data[0].uid).toEqual(UIDUtils.computeUID('a', 'b', 'c', null));
             });
 
-            tick();
             expect(httpSyp).toHaveBeenCalledTimes(2);
+            subscription2.unsubscribe();
 
             http.returnValue(null);
             tick(DATA_REFRESH_INTERVAL);
             expect(httpSyp).toHaveBeenCalledTimes(3);
-            subscription2.unsubscribe();
+
+            let subscription3 = poolMarginService.getPoolMarginLatest({})
+                .subscribe((data: PoolMarginData[]) => {
+                    expect(data).toBeDefined();
+                    expect(data.length).toBe(0);
+                });
+
+            http.returnValue(null);
+            tick(DATA_REFRESH_INTERVAL);
+            expect(httpSyp).toHaveBeenCalledTimes(4);
+            subscription3.unsubscribe();
+
+            // Cleanup timer after test
+            //noinspection JSDeprecatedSymbols
+            poolMarginService.destroyPeriodicTimer();
         })
     ));
 
     it('history data are correctly processed', fakeAsync(inject([PoolMarginService, HttpService],
         (poolMarginService: PoolMarginService,
             http: HttpServiceStub<PoolMarginServerData[]>) => {
+
+            // Cleanup timer for latest data as we are going to test history records only
+            //noinspection JSDeprecatedSymbols
+            poolMarginService.destroyPeriodicTimer();
+
             let subscription = poolMarginService.getPoolMarginHistory({
                 clearer       : '*',
                 pool          : '*',
@@ -162,6 +197,8 @@ describe('PoolMarginService', () => {
             subscription.unsubscribe();
 
             http.returnValue(null);
+            tick(DATA_REFRESH_INTERVAL);
+
             let subscription2 = poolMarginService.getPoolMarginSummaryData()
                 .subscribe((data: PoolMarginSummaryData) => {
                     expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL)
@@ -175,13 +212,16 @@ describe('PoolMarginService', () => {
                     expect(data.cashBalance).not.toBeDefined();
                 });
 
-            tick();
             expect(httpSyp).toHaveBeenCalledTimes(2);
 
             http.returnValue(null);
             tick(DATA_REFRESH_INTERVAL);
             expect(httpSyp).toHaveBeenCalledTimes(3);
             subscription2.unsubscribe();
+
+            // Cleanup timer after test
+            //noinspection JSDeprecatedSymbols
+            poolMarginService.destroyPeriodicTimer();
         })
     ));
 });
