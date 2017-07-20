@@ -37,7 +37,8 @@ export class LiquiGroupMarginService extends AbstractService {
 
     constructor(private http: PeriodicHttpService<LiquiGroupMarginServerData[]>,
         private errorCollector: ErrorCollectorService, authService: AuthService) {
-        super(authService);
+        super();
+        this.setup(authService);
     }
 
     public setupPeriodicTimer(): void {
@@ -50,7 +51,10 @@ export class LiquiGroupMarginService extends AbstractService {
      * @deprecated Use for tests only
      */
     public destroyPeriodicTimer(): void {
-        this.latestSubscription.unsubscribe();
+        if (this.latestSubscription) {
+            this.latestSubscription.unsubscribe();
+            this.latestSubscription = null;
+        }
     }
 
     private setupLatestLoader(): void {

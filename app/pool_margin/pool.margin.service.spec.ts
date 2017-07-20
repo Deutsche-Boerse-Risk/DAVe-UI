@@ -1,7 +1,8 @@
 import {fakeAsync, inject, TestBed, tick} from '@angular/core/testing';
 
-import {HttpServiceStub} from '@dbg-riskit/dave-ui-testing';
+import {AuthServiceStub, HttpServiceStub} from '@dbg-riskit/dave-ui-testing';
 
+import {AuthService} from '@dbg-riskit/dave-ui-auth';
 import {Request, UIDUtils} from '@dbg-riskit/dave-ui-common';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 
@@ -10,6 +11,7 @@ import {generatePoolMarginLatest} from '@dave/testing';
 import {poolMarginHistoryURL, poolMarginLatestURL, PoolMarginService} from './pool.margin.service';
 import {PoolMarginData, PoolMarginServerData, PoolMarginSummaryData} from './pool.margin.types';
 
+import {ErrorCollectorService} from '../error.collector';
 import {DATA_REFRESH_INTERVAL, PeriodicHttpService} from '../periodic.http.service';
 import Spy = jasmine.Spy;
 
@@ -24,7 +26,12 @@ describe('PoolMarginService', () => {
                     provide : HttpService,
                     useClass: HttpServiceStub
                 },
-                PeriodicHttpService
+                PeriodicHttpService,
+                ErrorCollectorService,
+                {
+                    provide : AuthService,
+                    useClass: AuthServiceStub
+                }
             ]
         });
     });

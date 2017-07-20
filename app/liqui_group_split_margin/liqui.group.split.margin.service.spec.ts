@@ -1,7 +1,8 @@
 import {fakeAsync, inject, TestBed, tick} from '@angular/core/testing';
 
-import {HttpServiceStub} from '@dbg-riskit/dave-ui-testing';
+import {AuthServiceStub, HttpServiceStub} from '@dbg-riskit/dave-ui-testing';
 
+import {AuthService} from '@dbg-riskit/dave-ui-auth';
 import {Request, UIDUtils} from '@dbg-riskit/dave-ui-common';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 
@@ -14,6 +15,7 @@ import {
 } from './liqui.group.split.margin.service';
 import {LiquiGroupSplitMarginData, LiquiGroupSplitMarginServerData} from './liqui.group.split.margin.types';
 
+import {ErrorCollectorService} from '../error.collector';
 import {DATA_REFRESH_INTERVAL, PeriodicHttpService} from '../periodic.http.service';
 import Spy = jasmine.Spy;
 
@@ -28,7 +30,12 @@ describe('LiquiGroupSplitMarginService', () => {
                     provide : HttpService,
                     useClass: HttpServiceStub
                 },
-                PeriodicHttpService
+                PeriodicHttpService,
+                ErrorCollectorService,
+                {
+                    provide : AuthService,
+                    useClass: AuthServiceStub
+                }
             ]
         });
     });
