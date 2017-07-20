@@ -1,4 +1,4 @@
-import {map} from '@angular/cdk';
+import {catchOperator, map} from '@angular/cdk';
 import {Injectable} from '@angular/core';
 
 import {DateUtils, RxChain, StrictRxChain, UIDUtils} from '@dbg-riskit/dave-ui-common';
@@ -6,6 +6,7 @@ import {DateUtils, RxChain, StrictRxChain, UIDUtils} from '@dbg-riskit/dave-ui-c
 import {Observable} from 'rxjs/Observable';
 import {ReplaySubject} from 'rxjs/ReplaySubject';
 
+import {ErrorCollectorService} from '../error.collector';
 import {PeriodicHttpService} from '../periodic.http.service';
 
 import {
@@ -31,7 +32,8 @@ export class PositionReportsService {
     private chartsSubject: ReplaySubject<PositionReportChartData> = new ReplaySubject(1);
     private latestSubscription: Subscription;
 
-    constructor(private http: PeriodicHttpService<PositionReportServerData[]>) {
+    constructor(private http: PeriodicHttpService<PositionReportServerData[]>,
+        private errorCollector: ErrorCollectorService) {
         this.setupLatestLoader();
         this.setupChartsDataLoader();
     }
@@ -45,9 +47,8 @@ export class PositionReportsService {
 
     private setupLatestLoader(): void {
         this.latestSubscription = this.loadData(latestURL)
-            .subscribe(
-                (data: PositionReportData[]) => this.latestSubject.next(data),
-                (err: any) => this.latestSubject.error(err));
+            .call(catchOperator, (err: any) => this.errorCollector.handleStreamError(err))
+            .subscribe((data: PositionReportData[]) => this.latestSubject.next(data));
     }
 
     private setupChartsDataLoader() {
@@ -110,9 +111,8 @@ export class PositionReportsService {
                     accountSelection: options[0]
                 };
             })
-            .subscribe(
-                (chartData: PositionReportChartData) => this.chartsSubject.next(chartData),
-                (err: any) => this.chartsSubject.error(err));
+            .call(catchOperator, (err: any) => this.errorCollector.handleStreamError(err))
+            .subscribe((chartData: PositionReportChartData) => this.chartsSubject.next(chartData));
     }
 
     public getPositionReportsChartData(): Observable<PositionReportChartData> {
@@ -127,6 +127,8 @@ export class PositionReportsService {
                         (key: keyof PositionReportsParams) => params[key] === '*' || params[key] == null || params[key] == row[key]);
                 });
             })
+            .call(catchOperator,
+                (err: any) => this.errorCollector.handleStreamError(err) as Observable<PositionReportData[]>)
             .result();
     }
 

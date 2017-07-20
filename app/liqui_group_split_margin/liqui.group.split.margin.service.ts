@@ -1,4 +1,4 @@
-import {map} from '@angular/cdk';
+import {catchOperator, map} from '@angular/cdk';
 import {Injectable} from '@angular/core';
 
 import {DateUtils, RxChain, StrictRxChain, UIDUtils} from '@dbg-riskit/dave-ui-common';
@@ -12,6 +12,7 @@ import {
     LiquiGroupSplitMarginServerData
 } from './liqui.group.split.margin.types';
 
+import {ErrorCollectorService} from '../error.collector';
 import {PeriodicHttpService} from '../periodic.http.service';
 
 import {ReplaySubject} from 'rxjs/ReplaySubject';
@@ -26,7 +27,8 @@ export class LiquiGroupSplitMarginService {
     private latestSubject: ReplaySubject<LiquiGroupSplitMarginData[]> = new ReplaySubject(1);
     private latestSubscription: Subscription;
 
-    constructor(private http: PeriodicHttpService<LiquiGroupSplitMarginServerData[]>) {
+    constructor(private http: PeriodicHttpService<LiquiGroupSplitMarginServerData[]>,
+        private errorCollector: ErrorCollectorService) {
         this.setupLatestLoader();
     }
 
@@ -39,9 +41,8 @@ export class LiquiGroupSplitMarginService {
 
     private setupLatestLoader(): void {
         this.latestSubscription = this.loadData(liquiGroupSplitMarginLatestURL)
-            .subscribe(
-                (data: LiquiGroupSplitMarginData[]) => this.latestSubject.next(data),
-                (err: any) => this.latestSubject.error(err));
+            .call(catchOperator, (err: any) => this.errorCollector.handleStreamError(err))
+            .subscribe((data: LiquiGroupSplitMarginData[]) => this.latestSubject.next(data));
     }
 
     public getLiquiGroupSplitMarginLatest(params: LiquiGroupSplitMarginParams): Observable<LiquiGroupSplitMarginData[]> {
@@ -52,6 +53,8 @@ export class LiquiGroupSplitMarginService {
                         (key: keyof LiquiGroupSplitMarginParams) => params[key] === '*' || params[key] == null || params[key] == row[key]);
                 });
             })
+            .call(catchOperator,
+                (err: any) => this.errorCollector.handleStreamError(err) as Observable<LiquiGroupSplitMarginData[]>)
             .result();
     }
 

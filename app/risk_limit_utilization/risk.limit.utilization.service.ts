@@ -1,4 +1,4 @@
-import {map} from '@angular/cdk';
+import {catchOperator, map} from '@angular/cdk';
 import {Injectable} from '@angular/core';
 
 import {DateUtils, RxChain, StrictRxChain, UIDUtils} from '@dbg-riskit/dave-ui-common';
@@ -12,6 +12,7 @@ import {
     RiskLimitUtilizationServerData
 } from './risk.limit.utilization.types';
 
+import {ErrorCollectorService} from '../error.collector';
 import {PeriodicHttpService} from '../periodic.http.service';
 
 import {ReplaySubject} from 'rxjs/ReplaySubject';
@@ -26,7 +27,8 @@ export class RiskLimitUtilizationService {
     private latestSubject: ReplaySubject<RiskLimitUtilizationData[]> = new ReplaySubject(1);
     private latestSubscription: Subscription;
 
-    constructor(private http: PeriodicHttpService<RiskLimitUtilizationServerData[]>) {
+    constructor(private http: PeriodicHttpService<RiskLimitUtilizationServerData[]>,
+        private errorCollector: ErrorCollectorService) {
         this.setupLatestLoader();
     }
 
@@ -39,9 +41,8 @@ export class RiskLimitUtilizationService {
 
     private setupLatestLoader(): void {
         this.latestSubscription = this.loadData(riskLimitUtilizationLatestURL)
-            .subscribe(
-                (data: RiskLimitUtilizationData[]) => this.latestSubject.next(data),
-                (err: any) => this.latestSubject.error(err));
+            .call(catchOperator, (err: any) => this.errorCollector.handleStreamError(err))
+            .subscribe((data: RiskLimitUtilizationData[]) => this.latestSubject.next(data));
     }
 
     public getRiskLimitUtilizationLatest(params: RiskLimitUtilizationParams): Observable<RiskLimitUtilizationData[]> {
@@ -52,6 +53,8 @@ export class RiskLimitUtilizationService {
                         (key: keyof RiskLimitUtilizationParams) => params[key] === '*' || params[key] == null || params[key] == row[key]);
                 });
             })
+            .call(catchOperator,
+                (err: any) => this.errorCollector.handleStreamError(err) as Observable<RiskLimitUtilizationData[]>)
             .result();
     }
 

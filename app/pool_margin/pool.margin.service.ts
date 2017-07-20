@@ -1,4 +1,4 @@
-import {map} from '@angular/cdk';
+import {catchOperator, map} from '@angular/cdk';
 import {Injectable} from '@angular/core';
 
 import {DateUtils, RxChain, StrictRxChain, UIDUtils} from '@dbg-riskit/dave-ui-common';
@@ -13,6 +13,7 @@ import {
     PoolMarginSummaryData
 } from './pool.margin.types';
 
+import {ErrorCollectorService} from '../error.collector';
 import {PeriodicHttpService} from '../periodic.http.service';
 
 import {ReplaySubject} from 'rxjs/ReplaySubject';
@@ -28,7 +29,8 @@ export class PoolMarginService {
     private summarySubject: ReplaySubject<PoolMarginData[]> = new ReplaySubject(1);
     private latestSubscription: Subscription;
 
-    constructor(private http: PeriodicHttpService<PoolMarginServerData[]>) {
+    constructor(private http: PeriodicHttpService<PoolMarginServerData[]>,
+        private errorCollector: ErrorCollectorService) {
         this.setupLatestLoader();
         this.setupSummaryLoader();
     }
@@ -42,34 +44,34 @@ export class PoolMarginService {
 
     private setupLatestLoader(): void {
         this.latestSubscription = this.loadData(poolMarginLatestURL)
-            .subscribe(
-                (data: PoolMarginData[]) => this.latestSubject.next(data),
-                (err: any) => this.latestSubject.error(err));
+            .call(catchOperator, (err: any) => this.errorCollector.handleStreamError(err))
+            .subscribe((data: PoolMarginData[]) => this.latestSubject.next(data));
     }
 
     private setupSummaryLoader(): void {
-        RxChain.from(this.latestSubject).call(map, (data: PoolMarginServerData[]) => {
-            if (!data || !data.length) {
-                return {};
-            }
-            let result: PoolMarginSummaryData = {
-                shortfallSurplus : 0,
-                marginRequirement: 0,
-                totalCollateral  : 0,
-                cashBalance      : 0
-            };
+        RxChain.from(this.latestSubject)
+            .call(map, (data: PoolMarginServerData[]) => {
+                if (!data || !data.length) {
+                    return {};
+                }
+                let result: PoolMarginSummaryData = {
+                    shortfallSurplus : 0,
+                    marginRequirement: 0,
+                    totalCollateral  : 0,
+                    cashBalance      : 0
+                };
 
-            data.forEach((record: PoolMarginServerData) => {
-                result.shortfallSurplus += record.overUnderInMarginCurr;
-                result.marginRequirement += record.requiredMargin;
-                result.totalCollateral += record.cashCollateralAmount + record.adjustedSecurities
-                    + record.adjustedGuarantee + record.variPremInMarginCurr;
-                result.cashBalance += record.cashCollateralAmount + record.variPremInMarginCurr;
-            });
-            return result;
-        }).subscribe(
-            (data: PoolMarginData[]) => this.summarySubject.next(data),
-            (err: any) => this.summarySubject.error(err));
+                data.forEach((record: PoolMarginServerData) => {
+                    result.shortfallSurplus += record.overUnderInMarginCurr;
+                    result.marginRequirement += record.requiredMargin;
+                    result.totalCollateral += record.cashCollateralAmount + record.adjustedSecurities
+                        + record.adjustedGuarantee + record.variPremInMarginCurr;
+                    result.cashBalance += record.cashCollateralAmount + record.variPremInMarginCurr;
+                });
+                return result;
+            })
+            .call(catchOperator, (err: any) => this.errorCollector.handleStreamError(err))
+            .subscribe((data: PoolMarginData[]) => this.summarySubject.next(data));
     }
 
     public getPoolMarginSummaryData(): Observable<PoolMarginSummaryData | {}> {

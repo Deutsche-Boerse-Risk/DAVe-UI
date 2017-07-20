@@ -1,4 +1,4 @@
-import {map} from '@angular/cdk';
+import {catchOperator, map} from '@angular/cdk';
 import {Injectable} from '@angular/core';
 
 import {DateUtils, RxChain, UIDUtils} from '@dbg-riskit/dave-ui-common';
@@ -12,6 +12,7 @@ import {
     AccountMarginServerData
 } from './account.margin.types';
 
+import {ErrorCollectorService} from '../error.collector';
 import {PeriodicHttpService} from '../periodic.http.service';
 
 import {ReplaySubject} from 'rxjs/ReplaySubject';
@@ -26,7 +27,8 @@ export class AccountMarginService {
     private latestSubject: ReplaySubject<AccountMarginData[]> = new ReplaySubject(1);
     private latestSubscription: Subscription;
 
-    constructor(private http: PeriodicHttpService<AccountMarginServerData[]>) {
+    constructor(private http: PeriodicHttpService<AccountMarginServerData[]>,
+        private errorCollector: ErrorCollectorService) {
         this.setupLatestLoader();
     }
 
@@ -39,9 +41,8 @@ export class AccountMarginService {
 
     private setupLatestLoader(): void {
         this.latestSubscription = this.loadData(accountMarginLatestURL)
-            .subscribe(
-                (data: AccountMarginData[]) => this.latestSubject.next(data),
-                (err: any) => this.latestSubject.error(err));
+            .call(catchOperator, (err: any) => this.errorCollector.handleStreamError(err))
+            .subscribe((data: AccountMarginData[]) => this.latestSubject.next(data));
     }
 
     public getAccountMarginLatest(params: AccountMarginParams): Observable<AccountMarginData[]> {
@@ -52,6 +53,8 @@ export class AccountMarginService {
                         (key: keyof AccountMarginParams) => params[key] === '*' || params[key] == null || params[key] == row[key]);
                 });
             })
+            .call(catchOperator,
+                (err: any) => this.errorCollector.handleStreamError(err) as Observable<AccountMarginData[]>)
             .result();
     }
 

@@ -1,4 +1,4 @@
-import {map} from '@angular/cdk';
+import {catchOperator, map} from '@angular/cdk';
 import {Injectable} from '@angular/core';
 
 import {DateUtils, RxChain, StrictRxChain, UIDUtils} from '@dbg-riskit/dave-ui-common';
@@ -16,6 +16,7 @@ import {
     LiquiGroupMarginTreeNode
 } from './liqui.group.margin.types';
 
+import {ErrorCollectorService} from '../error.collector';
 import {PeriodicHttpService} from '../periodic.http.service';
 
 import {ReplaySubject} from 'rxjs/ReplaySubject';
@@ -32,7 +33,8 @@ export class LiquiGroupMarginService {
     private treeMapSubject: ReplaySubject<LiquiGroupMarginTree> = new ReplaySubject(1);
     private latestSubscription: Subscription;
 
-    constructor(private http: PeriodicHttpService<LiquiGroupMarginServerData[]>) {
+    constructor(private http: PeriodicHttpService<LiquiGroupMarginServerData[]>,
+        private errorCollector: ErrorCollectorService) {
         this.setupLatestLoader();
         this.setupAggregationLoader();
         this.setupTreemapLoader();
@@ -47,123 +49,123 @@ export class LiquiGroupMarginService {
 
     private setupLatestLoader(): void {
         this.latestSubscription = this.loadData(liquiGroupMarginLatestURL)
-            .subscribe(
-                (data: LiquiGroupMarginData[]) => this.latestSubject.next(data),
-                (err: any) => this.latestSubject.error(err));
+            .call(catchOperator, (err: any) => this.errorCollector.handleStreamError(err))
+            .subscribe((data: LiquiGroupMarginData[]) => this.latestSubject.next(data));
     }
 
     private setupTreemapLoader(): void {
-        RxChain.from(this.latestSubject).call(map, (data: LiquiGroupMarginServerData[]) => {
-            if (!data || !data.length) {
-                return {
-                    traverseDF: () => {
-                    }
-                } as any;
-            }
-            let members: { [key: string]: boolean } = {};
-            let accounts: { [key: string]: boolean } = {};
-            let classes: { [key: string]: boolean } = {};
-            let tree: LiquiGroupMarginTree = new LiquiGroupMarginTree({
-                id   : 'all',
-                text : 'all',
-                value: 0
-            });
-
-            for (let index = 0; index < data.length; ++index) {
-                if (data[index].additionalMargin === 0) {
-                    continue;
+        RxChain.from(this.latestSubject)
+            .call(map, (data: LiquiGroupMarginServerData[]) => {
+                if (!data || !data.length) {
+                    return {
+                        traverseDF: () => {
+                        }
+                    } as any;
                 }
-
-                let clearer = data[index].clearer;
-                let member = clearer + '-' + data[index].member;
-                let account = member + '-' + data[index].account;
-                let marginClass = account + '-' + data[index].marginClass;
-                let marginCurrency = marginClass + '-' + data[index].marginCurrency;
-
-                if (!members[member]) {
-                    members[member] = true;
-                    tree.add({
-                        id     : member,
-                        text   : member.replace(/\w+-/, ''),
-                        value  : 0,
-                        clearer: clearer,
-                        member : data[index].member
-                    }, 'all');
-                }
-
-                if (!accounts[account]) {
-                    accounts[account] = true;
-                    tree.add({
-                        id     : account,
-                        text   : account.replace(/\w+-/, ''),
-                        value  : 0,
-                        clearer: clearer,
-                        member : data[index].member,
-                        account: data[index].account
-                    }, member);
-                }
-
-                if (!classes[marginClass]) {
-                    classes[marginClass] = true;
-                    tree.add({
-                        id         : marginClass,
-                        text       : marginClass.replace(/\w+-/, ''),
-                        value      : 0,
-                        clearer    : clearer,
-                        member     : data[index].member,
-                        account    : data[index].account,
-                        marginClass: data[index].marginClass
-                    }, account);
-                }
-
-                tree.add({
-                    id            : marginCurrency,
-                    text          : marginCurrency.replace(/\w+-/, ''),
-                    value         : data[index].additionalMargin,
-                    leaf          : true,
-                    clearer       : clearer,
-                    member        : data[index].member,
-                    account       : data[index].account,
-                    marginClass   : data[index].marginClass,
-                    marginCurrency: data[index].marginCurrency
-                }, marginClass);
-            }
-            tree.traverseDF((node: LiquiGroupMarginTreeNode) => {
-                node.children.sort((a, b) => {
-                    return b.data.value - a.data.value;
+                let members: { [key: string]: boolean } = {};
+                let accounts: { [key: string]: boolean } = {};
+                let classes: { [key: string]: boolean } = {};
+                let tree: LiquiGroupMarginTree = new LiquiGroupMarginTree({
+                    id   : 'all',
+                    text : 'all',
+                    value: 0
                 });
-            });
-            tree.traverseBF((node: LiquiGroupMarginTreeNode) => {
-                let restText;
-                if (node.data.text === 'all') {
-                    restText = 'Rest';
-                } else {
-                    restText = node.data.text + '-Rest';
-                }
-                let restNode = new LiquiGroupMarginTreeNode({
-                    id     : node.data.id + '-Rest',
-                    text   : restText,
-                    value  : 0,
-                    clearer: node.data.clearer
-                });
-                restNode.parent = node;
-                let aggregateCount = Math.max(node.children.length - 10, 0);
-                for (let i = 0; i < aggregateCount; i++) {
-                    let smallNode = node.children.pop();
-                    restNode.data.value += smallNode.data.value;
-                    restNode.children = restNode.children.concat(smallNode.children);
-                    for (let j = 0; j < smallNode.children.length; j++) {
-                        smallNode.children[j].parent = restNode;
+
+                for (let index = 0; index < data.length; ++index) {
+                    if (data[index].additionalMargin === 0) {
+                        continue;
                     }
+
+                    let clearer = data[index].clearer;
+                    let member = clearer + '-' + data[index].member;
+                    let account = member + '-' + data[index].account;
+                    let marginClass = account + '-' + data[index].marginClass;
+                    let marginCurrency = marginClass + '-' + data[index].marginCurrency;
+
+                    if (!members[member]) {
+                        members[member] = true;
+                        tree.add({
+                            id     : member,
+                            text   : member.replace(/\w+-/, ''),
+                            value  : 0,
+                            clearer: clearer,
+                            member : data[index].member
+                        }, 'all');
+                    }
+
+                    if (!accounts[account]) {
+                        accounts[account] = true;
+                        tree.add({
+                            id     : account,
+                            text   : account.replace(/\w+-/, ''),
+                            value  : 0,
+                            clearer: clearer,
+                            member : data[index].member,
+                            account: data[index].account
+                        }, member);
+                    }
+
+                    if (!classes[marginClass]) {
+                        classes[marginClass] = true;
+                        tree.add({
+                            id         : marginClass,
+                            text       : marginClass.replace(/\w+-/, ''),
+                            value      : 0,
+                            clearer    : clearer,
+                            member     : data[index].member,
+                            account    : data[index].account,
+                            marginClass: data[index].marginClass
+                        }, account);
+                    }
+
+                    tree.add({
+                        id            : marginCurrency,
+                        text          : marginCurrency.replace(/\w+-/, ''),
+                        value         : data[index].additionalMargin,
+                        leaf          : true,
+                        clearer       : clearer,
+                        member        : data[index].member,
+                        account       : data[index].account,
+                        marginClass   : data[index].marginClass,
+                        marginCurrency: data[index].marginCurrency
+                    }, marginClass);
                 }
-                if (aggregateCount > 0) {
-                    node.children.push(restNode);
-                }
-            });
-            return tree;
-        }).subscribe(
-            (data: LiquiGroupMarginTree) => this.treeMapSubject.next(data),
-            (err: any) => this.treeMapSubject.error(err));
+                tree.traverseDF((node: LiquiGroupMarginTreeNode) => {
+                    node.children.sort((a, b) => {
+                        return b.data.value - a.data.value;
+                    });
+                });
+                tree.traverseBF((node: LiquiGroupMarginTreeNode) => {
+                    let restText;
+                    if (node.data.text === 'all') {
+                        restText = 'Rest';
+                    } else {
+                        restText = node.data.text + '-Rest';
+                    }
+                    let restNode = new LiquiGroupMarginTreeNode({
+                        id     : node.data.id + '-Rest',
+                        text   : restText,
+                        value  : 0,
+                        clearer: node.data.clearer
+                    });
+                    restNode.parent = node;
+                    let aggregateCount = Math.max(node.children.length - 10, 0);
+                    for (let i = 0; i < aggregateCount; i++) {
+                        let smallNode = node.children.pop();
+                        restNode.data.value += smallNode.data.value;
+                        restNode.children = restNode.children.concat(smallNode.children);
+                        for (let j = 0; j < smallNode.children.length; j++) {
+                            smallNode.children[j].parent = restNode;
+                        }
+                    }
+                    if (aggregateCount > 0) {
+                        node.children.push(restNode);
+                    }
+                });
+                return tree;
+            })
+            .call(catchOperator, (err: any) => this.errorCollector.handleStreamError(err))
+            .subscribe((data: LiquiGroupMarginTree) => this.treeMapSubject.next(data));
     }
 
     private setupAggregationLoader(): void {
@@ -214,9 +216,9 @@ export class LiquiGroupMarginService {
                     summary       : footerData
                 };
             })
+            .call(catchOperator, (err: any) => this.errorCollector.handleStreamError(err))
             .subscribe(
-                (data: LiquiGroupMarginAggregationData) => this.aggregationSubject.next(data),
-                (err: any) => this.aggregationSubject.error(err));
+                (data: LiquiGroupMarginAggregationData) => this.aggregationSubject.next(data));
     }
 
     public getLiquiGroupMarginTreeMapData(): Observable<LiquiGroupMarginTree> {
@@ -235,6 +237,8 @@ export class LiquiGroupMarginService {
                         (key: keyof LiquiGroupMarginParams) => params[key] === '*' || params[key] == null || params[key] == row[key]);
                 });
             })
+            .call(catchOperator,
+                (err: any) => this.errorCollector.handleStreamError(err) as Observable<LiquiGroupMarginData[]>)
             .result();
     }
 
