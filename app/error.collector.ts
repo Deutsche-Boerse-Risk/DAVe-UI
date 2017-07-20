@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 
+import {AuthService} from '@dbg-riskit/dave-ui-auth';
 import {ErrorResponse} from '@dbg-riskit/dave-ui-common';
 
 import {Observable} from 'rxjs/Observable';
@@ -10,6 +11,12 @@ import {empty as observableEmpty} from 'rxjs/observable/empty';
 export class ErrorCollectorService {
 
     private _errorObservable: ReplaySubject<ErrorResponse> = new ReplaySubject(10);
+
+    constructor(authService: AuthService) {
+        authService.loggedInChange.subscribe((auth: boolean) => {
+            this._errorObservable = new ReplaySubject(10);
+        });
+    }
 
     public error(err: ErrorResponse) {
         this._errorObservable.next(err);
