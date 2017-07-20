@@ -22,7 +22,6 @@ import {ROUTES} from '../routes/routing.paths';
                       [exportKeys]="exportKeys"
                       [data]="data"
                       [initialLoad]="initialLoad"
-                      [errorMessage]="errorMessage"
                       [drilldownRouterLink]="drilldownRouterLink"
                       [drillupRouterLink]="drillupRouterLink"
                       (filterChanged)="filtered($event)">
@@ -36,7 +35,6 @@ class TestComponent {
     public exportKeys: string[] = [];
     public data: any[];
     public initialLoad: boolean;
-    public errorMessage: string;
     public drilldownRouterLink: any[] | string;
     public drillupRouterLink: any[] | string;
 
@@ -122,11 +120,6 @@ describe('ListComponent', () => {
         page.detectChanges();
 
         expect(page.initialLoadComponent).not.toBeNull('Is shown');
-
-        page.component.errorMessage = 'Error';
-        page.detectChanges();
-
-        expect(page.initialLoadComponent).toBeNull('Not shown');
     }));
 
     it('no data message works as expected', fakeAsync(() => {
@@ -137,46 +130,10 @@ describe('ListComponent', () => {
 
         expect(page.noDataComponent).toBeNull('Not shown');
 
-        page.component.initialLoad = false;
-        page.component.errorMessage = 'Error';
-        page.detectChanges();
-
-        expect(page.noDataComponent).toBeNull('Not shown');
-
-        page.component.initialLoad = false;
-        delete page.component.errorMessage;
-        page.detectChanges();
-
-        expect(page.noDataComponent).not.toBeNull('Is shown');
-
         page.component.data = [1, 2, 3, 4, 5];
         page.detectChanges();
 
         expect(page.noDataComponent).toBeNull('Not shown');
-    }));
-
-    it('error message works as expected', fakeAsync(() => {
-        expect(page.updateFailedComponent).toBeNull('Not shown');
-
-        page.component.initialLoad = true;
-        page.detectChanges();
-
-        expect(page.updateFailedComponent).toBeNull('Not shown');
-
-        page.component.errorMessage = 'Error';
-        page.detectChanges();
-
-        expect(page.updateFailedComponent).not.toBeNull('Is shown');
-
-        page.component.initialLoad = false;
-        page.detectChanges();
-
-        expect(page.updateFailedComponent).not.toBeNull('Is shown');
-
-        page.component.data = [1, 2, 3, 4, 5];
-        page.detectChanges();
-
-        expect(page.updateFailedComponent).not.toBeNull('Is shown');
     }));
 
     it('has content', fakeAsync(() => {

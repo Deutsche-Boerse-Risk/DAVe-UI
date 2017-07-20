@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 
-import {COMPONENT_CSS, ErrorResponse, ValueGetter} from '@dbg-riskit/dave-ui-common';
+import {COMPONENT_CSS, ValueGetter} from '@dbg-riskit/dave-ui-common';
 import {OrderingCriteria, Row} from '@dbg-riskit/dave-ui-datatable';
 
 import {AbstractComponent} from '../abstract.component';
@@ -26,8 +26,6 @@ import {Subscription} from 'rxjs/Subscription';
 export class LiquiGroupMarginAggregationComponent extends AbstractComponent {
 
     public initialLoad: boolean = true;
-
-    public errorMessage: string;
 
     public footer: LiquiGroupMarginBaseData;
 
@@ -58,14 +56,6 @@ export class LiquiGroupMarginAggregationComponent extends AbstractComponent {
                         this.footer = data.summary;
                     }
 
-                    delete this.errorMessage;
-                    this.initialLoad = false;
-                },
-                (err: ErrorResponse) => {
-                    delete this.data;
-                    delete this.footer;
-
-                    this.errorMessage = 'Server returned status ' + err.status;
                     this.initialLoad = false;
                 });
     }

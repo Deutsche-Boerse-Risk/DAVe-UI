@@ -2,7 +2,7 @@ import {DecimalPipe} from '@angular/common';
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {COMPONENT_CSS, ErrorResponse} from '@dbg-riskit/dave-ui-common';
+import {COMPONENT_CSS} from '@dbg-riskit/dave-ui-common';
 import {OrderingCriteria} from '@dbg-riskit/dave-ui-datatable';
 import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
 import {DateFormatter} from '@dbg-riskit/dave-ui-view';
@@ -47,9 +47,6 @@ export class LiquiGroupMarginHistoryComponent extends AbstractHistoryListCompone
         }).subscribe(
             (rows: LiquiGroupMarginData[]) => {
                 this.processData(rows);
-            }, (err: ErrorResponse) => {
-                this.errorMessage = 'Server returned status ' + err.status;
-                this.initialLoad = false;
             });
     }
 

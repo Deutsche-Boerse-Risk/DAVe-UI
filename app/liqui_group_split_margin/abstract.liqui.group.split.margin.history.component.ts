@@ -1,7 +1,5 @@
 import {DecimalPipe} from '@angular/common';
 import {ActivatedRoute} from '@angular/router';
-
-import {ErrorResponse} from '@dbg-riskit/dave-ui-common';
 import {OrderingCriteria} from '@dbg-riskit/dave-ui-datatable';
 import {DateFormatter} from '@dbg-riskit/dave-ui-view';
 
@@ -42,9 +40,6 @@ export abstract class AbstractLiquiGroupSplitMarginHistoryComponent
         }).subscribe(
             (rows: LiquiGroupSplitMarginData[]) => {
                 this.processData(rows);
-            }, (err: ErrorResponse) => {
-                this.errorMessage = 'Server returned status ' + err.status;
-                this.initialLoad = false;
             });
     }
 

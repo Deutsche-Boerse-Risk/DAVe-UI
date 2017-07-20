@@ -1,6 +1,6 @@
 import {ActivatedRoute} from '@angular/router';
 
-import {ErrorResponse, ValueGetter} from '@dbg-riskit/dave-ui-common';
+import {ValueGetter} from '@dbg-riskit/dave-ui-common';
 import {OrderingCriteria} from '@dbg-riskit/dave-ui-datatable';
 
 import {LiquiGroupSplitMarginService} from './liqui.group.split.margin.service';
@@ -37,10 +37,6 @@ export abstract class AbstractLiquiGroupSplitMarginLatestComponent
         }).subscribe(
             (rows: LiquiGroupSplitMarginData[]) => {
                 this.processData(rows);
-            },
-            (err: ErrorResponse) => {
-                this.errorMessage = 'Server returned status ' + err.status;
-                this.initialLoad = false;
             });
     }
 

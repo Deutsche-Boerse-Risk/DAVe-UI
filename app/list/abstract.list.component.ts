@@ -14,8 +14,6 @@ export abstract class AbstractListComponent<T extends { uid: string }> extends A
 
     public initialLoad: boolean = true;
 
-    public errorMessage: string;
-
     public routeParts: RoutePart[];
 
     public routeParams: Params;
@@ -69,7 +67,6 @@ export abstract class AbstractListComponent<T extends { uid: string }> extends A
 
     protected processData(data: T[]): void {
         this.data = data;
-        delete this.errorMessage;
         this.initialLoad = false;
     }
 

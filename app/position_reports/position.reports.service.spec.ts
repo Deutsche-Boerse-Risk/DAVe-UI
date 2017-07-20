@@ -16,7 +16,6 @@ import {
 } from './position.report.types';
 
 import {DATA_REFRESH_INTERVAL, PeriodicHttpService} from '../periodic.http.service';
-
 import Spy = jasmine.Spy;
 
 describe('PositionReportsService', () => {

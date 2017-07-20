@@ -23,7 +23,6 @@ import {
 } from './liqui.group.margin.types';
 
 import {DATA_REFRESH_INTERVAL, PeriodicHttpService} from '../periodic.http.service';
-
 import Spy = jasmine.Spy;
 
 describe('LiquiGroupMarginService', () => {

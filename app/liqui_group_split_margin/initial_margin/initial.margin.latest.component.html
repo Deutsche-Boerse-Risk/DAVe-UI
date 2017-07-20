@@ -3,7 +3,6 @@
               [exportKeys]="exportKeys"
               [data]="data"
               [initialLoad]="initialLoad"
-              [errorMessage]="errorMessage"
               (filterChanged)="filter($event)"
               [drillupRouterLink]="[routerRoots.LIQUI_GROUP_MARGIN_LATEST, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', routeParams['liquidationGroup'] || '*']">
     <data-table [data]="data"

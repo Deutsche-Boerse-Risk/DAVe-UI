@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 
-import {COMPONENT_CSS, ErrorResponse} from '@dbg-riskit/dave-ui-common';
+import {COMPONENT_CSS} from '@dbg-riskit/dave-ui-common';
 
 import {AbstractComponent} from '../abstract.component';
 
@@ -30,8 +30,6 @@ export class PoolMarginLatestSummaryComponent extends AbstractComponent {
         return this.marginService.getPoolMarginSummaryData()
             .subscribe((data: PoolMarginSummaryData) => {
                 this.data = data;
-            }, (error: ErrorResponse) => {
-                console.error(error);
             });
     }
 }

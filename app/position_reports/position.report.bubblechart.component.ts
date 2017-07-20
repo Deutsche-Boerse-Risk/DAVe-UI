@@ -1,7 +1,7 @@
 import {DecimalPipe} from '@angular/common';
 import {Component, Input} from '@angular/core';
 
-import {COMPONENT_CSS, ErrorResponse} from '@dbg-riskit/dave-ui-common';
+import {COMPONENT_CSS} from '@dbg-riskit/dave-ui-common';
 import {BubbleChartOptions, ChartData, ChartRow, ChartValue} from '@dbg-riskit/dave-ui-charts';
 
 import {AbstractComponent} from '../abstract.component';
@@ -22,8 +22,6 @@ export const compVarNegativeLegend = 'Negative';
     ]
 })
 export class PositionReportBubbleChartComponent extends AbstractComponent {
-
-    public errorMessage: string;
 
     public initialLoad: boolean = true;
 
@@ -85,12 +83,7 @@ export class PositionReportBubbleChartComponent extends AbstractComponent {
 
     protected loadData(): Subscription {
         return this.positionReportsService.getPositionReportsChartData()
-            .subscribe(
-                this.processData.bind(this),
-                (err: ErrorResponse) => {
-                    this.errorMessage = 'Server returned status ' + err.status;
-                    this.initialLoad = false;
-                });
+            .subscribe(this.processData.bind(this));
     }
 
     private processData(chartData: PositionReportChartData): void {
@@ -123,7 +116,6 @@ export class PositionReportBubbleChartComponent extends AbstractComponent {
         }
         this.accountSelectionChanged();
 
-        delete this.errorMessage;
         this.initialLoad = false;
     }
 

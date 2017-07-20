@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {Router} from '@angular/router';
 
-import {COMPONENT_CSS, ErrorResponse} from '@dbg-riskit/dave-ui-common';
+import {COMPONENT_CSS} from '@dbg-riskit/dave-ui-common';
 import {ChartData, ChartRow, SelectionEvent, TreeMapOptions} from '@dbg-riskit/dave-ui-charts';
 
 import {AbstractComponent} from '../abstract.component';
@@ -25,8 +25,6 @@ export class LiquiGroupMarginTreemapComponent extends AbstractComponent {
     public chartShown: boolean = true;
 
     public initialLoad: boolean = true;
-
-    public errorMessage: string;
 
     public chartOptions: TreeMapOptions = {
         headerColor         : '#000099',
@@ -89,11 +87,6 @@ export class LiquiGroupMarginTreemapComponent extends AbstractComponent {
                     });
                 });
 
-                delete this.errorMessage;
-                this.initialLoad = false;
-            },
-            (err: ErrorResponse) => {
-                this.errorMessage = 'Server returned status ' + err.status;
                 this.initialLoad = false;
             });
     }

@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {COMPONENT_CSS, ErrorResponse, ValueGetter} from '@dbg-riskit/dave-ui-common';
+import {COMPONENT_CSS, ValueGetter} from '@dbg-riskit/dave-ui-common';
 import {OrderingCriteria} from '@dbg-riskit/dave-ui-datatable';
 import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
 
@@ -60,10 +60,6 @@ export class PositionReportLatestComponent extends AbstractLatestListComponent<P
         }).subscribe(
             (rows: PositionReportData[]) => {
                 this.processData(rows);
-            },
-            (err: ErrorResponse) => {
-                this.errorMessage = 'Server returned status ' + err.status;
-                this.initialLoad = false;
             });
     }
 
