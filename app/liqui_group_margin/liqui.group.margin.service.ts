@@ -1,6 +1,7 @@
 import {catchOperator, map} from '@angular/cdk';
 import {Injectable} from '@angular/core';
 
+import {AuthService} from '@dbg-riskit/dave-ui-auth';
 import {DateUtils, RxChain, StrictRxChain, UIDUtils} from '@dbg-riskit/dave-ui-common';
 
 import {Observable} from 'rxjs/Observable';
@@ -16,6 +17,7 @@ import {
     LiquiGroupMarginTreeNode
 } from './liqui.group.margin.types';
 
+import {AbstractService} from '../abstract.service';
 import {ErrorCollectorService} from '../error.collector';
 import {PeriodicHttpService} from '../periodic.http.service';
 
@@ -26,7 +28,7 @@ export const liquiGroupMarginLatestURL: string = '/api/v1.0/lgm/latest';
 export const liquiGroupMarginHistoryURL: string = '/api/v1.0/lgm/history';
 
 @Injectable()
-export class LiquiGroupMarginService {
+export class LiquiGroupMarginService extends AbstractService {
 
     private latestSubject: ReplaySubject<LiquiGroupMarginData[]> = new ReplaySubject(1);
     private aggregationSubject: ReplaySubject<LiquiGroupMarginAggregationData> = new ReplaySubject(1);
@@ -34,7 +36,11 @@ export class LiquiGroupMarginService {
     private latestSubscription: Subscription;
 
     constructor(private http: PeriodicHttpService<LiquiGroupMarginServerData[]>,
-        private errorCollector: ErrorCollectorService) {
+        private errorCollector: ErrorCollectorService, authService: AuthService) {
+        super(authService);
+    }
+
+    public setupPeriodicTimer(): void {
         this.setupLatestLoader();
         this.setupAggregationLoader();
         this.setupTreemapLoader();

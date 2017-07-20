@@ -1,6 +1,7 @@
 import {catchOperator, map} from '@angular/cdk';
 import {Injectable} from '@angular/core';
 
+import {AuthService} from '@dbg-riskit/dave-ui-auth';
 import {DateUtils, RxChain, StrictRxChain, UIDUtils} from '@dbg-riskit/dave-ui-common';
 
 import {Observable} from 'rxjs/Observable';
@@ -12,6 +13,7 @@ import {
     LiquiGroupSplitMarginServerData
 } from './liqui.group.split.margin.types';
 
+import {AbstractService} from 'app/abstract.service';
 import {ErrorCollectorService} from '../error.collector';
 import {PeriodicHttpService} from '../periodic.http.service';
 
@@ -22,14 +24,14 @@ export const liquiGroupSplitMarginLatestURL: string = '/api/v1.0/lgsm/latest';
 export const liquiGroupSplitMarginHistoryURL: string = '/api/v1.0/lgsm/history';
 
 @Injectable()
-export class LiquiGroupSplitMarginService {
+export class LiquiGroupSplitMarginService extends AbstractService {
 
     private latestSubject: ReplaySubject<LiquiGroupSplitMarginData[]> = new ReplaySubject(1);
     private latestSubscription: Subscription;
 
     constructor(private http: PeriodicHttpService<LiquiGroupSplitMarginServerData[]>,
-        private errorCollector: ErrorCollectorService) {
-        this.setupLatestLoader();
+        private errorCollector: ErrorCollectorService, authService: AuthService) {
+        super(authService);
     }
 
     /**
@@ -39,7 +41,7 @@ export class LiquiGroupSplitMarginService {
         this.latestSubscription.unsubscribe();
     }
 
-    private setupLatestLoader(): void {
+    public setupPeriodicTimer(): void {
         this.latestSubscription = this.loadData(liquiGroupSplitMarginLatestURL)
             .call(catchOperator, (err: any) => this.errorCollector.handleStreamError(err))
             .subscribe((data: LiquiGroupSplitMarginData[]) => this.latestSubject.next(data));

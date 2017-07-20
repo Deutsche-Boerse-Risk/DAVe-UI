@@ -1,6 +1,7 @@
 import {catchOperator, map} from '@angular/cdk';
 import {Injectable} from '@angular/core';
 
+import {AuthService} from '@dbg-riskit/dave-ui-auth';
 import {DateUtils, RxChain, StrictRxChain, UIDUtils} from '@dbg-riskit/dave-ui-common';
 
 import {Observable} from 'rxjs/Observable';
@@ -12,6 +13,7 @@ import {
     RiskLimitUtilizationServerData
 } from './risk.limit.utilization.types';
 
+import {AbstractService} from '../abstract.service';
 import {ErrorCollectorService} from '../error.collector';
 import {PeriodicHttpService} from '../periodic.http.service';
 
@@ -22,14 +24,14 @@ export const riskLimitUtilizationLatestURL: string = '/api/v1.0/rlu/latest';
 export const riskLimitUtilizationHistoryURL: string = '/api/v1.0/rlu/history';
 
 @Injectable()
-export class RiskLimitUtilizationService {
+export class RiskLimitUtilizationService extends AbstractService {
 
     private latestSubject: ReplaySubject<RiskLimitUtilizationData[]> = new ReplaySubject(1);
     private latestSubscription: Subscription;
 
     constructor(private http: PeriodicHttpService<RiskLimitUtilizationServerData[]>,
-        private errorCollector: ErrorCollectorService) {
-        this.setupLatestLoader();
+        private errorCollector: ErrorCollectorService, authService: AuthService) {
+        super(authService);
     }
 
     /**
@@ -39,7 +41,7 @@ export class RiskLimitUtilizationService {
         this.latestSubscription.unsubscribe();
     }
 
-    private setupLatestLoader(): void {
+    public setupPeriodicTimer(): void {
         this.latestSubscription = this.loadData(riskLimitUtilizationLatestURL)
             .call(catchOperator, (err: any) => this.errorCollector.handleStreamError(err))
             .subscribe((data: RiskLimitUtilizationData[]) => this.latestSubject.next(data));

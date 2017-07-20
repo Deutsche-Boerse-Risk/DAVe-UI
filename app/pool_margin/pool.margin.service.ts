@@ -1,6 +1,7 @@
 import {catchOperator, map} from '@angular/cdk';
 import {Injectable} from '@angular/core';
 
+import {AuthService} from '@dbg-riskit/dave-ui-auth';
 import {DateUtils, RxChain, StrictRxChain, UIDUtils} from '@dbg-riskit/dave-ui-common';
 
 import {Observable} from 'rxjs/Observable';
@@ -13,6 +14,7 @@ import {
     PoolMarginSummaryData
 } from './pool.margin.types';
 
+import {AbstractService} from '../abstract.service';
 import {ErrorCollectorService} from '../error.collector';
 import {PeriodicHttpService} from '../periodic.http.service';
 
@@ -23,16 +25,15 @@ export const poolMarginLatestURL: string = '/api/v1.0/pm/latest';
 export const poolMarginHistoryURL: string = '/api/v1.0/pm/history';
 
 @Injectable()
-export class PoolMarginService {
+export class PoolMarginService extends AbstractService {
 
     private latestSubject: ReplaySubject<PoolMarginData[]> = new ReplaySubject(1);
     private summarySubject: ReplaySubject<PoolMarginData[]> = new ReplaySubject(1);
     private latestSubscription: Subscription;
 
     constructor(private http: PeriodicHttpService<PoolMarginServerData[]>,
-        private errorCollector: ErrorCollectorService) {
-        this.setupLatestLoader();
-        this.setupSummaryLoader();
+        private errorCollector: ErrorCollectorService, authService: AuthService) {
+        super(authService);
     }
 
     /**
@@ -40,6 +41,11 @@ export class PoolMarginService {
      */
     public destroyPeriodicTimer(): void {
         this.latestSubscription.unsubscribe();
+    }
+
+    public setupPeriodicTimer(): void {
+        this.setupLatestLoader();
+        this.setupSummaryLoader();
     }
 
     private setupLatestLoader(): void {

@@ -1,11 +1,13 @@
 import {catchOperator, map} from '@angular/cdk';
 import {Injectable} from '@angular/core';
 
+import {AuthService} from '@dbg-riskit/dave-ui-auth';
 import {DateUtils, RxChain, StrictRxChain, UIDUtils} from '@dbg-riskit/dave-ui-common';
 
 import {Observable} from 'rxjs/Observable';
 import {ReplaySubject} from 'rxjs/ReplaySubject';
 
+import {AbstractService} from '../abstract.service';
 import {ErrorCollectorService} from '../error.collector';
 import {PeriodicHttpService} from '../periodic.http.service';
 
@@ -26,16 +28,15 @@ export const latestURL: string = '/api/v1.0/pr/latest';
 export const historyURL: string = '/api/v1.0/pr/history';
 
 @Injectable()
-export class PositionReportsService {
+export class PositionReportsService extends AbstractService {
 
     private latestSubject: ReplaySubject<PositionReportData[]> = new ReplaySubject(1);
     private chartsSubject: ReplaySubject<PositionReportChartData> = new ReplaySubject(1);
     private latestSubscription: Subscription;
 
     constructor(private http: PeriodicHttpService<PositionReportServerData[]>,
-        private errorCollector: ErrorCollectorService) {
-        this.setupLatestLoader();
-        this.setupChartsDataLoader();
+        private errorCollector: ErrorCollectorService, authService: AuthService) {
+        super(authService);
     }
 
     /**
@@ -43,6 +44,11 @@ export class PositionReportsService {
      */
     public destroyPeriodicTimer(): void {
         this.latestSubscription.unsubscribe();
+    }
+
+    public setupPeriodicTimer(): void {
+        this.setupLatestLoader();
+        this.setupChartsDataLoader();
     }
 
     private setupLatestLoader(): void {

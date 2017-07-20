@@ -1,6 +1,7 @@
 import {catchOperator, map} from '@angular/cdk';
 import {Injectable} from '@angular/core';
 
+import {AuthService} from '@dbg-riskit/dave-ui-auth';
 import {DateUtils, RxChain, UIDUtils} from '@dbg-riskit/dave-ui-common';
 
 import {Observable} from 'rxjs/Observable';
@@ -12,6 +13,7 @@ import {
     AccountMarginServerData
 } from './account.margin.types';
 
+import {AbstractService} from '../abstract.service';
 import {ErrorCollectorService} from '../error.collector';
 import {PeriodicHttpService} from '../periodic.http.service';
 
@@ -22,14 +24,14 @@ export const accountMarginLatestURL: string = '/api/v1.0/am/latest';
 export const accountMarginHistoryURL: string = '/api/v1.0/am/history';
 
 @Injectable()
-export class AccountMarginService {
+export class AccountMarginService extends AbstractService {
 
     private latestSubject: ReplaySubject<AccountMarginData[]> = new ReplaySubject(1);
     private latestSubscription: Subscription;
 
     constructor(private http: PeriodicHttpService<AccountMarginServerData[]>,
-        private errorCollector: ErrorCollectorService) {
-        this.setupLatestLoader();
+        private errorCollector: ErrorCollectorService, authService: AuthService) {
+        super(authService);
     }
 
     /**
@@ -39,7 +41,7 @@ export class AccountMarginService {
         this.latestSubscription.unsubscribe();
     }
 
-    private setupLatestLoader(): void {
+    public setupPeriodicTimer(): void {
         this.latestSubscription = this.loadData(accountMarginLatestURL)
             .call(catchOperator, (err: any) => this.errorCollector.handleStreamError(err))
             .subscribe((data: AccountMarginData[]) => this.latestSubject.next(data));
