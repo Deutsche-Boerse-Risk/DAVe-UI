@@ -143,7 +143,10 @@ export class PositionReportsService extends AbstractService {
     }
 
     public getPositionReportHistory(params: PositionReportsHistoryParams): Observable<PositionReportData[]> {
-        return this.loadData(historyURL, params).result();
+        return this.loadData(historyURL, params)
+            .call(catchOperator,
+                (err: any) => this.errorCollector.handleStreamError(err) as Observable<PositionReportData[]>)
+            .result();
     }
 
     private loadData(url: string, params?: PositionReportsParams): StrictRxChain<PositionReportData[]> {

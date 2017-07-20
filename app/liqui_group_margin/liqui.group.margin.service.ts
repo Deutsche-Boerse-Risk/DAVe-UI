@@ -253,7 +253,10 @@ export class LiquiGroupMarginService extends AbstractService {
     }
 
     public getLiquiGroupMarginHistory(params: LiquiGroupMarginHistoryParams): Observable<LiquiGroupMarginData[]> {
-        return this.loadData(liquiGroupMarginHistoryURL, params).result();
+        return this.loadData(liquiGroupMarginHistoryURL, params)
+            .call(catchOperator,
+                (err: any) => this.errorCollector.handleStreamError(err) as Observable<LiquiGroupMarginData[]>)
+            .result();
     }
 
     private loadData(url: string, params?: LiquiGroupMarginParams): StrictRxChain<LiquiGroupMarginData[]> {

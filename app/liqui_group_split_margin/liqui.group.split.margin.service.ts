@@ -65,7 +65,10 @@ export class LiquiGroupSplitMarginService extends AbstractService {
     }
 
     public getLiquiGroupSplitMarginHistory(params: LiquiGroupSplitMarginHistoryParams): Observable<LiquiGroupSplitMarginData[]> {
-        return this.loadData(liquiGroupSplitMarginHistoryURL, params).result();
+        return this.loadData(liquiGroupSplitMarginHistoryURL, params)
+            .call(catchOperator,
+                (err: any) => this.errorCollector.handleStreamError(err) as Observable<LiquiGroupSplitMarginData[]>)
+            .result();
     }
 
     private loadData(url: string, params?: LiquiGroupSplitMarginParams): StrictRxChain<LiquiGroupSplitMarginData[]> {

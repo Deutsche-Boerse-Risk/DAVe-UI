@@ -96,11 +96,16 @@ export class PoolMarginService extends AbstractService {
                         (key: keyof PoolMarginParams) => params[key] === '*' || params[key] == null || params[key] == row[key]);
                 });
             })
+            .call(catchOperator,
+                (err: any) => this.errorCollector.handleStreamError(err) as Observable<PoolMarginData[]>)
             .result();
     }
 
     public getPoolMarginHistory(params: PoolMarginHistoryParams): Observable<PoolMarginData[]> {
-        return this.loadData(poolMarginHistoryURL, params).result();
+        return this.loadData(poolMarginHistoryURL, params)
+            .call(catchOperator,
+                (err: any) => this.errorCollector.handleStreamError(err) as Observable<PoolMarginData[]>)
+            .result();
     }
 
     private loadData(url: string, params?: PoolMarginParams): StrictRxChain<PoolMarginData[]> {

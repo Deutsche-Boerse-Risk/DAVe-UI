@@ -65,7 +65,10 @@ export class RiskLimitUtilizationService extends AbstractService {
     }
 
     public getRiskLimitUtilizationHistory(params: RiskLimitUtilizationHistoryParams): Observable<RiskLimitUtilizationData[]> {
-        return this.loadData(riskLimitUtilizationHistoryURL, params).result();
+        return this.loadData(riskLimitUtilizationHistoryURL, params)
+            .call(catchOperator,
+                (err: any) => this.errorCollector.handleStreamError(err) as Observable<RiskLimitUtilizationData[]>)
+            .result();
     }
 
     private loadData(url: string, params?: RiskLimitUtilizationParams): StrictRxChain<RiskLimitUtilizationData[]> {

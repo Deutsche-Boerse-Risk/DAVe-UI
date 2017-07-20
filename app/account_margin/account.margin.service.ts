@@ -65,7 +65,10 @@ export class AccountMarginService extends AbstractService {
     }
 
     public getAccountMarginHistory(params: AccountMarginHistoryParams): Observable<AccountMarginData[]> {
-        return this.loadData(accountMarginHistoryURL, params).result();
+        return this.loadData(accountMarginHistoryURL, params)
+            .call(catchOperator,
+                (err: any) => this.errorCollector.handleStreamError(err) as Observable<AccountMarginData[]>)
+            .result();
     }
 
     private loadData(url: string, params?: AccountMarginParams) {
