@@ -11,33 +11,27 @@
 
 ## Browser support (tested via [BrowserStack](https://www.browserstack.com))
 | ![Chrome](https://cdn1.iconfinder.com/data/icons/google_jfk_icons_by_carlosjj/32/chrome.png) Chrome | ![Firefox](https://cdn2.iconfinder.com/data/icons/humano2/32x32/apps/firefox-icon.png) Firefox | ![Edge](https://cdn4.iconfinder.com/data/icons/picons-social/57/56-edge-2-32.png) Edge | ![IE](https://cdn4.iconfinder.com/data/icons/iconsimple-logotypes/512/internet_explorer-32.png) IE | ![Safari](https://cdn1.iconfinder.com/data/icons/logotypes/32/safari-32.png) Safari | ![iOS](https://cdn1.iconfinder.com/data/icons/system-shade-circles/512/iOS-32.png) iOS |
-|:------:|:-------:|:----:|:------:|:------:|:------:|
-| Latest |  Latest |  14  |   11   |   10   |  9.0+\* |
-|  50    |   50    |  13  |        |   9.1  |        |
-|        |         |      |        |   8    |        |
-|        |         |      |        |   7.1  |        |
+|:------:|:-------:|:----:|:------:|:------:|:-------:|
+| Latest |  Latest |  15  |   11   |   10   |  9.1+\* |
+|  50    |   50    |  14  |   10\*   |   9.1  |         |
 
-\* In iOS the application is working, but with layout issues. 
+\* In IE 10 and iOS the application is working, but with layout issues. 
 
 ## Prerequisites (For the first time only)
  
- - Install [npm](http://blog.npmjs.org/post/85484771375/how-to-install-npm) first.
+ - Install [npm@5](http://blog.npmjs.org/post/85484771375/how-to-install-npm) first.
+ - If you already have NPM update to latest version using `npm i -g npm@5`. Use `sudo` if necessary.
  - You may need to setup http(s) proxy using:
       - `npm config set proxy http://proxy.company.com:8080`
       - `npm config set https-proxy http://proxy.company.com:8080`
+ - Run `npm i` to download necessary packages.
  - Run commands in the following section.
 
 ## Before each build
 To ensure you have always up-to-date dependecies run following commands:
 
-**On Linux or Mac environment you can simply run:**
- - Install all dependencies by running `./tools/update-dev.sh`. Use `sudo` if necessary.
- 
-**On Windows you need to follow these steps:**
- - Install Grunt CLI using `npm install -g grunt-cli`. 
- - Run `npm install` to download necessary packages.
- - Run `npm update` to update already downloaded packages.
- - Run `npm prune` to remove old or no more used dependencies.
+ - Install Grunt CLI using `npm i -g grunt-cli`. Use `sudo` if necessary. 
+ - Run `npm up` to update already downloaded packages.
 
 ## Build distribution package
 
@@ -53,33 +47,43 @@ You can test distribution package using the following command:
 grunt dist-run
 ```
 This will start a simple web server. A Chrome browser will be started automatically. If you don't want to use Chrome 
-for whatever reason you need to modify `browser-providers.conf.js` and check for the following section: 
+for whatever reason you need to modify `gruntfile.js`. Add the following lines: 
 ```javascript
-module.exports = {
-    BrowserSync: BrowserSync.CHROME
-}
+var browsers = require('@dbg-riskit/dave-ui-common/tools/browser-providers.conf');
+grunt.config.set('browserSync.options.browser', 
+    browsers.BrowserSyncBorwsers.FIREFOX);
 ```
   
 ## Run in development mode
  - Point your UI to the host, where the back-end for DAVe is running
    - see `restUrl.js` file
- - Update development and runtime dependencies by calling `npm update`.
- - Run `grunt run` to start the simple web server. A Chrome browser will be started automatically. 
- If you don't want to use Chrome for whatever reason you need to modify `gruntfile.js` and check for the following section: 
+ - Update development and runtime dependencies by calling `npm up`.
+ - Run `grunt run` to start the simple web server. A Chrome browser will be started automatically. If you don't want to 
+ use Chrome for whatever reason you need to modify `gruntfile.js`. Add the following lines:  
  
- ```javascript
-module.exports = {
-    BrowserSync: BrowserSync.CHROME 
- }
- ```
+```javascript
+var browsers = require('@dbg-riskit/dave-ui-common/tools/browser-providers.conf');
+grunt.config.set('browserSync.options.browser', 
+    browsers.BrowserSyncBorwsers.FIREFOX);
+```
  - Whenever there is a change to the files related to the UI, the server gets notified immediately - no restart is needed.
 
 ## Executing tests
 To execute all test suites locally you can run one of the following commands:
- - `grunt test` - To run Karma tests in locally installed IE, Chrome and Firefox
+ - `grunt test` - To run Karma tests in locally installed IE, Chrome, Safari and Firefox
  - `grunt testIE` - To run Karma tests in locally installed IE
  - `grunt testChrome` - To run Karma tests in locally installed Chrome
- - `grunt testFirefox` - To run Karma tests in locally installed IE, Chrome and Firefox
+ - `grunt testFirefox` - To run Karma tests in locally installed Firefox
+ - `grunt testSafari` - To run Karma tests in locally installed Safari
+ 
+To execute Karma runner in debug mode use one of the following commands:
+```bash
+grunt testDebug
+grunt testIEDebug
+grunt testChromeDebug
+grunt testFirefoxDebug
+grunt testSafariDebug
+```
 
 You can run also tests using [BrowserStack](https://www.browserstack.com) cloud provider. To run these tests you need
 to define following environment variables first:
@@ -92,11 +96,8 @@ Then you can run:
 grunt testBrowserStack
 ```
 
-If you are located behind a company proxy you will need to export also `HTTP_PROXY` variable. You need to download 
-[BrowserStack tunel binary](https://www.browserstack.com/local-testing#command-line) manualy. Store it under:
-```
-<project_root>/browserStackBin/BrowserStackLocal(.exe)
-```
+If you are located behind a company proxy you will need to export also `HTTP_PROXY` variable.
+
 Then run `grunt testBrowserStackProxy` instead.
 
 There are also tasks to run BrowserStack based tests only for a selected browser:
@@ -107,6 +108,7 @@ grunt testBrowserStackFirefox
 grunt testBrowserStackEdge
 grunt testBrowserStackIE
 grunt testBrowserStackSafari
+grunt testBrowserStackIOS
 
 # BrowserStack (behind proxy) test tasks
 grunt testBrowserStackProxyChrome
@@ -114,6 +116,23 @@ grunt testBrowserStackProxyFirefox
 grunt testBrowserStackProxyEdge
 grunt testBrowserStackProxyIE
 grunt testBrowserStackProxySafari
+grunt testBrowserStackProxyIOS
+
+# BrowserStack test tasks (in debug mode)
+grunt testBrowserStackChromeDebug
+grunt testBrowserStackFirefoxDebug
+grunt testBrowserStackEdgeDebug
+grunt testBrowserStackIEDebug
+grunt testBrowserStackSafariDebug
+grunt testBrowserStackIOSDebug
+
+# BrowserStack (behind proxy) test tasks (in debug mode)
+grunt testBrowserStackProxyChromeDebug
+grunt testBrowserStackProxyFirefoxDebug
+grunt testBrowserStackProxyEdgeDebug
+grunt testBrowserStackProxyIEDebug
+grunt testBrowserStackProxySafariDebug
+grunt testBrowserStackProxyIOSDebug
 ```
 
 # Docker image to run standalone UI
