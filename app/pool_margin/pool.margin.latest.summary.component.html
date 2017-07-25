@@ -1,16 +1,12 @@
 <ng-template #card let-value="value" let-label="label">
     <md-card [class.good]="value >= 0"
-             [class.error]="value < 0"
-             fxFlex="1 1 auto"
-             fxLayout="column">
+             [class.error]="value < 0">
         <div class="huge">{{value | number:'.2-2'}}</div>
         <div>{{label}}</div>
     </md-card>
 </ng-template>
 
-<div *ngIf="data"
-     fxLayout="row"
-     fxLayoutWrap="wrap">
+<div *ngIf="data">
     <ng-template [ngTemplateOutlet]="card"
                  [ngTemplateOutletContext]="{value: data.shortfallSurplus, label: 'Margin Shortfall/Surplus'}">
     </ng-template>

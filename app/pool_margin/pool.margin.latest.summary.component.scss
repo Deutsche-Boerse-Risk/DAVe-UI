@@ -3,9 +3,18 @@
 :host {
     & > div {
         @include clearfix;
+
+        @include display-flex();
+        @include flex-direction(row);
+        @include flex-wrap(wrap);
     }
 
     .mat-card {
+        @include flex(1, 1, auto);
+
+        @include display-flex();
+        @include flex-direction(column);
+
         margin: 0 5px 10px;
         text-align: right;
         font-size: rem(1.2);

@@ -30,7 +30,6 @@ function initApp() {
             // Material Design components
             '@angular/cdk': 'npm:@angular/cdk/bundles/cdk.umd.js',
             '@angular/material': 'npm:@angular/material/bundles/material.umd.js',
-            '@angular/flex-layout/index': 'npm:@angular/flex-layout/bundles/flex-layout.umd.js',
 
             // DAVe-Common
             '@dbg-riskit/dave-ui-auth': 'npm:@dbg-riskit/dave-ui-auth/bundles/dave-ui-auth.cjs.js',
