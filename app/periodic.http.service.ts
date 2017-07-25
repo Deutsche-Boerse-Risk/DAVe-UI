@@ -4,7 +4,7 @@ import {Injectable} from '@angular/core';
 import {mergeMap, Request, RxChain, StrictRxChain} from '@dbg-riskit/dave-ui-common';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 
-import {ErrorCollectorService} from './error.collector';
+import {ErrorCollectorService} from './error/error.collector';
 
 import {Observable} from 'rxjs/Observable';
 import {timer} from 'rxjs/observable/timer';

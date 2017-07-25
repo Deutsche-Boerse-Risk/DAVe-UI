@@ -13,6 +13,7 @@ import {
 import {AggregationPage, generateLiquiGroupMargin, generateLiquiGroupMarginHistory} from '@dave/testing';
 
 import {CommonModule} from '@angular/common';
+import {ErrorType} from '@dbg-riskit/dave-ui-common';
 import {DataTableModule} from '@dbg-riskit/dave-ui-datatable';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 
@@ -73,8 +74,9 @@ xdescribe('Liqui Group Margin aggregation component', () => {
 
             // Return error
             http.throwError({
-                status : 500,
-                message: 'Error message'
+                status   : 500,
+                message  : 'Error message',
+                errorType: ErrorType.REQUEST
             });
             page.advanceHTTP();
 

@@ -14,7 +14,7 @@ import {
 } from './account.margin.types';
 
 import {AbstractService} from '../abstract.service';
-import {ErrorCollectorService} from '../error.collector';
+import {ErrorCollectorService} from '../error/error.collector';
 import {PeriodicHttpService} from '../periodic.http.service';
 
 import {ReplaySubject} from 'rxjs/ReplaySubject';

@@ -12,8 +12,8 @@ import {AppComponent} from './app.component';
 import {MenuModule} from './menu/menu.module';
 import {RoutingModule} from './routes/routing.module';
 
-import {ErrorCollectorService} from './error.collector';
 import {PeriodicHttpService} from './periodic.http.service';
+import {ErrorModule} from './error/error.module';
 
 @NgModule({
     imports     : [
@@ -23,7 +23,8 @@ import {PeriodicHttpService} from './periodic.http.service';
         RoutingModule,
         MenuModule,
         LoginModule,
-        LayoutModule
+        LayoutModule,
+        ErrorModule
     ],
     declarations: [
         AppComponent
@@ -36,8 +37,7 @@ import {PeriodicHttpService} from './periodic.http.service';
             provide : DATE_FORMAT,
             useValue: 'dd. MM. yyyy HH:mm:ss'
         },
-        PeriodicHttpService,
-        ErrorCollectorService
+        PeriodicHttpService
     ]
 })
 export class AppModule {

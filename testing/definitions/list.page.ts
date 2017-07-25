@@ -37,7 +37,7 @@ import {FILTER_TIMEOUT, ListComponent} from '../../app/list/list.component';
 import {DrillUpDownButtonComponent} from '../../app/list/drill.updown.button.component';
 import {BreadCrumbsComponent} from '../../app/list/bread.crumbs.component';
 
-import {ErrorCollectorService} from '../../app/error.collector';
+import {ErrorCollectorService} from '../../app/error/error.collector';
 import {PeriodicHttpService} from '../../app/periodic.http.service';
 
 export class ListPage<T> extends PageWithLoading<T> {

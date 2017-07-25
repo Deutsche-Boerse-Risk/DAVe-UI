@@ -1,0 +1,35 @@
+<button *ngIf="state != null"
+        md-icon-button
+        [color]="color"
+        type="button"
+        [@buttonState]="state"
+        (@buttonState.done)="animationDone($event)"
+        [mdMenuTriggerFor]="errorMenu"
+        (onMenuOpen)="markErrorsRead()">
+    <md-icon>error_outline</md-icon>
+</button>
+
+<md-menu #errorMenu="mdMenu"
+         class="errorMenu"
+         [overlapTrigger]="false">
+    <message *ngFor="let error of errors" style="padding-left: 10px; padding-right: 10px">
+        <md-card-header>
+            <md-icon color="warn" md-card-avatar>error_outline</md-icon>
+            <md-card-title *ngIf="error.type.isNetworkError()">
+                <small>Network error</small>
+            </md-card-title>
+            <md-card-title *ngIf="error.type.isRequestError()">API error</md-card-title>
+            <md-card-title *ngIf="error.type.isAuthError()">Authorization error</md-card-title>
+            <md-card-title
+                    *ngIf="!error.type.isNetworkError() && !error.type.isRequestError() && !error.type.isAuthError()">
+                General error
+            </md-card-title>
+            <md-card-subtitle *ngIf="error.statusCode">Error code: {{error.statusCode}}</md-card-subtitle>
+        </md-card-header>
+        <md-card-content>
+            <p>
+                {{error.message}}
+            </p>
+        </md-card-content>
+    </message>
+</md-menu>

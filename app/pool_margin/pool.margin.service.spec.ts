@@ -11,7 +11,7 @@ import {generatePoolMarginLatest} from '@dave/testing';
 import {poolMarginHistoryURL, poolMarginLatestURL, PoolMarginService} from './pool.margin.service';
 import {PoolMarginData, PoolMarginServerData, PoolMarginSummaryData} from './pool.margin.types';
 
-import {ErrorCollectorService} from '../error.collector';
+import {ErrorCollectorService} from '../error/error.collector';
 import {DATA_REFRESH_INTERVAL, PeriodicHttpService} from '../periodic.http.service';
 import Spy = jasmine.Spy;
 

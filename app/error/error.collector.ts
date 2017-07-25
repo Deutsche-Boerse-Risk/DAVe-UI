@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 
 import {AuthService} from '@dbg-riskit/dave-ui-auth';
-import {ErrorResponse} from '@dbg-riskit/dave-ui-common';
+import {ErrorMessage, ErrorType} from '@dbg-riskit/dave-ui-common';
 
 import {Observable} from 'rxjs/Observable';
 import {ReplaySubject} from 'rxjs/ReplaySubject';
@@ -10,7 +10,7 @@ import {empty as observableEmpty} from 'rxjs/observable/empty';
 @Injectable()
 export class ErrorCollectorService {
 
-    private _errorObservable: ReplaySubject<ErrorResponse> = new ReplaySubject(10);
+    private _errorObservable: ReplaySubject<ErrorMessage> = new ReplaySubject(10);
 
     constructor(authService: AuthService) {
         authService.loggedInChange.subscribe((auth: boolean) => {
@@ -18,23 +18,27 @@ export class ErrorCollectorService {
         });
     }
 
-    public error(err: ErrorResponse) {
+    public error(err: ErrorMessage) {
         this._errorObservable.next(err);
     }
 
-    public get errorStream(): Observable<ErrorResponse> {
+    public get errorStream(): Observable<ErrorMessage> {
         return this._errorObservable.asObservable();
     }
 
     public handleStreamError<T>(err: any): Observable<T> {
-        if (!(err as ErrorResponse).status || !(err as ErrorResponse).message) {
+        let errorMessage: ErrorMessage;
+        if ((err as ErrorMessage).status == null || (err as ErrorMessage).errorType == null || (err as ErrorMessage).message == null) {
             err = err.message || err.toString();
-            err = {
-                message: err,
-                status : 500
+            errorMessage = {
+                message  : err,
+                status   : 500,
+                errorType: ErrorType.ERROR
             };
+        } else {
+            errorMessage = err;
         }
-        this.error(err);
+        this.error(errorMessage);
         return observableEmpty();
     }
 }

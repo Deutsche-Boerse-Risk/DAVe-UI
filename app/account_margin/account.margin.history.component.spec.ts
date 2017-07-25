@@ -10,6 +10,7 @@ import {
     TableBodyRow
 } from '@dbg-riskit/dave-ui-testing';
 
+import {ErrorType} from '@dbg-riskit/dave-ui-common';
 import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 
@@ -66,8 +67,9 @@ xdescribe('Account margin history component', () => {
 
             // Return error
             http.throwError({
-                status : 500,
-                message: 'Error message'
+                status   : 500,
+                message  : 'Error message',
+                errorType: ErrorType.REQUEST
             });
             page.advanceHTTP();
 

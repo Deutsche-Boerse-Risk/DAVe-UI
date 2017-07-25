@@ -7,6 +7,7 @@ import {fakeAsync, inject, TestBed} from '@angular/core/testing';
 
 import {compileTestBed, HttpAsyncServiceStub, RouterLinkStubDirective} from '@dbg-riskit/dave-ui-testing';
 
+import {ErrorType} from '@dbg-riskit/dave-ui-common';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 import {ChartRow} from '@dbg-riskit/dave-ui-charts';
 
@@ -74,8 +75,9 @@ xdescribe('Position reports bubble chart component', () => {
 
             // Return error
             http.throwError({
-                status : 500,
-                message: 'Error message'
+                status   : 500,
+                message  : 'Error message',
+                errorType: ErrorType.REQUEST
             });
             page.advanceHTTP();
 

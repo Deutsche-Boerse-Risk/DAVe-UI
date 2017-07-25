@@ -15,7 +15,7 @@ import {
 } from './risk.limit.utilization.service';
 import {RiskLimitUtilizationData, RiskLimitUtilizationServerData} from './risk.limit.utilization.types';
 
-import {ErrorCollectorService} from '../error.collector';
+import {ErrorCollectorService} from '../error/error.collector';
 import {DATA_REFRESH_INTERVAL, PeriodicHttpService} from '../periodic.http.service';
 import Spy = jasmine.Spy;
 

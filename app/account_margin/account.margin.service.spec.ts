@@ -11,7 +11,7 @@ import {generateAccountMargin} from '@dave/testing';
 import {accountMarginHistoryURL, accountMarginLatestURL, AccountMarginService} from './account.margin.service';
 import {AccountMarginData, AccountMarginServerData} from './account.margin.types';
 
-import {ErrorCollectorService} from '../error.collector';
+import {ErrorCollectorService} from '../error/error.collector';
 import {DATA_REFRESH_INTERVAL, PeriodicHttpService} from '../periodic.http.service';
 import Spy = jasmine.Spy;
 
