@@ -26,6 +26,7 @@ import {
 import {AuthService} from '@dbg-riskit/dave-ui-auth';
 import {DATE_FORMAT} from '@dbg-riskit/dave-ui-common';
 import {DataTableComponent, DataTableModule, HIGHLIGHTER_TIMEOUT} from '@dbg-riskit/dave-ui-datatable';
+import {ErrorCollectorService} from '@dbg-riskit/dave-ui-error';
 import {CSVDownloadMenuComponent, FileModule} from '@dbg-riskit/dave-ui-file';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 import {DateFormatter, INITIAL_LOAD_SELECTOR, NO_DATA_SELECTOR, UPDATE_FAILED_SELECTOR} from '@dbg-riskit/dave-ui-view';
@@ -37,7 +38,6 @@ import {FILTER_TIMEOUT, ListComponent} from '../../app/list/list.component';
 import {DrillUpDownButtonComponent} from '../../app/list/drill.updown.button.component';
 import {BreadCrumbsComponent} from '../../app/list/bread.crumbs.component';
 
-import {ErrorCollectorService} from '../../app/error/error.collector';
 import {PeriodicHttpService} from '../../app/periodic.http.service';
 
 export class ListPage<T> extends PageWithLoading<T> {

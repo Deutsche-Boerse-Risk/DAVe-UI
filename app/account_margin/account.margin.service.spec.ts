@@ -4,6 +4,7 @@ import {AuthServiceStub, HttpServiceStub} from '@dbg-riskit/dave-ui-testing';
 
 import {AuthService} from '@dbg-riskit/dave-ui-auth';
 import {Request, UIDUtils} from '@dbg-riskit/dave-ui-common';
+import {ErrorCollectorService} from '@dbg-riskit/dave-ui-error';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 
 import {generateAccountMargin} from '@dave/testing';
@@ -11,7 +12,6 @@ import {generateAccountMargin} from '@dave/testing';
 import {accountMarginHistoryURL, accountMarginLatestURL, AccountMarginService} from './account.margin.service';
 import {AccountMarginData, AccountMarginServerData} from './account.margin.types';
 
-import {ErrorCollectorService} from '../error/error.collector';
 import {DATA_REFRESH_INTERVAL, PeriodicHttpService} from '../periodic.http.service';
 import Spy = jasmine.Spy;
 

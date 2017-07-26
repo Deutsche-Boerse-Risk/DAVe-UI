@@ -3,12 +3,12 @@ import {Injectable} from '@angular/core';
 
 import {AuthService} from '@dbg-riskit/dave-ui-auth';
 import {DateUtils, RxChain, StrictRxChain, UIDUtils} from '@dbg-riskit/dave-ui-common';
+import {ErrorCollectorService} from '@dbg-riskit/dave-ui-error';
 
 import {Observable} from 'rxjs/Observable';
 import {ReplaySubject} from 'rxjs/ReplaySubject';
 
 import {AbstractService} from '../abstract.service';
-import {ErrorCollectorService} from '../error/error.collector';
 import {PeriodicHttpService} from '../periodic.http.service';
 
 import {

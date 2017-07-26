@@ -2,9 +2,8 @@ import {catchOperator} from '@angular/cdk';
 import {Injectable} from '@angular/core';
 
 import {mergeMap, Request, RxChain, StrictRxChain} from '@dbg-riskit/dave-ui-common';
+import {ErrorCollectorService} from '@dbg-riskit/dave-ui-error';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
-
-import {ErrorCollectorService} from './error/error.collector';
 
 import {Observable} from 'rxjs/Observable';
 import {timer} from 'rxjs/observable/timer';

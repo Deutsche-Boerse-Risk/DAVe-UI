@@ -3,8 +3,7 @@ import {Injectable} from '@angular/core';
 
 import {AuthService} from '@dbg-riskit/dave-ui-auth';
 import {DateUtils, RxChain, StrictRxChain, UIDUtils} from '@dbg-riskit/dave-ui-common';
-
-import {Observable} from 'rxjs/Observable';
+import {ErrorCollectorService} from '@dbg-riskit/dave-ui-error';
 
 import {
     LiquiGroupSplitMarginData,
@@ -13,10 +12,10 @@ import {
     LiquiGroupSplitMarginServerData
 } from './liqui.group.split.margin.types';
 
-import {AbstractService} from 'app/abstract.service';
-import {ErrorCollectorService} from '../error/error.collector';
+import {AbstractService} from '../abstract.service';
 import {PeriodicHttpService} from '../periodic.http.service';
 
+import {Observable} from 'rxjs/Observable';
 import {ReplaySubject} from 'rxjs/ReplaySubject';
 import {Subscription} from 'rxjs/Subscription';
 
