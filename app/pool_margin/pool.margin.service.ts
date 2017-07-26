@@ -1,10 +1,9 @@
-import {catchOperator, map} from '@angular/cdk';
+import {map} from '@angular/cdk';
 import {Injectable} from '@angular/core';
 
 import {AuthService} from '@dbg-riskit/dave-ui-auth';
-import {DateUtils, RxChain, StrictRxChain, UIDUtils} from '@dbg-riskit/dave-ui-common';
-
-import {Observable} from 'rxjs/Observable';
+import {DateUtils, ReplaySubjectExt, RxChain, StrictRxChain, UIDUtils} from '@dbg-riskit/dave-ui-common';
+import {ErrorCollectorService} from '@dbg-riskit/dave-ui-error';
 
 import {
     PoolMarginData,
@@ -15,11 +14,12 @@ import {
 } from './pool.margin.types';
 
 import {AbstractService} from '../abstract.service';
-import {ErrorCollectorService} from '../error/error.collector';
 import {PeriodicHttpService} from '../periodic.http.service';
 
-import {ReplaySubject} from 'rxjs/ReplaySubject';
+import {Observable} from 'rxjs/Observable';
 import {Subscription} from 'rxjs/Subscription';
+import {Subscriber} from 'rxjs/Subscriber';
+import {of as observableOf} from 'rxjs/observable/of';
 
 export const poolMarginLatestURL: string = '/api/v1.0/pm/latest';
 export const poolMarginHistoryURL: string = '/api/v1.0/pm/history';
@@ -27,8 +27,8 @@ export const poolMarginHistoryURL: string = '/api/v1.0/pm/history';
 @Injectable()
 export class PoolMarginService extends AbstractService {
 
-    private latestSubject: ReplaySubject<PoolMarginData[]> = new ReplaySubject(1);
-    private summarySubject: ReplaySubject<PoolMarginData[]> = new ReplaySubject(1);
+    private latestSubject: ReplaySubjectExt<PoolMarginData[]> = new ReplaySubjectExt(1);
+    private summarySubject: ReplaySubjectExt<PoolMarginSummaryData> = new ReplaySubjectExt(1);
     private latestSubscription: Subscription;
 
     constructor(private http: PeriodicHttpService<PoolMarginServerData[]>,
@@ -54,34 +54,42 @@ export class PoolMarginService extends AbstractService {
 
     private setupLatestLoader(): void {
         this.latestSubscription = this.loadData(poolMarginLatestURL)
-            .call(catchOperator, (err: any) => this.errorCollector.handleStreamError(err))
             .subscribe((data: PoolMarginData[]) => this.latestSubject.next(data));
     }
 
     private setupSummaryLoader(): void {
         RxChain.from(this.latestSubject)
-            .call(map, (data: PoolMarginServerData[]) => {
-                if (!data || !data.length) {
-                    return {};
-                }
-                let result: PoolMarginSummaryData = {
-                    shortfallSurplus : 0,
-                    marginRequirement: 0,
-                    totalCollateral  : 0,
-                    cashBalance      : 0
-                };
+            .guardedDeferredMap(
+                (data: PoolMarginServerData[], subscriber: Subscriber<PoolMarginSummaryData>) => {
+                    if (!data || !data.length) {
+                        subscriber.next({} as PoolMarginSummaryData);
+                        subscriber.complete();
+                        return;
+                    }
+                    let result: PoolMarginSummaryData = {
+                        shortfallSurplus : 0,
+                        marginRequirement: 0,
+                        totalCollateral  : 0,
+                        cashBalance      : 0
+                    };
 
-                data.forEach((record: PoolMarginServerData) => {
-                    result.shortfallSurplus += record.overUnderInMarginCurr;
-                    result.marginRequirement += record.requiredMargin;
-                    result.totalCollateral += record.cashCollateralAmount + record.adjustedSecurities
-                        + record.adjustedGuarantee + record.variPremInMarginCurr;
-                    result.cashBalance += record.cashCollateralAmount + record.variPremInMarginCurr;
-                });
-                return result;
-            })
-            .call(catchOperator, (err: any) => this.errorCollector.handleStreamError(err))
-            .subscribe((data: PoolMarginData[]) => this.summarySubject.next(data));
+                    data.forEach((record: PoolMarginServerData) => {
+                        result.shortfallSurplus += record.overUnderInMarginCurr;
+                        result.marginRequirement += record.requiredMargin;
+                        result.totalCollateral += record.cashCollateralAmount + record.adjustedSecurities
+                            + record.adjustedGuarantee + record.variPremInMarginCurr;
+                        result.cashBalance += record.cashCollateralAmount + record.variPremInMarginCurr;
+                    });
+                    subscriber.next(result);
+                    subscriber.complete();
+                },
+                (err: any) => {
+                    if (!this.summarySubject.hasData) {
+                        this.summarySubject.next({} as PoolMarginSummaryData);
+                    }
+                    return this.errorCollector.handleStreamError(err);
+                })
+            .subscribe((data: PoolMarginSummaryData) => this.summarySubject.next(data));
     }
 
     public getPoolMarginSummaryData(): Observable<PoolMarginSummaryData | {}> {
@@ -90,22 +98,23 @@ export class PoolMarginService extends AbstractService {
 
     public getPoolMarginLatest(params: PoolMarginParams): Observable<PoolMarginData[]> {
         return RxChain.from(this.latestSubject)
-            .call(map, (data: PoolMarginData[]) => {
-                return data.filter((row: PoolMarginData) => {
-                    return Object.keys(params).every(
-                        (key: keyof PoolMarginParams) => params[key] === '*' || params[key] == null || params[key] == row[key]);
-                });
-            })
-            .call(catchOperator,
-                (err: any) => this.errorCollector.handleStreamError(err) as Observable<PoolMarginData[]>)
+            .guardedDeferredMap(
+                (data: PoolMarginData[], subscriber: Subscriber<PoolMarginData[]>) => {
+                    subscriber.next(data.filter((row: PoolMarginData) => {
+                        return Object.keys(params).every(
+                            (key: keyof PoolMarginParams) => params[key] === '*' || params[key] == null || params[key] == row[key]);
+                    }));
+                    subscriber.complete();
+                },
+                (err: any) => {
+                    this.errorCollector.handleStreamError(err);
+                    return observableOf([]);
+                })
             .result();
     }
 
     public getPoolMarginHistory(params: PoolMarginHistoryParams): Observable<PoolMarginData[]> {
-        return this.loadData(poolMarginHistoryURL, params)
-            .call(catchOperator,
-                (err: any) => this.errorCollector.handleStreamError(err) as Observable<PoolMarginData[]>)
-            .result();
+        return this.loadData(poolMarginHistoryURL, params).result();
     }
 
     private loadData(url: string, params?: PoolMarginParams): StrictRxChain<PoolMarginData[]> {

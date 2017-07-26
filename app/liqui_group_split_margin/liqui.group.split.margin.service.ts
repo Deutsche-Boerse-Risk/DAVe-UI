@@ -1,8 +1,8 @@
-import {catchOperator, map} from '@angular/cdk';
+import {map} from '@angular/cdk';
 import {Injectable} from '@angular/core';
 
 import {AuthService} from '@dbg-riskit/dave-ui-auth';
-import {DateUtils, RxChain, StrictRxChain, UIDUtils} from '@dbg-riskit/dave-ui-common';
+import {DateUtils, ReplaySubjectExt, RxChain, StrictRxChain, UIDUtils} from '@dbg-riskit/dave-ui-common';
 import {ErrorCollectorService} from '@dbg-riskit/dave-ui-error';
 
 import {
@@ -16,8 +16,9 @@ import {AbstractService} from '../abstract.service';
 import {PeriodicHttpService} from '../periodic.http.service';
 
 import {Observable} from 'rxjs/Observable';
-import {ReplaySubject} from 'rxjs/ReplaySubject';
 import {Subscription} from 'rxjs/Subscription';
+import {Subscriber} from 'rxjs/Subscriber';
+import {of as observableOf} from 'rxjs/observable/of';
 
 export const liquiGroupSplitMarginLatestURL: string = '/api/v1.0/lgsm/latest';
 export const liquiGroupSplitMarginHistoryURL: string = '/api/v1.0/lgsm/history';
@@ -25,7 +26,7 @@ export const liquiGroupSplitMarginHistoryURL: string = '/api/v1.0/lgsm/history';
 @Injectable()
 export class LiquiGroupSplitMarginService extends AbstractService {
 
-    private latestSubject: ReplaySubject<LiquiGroupSplitMarginData[]> = new ReplaySubject(1);
+    private latestSubject: ReplaySubjectExt<LiquiGroupSplitMarginData[]> = new ReplaySubjectExt(1);
     private latestSubscription: Subscription;
 
     constructor(private http: PeriodicHttpService<LiquiGroupSplitMarginServerData[]>,
@@ -46,28 +47,28 @@ export class LiquiGroupSplitMarginService extends AbstractService {
 
     public setupPeriodicTimer(): void {
         this.latestSubscription = this.loadData(liquiGroupSplitMarginLatestURL)
-            .call(catchOperator, (err: any) => this.errorCollector.handleStreamError(err))
             .subscribe((data: LiquiGroupSplitMarginData[]) => this.latestSubject.next(data));
     }
 
     public getLiquiGroupSplitMarginLatest(params: LiquiGroupSplitMarginParams): Observable<LiquiGroupSplitMarginData[]> {
         return RxChain.from(this.latestSubject)
-            .call(map, (data: LiquiGroupSplitMarginData[]) => {
-                return data.filter((row: LiquiGroupSplitMarginData) => {
-                    return Object.keys(params).every(
-                        (key: keyof LiquiGroupSplitMarginParams) => params[key] === '*' || params[key] == null || params[key] == row[key]);
-                });
-            })
-            .call(catchOperator,
-                (err: any) => this.errorCollector.handleStreamError(err) as Observable<LiquiGroupSplitMarginData[]>)
+            .guardedDeferredMap(
+                (data: LiquiGroupSplitMarginData[], subscriber: Subscriber<LiquiGroupSplitMarginData[]>) => {
+                    subscriber.next(data.filter((row: LiquiGroupSplitMarginData) => {
+                        return Object.keys(params).every(
+                            (key: keyof LiquiGroupSplitMarginParams) => params[key] === '*' || params[key] == null || params[key] == row[key]);
+                    }));
+                    subscriber.complete();
+                },
+                (err: any) => {
+                    this.errorCollector.handleStreamError(err);
+                    return observableOf([]);
+                })
             .result();
     }
 
     public getLiquiGroupSplitMarginHistory(params: LiquiGroupSplitMarginHistoryParams): Observable<LiquiGroupSplitMarginData[]> {
-        return this.loadData(liquiGroupSplitMarginHistoryURL, params)
-            .call(catchOperator,
-                (err: any) => this.errorCollector.handleStreamError(err) as Observable<LiquiGroupSplitMarginData[]>)
-            .result();
+        return this.loadData(liquiGroupSplitMarginHistoryURL, params).result();
     }
 
     private loadData(url: string, params?: LiquiGroupSplitMarginParams): StrictRxChain<LiquiGroupSplitMarginData[]> {

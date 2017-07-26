@@ -1,11 +1,9 @@
-import {catchOperator, map} from '@angular/cdk';
+import {map} from '@angular/cdk';
 import {Injectable} from '@angular/core';
 
 import {AuthService} from '@dbg-riskit/dave-ui-auth';
-import {DateUtils, RxChain, StrictRxChain, UIDUtils} from '@dbg-riskit/dave-ui-common';
+import {DateUtils, ReplaySubjectExt, RxChain, StrictRxChain, UIDUtils} from '@dbg-riskit/dave-ui-common';
 import {ErrorCollectorService} from '@dbg-riskit/dave-ui-error';
-
-import {Observable} from 'rxjs/Observable';
 
 import {
     RiskLimitUtilizationData,
@@ -17,8 +15,10 @@ import {
 import {AbstractService} from '../abstract.service';
 import {PeriodicHttpService} from '../periodic.http.service';
 
-import {ReplaySubject} from 'rxjs/ReplaySubject';
+import {Observable} from 'rxjs/Observable';
 import {Subscription} from 'rxjs/Subscription';
+import {Subscriber} from 'rxjs/Subscriber';
+import {of as observableOf} from 'rxjs/observable/of';
 
 export const riskLimitUtilizationLatestURL: string = '/api/v1.0/rlu/latest';
 export const riskLimitUtilizationHistoryURL: string = '/api/v1.0/rlu/history';
@@ -26,7 +26,7 @@ export const riskLimitUtilizationHistoryURL: string = '/api/v1.0/rlu/history';
 @Injectable()
 export class RiskLimitUtilizationService extends AbstractService {
 
-    private latestSubject: ReplaySubject<RiskLimitUtilizationData[]> = new ReplaySubject(1);
+    private latestSubject: ReplaySubjectExt<RiskLimitUtilizationData[]> = new ReplaySubjectExt(1);
     private latestSubscription: Subscription;
 
     constructor(private http: PeriodicHttpService<RiskLimitUtilizationServerData[]>,
@@ -47,28 +47,28 @@ export class RiskLimitUtilizationService extends AbstractService {
 
     public setupPeriodicTimer(): void {
         this.latestSubscription = this.loadData(riskLimitUtilizationLatestURL)
-            .call(catchOperator, (err: any) => this.errorCollector.handleStreamError(err))
             .subscribe((data: RiskLimitUtilizationData[]) => this.latestSubject.next(data));
     }
 
     public getRiskLimitUtilizationLatest(params: RiskLimitUtilizationParams): Observable<RiskLimitUtilizationData[]> {
         return RxChain.from(this.latestSubject)
-            .call(map, (data: RiskLimitUtilizationData[]) => {
-                return data.filter((row: RiskLimitUtilizationData) => {
-                    return Object.keys(params).every(
-                        (key: keyof RiskLimitUtilizationParams) => params[key] === '*' || params[key] == null || params[key] == row[key]);
-                });
-            })
-            .call(catchOperator,
-                (err: any) => this.errorCollector.handleStreamError(err) as Observable<RiskLimitUtilizationData[]>)
+            .guardedDeferredMap(
+                (data: RiskLimitUtilizationData[], subscriber: Subscriber<RiskLimitUtilizationData[]>) => {
+                    subscriber.next(data.filter((row: RiskLimitUtilizationData) => {
+                        return Object.keys(params).every(
+                            (key: keyof RiskLimitUtilizationParams) => params[key] === '*' || params[key] == null || params[key] == row[key]);
+                    }));
+                    subscriber.complete();
+                },
+                (err: any) => {
+                    this.errorCollector.handleStreamError(err);
+                    return observableOf([]);
+                })
             .result();
     }
 
     public getRiskLimitUtilizationHistory(params: RiskLimitUtilizationHistoryParams): Observable<RiskLimitUtilizationData[]> {
-        return this.loadData(riskLimitUtilizationHistoryURL, params)
-            .call(catchOperator,
-                (err: any) => this.errorCollector.handleStreamError(err) as Observable<RiskLimitUtilizationData[]>)
-            .result();
+        return this.loadData(riskLimitUtilizationHistoryURL, params).result();
     }
 
     private loadData(url: string, params?: RiskLimitUtilizationParams): StrictRxChain<RiskLimitUtilizationData[]> {

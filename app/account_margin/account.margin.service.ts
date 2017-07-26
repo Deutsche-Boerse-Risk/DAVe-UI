@@ -1,11 +1,9 @@
-import {catchOperator, map} from '@angular/cdk';
+import {map} from '@angular/cdk';
 import {Injectable} from '@angular/core';
 
 import {AuthService} from '@dbg-riskit/dave-ui-auth';
-import {DateUtils, RxChain, UIDUtils} from '@dbg-riskit/dave-ui-common';
+import {DateUtils, ReplaySubjectExt, RxChain, UIDUtils} from '@dbg-riskit/dave-ui-common';
 import {ErrorCollectorService} from '@dbg-riskit/dave-ui-error';
-
-import {Observable} from 'rxjs/Observable';
 
 import {
     AccountMarginData,
@@ -17,8 +15,10 @@ import {
 import {AbstractService} from '../abstract.service';
 import {PeriodicHttpService} from '../periodic.http.service';
 
-import {ReplaySubject} from 'rxjs/ReplaySubject';
+import {Observable} from 'rxjs/Observable';
 import {Subscription} from 'rxjs/Subscription';
+import {Subscriber} from 'rxjs/Subscriber';
+import {of as observableOf} from 'rxjs/observable/of';
 
 export const accountMarginLatestURL: string = '/api/v1.0/am/latest';
 export const accountMarginHistoryURL: string = '/api/v1.0/am/history';
@@ -26,7 +26,7 @@ export const accountMarginHistoryURL: string = '/api/v1.0/am/history';
 @Injectable()
 export class AccountMarginService extends AbstractService {
 
-    private latestSubject: ReplaySubject<AccountMarginData[]> = new ReplaySubject(1);
+    private latestSubject: ReplaySubjectExt<AccountMarginData[]> = new ReplaySubjectExt(1);
     private latestSubscription: Subscription;
 
     constructor(private http: PeriodicHttpService<AccountMarginServerData[]>,
@@ -47,28 +47,28 @@ export class AccountMarginService extends AbstractService {
 
     public setupPeriodicTimer(): void {
         this.latestSubscription = this.loadData(accountMarginLatestURL)
-            .call(catchOperator, (err: any) => this.errorCollector.handleStreamError(err))
             .subscribe((data: AccountMarginData[]) => this.latestSubject.next(data));
     }
 
     public getAccountMarginLatest(params: AccountMarginParams): Observable<AccountMarginData[]> {
         return RxChain.from(this.latestSubject)
-            .call(map, (data: AccountMarginData[]) => {
-                return data.filter((row: AccountMarginData) => {
-                    return Object.keys(params).every(
-                        (key: keyof AccountMarginParams) => params[key] === '*' || params[key] == null || params[key] == row[key]);
-                });
-            })
-            .call(catchOperator,
-                (err: any) => this.errorCollector.handleStreamError(err) as Observable<AccountMarginData[]>)
+            .guardedDeferredMap(
+                (data: AccountMarginData[], subscriber: Subscriber<AccountMarginData[]>) => {
+                    subscriber.next(data.filter((row: AccountMarginData) => {
+                        return Object.keys(params).every(
+                            (key: keyof AccountMarginParams) => params[key] === '*' || params[key] == null || params[key] == row[key]);
+                    }));
+                    subscriber.complete();
+                },
+                (err: any) => {
+                    this.errorCollector.handleStreamError(err);
+                    return observableOf([]);
+                })
             .result();
     }
 
     public getAccountMarginHistory(params: AccountMarginHistoryParams): Observable<AccountMarginData[]> {
-        return this.loadData(accountMarginHistoryURL, params)
-            .call(catchOperator,
-                (err: any) => this.errorCollector.handleStreamError(err) as Observable<AccountMarginData[]>)
-            .result();
+        return this.loadData(accountMarginHistoryURL, params).result();
     }
 
     private loadData(url: string, params?: AccountMarginParams) {
