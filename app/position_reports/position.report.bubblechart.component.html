@@ -23,11 +23,9 @@
     </md-select>
 </md-card>
 
-<initial-load *ngIf="initialLoad && !errorMessage"></initial-load>
+<initial-load *ngIf="initialLoad"></initial-load>
 
-<no-data *ngIf="!initialLoad && !errorMessage && !chartData?.rows.length"></no-data>
-
-<update-failed *ngIf="errorMessage" [message]="errorMessage"></update-failed>
+<no-data *ngIf="!initialLoad && !chartData?.rows.length"></no-data>
 
 <info *ngIf="chartData?.rows.length && title">
     <div [innerHTML]="title"></div>

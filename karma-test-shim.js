@@ -61,7 +61,9 @@ System.config({
         '@angular/router/testing': 'npm:@angular/router/bundles/router-testing.umd.js',
         '@angular/forms/testing': 'npm:@angular/forms/bundles/forms-testing.umd.js',
 
-        '@dbg-riskit/dave-ui-testing': 'npm:@dbg-riskit/dave-ui-testing/bundles/dave-ui-testing.cjs.js'
+        '@dbg-riskit/dave-ui-testing': 'npm:@dbg-riskit/dave-ui-testing/bundles/dave-ui-testing.cjs.js',
+
+        '@dave/testing': 'testing/index.js'
     }
 });
 

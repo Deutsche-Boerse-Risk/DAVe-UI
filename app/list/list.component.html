@@ -1,7 +1,7 @@
 <h3>{{title}}</h3>
 
 <md-toolbar class="mat-elevation-z2"
-            *ngIf="!initialLoad && !errorMessage">
+            *ngIf="!initialLoad">
     <bread-crumbs [routeParts]="routeParts"></bread-crumbs>
 
     <span class="toolbar-spacer"></span>
@@ -30,10 +30,8 @@
                     [routerLink]="drillupRouterLink"></drillup-button>
 </md-toolbar>
 
-<initial-load *ngIf="initialLoad && !errorMessage"></initial-load>
+<initial-load *ngIf="initialLoad"></initial-load>
 
-<no-data *ngIf="!initialLoad && !errorMessage && data?.length < 1"></no-data>
-
-<update-failed *ngIf="errorMessage" [message]="errorMessage"></update-failed>
+<no-data *ngIf="!initialLoad && data?.length < 1"></no-data>
 
 <ng-content></ng-content>

@@ -2,7 +2,7 @@
 //
 // import {async, fakeAsync, inject, TestBed} from '@angular/core/testing';
 //
-// import {AppComponentPage} from '../testing';
+// import {AppComponentPage} from '@dave/testing';
 //
 // import {AppComponent} from './app.component';
 // import {AuthService} from '@dbg-riskit/dave-ui-auth';

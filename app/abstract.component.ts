@@ -1,24 +1,22 @@
 import {OnDestroy, OnInit} from '@angular/core';
+
 import {ROUTES} from './routes/routing.paths';
 
-export const DATA_REFRESH_INTERVAL = 60000;
+import {Subscription} from 'rxjs/Subscription';
 
-export abstract class AbstractComponentWithAutoRefresh implements OnInit, OnDestroy {
+export abstract class AbstractComponent implements OnInit, OnDestroy {
 
-    private intervalHandle: NodeJS.Timer;
+    private dataSubscription: Subscription;
 
     public ngOnInit(): void {
-        this.loadData();
-        this.intervalHandle = setInterval(() => {
-            this.loadData();
-        }, DATA_REFRESH_INTERVAL);
+        this.dataSubscription = this.loadData();
     }
 
     public ngOnDestroy(): void {
-        clearInterval(this.intervalHandle);
-    }
+        this.dataSubscription.unsubscribe();
+    };
 
-    protected abstract loadData(): void;
+    protected abstract loadData(): Subscription;
 
     public get routerRoots() {
         return ROUTES;

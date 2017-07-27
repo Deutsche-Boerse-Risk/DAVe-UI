@@ -2,7 +2,7 @@ import {DecimalPipe} from '@angular/common';
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {COMPONENT_CSS, ErrorResponse} from '@dbg-riskit/dave-ui-common';
+import {COMPONENT_CSS} from '@dbg-riskit/dave-ui-common';
 import {OrderingCriteria} from '@dbg-riskit/dave-ui-datatable';
 import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
 import {DateFormatter} from '@dbg-riskit/dave-ui-view';
@@ -14,6 +14,8 @@ import {AbstractHistoryListComponent, LineChartColumn} from '../list/abstract.hi
 import {RoutePart} from '../list/bread.crumbs.component';
 
 import {exportKeys, valueGetters} from './liqui.group.margin.latest.component';
+
+import {Subscription} from 'rxjs/Subscription';
 
 export const routingKeys: (keyof LiquiGroupMarginHistoryParams)[] = [
     'clearer',
@@ -35,8 +37,8 @@ export class LiquiGroupMarginHistoryComponent extends AbstractHistoryListCompone
         super(route, dateFormatter, numberPipe);
     }
 
-    protected loadData(): void {
-        this.liquiGroupMarginService.getLiquiGroupMarginHistory({
+    protected loadData(): Subscription {
+        return this.liquiGroupMarginService.getLiquiGroupMarginHistory({
             clearer       : this.routeParams['clearer'],
             member        : this.routeParams['member'],
             account       : this.routeParams['account'],
@@ -45,9 +47,6 @@ export class LiquiGroupMarginHistoryComponent extends AbstractHistoryListCompone
         }).subscribe(
             (rows: LiquiGroupMarginData[]) => {
                 this.processData(rows);
-            }, (err: ErrorResponse) => {
-                this.errorMessage = 'Server returned status ' + err.status;
-                this.initialLoad = false;
             });
     }
 

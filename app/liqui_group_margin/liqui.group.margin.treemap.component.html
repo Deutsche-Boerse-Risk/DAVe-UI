@@ -1,8 +1,6 @@
-<initial-load *ngIf="initialLoad && !errorMessage"></initial-load>
+<initial-load *ngIf="initialLoad"></initial-load>
 
-<no-data *ngIf="!initialLoad && !errorMessage && chartData?.rows?.length < 1"></no-data>
-
-<update-failed *ngIf="errorMessage" [message]="errorMessage"></update-failed>
+<no-data *ngIf="!initialLoad && chartData?.rows?.length < 1"></no-data>
 
 <md-card class="chart" *ngIf="chartData?.rows?.length">
     <google-chart *ngIf="chartShown && chartData?.rows?.length > 0"

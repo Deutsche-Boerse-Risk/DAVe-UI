@@ -3,8 +3,7 @@
               [routeParts]="routeParts"
               [exportKeys]="exportKeys"
               [data]="data"
-              [initialLoad]="initialLoad"
-              [errorMessage]="errorMessage">
+              [initialLoad]="initialLoad">
     <ng-template [ngIf]="chartData?.rows?.length > 0">
         <google-line-chart [chartOptions]="chartOptions"
                            [chartData]="chartData"

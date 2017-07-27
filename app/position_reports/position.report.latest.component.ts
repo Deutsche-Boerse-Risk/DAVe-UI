@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {COMPONENT_CSS, ErrorResponse, ValueGetter} from '@dbg-riskit/dave-ui-common';
+import {COMPONENT_CSS, ValueGetter} from '@dbg-riskit/dave-ui-common';
 import {OrderingCriteria} from '@dbg-riskit/dave-ui-datatable';
 import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
 
@@ -9,6 +9,8 @@ import {PositionReportData, PositionReportsParams} from './position.report.types
 import {PositionReportsService} from './position.reports.service';
 
 import {AbstractLatestListComponent} from '../list/abstract.latest.list.component';
+
+import {Subscription} from 'rxjs/Subscription';
 
 export const routingKeys: (keyof PositionReportsParams)[] = [
     'clearer',
@@ -39,8 +41,8 @@ export class PositionReportLatestComponent extends AbstractLatestListComponent<P
         super(route);
     }
 
-    protected loadData(): void {
-        this.positionReportsService.getPositionReportLatest({
+    protected loadData(): Subscription {
+        return this.positionReportsService.getPositionReportLatest({
             clearer              : this.routeParams['clearer'],
             member               : this.routeParams['member'],
             account              : this.routeParams['account'],
@@ -58,10 +60,6 @@ export class PositionReportLatestComponent extends AbstractLatestListComponent<P
         }).subscribe(
             (rows: PositionReportData[]) => {
                 this.processData(rows);
-            },
-            (err: ErrorResponse) => {
-                this.errorMessage = 'Server returned status ' + err.status;
-                this.initialLoad = false;
             });
     }
 

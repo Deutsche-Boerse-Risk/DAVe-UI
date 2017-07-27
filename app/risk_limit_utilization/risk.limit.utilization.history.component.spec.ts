@@ -10,15 +10,16 @@ import {
     TableBodyRow
 } from '@dbg-riskit/dave-ui-testing';
 
+import {ErrorType} from '@dbg-riskit/dave-ui-common';
 import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 
-import {generateRiskLimitUtilizationHistory, HistoryListPage} from '../../testing';
+import {generateRiskLimitUtilizationHistory, HistoryListPage} from '@dave/testing';
 
 import {RiskLimitUtilizationHistoryParams, RiskLimitUtilizationServerData} from './risk.limit.utilization.types';
 import {RiskLimitUtilizationService} from './risk.limit.utilization.service';
 
-import {DATA_REFRESH_INTERVAL} from '../abstract.component';
+import {DATA_REFRESH_INTERVAL} from '../periodic.http.service';
 
 import {exportKeys, valueGetters} from './risk.limit.utilization.latest.component';
 import {RiskLimitUtilizationHistoryComponent} from './risk.limit.utilization.history.component';
@@ -70,8 +71,9 @@ xdescribe('Risk limit utilization history component', () => {
 
             // Return error
             http.throwError({
-                status : 500,
-                message: 'Error message'
+                status   : 500,
+                message  : 'Error message',
+                errorType: ErrorType.REQUEST
             });
             page.advanceHTTP();
 

@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {COMPONENT_CSS, ErrorResponse, ValueGetter} from '@dbg-riskit/dave-ui-common';
+import {COMPONENT_CSS, ValueGetter} from '@dbg-riskit/dave-ui-common';
 import {OrderingCriteria} from '@dbg-riskit/dave-ui-datatable';
 import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
 
@@ -9,6 +9,8 @@ import {LiquiGroupMarginService} from './liqui.group.margin.service';
 import {LiquiGroupMarginData, LiquiGroupMarginParams} from './liqui.group.margin.types';
 
 import {AbstractLatestListComponent} from '../list/abstract.latest.list.component';
+
+import {Subscription} from 'rxjs/Subscription';
 
 export const routingKeys: (keyof LiquiGroupMarginParams)[] = [
     'clearer',
@@ -29,8 +31,8 @@ export class LiquiGroupMarginLatestComponent extends AbstractLatestListComponent
         super(route);
     }
 
-    protected loadData(): void {
-        this.liquiGroupMarginService.getLiquiGroupMarginLatest({
+    protected loadData(): Subscription {
+        return this.liquiGroupMarginService.getLiquiGroupMarginLatest({
             clearer    : this.routeParams['clearer'],
             member     : this.routeParams['member'],
             account    : this.routeParams['account'],
@@ -38,10 +40,6 @@ export class LiquiGroupMarginLatestComponent extends AbstractLatestListComponent
         }).subscribe(
             (rows: LiquiGroupMarginData[]) => {
                 this.processData(rows);
-            },
-            (err: ErrorResponse) => {
-                this.errorMessage = 'Server returned status ' + err.status;
-                this.initialLoad = false;
             });
     }
 

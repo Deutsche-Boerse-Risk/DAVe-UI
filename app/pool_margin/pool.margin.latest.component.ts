@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {COMPONENT_CSS, ErrorResponse, ValueGetter} from '@dbg-riskit/dave-ui-common';
+import {COMPONENT_CSS, ValueGetter} from '@dbg-riskit/dave-ui-common';
 import {OrderingCriteria} from '@dbg-riskit/dave-ui-datatable';
 import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
 
@@ -9,6 +9,8 @@ import {PoolMarginService} from './pool.margin.service';
 import {PoolMarginData, PoolMarginParams} from './pool.margin.types';
 
 import {AbstractLatestListComponent} from '../list/abstract.latest.list.component';
+
+import {Subscription} from 'rxjs/Subscription';
 
 export const routingKeys: (keyof PoolMarginParams)[] = ['clearer', 'pool', 'marginCurrency'];
 
@@ -24,18 +26,14 @@ export class PoolMarginLatestComponent extends AbstractLatestListComponent<PoolM
         super(route);
     }
 
-    protected loadData(): void {
-        this.poolMarginService.getPoolMarginLatest({
+    protected loadData(): Subscription {
+        return this.poolMarginService.getPoolMarginLatest({
             clearer       : this.routeParams['clearer'],
             pool          : this.routeParams['pool'],
             marginCurrency: this.routeParams['marginCurrency']
         }).subscribe(
             (rows: PoolMarginData[]) => {
                 this.processData(rows);
-            },
-            (err: ErrorResponse) => {
-                this.errorMessage = 'Server returned status ' + err.status;
-                this.initialLoad = false;
             });
     }
 

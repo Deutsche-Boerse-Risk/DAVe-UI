@@ -2,7 +2,7 @@ import {DecimalPipe} from '@angular/common';
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {COMPONENT_CSS, ErrorResponse, ValueGetter} from '@dbg-riskit/dave-ui-common';
+import {COMPONENT_CSS, ValueGetter} from '@dbg-riskit/dave-ui-common';
 import {OrderingCriteria} from '@dbg-riskit/dave-ui-datatable';
 import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
 import {DateFormatter} from '@dbg-riskit/dave-ui-view';
@@ -13,6 +13,8 @@ import {PoolMarginData} from './pool.margin.types';
 import {AbstractHistoryListComponent, LineChartColumn} from '../list/abstract.history.list.component';
 
 import {exportKeys, routingKeys, valueGetters} from './pool.margin.latest.component';
+
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
     moduleId   : module.id,
@@ -26,18 +28,14 @@ export class PoolMarginHistoryComponent extends AbstractHistoryListComponent<Poo
         super(route, dateFormatter, numberPipe);
     }
 
-    protected loadData(): void {
-        this.poolMarginService.getPoolMarginHistory({
+    protected loadData(): Subscription {
+        return this.poolMarginService.getPoolMarginHistory({
             clearer       : this.routeParams['clearer'],
             pool          : this.routeParams['pool'],
             marginCurrency: this.routeParams['marginCurrency']
         }).subscribe(
             (rows: PoolMarginData[]) => {
                 this.processData(rows);
-            },
-            (err: ErrorResponse) => {
-                this.errorMessage = 'Server returned status ' + err.status;
-                this.initialLoad = false;
             });
     }
 

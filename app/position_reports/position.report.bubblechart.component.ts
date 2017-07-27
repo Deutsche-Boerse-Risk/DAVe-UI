@@ -1,13 +1,14 @@
 import {DecimalPipe} from '@angular/common';
 import {Component, Input} from '@angular/core';
 
-import {COMPONENT_CSS, ErrorResponse} from '@dbg-riskit/dave-ui-common';
+import {COMPONENT_CSS} from '@dbg-riskit/dave-ui-common';
 import {BubbleChartOptions, ChartData, ChartRow, ChartValue} from '@dbg-riskit/dave-ui-charts';
 
-import {AbstractComponentWithAutoRefresh} from '../abstract.component';
+import {AbstractComponent} from '../abstract.component';
 
 import {PositionReportsService} from './position.reports.service';
 import {PositionReportBubble, PositionReportChartData, SelectValues} from './position.report.types';
+import {Subscription} from 'rxjs/Subscription';
 
 export const compVarPositiveLegend = 'Positive';
 export const compVarNegativeLegend = 'Negative';
@@ -20,9 +21,7 @@ export const compVarNegativeLegend = 'Negative';
         'position.report.bubblechart.component.css'
     ]
 })
-export class PositionReportBubbleChartComponent extends AbstractComponentWithAutoRefresh {
-
-    public errorMessage: string;
+export class PositionReportBubbleChartComponent extends AbstractComponent {
 
     public initialLoad: boolean = true;
 
@@ -82,14 +81,9 @@ export class PositionReportBubbleChartComponent extends AbstractComponentWithAut
         super();
     }
 
-    protected loadData(): void {
-        this.positionReportsService.getPositionReportsChartData()
-            .subscribe(
-                this.processData.bind(this),
-                (err: ErrorResponse) => {
-                    this.errorMessage = 'Server returned status ' + err.status;
-                    this.initialLoad = false;
-                });
+    protected loadData(): Subscription {
+        return this.positionReportsService.getPositionReportsChartData()
+            .subscribe(this.processData.bind(this));
     }
 
     private processData(chartData: PositionReportChartData): void {
@@ -122,7 +116,6 @@ export class PositionReportBubbleChartComponent extends AbstractComponentWithAut
         }
         this.accountSelectionChanged();
 
-        delete this.errorMessage;
         this.initialLoad = false;
     }
 

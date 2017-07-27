@@ -1,13 +1,15 @@
 import {Component, Input} from '@angular/core';
 import {Router} from '@angular/router';
 
-import {COMPONENT_CSS, ErrorResponse} from '@dbg-riskit/dave-ui-common';
+import {COMPONENT_CSS} from '@dbg-riskit/dave-ui-common';
 import {ChartData, ChartRow, SelectionEvent, TreeMapOptions} from '@dbg-riskit/dave-ui-charts';
 
-import {AbstractComponentWithAutoRefresh} from '../abstract.component';
+import {AbstractComponent} from '../abstract.component';
 
 import {LiquiGroupMarginService} from './liqui.group.margin.service';
 import {LiquiGroupMarginTree, LiquiGroupMarginTreeNode} from './liqui.group.margin.types';
+
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
     moduleId   : module.id,
@@ -17,14 +19,12 @@ import {LiquiGroupMarginTree, LiquiGroupMarginTreeNode} from './liqui.group.marg
         'liqui.group.margin.treemap.component.css'
     ]
 })
-export class LiquiGroupMarginTreemapComponent extends AbstractComponentWithAutoRefresh {
+export class LiquiGroupMarginTreemapComponent extends AbstractComponent {
 
     @Input()
     public chartShown: boolean = true;
 
     public initialLoad: boolean = true;
-
-    public errorMessage: string;
 
     public chartOptions: TreeMapOptions = {
         headerColor         : '#000099',
@@ -51,8 +51,8 @@ export class LiquiGroupMarginTreemapComponent extends AbstractComponentWithAutoR
         super();
     }
 
-    protected loadData(): void {
-        this.liquiGroupMarginService.getLiquiGroupMarginTreeMapData().subscribe(
+    protected loadData(): Subscription {
+        return this.liquiGroupMarginService.getLiquiGroupMarginTreeMapData().subscribe(
             (tree: LiquiGroupMarginTree) => {
                 this.chartData = {
                     cols: [
@@ -87,11 +87,6 @@ export class LiquiGroupMarginTreemapComponent extends AbstractComponentWithAutoR
                     });
                 });
 
-                delete this.errorMessage;
-                this.initialLoad = false;
-            },
-            (err: ErrorResponse) => {
-                this.errorMessage = 'Server returned status ' + err.status;
                 this.initialLoad = false;
             });
     }

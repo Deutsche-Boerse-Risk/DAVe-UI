@@ -5,16 +5,14 @@ import {ValueGetter} from '@dbg-riskit/dave-ui-common';
 import {OrderingCriteria, Row} from '@dbg-riskit/dave-ui-datatable';
 import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
 
-import {AbstractComponentWithAutoRefresh} from '../abstract.component';
+import {AbstractComponent} from '../abstract.component';
 
 import {RoutePart} from './bread.crumbs.component';
 
-export abstract class AbstractListComponent<T extends { uid: string }> extends AbstractComponentWithAutoRefresh
+export abstract class AbstractListComponent<T extends { uid: string }> extends AbstractComponent
     implements OnInit {
 
     public initialLoad: boolean = true;
-
-    public errorMessage: string;
 
     public routeParts: RoutePart[];
 
@@ -69,7 +67,6 @@ export abstract class AbstractListComponent<T extends { uid: string }> extends A
 
     protected processData(data: T[]): void {
         this.data = data;
-        delete this.errorMessage;
         this.initialLoad = false;
     }
 

@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {COMPONENT_CSS, ErrorResponse, ValueGetter} from '@dbg-riskit/dave-ui-common';
+import {COMPONENT_CSS, ValueGetter} from '@dbg-riskit/dave-ui-common';
 import {OrderingCriteria} from '@dbg-riskit/dave-ui-datatable';
 import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
 
@@ -9,6 +9,8 @@ import {AccountMarginService} from './account.margin.service';
 import {AccountMarginData, AccountMarginParams} from './account.margin.types';
 
 import {AbstractLatestListComponent} from '../list/abstract.latest.list.component';
+
+import {Subscription} from 'rxjs/Subscription';
 
 export const routingKeys: (keyof AccountMarginParams)[] = [
     'clearer',
@@ -29,8 +31,8 @@ export class AccountMarginLatestComponent extends AbstractLatestListComponent<Ac
         super(route);
     }
 
-    protected loadData(): void {
-        this.accountMarginService.getAccountMarginLatest({
+    protected loadData(): Subscription {
+        return this.accountMarginService.getAccountMarginLatest({
             clearer       : this.routeParams['clearer'],
             member        : this.routeParams['member'],
             account       : this.routeParams['account'],
@@ -38,10 +40,6 @@ export class AccountMarginLatestComponent extends AbstractLatestListComponent<Ac
         }).subscribe(
             (rows: AccountMarginData[]) => {
                 this.processData(rows);
-            },
-            (err: ErrorResponse) => {
-                this.errorMessage = 'Server returned status ' + err.status;
-                this.initialLoad = false;
             });
     }
 

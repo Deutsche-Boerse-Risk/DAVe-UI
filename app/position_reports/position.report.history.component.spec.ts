@@ -10,15 +10,16 @@ import {
     TableBodyRow
 } from '@dbg-riskit/dave-ui-testing';
 
+import {ErrorType} from '@dbg-riskit/dave-ui-common';
 import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 
-import {generatePositionReportsHistory, HistoryListPage} from '../../testing';
+import {generatePositionReportsHistory, HistoryListPage} from '@dave/testing';
 
 import {PositionReportServerData, PositionReportsHistoryParams} from './position.report.types';
 import {PositionReportsService} from './position.reports.service';
 
-import {DATA_REFRESH_INTERVAL} from '../abstract.component';
+import {DATA_REFRESH_INTERVAL} from '../periodic.http.service';
 
 import {exportKeys, valueGetters} from './position.report.latest.component';
 import {PositionReportHistoryComponent} from './position.report.history.component';
@@ -80,8 +81,9 @@ xdescribe('Position reports history component', () => {
 
             // Return error
             http.throwError({
-                status : 500,
-                message: 'Error message'
+                status   : 500,
+                message  : 'Error message',
+                errorType: ErrorType.REQUEST
             });
             page.advanceHTTP();
 

@@ -1,6 +1,6 @@
 import {ActivatedRoute} from '@angular/router';
 
-import {ErrorResponse, ValueGetter} from '@dbg-riskit/dave-ui-common';
+import {ValueGetter} from '@dbg-riskit/dave-ui-common';
 import {OrderingCriteria} from '@dbg-riskit/dave-ui-datatable';
 
 import {LiquiGroupSplitMarginService} from './liqui.group.split.margin.service';
@@ -8,6 +8,8 @@ import {LiquiGroupSplitMarginData, LiquiGroupSplitMarginParams} from './liqui.gr
 
 import {AbstractLatestListComponent} from '../list/abstract.latest.list.component';
 import {RoutePart} from '../list/bread.crumbs.component';
+
+import {Subscription} from 'rxjs/Subscription';
 
 export const routingKeys: (keyof LiquiGroupSplitMarginParams)[] = [
     'clearer',
@@ -25,8 +27,8 @@ export abstract class AbstractLiquiGroupSplitMarginLatestComponent
         super(route);
     }
 
-    protected loadData(): void {
-        this.liquiGroupSplitMarginService.getLiquiGroupSplitMarginLatest({
+    protected loadData(): Subscription {
+        return this.liquiGroupSplitMarginService.getLiquiGroupSplitMarginLatest({
             clearer              : this.routeParams['clearer'],
             member               : this.routeParams['member'],
             account              : this.routeParams['account'],
@@ -35,10 +37,6 @@ export abstract class AbstractLiquiGroupSplitMarginLatestComponent
         }).subscribe(
             (rows: LiquiGroupSplitMarginData[]) => {
                 this.processData(rows);
-            },
-            (err: ErrorResponse) => {
-                this.errorMessage = 'Server returned status ' + err.status;
-                this.initialLoad = false;
             });
     }
 

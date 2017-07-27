@@ -2,7 +2,7 @@ import {DecimalPipe} from '@angular/common';
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {COMPONENT_CSS, ErrorResponse, ValueGetter} from '@dbg-riskit/dave-ui-common';
+import {COMPONENT_CSS, ValueGetter} from '@dbg-riskit/dave-ui-common';
 import {OrderingCriteria} from '@dbg-riskit/dave-ui-datatable';
 import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
 import {DateFormatter} from '@dbg-riskit/dave-ui-view';
@@ -13,6 +13,8 @@ import {PositionReportsService} from './position.reports.service';
 import {AbstractHistoryListComponent, LineChartColumn} from '../list/abstract.history.list.component';
 
 import {exportKeys, routingKeys, valueGetters} from './position.report.latest.component';
+
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
     moduleId   : module.id,
@@ -26,8 +28,8 @@ export class PositionReportHistoryComponent extends AbstractHistoryListComponent
         super(route, dateFormatter, numberPipe);
     }
 
-    protected loadData(): void {
-        this.positionReportsService.getPositionReportHistory({
+    protected loadData(): Subscription {
+        return this.positionReportsService.getPositionReportHistory({
             clearer              : this.routeParams['clearer'],
             member               : this.routeParams['member'],
             account              : this.routeParams['account'],
@@ -45,10 +47,6 @@ export class PositionReportHistoryComponent extends AbstractHistoryListComponent
         }).subscribe(
             (rows: PositionReportData[]) => {
                 this.processData(rows);
-            },
-            (err: ErrorResponse) => {
-                this.errorMessage = 'Server returned status ' + err.status;
-                this.initialLoad = false;
             });
     }
 

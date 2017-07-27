@@ -2,7 +2,7 @@ import {DecimalPipe} from '@angular/common';
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {COMPONENT_CSS, ErrorResponse, ValueGetter} from '@dbg-riskit/dave-ui-common';
+import {COMPONENT_CSS, ValueGetter} from '@dbg-riskit/dave-ui-common';
 import {OrderingCriteria} from '@dbg-riskit/dave-ui-datatable';
 import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
 import {DateFormatter} from '@dbg-riskit/dave-ui-view';
@@ -13,6 +13,8 @@ import {RiskLimitUtilizationData} from './risk.limit.utilization.types';
 import {AbstractHistoryListComponent, LineChartColumn} from '../list/abstract.history.list.component';
 
 import {exportKeys, routingKeys, valueGetters} from './risk.limit.utilization.latest.component';
+
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
     moduleId   : module.id,
@@ -26,8 +28,8 @@ export class RiskLimitUtilizationHistoryComponent extends AbstractHistoryListCom
         super(route, dateFormatter, numberPipe);
     }
 
-    protected loadData(): void {
-        this.riskLimitUtilizationService.getRiskLimitUtilizationHistory({
+    protected loadData(): Subscription {
+        return this.riskLimitUtilizationService.getRiskLimitUtilizationHistory({
             clearer   : this.routeParams['clearer'],
             member    : this.routeParams['member'],
             maintainer: this.routeParams['maintainer'],
@@ -35,10 +37,6 @@ export class RiskLimitUtilizationHistoryComponent extends AbstractHistoryListCom
         }).subscribe(
             (rows: RiskLimitUtilizationData[]) => {
                 this.processData(rows);
-            },
-            (err: ErrorResponse) => {
-                this.errorMessage = 'Server returned status ' + err.status;
-                this.initialLoad = false;
             });
     }
 

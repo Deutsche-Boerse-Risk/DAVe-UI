@@ -4,7 +4,6 @@
               [exportKeys]="exportKeys"
               [data]="data"
               [initialLoad]="initialLoad"
-              [errorMessage]="errorMessage"
               [drilldownRouterLink]="[routerRoots.ACCOUNT_MARGIN_LATEST, routeParams['clearer'] || '*', '*', '*', routeParams['marginCurrency'] || '*']">
     <ng-template [ngIf]="chartData?.rows?.length > 0">
         <google-line-chart [chartOptions]="chartOptions"

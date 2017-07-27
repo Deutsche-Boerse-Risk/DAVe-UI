@@ -7,7 +7,7 @@ import {compileTestBed, RouterStub, stubRouter} from '@dbg-riskit/dave-ui-testin
 
 import {NoopAnimationsCommonViewModule} from '@dbg-riskit/dave-ui-view';
 
-import {BreadCrumbsPage, Crumb, TestBreadCrumbsComponent} from '../../testing';
+import {BreadCrumbsPage, Crumb, TestBreadCrumbsComponent} from '@dave/testing';
 
 import {BreadCrumbsComponent} from './bread.crumbs.component';
 

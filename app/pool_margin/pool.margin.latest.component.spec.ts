@@ -10,15 +10,16 @@ import {
     TableBodyRow
 } from '@dbg-riskit/dave-ui-testing';
 
+import {ErrorType} from '@dbg-riskit/dave-ui-common';
 import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 
-import {generatePoolMarginHistory, generatePoolMarginLatest, LatestListPage} from '../../testing';
+import {generatePoolMarginHistory, generatePoolMarginLatest, LatestListPage} from '@dave/testing';
 
 import {PoolMarginData, PoolMarginParams, PoolMarginServerData} from './pool.margin.types';
 import {PoolMarginService} from './pool.margin.service';
 
-import {DATA_REFRESH_INTERVAL} from '../abstract.component';
+import {DATA_REFRESH_INTERVAL} from '../periodic.http.service';
 
 import {exportKeys, PoolMarginLatestComponent, valueGetters} from './pool.margin.latest.component';
 import {ROUTES} from '../routes/routing.paths';
@@ -56,8 +57,9 @@ xdescribe('Pool Margin latest component', () => {
 
             // Return error
             http.throwError({
-                status : 500,
-                message: 'Error message'
+                status   : 500,
+                message  : 'Error message',
+                errorType: ErrorType.REQUEST
             });
             page.advanceHTTP();
 

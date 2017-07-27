@@ -6,9 +6,10 @@ import {fakeAsync, inject, TestBed} from '@angular/core/testing';
 
 import {compileTestBed, HttpAsyncServiceStub, RouterLinkStubDirective, RouterStub} from '@dbg-riskit/dave-ui-testing';
 
+import {ErrorType} from '@dbg-riskit/dave-ui-common';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 
-import {generateLiquiGroupMargin, TreeMapPage} from '../../testing';
+import {generateLiquiGroupMargin, TreeMapPage} from '@dave/testing';
 
 import {LiquiGroupMarginService} from './liqui.group.margin.service';
 
@@ -68,8 +69,9 @@ xdescribe('Margin components TreeMap component', () => {
 
             // Return error
             http.throwError({
-                status : 500,
-                message: 'Error message'
+                status   : 500,
+                message  : 'Error message',
+                errorType: ErrorType.REQUEST
             });
             page.advanceHTTP();
 

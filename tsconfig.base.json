@@ -1,5 +1,7 @@
 {
     "compilerOptions": {
+        "baseUrl": ".",
+        "rootDir": ".",
         "target": "es5",
         "module": "commonjs",
         "moduleResolution": "node",
@@ -10,6 +12,11 @@
             "es6",
             "dom"
         ],
+        "paths": {
+            "@dave/testing": [
+                "./testing/index.ts"
+            ]
+        },
         "noImplicitAny": true,
         "noImplicitReturns": true,
         "noImplicitThis": true,

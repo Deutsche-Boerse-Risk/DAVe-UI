@@ -7,7 +7,7 @@ import {compileTestBed, RouterLinkStubDirective, stubRouter} from '@dbg-riskit/d
 
 import {NoopAnimationsCommonViewModule} from '@dbg-riskit/dave-ui-view';
 
-import {DashboardPage, Tab} from '../../testing';
+import {DashboardPage, Tab} from '@dave/testing';
 
 import {RouterLinkActiveDirective} from '../menu/router.link.active.directive';
 

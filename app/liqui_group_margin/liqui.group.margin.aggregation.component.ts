@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
 
-import {COMPONENT_CSS, ErrorResponse, ValueGetter} from '@dbg-riskit/dave-ui-common';
+import {COMPONENT_CSS, ValueGetter} from '@dbg-riskit/dave-ui-common';
 import {OrderingCriteria, Row} from '@dbg-riskit/dave-ui-datatable';
 
-import {AbstractComponentWithAutoRefresh} from '../abstract.component';
+import {AbstractComponent} from '../abstract.component';
 
 import {
     LiquiGroupMarginAggregationData,
@@ -11,6 +11,8 @@ import {
     LiquiGroupMarginData
 } from './liqui.group.margin.types';
 import {LiquiGroupMarginService} from './liqui.group.margin.service';
+
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
     moduleId   : module.id,
@@ -21,11 +23,9 @@ import {LiquiGroupMarginService} from './liqui.group.margin.service';
         'liqui.group.margin.aggregation.component.css'
     ]
 })
-export class LiquiGroupMarginAggregationComponent extends AbstractComponentWithAutoRefresh {
+export class LiquiGroupMarginAggregationComponent extends AbstractComponent {
 
     public initialLoad: boolean = true;
-
-    public errorMessage: string;
 
     public footer: LiquiGroupMarginBaseData;
 
@@ -41,8 +41,8 @@ export class LiquiGroupMarginAggregationComponent extends AbstractComponentWithA
         return defaultOrdering;
     }
 
-    protected loadData(): void {
-        this.liquiGroupMarginService.getLiquiGroupMarginAggregationData()
+    protected loadData(): Subscription {
+        return this.liquiGroupMarginService.getLiquiGroupMarginAggregationData()
             .subscribe(
                 (data: LiquiGroupMarginAggregationData) => {
                     this.data = data.aggregatedRows;
@@ -56,14 +56,6 @@ export class LiquiGroupMarginAggregationComponent extends AbstractComponentWithA
                         this.footer = data.summary;
                     }
 
-                    delete this.errorMessage;
-                    this.initialLoad = false;
-                },
-                (err: ErrorResponse) => {
-                    delete this.data;
-                    delete this.footer;
-
-                    this.errorMessage = 'Server returned status ' + err.status;
                     this.initialLoad = false;
                 });
     }

@@ -10,10 +10,11 @@ import {
     TableBodyRow
 } from '@dbg-riskit/dave-ui-testing';
 
+import {ErrorType} from '@dbg-riskit/dave-ui-common';
 import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 
-import {generateLiquiGroupSplitMargin, generateLiquiGroupSplitMarginHistory, LatestListPage} from '../../../testing';
+import {generateLiquiGroupSplitMargin, generateLiquiGroupSplitMarginHistory, LatestListPage} from '@dave/testing';
 
 import {
     LiquiGroupSplitMarginData,
@@ -22,7 +23,7 @@ import {
 } from '../liqui.group.split.margin.types';
 import {LiquiGroupSplitMarginService} from '../liqui.group.split.margin.service';
 
-import {DATA_REFRESH_INTERVAL} from '../../abstract.component';
+import {DATA_REFRESH_INTERVAL} from '../../periodic.http.service';
 
 import {exportKeys, InitialMarginLatestComponent, valueGetters} from './initial.margin.latest.component';
 import {ROUTES} from '../../routes/routing.paths';
@@ -60,8 +61,9 @@ xdescribe('Initial Margin latest component', () => {
 
             // Return error
             http.throwError({
-                status : 500,
-                message: 'Error message'
+                status   : 500,
+                message  : 'Error message',
+                errorType: ErrorType.REQUEST
             });
             page.advanceHTTP();
 

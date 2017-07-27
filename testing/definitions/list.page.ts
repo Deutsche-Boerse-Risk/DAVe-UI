@@ -9,6 +9,7 @@ import {MdInputContainer, MdMenuItem, MdToolbarRow} from '@angular/material';
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {
+    AuthServiceStub,
     click,
     DataTableDefinition,
     disableMaterialAnimations,
@@ -22,8 +23,10 @@ import {
     stubRouter
 } from '@dbg-riskit/dave-ui-testing';
 
+import {AuthService} from '@dbg-riskit/dave-ui-auth';
 import {DATE_FORMAT} from '@dbg-riskit/dave-ui-common';
 import {DataTableComponent, DataTableModule, HIGHLIGHTER_TIMEOUT} from '@dbg-riskit/dave-ui-datatable';
+import {ErrorCollectorService} from '@dbg-riskit/dave-ui-error';
 import {CSVDownloadMenuComponent, FileModule} from '@dbg-riskit/dave-ui-file';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 import {DateFormatter, INITIAL_LOAD_SELECTOR, NO_DATA_SELECTOR, UPDATE_FAILED_SELECTOR} from '@dbg-riskit/dave-ui-view';
@@ -31,9 +34,11 @@ import {DateFormatter, INITIAL_LOAD_SELECTOR, NO_DATA_SELECTOR, UPDATE_FAILED_SE
 import {BreadCrumbsDefinition} from './bread.crumbs.page';
 
 import {ListModule} from '../../app/list/list.module';
-import {ListComponent, FILTER_TIMEOUT} from '../../app/list/list.component';
+import {FILTER_TIMEOUT, ListComponent} from '../../app/list/list.component';
 import {DrillUpDownButtonComponent} from '../../app/list/drill.updown.button.component';
 import {BreadCrumbsComponent} from '../../app/list/bread.crumbs.component';
+
+import {PeriodicHttpService} from '../../app/periodic.http.service';
 
 export class ListPage<T> extends PageWithLoading<T> {
 
@@ -76,14 +81,14 @@ export class ListPage<T> extends PageWithLoading<T> {
 
     public get drilldownButton(): DebugElement {
         return this.header.queryAll(By.directive(DrillUpDownButtonComponent))
-                .find((element: DebugElement) =>
-                    !(element.componentInstance as DrillUpDownButtonComponent).drillUp) || null;
+            .find((element: DebugElement) =>
+                !(element.componentInstance as DrillUpDownButtonComponent).drillUp) || null;
     }
 
     public get drillupButton(): DebugElement {
         return this.header.queryAll(By.directive(DrillUpDownButtonComponent))
-                .find((element: DebugElement) =>
-                    (element.componentInstance as DrillUpDownButtonComponent).drillUp) || null;
+            .find((element: DebugElement) =>
+                (element.componentInstance as DrillUpDownButtonComponent).drillUp) || null;
     }
 
     public get downloadMenu(): DownloadLink {
@@ -151,6 +156,12 @@ export class LatestListPage<T> extends ListPage<T> {
                 {
                     provide : HttpService,
                     useClass: HttpAsyncServiceStub
+                },
+                PeriodicHttpService,
+                ErrorCollectorService,
+                {
+                    provide : AuthService,
+                    useClass: AuthServiceStub
                 }
             ]
         });
@@ -238,6 +249,12 @@ export class HistoryListPage<T> extends LatestListPage<T> {
                 {
                     provide : HttpService,
                     useClass: HttpAsyncServiceStub
+                },
+                PeriodicHttpService,
+                ErrorCollectorService,
+                {
+                    provide : AuthService,
+                    useClass: AuthServiceStub
                 },
                 DecimalPipe,
                 DatePipe,

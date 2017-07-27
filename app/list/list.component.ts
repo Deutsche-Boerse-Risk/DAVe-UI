@@ -44,9 +44,6 @@ export class ListComponent {
     @Input()
     public drillupRouterLink: any[] | string;
 
-    @Input()
-    public errorMessage: string;
-
     public filterQuery: string;
 
     private filterTimeoutHandle: NodeJS.Timer;

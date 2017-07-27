@@ -4,9 +4,10 @@ import {fakeAsync, inject, TestBed} from '@angular/core/testing';
 
 import {compileTestBed, HttpAsyncServiceStub} from '@dbg-riskit/dave-ui-testing';
 
+import {ErrorType} from '@dbg-riskit/dave-ui-common';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 
-import {generatePoolMarginLatest, Panel, PoolMarginSummaryPage} from '../../testing';
+import {generatePoolMarginLatest, Panel, PoolMarginSummaryPage} from '@dave/testing';
 
 import {PoolMarginServerData} from './pool.margin.types';
 import {PoolMarginService} from './pool.margin.service';
@@ -54,8 +55,9 @@ xdescribe('Pool Margin summary', () => {
 
             // Return error
             http.throwError({
-                status : 500,
-                message: 'Error message'
+                status   : 500,
+                message  : 'Error message',
+                errorType: ErrorType.REQUEST
             });
             page.advanceHTTP();
 

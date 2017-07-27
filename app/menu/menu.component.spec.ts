@@ -5,7 +5,7 @@ import {fakeAsync, inject, TestBed} from '@angular/core/testing';
 
 import {compileTestBed, RouterLinkStubDirective, RouterStub, stubRouter} from '@dbg-riskit/dave-ui-testing';
 
-import {MenuPage} from '../../testing';
+import {MenuPage} from '@dave/testing';
 
 import {MenuModule} from './menu.module';
 import {MenuComponent} from './menu.component';

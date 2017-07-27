@@ -455,7 +455,8 @@ export class RoutingModule {
     constructor(authService: AuthService, router: Router) {
         authService.loggedInChange.subscribe((loggedIn: boolean) => {
             if (!loggedIn) {
-                if (router.routerState && router.routerState.snapshot) {
+                if (router.routerState && router.routerState.snapshot && router.routerState.snapshot.url
+                    && !router.routerState.snapshot.url.startsWith(ROUTES.LOGIN)) {
                     authService.authRequestedPath = router.routerState.snapshot.url;
                 }
                 router.navigate([ROUTES.LOGIN]);

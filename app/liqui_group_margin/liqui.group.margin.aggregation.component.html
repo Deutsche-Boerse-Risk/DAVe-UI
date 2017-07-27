@@ -1,8 +1,6 @@
-<initial-load *ngIf="initialLoad && !errorMessage"></initial-load>
+<initial-load *ngIf="initialLoad"></initial-load>
 
-<no-data *ngIf="!initialLoad && !errorMessage && data?.length < 1"></no-data>
-
-<update-failed *ngIf="errorMessage" [message]="errorMessage"></update-failed>
+<no-data *ngIf="!initialLoad && data?.length < 1"></no-data>
 
 <ng-template [ngIf]="data?.length > 0">
     <data-table [data]="data"
