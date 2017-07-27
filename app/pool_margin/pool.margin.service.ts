@@ -53,7 +53,12 @@ export class PoolMarginService extends AbstractService {
     }
 
     private setupLatestLoader(): void {
-        this.latestSubscription = this.loadData(poolMarginLatestURL)
+        this.latestSubscription = this.loadData(poolMarginLatestURL,
+            () => {
+                if (!this.latestSubject.hasData) {
+                    this.latestSubject.next([]);
+                }
+            })
             .subscribe((data: PoolMarginData[]) => this.latestSubject.next(data));
     }
 
@@ -114,14 +119,19 @@ export class PoolMarginService extends AbstractService {
     }
 
     public getPoolMarginHistory(params: PoolMarginHistoryParams): Observable<PoolMarginData[]> {
-        return this.loadData(poolMarginHistoryURL, params).result();
+        let first = true;
+        return this.loadData(poolMarginHistoryURL, () => first ? [] : null, params).call(map,
+            (data: PoolMarginData[]) => {
+                first = false;
+                return data;
+            }).result();
     }
 
-    private loadData(url: string, params?: PoolMarginParams): StrictRxChain<PoolMarginData[]> {
+    private loadData(url: string, errorHandler: () => any, params?: PoolMarginParams): StrictRxChain<PoolMarginData[]> {
         return this.http.get({
             resourceURL: url,
             params     : params
-        }).call(map, (data: PoolMarginServerData[]) => data || [])
+        }, errorHandler).call(map, (data: PoolMarginServerData[]) => data || [])
             .call(map, (data: PoolMarginServerData[]) => data.map(PoolMarginService.processPoolMarginData));
     }
 

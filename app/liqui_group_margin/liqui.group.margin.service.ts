@@ -58,7 +58,12 @@ export class LiquiGroupMarginService extends AbstractService {
     }
 
     private setupLatestLoader(): void {
-        this.latestSubscription = this.loadData(liquiGroupMarginLatestURL)
+        this.latestSubscription = this.loadData(liquiGroupMarginLatestURL,
+            () => {
+                if (!this.latestSubject.hasData) {
+                    this.latestSubject.next([]);
+                }
+            })
             .subscribe((data: LiquiGroupMarginData[]) => this.latestSubject.next(data));
     }
 
@@ -278,14 +283,20 @@ export class LiquiGroupMarginService extends AbstractService {
     }
 
     public getLiquiGroupMarginHistory(params: LiquiGroupMarginHistoryParams): Observable<LiquiGroupMarginData[]> {
-        return this.loadData(liquiGroupMarginHistoryURL, params).result();
+        let first = true;
+        return this.loadData(liquiGroupMarginHistoryURL, () => first ? [] : null, params).call(map,
+            (data: LiquiGroupMarginData[]) => {
+                first = false;
+                return data;
+            }).result();
     }
 
-    private loadData(url: string, params?: LiquiGroupMarginParams): StrictRxChain<LiquiGroupMarginData[]> {
+    private loadData(url: string, errorHandler: () => any,
+        params?: LiquiGroupMarginParams): StrictRxChain<LiquiGroupMarginData[]> {
         return this.http.get({
             resourceURL: url,
             params     : params
-        }).call(map, (data: LiquiGroupMarginServerData[]) => data || [])
+        }, errorHandler).call(map, (data: LiquiGroupMarginServerData[]) => data || [])
             .call(map, (data: LiquiGroupMarginServerData[]) =>
                 data.map(LiquiGroupMarginService.processLiquiGroupMarginData));
     }

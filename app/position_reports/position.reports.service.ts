@@ -56,7 +56,12 @@ export class PositionReportsService extends AbstractService {
     }
 
     private setupLatestLoader(): void {
-        this.latestSubscription = this.loadData(latestURL)
+        this.latestSubscription = this.loadData(latestURL,
+            () => {
+                if (!this.latestSubject.hasData) {
+                    this.latestSubject.next([]);
+                }
+            })
             .subscribe((data: PositionReportData[]) => this.latestSubject.next(data));
     }
 
@@ -158,14 +163,20 @@ export class PositionReportsService extends AbstractService {
     }
 
     public getPositionReportHistory(params: PositionReportsHistoryParams): Observable<PositionReportData[]> {
-        return this.loadData(historyURL, params).result();
+        let first = true;
+        return this.loadData(historyURL, () => first ? [] : null, params).call(map,
+            (data: PositionReportData[]) => {
+                first = false;
+                return data;
+            }).result();
     }
 
-    private loadData(url: string, params?: PositionReportsParams): StrictRxChain<PositionReportData[]> {
+    private loadData(url: string, errorHandler: () => any,
+        params?: PositionReportsParams): StrictRxChain<PositionReportData[]> {
         return this.http.get({
             resourceURL: url,
             params     : params
-        }).call(map, (data: PositionReportServerData[]) => data || [])
+        }, errorHandler).call(map, (data: PositionReportServerData[]) => data || [])
             .call(map,
                 (data: PositionReportServerData[]) => data.map(PositionReportsService.processPositionReportsDataRow));
     }

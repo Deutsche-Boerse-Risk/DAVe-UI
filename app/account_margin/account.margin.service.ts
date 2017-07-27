@@ -46,7 +46,12 @@ export class AccountMarginService extends AbstractService {
     }
 
     public setupPeriodicTimer(): void {
-        this.latestSubscription = this.loadData(accountMarginLatestURL)
+        this.latestSubscription = this.loadData(accountMarginLatestURL,
+            () => {
+                if (!this.latestSubject.hasData) {
+                    this.latestSubject.next([]);
+                }
+            })
             .subscribe((data: AccountMarginData[]) => this.latestSubject.next(data));
     }
 
@@ -68,14 +73,19 @@ export class AccountMarginService extends AbstractService {
     }
 
     public getAccountMarginHistory(params: AccountMarginHistoryParams): Observable<AccountMarginData[]> {
-        return this.loadData(accountMarginHistoryURL, params).result();
+        let first = true;
+        return this.loadData(accountMarginHistoryURL, () => first ? [] : null, params).call(map,
+            (data: AccountMarginData[]) => {
+                first = false;
+                return data;
+            }).result();
     }
 
-    private loadData(url: string, params?: AccountMarginParams) {
+    private loadData(url: string, errorHandler: () => any, params?: AccountMarginParams) {
         return this.http.get({
             resourceURL: url,
             params     : params
-        }).call(map, (data: AccountMarginServerData[]) => data || [])
+        }, errorHandler).call(map, (data: AccountMarginServerData[]) => data || [])
             .call(map, (data: AccountMarginServerData[]) =>
                 data.map(AccountMarginService.processAccountMarginDataRow));
     }

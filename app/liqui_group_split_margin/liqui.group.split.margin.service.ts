@@ -46,7 +46,12 @@ export class LiquiGroupSplitMarginService extends AbstractService {
     }
 
     public setupPeriodicTimer(): void {
-        this.latestSubscription = this.loadData(liquiGroupSplitMarginLatestURL)
+        this.latestSubscription = this.loadData(liquiGroupSplitMarginLatestURL,
+            () => {
+                if (!this.latestSubject.hasData) {
+                    this.latestSubject.next([]);
+                }
+            })
             .subscribe((data: LiquiGroupSplitMarginData[]) => this.latestSubject.next(data));
     }
 
@@ -68,14 +73,20 @@ export class LiquiGroupSplitMarginService extends AbstractService {
     }
 
     public getLiquiGroupSplitMarginHistory(params: LiquiGroupSplitMarginHistoryParams): Observable<LiquiGroupSplitMarginData[]> {
-        return this.loadData(liquiGroupSplitMarginHistoryURL, params).result();
+        let first = true;
+        return this.loadData(liquiGroupSplitMarginHistoryURL, () => first ? [] : null, params).call(map,
+            (data: LiquiGroupSplitMarginData[]) => {
+                first = false;
+                return data;
+            }).result();
     }
 
-    private loadData(url: string, params?: LiquiGroupSplitMarginParams): StrictRxChain<LiquiGroupSplitMarginData[]> {
+    private loadData(url: string, errorHandler: () => any,
+        params?: LiquiGroupSplitMarginParams): StrictRxChain<LiquiGroupSplitMarginData[]> {
         return this.http.get({
             resourceURL: url,
             params     : params
-        }).call(map, (data: LiquiGroupSplitMarginServerData[]) => data || [])
+        }, errorHandler).call(map, (data: LiquiGroupSplitMarginServerData[]) => data || [])
             .call(map, (data: LiquiGroupSplitMarginServerData[]) => data.map(
                 LiquiGroupSplitMarginService.processLiquiGroupSplitMarginData));
     }

@@ -46,7 +46,12 @@ export class RiskLimitUtilizationService extends AbstractService {
     }
 
     public setupPeriodicTimer(): void {
-        this.latestSubscription = this.loadData(riskLimitUtilizationLatestURL)
+        this.latestSubscription = this.loadData(riskLimitUtilizationLatestURL,
+            () => {
+                if (!this.latestSubject.hasData) {
+                    this.latestSubject.next([]);
+                }
+            })
             .subscribe((data: RiskLimitUtilizationData[]) => this.latestSubject.next(data));
     }
 
@@ -68,14 +73,20 @@ export class RiskLimitUtilizationService extends AbstractService {
     }
 
     public getRiskLimitUtilizationHistory(params: RiskLimitUtilizationHistoryParams): Observable<RiskLimitUtilizationData[]> {
-        return this.loadData(riskLimitUtilizationHistoryURL, params).result();
+        let first = true;
+        return this.loadData(riskLimitUtilizationHistoryURL, () => first ? [] : null, params).call(map,
+            (data: RiskLimitUtilizationData[]) => {
+                first = false;
+                return data;
+            }).result();
     }
 
-    private loadData(url: string, params?: RiskLimitUtilizationParams): StrictRxChain<RiskLimitUtilizationData[]> {
+    private loadData(url: string, errorHandler: () => any,
+        params?: RiskLimitUtilizationParams): StrictRxChain<RiskLimitUtilizationData[]> {
         return this.http.get({
             resourceURL: url,
             params     : params
-        }).call(map, (data: RiskLimitUtilizationServerData[]) => data || [])
+        }, errorHandler).call(map, (data: RiskLimitUtilizationServerData[]) => data || [])
             .call(map, (data: RiskLimitUtilizationServerData[]) => data.map(
                 RiskLimitUtilizationService.processRiskLimitUtilizationDataRow));
     }
