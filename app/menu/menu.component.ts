@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, HostBinding, Input} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, Input} from '@angular/core';
 
 import {COMPONENT_CSS} from '@dbg-riskit/dave-ui-common';
 
@@ -19,6 +19,13 @@ export class MenuComponent {
     @Input()
     @HostBinding('style.flex-direction')
     public orientation: 'row' | 'column' = 'row';
+
+    constructor(private changeDetectorRef: ChangeDetectorRef) {
+    }
+
+    public menuClosed(): void {
+        this.changeDetectorRef.markForCheck();
+    }
 
     public get routerRoots() {
         return ROUTES;

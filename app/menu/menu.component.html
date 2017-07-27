@@ -9,7 +9,8 @@
    routerLinkActive="active"
    #menu="mdMenuTrigger"
    [mdMenuTriggerFor]="appMenu"
-   [class.menuOpen]="menu.menuOpen">
+   [class.menuOpen]="menu.menuOpen"
+   (onMenuClose)="menuClosed()">
     <md-icon>trending_up</md-icon>
     Margin Requirement
     <md-menu #appMenu="mdMenu" [overlapTrigger]="false">
