@@ -9,8 +9,6 @@ import {
     HttpAsyncServiceStub,
     TableBodyRow
 } from '@dbg-riskit/dave-ui-testing';
-
-import {ErrorType} from '@dbg-riskit/dave-ui-common';
 import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 
@@ -44,55 +42,24 @@ describe('Account margin latest component', () => {
         // Create component
         page = new LatestListPage<AccountMarginLatestComponent>(
             TestBed.createComponent(AccountMarginLatestComponent));
+
+        // We have to detach the timer and reatach it later in test to be in correct Zone
+        page.disablePeriodicTimer(AccountMarginService);
     })));
 
-    it('displays error correctly', fakeAsync(inject([HttpService],
-        (http: HttpAsyncServiceStub<AccountMarginServerData[]>) => {
+    it('displays no-data correctly', fakeAsync(inject([HttpService, AccountMarginService],
+        (http: HttpAsyncServiceStub<AccountMarginServerData[]>, service: AccountMarginService) => {
+            // Attach the timer
+            service.setupPeriodicTimer();
+
             // Init component
             page.detectChanges();
-            // Do not trigger periodic interval
-            clearInterval((page.component as any).intervalHandle);
 
             expect(page.initialLoadComponent).not
                 .toBeNull('Initial load component visible.');
             expect(page.noDataComponent)
                 .toBeNull('No data component not visible.');
-            expect(page.updateFailedComponent)
-                .toBeNull('Update failed component not visible.');
-            expect(page.dataTable.element)
-                .toBeNull('Data table not visible.');
 
-            // Return error
-            http.throwError({
-                status   : 500,
-                message  : 'Error message',
-                errorType: ErrorType.REQUEST
-            });
-            page.advanceHTTP();
-
-            expect(page.initialLoadComponent)
-                .toBeNull('Initial load component not visible.');
-            expect(page.noDataComponent)
-                .toBeNull('No data component not visible.');
-            expect(page.updateFailedComponent).not
-                .toBeNull('Update failed component visible.');
-            expect(page.dataTable.element)
-                .toBeNull('Data table not visible.');
-        })));
-
-    it('displays no-data correctly', fakeAsync(inject([HttpService],
-        (http: HttpAsyncServiceStub<AccountMarginServerData[]>) => {
-            // Init component
-            page.detectChanges();
-            // Do not trigger periodic interval
-            clearInterval((page.component as any).intervalHandle);
-
-            expect(page.initialLoadComponent).not
-                .toBeNull('Initial load component visible.');
-            expect(page.noDataComponent)
-                .toBeNull('No data component not visible.');
-            expect(page.updateFailedComponent)
-                .toBeNull('Update failed component not visible.');
             expect(page.dataTable.element)
                 .toBeNull('Data table not visible.');
 
@@ -105,21 +72,22 @@ describe('Account margin latest component', () => {
                 .toBeNull('Initial load component not visible.');
             expect(page.noDataComponent).not
                 .toBeNull('No data component visible.');
-            expect(page.updateFailedComponent)
-                .toBeNull('Update failed component not visible.');
             expect(page.dataTable.element)
                 .toBeNull('Data table not visible.');
+
+            // Discard the service timer
+            page.disablePeriodicTimer(AccountMarginService);
         })));
 
-    it('displays data table', fakeAsync(() => {
+    it('displays data table', fakeAsync(inject([AccountMarginService], (service: AccountMarginService) => {
+        // Attach the timer
+        service.setupPeriodicTimer();
+
         // Init component
         page.detectChanges();
-        // Do not trigger periodic interval
-        clearInterval((page.component as any).intervalHandle);
 
         expect(page.initialLoadComponent).not.toBeNull('Initial load component visible.');
         expect(page.noDataComponent).toBeNull('No data component not visible.');
-        expect(page.updateFailedComponent).toBeNull('Update failed component not visible.');
         expect(page.dataTable.element).toBeNull('Data table not visible.');
 
         // Return data
@@ -127,15 +95,20 @@ describe('Account margin latest component', () => {
 
         expect(page.initialLoadComponent).toBeNull('Initial load component not visible.');
         expect(page.noDataComponent).toBeNull('No data component not visible.');
-        expect(page.updateFailedComponent).toBeNull('Update failed component not visible.');
         expect(page.dataTable.element).not.toBeNull('Data table visible.');
 
         // Fire highlighters
         page.advanceHighlighter();
-    }));
 
-    it('refresh data correctly', fakeAsync(inject([HttpService],
-        (http: HttpAsyncServiceStub<AccountMarginServerData[]>) => {
+        // Discard the service timer
+        page.disablePeriodicTimer(AccountMarginService);
+    })));
+
+    it('refresh data correctly', fakeAsync(inject([HttpService, AccountMarginService],
+        (http: HttpAsyncServiceStub<AccountMarginServerData[]>, service: AccountMarginService) => {
+            // Attach the timer
+            service.setupPeriodicTimer();
+
             // Init component
             page.detectChanges();
             // Return data
@@ -145,8 +118,6 @@ describe('Account margin latest component', () => {
                 .toBeNull('Initial load component not visible.');
             expect(page.noDataComponent)
                 .toBeNull('No data component not visible.');
-            expect(page.updateFailedComponent)
-                .toBeNull('Update failed component not visible.');
             expect(page.dataTable.element).not
                 .toBeNull('Data table visible.');
 
@@ -192,63 +163,71 @@ describe('Account margin latest component', () => {
                 return !row.highlighted;
             })).toBeTruthy('No rows are highlighted');
 
-            // Do not trigger periodic interval
-            clearInterval((page.component as any).intervalHandle);
+            // Discard the service timer
+            page.disablePeriodicTimer(AccountMarginService);
         })));
 
-    it('has correct pager', fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<AccountMarginServerData[]>) => {
-        // Generate more rows
-        http.popReturnValue();
-        http.returnValue(generateAccountMargin(3, 3, 3, 3));
+    it('has correct pager', fakeAsync(inject([HttpService, AccountMarginService],
+        (http: HttpAsyncServiceStub<AccountMarginServerData[]>, service: AccountMarginService) => {
+            // Attach the timer
+            service.setupPeriodicTimer();
+            // Generate more rows
+            http.popReturnValue();
+            http.returnValue(generateAccountMargin(3, 3, 3, 3));
 
-        // Init component
-        page.detectChanges();
-        // Return data
-        page.advanceHTTP();
-        // Fire highlighters
-        page.advanceHighlighter();
-
-        expect(page.dataTable.pager.element).not.toBeNull('Pager visible');
-        expect(page.dataTable.recordsCount.message).toContain('Showing 20 records out of ' + Math.pow(3, 4));
-
-        page.dataTable.pager.expectButtonNumbers([1, 2, 3, 4]);
-        page.dataTable.pager.expectButtonActive(2);
-        page.dataTable.pager.expectLeadingButtonsDisabled();
-        page.dataTable.pager.expectTrailingButtonsNotDisabled();
-
-        page.dataTable.pager.click(4);
-
-        page.dataTable.pager.expectButtonNumbers([1, 2, 3, 4, 5]);
-        page.dataTable.pager.expectButtonActive(4);
-        page.dataTable.pager.expectLeadingButtonsNotDisabled();
-        page.dataTable.pager.expectTrailingButtonsNotDisabled();
-
-        http.returnValue(generateAccountMarginHistory());
-        // Trigger reload
-        page.advanceAndDetectChangesUsingOffset(DATA_REFRESH_INTERVAL);
-        page.advanceHTTP();
-
-        expect(page.dataTable.pager.element).toBeNull('Pager not visible');
-        expect(page.dataTable.recordsCount.message).toContain('Showing 16 records out of 16');
-
-        // Fire highlighters
-        page.advanceHighlighter();
-        // Do not trigger periodic interval
-        clearInterval((page.component as any).intervalHandle);
-    })));
-
-    describe('(after data are ready)', () => {
-        beforeEach(fakeAsync(() => {
             // Init component
             page.detectChanges();
             // Return data
             page.advanceHTTP();
-            // Do not trigger periodic interval
-            clearInterval((page.component as any).intervalHandle);
+            // Fire highlighters
+            page.advanceHighlighter();
+
+            expect(page.dataTable.pager.element).not.toBeNull('Pager visible');
+            expect(page.dataTable.recordsCount.message).toContain('Showing 20 records out of ' + Math.pow(3, 4));
+
+            page.dataTable.pager.expectButtonNumbers([1, 2, 3, 4]);
+            page.dataTable.pager.expectButtonActive(2);
+            page.dataTable.pager.expectLeadingButtonsDisabled();
+            page.dataTable.pager.expectTrailingButtonsNotDisabled();
+
+            page.dataTable.pager.click(4);
+
+            page.dataTable.pager.expectButtonNumbers([1, 2, 3, 4, 5]);
+            page.dataTable.pager.expectButtonActive(4);
+            page.dataTable.pager.expectLeadingButtonsNotDisabled();
+            page.dataTable.pager.expectTrailingButtonsNotDisabled();
+
+            http.returnValue(generateAccountMarginHistory());
+            // Trigger reload
+            page.advanceAndDetectChangesUsingOffset(DATA_REFRESH_INTERVAL);
+            page.advanceHTTP();
+
+            expect(page.dataTable.pager.element).toBeNull('Pager not visible');
+            expect(page.dataTable.recordsCount.message).toContain('Showing 16 records out of 16');
 
             // Fire highlighters
             page.advanceHighlighter();
-        }));
+
+            // Discard the service timer
+            page.disablePeriodicTimer(AccountMarginService);
+        })));
+
+    describe('(after data are ready)', () => {
+        beforeEach(fakeAsync(inject([AccountMarginService], (service: AccountMarginService) => {
+            // Attach the timer
+            service.setupPeriodicTimer();
+
+            // Init component
+            page.detectChanges();
+            // Return data
+            page.advanceHTTP();
+
+            // Discard the service timero
+            page.disablePeriodicTimer(AccountMarginService);
+
+            // Fire highlighters
+            page.advanceHighlighter();
+        })));
 
         xit('displays data correctly', fakeAsync(() => {
         }));

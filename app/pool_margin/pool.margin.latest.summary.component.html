@@ -1,6 +1,7 @@
 <ng-template #card let-value="value" let-label="label">
     <md-card [class.good]="value >= 0"
-             [class.error]="value < 0">
+             [class.error]="value < 0"
+             *ngIf="value != null">
         <div class="huge">{{value | number:'.2-2'}}</div>
         <div>{{label}}</div>
     </md-card>

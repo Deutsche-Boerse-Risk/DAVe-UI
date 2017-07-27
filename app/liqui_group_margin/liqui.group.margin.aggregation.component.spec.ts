@@ -3,6 +3,7 @@ import {RouterModule} from '@angular/router';
 import {fakeAsync, inject, TestBed} from '@angular/core/testing';
 
 import {
+    AuthServiceStub,
     chceckSorting,
     compileTestBed,
     disableMaterialAnimations,
@@ -13,15 +14,16 @@ import {
 
 import {AggregationPage, generateLiquiGroupMargin, generateLiquiGroupMarginHistory} from '@dave/testing';
 
-import {ErrorType} from '@dbg-riskit/dave-ui-common';
+import {AuthService} from '@dbg-riskit/dave-ui-auth';
 import {DataTableModule} from '@dbg-riskit/dave-ui-datatable';
+import {ErrorCollectorService} from '@dbg-riskit/dave-ui-error';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 import {NoopAnimationsCommonViewModule} from '@dbg-riskit/dave-ui-view';
 
 import {LiquiGroupMarginService} from './liqui.group.margin.service';
 import {LiquiGroupMarginServerData} from './liqui.group.margin.types';
 
-import {DATA_REFRESH_INTERVAL} from '../periodic.http.service';
+import {DATA_REFRESH_INTERVAL, PeriodicHttpService} from '../periodic.http.service';
 import {DrillDownRowButtonComponent} from '../list/drill.down.row.button.component';
 
 import {LiquiGroupMarginAggregationComponent, valueGetters} from './liqui.group.margin.aggregation.component';
@@ -46,7 +48,13 @@ describe('Liqui Group Margin aggregation component', () => {
                 {
                     provide : HttpService,
                     useClass: HttpAsyncServiceStub
-                }
+                },
+                {
+                    provide : AuthService,
+                    useClass: AuthServiceStub
+                },
+                PeriodicHttpService,
+                ErrorCollectorService
             ]
         });
         disableMaterialAnimations(DataTableModule);
@@ -55,60 +63,30 @@ describe('Liqui Group Margin aggregation component', () => {
         page = null;
     });
 
-    beforeEach(fakeAsync(inject([HttpService], (http: HttpAsyncServiceStub<LiquiGroupMarginServerData[]>) => {
-        // Generate test data
-        http.returnValue(generateLiquiGroupMargin());
-        // Create component
-        page = new AggregationPage(TestBed.createComponent(LiquiGroupMarginAggregationComponent));
-    })));
+    beforeEach(fakeAsync(inject([HttpService, LiquiGroupMarginService],
+        (http: HttpAsyncServiceStub<LiquiGroupMarginServerData[]>, service: LiquiGroupMarginService) => {
+            // Generate test data
+            http.returnValue(generateLiquiGroupMargin());
+            // Create component
+            page = new AggregationPage(TestBed.createComponent(LiquiGroupMarginAggregationComponent));
 
-    it('displays error correctly', fakeAsync(inject([HttpService],
-        (http: HttpAsyncServiceStub<LiquiGroupMarginServerData[]>) => {
-            // Init component
-            page.detectChanges();
-            // Do not trigger periodic interval
-            clearInterval((page.component as any).intervalHandle);
-
-            expect(page.initialLoadComponent).not
-                .toBeNull('Initial load component visible.');
-            expect(page.noDataComponent)
-                .toBeNull('No data component not visible.');
-            expect(page.updateFailedComponent)
-                .toBeNull('Update failed component not visible.');
-            expect(page.dataTable.debugElement)
-                .toBeNull('Data table not visible.');
-
-            // Return error
-            http.throwError({
-                status   : 500,
-                message  : 'Error message',
-                errorType: ErrorType.REQUEST
-            });
-            page.advanceHTTP();
-
-            expect(page.initialLoadComponent)
-                .toBeNull('Initial load component not visible.');
-            expect(page.noDataComponent)
-                .toBeNull('No data component not visible.');
-            expect(page.updateFailedComponent).not
-                .toBeNull('Update failed component visible.');
-            expect(page.dataTable.debugElement)
-                .toBeNull('Data table not visible.');
+            //We have to detach the timer and reatach it later in test to be in correct Zone
+            // noinspection JSDeprecatedSymbols
+            service.destroyPeriodicTimer();
         })));
 
-    it('displays no-data correctly', fakeAsync(inject([HttpService],
-        (http: HttpAsyncServiceStub<LiquiGroupMarginServerData[]>) => {
+    it('displays no-data correctly', fakeAsync(inject([HttpService, LiquiGroupMarginService],
+        (http: HttpAsyncServiceStub<LiquiGroupMarginServerData[]>, service: LiquiGroupMarginService) => {
+            // Attach the timer
+            service.setupPeriodicTimer();
+
             // Init component
             page.detectChanges();
-            // Do not trigger periodic interval
-            clearInterval((page.component as any).intervalHandle);
 
             expect(page.initialLoadComponent).not
                 .toBeNull('Initial load component visible.');
             expect(page.noDataComponent)
                 .toBeNull('No data component not visible.');
-            expect(page.updateFailedComponent)
-                .toBeNull('Update failed component not visible.');
             expect(page.dataTable.debugElement)
                 .toBeNull('Data table not visible.');
 
@@ -121,37 +99,46 @@ describe('Liqui Group Margin aggregation component', () => {
                 .toBeNull('Initial load component not visible.');
             expect(page.noDataComponent).not
                 .toBeNull('No data component visible.');
-            expect(page.updateFailedComponent)
-                .toBeNull('Update failed component not visible.');
             expect(page.dataTable.debugElement)
                 .toBeNull('Data table not visible.');
+
+            // Discard the service timer
+            // noinspection JSDeprecatedSymbols
+            service.destroyPeriodicTimer();
         })));
 
-    it('displays data table', fakeAsync(() => {
-        // Init component
-        page.detectChanges();
-        // Do not trigger periodic interval
-        clearInterval((page.component as any).intervalHandle);
+    it('displays data table', fakeAsync(inject([LiquiGroupMarginService],
+        (service: LiquiGroupMarginService) => {
+            // Attach the timer
+            service.setupPeriodicTimer();
 
-        expect(page.initialLoadComponent).not.toBeNull('Initial load component visible.');
-        expect(page.noDataComponent).toBeNull('No data component not visible.');
-        expect(page.updateFailedComponent).toBeNull('Update failed component not visible.');
-        expect(page.dataTable.debugElement).toBeNull('Data table not visible.');
+            // Init component
+            page.detectChanges();
 
-        // Return data
-        page.advanceHTTP();
+            expect(page.initialLoadComponent).not.toBeNull('Initial load component visible.');
+            expect(page.noDataComponent).toBeNull('No data component not visible.');
+            expect(page.dataTable.debugElement).toBeNull('Data table not visible.');
 
-        expect(page.initialLoadComponent).toBeNull('Initial load component not visible.');
-        expect(page.noDataComponent).toBeNull('No data component not visible.');
-        expect(page.updateFailedComponent).toBeNull('Update failed component not visible.');
-        expect(page.dataTable.debugElement).not.toBeNull('Data table visible.');
+            // Return data
+            page.advanceHTTP();
 
-        // Fire highlighters
-        page.advanceHighlighter();
-    }));
+            expect(page.initialLoadComponent).toBeNull('Initial load component not visible.');
+            expect(page.noDataComponent).toBeNull('No data component not visible.');
+            expect(page.dataTable.debugElement).not.toBeNull('Data table visible.');
 
-    it('refresh data correctly', fakeAsync(inject([HttpService],
-        (http: HttpAsyncServiceStub<LiquiGroupMarginServerData[]>) => {
+            // Fire highlighters
+            page.advanceHighlighter();
+
+            // Discard the service timer
+            // noinspection JSDeprecatedSymbols
+            service.destroyPeriodicTimer();
+        })));
+
+    it('refresh data correctly', fakeAsync(inject([HttpService, LiquiGroupMarginService],
+        (http: HttpAsyncServiceStub<LiquiGroupMarginServerData[]>, service: LiquiGroupMarginService) => {
+            // Attach the timer
+            service.setupPeriodicTimer();
+
             // Init component
             page.detectChanges();
             // Return data
@@ -161,8 +148,6 @@ describe('Liqui Group Margin aggregation component', () => {
                 .toBeNull('Initial load component not visible.');
             expect(page.noDataComponent)
                 .toBeNull('No data component not visible.');
-            expect(page.updateFailedComponent)
-                .toBeNull('Update failed component not visible.');
             expect(page.dataTable.debugElement).not
                 .toBeNull('Data table visible.');
 
@@ -208,40 +193,53 @@ describe('Liqui Group Margin aggregation component', () => {
                 return !row.highlighted;
             })).toBeTruthy('No rows are highlighted');
 
-            // Do not trigger periodic interval
-            clearInterval((page.component as any).intervalHandle);
+            // Discard the service timer
+            // noinspection JSDeprecatedSymbols
+            service.destroyPeriodicTimer();
         })));
 
-    it('can be sorted correctly', fakeAsync(() => {
-        // Init component
-        page.detectChanges();
-        // Return data
-        page.advanceHTTP();
-        // Do not trigger periodic interval
-        clearInterval((page.component as any).intervalHandle);
+    it('can be sorted correctly', fakeAsync(inject([LiquiGroupMarginService],
+        (service: LiquiGroupMarginService) => {
+            // Attach the timer
+            service.setupPeriodicTimer();
 
-        chceckSorting(page, [
-            valueGetters.clearer, valueGetters.member, valueGetters.account,
-            valueGetters.premiumMargin, valueGetters.currentLiquidatingMargin, valueGetters.additionalMargin,
-            valueGetters.unadjustedMarginRequirement, valueGetters.variationPremiumPayment
-        ]);
-
-        // Fire highlighters
-        page.advanceHighlighter();
-    }));
-
-    describe('(after data are ready)', () => {
-        beforeEach(fakeAsync(() => {
             // Init component
             page.detectChanges();
             // Return data
             page.advanceHTTP();
-            // Do not trigger periodic interval
-            clearInterval((page.component as any).intervalHandle);
+
+            chceckSorting(page, [
+                valueGetters.clearer, valueGetters.member, valueGetters.account,
+                valueGetters.premiumMargin, valueGetters.currentLiquidatingMargin, valueGetters.additionalMargin,
+                valueGetters.unadjustedMarginRequirement, valueGetters.variationPremiumPayment
+            ]);
 
             // Fire highlighters
             page.advanceHighlighter();
-        }));
+
+            // Discard the service timer
+            // noinspection JSDeprecatedSymbols
+            service.destroyPeriodicTimer();
+        })));
+
+    describe('(after data are ready)', () => {
+        beforeEach(fakeAsync(inject([LiquiGroupMarginService],
+            (service: LiquiGroupMarginService) => {
+                // Attach the timer
+                service.setupPeriodicTimer();
+
+                // Init component
+                page.detectChanges();
+                // Return data
+                page.advanceHTTP();
+
+                // Discard the service timer
+                // noinspection JSDeprecatedSymbols
+                service.destroyPeriodicTimer();
+
+                // Fire highlighters
+                page.advanceHighlighter();
+            })));
 
         xit('displays data correctly', fakeAsync(() => {
         }));

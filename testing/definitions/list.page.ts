@@ -28,7 +28,7 @@ import {DataTableComponent, DataTableModule, HIGHLIGHTER_TIMEOUT} from '@dbg-ris
 import {ErrorCollectorService} from '@dbg-riskit/dave-ui-error';
 import {CSVDownloadMenuComponent, FileModule} from '@dbg-riskit/dave-ui-file';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
-import {INITIAL_LOAD_SELECTOR, NO_DATA_SELECTOR, UPDATE_FAILED_SELECTOR} from '@dbg-riskit/dave-ui-view';
+import {INITIAL_LOAD_SELECTOR, NO_DATA_SELECTOR} from '@dbg-riskit/dave-ui-view';
 
 import {BreadCrumbsDefinition} from './bread.crumbs.page';
 
@@ -38,6 +38,7 @@ import {DrillUpDownButtonComponent} from '../../app/list/drill.updown.button.com
 import {BreadCrumbsComponent} from '../../app/list/bread.crumbs.component';
 
 import {PeriodicHttpService} from '../../app/periodic.http.service';
+import {AbstractService} from '../../app/abstract.service';
 
 export class ListPage<T> extends PageWithLoading<T> {
 
@@ -119,14 +120,6 @@ export class ListPage<T> extends PageWithLoading<T> {
 
     public get noDataComponent(): MessageComponentDef {
         const element = this.listElement.query(By.css(NO_DATA_SELECTOR));
-        if (element) {
-            return new MessageComponentDef(element);
-        }
-        return null;
-    }
-
-    public get updateFailedComponent(): MessageComponentDef {
-        const element = this.listElement.query(By.css(UPDATE_FAILED_SELECTOR));
         if (element) {
             return new MessageComponentDef(element);
         }
@@ -233,6 +226,11 @@ export class LatestListPage<T> extends ListPage<T> {
 
         jasmine.getEnv().allowRespy(false);
     };
+
+    public disablePeriodicTimer(serviceType: Type<AbstractService>): void {
+        let service: AbstractService = TestBed.get(serviceType);
+        service.destroyPeriodicTimer();
+    }
 }
 
 export class HistoryListPage<T> extends LatestListPage<T> {

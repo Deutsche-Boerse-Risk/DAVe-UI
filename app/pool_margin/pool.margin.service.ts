@@ -66,7 +66,7 @@ export class PoolMarginService extends AbstractService {
         RxChain.from(this.latestSubject)
             .guardedDeferredMap(
                 (data: PoolMarginServerData[], subscriber: Subscriber<PoolMarginSummaryData>) => {
-                    if (!data || !data.length) {
+                    if (!data) {
                         subscriber.next({} as PoolMarginSummaryData);
                         subscriber.complete();
                         return;

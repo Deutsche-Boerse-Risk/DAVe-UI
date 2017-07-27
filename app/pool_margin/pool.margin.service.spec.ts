@@ -212,10 +212,10 @@ describe('PoolMarginService', () => {
                     expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params)
                         .not.toBeDefined();
                     expect(data).toBeDefined();
-                    expect(data.shortfallSurplus).not.toBeDefined();
-                    expect(data.marginRequirement).not.toBeDefined();
-                    expect(data.totalCollateral).not.toBeDefined();
-                    expect(data.cashBalance).not.toBeDefined();
+                    expect(data.shortfallSurplus).toBe(0);
+                    expect(data.marginRequirement).toBe(0);
+                    expect(data.totalCollateral).toBe(0);
+                    expect(data.cashBalance).toBe(0);
                 });
 
             expect(httpSyp).toHaveBeenCalledTimes(2);

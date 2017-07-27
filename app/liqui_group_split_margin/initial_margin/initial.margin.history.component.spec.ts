@@ -1,6 +1,6 @@
 import {ActivatedRoute} from '@angular/router';
 
-import {fakeAsync, inject, TestBed} from '@angular/core/testing';
+import {discardPeriodicTasks, fakeAsync, inject, TestBed} from '@angular/core/testing';
 
 import {
     ActivatedRouteStub,
@@ -10,7 +10,6 @@ import {
     TableBodyRow
 } from '@dbg-riskit/dave-ui-testing';
 
-import {ErrorType} from '@dbg-riskit/dave-ui-common';
 import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 
@@ -59,57 +58,20 @@ describe('Initial Margin history component', () => {
             // Create component
             page = new HistoryListPage<InitialMarginHistoryComponent>(
                 TestBed.createComponent(InitialMarginHistoryComponent));
-        })));
 
-    it('displays error correctly', fakeAsync(inject([HttpService],
-        (http: HttpAsyncServiceStub<LiquiGroupSplitMarginServerData[]>) => {
-            // Init component
-            page.detectChanges();
-            // Do not trigger periodic interval
-            clearInterval((page.component as any).intervalHandle);
-
-            expect(page.initialLoadComponent).not
-                .toBeNull('Initial load component visible.');
-            expect(page.noDataComponent)
-                .toBeNull('No data component not visible.');
-            expect(page.updateFailedComponent)
-                .toBeNull('Update failed component not visible.');
-            expect(page.dataTable.element)
-                .toBeNull('Data table not visible.');
-            expect(page.lineChart).toBeNull('Chart not visible.');
-
-            // Return error
-            http.throwError({
-                status   : 500,
-                message  : 'Error message',
-                errorType: ErrorType.REQUEST
-            });
-            page.advanceHTTP();
-
-            expect(page.initialLoadComponent)
-                .toBeNull('Initial load component not visible.');
-            expect(page.noDataComponent)
-                .toBeNull('No data component not visible.');
-            expect(page.updateFailedComponent).not
-                .toBeNull('Update failed component visible.');
-            expect(page.dataTable.element)
-                .toBeNull('Data table not visible.');
-            expect(page.lineChart).toBeNull('Chart not visible.');
+            // Remove timer for latest data
+            page.disablePeriodicTimer(LiquiGroupSplitMarginService);
         })));
 
     it('displays no-data correctly', fakeAsync(inject([HttpService],
         (http: HttpAsyncServiceStub<LiquiGroupSplitMarginServerData[]>) => {
             // Init component
             page.detectChanges();
-            // Do not trigger periodic interval
-            clearInterval((page.component as any).intervalHandle);
 
             expect(page.initialLoadComponent).not
                 .toBeNull('Initial load component visible.');
             expect(page.noDataComponent)
                 .toBeNull('No data component not visible.');
-            expect(page.updateFailedComponent)
-                .toBeNull('Update failed component not visible.');
             expect(page.dataTable.element)
                 .toBeNull('Data table not visible.');
             expect(page.lineChart).toBeNull('Chart not visible.');
@@ -123,11 +85,12 @@ describe('Initial Margin history component', () => {
                 .toBeNull('Initial load component not visible.');
             expect(page.noDataComponent).not
                 .toBeNull('No data component visible.');
-            expect(page.updateFailedComponent)
-                .toBeNull('Update failed component not visible.');
             expect(page.dataTable.element)
                 .toBeNull('Data table not visible.');
             expect(page.lineChart).toBeNull('Chart not visible.');
+
+            // Remove timer for history data
+            discardPeriodicTasks();
         })));
 
     it('displays data table', fakeAsync(inject([HttpService],
@@ -135,15 +98,11 @@ describe('Initial Margin history component', () => {
             let httpSpy = spyOn(http, 'get').and.callThrough();
             // Init component
             page.detectChanges();
-            // Do not trigger periodic interval
-            clearInterval((page.component as any).intervalHandle);
 
             expect(page.initialLoadComponent).not
                 .toBeNull('Initial load component visible.');
             expect(page.noDataComponent)
                 .toBeNull('No data component not visible.');
-            expect(page.updateFailedComponent)
-                .toBeNull('Update failed component not visible.');
             expect(page.dataTable.element).toBeNull('Data table not visible.');
             expect(page.lineChart).toBeNull('Chart not visible.');
 
@@ -164,13 +123,14 @@ describe('Initial Margin history component', () => {
                 .toBeNull('Initial load component not visible.');
             expect(page.noDataComponent)
                 .toBeNull('No data component not visible.');
-            expect(page.updateFailedComponent)
-                .toBeNull('Update failed component not visible.');
             expect(page.dataTable.element).not.toBeNull('Data table visible.');
             expect(page.lineChart).not.toBeNull('Chart visible.');
 
             // Fire highlighters
             page.advanceHighlighter();
+
+            // Remove timer for history data
+            discardPeriodicTasks();
         })));
 
     it('data correctly refreshed', fakeAsync(inject([HttpService],
@@ -184,8 +144,6 @@ describe('Initial Margin history component', () => {
                 .toBeNull('Initial load component not visible.');
             expect(page.noDataComponent)
                 .toBeNull('No data component not visible.');
-            expect(page.updateFailedComponent)
-                .toBeNull('Update failed component not visible.');
             expect(page.dataTable.element).not
                 .toBeNull('Data table visible.');
             expect(page.lineChart).not.toBeNull('Chart visible.');
@@ -233,8 +191,8 @@ describe('Initial Margin history component', () => {
                 return !row.highlighted;
             })).toBeTruthy('No rows are highlighted');
 
-            // Do not trigger periodic interval
-            clearInterval((page.component as any).intervalHandle);
+            // Remove timer for history data
+            discardPeriodicTasks();
         })));
 
     it('has correct pager',
@@ -275,8 +233,9 @@ describe('Initial Margin history component', () => {
 
             // Fire highlighters
             page.advanceHighlighter();
-            // Do not trigger periodic interval
-            clearInterval((page.component as any).intervalHandle);
+
+            // Remove timer for history data
+            discardPeriodicTasks();
         })));
 
     describe('(after data are ready)', () => {
@@ -285,8 +244,9 @@ describe('Initial Margin history component', () => {
             page.detectChanges();
             // Return data
             page.advanceHTTP();
-            // Do not trigger periodic interval
-            clearInterval((page.component as any).intervalHandle);
+
+            // Remove timer for history data
+            discardPeriodicTasks();
 
             // Fire highlighters
             page.advanceHighlighter();
