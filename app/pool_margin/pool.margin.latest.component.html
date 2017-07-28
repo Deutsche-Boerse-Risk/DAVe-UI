@@ -1,10 +1,11 @@
 <list-content header="Pool Margin"
               [routeParts]="routeParts"
               [exportKeys]="exportKeys"
-              [data]="data"
+              [dataTable]="dataTable"
               [initialLoad]="initialLoad"
               (filterChanged)="filter($event)">
     <data-table [data]="data"
+                #dataTable="dataTable"
                 [pageSize]="pageSize"
                 [defaultOrdering]="defaultOrdering"
                 [trackByRowKey]="trackByRowKey">

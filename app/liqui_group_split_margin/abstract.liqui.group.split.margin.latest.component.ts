@@ -1,7 +1,9 @@
+import {DecimalPipe} from '@angular/common';
 import {ActivatedRoute} from '@angular/router';
 
 import {ValueGetter} from '@dbg-riskit/dave-ui-common';
 import {OrderingCriteria} from '@dbg-riskit/dave-ui-datatable';
+import {DateFormatter} from '@dbg-riskit/dave-ui-view';
 
 import {LiquiGroupSplitMarginService} from './liqui.group.split.margin.service';
 import {LiquiGroupSplitMarginData, LiquiGroupSplitMarginParams} from './liqui.group.split.margin.types';
@@ -22,9 +24,9 @@ export const routingKeys: (keyof LiquiGroupSplitMarginParams)[] = [
 export abstract class AbstractLiquiGroupSplitMarginLatestComponent
     extends AbstractLatestListComponent<LiquiGroupSplitMarginData> {
 
-    constructor(private liquiGroupSplitMarginService: LiquiGroupSplitMarginService,
-        route: ActivatedRoute) {
-        super(route);
+    constructor(private liquiGroupSplitMarginService: LiquiGroupSplitMarginService, route: ActivatedRoute,
+        dateFormatter: DateFormatter, numberFormatter: DecimalPipe) {
+        super(route, dateFormatter, numberFormatter);
     }
 
     protected loadData(): Subscription {

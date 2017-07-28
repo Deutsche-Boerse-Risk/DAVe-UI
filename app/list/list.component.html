@@ -20,7 +20,7 @@
         <md-icon>search</md-icon>
     </button>
 
-    <download-menu [columns]="exportKeys" [data]="data"
+    <download-menu [columns]="exportKeys" [data]="exportData"
                    filename="download.csv"></download-menu>
 
     <drilldown-button *ngIf="drilldownRouterLink"
@@ -32,6 +32,6 @@
 
 <initial-load *ngIf="initialLoad"></initial-load>
 
-<no-data *ngIf="!initialLoad && data?.length < 1"></no-data>
+<no-data *ngIf="!initialLoad && dataTable?.rows?.length < 1"></no-data>
 
 <ng-content></ng-content>

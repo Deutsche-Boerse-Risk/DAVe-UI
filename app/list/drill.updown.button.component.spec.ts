@@ -15,17 +15,17 @@ describe('DrillUpDownButtonComponent', () => {
             imports     : [NoopAnimationsCommonViewModule],
             declarations: [DrillUpDownButtonComponent, RouterLinkStubDirective]
         }).compileComponents();
+    }, () => {
+        page = null;
     });
 
     beforeEach(fakeAsync(() => {
         page = new LinkOnlyPage<DrillUpDownButtonComponent>(TestBed.createComponent(DrillUpDownButtonComponent));
+        page.component.routerLink = ['/test', 'url'];
         page.detectChanges();
     }));
 
     it('navigates correctly', fakeAsync(() => {
-        page.component.routerLink = ['/test', 'url'];
-        page.detectChanges();
-
         let navigateSpy = spyOn(page.link.stub, 'onClick').and.callThrough();
 
         page.link.click();

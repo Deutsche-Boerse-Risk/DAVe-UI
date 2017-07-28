@@ -14,8 +14,9 @@ node_modules/
 *.js.map
 !tools/**/*
 !gruntfile.js
+!selectedLayout.js
 !restUrl.js
-!ie.intl.shim.js
+!intl.perf.patch.js
 !systemjs.config.js
 
 # Test files

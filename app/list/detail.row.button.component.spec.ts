@@ -15,17 +15,17 @@ describe('DetailRowButtonComponent', () => {
             imports     : [NoopAnimationsCommonViewModule],
             declarations: [DetailRowButtonComponent, RouterLinkStubDirective]
         }).compileComponents();
+    }, () => {
+        page = null;
     });
 
     beforeEach(fakeAsync(() => {
         page = new LinkOnlyPage<DetailRowButtonComponent>(TestBed.createComponent(DetailRowButtonComponent));
+        page.component.routerLink = ['/test', 'url'];
         page.detectChanges();
     }));
 
     it('navigates correctly', fakeAsync(() => {
-        page.component.routerLink = ['/test', 'url'];
-        page.detectChanges();
-
         let navigateSpy = spyOn(page.link.stub, 'onClick').and.callThrough();
 
         page.link.click();

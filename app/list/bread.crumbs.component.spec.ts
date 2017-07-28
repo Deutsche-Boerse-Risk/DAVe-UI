@@ -28,6 +28,8 @@ describe('BreadCrumbsComponent', () => {
             ]
         });
         return stubRouter().compileComponents();
+    }, () => {
+        page = null;
     });
 
     beforeEach(fakeAsync(() => {

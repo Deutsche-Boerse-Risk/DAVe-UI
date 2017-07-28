@@ -39,6 +39,8 @@ describe('DashboardComponent', () => {
             schemas     : [NO_ERRORS_SCHEMA]
         });
         return stubRouter().compileComponents();
+    }, () => {
+        page = null;
     });
 
     beforeEach(fakeAsync(() => {

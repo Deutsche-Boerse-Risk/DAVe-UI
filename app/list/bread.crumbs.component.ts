@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {Router} from '@angular/router';
 
 import {COMPONENT_CSS} from '@dbg-riskit/dave-ui-common';
@@ -11,13 +11,14 @@ export interface RoutePart {
 }
 
 @Component({
-    moduleId   : module.id,
-    selector   : 'bread-crumbs',
-    templateUrl: 'bread.crumbs.component.html',
-    styleUrls  : [
+    moduleId       : module.id,
+    selector       : 'bread-crumbs',
+    templateUrl    : 'bread.crumbs.component.html',
+    styleUrls      : [
         '../../' + COMPONENT_CSS,
         'bread.crumbs.component.css'
-    ]
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BreadCrumbsComponent implements OnChanges {
 

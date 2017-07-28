@@ -8,6 +8,12 @@ jasmine.DEFAULT_TIMEOUT_INTERVAL = 5000;
 // Never brake component compilations
 window.COMPILE_TIMEOUT_INTERVAL = Math.pow(2, 31) - 1;
 
+// TODO: Quick fix for memory leaks
+window.addEventListener = function () {
+};
+window.document.addEventListener = function () {
+};
+
 // builtPaths: root paths for output ("built") files
 // get from karma.config.js, then prefix with '/base/' (default is '')
 var builtPaths = (__karma__.config.builtPaths || [''])

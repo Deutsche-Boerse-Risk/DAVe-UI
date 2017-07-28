@@ -1,6 +1,6 @@
 import {ActivatedRoute} from '@angular/router';
 
-import {fakeAsync, inject, TestBed} from '@angular/core/testing';
+import {discardPeriodicTasks, fakeAsync, inject, TestBed} from '@angular/core/testing';
 
 import {
     ActivatedRouteStub,
@@ -10,7 +10,6 @@ import {
     TableBodyRow
 } from '@dbg-riskit/dave-ui-testing';
 
-import {ErrorType} from '@dbg-riskit/dave-ui-common';
 import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 
@@ -25,13 +24,20 @@ import {exportKeys, valueGetters} from './position.report.latest.component';
 import {PositionReportHistoryComponent} from './position.report.history.component';
 import {ROUTES} from '../routes/routing.paths';
 
-xdescribe('Position reports history component', () => {
+describe('Position reports history component', () => {
     let page: HistoryListPage<PositionReportHistoryComponent>;
     let testingParams = ['A', 'A', 'B', 'C', 'C', '*', 'P', '152', '*', '201211', 'D', 'F', 'G', 'H'];
 
     compileTestBed(() => {
         return HistoryListPage.initTestBed(PositionReportHistoryComponent, PositionReportsService);
-    });
+    }, fakeAsync(inject([HttpService],
+        (http: HttpAsyncServiceStub<any>) => {
+            // Generate test data
+            http.returnValue([]);
+            // Push empty array
+            page.advanceHTTP();
+            page = null;
+        })));
 
     beforeEach(fakeAsync(inject([HttpService, ActivatedRoute],
         (http: HttpAsyncServiceStub<PositionReportServerData[]>,
@@ -60,57 +66,20 @@ xdescribe('Position reports history component', () => {
             // Create component
             page = new HistoryListPage<PositionReportHistoryComponent>(
                 TestBed.createComponent(PositionReportHistoryComponent));
-        })));
 
-    it('displays error correctly', fakeAsync(inject([HttpService],
-        (http: HttpAsyncServiceStub<PositionReportServerData[]>) => {
-            // Init component
-            page.detectChanges();
-            // Do not trigger periodic interval
-            clearInterval((page.component as any).intervalHandle);
-
-            expect(page.initialLoadComponent).not
-                .toBeNull('Initial load component visible.');
-            expect(page.noDataComponent)
-                .toBeNull('No data component not visible.');
-            expect(page.updateFailedComponent)
-                .toBeNull('Update failed component not visible.');
-            expect(page.dataTable.element)
-                .toBeNull('Data table not visible.');
-            expect(page.lineChart).toBeNull('Chart not visible.');
-
-            // Return error
-            http.throwError({
-                status   : 500,
-                message  : 'Error message',
-                errorType: ErrorType.REQUEST
-            });
-            page.advanceHTTP();
-
-            expect(page.initialLoadComponent)
-                .toBeNull('Initial load component not visible.');
-            expect(page.noDataComponent)
-                .toBeNull('No data component not visible.');
-            expect(page.updateFailedComponent).not
-                .toBeNull('Update failed component visible.');
-            expect(page.dataTable.element)
-                .toBeNull('Data table not visible.');
-            expect(page.lineChart).toBeNull('Chart not visible.');
+            // Remove timer for latest data
+            page.disablePeriodicTimer(PositionReportsService);
         })));
 
     it('displays no-data correctly', fakeAsync(inject([HttpService],
         (http: HttpAsyncServiceStub<PositionReportServerData[]>) => {
             // Init component
             page.detectChanges();
-            // Do not trigger periodic interval
-            clearInterval((page.component as any).intervalHandle);
 
             expect(page.initialLoadComponent).not
                 .toBeNull('Initial load component visible.');
             expect(page.noDataComponent)
                 .toBeNull('No data component not visible.');
-            expect(page.updateFailedComponent)
-                .toBeNull('Update failed component not visible.');
             expect(page.dataTable.element)
                 .toBeNull('Data table not visible.');
             expect(page.lineChart).toBeNull('Chart not visible.');
@@ -124,11 +93,12 @@ xdescribe('Position reports history component', () => {
                 .toBeNull('Initial load component not visible.');
             expect(page.noDataComponent).not
                 .toBeNull('No data component visible.');
-            expect(page.updateFailedComponent)
-                .toBeNull('Update failed component not visible.');
             expect(page.dataTable.element)
                 .toBeNull('Data table not visible.');
             expect(page.lineChart).toBeNull('Chart not visible.');
+
+            // Remove timer for history data
+            discardPeriodicTasks();
         })));
 
     it('displays data table', fakeAsync(inject([HttpService],
@@ -136,15 +106,11 @@ xdescribe('Position reports history component', () => {
             let httpSpy = spyOn(http, 'get').and.callThrough();
             // Init component
             page.detectChanges();
-            // Do not trigger periodic interval
-            clearInterval((page.component as any).intervalHandle);
 
             expect(page.initialLoadComponent).not
                 .toBeNull('Initial load component visible.');
             expect(page.noDataComponent)
                 .toBeNull('No data component not visible.');
-            expect(page.updateFailedComponent)
-                .toBeNull('Update failed component not visible.');
             expect(page.dataTable.element).toBeNull('Data table not visible.');
             expect(page.lineChart).toBeNull('Chart not visible.');
 
@@ -156,29 +122,31 @@ xdescribe('Position reports history component', () => {
                 clearer              : testingParams[0],
                 member               : testingParams[1],
                 account              : testingParams[2],
-                liquidationGroup     : testingParams[3],
-                liquidationGroupSplit: testingParams[4],
-                product              : testingParams[5],
-                callPut              : testingParams[6],
-                contractYear         : testingParams[7],
-                contractMonth        : testingParams[8],
-                expiryDay            : testingParams[9],
-                exercisePrice        : testingParams[10],
-                version              : testingParams[11],
-                flexContractSymbol   : testingParams[12]
+                underlying           : testingParams[3],
+                liquidationGroup     : testingParams[4],
+                liquidationGroupSplit: testingParams[5],
+                product              : testingParams[6],
+                callPut              : testingParams[7],
+                contractYear         : testingParams[8],
+                contractMonth        : testingParams[9],
+                expiryDay            : testingParams[10],
+                exercisePrice        : testingParams[11],
+                version              : testingParams[12],
+                flexContractSymbol   : testingParams[13]
             });
 
             expect(page.initialLoadComponent)
                 .toBeNull('Initial load component not visible.');
             expect(page.noDataComponent)
                 .toBeNull('No data component not visible.');
-            expect(page.updateFailedComponent)
-                .toBeNull('Update failed component not visible.');
             expect(page.dataTable.element).not.toBeNull('Data table visible.');
             expect(page.lineChart).not.toBeNull('Chart visible.');
 
             // Fire highlighters
             page.advanceHighlighter();
+
+            // Remove timer for history data
+            discardPeriodicTasks();
         })));
 
     it('data correctly refreshed', fakeAsync(inject([HttpService],
@@ -192,8 +160,6 @@ xdescribe('Position reports history component', () => {
                 .toBeNull('Initial load component not visible.');
             expect(page.noDataComponent)
                 .toBeNull('No data component not visible.');
-            expect(page.updateFailedComponent)
-                .toBeNull('Update failed component not visible.');
             expect(page.dataTable.element).not
                 .toBeNull('Data table visible.');
             expect(page.lineChart).not.toBeNull('Chart visible.');
@@ -241,8 +207,8 @@ xdescribe('Position reports history component', () => {
                 return !row.highlighted;
             })).toBeTruthy('No rows are highlighted');
 
-            // Do not trigger periodic interval
-            clearInterval((page.component as any).intervalHandle);
+            // Remove timer for history data
+            discardPeriodicTasks();
         })));
 
     it('has correct pager',
@@ -283,18 +249,20 @@ xdescribe('Position reports history component', () => {
 
             // Fire highlighters
             page.advanceHighlighter();
-            // Do not trigger periodic interval
-            clearInterval((page.component as any).intervalHandle);
+
+            // Remove timer for history data
+            discardPeriodicTasks();
         })));
 
-    xdescribe('(after data are ready)', () => {
+    describe('(after data are ready)', () => {
         beforeEach(fakeAsync(() => {
             // Init component
             page.detectChanges();
             // Return data
             page.advanceHTTP();
-            // Do not trigger periodic interval
-            clearInterval((page.component as any).intervalHandle);
+
+            // Remove timer for history data
+            discardPeriodicTasks();
 
             // Fire highlighters
             page.advanceHighlighter();
@@ -364,9 +332,9 @@ xdescribe('Position reports history component', () => {
             expect(exportedData).not.toBeNull();
             expect(exportedData.split('\n')[0]).toEqual(exportKeys.map(
                 (key: CSVExportColumn<any>) => key.header).join(','));
+            let data = page.dataTable.data;
             expect(exportedData.split('\n')[1]).toContain(exportKeys.slice(0, exportKeys.length - 1).map(
-                (key: CSVExportColumn<any>) =>
-                    key.get(page.dataTable.data[0]) ? key.get(page.dataTable.data[0]).toString() : '')
+                (key: CSVExportColumn<any>) => key.get(data[0]) ? key.get(data[0]).toString() : '')
                 .join(','));
             let cells = exportedData.split('\n')[1].split(',');
             expect(cells[cells.length - 1])

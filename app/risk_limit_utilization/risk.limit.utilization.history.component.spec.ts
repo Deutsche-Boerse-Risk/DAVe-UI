@@ -1,6 +1,6 @@
 import {ActivatedRoute} from '@angular/router';
 
-import {fakeAsync, inject, TestBed} from '@angular/core/testing';
+import {discardPeriodicTasks, fakeAsync, inject, TestBed} from '@angular/core/testing';
 
 import {
     ActivatedRouteStub,
@@ -10,7 +10,6 @@ import {
     TableBodyRow
 } from '@dbg-riskit/dave-ui-testing';
 
-import {ErrorType} from '@dbg-riskit/dave-ui-common';
 import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 
@@ -25,13 +24,20 @@ import {exportKeys, valueGetters} from './risk.limit.utilization.latest.componen
 import {RiskLimitUtilizationHistoryComponent} from './risk.limit.utilization.history.component';
 import {ROUTES} from '../routes/routing.paths';
 
-xdescribe('Risk limit utilization history component', () => {
+describe('Risk limit utilization history component', () => {
     let page: HistoryListPage<RiskLimitUtilizationHistoryComponent>;
     let testingParams = ['A', '*', 'B', 'C'];
 
     compileTestBed(() => {
         return HistoryListPage.initTestBed(RiskLimitUtilizationHistoryComponent, RiskLimitUtilizationService);
-    });
+    }, fakeAsync(inject([HttpService],
+        (http: HttpAsyncServiceStub<any>) => {
+            // Generate test data
+            http.returnValue([]);
+            // Push empty array
+            page.advanceHTTP();
+            page = null;
+        })));
 
     beforeEach(fakeAsync(inject([HttpService, ActivatedRoute],
         (http: HttpAsyncServiceStub<RiskLimitUtilizationServerData[]>,
@@ -50,57 +56,20 @@ xdescribe('Risk limit utilization history component', () => {
             // Create component
             page = new HistoryListPage<RiskLimitUtilizationHistoryComponent>(
                 TestBed.createComponent(RiskLimitUtilizationHistoryComponent));
-        })));
 
-    it('displays error correctly', fakeAsync(inject([HttpService],
-        (http: HttpAsyncServiceStub<RiskLimitUtilizationServerData[]>) => {
-            // Init component
-            page.detectChanges();
-            // Do not trigger periodic interval
-            clearInterval((page.component as any).intervalHandle);
-
-            expect(page.initialLoadComponent).not
-                .toBeNull('Initial load component visible.');
-            expect(page.noDataComponent)
-                .toBeNull('No data component not visible.');
-            expect(page.updateFailedComponent)
-                .toBeNull('Update failed component not visible.');
-            expect(page.dataTable.element)
-                .toBeNull('Data table not visible.');
-            expect(page.lineChart).toBeNull('Chart not visible.');
-
-            // Return error
-            http.throwError({
-                status   : 500,
-                message  : 'Error message',
-                errorType: ErrorType.REQUEST
-            });
-            page.advanceHTTP();
-
-            expect(page.initialLoadComponent)
-                .toBeNull('Initial load component not visible.');
-            expect(page.noDataComponent)
-                .toBeNull('No data component not visible.');
-            expect(page.updateFailedComponent).not
-                .toBeNull('Update failed component visible.');
-            expect(page.dataTable.element)
-                .toBeNull('Data table not visible.');
-            expect(page.lineChart).toBeNull('Chart not visible.');
+            // Remove timer for latest data
+            page.disablePeriodicTimer(RiskLimitUtilizationService);
         })));
 
     it('displays no-data correctly', fakeAsync(inject([HttpService],
         (http: HttpAsyncServiceStub<RiskLimitUtilizationServerData[]>) => {
             // Init component
             page.detectChanges();
-            // Do not trigger periodic interval
-            clearInterval((page.component as any).intervalHandle);
 
             expect(page.initialLoadComponent).not
                 .toBeNull('Initial load component visible.');
             expect(page.noDataComponent)
                 .toBeNull('No data component not visible.');
-            expect(page.updateFailedComponent)
-                .toBeNull('Update failed component not visible.');
             expect(page.dataTable.element)
                 .toBeNull('Data table not visible.');
             expect(page.lineChart).toBeNull('Chart not visible.');
@@ -114,11 +83,12 @@ xdescribe('Risk limit utilization history component', () => {
                 .toBeNull('Initial load component not visible.');
             expect(page.noDataComponent).not
                 .toBeNull('No data component visible.');
-            expect(page.updateFailedComponent)
-                .toBeNull('Update failed component not visible.');
             expect(page.dataTable.element)
                 .toBeNull('Data table not visible.');
             expect(page.lineChart).toBeNull('Chart not visible.');
+
+            // Remove timer for history data
+            discardPeriodicTasks();
         })));
 
     it('displays data table', fakeAsync(inject([HttpService],
@@ -126,15 +96,11 @@ xdescribe('Risk limit utilization history component', () => {
             let httpSpy = spyOn(http, 'get').and.callThrough();
             // Init component
             page.detectChanges();
-            // Do not trigger periodic interval
-            clearInterval((page.component as any).intervalHandle);
 
             expect(page.initialLoadComponent).not
                 .toBeNull('Initial load component visible.');
             expect(page.noDataComponent)
                 .toBeNull('No data component not visible.');
-            expect(page.updateFailedComponent)
-                .toBeNull('Update failed component not visible.');
             expect(page.dataTable.element).toBeNull('Data table not visible.');
             expect(page.lineChart).toBeNull('Chart not visible.');
 
@@ -153,13 +119,14 @@ xdescribe('Risk limit utilization history component', () => {
                 .toBeNull('Initial load component not visible.');
             expect(page.noDataComponent)
                 .toBeNull('No data component not visible.');
-            expect(page.updateFailedComponent)
-                .toBeNull('Update failed component not visible.');
             expect(page.dataTable.element).not.toBeNull('Data table visible.');
             expect(page.lineChart).not.toBeNull('Chart visible.');
 
             // Fire highlighters
             page.advanceHighlighter();
+
+            // Remove timer for history data
+            discardPeriodicTasks();
         })));
 
     it('data correctly refreshed', fakeAsync(inject([HttpService],
@@ -173,8 +140,6 @@ xdescribe('Risk limit utilization history component', () => {
                 .toBeNull('Initial load component not visible.');
             expect(page.noDataComponent)
                 .toBeNull('No data component not visible.');
-            expect(page.updateFailedComponent)
-                .toBeNull('Update failed component not visible.');
             expect(page.dataTable.element).not
                 .toBeNull('Data table visible.');
             expect(page.lineChart).not.toBeNull('Chart visible.');
@@ -222,8 +187,8 @@ xdescribe('Risk limit utilization history component', () => {
                 return !row.highlighted;
             })).toBeTruthy('No rows are highlighted');
 
-            // Do not trigger periodic interval
-            clearInterval((page.component as any).intervalHandle);
+            // Remove timer for history data
+            discardPeriodicTasks();
         })));
 
     it('has correct pager',
@@ -264,18 +229,20 @@ xdescribe('Risk limit utilization history component', () => {
 
             // Fire highlighters
             page.advanceHighlighter();
-            // Do not trigger periodic interval
-            clearInterval((page.component as any).intervalHandle);
+
+            // Remove timer for history data
+            discardPeriodicTasks();
         })));
 
-    xdescribe('(after data are ready)', () => {
+    describe('(after data are ready)', () => {
         beforeEach(fakeAsync(() => {
             // Init component
             page.detectChanges();
             // Return data
             page.advanceHTTP();
-            // Do not trigger periodic interval
-            clearInterval((page.component as any).intervalHandle);
+
+            // Remove timer for history data
+            discardPeriodicTasks();
 
             // Fire highlighters
             page.advanceHighlighter();
@@ -320,9 +287,9 @@ xdescribe('Risk limit utilization history component', () => {
             expect(exportedData).not.toBeNull();
             expect(exportedData.split('\n')[0]).toEqual(exportKeys.map(
                 (key: CSVExportColumn<any>) => key.header).join(','));
+            let data = page.dataTable.data;
             expect(exportedData.split('\n')[1]).toContain(exportKeys.slice(0, exportKeys.length - 1).map(
-                (key: CSVExportColumn<any>) =>
-                    key.get(page.dataTable.data[0]) ? key.get(page.dataTable.data[0]).toString() : '')
+                (key: CSVExportColumn<any>) => key.get(data[0]) ? key.get(data[0]).toString() : '')
                 .join(','));
             let cells = exportedData.split('\n')[1].split(',');
             expect(cells[cells.length - 1])

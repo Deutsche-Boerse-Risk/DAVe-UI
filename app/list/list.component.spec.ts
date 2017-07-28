@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {ChangeDetectorRef, Component} from '@angular/core';
 import {By} from '@angular/platform-browser';
 
 import {fakeAsync, TestBed} from '@angular/core/testing';
@@ -13,6 +13,7 @@ import {ListPage} from '@dave/testing';
 import {ListModule} from './list.module';
 import {RoutePart} from './bread.crumbs.component';
 import {ROUTES} from '../routes/routing.paths';
+import {DataTableComponent} from '@dbg-riskit/dave-ui-datatable';
 
 @Component({
     template: `
@@ -20,7 +21,7 @@ import {ROUTES} from '../routes/routing.paths';
                       [isHistory]="isHistory"
                       [routeParts]="routeParts"
                       [exportKeys]="exportKeys"
-                      [data]="data"
+                      [dataTable]="dataTable"
                       [initialLoad]="initialLoad"
                       [drilldownRouterLink]="drilldownRouterLink"
                       [drillupRouterLink]="drillupRouterLink"
@@ -33,10 +34,18 @@ class TestComponent {
     public isHistory: boolean = false;
     public routeParts: RoutePart[] = [];
     public exportKeys: string[] = [];
-    public data: any[];
+    public dataTable: DataTableComponent;
     public initialLoad: boolean;
     public drilldownRouterLink: any[] | string;
     public drillupRouterLink: any[] | string;
+
+    constructor(_changeDetectorRef: ChangeDetectorRef) {
+        this.dataTable = new DataTableComponent(_changeDetectorRef);
+    }
+
+    public set data(rows: any[]) {
+        this.dataTable.data = rows;
+    }
 
     public filtered(query: string): string {
         return query;
@@ -61,6 +70,8 @@ describe('ListComponent', () => {
         disableMaterialAnimations(ListModule);
         disableMaterialAnimations(FileModule);
         return stubRouter().compileComponents();
+    }, () => {
+        page = null;
     });
 
     beforeEach(fakeAsync(() => {
