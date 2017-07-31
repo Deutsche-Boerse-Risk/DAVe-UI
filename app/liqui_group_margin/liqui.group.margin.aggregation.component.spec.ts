@@ -14,7 +14,7 @@ import {
 
 import {AggregationPage, generateLiquiGroupMargin, generateLiquiGroupMarginHistory} from '@dave/testing';
 
-import {AuthService} from '@dbg-riskit/dave-ui-auth';
+import {AUTH_PROVIDER} from '@dbg-riskit/dave-ui-common';
 import {DataTableModule} from '@dbg-riskit/dave-ui-datatable';
 import {ErrorCollectorService} from '@dbg-riskit/dave-ui-error';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
@@ -50,7 +50,7 @@ describe('Liqui Group Margin aggregation component', () => {
                     useClass: HttpAsyncServiceStub
                 },
                 {
-                    provide : AuthService,
+                    provide : AUTH_PROVIDER,
                     useClass: AuthServiceStub
                 },
                 PeriodicHttpService,

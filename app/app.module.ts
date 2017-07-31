@@ -1,10 +1,11 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
-import {AuthModule} from '@dbg-riskit/dave-ui-auth';
+import {AuthFlow, AuthModule} from '@dbg-riskit/dave-ui-auth';
 import {DATE_FORMAT} from '@dbg-riskit/dave-ui-common';
 import {LayoutModule} from '@dbg-riskit/dave-ui-dummy-layout';
 import {ErrorModule} from '@dbg-riskit/dave-ui-error';
+import {HTTP_ENDPOINT} from '@dbg-riskit/dave-ui-http';
 import {LoginModule} from '@dbg-riskit/dave-ui-login';
 import {CommonViewModule} from '@dbg-riskit/dave-ui-view';
 
@@ -15,9 +16,21 @@ import {RoutingModule} from './routes/routing.module';
 
 import {PeriodicHttpService} from './periodic.http.service';
 
+// Global configuration properties
+declare namespace window {
+    let authWellKnownEndpoint: string;
+    let authClientID: string;
+    let authFlow: string;
+    let baseRestURL: string;
+}
+
 @NgModule({
     imports     : [
-        AuthModule,
+        AuthModule.forAuthConfig({
+            wellKnown: window.authWellKnownEndpoint,
+            clientID : window.authClientID,
+            flow     : AuthFlow.byType(window.authFlow)
+        }),
         BrowserModule,
         CommonViewModule,
         RoutingModule,
@@ -36,6 +49,10 @@ import {PeriodicHttpService} from './periodic.http.service';
         {
             provide : DATE_FORMAT,
             useValue: 'dd. MM. yyyy HH:mm:ss'
+        },
+        {
+            provide : HTTP_ENDPOINT,
+            useValue: window.baseRestURL
         },
         PeriodicHttpService
     ]

@@ -1,8 +1,8 @@
 import {NgModule} from '@angular/core';
-import {Route, Router, RouterModule} from '@angular/router';
+import {Route, RouterModule} from '@angular/router';
 
 import {LOGIN_ROUTE, MAIN_ROUTE} from '@dbg-riskit/dave-ui-common';
-import {AuthGuard, AuthModule, AuthService} from '@dbg-riskit/dave-ui-auth';
+import {AuthGuard, AuthModule} from '@dbg-riskit/dave-ui-auth';
 import {LoginComponent, LoginModule} from '@dbg-riskit/dave-ui-login';
 
 import {DashboardModule} from '../dashboard/dashboard.module';
@@ -451,16 +451,4 @@ const ROUTER_DEFINITION: Route[] = [
     ]
 })
 export class RoutingModule {
-
-    constructor(authService: AuthService, router: Router) {
-        authService.loggedInChange.subscribe((loggedIn: boolean) => {
-            if (!loggedIn) {
-                if (router.routerState && router.routerState.snapshot && router.routerState.snapshot.url
-                    && !router.routerState.snapshot.url.startsWith(ROUTES.LOGIN)) {
-                    authService.authRequestedPath = router.routerState.snapshot.url;
-                }
-                router.navigate([ROUTES.LOGIN]);
-            }
-        });
-    }
 }
