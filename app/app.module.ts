@@ -18,10 +18,15 @@ import {PeriodicHttpService} from './periodic.http.service';
 
 // Global configuration properties
 declare namespace window {
+    let baseRestURL: string;
+
     let authWellKnownEndpoint: string;
     let authClientID: string;
-    let authFlow: string;
-    let baseRestURL: string;
+    let authScopes: ('profile' | 'group' | 'email' | 'address' | 'phone')[];
+    let authFlow: 'openid-connect/authorization-code' |
+        'openid-connect/implicit' |
+        'openid-connect/hybrid' |
+        'openid-connect/direct';
 }
 
 @NgModule({
@@ -29,7 +34,8 @@ declare namespace window {
         AuthModule.forAuthConfig({
             wellKnown: window.authWellKnownEndpoint,
             clientID : window.authClientID,
-            flow     : AuthFlow.byType(window.authFlow)
+            flow     : AuthFlow.byType(window.authFlow),
+            scope    : window.authScopes
         }),
         BrowserModule,
         CommonViewModule,
