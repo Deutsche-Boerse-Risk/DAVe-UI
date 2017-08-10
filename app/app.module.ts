@@ -1,18 +1,19 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
-import {AuthFlow, AuthModule} from '@dbg-riskit/dave-ui-auth';
+import {AuthConfig, AuthFlow, AuthModule} from '@dbg-riskit/dave-ui-auth';
 import {DATE_FORMAT} from '@dbg-riskit/dave-ui-common';
 import {LayoutModule} from '@dbg-riskit/dave-ui-dummy-layout';
 import {ErrorModule} from '@dbg-riskit/dave-ui-error';
-import {HTTP_ENDPOINT} from '@dbg-riskit/dave-ui-http';
 import {LoginModule} from '@dbg-riskit/dave-ui-login';
 import {CommonViewModule} from '@dbg-riskit/dave-ui-view';
 
 import {AppComponent} from './app.component';
 
 import {MenuModule} from './menu/menu.module';
+
 import {RoutingModule} from './routes/routing.module';
+import {ROUTES} from './routes/routing.paths';
 
 import {PeriodicHttpService} from './periodic.http.service';
 
@@ -29,14 +30,24 @@ declare namespace window {
         'openid-connect/direct';
 }
 
+const AUTH_CONFIG: AuthConfig = {
+    httpConfig: {
+        apiEndpoint: window.baseRestURL
+    },
+    wellKnown : window.authWellKnownEndpoint,
+    clientID  : window.authClientID,
+    flow      : AuthFlow.byType(window.authFlow),
+    scope     : window.authScopes,
+    loginRoute: ROUTES.LOGIN
+};
+
+export function configGetter(): AuthConfig {
+    return AUTH_CONFIG;
+}
+
 @NgModule({
     imports     : [
-        AuthModule.forAuthConfig({
-            wellKnown: window.authWellKnownEndpoint,
-            clientID : window.authClientID,
-            flow     : AuthFlow.byType(window.authFlow),
-            scope    : window.authScopes
-        }),
+        AuthModule.forAuthConfig(configGetter),
         BrowserModule,
         CommonViewModule,
         RoutingModule,
@@ -55,10 +66,6 @@ declare namespace window {
         {
             provide : DATE_FORMAT,
             useValue: 'dd. MM. yyyy HH:mm:ss'
-        },
-        {
-            provide : HTTP_ENDPOINT,
-            useValue: window.baseRestURL
         },
         PeriodicHttpService
     ]

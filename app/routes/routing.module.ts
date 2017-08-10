@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {Route, RouterModule} from '@angular/router';
 
-import {LOGIN_ROUTE, MAIN_ROUTE} from '@dbg-riskit/dave-ui-common';
+import {MAIN_ROUTE} from '@dbg-riskit/dave-ui-common';
 import {AuthGuard, AuthModule} from '@dbg-riskit/dave-ui-auth';
 import {LoginComponent, LoginModule} from '@dbg-riskit/dave-ui-login';
 
@@ -443,10 +443,6 @@ const ROUTER_DEFINITION: Route[] = [
         {
             provide : MAIN_ROUTE,
             useValue: ROUTES.DASHBOARD_MARGIN_REQUIREMENT_OVERVIEW
-        },
-        {
-            provide : LOGIN_ROUTE,
-            useValue: ROUTES.LOGIN
         }
     ]
 })

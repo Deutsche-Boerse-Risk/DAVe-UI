@@ -3,7 +3,7 @@ import {fakeAsync, inject, TestBed} from '@angular/core/testing';
 
 import {AuthServiceStub, compileTestBed, RouterOutletStub, stubRouter} from '@dbg-riskit/dave-ui-testing';
 
-import {AUTH_PROVIDER, LOGIN_ROUTE, MAIN_LOGO, MAIN_ROUTE} from '@dbg-riskit/dave-ui-common';
+import {AUTH_PROVIDER, MAIN_LOGO, MAIN_ROUTE} from '@dbg-riskit/dave-ui-common';
 import {LoginMenuComponent} from '@dbg-riskit/dave-ui-login';
 import {NoopAnimationsCommonViewModule} from '@dbg-riskit/dave-ui-view';
 
@@ -33,10 +33,6 @@ describe('AppComponent', () => {
                 {
                     provide : MAIN_ROUTE,
                     useValue: '/some/route'
-                },
-                {
-                    provide : LOGIN_ROUTE,
-                    useValue: '/login'
                 },
                 {
                     provide : MAIN_LOGO,

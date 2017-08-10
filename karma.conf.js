@@ -11,6 +11,7 @@ module.exports = function (config) {
 
     config.files = config.files.concat([
         'node_modules/@dbg-riskit/dave-ui-common/ie.intl.shim.js',
+        'node_modules/@dbg-riskit/dave-ui-common/intl.perf.patch.js',
 
         {pattern: 'systemjs.config.js', included: false, watched: false},
         'karma-test-shim.js', // optionally extend SystemJS mapping e.g., with barrels
@@ -48,9 +49,7 @@ module.exports = function (config) {
             pattern: 'node_modules/@dbg-riskit/' + layout + '/resources/img/**/*.svg',
             included: false,
             watched: false
-        },
-
-        'intl.perf.patch.js'
+        }
     ]);
 
     // Proxied base paths for loading assets
