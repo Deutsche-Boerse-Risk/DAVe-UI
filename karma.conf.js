@@ -10,21 +10,29 @@ module.exports = function (config) {
     require('@dbg-riskit/dave-ui-common/tools/karma.base.config')(config, [appBase, testingBase], 'DAVe-UI');
 
     config.files = config.files.concat([
-        'node_modules/@dbg-riskit/dave-ui-common/ie.intl.shim.js',
-        'node_modules/@dbg-riskit/dave-ui-common/intl.perf.patch.js',
+        {
+            pattern: 'node_modules/@dbg-riskit/dave-ui-common/ie.intl.shim.js',
+            included: true,
+            watched: !config.singleRun
+        },
+        {
+            pattern: 'node_modules/@dbg-riskit/dave-ui-common/intl.perf.patch.js',
+            included: true,
+            watched: !config.singleRun
+        },
 
-        {pattern: 'systemjs.config.js', included: false, watched: false},
-        'karma-test-shim.js', // optionally extend SystemJS mapping e.g., with barrels
+        {pattern: 'systemjs.config.js', included: false, watched: !config.singleRun},
+        {pattern: 'karma-test-shim.js', included: true, watched: !config.singleRun},
 
-        'node_modules/@dbg-riskit/' + layout + '/styles.css',
+        {pattern: 'node_modules/@dbg-riskit/' + layout + '/styles.css', included: true, watched: !config.singleRun},
 
         // @dbg-riskit/dave-ui-*
-        {pattern: 'node_modules/@dbg-riskit/dave-ui-*/**/*.js', included: false, watched: false},
-        {pattern: 'node_modules/@dbg-riskit/dave-ui-*/**/*.css', included: false, watched: false},
+        {pattern: 'node_modules/@dbg-riskit/dave-ui-*/**/*.js', included: false, watched: !config.singleRun},
+        {pattern: 'node_modules/@dbg-riskit/dave-ui-*/**/*.css', included: false, watched: !config.singleRun},
 
         // Asset (HTML & CSS) paths loaded via Angular's component compiler
         // (these paths need to be rewritten, see proxies section)
-        {pattern: 'index.html', included: false, watched: true},
+        {pattern: 'index.html', included: false, watched: !config.singleRun},
         {
             pattern: 'node_modules/@dbg-riskit/' + layout + '/resources/fonts/**/*.eot',
             included: false,
