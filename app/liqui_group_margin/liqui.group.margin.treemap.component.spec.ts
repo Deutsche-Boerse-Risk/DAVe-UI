@@ -59,6 +59,7 @@ describe('Liquidation Group Margin TreeMap component', () => {
             ]
         }).compileComponents();
     }, () => {
+        page.destroy();
         page = null;
     });
 

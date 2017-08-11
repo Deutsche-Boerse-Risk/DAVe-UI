@@ -16,6 +16,7 @@ describe('DrillDownRowButtonComponent', () => {
             declarations: [DrillDownRowButtonComponent, RouterLinkStubDirective]
         }).compileComponents();
     }, () => {
+        page.destroy();
         page = null;
     });
 

@@ -40,6 +40,7 @@ describe('DashboardComponent', () => {
         });
         return stubRouter().compileComponents();
     }, () => {
+        page.destroy();
         page = null;
     });
 

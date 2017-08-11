@@ -71,6 +71,7 @@ describe('ListComponent', () => {
         disableMaterialAnimations(FileModule);
         return stubRouter().compileComponents();
     }, () => {
+        page.destroy();
         page = null;
     });
 

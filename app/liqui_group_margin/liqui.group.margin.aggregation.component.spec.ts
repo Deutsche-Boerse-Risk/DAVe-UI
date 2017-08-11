@@ -60,6 +60,7 @@ describe('Liqui Group Margin aggregation component', () => {
         disableMaterialAnimations(DataTableModule);
         return stubRouter().compileComponents();
     }, () => {
+        page.destroy();
         page = null;
     });
 

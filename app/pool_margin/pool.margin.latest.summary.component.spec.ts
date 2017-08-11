@@ -47,6 +47,7 @@ describe('Pool Margin summary', () => {
             ]
         }).compileComponents();
     }, () => {
+        page.destroy();
         page = null;
     });
 
