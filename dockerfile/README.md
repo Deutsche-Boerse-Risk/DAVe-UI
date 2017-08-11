@@ -20,8 +20,10 @@ docker run --name DAVe-UI -p 80:80 -p 443:443 --rm \
 | Option | Explanation | Default | Example |
 |--------|-------------|---------|---------|
 | `DAVE_REST_URL` | **REQUIRED:** URL of the DAVe backend | | `https://api.master.snapshot.dave.dbg-devops.com` |
-| `DAVE_AUTH_URL` | **REQUIRED:** URL of the OpenID backend | | `https://auth.master.snapshot.dave.dbg-devops.com` |
+| `DAVE_AUTH_WELL_KNOWN_URL` | **REQUIRED:** URL of `.well-known/openid-configuration` endpoint of the OpenID backend | | `https://auth.dave.dbg-devops.com/auth/realms/DAVe/.well-known/openid-configuration` |
 | `DAVE_AUTH_CLIENT_ID` | Client ID for the OpenID backend | `dave-ui` | |
+| `DAVE_AUTH_SCOPES` | Additional authorization scopes. The `openid` scope is added automatically. | `['profile']` | |
+| `DAVE_AUTH_FLOW` | OpenID authorization flow type; one of `openid-connect/direct`, `openid-connect/authorization-code`, `openid-connect/hybrid ` or`openid-connect/implicit` | `openid-connect/authorization-code` | |
 | `DAVE_HTTP_COMPRESSION` | Enable compression of HTTP responses **- Recommended** | disabled | `1` |
 | `DAVE_HTTP_SSL_SERVER_PUBLIC_KEY` | Public key of the HTTP server in CRT format | No HTTPS | |
 | `DAVE_HTTP_SSL_SERVER_PRIVATE_KEY` | Private key of the HTTP server in PEM format | No HTTPS | |

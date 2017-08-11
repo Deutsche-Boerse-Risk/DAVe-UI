@@ -36,13 +36,23 @@ if [ "$1" == "nginx" ]; then
   if [ "$DAVE_REST_URL" ]; then
     echo "window.baseRestURL = '${DAVE_REST_URL}';" > /usr/share/nginx/html/restUrl.js
   fi
-  if [ "$DAVE_AUTH_URL" ]; then
-    echo "window.baseAuthURL = '${DAVE_AUTH_URL}';" >> /usr/share/nginx/html/restUrl.js
+  if [ "$DAVE_AUTH_WELL_KNOWN_URL" ]; then
+    echo "window.authWellKnownEndpoint = '${DAVE_AUTH_WELL_KNOWN_URL}';" >> /usr/share/nginx/html/restUrl.js
   fi
   if [ "$DAVE_AUTH_CLIENT_ID" ]; then
     echo "window.authClientID = '${DAVE_AUTH_CLIENT_ID}';" >> /usr/share/nginx/html/restUrl.js
   else
     echo "window.authClientID = 'dave-ui';" >> /usr/share/nginx/html/restUrl.js
+  fi
+  if [ "$DAVE_AUTH_SCOPES" ]; then
+    echo "window.authScopes = ${DAVE_AUTH_SCOPES};" >> /usr/share/nginx/html/restUrl.js
+  else
+    echo "window.authScopes = ['profile'];" >> /usr/share/nginx/html/restUrl.js
+  fi
+  if [ "$DAVE_AUTH_FLOW" ]; then
+    echo "window.authFlow = '${DAVE_AUTH_FLOW}';" >> /usr/share/nginx/html/restUrl.js
+  else
+    echo "window.authFlow = 'openid-connect/authorization-code';" >> /usr/share/nginx/html/restUrl.js
   fi
 
   #####
