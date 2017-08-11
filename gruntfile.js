@@ -1,7 +1,7 @@
 module.exports = function (grunt) {
     'use strict';
 
-    require('@dbg-riskit/dave-ui-common/tools/grunt/app.grunt.config')(grunt, 'dave.js');
+    require('@dbg-riskit/dave-ui-common/tools/grunt/app.grunt.config')(grunt, 'dave.js', require('./selectedLayout'));
 
     grunt.config('coveralls', {
         options: {

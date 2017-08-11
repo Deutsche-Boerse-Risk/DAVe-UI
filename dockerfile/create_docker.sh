@@ -35,7 +35,8 @@ if [ -z "${DOCKER_HUB}" ]; then
 fi
 
 # Copy the DAVe binaries
-cp -r ${DAVE_UI_DIST} ${DAVE_UI_ROOT}/dockerfile
+mkdir ${DAVE_UI_ROOT}/dockerfile/dist
+cp -r ${DAVE_UI_DIST}/* ${DAVE_UI_ROOT}/dockerfile/dist
 
 # Build the image
 docker build -t ${DOCKER_ORG_NAME}/${DOCKER_IMAGE_NAME}:${GIT_SHA1} ${DAVE_UI_ROOT}/dockerfile/
