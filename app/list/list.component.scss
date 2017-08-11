@@ -1,5 +1,5 @@
-@import "@dbg-riskit/dave-ui-dummy-layout/sass/global";
-@import "@dbg-riskit/dave-ui-dummy-layout/sass/base_typography";
+@import "@dbg-riskit/<selected_layout>/sass/global";
+@import "@dbg-riskit/<selected_layout>/sass/base_typography";
 
 :host {
     .mat-toolbar {
