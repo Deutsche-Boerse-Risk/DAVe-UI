@@ -1,17 +1,24 @@
 import {NO_ERRORS_SCHEMA} from '@angular/core';
 import {fakeAsync, inject, TestBed} from '@angular/core/testing';
 
-import {AuthServiceStub, compileTestBed, RouterOutletStub, stubRouter} from '@dbg-riskit/dave-ui-testing';
+import {
+    AuthServiceStub,
+    compileTestBed,
+    LoginMenuComponentStub,
+    RouterOutletStub,
+    stubRouter
+} from '@dbg-riskit/dave-ui-testing';
 
 import {AUTH_PROVIDER, MAIN_LOGO, MAIN_ROUTE} from '@dbg-riskit/dave-ui-common';
-import {LoginMenuComponent} from '@dbg-riskit/dave-ui-login';
 import {NoopAnimationsCommonViewModule} from '@dbg-riskit/dave-ui-view';
 
 import {AppComponentPage} from '@dave/testing';
 
 import {MenuComponent} from './menu/menu.component';
 import {AppComponent} from './app.component';
+import {ɵResourceLoaderImpl} from '@angular/platform-browser-dynamic';
 
+ɵResourceLoaderImpl.prototype.get;
 describe('AppComponent', () => {
 
     let page: AppComponentPage;
@@ -22,13 +29,13 @@ describe('AppComponent', () => {
             declarations: [
                 AppComponent,
                 MenuComponent,
-                LoginMenuComponent,
+                LoginMenuComponentStub,
                 RouterOutletStub
             ],
             providers   : [
                 {
-                    provide    : AUTH_PROVIDER,
-                    useExisting: AuthServiceStub
+                    provide : AUTH_PROVIDER,
+                    useClass: AuthServiceStub
                 },
                 {
                     provide : MAIN_ROUTE,
@@ -43,6 +50,7 @@ describe('AppComponent', () => {
         });
         return stubRouter().compileComponents();
     }, () => {
+        page.destroy();
         page = null;
     });
 
