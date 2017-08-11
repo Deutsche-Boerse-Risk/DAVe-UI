@@ -10,6 +10,7 @@ To run DAVe-UI in Docker, you have to pass the environment variables to the `doc
 ```
 docker run --name DAVe-UI -p 80:80 -p 443:443 --rm \
     -e DAVE_REST_URL=https://api.master.snapshot.dave.dbg-devops.com \
+    -e DAVE_AUTH_WELL_KNOWN_URL=https://auth.dave.dbg-devops.com/auth/realms/DAVe/.well-known/openid-configuration \
     -e DAVE_HTTP_COMPRESSION=1 \
     -e DAVE_HTTP_SSL_SERVER_PUBLIC_KEY="${webCERT}" \
     -e DAVE_HTTP_SSL_SERVER_PRIVATE_KEY="${webKEY}" \
