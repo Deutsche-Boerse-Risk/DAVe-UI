@@ -16,9 +16,7 @@ import {AppComponentPage} from '@dave/testing';
 
 import {MenuComponent} from './menu/menu.component';
 import {AppComponent} from './app.component';
-import {ɵResourceLoaderImpl} from '@angular/platform-browser-dynamic';
 
-ɵResourceLoaderImpl.prototype.get;
 describe('AppComponent', () => {
 
     let page: AppComponentPage;
