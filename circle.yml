@@ -54,8 +54,7 @@ deployment:
     commands:
       - ./dockerfile/create_docker.sh
       - ./deployment/kube_deploy.sh
-  material:
-      branch: material
+  dave_common_2.0:
+      branch: dave_common_2.0
       commands:
         - ./dockerfile/create_docker.sh
-        - ./deployment/kube_deploy.sh
