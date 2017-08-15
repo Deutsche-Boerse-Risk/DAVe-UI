@@ -1,9 +1,7 @@
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
 
-import {LayoutComponentDefinition, Page} from '@dbg-riskit/dave-ui-testing';
-
-import {LoginMenuComponent} from '@dbg-riskit/dave-ui-login';
+import {LayoutComponentDefinition, LoginMenuComponentStub, Page} from '@dbg-riskit/dave-ui-testing';
 import {LayoutComponent} from '@dbg-riskit/dave-ui-view';
 
 import {AppComponent} from '../../app/app.component';
@@ -20,7 +18,7 @@ export class AppComponentPage extends Page<AppComponent> {
     }
 
     public get loginMenu(): DebugElement {
-        return this.layoutComponent.headToolbar.query(By.directive(LoginMenuComponent));
+        return this.layoutComponent.headToolbar.query(By.directive(LoginMenuComponentStub));
     }
 
     public get outlet(): DebugElement {

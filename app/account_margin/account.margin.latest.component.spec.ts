@@ -33,6 +33,7 @@ describe('Account margin latest component', () => {
             http.returnValue([]);
             // Push empty array
             page.advanceHTTP();
+            page.destroy();
             page = null;
         })));
 

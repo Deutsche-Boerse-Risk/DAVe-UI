@@ -16,6 +16,7 @@ describe('DetailRowButtonComponent', () => {
             declarations: [DetailRowButtonComponent, RouterLinkStubDirective]
         }).compileComponents();
     }, () => {
+        page.destroy();
         page = null;
     });
 

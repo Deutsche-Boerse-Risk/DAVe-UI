@@ -22,8 +22,7 @@ import {
     stubRouter
 } from '@dbg-riskit/dave-ui-testing';
 
-import {AuthService} from '@dbg-riskit/dave-ui-auth';
-import {DATE_FORMAT} from '@dbg-riskit/dave-ui-common';
+import {AUTH_PROVIDER, DATE_FORMAT} from '@dbg-riskit/dave-ui-common';
 import {DataTableComponent, DataTableModule, HIGHLIGHTER_TIMEOUT} from '@dbg-riskit/dave-ui-datatable';
 import {ErrorCollectorService} from '@dbg-riskit/dave-ui-error';
 import {CSVDownloadMenuComponent, FileModule} from '@dbg-riskit/dave-ui-file';
@@ -152,7 +151,7 @@ export class LatestListPage<T> extends ListPage<T> {
                 PeriodicHttpService,
                 ErrorCollectorService,
                 {
-                    provide : AuthService,
+                    provide : AUTH_PROVIDER,
                     useClass: AuthServiceStub
                 },
                 {
@@ -259,7 +258,7 @@ export class HistoryListPage<T> extends LatestListPage<T> {
                 PeriodicHttpService,
                 ErrorCollectorService,
                 {
-                    provide : AuthService,
+                    provide : AUTH_PROVIDER,
                     useClass: AuthServiceStub
                 },
                 {

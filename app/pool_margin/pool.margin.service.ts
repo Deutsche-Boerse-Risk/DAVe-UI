@@ -1,8 +1,15 @@
 import {map} from '@angular/cdk';
-import {Injectable} from '@angular/core';
+import {Inject, Injectable} from '@angular/core';
 
-import {AuthService} from '@dbg-riskit/dave-ui-auth';
-import {DateUtils, ReplaySubjectExt, RxChain, StrictRxChain, UIDUtils} from '@dbg-riskit/dave-ui-common';
+import {
+    AUTH_PROVIDER,
+    AuthProvider,
+    DateUtils,
+    ReplaySubjectExt,
+    RxChain,
+    StrictRxChain,
+    UIDUtils
+} from '@dbg-riskit/dave-ui-common';
 import {ErrorCollectorService} from '@dbg-riskit/dave-ui-error';
 
 import {
@@ -32,9 +39,10 @@ export class PoolMarginService extends AbstractService {
     private latestSubscription: Subscription;
 
     constructor(private http: PeriodicHttpService<PoolMarginServerData[]>,
-        private errorCollector: ErrorCollectorService, authService: AuthService) {
+        private errorCollector: ErrorCollectorService,
+        @Inject(AUTH_PROVIDER) authProvider: AuthProvider) {
         super();
-        this.setup(authService);
+        this.setup(authProvider);
     }
 
     /**
@@ -114,8 +122,7 @@ export class PoolMarginService extends AbstractService {
                 (err: any) => {
                     this.errorCollector.handleStreamError(err);
                     return observableOf([]);
-                })
-            .result();
+                });
     }
 
     public getPoolMarginHistory(params: PoolMarginHistoryParams): Observable<PoolMarginData[]> {
@@ -124,7 +131,7 @@ export class PoolMarginService extends AbstractService {
             (data: PoolMarginData[]) => {
                 first = false;
                 return data;
-            }).result();
+            });
     }
 
     private loadData(url: string, errorHandler: () => any, params?: PoolMarginParams): StrictRxChain<PoolMarginData[]> {

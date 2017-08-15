@@ -2,8 +2,7 @@ import {fakeAsync, inject, TestBed, tick} from '@angular/core/testing';
 
 import {AuthServiceStub, HttpServiceStub} from '@dbg-riskit/dave-ui-testing';
 
-import {AuthService} from '@dbg-riskit/dave-ui-auth';
-import {Request, UIDUtils} from '@dbg-riskit/dave-ui-common';
+import {AUTH_PROVIDER, Request, UIDUtils} from '@dbg-riskit/dave-ui-common';
 import {ErrorCollectorService} from '@dbg-riskit/dave-ui-error';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 
@@ -29,7 +28,7 @@ describe('PoolMarginService', () => {
                 PeriodicHttpService,
                 ErrorCollectorService,
                 {
-                    provide : AuthService,
+                    provide : AUTH_PROVIDER,
                     useClass: AuthServiceStub
                 }
             ]

@@ -28,6 +28,7 @@ describe('Menu component', () => {
         });
         return stubRouter().compileComponents();
     }, () => {
+        page.destroy();
         page = null;
     });
 

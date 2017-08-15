@@ -55,6 +55,7 @@ xdescribe('Position reports bubble chart component', () => {
             ]
         }).compileComponents();
     }, () => {
+        page.destroy();
         page = null;
     });
 

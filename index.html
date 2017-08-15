@@ -10,7 +10,6 @@
     <title>DAVe</title>
 
     <!-- DAVe CSS -->
-    <link href="node_modules/@dbg-riskit/dave-ui-dummy-layout/styles.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <!-- Load libraries -->
@@ -22,6 +21,7 @@
     <script src="node_modules/intl/dist/Intl.js"></script>
     <script src="node_modules/intl/locale-data/jsonp/en-US.js"></script>
     <script src="node_modules/@dbg-riskit/dave-ui-common/ie.intl.shim.js"></script>
+    <script src="node_modules/@dbg-riskit/dave-ui-common/intl.perf.patch.js"></script>
 
     <!-- Google Charts -->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -38,6 +38,23 @@
     <script src="systemjs.config.js"></script>
     <script>
         //<![CDATA[
+        // Load layout related data
+        System.import('./selectedLayout.js').then(function (layout) {
+            // Add favicon.ico
+            var link = document.createElement('link');
+            link.rel = 'icon';
+            link.href = 'node_modules/@dbg-riskit/' + layout + '/favicon.ico';
+            document.head.appendChild(link);
+
+            // Add styles.css
+            link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = 'node_modules/@dbg-riskit/' + layout + '/styles.css';
+            document.head.appendChild(link);
+        }).catch(function (err) {
+            console.error(err);
+        });
+
         System.import('app').catch(function (err) {
             console.error(err);
         });

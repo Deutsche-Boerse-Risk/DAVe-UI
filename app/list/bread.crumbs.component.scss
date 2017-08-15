@@ -1,4 +1,4 @@
-@import "@dbg-riskit/dave-ui-dummy-layout/sass/global";
+@import "@dbg-riskit/<selected_layout>/sass/global";
 
 :host {
     .mat-chip {
@@ -6,7 +6,7 @@
     }
 
     /deep/ .mat-chip-list-wrapper .mat-chip:not(.mat-basic-chip) {
-        margin: 3px;
+        margin: 0 3px;
     }
 
     .mat-chip:not([disabled]) {

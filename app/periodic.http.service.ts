@@ -29,8 +29,7 @@ export class PeriodicHttpService<T> {
                         } else {
                             return noData;
                         }
-                    })
-                .result();
+                    });
         });
     }
 

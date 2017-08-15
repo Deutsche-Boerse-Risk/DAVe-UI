@@ -36,6 +36,7 @@ describe('Initial Margin history component', () => {
             http.returnValue([]);
             // Push empty array
             page.advanceHTTP();
+            page.destroy();
             page = null;
         })));
 

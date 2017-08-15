@@ -36,6 +36,7 @@ describe('Risk limit utilization history component', () => {
             http.returnValue([]);
             // Push empty array
             page.advanceHTTP();
+            page.destroy();
             page = null;
         })));
 

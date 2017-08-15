@@ -1,5 +1,5 @@
-@import "@dbg-riskit/dave-ui-dummy-layout/sass/global";
-@import "@dbg-riskit/dave-ui-dummy-layout/sass/base_typography";
+@import "@dbg-riskit/<selected_layout>/sass/global";
+@import "@dbg-riskit/<selected_layout>/sass/base_typography";
 
 :host {
     .mat-toolbar {
@@ -15,7 +15,7 @@
 
     /deep/ .mat-toolbar-row {
         flex-wrap: wrap;
-        height: auto;
+        height: 100%;
         min-height: 64px;
 
         @media (max-width: 600px) {

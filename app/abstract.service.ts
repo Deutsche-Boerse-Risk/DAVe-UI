@@ -2,9 +2,9 @@ import {AuthProvider} from '@dbg-riskit/dave-ui-common';
 
 export abstract class AbstractService {
 
-    public setup(authService: AuthProvider) {
+    public setup(authProvider: AuthProvider) {
         this.setupPeriodicTimer();
-        authService.loggedInChange.subscribe((auth: boolean) => {
+        authProvider.loggedInStream.subscribe((auth: boolean) => {
             this.destroyPeriodicTimer();
             if (auth) {
                 this.setupPeriodicTimer();

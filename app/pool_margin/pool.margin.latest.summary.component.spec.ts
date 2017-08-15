@@ -4,8 +4,7 @@ import {fakeAsync, inject, TestBed} from '@angular/core/testing';
 
 import {AuthServiceStub, compileTestBed, HttpAsyncServiceStub} from '@dbg-riskit/dave-ui-testing';
 
-import {AuthService} from '@dbg-riskit/dave-ui-auth';
-import {ErrorType} from '@dbg-riskit/dave-ui-common';
+import {AUTH_PROVIDER, ErrorType} from '@dbg-riskit/dave-ui-common';
 import {ErrorCollectorService} from '@dbg-riskit/dave-ui-error';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 import {NoopAnimationsCommonViewModule} from '@dbg-riskit/dave-ui-view';
@@ -40,7 +39,7 @@ describe('Pool Margin summary', () => {
                     useClass: HttpAsyncServiceStub
                 },
                 {
-                    provide : AuthService,
+                    provide : AUTH_PROVIDER,
                     useClass: AuthServiceStub
                 },
                 PeriodicHttpService,
@@ -48,6 +47,7 @@ describe('Pool Margin summary', () => {
             ]
         }).compileComponents();
     }, () => {
+        page.destroy();
         page = null;
     });
 

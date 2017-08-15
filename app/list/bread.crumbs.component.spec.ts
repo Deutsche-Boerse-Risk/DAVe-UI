@@ -29,6 +29,7 @@ describe('BreadCrumbsComponent', () => {
         });
         return stubRouter().compileComponents();
     }, () => {
+        page.destroy();
         page = null;
     });
 

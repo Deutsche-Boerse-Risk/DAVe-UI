@@ -11,7 +11,8 @@ import {
     RouterLinkStubDirective,
     RouterStub
 } from '@dbg-riskit/dave-ui-testing';
-import {AuthService} from '@dbg-riskit/dave-ui-auth';
+
+import {AUTH_PROVIDER} from '@dbg-riskit/dave-ui-common';
 import {ErrorCollectorService} from '@dbg-riskit/dave-ui-error';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 import {NoopAnimationsCommonViewModule} from '@dbg-riskit/dave-ui-view';
@@ -50,7 +51,7 @@ describe('Liquidation Group Margin TreeMap component', () => {
                     useClass: RouterStub
                 },
                 {
-                    provide : AuthService,
+                    provide : AUTH_PROVIDER,
                     useClass: AuthServiceStub
                 },
                 PeriodicHttpService,
@@ -58,6 +59,7 @@ describe('Liquidation Group Margin TreeMap component', () => {
             ]
         }).compileComponents();
     }, () => {
+        page.destroy();
         page = null;
     });
 

@@ -45,9 +45,7 @@ function initApp() {
             '@dbg-riskit/dave-ui-view': 'npm:@dbg-riskit/dave-ui-view/bundles/dave-ui-view.cjs.js',
 
             // other libraries
-            'rxjs': 'npm:rxjs',
-
-            'angular2-jwt': 'npm:angular2-jwt'
+            'rxjs': 'npm:rxjs'
         },
         // packages tells the System loader how to load when no filename and/or no extension
         packages: {
@@ -56,10 +54,6 @@ function initApp() {
                 defaultExtension: 'js'
             },
             rxjs: {
-                defaultExtension: 'js'
-            },
-            'angular2-jwt': {
-                main: './angular2-jwt.js',
                 defaultExtension: 'js'
             }
         }
