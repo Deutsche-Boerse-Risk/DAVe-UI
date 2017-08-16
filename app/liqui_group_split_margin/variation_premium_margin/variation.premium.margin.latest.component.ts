@@ -87,7 +87,7 @@ export const exportKeys: CSVExportColumn<LiquiGroupSplitMarginData>[] = [
     },
     {
         get   : valueGetters.variationPremiumPayment,
-        header: 'Variation / Premium Cash Flow'
+        header: 'Variation Premium Payment'
     },
     {
         get   : valueGetters.received,
