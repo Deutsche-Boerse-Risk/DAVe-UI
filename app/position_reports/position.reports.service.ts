@@ -40,6 +40,7 @@ export class PositionReportsService extends AbstractService {
     private latestSubject: ReplaySubjectExt<PositionReportData[]> = new ReplaySubjectExt(1);
     private chartsSubject: ReplaySubjectExt<PositionReportChartData> = new ReplaySubjectExt(1);
     private latestSubscription: Subscription;
+    private chartsSubscription: Subscription;
 
     constructor(private http: PeriodicHttpService<PositionReportServerData[]>,
         private errorCollector: ErrorCollectorService,
@@ -55,6 +56,10 @@ export class PositionReportsService extends AbstractService {
         if (this.latestSubscription) {
             this.latestSubscription.unsubscribe();
             this.latestSubscription = null;
+        }
+        if (this.chartsSubscription) {
+            this.chartsSubscription.unsubscribe();
+            this.chartsSubscription = null;
         }
     }
 
@@ -74,7 +79,7 @@ export class PositionReportsService extends AbstractService {
     }
 
     private setupChartsDataLoader() {
-        RxChain.from(this.latestSubject)
+        this.chartsSubscription = RxChain.from(this.latestSubject)
             .guardedDeferredMap(
                 (data: PositionReportData[], subscriber: Subscriber<PositionReportChartData>) => {
                     let chartRecords: PositionReportBubble[] = [];

@@ -37,6 +37,7 @@ export class PoolMarginService extends AbstractService {
     private latestSubject: ReplaySubjectExt<PoolMarginData[]> = new ReplaySubjectExt(1);
     private summarySubject: ReplaySubjectExt<PoolMarginSummaryData> = new ReplaySubjectExt(1);
     private latestSubscription: Subscription;
+    private summarySubscription: Subscription;
 
     constructor(private http: PeriodicHttpService<PoolMarginServerData[]>,
         private errorCollector: ErrorCollectorService,
@@ -52,6 +53,10 @@ export class PoolMarginService extends AbstractService {
         if (this.latestSubscription) {
             this.latestSubscription.unsubscribe();
             this.latestSubscription = null;
+        }
+        if (this.summarySubscription) {
+            this.summarySubscription.unsubscribe();
+            this.summarySubscription = null;
         }
     }
 
@@ -71,7 +76,7 @@ export class PoolMarginService extends AbstractService {
     }
 
     private setupSummaryLoader(): void {
-        RxChain.from(this.latestSubject)
+        this.summarySubscription = RxChain.from(this.latestSubject)
             .guardedDeferredMap(
                 (data: PoolMarginServerData[], subscriber: Subscriber<PoolMarginSummaryData>) => {
                     if (!data) {

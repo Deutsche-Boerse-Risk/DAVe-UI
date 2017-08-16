@@ -41,6 +41,8 @@ export class LiquiGroupMarginService extends AbstractService {
     private aggregationSubject: ReplaySubjectExt<LiquiGroupMarginAggregationData> = new ReplaySubjectExt(1);
     private treeMapSubject: ReplaySubjectExt<LiquiGroupMarginTree> = new ReplaySubjectExt(1);
     private latestSubscription: Subscription;
+    private treeMapSubscription: Subscription;
+    private aggregationSubscription: Subscription;
 
     constructor(private http: PeriodicHttpService<LiquiGroupMarginServerData[]>,
         private errorCollector: ErrorCollectorService,
@@ -63,6 +65,14 @@ export class LiquiGroupMarginService extends AbstractService {
             this.latestSubscription.unsubscribe();
             this.latestSubscription = null;
         }
+        if (this.treeMapSubscription) {
+            this.treeMapSubscription.unsubscribe();
+            this.treeMapSubscription = null;
+        }
+        if (this.aggregationSubscription) {
+            this.aggregationSubscription.unsubscribe();
+            this.aggregationSubscription = null;
+        }
     }
 
     private setupLatestLoader(): void {
@@ -76,7 +86,7 @@ export class LiquiGroupMarginService extends AbstractService {
     }
 
     private setupTreemapLoader(): void {
-        RxChain.from(this.latestSubject)
+        this.treeMapSubscription = RxChain.from(this.latestSubject)
             .guardedDeferredMap(
                 (data: LiquiGroupMarginServerData[], subscriber: Subscriber<LiquiGroupMarginTree>) => {
                     if (!data || !data.length) {
@@ -204,7 +214,7 @@ export class LiquiGroupMarginService extends AbstractService {
     }
 
     private setupAggregationLoader(): void {
-        RxChain.from(this.latestSubject)
+        this.aggregationSubscription = RxChain.from(this.latestSubject)
             .guardedDeferredMap(
                 (data: LiquiGroupMarginServerData[], subscriber: Subscriber<LiquiGroupMarginAggregationData>) => {
                     if (!data) {
