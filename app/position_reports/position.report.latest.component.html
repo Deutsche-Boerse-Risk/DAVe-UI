@@ -29,7 +29,8 @@
                 </a>
             </ng-template>
         </column>
-        <column title="Underlying">
+        <column title="Underlying"
+                headerAlign="center">
             <ng-template let-record="row" cell-template>
                 <a md-button
                    [routerLink]="[rootRoutePath, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', record.underlying || '*']">
