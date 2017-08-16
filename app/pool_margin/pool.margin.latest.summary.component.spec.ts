@@ -2,12 +2,16 @@ import {BrowserModule} from '@angular/platform-browser';
 
 import {fakeAsync, inject, TestBed} from '@angular/core/testing';
 
-import {AuthServiceStub, compileTestBed, HttpAsyncServiceStub} from '@dbg-riskit/dave-ui-testing';
+import {
+    AuthServiceStub,
+    compileTestBed,
+    HttpAsyncServiceStub,
+    NoopAnimationsCommonViewModule
+} from '@dbg-riskit/dave-ui-testing';
 
 import {AUTH_PROVIDER, ErrorType} from '@dbg-riskit/dave-ui-common';
 import {ErrorCollectorService} from '@dbg-riskit/dave-ui-error';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
-import {NoopAnimationsCommonViewModule} from '@dbg-riskit/dave-ui-view';
 
 import {generatePoolMarginLatest, Panel, PoolMarginSummaryPage} from '@dave/testing';
 

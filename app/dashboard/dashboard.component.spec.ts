@@ -3,9 +3,12 @@ import {Router, RouterModule} from '@angular/router';
 
 import {fakeAsync, TestBed} from '@angular/core/testing';
 
-import {compileTestBed, RouterLinkStubDirective, stubRouter} from '@dbg-riskit/dave-ui-testing';
-
-import {NoopAnimationsCommonViewModule} from '@dbg-riskit/dave-ui-view';
+import {
+    compileTestBed,
+    NoopAnimationsCommonViewModule,
+    RouterLinkStubDirective,
+    stubRouter
+} from '@dbg-riskit/dave-ui-testing';
 
 import {DashboardPage, Tab} from '@dave/testing';
 

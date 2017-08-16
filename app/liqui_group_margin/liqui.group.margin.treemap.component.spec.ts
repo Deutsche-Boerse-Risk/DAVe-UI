@@ -8,6 +8,7 @@ import {
     compileTestBed,
     GoogleChartStub,
     HttpAsyncServiceStub,
+    NoopAnimationsCommonViewModule,
     RouterLinkStubDirective,
     RouterStub
 } from '@dbg-riskit/dave-ui-testing';
@@ -15,7 +16,6 @@ import {
 import {AUTH_PROVIDER} from '@dbg-riskit/dave-ui-common';
 import {ErrorCollectorService} from '@dbg-riskit/dave-ui-error';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
-import {NoopAnimationsCommonViewModule} from '@dbg-riskit/dave-ui-view';
 
 import {generateLiquiGroupMargin, TreeMapPage} from '@dave/testing';
 

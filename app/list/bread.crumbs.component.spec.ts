@@ -3,9 +3,7 @@ import {Router, RouterModule} from '@angular/router';
 
 import {fakeAsync, inject, TestBed} from '@angular/core/testing';
 
-import {compileTestBed, RouterStub, stubRouter} from '@dbg-riskit/dave-ui-testing';
-
-import {NoopAnimationsCommonViewModule} from '@dbg-riskit/dave-ui-view';
+import {compileTestBed, NoopAnimationsCommonViewModule, RouterStub, stubRouter} from '@dbg-riskit/dave-ui-testing';
 
 import {BreadCrumbsPage, Crumb, TestBreadCrumbsComponent} from '@dave/testing';
 

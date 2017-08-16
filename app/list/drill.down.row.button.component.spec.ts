@@ -1,8 +1,11 @@
 import {fakeAsync, TestBed} from '@angular/core/testing';
 
-import {compileTestBed, LinkOnlyPage, RouterLinkStubDirective} from '@dbg-riskit/dave-ui-testing';
-
-import {NoopAnimationsCommonViewModule} from '@dbg-riskit/dave-ui-view';
+import {
+    compileTestBed,
+    LinkOnlyPage,
+    NoopAnimationsCommonViewModule,
+    RouterLinkStubDirective
+} from '@dbg-riskit/dave-ui-testing';
 
 import {DrillDownRowButtonComponent} from './drill.down.row.button.component';
 

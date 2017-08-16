@@ -8,6 +8,7 @@ import {
     compileTestBed,
     disableMaterialAnimations,
     HttpAsyncServiceStub,
+    NoopAnimationsCommonViewModule,
     stubRouter,
     TableBodyRow
 } from '@dbg-riskit/dave-ui-testing';
@@ -18,7 +19,6 @@ import {AUTH_PROVIDER} from '@dbg-riskit/dave-ui-common';
 import {DataTableModule} from '@dbg-riskit/dave-ui-datatable';
 import {ErrorCollectorService} from '@dbg-riskit/dave-ui-error';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
-import {NoopAnimationsCommonViewModule} from '@dbg-riskit/dave-ui-view';
 
 import {LiquiGroupMarginService} from './liqui.group.margin.service';
 import {LiquiGroupMarginServerData} from './liqui.group.margin.types';

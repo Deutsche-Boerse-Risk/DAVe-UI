@@ -3,9 +3,13 @@ import {By} from '@angular/platform-browser';
 
 import {ComponentFixture} from '@angular/core/testing';
 
-import {LinkOnlyPage, setNgModelSelectValue} from '@dbg-riskit/dave-ui-testing';
-
-import {INITIAL_LOAD_SELECTOR, NO_DATA_SELECTOR, UPDATE_FAILED_SELECTOR} from '@dbg-riskit/dave-ui-view';
+import {
+    INITIAL_LOAD_SELECTOR,
+    LinkOnlyPage,
+    NO_DATA_SELECTOR,
+    setNgModelSelectValue,
+    UPDATE_FAILED_SELECTOR
+} from '@dbg-riskit/dave-ui-testing';
 
 import {PositionReportBubbleChartComponent} from '../../app/position_reports/position.report.bubblechart.component';
 import {PositionReportBubble} from '../../app/position_reports/position.report.types';

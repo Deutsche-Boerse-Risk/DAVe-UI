@@ -1,8 +1,7 @@
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
 
-import {LayoutComponentDefinition, LoginMenuComponentStub, Page} from '@dbg-riskit/dave-ui-testing';
-import {LayoutComponent} from '@dbg-riskit/dave-ui-view';
+import {LayoutComponent, LayoutComponentDefinition, LoginMenuComponentStub, Page} from '@dbg-riskit/dave-ui-testing';
 
 import {AppComponent} from '../../app/app.component';
 import {MenuComponent} from '../../app/menu/menu.component';

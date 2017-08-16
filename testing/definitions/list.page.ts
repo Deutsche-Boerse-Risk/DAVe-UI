@@ -15,7 +15,9 @@ import {
     DownloadLink,
     GoogleLineChartStub,
     HttpAsyncServiceStub,
+    INITIAL_LOAD_SELECTOR,
     MessageComponentDef,
+    NO_DATA_SELECTOR,
     PageWithLoading,
     RouterStub,
     setNgModelValue,
@@ -27,7 +29,6 @@ import {DataTableComponent, DataTableModule, HIGHLIGHTER_TIMEOUT} from '@dbg-ris
 import {ErrorCollectorService} from '@dbg-riskit/dave-ui-error';
 import {CSVDownloadMenuComponent, FileModule} from '@dbg-riskit/dave-ui-file';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
-import {INITIAL_LOAD_SELECTOR, NO_DATA_SELECTOR} from '@dbg-riskit/dave-ui-view';
 
 import {BreadCrumbsDefinition} from './bread.crumbs.page';
 

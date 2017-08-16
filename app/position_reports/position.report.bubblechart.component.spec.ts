@@ -8,13 +8,13 @@ import {
     compileTestBed,
     GoogleChartStub,
     HttpAsyncServiceStub,
+    NoopAnimationsCommonViewModule,
     RouterLinkStubDirective
 } from '@dbg-riskit/dave-ui-testing';
 
 import {ErrorType} from '@dbg-riskit/dave-ui-common';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 import {ChartRow} from '@dbg-riskit/dave-ui-charts';
-import {NoopAnimationsCommonViewModule} from '@dbg-riskit/dave-ui-view';
 
 import {BubbleChartPage, generatePositionReports} from '@dave/testing';
 

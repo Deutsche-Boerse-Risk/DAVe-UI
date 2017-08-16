@@ -5,12 +5,12 @@ import {
     AuthServiceStub,
     compileTestBed,
     LoginMenuComponentStub,
+    NoopAnimationsCommonViewModule,
     RouterOutletStub,
     stubRouter
 } from '@dbg-riskit/dave-ui-testing';
 
 import {AUTH_PROVIDER, MAIN_LOGO, MAIN_ROUTE} from '@dbg-riskit/dave-ui-common';
-import {NoopAnimationsCommonViewModule} from '@dbg-riskit/dave-ui-view';
 
 import {AppComponentPage} from '@dave/testing';
 

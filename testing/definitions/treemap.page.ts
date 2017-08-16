@@ -2,8 +2,7 @@ import {By} from '@angular/platform-browser';
 
 import {ComponentFixture} from '@angular/core/testing';
 
-import {LinkOnlyPage} from '@dbg-riskit/dave-ui-testing';
-import {INITIAL_LOAD_SELECTOR, NO_DATA_SELECTOR} from '@dbg-riskit/dave-ui-view';
+import {INITIAL_LOAD_SELECTOR, LinkOnlyPage, NO_DATA_SELECTOR} from '@dbg-riskit/dave-ui-testing';
 
 import {LiquiGroupMarginTreemapComponent} from '../../app/liqui_group_margin/liqui.group.margin.treemap.component';
 
