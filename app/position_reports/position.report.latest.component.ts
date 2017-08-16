@@ -211,7 +211,7 @@ export const exportKeys: CSVExportColumn<PositionReportData>[] = [
     },
     {
         get   : (row: PositionReportData) => row.compCompressionError,
-        header: 'CopmError'
+        header: 'CompError'
     },
     {
         get   : (row: PositionReportData) => row.compLongOptionCredit,

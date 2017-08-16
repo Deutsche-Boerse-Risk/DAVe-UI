@@ -37,7 +37,7 @@ export class VariationPremiumMarginHistoryComponent extends AbstractLiquiGroupSp
                 value: record.premiumMargin
             },
             {
-                label: 'Variation / Premium Cash Flow',
+                label: 'Variation Premium Payment',
                 type : 'number',
                 value: record.variationPremiumPayment
             }

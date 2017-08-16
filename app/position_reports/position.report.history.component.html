@@ -41,7 +41,7 @@
             </ng-template>
         </column>
         <column title="EuroDelta"
-                tooltip="Position sensibility to underlying move in Euro"
+                tooltip="Position sensitivity to underlying move in Euro"
                 headerAlign="right"
                 contentAlign="right"
                 [sortingKey]="valueGetters.normalizedDelta">
@@ -90,7 +90,7 @@
                         {{record.compCorrelationBreak | number:'.2-2'}}
                     </ng-template>
                 </column>
-                <column title="CopmError"
+                <column title="CompError"
                         headerAlign="right"
                         contentAlign="right">
                     <ng-template let-record="row" cell-template>
