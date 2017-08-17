@@ -70,13 +70,13 @@ describe('LiquiGroupMarginService', () => {
                             expect(node.children.length).toBe(0);
                         }
                         if (node.parent && node.children.length) {
-                            let value = 0;
+                            let additionalMarginSum = 0;
                             node.children.forEach((childNode: LiquiGroupMarginTreeNode) => {
-                                value += childNode.data.value;
+                                additionalMarginSum += childNode.data.additionalMargin;
                                 expect(childNode.data.id).toMatch('^' + node.data.id.replace(/Rest/, ''));
                             });
-                            expect(Math.round(value * Math.pow(10, 5)))
-                                .toBe(Math.round(node.data.value * Math.pow(10, 5)));
+                            expect(Math.round(additionalMarginSum * Math.pow(10, 5)))
+                                .toBe(Math.round(node.data.additionalMargin * Math.pow(10, 5)));
                         }
                     });
                     expect(nodesCount).toBe(373);

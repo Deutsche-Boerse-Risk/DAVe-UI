@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 
 import {COMPONENT_CSS} from '@dbg-riskit/dave-ui-common';
 import {ChartData, ChartRow, SelectionEvent, TreeMapOptions} from '@dbg-riskit/dave-ui-charts';
+import {PercentPipe} from '@dbg-riskit/dave-ui-view';
 
 import {AbstractComponent} from '../abstract.component';
 
@@ -37,17 +38,23 @@ export class LiquiGroupMarginTreemapComponent extends AbstractComponent {
         maxHighlightColor   : '#D7EBFF',
         fontColor           : 'black',
         showScale           : false,
-        showTooltips        : false,
+        showTooltips        : true,
         highlightOnMouseOver: true,
         headerHeight        : 15,
         maxDepth            : 1,
-        maxPostDepth        : 1
+        maxPostDepth        : 1,
+        generateTooltip     : row => {
+            let r = this.chartData.rows[row];
+            return `<div class="treeMapTooltip">
+                        ${r.c[0].f}
+                    </div>`;
+        }
     };
 
     public chartData: ChartData;
 
     constructor(private liquiGroupMarginService: LiquiGroupMarginService,
-        private router: Router) {
+        private router: Router, private percentPipe: PercentPipe) {
         super();
     }
 
@@ -70,17 +77,20 @@ export class LiquiGroupMarginTreemapComponent extends AbstractComponent {
                     rows: []
                 };
 
-                tree.traverseDF((node: LiquiGroupMarginTreeNode) => {
+                tree.traverseBF((node: LiquiGroupMarginTreeNode) => {
+                    node.data.formattedText = `${node.data.text} (${this.percentPipe.transform(
+                        (node.data.additionalMargin / tree.totalAdditionalMargin) * 100, '.1-1')})`;
                     this.chartData.rows.push({
                         c           : [
                             {
-                                v: node.data.text
+                                v: node.data.id,
+                                f: node.data.formattedText
                             },
                             {
-                                v: node.parent ? node.parent.data.text : null
+                                v: node.parent ? node.parent.data.id : null
                             },
                             {
-                                v: node.children.length > 0 ? 0 : node.data.value
+                                v: node.children.length > 0 ? 0 : node.data.additionalMargin
                             }
                         ],
                         originalData: node
@@ -102,8 +112,7 @@ export class LiquiGroupMarginTreemapComponent extends AbstractComponent {
                 node.parent.data.clearer || '*',
                 node.parent.data.member || '*',
                 node.parent.data.account || '*',
-                node.parent.data.marginClass || '*',
-                node.parent.data.marginCurrency || '*'
+                node.parent.data.marginClass || '*'
             ]);
         }
     }

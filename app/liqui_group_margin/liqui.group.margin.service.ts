@@ -101,9 +101,9 @@ export class LiquiGroupMarginService extends AbstractService {
                     let accounts: { [key: string]: boolean } = {};
                     let classes: { [key: string]: boolean } = {};
                     let tree: LiquiGroupMarginTree = new LiquiGroupMarginTree({
-                        id   : 'all',
-                        text : 'all',
-                        value: 0
+                        id              : 'all',
+                        text            : 'all',
+                        additionalMargin: 0
                     });
 
                     for (let index = 0; index < data.length; ++index) {
@@ -120,54 +120,54 @@ export class LiquiGroupMarginService extends AbstractService {
                         if (!members[member]) {
                             members[member] = true;
                             tree.add({
-                                id     : member,
-                                text   : member.replace(/\w+-/, ''),
-                                value  : 0,
-                                clearer: clearer,
-                                member : data[index].member
+                                id              : member,
+                                text            : member.replace(/\w+-/, ''),
+                                additionalMargin: 0,
+                                clearer         : clearer,
+                                member          : data[index].member
                             }, 'all');
                         }
 
                         if (!accounts[account]) {
                             accounts[account] = true;
                             tree.add({
-                                id     : account,
-                                text   : account.replace(/\w+-/, ''),
-                                value  : 0,
-                                clearer: clearer,
-                                member : data[index].member,
-                                account: data[index].account
+                                id              : account,
+                                text            : account.replace(/\w+-/, ''),
+                                additionalMargin: 0,
+                                clearer         : clearer,
+                                member          : data[index].member,
+                                account         : data[index].account
                             }, member);
                         }
 
                         if (!classes[marginClass]) {
                             classes[marginClass] = true;
                             tree.add({
-                                id         : marginClass,
-                                text       : marginClass.replace(/\w+-/, ''),
-                                value      : 0,
-                                clearer    : clearer,
-                                member     : data[index].member,
-                                account    : data[index].account,
-                                marginClass: data[index].marginClass
+                                id              : marginClass,
+                                text            : marginClass.replace(/\w+-/, ''),
+                                additionalMargin: 0,
+                                clearer         : clearer,
+                                member          : data[index].member,
+                                account         : data[index].account,
+                                marginClass     : data[index].marginClass
                             }, account);
                         }
 
                         tree.add({
-                            id            : marginCurrency,
-                            text          : marginCurrency.replace(/\w+-/, ''),
-                            value         : data[index].additionalMargin,
-                            leaf          : true,
-                            clearer       : clearer,
-                            member        : data[index].member,
-                            account       : data[index].account,
-                            marginClass   : data[index].marginClass,
-                            marginCurrency: data[index].marginCurrency
+                            id              : marginCurrency,
+                            text            : marginCurrency.replace(/\w+-/, ''),
+                            additionalMargin: data[index].additionalMargin,
+                            leaf            : true,
+                            clearer         : clearer,
+                            member          : data[index].member,
+                            account         : data[index].account,
+                            marginClass     : data[index].marginClass,
+                            marginCurrency  : data[index].marginCurrency
                         }, marginClass);
                     }
                     tree.traverseDF((node: LiquiGroupMarginTreeNode) => {
                         node.children.sort((a, b) => {
-                            return b.data.value - a.data.value;
+                            return b.data.additionalMargin - a.data.additionalMargin;
                         });
                     });
                     tree.traverseBF((node: LiquiGroupMarginTreeNode) => {
@@ -178,16 +178,16 @@ export class LiquiGroupMarginService extends AbstractService {
                             restText = node.data.text + '-Rest';
                         }
                         let restNode = new LiquiGroupMarginTreeNode({
-                            id     : node.data.id + '-Rest',
-                            text   : restText,
-                            value  : 0,
-                            clearer: node.data.clearer
+                            id              : node.data.id + '-Rest',
+                            text            : restText,
+                            additionalMargin: 0,
+                            clearer         : node.data.clearer
                         });
                         restNode.parent = node;
                         let aggregateCount = Math.max(node.children.length - 10, 0);
                         for (let i = 0; i < aggregateCount; i++) {
                             let smallNode = node.children.pop();
-                            restNode.data.value += smallNode.data.value;
+                            restNode.data.additionalMargin += smallNode.data.additionalMargin;
                             restNode.children = restNode.children.concat(smallNode.children);
                             for (let j = 0; j < smallNode.children.length; j++) {
                                 smallNode.children[j].parent = restNode;

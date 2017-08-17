@@ -44,7 +44,8 @@ export interface LiquiGroupMarginNodeData extends LiquiGroupMarginParams {
     id: string;
     leaf?: boolean;
     text: string;
-    value: number;
+    additionalMargin: number;
+    formattedText?: string;
 }
 
 export class LiquiGroupMarginTreeNode {
@@ -63,6 +64,10 @@ export class LiquiGroupMarginTree {
 
     constructor(data: LiquiGroupMarginNodeData) {
         this._root = new LiquiGroupMarginTreeNode(data);
+    }
+
+    public get totalAdditionalMargin(): number {
+        return this._root.data.additionalMargin;
     }
 
     public traverseDF(callback: (node: LiquiGroupMarginTreeNode) => any) {
@@ -105,7 +110,7 @@ export class LiquiGroupMarginTree {
             parent.children.push(child);
             child.parent = parent;
             while (!!parent) {
-                parent.data.value += child.data.value;
+                parent.data.additionalMargin += child.data.additionalMargin;
                 parent = parent.parent;
             }
         } else {
