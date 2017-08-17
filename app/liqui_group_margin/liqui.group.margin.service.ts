@@ -91,7 +91,7 @@ export class LiquiGroupMarginService extends AbstractService {
                 (data: LiquiGroupMarginServerData[], subscriber: Subscriber<LiquiGroupMarginTree>) => {
                     if (!data || !data.length) {
                         subscriber.next({
-                            traverseDF: () => {
+                            traverseBF: () => {
                             }
                         } as any);
                         subscriber.complete();

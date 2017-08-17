@@ -66,7 +66,7 @@ describe('LiquiGroupMarginService', () => {
                     data.traverseDF((node: LiquiGroupMarginTreeNode) => {
                         nodesCount++;
 
-                        if (node.data.leaf) {
+                        if (node.leaf) {
                             expect(node.children.length).toBe(0);
                         }
                         if (node.parent && node.children.length) {
@@ -79,7 +79,7 @@ describe('LiquiGroupMarginService', () => {
                                 .toBe(Math.round(node.data.additionalMargin * Math.pow(10, 5)));
                         }
                     });
-                    expect(nodesCount).toBe(373);
+                    expect(nodesCount).toBe(528);
                 });
 
             tick();
