@@ -79,7 +79,7 @@ export class LiquiGroupMarginTreemapComponent extends AbstractComponent {
 
                 tree.traverseBF((node: LiquiGroupMarginTreeNode) => {
                     node.data.formattedText = `${node.data.text} (${this.percentPipe.transform(
-                        (node.data.additionalMargin / tree.totalAdditionalMargin) * 100, '.1-1')})`;
+                        node.totalPercentage * 100, '.1-1')})`;
                     this.chartData.rows.push({
                         c           : [
                             {
@@ -105,14 +105,13 @@ export class LiquiGroupMarginTreemapComponent extends AbstractComponent {
         let row: ChartRow = this.chartData.rows[selectionEvent[0].row];
 
         let node: LiquiGroupMarginTreeNode = row.originalData;
-        if (node && node.data.leaf
-            && node.parent && node.parent.data.text.indexOf('Rest') === -1) {
+        if (node && node.leaf && node.data.text.indexOf('Rest') === -1) {
             this.router.navigate([
                 this.rootRoutePath,
-                node.parent.data.clearer || '*',
-                node.parent.data.member || '*',
-                node.parent.data.account || '*',
-                node.parent.data.marginClass || '*'
+                node.data.clearer || '*',
+                node.data.member || '*',
+                node.data.account || '*',
+                node.data.marginClass || '*'
             ]);
         }
     }

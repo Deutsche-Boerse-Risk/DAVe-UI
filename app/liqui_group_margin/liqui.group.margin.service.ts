@@ -106,16 +106,16 @@ export class LiquiGroupMarginService extends AbstractService {
                         additionalMargin: 0
                     });
 
-                    for (let index = 0; index < data.length; ++index) {
-                        if (data[index].additionalMargin === 0) {
-                            continue;
+                    data.forEach((row: LiquiGroupMarginData) => {
+                        if (row.additionalMargin === 0) {
+                            return;
                         }
 
-                        let clearer = data[index].clearer;
-                        let member = clearer + '-' + data[index].member;
-                        let account = member + '-' + data[index].account;
-                        let marginClass = account + '-' + data[index].marginClass;
-                        let marginCurrency = marginClass + '-' + data[index].marginCurrency;
+                        let clearer = row.clearer;
+                        let member = clearer + '-' + row.member;
+                        let account = member + '-' + row.account;
+                        let marginClass = account + '-' + row.marginClass;
+                        let marginCurrency = marginClass + '-' + row.marginCurrency;
 
                         if (!members[member]) {
                             members[member] = true;
@@ -124,7 +124,7 @@ export class LiquiGroupMarginService extends AbstractService {
                                 text            : member.replace(/\w+-/, ''),
                                 additionalMargin: 0,
                                 clearer         : clearer,
-                                member          : data[index].member
+                                member          : row.member
                             }, 'all');
                         }
 
@@ -135,8 +135,8 @@ export class LiquiGroupMarginService extends AbstractService {
                                 text            : account.replace(/\w+-/, ''),
                                 additionalMargin: 0,
                                 clearer         : clearer,
-                                member          : data[index].member,
-                                account         : data[index].account
+                                member          : row.member,
+                                account         : row.account
                             }, member);
                         }
 
@@ -147,54 +147,62 @@ export class LiquiGroupMarginService extends AbstractService {
                                 text            : marginClass.replace(/\w+-/, ''),
                                 additionalMargin: 0,
                                 clearer         : clearer,
-                                member          : data[index].member,
-                                account         : data[index].account,
-                                marginClass     : data[index].marginClass
+                                member          : row.member,
+                                account         : row.account,
+                                marginClass     : row.marginClass
                             }, account);
                         }
 
                         tree.add({
                             id              : marginCurrency,
                             text            : marginCurrency.replace(/\w+-/, ''),
-                            additionalMargin: data[index].additionalMargin,
-                            leaf            : true,
+                            additionalMargin: row.additionalMargin,
                             clearer         : clearer,
-                            member          : data[index].member,
-                            account         : data[index].account,
-                            marginClass     : data[index].marginClass,
-                            marginCurrency  : data[index].marginCurrency
+                            member          : row.member,
+                            account         : row.account,
+                            marginClass     : row.marginClass,
+                            marginCurrency  : row.marginCurrency
                         }, marginClass);
-                    }
+                    });
+
+                    tree.traverseBF((node: LiquiGroupMarginTreeNode) => {
+                        if (node.children && node.children.length === 1 && !!node.parent) {
+                            let parentChildren = node.parent.children;
+                            parentChildren.splice(parentChildren.indexOf(node), 1);
+                            parentChildren.push(node.children[0]);
+                            node.children[0].parent = node.parent;
+                        }
+                    });
+
                     tree.traverseDF((node: LiquiGroupMarginTreeNode) => {
                         node.children.sort((a, b) => {
                             return b.data.additionalMargin - a.data.additionalMargin;
                         });
                     });
+
                     tree.traverseBF((node: LiquiGroupMarginTreeNode) => {
-                        let restText;
-                        if (node.data.text === 'all') {
-                            restText = 'Rest';
-                        } else {
-                            restText = node.data.text + '-Rest';
-                        }
                         let restNode = new LiquiGroupMarginTreeNode({
                             id              : node.data.id + '-Rest',
-                            text            : restText,
+                            text            : 'Rest',
                             additionalMargin: 0,
-                            clearer         : node.data.clearer
+                            clearer         : node.data.clearer,
+                            member          : node.data.member,
+                            account         : node.data.account,
+                            marginClass     : node.data.marginClass,
+                            marginCurrency  : node.data.marginCurrency
                         });
                         restNode.parent = node;
                         let aggregateCount = Math.max(node.children.length - 10, 0);
-                        for (let i = 0; i < aggregateCount; i++) {
-                            let smallNode = node.children.pop();
-                            restNode.data.additionalMargin += smallNode.data.additionalMargin;
-                            restNode.children = restNode.children.concat(smallNode.children);
-                            for (let j = 0; j < smallNode.children.length; j++) {
-                                smallNode.children[j].parent = restNode;
+                        if (aggregateCount > 1) {
+                            for (let i = 0; i < aggregateCount; i++) {
+                                let childNode = node.children.pop();
+                                restNode.data.additionalMargin += childNode.data.additionalMargin;
+                                restNode.children.unshift(childNode);
+                                childNode.parent = restNode;
                             }
-                        }
-                        if (aggregateCount > 0) {
-                            node.children.push(restNode);
+                            if (restNode.children.length > 0) {
+                                node.children.push(restNode);
+                            }
                         }
                     });
                     subscriber.next(tree);
