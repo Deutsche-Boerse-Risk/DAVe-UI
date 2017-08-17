@@ -91,7 +91,7 @@ export class LiquiGroupMarginService extends AbstractService {
                 (data: LiquiGroupMarginServerData[], subscriber: Subscriber<LiquiGroupMarginTree>) => {
                     if (!data || !data.length) {
                         subscriber.next({
-                            traverseDF: () => {
+                            traverseBF: () => {
                             }
                         } as any);
                         subscriber.complete();
@@ -101,100 +101,108 @@ export class LiquiGroupMarginService extends AbstractService {
                     let accounts: { [key: string]: boolean } = {};
                     let classes: { [key: string]: boolean } = {};
                     let tree: LiquiGroupMarginTree = new LiquiGroupMarginTree({
-                        id   : 'all',
-                        text : 'all',
-                        value: 0
+                        id              : 'all',
+                        text            : 'all',
+                        additionalMargin: 0
                     });
 
-                    for (let index = 0; index < data.length; ++index) {
-                        if (data[index].additionalMargin === 0) {
-                            continue;
+                    data.forEach((row: LiquiGroupMarginData) => {
+                        if (row.additionalMargin === 0) {
+                            return;
                         }
 
-                        let clearer = data[index].clearer;
-                        let member = clearer + '-' + data[index].member;
-                        let account = member + '-' + data[index].account;
-                        let marginClass = account + '-' + data[index].marginClass;
-                        let marginCurrency = marginClass + '-' + data[index].marginCurrency;
+                        let clearer = row.clearer;
+                        let member = clearer + '-' + row.member;
+                        let account = member + '-' + row.account;
+                        let marginClass = account + '-' + row.marginClass;
+                        let marginCurrency = marginClass + '-' + row.marginCurrency;
 
                         if (!members[member]) {
                             members[member] = true;
                             tree.add({
-                                id     : member,
-                                text   : member.replace(/\w+-/, ''),
-                                value  : 0,
-                                clearer: clearer,
-                                member : data[index].member
+                                id              : member,
+                                text            : member.replace(/\w+-/, ''),
+                                additionalMargin: 0,
+                                clearer         : clearer,
+                                member          : row.member
                             }, 'all');
                         }
 
                         if (!accounts[account]) {
                             accounts[account] = true;
                             tree.add({
-                                id     : account,
-                                text   : account.replace(/\w+-/, ''),
-                                value  : 0,
-                                clearer: clearer,
-                                member : data[index].member,
-                                account: data[index].account
+                                id              : account,
+                                text            : account.replace(/\w+-/, ''),
+                                additionalMargin: 0,
+                                clearer         : clearer,
+                                member          : row.member,
+                                account         : row.account
                             }, member);
                         }
 
                         if (!classes[marginClass]) {
                             classes[marginClass] = true;
                             tree.add({
-                                id         : marginClass,
-                                text       : marginClass.replace(/\w+-/, ''),
-                                value      : 0,
-                                clearer    : clearer,
-                                member     : data[index].member,
-                                account    : data[index].account,
-                                marginClass: data[index].marginClass
+                                id              : marginClass,
+                                text            : marginClass.replace(/\w+-/, ''),
+                                additionalMargin: 0,
+                                clearer         : clearer,
+                                member          : row.member,
+                                account         : row.account,
+                                marginClass     : row.marginClass
                             }, account);
                         }
 
                         tree.add({
-                            id            : marginCurrency,
-                            text          : marginCurrency.replace(/\w+-/, ''),
-                            value         : data[index].additionalMargin,
-                            leaf          : true,
-                            clearer       : clearer,
-                            member        : data[index].member,
-                            account       : data[index].account,
-                            marginClass   : data[index].marginClass,
-                            marginCurrency: data[index].marginCurrency
+                            id              : marginCurrency,
+                            text            : marginCurrency.replace(/\w+-/, ''),
+                            additionalMargin: row.additionalMargin,
+                            clearer         : clearer,
+                            member          : row.member,
+                            account         : row.account,
+                            marginClass     : row.marginClass,
+                            marginCurrency  : row.marginCurrency
                         }, marginClass);
-                    }
+                    });
+
+                    tree.traverseBF((node: LiquiGroupMarginTreeNode) => {
+                        if (node.children && node.children.length === 1 && !!node.parent) {
+                            let parentChildren = node.parent.children;
+                            parentChildren.splice(parentChildren.indexOf(node), 1);
+                            parentChildren.push(node.children[0]);
+                            node.children[0].parent = node.parent;
+                        }
+                    });
+
                     tree.traverseDF((node: LiquiGroupMarginTreeNode) => {
                         node.children.sort((a, b) => {
-                            return b.data.value - a.data.value;
+                            return b.data.additionalMargin - a.data.additionalMargin;
                         });
                     });
+
                     tree.traverseBF((node: LiquiGroupMarginTreeNode) => {
-                        let restText;
-                        if (node.data.text === 'all') {
-                            restText = 'Rest';
-                        } else {
-                            restText = node.data.text + '-Rest';
-                        }
                         let restNode = new LiquiGroupMarginTreeNode({
-                            id     : node.data.id + '-Rest',
-                            text   : restText,
-                            value  : 0,
-                            clearer: node.data.clearer
+                            id              : node.data.id + '-Rest',
+                            text            : 'Rest',
+                            additionalMargin: 0,
+                            clearer         : node.data.clearer,
+                            member          : node.data.member,
+                            account         : node.data.account,
+                            marginClass     : node.data.marginClass,
+                            marginCurrency  : node.data.marginCurrency
                         });
                         restNode.parent = node;
                         let aggregateCount = Math.max(node.children.length - 10, 0);
-                        for (let i = 0; i < aggregateCount; i++) {
-                            let smallNode = node.children.pop();
-                            restNode.data.value += smallNode.data.value;
-                            restNode.children = restNode.children.concat(smallNode.children);
-                            for (let j = 0; j < smallNode.children.length; j++) {
-                                smallNode.children[j].parent = restNode;
+                        if (aggregateCount > 1) {
+                            for (let i = 0; i < aggregateCount; i++) {
+                                let childNode = node.children.pop();
+                                restNode.data.additionalMargin += childNode.data.additionalMargin;
+                                restNode.children.unshift(childNode);
+                                childNode.parent = restNode;
                             }
-                        }
-                        if (aggregateCount > 0) {
-                            node.children.push(restNode);
+                            if (restNode.children.length > 0) {
+                                node.children.push(restNode);
+                            }
                         }
                     });
                     subscriber.next(tree);

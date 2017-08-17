@@ -42,9 +42,9 @@ export interface LiquiGroupMarginAggregationData {
 
 export interface LiquiGroupMarginNodeData extends LiquiGroupMarginParams {
     id: string;
-    leaf?: boolean;
     text: string;
-    value: number;
+    additionalMargin: number;
+    formattedText?: string;
 }
 
 export class LiquiGroupMarginTreeNode {
@@ -55,6 +55,25 @@ export class LiquiGroupMarginTreeNode {
 
     constructor(public data: LiquiGroupMarginNodeData) {
     }
+
+    public get leaf(): boolean {
+        return !this.children || this.children.length === 0;
+    }
+
+    public get percentage(): number {
+        if (this.parent == null) {
+            return 1;
+        }
+        return this.data.additionalMargin / this.parent.data.additionalMargin;
+    }
+
+    public get totalPercentage(): number {
+        let root: LiquiGroupMarginTreeNode = this;
+        while (root.parent != null) {
+            root = root.parent;
+        }
+        return this.data.additionalMargin / root.data.additionalMargin;
+    }
 }
 
 export class LiquiGroupMarginTree {
@@ -63,6 +82,10 @@ export class LiquiGroupMarginTree {
 
     constructor(data: LiquiGroupMarginNodeData) {
         this._root = new LiquiGroupMarginTreeNode(data);
+    }
+
+    public get totalAdditionalMargin(): number {
+        return this._root.data.additionalMargin;
     }
 
     public traverseDF(callback: (node: LiquiGroupMarginTreeNode) => any) {
@@ -105,7 +128,7 @@ export class LiquiGroupMarginTree {
             parent.children.push(child);
             child.parent = parent;
             while (!!parent) {
-                parent.data.value += child.data.value;
+                parent.data.additionalMargin += child.data.additionalMargin;
                 parent = parent.parent;
             }
         } else {
