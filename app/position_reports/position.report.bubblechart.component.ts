@@ -223,7 +223,7 @@ export class PositionReportBubbleChartComponent extends AbstractComponent {
             </strong>
             of total offsetting positions. Total portfolio VaR is
             <strong>
-                ${this.numberPipe.transform(totalCompVar, '.2-2')} ${this.sourceData.clearingCurrency}.
+                ${this.numberPipe.transform(totalCompVar, '.0-0')} ${this.sourceData.clearingCurrency}.
             </strong>`;
 
         return bubbles;
@@ -289,7 +289,7 @@ export class PositionReportBubbleChartComponent extends AbstractComponent {
                     },
                     {
                         v: Math.abs(bubbles[i].radius),
-                        f: this.numberPipe.transform(bubbles[i].radius, '.2-2') + ' ' + this.sourceData.clearingCurrency
+                        f: this.numberPipe.transform(bubbles[i].radius, '.0-0') + ' ' + this.sourceData.clearingCurrency
                     }
                 ]
             });

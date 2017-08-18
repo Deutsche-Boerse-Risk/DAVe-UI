@@ -33,7 +33,7 @@
                 contentAlign="right"
                 [sortingKey]="valueGetters.requiredMargin">
             <ng-template let-record="row" cell-template>
-                {{record.requiredMargin | number:'.2-2'}} {{record.marginCurrency}}
+                {{record.requiredMargin | number:'.0-0'}} {{record.marginCurrency}}
             </ng-template>
         </column>
         <column title="Cash Collateral"
@@ -41,7 +41,7 @@
                 contentAlign="right"
                 [sortingKey]="valueGetters.cashCollateralAmount">
             <ng-template let-record="row" cell-template>
-                {{record.cashCollateralAmount| number:'.2-2'}} {{record.marginCurrency}}
+                {{record.cashCollateralAmount| number:'.0-0'}} {{record.marginCurrency}}
             </ng-template>
         </column>
         <column title="Non Cash Collateral"
@@ -49,7 +49,7 @@
                 contentAlign="right"
                 [sortingKey]="valueGetters.adjustedSecurities">
             <ng-template let-record="row" cell-template>
-                {{record.adjustedSecurities | number:'.2-2'}} {{record.marginCurrency}}
+                {{record.adjustedSecurities | number:'.0-0'}} {{record.marginCurrency}}
             </ng-template>
         </column>
         <column title="Over/Under collaterization in margin ccy."
@@ -57,7 +57,7 @@
                 contentAlign="right"
                 [sortingKey]="valueGetters.overUnderInMarginCurr">
             <ng-template let-record="row" cell-template>
-                {{record.overUnderInMarginCurr | number:'.2-2'}} {{record.marginCurrency}}
+                {{record.overUnderInMarginCurr | number:'.0-0'}} {{record.marginCurrency}}
             </ng-template>
         </column>
         <column title="Over/Under collaterization in clearing ccy."
@@ -65,7 +65,7 @@
                 contentAlign="right"
                 [sortingKey]="valueGetters.overUnderInClrRptCurr">
             <ng-template let-record="row" cell-template>
-                {{record.overUnderInClrRptCurr | number:'.2-2'}} {{record.clrRptCurrency}}
+                {{record.overUnderInClrRptCurr | number:'.0-0'}} {{record.clrRptCurrency}}
             </ng-template>
         </column>
         <column title="Variation Premium Payment"
@@ -73,7 +73,7 @@
                 contentAlign="right"
                 [sortingKey]="valueGetters.variPremInMarginCurr">
             <ng-template let-record="row" cell-template>
-                {{record.variPremInMarginCurr | number:'.2-2'}} {{record.marginCurrency}}
+                {{record.variPremInMarginCurr | number:'.0-0'}} {{record.marginCurrency}}
             </ng-template>
         </column>
         <column title="FX Rate"

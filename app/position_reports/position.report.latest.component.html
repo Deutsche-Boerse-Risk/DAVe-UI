@@ -77,7 +77,7 @@
             <ng-template let-record="row" cell-template>
                 <a md-button
                    [routerLink]="[rootRoutePath, routeParams['clearer'] || '*', routeParams['member'] || '*', routeParams['account'] || '*', record.underlying || '*', record.liquidationGroup || '*',record.liquidationGroupSplit || '*', record.product || '*', record.callPut || '*', record.contractYear + '' || '*', record.contractMonth + '' || '*', record.expiryDay + '' || '*', record.exercisePrice + '' || '*']">
-                    {{record.exercisePrice | number:'.2-2'}}
+                    {{record.exercisePrice | number:'.0-0'}}
                 </a>
             </ng-template>
         </column>
@@ -97,7 +97,7 @@
                 contentAlign="right"
                 [sortingKey]="valueGetters.netQuantityLs">
             <ng-template let-record="row" cell-template>
-                {{record.netQuantityLs | number:'.2-2'}}
+                {{record.netQuantityLs | number:'.0-0'}}
             </ng-template>
         </column>
         <column title="Position VaR"
@@ -106,7 +106,7 @@
                 contentAlign="right"
                 [sortingKey]="valueGetters.compVar">
             <ng-template let-record="row" cell-template>
-                {{record.compVar | number:'.2-2'}}
+                {{record.compVar | number:'.0-0'}}
             </ng-template>
         </column>
         <column title="EuroDelta"
@@ -115,7 +115,7 @@
                 contentAlign="right"
                 [sortingKey]="valueGetters.normalizedDelta">
             <ng-template let-record="row" cell-template>
-                {{record.normalizedDelta | number:'.2-2'}}
+                {{record.normalizedDelta | number:'.0-0'}}
             </ng-template>
         </column>
         <column title="LA"
@@ -124,7 +124,7 @@
                 headerAlign="right"
                 contentAlign="right">
             <ng-template let-record="row" cell-template>
-                {{record.compLiquidityAddOn | number:'.2-2'}}
+                {{record.compLiquidityAddOn | number:'.0-0'}}
             </ng-template>
         </column>
         <column>
@@ -178,21 +178,21 @@
                         headerAlign="right"
                         contentAlign="right">
                     <ng-template let-record="row" cell-template>
-                        {{record.netQuantityEa | number:'.2-2'}}
+                        {{record.netQuantityEa | number:'.0-0'}}
                     </ng-template>
                 </column>
                 <column title="CorrBreak"
                         headerAlign="right"
                         contentAlign="right">
                     <ng-template let-record="row" cell-template>
-                        {{record.compCorrelationBreak | number:'.2-2'}}
+                        {{record.compCorrelationBreak | number:'.0-0'}}
                     </ng-template>
                 </column>
                 <column title="CompError"
                         headerAlign="right"
                         contentAlign="right">
                     <ng-template let-record="row" cell-template>
-                        {{record.compCompressionError | number:'.2-2'}}
+                        {{record.compCompressionError | number:'.0-0'}}
                     </ng-template>
                 </column>
             </column-group>
@@ -201,56 +201,56 @@
                         headerAlign="right"
                         contentAlign="right">
                     <ng-template let-record="row" cell-template>
-                        {{record.compLongOptionCredit | number:'.2-2'}}
+                        {{record.compLongOptionCredit | number:'.0-0'}}
                     </ng-template>
                 </column>
                 <column title="PremPay"
                         headerAlign="right"
                         contentAlign="right">
                     <ng-template let-record="row" cell-template>
-                        {{record.variationPremiumPayment | number:'.2-2'}}
+                        {{record.variationPremiumPayment | number:'.0-0'}}
                     </ng-template>
                 </column>
                 <column title="PremMrgn"
                         headerAlign="right"
                         contentAlign="right">
                     <ng-template let-record="row" cell-template>
-                        {{record.premiumMargin | number:'.2-2'}}
+                        {{record.premiumMargin | number:'.0-0'}}
                     </ng-template>
                 </column>
                 <column title="Gamma"
                         headerAlign="right"
                         contentAlign="right">
                     <ng-template let-record="row" cell-template>
-                        {{record.normalizedGamma | number:'.2-2'}}
+                        {{record.normalizedGamma | number:'.0-0'}}
                     </ng-template>
                 </column>
                 <column title="Vega"
                         headerAlign="right"
                         contentAlign="right">
                     <ng-template let-record="row" cell-template>
-                        {{record.normalizedVega | number:'.2-2'}}
+                        {{record.normalizedVega | number:'.0-0'}}
                     </ng-template>
                 </column>
                 <column title="Rho"
                         headerAlign="right"
                         contentAlign="right">
                     <ng-template let-record="row" cell-template>
-                        {{record.normalizedRho | number:'.2-2'}}
+                        {{record.normalizedRho | number:'.0-0'}}
                     </ng-template>
                 </column>
                 <column title="Theta"
                         headerAlign="right"
                         contentAlign="right">
                     <ng-template let-record="row" cell-template>
-                        {{record.normalizedTheta | number:'.2-2'}}
+                        {{record.normalizedTheta | number:'.0-0'}}
                     </ng-template>
                 </column>
                 <column title="MVar"
                         headerAlign="right"
                         contentAlign="right">
                     <ng-template let-record="row" cell-template>
-                        {{record.mVar | number:'.2-2'}}
+                        {{record.mVar | number:'.0-0'}}
                     </ng-template>
                 </column>
             </column-group>

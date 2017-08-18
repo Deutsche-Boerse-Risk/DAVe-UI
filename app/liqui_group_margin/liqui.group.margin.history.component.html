@@ -28,7 +28,7 @@
                 headerAlign="right"
                 contentAlign="right">
             <ng-template let-record="row" cell-template>
-                {{record.premiumMargin | number:'.2-2'}} {{record.marginCurrency}}
+                {{record.premiumMargin | number:'.0-0'}} {{record.marginCurrency}}
             </ng-template>
         </column>
         <column title="Current Liquidating Margin"
@@ -36,7 +36,7 @@
                 headerAlign="right"
                 contentAlign="right">
             <ng-template let-record="row" cell-template>
-                {{record.currentLiquidatingMargin | number:'.2-2'}} {{record.marginCurrency}}
+                {{record.currentLiquidatingMargin | number:'.0-0'}} {{record.marginCurrency}}
             </ng-template>
         </column>
         <column title="Initial Margin"
@@ -44,7 +44,7 @@
                 headerAlign="right"
                 contentAlign="right">
             <ng-template let-record="row" cell-template>
-                {{record.additionalMargin | number:'.2-2'}} {{record.marginCurrency}}
+                {{record.additionalMargin | number:'.0-0'}} {{record.marginCurrency}}
             </ng-template>
         </column>
         <column title="Unadjusted Margin"
@@ -52,7 +52,7 @@
                 headerAlign="right"
                 contentAlign="right">
             <ng-template let-record="row" cell-template>
-                {{record.unadjustedMarginRequirement | number:'.2-2'}} {{record.marginCurrency}}
+                {{record.unadjustedMarginRequirement | number:'.0-0'}} {{record.marginCurrency}}
             </ng-template>
         </column>
         <column title="Variation Premium Payment"
@@ -60,7 +60,7 @@
                 headerAlign="right"
                 contentAlign="right">
             <ng-template let-record="row" cell-template>
-                {{record.variationPremiumPayment | number:'.2-2'}} {{record.marginCurrency}}
+                {{record.variationPremiumPayment | number:'.0-0'}} {{record.marginCurrency}}
             </ng-template>
         </column>
     </data-table>

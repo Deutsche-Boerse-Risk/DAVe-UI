@@ -176,7 +176,7 @@ export abstract class AbstractHistoryListComponent<T extends { uid: string }> ex
                     if (column.type === 'number') {
                         return {
                             v: column.value,
-                            f: this.numberPipe.transform(column.value, '.2-2') + (column.ccy ?
+                            f: this.numberPipe.transform(column.value, '.0-0') + (column.ccy ?
                                 ' ' + column.ccy : '')
                         };
                     }
