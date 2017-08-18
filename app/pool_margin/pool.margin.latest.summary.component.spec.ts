@@ -87,7 +87,7 @@ describe('Pool Margin summary', () => {
 
             expect(page.panels.length).toBe(4, 'Nothing shown');
             page.panels.forEach((panel: Panel, index: number) => {
-                expect(panel.value).toBe('0.00', 'No data');
+                expect(panel.value).toBe('0', 'No data');
                 expect(panel.title).toBe(labels[index]);
                 expect(panel.green).toBeTruthy('Is green');
                 expect(panel.red).toBeFalsy('Is not red');
@@ -115,7 +115,7 @@ describe('Pool Margin summary', () => {
 
             expect(page.panels.length).toBe(4, 'Nothing shown');
             page.panels.forEach((panel: Panel, index: number) => {
-                expect(panel.value).toBe('0.00', 'No data');
+                expect(panel.value).toBe('0', 'No data');
                 expect(panel.title).toBe(labels[index]);
                 expect(panel.green).toBeTruthy('Is green');
                 expect(panel.red).toBeFalsy('Is not red');
@@ -139,7 +139,7 @@ describe('Pool Margin summary', () => {
             // Return data
             page.advanceHTTP();
 
-            let values = ['2.96', '0.49', '73.45', '-8.67'];
+            let values = ['3', '0', '73', '-9'];
 
             expect(page.panels.length).toBe(4, 'Nothing shown');
             page.panels.forEach((panel: Panel, index: number) => {
