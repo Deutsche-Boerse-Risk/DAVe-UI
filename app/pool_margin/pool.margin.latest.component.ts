@@ -111,39 +111,35 @@ export const exportKeys: CSVExportColumn<PoolMarginData>[] = [
     },
     {
         get   : valueGetters.clrRptCurrency,
-        header: 'clrRptCurrency'
+        header: 'Clearing Reporting Currency'
     },
     {
         get   : valueGetters.requiredMargin,
-        header: 'Required Margin'
+        header: 'Margin requirement'
     },
     {
         get   : valueGetters.cashCollateralAmount,
-        header: 'Cash Collateral Amount'
+        header: 'Cash Collateral'
     },
     {
         get   : valueGetters.adjustedSecurities,
-        header: 'Adjusted Securities'
-    },
-    {
-        get   : valueGetters.adjustedGuarantee,
-        header: 'Adjusted Guarantee'
+        header: 'Non Cash Collateral'
     },
     {
         get   : valueGetters.overUnderInMarginCurr,
-        header: 'overUnderInMarginCurr'
+        header: 'Over/Under collaterization in margin ccy.'
     },
     {
         get   : valueGetters.overUnderInClrRptCurr,
-        header: 'overUnderInClrRptCurr'
+        header: 'Over/Under collaterization in clearing ccy.'
     },
     {
         get   : valueGetters.variPremInMarginCurr,
-        header: 'variPremInMarginCurr'
+        header: 'Variation Premium Payment'
     },
     {
         get   : valueGetters.adjustedExchangeRate,
-        header: 'Adjusted Exchange Rate'
+        header: 'FX Rate'
     },
     {
         get   : valueGetters.poolOwner,

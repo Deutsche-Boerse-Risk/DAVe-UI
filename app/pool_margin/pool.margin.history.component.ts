@@ -46,42 +46,43 @@ export class PoolMarginHistoryComponent extends AbstractHistoryListComponent<Poo
                 value: record.received
             },
             {
-                label: 'Required Margin',
+                label: 'Margin requirement',
                 type : 'number',
-                value: record.requiredMargin
+                value: record.requiredMargin,
+                ccy  : record.marginCurrency
             },
             {
-                label: 'Cash Collateral Amount',
+                label: 'Cash Collateral',
                 type : 'number',
-                value: record.cashCollateralAmount
+                value: record.cashCollateralAmount,
+                ccy  : record.marginCurrency
             },
             {
-                label: 'Adjusted Securities',
+                label: 'Non Cash Collateral',
                 type : 'number',
-                value: record.adjustedSecurities
+                value: record.adjustedSecurities,
+                ccy  : record.marginCurrency
             },
             {
-                label: 'Adjusted Guarantee',
+                label: 'Over/Under collaterization in margin ccy.',
                 type : 'number',
-                value: record.adjustedGuarantee
+                value: record.overUnderInMarginCurr,
+                ccy  : record.marginCurrency
             },
             {
-                label: 'overUnderInMarginCurr',
+                label: 'Over/Under collaterization in clearing ccy.',
                 type : 'number',
-                value: record.overUnderInMarginCurr
+                value: record.overUnderInClrRptCurr,
+                ccy  : record.clrRptCurrency
             },
             {
-                label: 'overUnderInClrRptCurr',
+                label: 'Variation Premium Payment',
                 type : 'number',
-                value: record.overUnderInClrRptCurr
+                value: record.variPremInMarginCurr,
+                ccy  : record.marginCurrency
             },
             {
-                label: 'variPremInMarginCurr',
-                type : 'number',
-                value: record.variPremInMarginCurr
-            },
-            {
-                label: 'Adjusted Exchange Rate',
+                label: 'FX Rate',
                 type : 'number',
                 value: record.adjustedExchangeRate
             }

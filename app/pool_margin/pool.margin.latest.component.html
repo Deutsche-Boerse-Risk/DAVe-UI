@@ -28,74 +28,60 @@
                 </a>
             </ng-template>
         </column>
-        <column title="clrRptCurrency"
-                [sortingKey]="valueGetters.clrRptCurrency">
-            <ng-template let-record="row" cell-template>
-                {{record.clrRptCurrency}}
-            </ng-template>
-        </column>
-        <column title="Required Margin"
+        <column title="Margin requirement"
                 headerAlign="right"
                 contentAlign="right"
                 [sortingKey]="valueGetters.requiredMargin">
             <ng-template let-record="row" cell-template>
-                {{record.requiredMargin | number:'.2-2'}}
+                {{record.requiredMargin | number:'.2-2'}} {{record.marginCurrency}}
             </ng-template>
         </column>
-        <column title="Cash Collateral Amount"
+        <column title="Cash Collateral"
                 headerAlign="right"
                 contentAlign="right"
                 [sortingKey]="valueGetters.cashCollateralAmount">
             <ng-template let-record="row" cell-template>
-                {{record.cashCollateralAmount| number:'.2-2'}}
+                {{record.cashCollateralAmount| number:'.2-2'}} {{record.marginCurrency}}
             </ng-template>
         </column>
-        <column title="Adjusted Securities"
+        <column title="Non Cash Collateral"
                 headerAlign="right"
                 contentAlign="right"
                 [sortingKey]="valueGetters.adjustedSecurities">
             <ng-template let-record="row" cell-template>
-                {{record.adjustedSecurities | number:'.2-2'}}
+                {{record.adjustedSecurities | number:'.2-2'}} {{record.marginCurrency}}
             </ng-template>
         </column>
-        <column title="Adjusted Guarantee"
-                headerAlign="right"
-                contentAlign="right"
-                [sortingKey]="valueGetters.adjustedGuarantee">
-            <ng-template let-record="row" cell-template>
-                {{record.adjustedGuarantee | number:'.2-2'}}
-            </ng-template>
-        </column>
-        <column title="overUnderInMarginCurr"
+        <column title="Over/Under collaterization in margin ccy."
                 headerAlign="right"
                 contentAlign="right"
                 [sortingKey]="valueGetters.overUnderInMarginCurr">
             <ng-template let-record="row" cell-template>
-                {{record.overUnderInMarginCurr | number:'.2-2'}}
+                {{record.overUnderInMarginCurr | number:'.2-2'}} {{record.marginCurrency}}
             </ng-template>
         </column>
-        <column title="overUnderInClrRptCurr"
+        <column title="Over/Under collaterization in clearing ccy."
                 headerAlign="right"
                 contentAlign="right"
                 [sortingKey]="valueGetters.overUnderInClrRptCurr">
             <ng-template let-record="row" cell-template>
-                {{record.overUnderInClrRptCurr | number:'.2-2'}}
+                {{record.overUnderInClrRptCurr | number:'.2-2'}} {{record.clrRptCurrency}}
             </ng-template>
         </column>
-        <column title="variPremInMarginCurr"
+        <column title="Variation Premium Payment"
                 headerAlign="right"
                 contentAlign="right"
                 [sortingKey]="valueGetters.variPremInMarginCurr">
             <ng-template let-record="row" cell-template>
-                {{record.variPremInMarginCurr | number:'.2-2'}}
+                {{record.variPremInMarginCurr | number:'.2-2'}} {{record.marginCurrency}}
             </ng-template>
         </column>
-        <column title="Adjusted Exchange Rate"
+        <column title="FX Rate"
                 headerAlign="right"
                 contentAlign="right"
                 [sortingKey]="valueGetters.adjustedExchangeRate">
             <ng-template let-record="row" cell-template>
-                {{record.adjustedExchangeRate | number:'.2-2'}}
+                {{record.adjustedExchangeRate | number:'.10-10'}}
             </ng-template>
         </column>
         <column title="Pool Owner"

@@ -10,6 +10,7 @@ import {RoutePart} from './bread.crumbs.component';
 
 export interface LineChartColumn extends ChartColumn {
     value: any;
+    ccy?: string;
 }
 
 export abstract class AbstractHistoryListComponent<T extends { uid: string }> extends AbstractListComponent<T> {
@@ -175,7 +176,8 @@ export abstract class AbstractHistoryListComponent<T extends { uid: string }> ex
                     if (column.type === 'number') {
                         return {
                             v: column.value,
-                            f: this.numberPipe.transform(column.value, '.2-2')
+                            f: this.numberPipe.transform(column.value, '.2-2') + (column.ccy ?
+                                ' ' + column.ccy : '')
                         };
                     }
                     return {
