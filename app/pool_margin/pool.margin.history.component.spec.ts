@@ -298,11 +298,9 @@ describe('Pool Margin history component', () => {
         it('can be sorted correctly', fakeAsync(() => {
             chceckSorting(page, [
                 valueGetters.received,
-                valueGetters.clrRptCurrency,
                 valueGetters.requiredMargin,
                 valueGetters.cashCollateralAmount,
                 valueGetters.adjustedSecurities,
-                valueGetters.adjustedGuarantee,
                 valueGetters.overUnderInMarginCurr,
                 valueGetters.overUnderInClrRptCurr,
                 valueGetters.variPremInMarginCurr,

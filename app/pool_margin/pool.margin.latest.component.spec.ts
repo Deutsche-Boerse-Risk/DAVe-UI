@@ -346,11 +346,9 @@ describe('Pool Margin latest component', () => {
             chceckSorting(page, [
                 valueGetters.pool,
                 valueGetters.marginCurrency,
-                valueGetters.clrRptCurrency,
                 valueGetters.requiredMargin,
                 valueGetters.cashCollateralAmount,
                 valueGetters.adjustedSecurities,
-                valueGetters.adjustedGuarantee,
                 valueGetters.overUnderInMarginCurr,
                 valueGetters.overUnderInClrRptCurr,
                 valueGetters.variPremInMarginCurr,
