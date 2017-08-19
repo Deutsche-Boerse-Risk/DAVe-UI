@@ -12,7 +12,7 @@
     ],
     "angularCompilerOptions": {
         "genDir": "ngFactories/",
-        "skipMetadataEmit": true,
+        "skipMetadataEmit": false,
         "strictMetadataEmit": true,
         "annotationsAs": "static fields",
         "annotateForClosureCompiler": true

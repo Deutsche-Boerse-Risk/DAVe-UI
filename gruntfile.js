@@ -1,9 +1,11 @@
 module.exports = function (grunt) {
     'use strict';
 
+    var mergeConfig = require('@dbg-riskit/dave-ui-common/tools/grunt/merge.config');
+
     require('@dbg-riskit/dave-ui-common/tools/grunt/app.grunt.config')(grunt, 'dave.js', require('./selectedLayout'));
 
-    grunt.config('coveralls', {
+    mergeConfig(grunt, 'coveralls', {
         options: {
             force: true
         },
