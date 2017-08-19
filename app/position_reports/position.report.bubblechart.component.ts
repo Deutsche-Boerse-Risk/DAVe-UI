@@ -3,6 +3,7 @@ import {Component, Input} from '@angular/core';
 
 import {COMPONENT_CSS} from '@dbg-riskit/dave-ui-common';
 import {BubbleChartOptions, ChartData, ChartRow, ChartValue} from '@dbg-riskit/dave-ui-charts';
+import {PercentPipe} from '@dbg-riskit/dave-ui-view';
 
 import {AbstractComponent} from '../abstract.component';
 
@@ -77,7 +78,8 @@ export class PositionReportBubbleChartComponent extends AbstractComponent {
 
     public sourceData: PositionReportChartData;
 
-    constructor(private positionReportsService: PositionReportsService, private numberPipe: DecimalPipe) {
+    constructor(private positionReportsService: PositionReportsService, private numberPipe: DecimalPipe,
+        private percentPipe: PercentPipe) {
         super();
     }
 
@@ -203,16 +205,26 @@ export class PositionReportBubbleChartComponent extends AbstractComponent {
             return 0;
         });
 
-        this.title = '<strong>'
-            + this.numberPipe.transform(this.topRecordsCount, '.0-0')
-            + '</strong> top risk positions represent <strong>'
-            + this.numberPipe.transform(positiveCoveragePerc, '.2-2')
-            + '%</strong> of total portfolio VaR. <strong>'
-            + this.numberPipe.transform(this.topRecordsCount, '.0-0')
-            + '</strong> top offsetting positions represent <strong>'
-            + this.numberPipe.transform(negativeCoveragePerc, '.2-2')
-            + '%</strong> of total offsetting positions. Total portfolio VaR is <strong>'
-            + this.numberPipe.transform(totalCompVar, '.2-2') + '</strong>.';
+        this.title = `
+            <strong>
+                ${this.numberPipe.transform(this.topRecordsCount, '.0-0')}
+            </strong>
+            top risk positions represent 
+            <strong>    
+                ${this.percentPipe.transform(positiveCoveragePerc, '.2-2')}
+            </strong>
+            of total portfolio VaR.
+            <strong>
+                ${this.numberPipe.transform(this.topRecordsCount, '.0-0')}
+            </strong>
+            top offsetting positions represent
+            <strong>
+                ${this.percentPipe.transform(negativeCoveragePerc, '.2-2')}
+            </strong>
+            of total offsetting positions. Total portfolio VaR is
+            <strong>
+                ${this.numberPipe.transform(totalCompVar, '.2-2')} ${this.sourceData.clearingCurrency}.
+            </strong>`;
 
         return bubbles;
     }

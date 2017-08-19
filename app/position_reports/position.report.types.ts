@@ -132,6 +132,7 @@ export interface PositionReportBubble {
 }
 
 export interface PositionReportChartData {
+    clearingCurrency: string;
     bubbles: PositionReportBubble[];
     selection: PositionReportChartDataSelect;
     memberSelection: PositionReportBubble;

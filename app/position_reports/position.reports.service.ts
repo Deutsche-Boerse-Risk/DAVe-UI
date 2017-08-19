@@ -84,6 +84,7 @@ export class PositionReportsService extends AbstractService {
                 (data: PositionReportData[], subscriber: Subscriber<PositionReportChartData>) => {
                     let chartRecords: PositionReportBubble[] = [];
                     let selection: PositionReportChartDataSelect = new PositionReportChartDataSelect();
+                    let clearingCurrency: string = null;
 
                     if (data) {
                         data.reduce(
@@ -91,6 +92,10 @@ export class PositionReportsService extends AbstractService {
                                 let memberKey = UIDUtils.computeUID(record.clearer, record.member);
                                 let bubbleKey: string = UIDUtils.computeUID(memberKey, record.account, record.product,
                                     record.contractYear, record.contractMonth, record.expiryDay);
+
+                                if (clearingCurrency == null) {
+                                    clearingCurrency = record.clearingCurrency;
+                                }
 
                                 let bubble = {
                                     key              : bubbleKey,
@@ -134,6 +139,7 @@ export class PositionReportsService extends AbstractService {
                     let options = selection.getOptions();
                     subscriber.next({
                         bubbles         : chartRecords,
+                        clearingCurrency: clearingCurrency,
                         selection       : selection,
                         memberSelection : options[0],
                         accountSelection: options[0]
@@ -144,6 +150,7 @@ export class PositionReportsService extends AbstractService {
                     if (!this.chartsSubject.hasData) {
                         this.chartsSubject.next({
                             bubbles         : [],
+                            clearingCurrency: null,
                             selection       : new PositionReportChartDataSelect(),
                             memberSelection : null,
                             accountSelection: null
