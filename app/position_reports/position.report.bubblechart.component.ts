@@ -289,7 +289,7 @@ export class PositionReportBubbleChartComponent extends AbstractComponent {
                     },
                     {
                         v: Math.abs(bubbles[i].radius),
-                        f: this.numberPipe.transform(bubbles[i].radius, '.2-2')
+                        f: this.numberPipe.transform(bubbles[i].radius, '.2-2') + ' ' + this.sourceData.clearingCurrency
                     }
                 ]
             });
