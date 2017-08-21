@@ -37,9 +37,10 @@ export const liquiGroupMarginHistoryURL: string = '/api/v1.0/lgm/history';
 @Injectable()
 export class LiquiGroupMarginService extends AbstractService {
 
-    private latestSubject: ReplaySubjectExt<LiquiGroupMarginData[]> = new ReplaySubjectExt(1);
-    private aggregationSubject: ReplaySubjectExt<LiquiGroupMarginAggregationData> = new ReplaySubjectExt(1);
-    private treeMapSubject: ReplaySubjectExt<LiquiGroupMarginTree> = new ReplaySubjectExt(1);
+    private latestSubject: ReplaySubjectExt<LiquiGroupMarginData[]> = new ReplaySubjectExt<LiquiGroupMarginData[]>(1);
+    private aggregationSubject: ReplaySubjectExt<LiquiGroupMarginAggregationData> = new ReplaySubjectExt<LiquiGroupMarginAggregationData>(
+        1);
+    private treeMapSubject: ReplaySubjectExt<LiquiGroupMarginTree> = new ReplaySubjectExt<LiquiGroupMarginTree>(1);
     private latestSubscription: Subscription;
     private treeMapSubscription: Subscription;
     private aggregationSubscription: Subscription;

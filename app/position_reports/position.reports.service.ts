@@ -37,8 +37,8 @@ export const historyURL: string = '/api/v1.0/pr/history';
 @Injectable()
 export class PositionReportsService extends AbstractService {
 
-    private latestSubject: ReplaySubjectExt<PositionReportData[]> = new ReplaySubjectExt(1);
-    private chartsSubject: ReplaySubjectExt<PositionReportChartData> = new ReplaySubjectExt(1);
+    private latestSubject: ReplaySubjectExt<PositionReportData[]> = new ReplaySubjectExt<PositionReportData[]>(1);
+    private chartsSubject: ReplaySubjectExt<PositionReportChartData> = new ReplaySubjectExt<PositionReportChartData>(1);
     private latestSubscription: Subscription;
     private chartsSubscription: Subscription;
 

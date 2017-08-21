@@ -33,7 +33,8 @@ export const liquiGroupSplitMarginHistoryURL: string = '/api/v1.0/lgsm/history';
 @Injectable()
 export class LiquiGroupSplitMarginService extends AbstractService {
 
-    private latestSubject: ReplaySubjectExt<LiquiGroupSplitMarginData[]> = new ReplaySubjectExt(1);
+    private latestSubject: ReplaySubjectExt<LiquiGroupSplitMarginData[]> = new ReplaySubjectExt<LiquiGroupSplitMarginData[]>(
+        1);
     private latestSubscription: Subscription;
 
     constructor(private http: PeriodicHttpService<LiquiGroupSplitMarginServerData[]>,

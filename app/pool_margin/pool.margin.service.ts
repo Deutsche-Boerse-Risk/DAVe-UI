@@ -34,8 +34,8 @@ export const poolMarginHistoryURL: string = '/api/v1.0/pm/history';
 @Injectable()
 export class PoolMarginService extends AbstractService {
 
-    private latestSubject: ReplaySubjectExt<PoolMarginData[]> = new ReplaySubjectExt(1);
-    private summarySubject: ReplaySubjectExt<PoolMarginSummaryData> = new ReplaySubjectExt(1);
+    private latestSubject: ReplaySubjectExt<PoolMarginData[]> = new ReplaySubjectExt<PoolMarginData[]>(1);
+    private summarySubject: ReplaySubjectExt<PoolMarginSummaryData> = new ReplaySubjectExt<PoolMarginSummaryData>(1);
     private latestSubscription: Subscription;
     private summarySubscription: Subscription;
 

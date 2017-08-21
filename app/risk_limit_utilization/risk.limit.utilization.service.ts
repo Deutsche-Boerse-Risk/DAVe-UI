@@ -33,7 +33,8 @@ export const riskLimitUtilizationHistoryURL: string = '/api/v1.0/rlu/history';
 @Injectable()
 export class RiskLimitUtilizationService extends AbstractService {
 
-    private latestSubject: ReplaySubjectExt<RiskLimitUtilizationData[]> = new ReplaySubjectExt(1);
+    private latestSubject: ReplaySubjectExt<RiskLimitUtilizationData[]> = new ReplaySubjectExt<RiskLimitUtilizationData[]>(
+        1);
     private latestSubscription: Subscription;
 
     constructor(private http: PeriodicHttpService<RiskLimitUtilizationServerData[]>,

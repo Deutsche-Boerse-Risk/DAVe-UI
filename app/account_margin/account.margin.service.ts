@@ -25,7 +25,7 @@ export const accountMarginHistoryURL: string = '/api/v1.0/am/history';
 @Injectable()
 export class AccountMarginService extends AbstractService {
 
-    private latestSubject: ReplaySubjectExt<AccountMarginData[]> = new ReplaySubjectExt(1);
+    private latestSubject: ReplaySubjectExt<AccountMarginData[]> = new ReplaySubjectExt<AccountMarginData[]>(1);
     private latestSubscription: Subscription;
 
     constructor(private http: PeriodicHttpService<AccountMarginServerData[]>,
