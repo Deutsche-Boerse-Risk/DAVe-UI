@@ -28,7 +28,7 @@ module.exports = function (grunt) {
     grunt.registerTask('run', ['build', 'concurrent']);
 
     // Dist tasks
-    grunt.registerTask('dist', ['cleanup:all', 'sass', 'cssmin', 'ngc', 'copy', 'rollup',
+    grunt.registerTask('dist', ['cleanup:all', 'sass', 'cssmin', 'ngc', 'copy', 'build-optimizer', 'rollup',
         'cleanup:postDist', 'cleanup:sass_post']);
     grunt.registerTask('dist-run', ['dist', 'browserSync:dist']);
 
