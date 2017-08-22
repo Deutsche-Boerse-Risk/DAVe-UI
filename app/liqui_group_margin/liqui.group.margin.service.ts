@@ -13,8 +13,6 @@ import {
 import {ErrorCollectorService} from '@dbg-riskit/dave-ui-error';
 
 import {
-    LiquiGroupMarginAggregationData,
-    LiquiGroupMarginBaseData,
     LiquiGroupMarginData,
     LiquiGroupMarginHistoryParams,
     LiquiGroupMarginParams,
@@ -38,12 +36,9 @@ export const liquiGroupMarginHistoryURL: string = '/api/v1.0/lgm/history';
 export class LiquiGroupMarginService extends AbstractService {
 
     private latestSubject: ReplaySubjectExt<LiquiGroupMarginData[]> = new ReplaySubjectExt<LiquiGroupMarginData[]>(1);
-    private aggregationSubject: ReplaySubjectExt<LiquiGroupMarginAggregationData> = new ReplaySubjectExt<LiquiGroupMarginAggregationData>(
-        1);
     private treeMapSubject: ReplaySubjectExt<LiquiGroupMarginTree> = new ReplaySubjectExt<LiquiGroupMarginTree>(1);
     private latestSubscription: Subscription;
     private treeMapSubscription: Subscription;
-    private aggregationSubscription: Subscription;
 
     constructor(private http: PeriodicHttpService<LiquiGroupMarginServerData[]>,
         private errorCollector: ErrorCollectorService,
@@ -54,7 +49,6 @@ export class LiquiGroupMarginService extends AbstractService {
 
     public setupPeriodicTimer(): void {
         this.setupLatestLoader();
-        this.setupAggregationLoader();
         this.setupTreemapLoader();
     }
 
@@ -69,10 +63,6 @@ export class LiquiGroupMarginService extends AbstractService {
         if (this.treeMapSubscription) {
             this.treeMapSubscription.unsubscribe();
             this.treeMapSubscription = null;
-        }
-        if (this.aggregationSubscription) {
-            this.aggregationSubscription.unsubscribe();
-            this.aggregationSubscription = null;
         }
     }
 
@@ -222,74 +212,8 @@ export class LiquiGroupMarginService extends AbstractService {
             .subscribe((data: LiquiGroupMarginTree) => this.treeMapSubject.next(data));
     }
 
-    private setupAggregationLoader(): void {
-        this.aggregationSubscription = RxChain.from(this.latestSubject)
-            .guardedDeferredMap(
-                (data: LiquiGroupMarginServerData[], subscriber: Subscriber<LiquiGroupMarginAggregationData>) => {
-                    if (!data) {
-                        subscriber.next({} as LiquiGroupMarginAggregationData);
-                        subscriber.complete();
-                        return;
-                    }
-                    let newViewWindow: { [key: string]: LiquiGroupMarginData } = {};
-                    let footerData: LiquiGroupMarginBaseData = {
-                        premiumMargin              : 0,
-                        currentLiquidatingMargin   : 0,
-                        additionalMargin           : 0,
-                        unadjustedMarginRequirement: 0,
-                        variationPremiumPayment    : 0
-                    };
-
-                    data.forEach((record: LiquiGroupMarginServerData) => {
-                        let fKey = UIDUtils.computeUID(record.clearer, record.member, record.account,
-                            record.marginCurrency);
-
-                        footerData.premiumMargin += record.premiumMargin;
-                        footerData.currentLiquidatingMargin += record.currentLiquidatingMargin;
-                        footerData.additionalMargin += record.additionalMargin;
-                        footerData.unadjustedMarginRequirement += record.unadjustedMarginRequirement;
-                        footerData.variationPremiumPayment += record.variationPremiumPayment;
-
-                        if (fKey in newViewWindow) {
-                            let cellData: LiquiGroupMarginData = newViewWindow[fKey];
-                            cellData.premiumMargin += record.premiumMargin;
-                            cellData.currentLiquidatingMargin += record.currentLiquidatingMargin;
-                            cellData.additionalMargin += record.additionalMargin;
-                            cellData.unadjustedMarginRequirement += record.unadjustedMarginRequirement;
-                            cellData.variationPremiumPayment += record.variationPremiumPayment;
-                        } else {
-                            newViewWindow[fKey] = {
-                                uid     : fKey,
-                                ...record,
-                                received: DateUtils.utcTimestampToDate(record.timestamp)
-                            };
-                        }
-                    });
-
-                    subscriber.next({
-                        aggregatedRows: Object.keys(newViewWindow).map((key: string) => {
-                            return newViewWindow[key];
-                        }),
-                        summary       : footerData
-                    });
-                    subscriber.complete();
-                },
-                (err: any) => {
-                    if (!this.aggregationSubject.hasData) {
-                        this.aggregationSubject.next({} as LiquiGroupMarginAggregationData);
-                    }
-                    return this.errorCollector.handleStreamError(err);
-                })
-            .subscribe(
-                (data: LiquiGroupMarginAggregationData) => this.aggregationSubject.next(data));
-    }
-
     public getLiquiGroupMarginTreeMapData(): Observable<LiquiGroupMarginTree> {
         return this.treeMapSubject;
-    }
-
-    public getLiquiGroupMarginAggregationData(): Observable<LiquiGroupMarginAggregationData> {
-        return this.aggregationSubject;
     }
 
     public getLiquiGroupMarginLatest(params: LiquiGroupMarginParams): Observable<LiquiGroupMarginData[]> {

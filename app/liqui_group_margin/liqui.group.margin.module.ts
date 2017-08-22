@@ -11,7 +11,6 @@ import {ListModule} from '../list/list.module';
 import {LiquiGroupMarginService} from './liqui.group.margin.service';
 import {LiquiGroupMarginLatestComponent} from './liqui.group.margin.latest.component';
 import {LiquiGroupMarginHistoryComponent} from './liqui.group.margin.history.component';
-import {LiquiGroupMarginAggregationComponent} from './liqui.group.margin.aggregation.component';
 import {LiquiGroupMarginTreemapComponent} from './liqui.group.margin.treemap.component';
 
 @NgModule({
@@ -26,13 +25,11 @@ import {LiquiGroupMarginTreemapComponent} from './liqui.group.margin.treemap.com
     declarations: [
         LiquiGroupMarginLatestComponent,
         LiquiGroupMarginHistoryComponent,
-        LiquiGroupMarginAggregationComponent,
         LiquiGroupMarginTreemapComponent
     ],
     exports     : [
         LiquiGroupMarginLatestComponent,
         LiquiGroupMarginHistoryComponent,
-        LiquiGroupMarginAggregationComponent,
         LiquiGroupMarginTreemapComponent
     ],
     providers   : [LiquiGroupMarginService]
