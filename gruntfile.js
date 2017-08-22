@@ -13,25 +13,11 @@ module.exports = function (grunt) {
             src: 'coverage/lcov.info'
         }
     });
+    grunt.loadNpmTasks('grunt-coveralls');
 
     grunt.registerTask('printConfig', function () {
         grunt.log.writeln(JSON.stringify(grunt.config(), null, 2));
     });
-
-
-    grunt.loadNpmTasks('grunt-coveralls');
-
-    // Build tasks
-    grunt.registerTask('clean', ['cleanup:all']);
-    grunt.registerTask('compile', ['sass', 'ts:compile']);
-    grunt.registerTask('build', ['cleanup:all', 'sass', 'ts:compile']);
-    grunt.registerTask('run', ['build', 'concurrent']);
-
-    // Dist tasks
-    grunt.registerTask('dist', ['cleanup:all', 'sass', 'cssmin', 'ngc', 'copy', 'build-optimizer', 'rollup',
-        'cleanup:postDist', 'cleanup:sass_post']);
-    grunt.registerTask('dist-run', ['dist', 'browserSync:dist']);
-
 
     // CircleCI test tasks
     grunt.registerTask('testCircleCI', ['testBrowserStack', 'coveralls']);
