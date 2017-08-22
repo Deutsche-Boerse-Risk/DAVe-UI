@@ -32,8 +32,8 @@ export interface PoolMarginData extends PoolMarginServerData {
 }
 
 export interface PoolMarginSummaryData {
+    pool: string;
     shortfallSurplus: number; // -> overUnderInMarginCurr
     marginRequirement: number; // -> requiredMargin
-    totalCollateral: number; //cashCollateralAmount + adjustedSecurities + adjustedGuarantee + variPremInMarginCurr
     cashBalance: number;  // cashCollateralAmount  + variPremInMarginCurr
 }

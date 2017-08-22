@@ -35,7 +35,8 @@ export const poolMarginHistoryURL: string = '/api/v1.0/pm/history';
 export class PoolMarginService extends AbstractService {
 
     private latestSubject: ReplaySubjectExt<PoolMarginData[]> = new ReplaySubjectExt<PoolMarginData[]>(1);
-    private summarySubject: ReplaySubjectExt<PoolMarginSummaryData> = new ReplaySubjectExt<PoolMarginSummaryData>(1);
+    private summarySubject: ReplaySubjectExt<PoolMarginSummaryData[]> = new ReplaySubjectExt<PoolMarginSummaryData[]>(
+        1);
     private latestSubscription: Subscription;
     private summarySubscription: Subscription;
 
@@ -78,39 +79,48 @@ export class PoolMarginService extends AbstractService {
     private setupSummaryLoader(): void {
         this.summarySubscription = RxChain.from(this.latestSubject)
             .guardedDeferredMap(
-                (data: PoolMarginServerData[], subscriber: Subscriber<PoolMarginSummaryData>) => {
+                (data: PoolMarginServerData[], subscriber: Subscriber<PoolMarginSummaryData[]>) => {
                     if (!data) {
-                        subscriber.next({} as PoolMarginSummaryData);
+                        subscriber.next([]);
                         subscriber.complete();
                         return;
                     }
-                    let result: PoolMarginSummaryData = {
-                        shortfallSurplus : 0,
-                        marginRequirement: 0,
-                        totalCollateral  : 0,
-                        cashBalance      : 0
-                    };
+
+                    let result: { [key: string]: PoolMarginSummaryData } = {};
 
                     data.forEach((record: PoolMarginServerData) => {
-                        result.shortfallSurplus += record.overUnderInMarginCurr;
-                        result.marginRequirement += record.requiredMargin;
-                        result.totalCollateral += record.cashCollateralAmount + record.adjustedSecurities
-                            + record.adjustedGuarantee + record.variPremInMarginCurr;
-                        result.cashBalance += record.cashCollateralAmount + record.variPremInMarginCurr;
+                        let pool: PoolMarginSummaryData = result[record.pool];
+                        if (!pool) {
+                            pool = {
+                                pool             : record.pool,
+                                shortfallSurplus : 0,
+                                marginRequirement: 0,
+                                cashBalance      : 0
+                            };
+                            result[record.pool] = pool;
+                        }
+
+                        pool.shortfallSurplus += record.overUnderInClrRptCurr;
+                        pool.marginRequirement += record.requiredMargin * record.adjustedExchangeRate;
+                        pool.cashBalance += record.cashCollateralAmount * record.adjustedExchangeRate;
                     });
-                    subscriber.next(result);
+
+                    subscriber.next(Object.keys(result).reduce((summaryData: PoolMarginSummaryData[], key: string) => {
+                        summaryData.push(result[key]);
+                        return summaryData;
+                    }, []));
                     subscriber.complete();
                 },
                 (err: any) => {
                     if (!this.summarySubject.hasData) {
-                        this.summarySubject.next({} as PoolMarginSummaryData);
+                        this.summarySubject.next([]);
                     }
                     return this.errorCollector.handleStreamError(err);
                 })
-            .subscribe((data: PoolMarginSummaryData) => this.summarySubject.next(data));
+            .subscribe((data: PoolMarginSummaryData[]) => this.summarySubject.next(data));
     }
 
-    public getPoolMarginSummaryData(): Observable<PoolMarginSummaryData | {}> {
+    public getPoolMarginSummaryData(): Observable<PoolMarginSummaryData[]> {
         return this.summarySubject;
     }
 

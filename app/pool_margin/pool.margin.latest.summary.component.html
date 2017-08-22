@@ -7,17 +7,20 @@
     </md-card>
 </ng-template>
 
-<div *ngIf="data">
-    <ng-template [ngTemplateOutlet]="card"
-                 [ngTemplateOutletContext]="{value: data.shortfallSurplus, label: 'Margin Shortfall/Surplus'}">
-    </ng-template>
-    <ng-template [ngTemplateOutlet]="card"
-                 [ngTemplateOutletContext]="{value: data.marginRequirement, label: 'Margin Requirement'}">
-    </ng-template>
-    <ng-template [ngTemplateOutlet]="card"
-                 [ngTemplateOutletContext]="{value: data.totalCollateral, label: 'Collateral'}">
-    </ng-template>
-    <ng-template [ngTemplateOutlet]="card"
-                 [ngTemplateOutletContext]="{value: data.cashBalance, label: 'Cash Balance'}">
-    </ng-template>
-</div>
+<ng-template [ngIf]="pools">
+    <div *ngFor="let pool of pools">
+        <md-card class="pool">{{pool.pool}}</md-card>
+        <ng-template [ngTemplateOutlet]="card"
+                     [ngTemplateOutletContext]="{value: pool.shortfallSurplus, label: 'Margin Shortfall/Surplus'}">
+        </ng-template>
+        <ng-template [ngTemplateOutlet]="card"
+                     [ngTemplateOutletContext]="{value: pool.marginRequirement, label: 'Margin Requirement'}">
+        </ng-template>
+        <ng-template [ngTemplateOutlet]="card"
+                     [ngTemplateOutletContext]="{value: pool.cashBalance, label: 'Cash Balance'}">
+        </ng-template>
+        <md-card class="pool">
+            <md-icon>my_location</md-icon>
+        </md-card>
+    </div>
+</ng-template>

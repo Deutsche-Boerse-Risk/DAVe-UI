@@ -20,7 +20,7 @@ import {Subscription} from 'rxjs/Subscription';
 })
 export class PoolMarginLatestSummaryComponent extends AbstractComponent {
 
-    public data: PoolMarginSummaryData;
+    public pools: PoolMarginSummaryData[];
 
     constructor(private marginService: PoolMarginService) {
         super();
@@ -28,8 +28,8 @@ export class PoolMarginLatestSummaryComponent extends AbstractComponent {
 
     protected loadData(): Subscription {
         return this.marginService.getPoolMarginSummaryData()
-            .subscribe((data: PoolMarginSummaryData) => {
-                this.data = data;
+            .subscribe((data: PoolMarginSummaryData[]) => {
+                this.pools = data;
             });
     }
 }
