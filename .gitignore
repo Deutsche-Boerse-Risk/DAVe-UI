@@ -26,6 +26,7 @@ node_modules/
 # Dist folders
 dist/
 ngFactories/
+sass_tmp/
 reports/
 coverage/
 *.tgz

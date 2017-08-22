@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 
-import {COMPONENT_CSS, ValueGetter} from '@dbg-riskit/dave-ui-common';
+import {ValueGetter} from '@dbg-riskit/dave-ui-common';
+import {COMPONENT_CSS} from '@dbg-riskit/dave-ui-devkit';
 import {OrderingCriteria, Row} from '@dbg-riskit/dave-ui-datatable';
 
 import {AbstractComponent} from '../abstract.component';

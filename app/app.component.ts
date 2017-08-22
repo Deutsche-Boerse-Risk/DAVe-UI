@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 
-import {COMPONENT_CSS} from '@dbg-riskit/dave-ui-common';
+import {COMPONENT_CSS} from '@dbg-riskit/dave-ui-devkit';
 
 @Component({
     moduleId   : module.id,

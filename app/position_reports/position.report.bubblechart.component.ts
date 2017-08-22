@@ -1,7 +1,7 @@
 import {DecimalPipe} from '@angular/common';
 import {Component, Input} from '@angular/core';
 
-import {COMPONENT_CSS} from '@dbg-riskit/dave-ui-common';
+import {COMPONENT_CSS} from '@dbg-riskit/dave-ui-devkit';
 import {BubbleChartOptions, ChartData, ChartRow, ChartValue} from '@dbg-riskit/dave-ui-charts';
 import {PercentPipe} from '@dbg-riskit/dave-ui-view';
 

@@ -49,7 +49,7 @@ grunt dist-run
 This will start a simple web server. A Chrome browser will be started automatically. If you don't want to use Chrome 
 for whatever reason you need to modify `gruntfile.js`. Add the following lines: 
 ```javascript
-var browsers = require('@dbg-riskit/dave-ui-common/tools/browser-providers.conf');
+var browsers = require('@dbg-riskit/dave-ui-devkit/tools/browser-providers.conf');
 grunt.config.set('browserSync.options.browser', 
     browsers.BrowserSyncBorwsers.FIREFOX);
 ```
@@ -62,7 +62,7 @@ grunt.config.set('browserSync.options.browser',
  use Chrome for whatever reason you need to modify `gruntfile.js`. Add the following lines:  
  
 ```javascript
-var browsers = require('@dbg-riskit/dave-ui-common/tools/browser-providers.conf');
+var browsers = require('@dbg-riskit/dave-ui-devkit/tools/browser-providers.conf');
 grunt.config.set('browserSync.options.browser', 
     browsers.BrowserSyncBorwsers.FIREFOX);
 ```

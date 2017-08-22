@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 
-import {COMPONENT_CSS} from '@dbg-riskit/dave-ui-common';
+import {COMPONENT_CSS} from '@dbg-riskit/dave-ui-devkit';
 import {DataTableComponent, Row} from '@dbg-riskit/dave-ui-datatable';
 
 import {RoutePart} from './bread.crumbs.component';

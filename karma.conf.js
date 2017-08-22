@@ -7,7 +7,7 @@ module.exports = function (config) {
     // Testing helpers (optional) are conventionally in a folder called `testing`
     var testingBase = 'testing/'; // transpiled test JS and map files
 
-    require('@dbg-riskit/dave-ui-common/tools/karma.base.config')(config, [appBase, testingBase], 'DAVe-UI');
+    require('@dbg-riskit/dave-ui-devkit/tools/karma.base.config')(config, [appBase, testingBase], 'DAVe-UI');
 
     config.files = config.files.concat([
         {
