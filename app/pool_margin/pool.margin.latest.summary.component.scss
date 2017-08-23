@@ -1,12 +1,26 @@
 @import "@dbg-riskit/<selected_layout>/sass/global";
 
+%verticalAlign {
+    margin: auto 0;
+}
+
 :host {
-    & > div {
+    & > .pool {
         @include clearfix;
 
         @include display-flex();
         @include flex-direction(row);
         @include flex-wrap(wrap);
+
+        border-bottom: 1px solid #e0e0e0;
+        margin-bottom: 15px;
+        padding-bottom: 5px;
+
+        &:last-child {
+            border-bottom: 0 none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
     }
 
     .mat-card {
@@ -19,13 +33,33 @@
         text-align: right;
         font-size: rem(1.2);
 
+        & > div {
+            @extend %verticalAlign;
+        }
+
         .huge {
             font-size: rem(2);
             font-weight: bold;
         }
     }
 
-    .pool {
-        text-align: center;
+    .poolName {
+        @include flex(1 1 1%);
+    }
+
+    .poolDetail {
+        @include flex(0 0 auto);
+
+        a {
+            @include scale(1.3);
+        }
+    }
+
+    .poolName, .poolDetail {
+        background: map_get($mat-grey, 100);
+
+        a {
+            @extend %verticalAlign;
+        }
     }
 }

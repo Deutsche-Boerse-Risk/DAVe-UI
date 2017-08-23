@@ -8,8 +8,11 @@
 </ng-template>
 
 <ng-template [ngIf]="pools">
-    <div *ngFor="let pool of pools">
-        <md-card class="pool">{{pool.pool}}</md-card>
+    <div class="pool" *ngFor="let pool of pools">
+        <md-card class="poolName">
+            <a md-button color="primary"
+               [routerLink]="[routerRoots.POOL_MARGIN_LATEST, '*', pool.pool]">{{pool.pool}}</a>
+        </md-card>
         <ng-template [ngTemplateOutlet]="card"
                      [ngTemplateOutletContext]="{value: pool.shortfallSurplus, label: 'Margin Shortfall/Surplus'}">
         </ng-template>
@@ -19,8 +22,10 @@
         <ng-template [ngTemplateOutlet]="card"
                      [ngTemplateOutletContext]="{value: pool.cashBalance, label: 'Cash Balance'}">
         </ng-template>
-        <md-card class="pool">
-            <md-icon>my_location</md-icon>
+        <md-card class="poolDetail">
+            <a md-icon-button [routerLink]="[routerRoots.POOL_MARGIN_LATEST, '*', pool.pool]" mdTooltip="Drill down">
+                <md-icon>my_location</md-icon>
+            </a>
         </md-card>
     </div>
 </ng-template>

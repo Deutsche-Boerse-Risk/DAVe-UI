@@ -23,7 +23,7 @@
         }
 
         & > *:not(.toolbar-spacer) {
-            flex: 0 1 auto;
+            @include flex(0 1 auto);
         }
 
         & > .mat-input-container {
