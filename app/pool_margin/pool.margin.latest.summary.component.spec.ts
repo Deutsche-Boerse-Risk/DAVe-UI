@@ -6,14 +6,15 @@ import {
     AuthServiceStub,
     compileTestBed,
     HttpAsyncServiceStub,
-    NoopAnimationsCommonViewModule
+    NoopAnimationsCommonViewModule,
+    RouterLinkStubDirective
 } from '@dbg-riskit/dave-ui-testing';
 
 import {AUTH_PROVIDER, ErrorType} from '@dbg-riskit/dave-ui-common';
 import {ErrorCollectorService} from '@dbg-riskit/dave-ui-error';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 
-import {generatePoolMarginLatest, Panel, PoolMarginSummaryPage} from '@dave/testing';
+import {generatePoolMarginLatest, Panel, Pool, PoolMarginSummaryPage} from '@dave/testing';
 
 import {PeriodicHttpService} from '../periodic.http.service';
 
@@ -21,11 +22,12 @@ import {PoolMarginServerData} from './pool.margin.types';
 import {PoolMarginService} from './pool.margin.service';
 
 import {PoolMarginLatestSummaryComponent} from './pool.margin.latest.summary.component';
+import {ROUTES} from '../routes/routing.paths';
 
 describe('Pool Margin summary', () => {
     let page: PoolMarginSummaryPage;
 
-    let labels = ['Margin Shortfall/Surplus', 'Margin Requirement', 'Collateral', 'Cash Balance'];
+    let labels = ['', 'Margin Shortfall/Surplus', 'Margin Requirement', 'Cash Balance', ''];
 
     compileTestBed(() => {
         return TestBed.configureTestingModule({
@@ -34,7 +36,8 @@ describe('Pool Margin summary', () => {
                 NoopAnimationsCommonViewModule
             ],
             declarations: [
-                PoolMarginLatestSummaryComponent
+                PoolMarginLatestSummaryComponent,
+                RouterLinkStubDirective
             ],
             providers   : [
                 PoolMarginService,
@@ -75,7 +78,7 @@ describe('Pool Margin summary', () => {
             // Init component
             page.detectChanges();
 
-            expect(page.panels.length).toBe(0, 'Nothing shown');
+            expect(page.pools.length).toBe(0, 'Nothing shown');
 
             // Return error
             http.throwError({
@@ -85,13 +88,7 @@ describe('Pool Margin summary', () => {
             });
             page.advanceHTTP();
 
-            expect(page.panels.length).toBe(4, 'Nothing shown');
-            page.panels.forEach((panel: Panel, index: number) => {
-                expect(panel.value).toBe('0', 'No data');
-                expect(panel.title).toBe(labels[index]);
-                expect(panel.green).toBeTruthy('Is green');
-                expect(panel.red).toBeFalsy('Is not red');
-            });
+            expect(page.pools.length).toBe(0, 'Nothing shown');
 
             // Discard the service timer
             // noinspection JSDeprecatedSymbols
@@ -106,20 +103,14 @@ describe('Pool Margin summary', () => {
             // Init component
             page.detectChanges();
 
-            expect(page.panels.length).toBe(0, 'Nothing shown');
+            expect(page.pools.length).toBe(0, 'Nothing shown');
 
             // Return no data
             http.popReturnValue(); // Remove from queue
             http.returnValue([]); // Push empty array
             page.advanceHTTP();
 
-            expect(page.panels.length).toBe(4, 'Nothing shown');
-            page.panels.forEach((panel: Panel, index: number) => {
-                expect(panel.value).toBe('0', 'No data');
-                expect(panel.title).toBe(labels[index]);
-                expect(panel.green).toBeTruthy('Is green');
-                expect(panel.red).toBeFalsy('Is not red');
-            });
+            expect(page.pools.length).toBe(0, 'Nothing shown');
 
             // Discard the service timer
             // noinspection JSDeprecatedSymbols
@@ -134,24 +125,39 @@ describe('Pool Margin summary', () => {
             // Init component
             page.detectChanges();
 
-            expect(page.panels.length).toBe(0, 'Nothing shown');
+            expect(page.pools.length).toBe(0, 'Nothing shown');
 
             // Return data
             page.advanceHTTP();
 
-            let values = ['3', '0', '73', '-9'];
+            let values = [
+                [null, '-1', '0', '-0', null],
+                [null, '-1', '0', '-0', null]
+            ];
 
-            expect(page.panels.length).toBe(4, 'Nothing shown');
-            page.panels.forEach((panel: Panel, index: number) => {
-                expect(panel.value).toBe(values[index]);
-                expect(panel.title).toBe(labels[index]);
-                if (values[index].charAt(0) === '-') {
-                    expect(panel.green).toBeFalsy('Is not green');
-                    expect(panel.red).toBeTruthy('Is red');
-                } else {
-                    expect(panel.green).toBeTruthy('Is green');
-                    expect(panel.red).toBeFalsy('Is not red');
-                }
+            expect(page.pools.length).toBe(2, 'Pools shown');
+            page.pools.forEach((pool: Pool, x: number) => {
+                expect(pool.panels.length).toBe(5, 'Panels shown');
+                pool.panels.forEach((panel: Panel, y: number) => {
+                    expect(panel.value).toBe(values[x][y]);
+                    expect(panel.title).toBe(labels[y]);
+                    if (values[x][y] === null) {
+                        expect(panel.green).toBeFalsy('Is not green');
+                        expect(panel.red).toBeFalsy('Is not red');
+                        expect(panel.link).not.toBeNull('Has link');
+                        let linkSpy = spyOn(panel.link.stub, 'onClick').and.callThrough();
+                        panel.link.click();
+
+                        expect(linkSpy).toHaveBeenCalled();
+                        expect(panel.link.stub.navigatedTo[0]).toEqual(ROUTES.POOL_MARGIN_LATEST);
+                    } else if (values[x][y].charAt(0) === '-') {
+                        expect(panel.green).toBeFalsy('Is not green');
+                        expect(panel.red).toBeTruthy('Is red');
+                    } else {
+                        expect(panel.green).toBeTruthy('Is green');
+                        expect(panel.red).toBeFalsy('Is not red');
+                    }
+                });
             });
 
             // Discard the service timer
