@@ -50,22 +50,27 @@ export class AccountMarginHistoryComponent extends AbstractHistoryListComponent<
             {
                 label: 'Margin requirement in margin currency',
                 type : 'number',
-                value: record.marginReqInMarginCurr
+                value: record.marginReqInMarginCurr,
+                ccy  : record.marginCurrency
             },
             {
                 label: 'Margin requirement in clearing currency',
                 type : 'number',
-                value: record.marginReqInClrCurr
+                value: record.marginReqInClrCurr,
+                ccy  : record.clearingCurrency
             },
             {
                 label: 'Unadjusted Margin',
                 type : 'number',
-                value: record.unadjustedMarginRequirement
+                value: record.unadjustedMarginRequirement,
+                ccy  : record.marginCurrency
             },
             {
                 label: 'Variation Premium Payment',
                 type : 'number',
-                value: record.variationPremiumPayment
+                value: record.variationPremiumPayment,
+                ccy  : record.marginCurrency,
+                prec : '.3-3'
             }
         ];
     }

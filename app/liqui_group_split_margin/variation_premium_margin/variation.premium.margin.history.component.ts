@@ -34,12 +34,15 @@ export class VariationPremiumMarginHistoryComponent extends AbstractLiquiGroupSp
             {
                 label: 'Premium Margin',
                 type : 'number',
-                value: record.premiumMargin
+                value: record.premiumMargin,
+                ccy  : record.marginCurrency
             },
             {
                 label: 'Variation Premium Payment',
                 type : 'number',
-                value: record.variationPremiumPayment
+                value: record.variationPremiumPayment,
+                ccy  : record.marginCurrency,
+                prec : '.3-3'
             }
         ];
     }
