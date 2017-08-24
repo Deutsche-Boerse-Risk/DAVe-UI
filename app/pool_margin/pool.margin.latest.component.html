@@ -73,7 +73,7 @@
                 contentAlign="right"
                 [sortingKey]="valueGetters.variPremInMarginCurr">
             <ng-template let-record="row" cell-template>
-                {{record.variPremInMarginCurr | number:'.0-0'}} {{record.marginCurrency}}
+                {{record.variPremInMarginCurr | number:'.3-3'}} {{record.marginCurrency}}
             </ng-template>
         </column>
         <column title="FX Rate"
@@ -81,7 +81,7 @@
                 contentAlign="right"
                 [sortingKey]="valueGetters.adjustedExchangeRate">
             <ng-template let-record="row" cell-template>
-                {{record.adjustedExchangeRate | number:'.10-10'}}
+                {{record.adjustedExchangeRate | number:'.4-4'}}
             </ng-template>
         </column>
         <column title="Pool Owner"
