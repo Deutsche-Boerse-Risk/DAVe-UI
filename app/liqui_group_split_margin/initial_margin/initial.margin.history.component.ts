@@ -34,22 +34,26 @@ export class InitialMarginHistoryComponent extends AbstractLiquiGroupSplitMargin
             {
                 label: 'Market Risk',
                 type : 'number',
-                value: record.marketRisk
+                value: record.marketRisk,
+                ccy  : record.marginCurrency
             },
             {
                 label: 'Liqu Risk',
                 type : 'number',
-                value: record.liquRisk
+                value: record.liquRisk,
+                ccy  : record.marginCurrency
             },
             {
                 label: 'Long Option Credit',
                 type : 'number',
-                value: record.longOptionCredit
+                value: record.longOptionCredit,
+                ccy  : record.marginCurrency
             },
             {
                 label: 'Initial Margin',
                 type : 'number',
-                value: record.additionalMargin
+                value: record.additionalMargin,
+                ccy  : record.marginCurrency
             }
         ];
     }

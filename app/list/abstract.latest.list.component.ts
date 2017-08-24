@@ -75,7 +75,7 @@ export abstract class AbstractLatestListComponent<T extends { uid: string }> ext
         return this.exportKeys.some((key: CSVExportColumn<T>) => {
             let value = key.get(item);
             if (typeof value === 'number') {
-                value = this.numberFormatter.transform(value, '.2-2');
+                value = this.numberFormatter.transform(value, '.0-0');
             }
             if (value instanceof Date) {
                 value = this.dateFormatter.transform(value);

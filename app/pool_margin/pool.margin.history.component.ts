@@ -80,12 +80,14 @@ export class PoolMarginHistoryComponent extends AbstractHistoryListComponent<Poo
                 label: 'Variation Premium Payment',
                 type : 'number',
                 value: record.variPremInMarginCurr,
-                ccy  : record.marginCurrency
+                ccy  : record.marginCurrency,
+                prec : '.3-3'
             },
             {
                 label: 'FX Rate',
                 type : 'number',
-                value: record.adjustedExchangeRate
+                value: record.adjustedExchangeRate,
+                prec : '.4-4'
             }
         ];
     }

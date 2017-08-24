@@ -29,7 +29,7 @@
                 headerAlign="right"
                 contentAlign="right">
             <ng-template let-record="row" cell-template>
-                {{record.marginReqInMarginCurr | number:'.2-2'}} {{record.marginCurrency}}
+                {{record.marginReqInMarginCurr | number:'.0-0'}} {{record.marginCurrency}}
             </ng-template>
         </column>
         <column title="Margin requirement in clearing currency"
@@ -37,7 +37,7 @@
                 headerAlign="right"
                 contentAlign="right">
             <ng-template let-record="row" cell-template>
-                {{record.marginReqInClrCurr | number:'.2-2'}} {{record.clearingCurrency}}
+                {{record.marginReqInClrCurr | number:'.0-0'}} {{record.clearingCurrency}}
             </ng-template>
         </column>
         <column title="Unadjusted Margin"
@@ -45,7 +45,7 @@
                 headerAlign="right"
                 contentAlign="right">
             <ng-template let-record="row" cell-template>
-                {{record.unadjustedMarginRequirement | number:'.2-2'}} {{record.marginCurrency}}
+                {{record.unadjustedMarginRequirement | number:'.0-0'}} {{record.marginCurrency}}
             </ng-template>
         </column>
         <column title="Variation Premium Payment"
@@ -53,7 +53,7 @@
                 headerAlign="right"
                 contentAlign="right">
             <ng-template let-record="row" cell-template>
-                {{record.variationPremiumPayment | number:'.2-2'}} {{record.marginCurrency}}
+                {{record.variationPremiumPayment | number:'.3-3'}} {{record.marginCurrency}}
             </ng-template>
         </column>
     </data-table>

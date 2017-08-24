@@ -2,7 +2,7 @@
     <md-card [class.good]="value >= 0"
              [class.error]="value < 0"
              *ngIf="value != null">
-        <div class="huge">{{value | number:'.2-2'}}</div>
+        <div class="huge">{{value | number:'.0-0'}}</div>
         <div>{{label}}</div>
     </md-card>
 </ng-template>
