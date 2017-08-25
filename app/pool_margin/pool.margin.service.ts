@@ -104,8 +104,7 @@ export class PoolMarginService extends AbstractService {
 
                         pool.shortfallSurplus += record.overUnderInClrRptCurr;
                         pool.marginRequirement += record.requiredMargin * record.adjustedExchangeRate;
-                        pool.totalCollateral += record.cashCollateralAmount + record.adjustedSecurities
-                            + record.adjustedGuarantee + record.variPremInMarginCurr;
+                        pool.totalCollateral += (record.cashCollateralAmount + record.adjustedSecurities) * record.adjustedExchangeRate;
                         pool.cashBalance += record.cashCollateralAmount * record.adjustedExchangeRate;
                     });
 

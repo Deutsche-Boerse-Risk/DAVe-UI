@@ -193,8 +193,7 @@ describe('PoolMarginService', () => {
                             if (record.pool === aggregatedData.pool) {
                                 aggregatedData.shortfallSurplus += record.overUnderInClrRptCurr;
                                 aggregatedData.marginRequirement += record.requiredMargin * record.adjustedExchangeRate;
-                                aggregatedData.totalCollateral += record.cashCollateralAmount + record.adjustedSecurities
-                                    + record.adjustedGuarantee + record.variPremInMarginCurr;
+                                aggregatedData.totalCollateral += (record.cashCollateralAmount + record.adjustedSecurities) * record.adjustedExchangeRate;
                                 aggregatedData.cashBalance += record.cashCollateralAmount * record.adjustedExchangeRate;
                             }
                         });
