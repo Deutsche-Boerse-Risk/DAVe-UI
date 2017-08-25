@@ -207,7 +207,7 @@ export class PositionReportBubbleChartComponent extends AbstractComponent {
 
         this.title = `
             <strong>
-                ${this.numberPipe.transform(this.topRecordsCount, '.0-0')}
+                ${this.numberPipe.transform(Math.min(this.topRecordsCount, positiveBubbles.length), '.0-0')}
             </strong>
             top risk positions represent 
             <strong>    
@@ -215,7 +215,7 @@ export class PositionReportBubbleChartComponent extends AbstractComponent {
             </strong>
             of total portfolio VaR.
             <strong>
-                ${this.numberPipe.transform(this.topRecordsCount, '.0-0')}
+                ${this.numberPipe.transform(Math.min(this.topRecordsCount, negativeBubbles.length), '.0-0')}
             </strong>
             top offsetting positions represent
             <strong>
