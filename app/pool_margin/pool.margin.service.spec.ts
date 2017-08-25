@@ -184,13 +184,17 @@ describe('PoolMarginService', () => {
                             pool             : data.pool,
                             shortfallSurplus : 0,
                             marginRequirement: 0,
-                            cashBalance      : 0
+                            totalCollateral  : 0,
+                            cashBalance      : 0,
+                            ccy              : data.ccy
                         };
 
                         originalData.forEach((record: PoolMarginServerData) => {
                             if (record.pool === aggregatedData.pool) {
                                 aggregatedData.shortfallSurplus += record.overUnderInClrRptCurr;
                                 aggregatedData.marginRequirement += record.requiredMargin * record.adjustedExchangeRate;
+                                aggregatedData.totalCollateral += record.cashCollateralAmount + record.adjustedSecurities
+                                    + record.adjustedGuarantee + record.variPremInMarginCurr;
                                 aggregatedData.cashBalance += record.cashCollateralAmount * record.adjustedExchangeRate;
                             }
                         });
@@ -216,6 +220,7 @@ describe('PoolMarginService', () => {
                         expect(data).toBeDefined();
                         expect(data.shortfallSurplus).toBe(0);
                         expect(data.marginRequirement).toBe(0);
+                        expect(data.totalCollateral).toBe(0);
                         expect(data.cashBalance).toBe(0);
                     });
                 });
