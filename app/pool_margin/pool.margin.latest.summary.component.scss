@@ -24,7 +24,7 @@
     }
 
     .mat-card {
-        @include flex(1, 1, auto);
+        @include flex(1, 1, 200px);
 
         @include display-flex();
         @include flex-direction(column);

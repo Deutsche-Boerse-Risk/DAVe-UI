@@ -18,16 +18,18 @@ import {generatePoolMarginLatest, Panel, Pool, PoolMarginSummaryPage} from '@dav
 
 import {PeriodicHttpService} from '../periodic.http.service';
 
-import {PoolMarginServerData} from './pool.margin.types';
+import {PoolMarginServerData, PoolMarginSummaryData} from './pool.margin.types';
 import {PoolMarginService} from './pool.margin.service';
 
 import {PoolMarginLatestSummaryComponent} from './pool.margin.latest.summary.component';
 import {ROUTES} from '../routes/routing.paths';
+import {of} from 'rxjs/observable/of';
 
 describe('Pool Margin summary', () => {
     let page: PoolMarginSummaryPage;
 
-    let labels = ['', 'Margin Shortfall/Surplus', 'Margin Requirement', 'Cash Balance', ''];
+    let labels = ['', 'Margin Shortfall/Surplus', 'Margin Requirement', 'Collateral', 'Cash Balance', ''];
+    let poolNames = ['Pool CZK', 'Pool EUR', 'Pool CHF'];
 
     compileTestBed(() => {
         return TestBed.configureTestingModule({
@@ -119,23 +121,44 @@ describe('Pool Margin summary', () => {
 
     it('displays data panels', fakeAsync(inject([PoolMarginService],
         (service: PoolMarginService) => {
-            // Attach the timer
-            service.setupPeriodicTimer();
+            let marginSummaryData: PoolMarginSummaryData[] = [
+                {
+                    pool             : poolNames[0],
+                    shortfallSurplus : 156465987,
+                    marginRequirement: -1566884.5423,
+                    totalCollateral  : 256989452,
+                    cashBalance      : 158.98,
+                    ccy              : 'CZK'
+                },
+                {
+                    pool             : poolNames[1],
+                    shortfallSurplus : 456.4897,
+                    marginRequirement: 0,
+                    totalCollateral  : -4568779,
+                    cashBalance      : 0,
+                    ccy              : 'EUR'
+                },
+                {
+                    pool             : poolNames[2],
+                    shortfallSurplus : 6544,
+                    marginRequirement: 5646544,
+                    totalCollateral  : 0,
+                    cashBalance      : 474564,
+                    ccy              : 'CHF'
+                }
+            ];
+            spyOn(service, 'getPoolMarginSummaryData').and.returnValue(of(marginSummaryData));
 
             // Init component
             page.detectChanges();
 
-            expect(page.pools.length).toBe(0, 'Nothing shown');
-
-            // Return data
-            page.advanceHTTP();
-
             let values = [
-                [null, '-1', '0', '-0', null],
-                [null, '-1', '0', '-0', null]
+                [null, '156,465,987 CZK', '-1,566,885 CZK', '256,989,452 CZK', '159 CZK'],
+                [null, '456 EUR', '0 EUR', '-4,568,779 EUR', '0 EUR'],
+                [null, '6,544 CHF', '5,646,544 CHF', '0 CHF', '474,564 CHF']
             ];
 
-            expect(page.pools.length).toBe(2, 'Pools shown');
+            expect(page.pools.length).toBe(3, 'Pools shown');
             page.pools.forEach((pool: Pool, x: number) => {
                 expect(pool.panels.length).toBe(5, 'Panels shown');
                 pool.panels.forEach((panel: Panel, y: number) => {
@@ -145,6 +168,7 @@ describe('Pool Margin summary', () => {
                         expect(panel.green).toBeFalsy('Is not green');
                         expect(panel.red).toBeFalsy('Is not red');
                         expect(panel.link).not.toBeNull('Has link');
+                        expect(panel.link.text).toEqual(poolNames[x]);
                         let linkSpy = spyOn(panel.link.stub, 'onClick').and.callThrough();
                         panel.link.click();
 
@@ -159,9 +183,5 @@ describe('Pool Margin summary', () => {
                     }
                 });
             });
-
-            // Discard the service timer
-            // noinspection JSDeprecatedSymbols
-            service.destroyPeriodicTimer();
         })));
 });
