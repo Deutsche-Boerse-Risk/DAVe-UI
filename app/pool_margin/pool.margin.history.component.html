@@ -68,7 +68,7 @@
                 contentAlign="right"
                 [sortingKey]="valueGetters.variPremInMarginCurr">
             <ng-template let-record="row" cell-template>
-                {{record.variPremInMarginCurr | number:'.3-3'}} {{record.marginCurrency}}
+                {{record.variPremInMarginCurr | number:'.2-2'}} {{record.marginCurrency}}
             </ng-template>
         </column>
         <column title="FX Rate"

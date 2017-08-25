@@ -52,7 +52,7 @@
                 headerAlign="right"
                 contentAlign="right">
             <ng-template let-record="row" cell-template>
-                {{record.currentLiquidatingMargin | number:'.3-3'}} {{record.marginCurrency}}
+                {{record.currentLiquidatingMargin | number:'.2-2'}} {{record.marginCurrency}}
             </ng-template>
         </column>
         <column title="Initial Margin"
@@ -76,7 +76,7 @@
                 headerAlign="right"
                 contentAlign="right">
             <ng-template let-record="row" cell-template>
-                {{record.variationPremiumPayment | number:'.3-3'}} {{record.marginCurrency}}
+                {{record.variationPremiumPayment | number:'.2-2'}} {{record.marginCurrency}}
             </ng-template>
         </column>
         <column>
