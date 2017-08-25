@@ -81,7 +81,7 @@ export class PoolMarginHistoryComponent extends AbstractHistoryListComponent<Poo
                 type : 'number',
                 value: record.variPremInMarginCurr,
                 ccy  : record.marginCurrency,
-                prec : '.3-3'
+                prec : '.2-2'
             },
             {
                 label: 'FX Rate',

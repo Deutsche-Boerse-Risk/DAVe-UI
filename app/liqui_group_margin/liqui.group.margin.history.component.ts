@@ -73,7 +73,7 @@ export class LiquiGroupMarginHistoryComponent extends AbstractHistoryListCompone
                 label: 'Current Liquidating Margin',
                 type : 'number',
                 value: record.currentLiquidatingMargin,
-                prec : '.3-3'
+                prec : '.2-2'
             },
             {
                 label: 'Initial Margin',
@@ -89,7 +89,7 @@ export class LiquiGroupMarginHistoryComponent extends AbstractHistoryListCompone
                 label: 'Variation Premium Payment',
                 type : 'number',
                 value: record.variationPremiumPayment,
-                prec : '.3-3'
+                prec : '.2-2'
             }
         ];
     }
