@@ -79,7 +79,7 @@ export class LiquiGroupMarginTreemapComponent extends AbstractComponent {
 
                 tree.traverseBF((node: LiquiGroupMarginTreeNode) => {
                     node.data.formattedText = `${node.data.text} (${this.percentPipe.transform(
-                        node.totalPercentage * 100, '.1-1')})`;
+                        node.percentage * 100, '.1-1')})`;
                     this.chartData.rows.push({
                         c           : [
                             {
