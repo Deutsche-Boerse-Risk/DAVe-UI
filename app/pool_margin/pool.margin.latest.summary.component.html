@@ -1,23 +1,35 @@
-<ng-template #card let-value="value" let-label="label">
+<ng-template #card let-value="value" let-label="label" let-ccy="ccy">
     <md-card [class.good]="value >= 0"
              [class.error]="value < 0"
              *ngIf="value != null">
-        <div class="huge">{{value | number:'.0-0'}}</div>
+        <div class="huge">{{value | number:'.0-0'}} {{ccy}}</div>
         <div>{{label}}</div>
     </md-card>
 </ng-template>
 
-<div *ngIf="data">
-    <ng-template [ngTemplateOutlet]="card"
-                 [ngTemplateOutletContext]="{value: data.shortfallSurplus, label: 'Margin Shortfall/Surplus'}">
-    </ng-template>
-    <ng-template [ngTemplateOutlet]="card"
-                 [ngTemplateOutletContext]="{value: data.marginRequirement, label: 'Margin Requirement'}">
-    </ng-template>
-    <ng-template [ngTemplateOutlet]="card"
-                 [ngTemplateOutletContext]="{value: data.totalCollateral, label: 'Collateral'}">
-    </ng-template>
-    <ng-template [ngTemplateOutlet]="card"
-                 [ngTemplateOutletContext]="{value: data.cashBalance, label: 'Cash Balance'}">
-    </ng-template>
-</div>
+<ng-template [ngIf]="pools">
+    <div class="pool" *ngFor="let pool of pools">
+        <md-card class="poolName">
+            <a md-button color="primary"
+               [routerLink]="[routerRoots.POOL_MARGIN_LATEST, '*', pool.pool]">{{pool.pool}}</a>
+        </md-card>
+        <ng-template [ngTemplateOutlet]="card"
+                     [ngTemplateOutletContext]="{value: pool.shortfallSurplus, ccy: pool.ccy, label: 'Margin Shortfall/Surplus'}">
+        </ng-template>
+        <ng-template [ngTemplateOutlet]="card"
+                     [ngTemplateOutletContext]="{value: pool.marginRequirement, ccy: pool.ccy, label: 'Margin Requirement'}">
+        </ng-template>
+        <ng-template [ngTemplateOutlet]="card"
+                     [ngTemplateOutletContext]="{value: pool.totalCollateral, ccy: pool.ccy, label: 'Collateral'}">
+        </ng-template>
+        <ng-template [ngTemplateOutlet]="card"
+                     [ngTemplateOutletContext]="{value: pool.cashBalance, ccy: pool.ccy, label: 'Cash Balance'}">
+        </ng-template>
+        <!-- Keep the button for future drilldown once we have the data for it. -->
+        <!--<md-card class="poolDetail">-->
+        <!--<a md-icon-button [routerLink]="[routerRoots.POOL_MARGIN_LATEST, '*', pool.pool]" mdTooltip="Drill down">-->
+        <!--<md-icon>my_location</md-icon>-->
+        <!--</a>-->
+        <!--</md-card>-->
+    </div>
+</ng-template>

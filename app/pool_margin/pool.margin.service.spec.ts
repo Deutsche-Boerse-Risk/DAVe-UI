@@ -173,28 +173,33 @@ describe('PoolMarginService', () => {
             let originalData = http.popReturnValue();
             http.returnValue(originalData);
             let subscription = poolMarginService.getPoolMarginSummaryData().subscribe(
-                (data: PoolMarginSummaryData) => {
-                    expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL)
-                        .toBe(poolMarginLatestURL);
-                    expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params)
-                        .not.toBeDefined();
+                (pools: PoolMarginSummaryData[]) => {
+                    pools.forEach((data: PoolMarginSummaryData) => {
+                        expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL)
+                            .toBe(poolMarginLatestURL);
+                        expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params)
+                            .not.toBeDefined();
 
-                    let aggregatedData: PoolMarginSummaryData = {
-                        shortfallSurplus : 0,
-                        marginRequirement: 0,
-                        totalCollateral  : 0,
-                        cashBalance      : 0
-                    };
+                        let aggregatedData: PoolMarginSummaryData = {
+                            pool             : data.pool,
+                            shortfallSurplus : 0,
+                            marginRequirement: 0,
+                            totalCollateral  : 0,
+                            cashBalance      : 0,
+                            ccy              : data.ccy
+                        };
 
-                    originalData.forEach((record: PoolMarginServerData) => {
-                        aggregatedData.shortfallSurplus += record.overUnderInMarginCurr;
-                        aggregatedData.marginRequirement += record.requiredMargin;
-                        aggregatedData.totalCollateral += record.cashCollateralAmount + record.adjustedSecurities
-                            + record.adjustedGuarantee + record.variPremInMarginCurr;
-                        aggregatedData.cashBalance += record.cashCollateralAmount + record.variPremInMarginCurr;
+                        originalData.forEach((record: PoolMarginServerData) => {
+                            if (record.pool === aggregatedData.pool) {
+                                aggregatedData.shortfallSurplus += record.overUnderInClrRptCurr;
+                                aggregatedData.marginRequirement += record.requiredMargin * record.adjustedExchangeRate;
+                                aggregatedData.totalCollateral += (record.cashCollateralAmount + record.adjustedSecurities) * record.adjustedExchangeRate;
+                                aggregatedData.cashBalance += record.cashCollateralAmount * record.adjustedExchangeRate;
+                            }
+                        });
+
+                        expect(data).toEqual(aggregatedData);
                     });
-
-                    expect(data).toEqual(aggregatedData);
                 });
 
             tick();
@@ -205,16 +210,18 @@ describe('PoolMarginService', () => {
             tick(DATA_REFRESH_INTERVAL);
 
             let subscription2 = poolMarginService.getPoolMarginSummaryData()
-                .subscribe((data: PoolMarginSummaryData) => {
-                    expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL)
-                        .toBe(poolMarginLatestURL);
-                    expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params)
-                        .not.toBeDefined();
-                    expect(data).toBeDefined();
-                    expect(data.shortfallSurplus).toBe(0);
-                    expect(data.marginRequirement).toBe(0);
-                    expect(data.totalCollateral).toBe(0);
-                    expect(data.cashBalance).toBe(0);
+                .subscribe((pools: PoolMarginSummaryData[]) => {
+                    pools.forEach((data: PoolMarginSummaryData) => {
+                        expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL)
+                            .toBe(poolMarginLatestURL);
+                        expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params)
+                            .not.toBeDefined();
+                        expect(data).toBeDefined();
+                        expect(data.shortfallSurplus).toBe(0);
+                        expect(data.marginRequirement).toBe(0);
+                        expect(data.totalCollateral).toBe(0);
+                        expect(data.cashBalance).toBe(0);
+                    });
                 });
 
             expect(httpSyp).toHaveBeenCalledTimes(2);

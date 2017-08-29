@@ -15,7 +15,6 @@ import {DashboardPage, Tab} from '@dave/testing';
 import {RouterLinkActiveDirective} from '../menu/router.link.active.directive';
 
 import {DashboardComponent} from './dashboard.component';
-import {BrowserModule} from '@angular/platform-browser';
 import {ROUTES} from '../routes/routing.paths';
 
 describe('DashboardComponent', () => {
@@ -31,7 +30,6 @@ describe('DashboardComponent', () => {
         linksDecorator.selector = RouterLinkStubDirective;
         TestBed.configureTestingModule({
             imports     : [
-                BrowserModule,
                 RouterModule,
                 NoopAnimationsCommonViewModule
             ],

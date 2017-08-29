@@ -15,8 +15,6 @@ import {
 } from './liqui.group.margin.service';
 
 import {
-    LiquiGroupMarginAggregationData,
-    LiquiGroupMarginBaseData,
     LiquiGroupMarginData,
     LiquiGroupMarginServerData,
     LiquiGroupMarginTree,
@@ -117,93 +115,6 @@ describe('LiquiGroupMarginService', () => {
             tick(DATA_REFRESH_INTERVAL);
             expect(httpSyp).toHaveBeenCalledTimes(4);
             subscription3.unsubscribe();
-
-            // Cleanup timer after test
-            //noinspection JSDeprecatedSymbols
-            liquiGroupMarginService.destroyPeriodicTimer();
-        })
-    ));
-
-    it('aggregation data are correctly processed', fakeAsync(inject([LiquiGroupMarginService, HttpService],
-        (liquiGroupMarginService: LiquiGroupMarginService,
-            http: HttpServiceStub<LiquiGroupMarginServerData[]>) => {
-            let originalData = http.popReturnValue();
-            http.returnValue(originalData);
-            let subscription = liquiGroupMarginService.getLiquiGroupMarginAggregationData()
-                .subscribe((data: LiquiGroupMarginAggregationData) => {
-                    expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL)
-                        .toBe(liquiGroupMarginLatestURL);
-                    expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params).not.toBeDefined();
-                    expect(data.aggregatedRows.length).toBe(Math.pow(2, 3));
-                    expect(data.summary).toBeDefined();
-
-                    let summaryData: LiquiGroupMarginBaseData = {
-                        premiumMargin              : 0,
-                        currentLiquidatingMargin   : 0,
-                        additionalMargin           : 0,
-                        unadjustedMarginRequirement: 0,
-                        variationPremiumPayment    : 0
-                    };
-                    originalData.forEach((record: LiquiGroupMarginServerData) => {
-                        summaryData.premiumMargin += record.premiumMargin;
-                        summaryData.currentLiquidatingMargin += record.currentLiquidatingMargin;
-                        summaryData.additionalMargin += record.additionalMargin;
-                        summaryData.unadjustedMarginRequirement += record.unadjustedMarginRequirement;
-                        summaryData.variationPremiumPayment += record.variationPremiumPayment;
-                    });
-
-                    expect(data.summary).toEqual(summaryData);
-
-                    let sumOfAggregatedData: LiquiGroupMarginBaseData = {
-                        premiumMargin              : 0,
-                        currentLiquidatingMargin   : 0,
-                        additionalMargin           : 0,
-                        unadjustedMarginRequirement: 0,
-                        variationPremiumPayment    : 0
-                    };
-                    data.aggregatedRows.forEach((record: LiquiGroupMarginData) => {
-                        sumOfAggregatedData.premiumMargin += record.premiumMargin;
-                        sumOfAggregatedData.currentLiquidatingMargin += record.currentLiquidatingMargin;
-                        sumOfAggregatedData.additionalMargin += record.additionalMargin;
-                        sumOfAggregatedData.unadjustedMarginRequirement += record.unadjustedMarginRequirement;
-                        sumOfAggregatedData.variationPremiumPayment += record.variationPremiumPayment;
-                    });
-
-                    // We have to use ceil here as we loose precision in the aggregated row sums
-                    Object.keys(data.summary).forEach((key: string) => {
-                        expect(Math.round((data.summary as any)[key] * Math.pow(10, 5)))
-                            .toBe(Math.round((sumOfAggregatedData as any)[key] * Math.pow(10, 5)));
-                    });
-
-                });
-
-            tick();
-            expect(httpSyp).toHaveBeenCalledTimes(1);
-            subscription.unsubscribe();
-
-            http.returnValue(null);
-            tick(DATA_REFRESH_INTERVAL);
-            let subscription2 = liquiGroupMarginService.getLiquiGroupMarginAggregationData()
-                .subscribe((data: LiquiGroupMarginAggregationData) => {
-                    expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL)
-                        .toBe(liquiGroupMarginLatestURL);
-                    expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params).not.toBeDefined();
-                    expect(data.aggregatedRows).toEqual([]);
-                    expect(data.summary).toEqual({
-                        premiumMargin              : 0,
-                        currentLiquidatingMargin   : 0,
-                        additionalMargin           : 0,
-                        unadjustedMarginRequirement: 0,
-                        variationPremiumPayment    : 0
-                    });
-                });
-
-            expect(httpSyp).toHaveBeenCalledTimes(2);
-
-            http.returnValue(null);
-            tick(DATA_REFRESH_INTERVAL);
-            expect(httpSyp).toHaveBeenCalledTimes(3);
-            subscription2.unsubscribe();
 
             // Cleanup timer after test
             //noinspection JSDeprecatedSymbols

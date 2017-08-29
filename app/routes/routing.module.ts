@@ -7,7 +7,6 @@ import {LoginComponent, LoginModule} from '@dbg-riskit/dave-ui-login';
 
 import {DashboardModule} from '../dashboard/dashboard.module';
 import {DashboardComponent} from '../dashboard/dashboard.component';
-import {MarginRequirementOverviewComponent} from '../dashboard/margin.requirement.overview.component';
 
 import {PositionReportsModule} from '../position_reports/position.reports.module';
 import {PositionReportLatestComponent} from '../position_reports/position.report.latest.component';
@@ -28,6 +27,7 @@ import {VariationPremiumMarginHistoryComponent} from '../liqui_group_split_margi
 import {PoolMarginModule} from '../pool_margin/pool.margin.module';
 import {PoolMarginLatestComponent} from '../pool_margin/pool.margin.latest.component';
 import {PoolMarginHistoryComponent} from '../pool_margin/pool.margin.history.component';
+import {PoolMarginLatestSummaryComponent} from '../pool_margin/pool.margin.latest.summary.component';
 
 import {AccountMarginModule} from '../account_margin/account.margin.module';
 import {AccountMarginLatestComponent} from '../account_margin/account.margin.latest.component';
@@ -390,7 +390,7 @@ const ROUTER_DEFINITION: Route[] = [
             {
                 path            : ROUTE_NAMES.DASHBOARD_MARGIN_REQUIREMENT_OVERVIEW,
                 pathMatch       : 'full',
-                component       : MarginRequirementOverviewComponent,
+                component       : PoolMarginLatestSummaryComponent,
                 canActivateChild: [AuthGuard]
             },
             {
