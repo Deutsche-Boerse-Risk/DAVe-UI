@@ -111,7 +111,9 @@ export class PoolMarginService extends AbstractService {
                     subscriber.next(Object.keys(result).reduce((summaryData: PoolMarginSummaryData[], key: string) => {
                         summaryData.push(result[key]);
                         return summaryData;
-                    }, []));
+                    }, []).sort((a: PoolMarginSummaryData, b: PoolMarginSummaryData) => {
+                        return b.shortfallSurplus - a.shortfallSurplus;
+                    }));
                     subscriber.complete();
                 },
                 (err: any) => {
