@@ -6,13 +6,13 @@
 
     <span class="toolbar-spacer"></span>
 
-    <md-input-container *ngIf="!isHistory">
+    <md-form-field *ngIf="!isHistory">
         <input mdInput
                type="text"
                placeholder="Filter..."
                [(ngModel)]="filterQuery"
                (ngModelChange)="filterAfterTimeout()">
-    </md-input-container>
+    </md-form-field>
 
     <button md-icon-button
             (click)="filter()"

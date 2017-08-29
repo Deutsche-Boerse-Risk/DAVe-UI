@@ -1,4 +1,4 @@
-import {map} from '@angular/cdk';
+import {map} from '@angular/cdk/rxjs';
 import {Inject, Injectable} from '@angular/core';
 
 import {AUTH_PROVIDER, AuthProvider, DateUtils, ReplaySubjectExt, RxChain, UIDUtils} from '@dbg-riskit/dave-ui-common';

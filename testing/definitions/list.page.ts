@@ -3,7 +3,7 @@ import {By} from '@angular/platform-browser';
 import {NgModel} from '@angular/forms';
 import {Router, RouterModule} from '@angular/router';
 
-import {MdInputContainer, MdMenuItem, MdToolbarRow} from '@angular/material';
+import {MdFormField, MdMenuItem, MdToolbarRow} from '@angular/material';
 
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
@@ -63,7 +63,7 @@ export class ListPage<T> extends PageWithLoading<T> {
     }
 
     public get filterGroup(): DebugElement {
-        return this.header.query(By.directive(MdInputContainer));
+        return this.header.query(By.directive(MdFormField));
     }
 
     public get filterShown(): boolean {

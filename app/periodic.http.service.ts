@@ -1,4 +1,4 @@
-import {catchOperator} from '@angular/cdk';
+import {catchOperator} from '@angular/cdk/rxjs';
 import {Injectable} from '@angular/core';
 
 import {mergeMap, Request, RxChain, StrictRxChain} from '@dbg-riskit/dave-ui-common';
