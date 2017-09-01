@@ -5,7 +5,7 @@ import {
     AUTH_PROVIDER,
     AuthProvider,
     DateUtils,
-    ReplaySubjectExt,
+    IndexedDBReplaySubject,
     RxChain,
     StrictRxChain,
     UIDUtils
@@ -34,9 +34,10 @@ export const poolMarginHistoryURL: string = '/api/v1.0/pm/history';
 @Injectable()
 export class PoolMarginService extends AbstractService {
 
-    private latestSubject: ReplaySubjectExt<PoolMarginData[]> = new ReplaySubjectExt<PoolMarginData[]>(1);
-    private summarySubject: ReplaySubjectExt<PoolMarginSummaryData[]> = new ReplaySubjectExt<PoolMarginSummaryData[]>(
-        1);
+    private latestSubject: IndexedDBReplaySubject<PoolMarginData[]>
+        = new IndexedDBReplaySubject<PoolMarginData[]>('dave-poolMarginLatest');
+    private summarySubject: IndexedDBReplaySubject<PoolMarginSummaryData[]>
+        = new IndexedDBReplaySubject<PoolMarginSummaryData[]>('dave-poolMarginSummary');
     private latestSubscription: Subscription;
     private summarySubscription: Subscription;
 
@@ -69,9 +70,11 @@ export class PoolMarginService extends AbstractService {
     private setupLatestLoader(): void {
         this.latestSubscription = this.loadData(poolMarginLatestURL,
             () => {
-                if (!this.latestSubject.hasData) {
-                    this.latestSubject.next([]);
-                }
+                this.latestSubject.hasData.subscribe((hasData: boolean) => {
+                    if (!hasData) {
+                        this.latestSubject.next([]);
+                    }
+                });
             })
             .subscribe((data: PoolMarginData[]) => this.latestSubject.next(data));
     }
@@ -117,9 +120,11 @@ export class PoolMarginService extends AbstractService {
                     subscriber.complete();
                 },
                 (err: any) => {
-                    if (!this.summarySubject.hasData) {
-                        this.summarySubject.next([]);
-                    }
+                    this.summarySubject.hasData.subscribe((hasData: boolean) => {
+                        if (!hasData) {
+                            this.summarySubject.next([]);
+                        }
+                    });
                     return this.errorCollector.handleStreamError(err);
                 })
             .subscribe((data: PoolMarginSummaryData[]) => this.summarySubject.next(data));

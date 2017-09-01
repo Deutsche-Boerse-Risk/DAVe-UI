@@ -5,7 +5,7 @@ import {
     AUTH_PROVIDER,
     AuthProvider,
     DateUtils,
-    ReplaySubjectExt,
+    IndexedDBReplaySubject,
     RxChain,
     StrictRxChain,
     UIDUtils
@@ -33,8 +33,8 @@ export const riskLimitUtilizationHistoryURL: string = '/api/v1.0/rlu/history';
 @Injectable()
 export class RiskLimitUtilizationService extends AbstractService {
 
-    private latestSubject: ReplaySubjectExt<RiskLimitUtilizationData[]> = new ReplaySubjectExt<RiskLimitUtilizationData[]>(
-        1);
+    private latestSubject: IndexedDBReplaySubject<RiskLimitUtilizationData[]>
+        = new IndexedDBReplaySubject<RiskLimitUtilizationData[]>('dave-riskLimitUtilizationLatest');
     private latestSubscription: Subscription;
 
     constructor(private http: PeriodicHttpService<RiskLimitUtilizationServerData[]>,
@@ -57,9 +57,11 @@ export class RiskLimitUtilizationService extends AbstractService {
     public setupPeriodicTimer(): void {
         this.latestSubscription = this.loadData(riskLimitUtilizationLatestURL,
             () => {
-                if (!this.latestSubject.hasData) {
-                    this.latestSubject.next([]);
-                }
+                this.latestSubject.hasData.subscribe((hasData: boolean) => {
+                    if (!hasData) {
+                        this.latestSubject.next([]);
+                    }
+                });
             })
             .subscribe((data: RiskLimitUtilizationData[]) => this.latestSubject.next(data));
     }

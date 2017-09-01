@@ -1,7 +1,14 @@
 import {map} from '@angular/cdk/rxjs';
 import {Inject, Injectable} from '@angular/core';
 
-import {AUTH_PROVIDER, AuthProvider, DateUtils, ReplaySubjectExt, RxChain, UIDUtils} from '@dbg-riskit/dave-ui-common';
+import {
+    AUTH_PROVIDER,
+    AuthProvider,
+    DateUtils,
+    IndexedDBReplaySubject,
+    RxChain,
+    UIDUtils
+} from '@dbg-riskit/dave-ui-common';
 import {ErrorCollectorService} from '@dbg-riskit/dave-ui-error';
 
 import {
@@ -25,7 +32,8 @@ export const accountMarginHistoryURL: string = '/api/v1.0/am/history';
 @Injectable()
 export class AccountMarginService extends AbstractService {
 
-    private latestSubject: ReplaySubjectExt<AccountMarginData[]> = new ReplaySubjectExt<AccountMarginData[]>(1);
+    private latestSubject: IndexedDBReplaySubject<AccountMarginData[]>
+        = new IndexedDBReplaySubject<AccountMarginData[]>('dave-accountMarginLatest');
     private latestSubscription: Subscription;
 
     constructor(private http: PeriodicHttpService<AccountMarginServerData[]>,
@@ -48,9 +56,11 @@ export class AccountMarginService extends AbstractService {
     public setupPeriodicTimer(): void {
         this.latestSubscription = this.loadData(accountMarginLatestURL,
             () => {
-                if (!this.latestSubject.hasData) {
-                    this.latestSubject.next([]);
-                }
+                this.latestSubject.hasData.subscribe((hasData: boolean) => {
+                    if (!hasData) {
+                        this.latestSubject.next([]);
+                    }
+                });
             })
             .subscribe((data: AccountMarginData[]) => this.latestSubject.next(data));
     }

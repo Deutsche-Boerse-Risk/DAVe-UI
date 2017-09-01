@@ -5,7 +5,7 @@ import {
     AUTH_PROVIDER,
     AuthProvider,
     DateUtils,
-    ReplaySubjectExt,
+    IndexedDBReplaySubject,
     RxChain,
     StrictRxChain,
     UIDUtils
@@ -33,8 +33,8 @@ export const liquiGroupSplitMarginHistoryURL: string = '/api/v1.0/lgsm/history';
 @Injectable()
 export class LiquiGroupSplitMarginService extends AbstractService {
 
-    private latestSubject: ReplaySubjectExt<LiquiGroupSplitMarginData[]> = new ReplaySubjectExt<LiquiGroupSplitMarginData[]>(
-        1);
+    private latestSubject: IndexedDBReplaySubject<LiquiGroupSplitMarginData[]>
+        = new IndexedDBReplaySubject<LiquiGroupSplitMarginData[]>('dave-liquiGroupSplitMarginLatest');
     private latestSubscription: Subscription;
 
     constructor(private http: PeriodicHttpService<LiquiGroupSplitMarginServerData[]>,
@@ -57,9 +57,11 @@ export class LiquiGroupSplitMarginService extends AbstractService {
     public setupPeriodicTimer(): void {
         this.latestSubscription = this.loadData(liquiGroupSplitMarginLatestURL,
             () => {
-                if (!this.latestSubject.hasData) {
-                    this.latestSubject.next([]);
-                }
+                this.latestSubject.hasData.subscribe((hasData: boolean) => {
+                    if (!hasData) {
+                        this.latestSubject.next([]);
+                    }
+                });
             })
             .subscribe((data: LiquiGroupSplitMarginData[]) => this.latestSubject.next(data));
     }

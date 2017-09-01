@@ -5,6 +5,7 @@ import {
     AUTH_PROVIDER,
     AuthProvider,
     DateUtils,
+    IndexedDBReplaySubject,
     ReplaySubjectExt,
     RxChain,
     StrictRxChain,
@@ -35,7 +36,8 @@ export const liquiGroupMarginHistoryURL: string = '/api/v1.0/lgm/history';
 @Injectable()
 export class LiquiGroupMarginService extends AbstractService {
 
-    private latestSubject: ReplaySubjectExt<LiquiGroupMarginData[]> = new ReplaySubjectExt<LiquiGroupMarginData[]>(1);
+    private latestSubject: IndexedDBReplaySubject<LiquiGroupMarginData[]>
+        = new IndexedDBReplaySubject<LiquiGroupMarginData[]>('dave-liquiGroupMarginLatest');
     private treeMapSubject: ReplaySubjectExt<LiquiGroupMarginTree> = new ReplaySubjectExt<LiquiGroupMarginTree>(1);
     private latestSubscription: Subscription;
     private treeMapSubscription: Subscription;
@@ -69,9 +71,11 @@ export class LiquiGroupMarginService extends AbstractService {
     private setupLatestLoader(): void {
         this.latestSubscription = this.loadData(liquiGroupMarginLatestURL,
             () => {
-                if (!this.latestSubject.hasData) {
-                    this.latestSubject.next([]);
-                }
+                this.latestSubject.hasData.subscribe((hasData: boolean) => {
+                    if (!hasData) {
+                        this.latestSubject.next([]);
+                    }
+                });
             })
             .subscribe((data: LiquiGroupMarginData[]) => this.latestSubject.next(data));
     }
