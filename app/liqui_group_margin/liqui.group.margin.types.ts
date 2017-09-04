@@ -39,92 +39,90 @@ export interface LiquiGroupMarginNodeData extends LiquiGroupMarginParams {
     formattedText?: string;
 }
 
-export class LiquiGroupMarginTreeNode {
+export interface LiquiGroupMarginTreeNode {
+    parent?: LiquiGroupMarginTreeNode;
+    children: LiquiGroupMarginTreeNode[];
+    data: LiquiGroupMarginNodeData;
+}
 
-    public parent: LiquiGroupMarginTreeNode;
+export function isLeaf(node: LiquiGroupMarginTreeNode): boolean {
+    return !node.children || node.children.length === 0;
+}
 
-    public children: LiquiGroupMarginTreeNode[] = [];
-
-    constructor(public data: LiquiGroupMarginNodeData) {
+export function nodePercentage(node: LiquiGroupMarginTreeNode): number {
+    if (node.parent == null) {
+        return 1;
     }
+    return node.data.additionalMargin / node.parent.data.additionalMargin;
+}
 
-    public get leaf(): boolean {
-        return !this.children || this.children.length === 0;
+export function totalPercentage(node: LiquiGroupMarginTreeNode): number {
+    let root: LiquiGroupMarginTreeNode = node;
+    while (root.parent != null) {
+        root = root.parent;
     }
-
-    public get percentage(): number {
-        if (this.parent == null) {
-            return 1;
-        }
-        return this.data.additionalMargin / this.parent.data.additionalMargin;
-    }
-
-    public get totalPercentage(): number {
-        let root: LiquiGroupMarginTreeNode = this;
-        while (root.parent != null) {
-            root = root.parent;
-        }
-        return this.data.additionalMargin / root.data.additionalMargin;
-    }
+    return node.data.additionalMargin / root.data.additionalMargin;
 }
 
 export class LiquiGroupMarginTree {
 
-    private _root: LiquiGroupMarginTreeNode;
+    public root: LiquiGroupMarginTreeNode;
 
     constructor(data: LiquiGroupMarginNodeData) {
-        this._root = new LiquiGroupMarginTreeNode(data);
-    }
-
-    public get totalAdditionalMargin(): number {
-        return this._root.data.additionalMargin;
-    }
-
-    public traverseDF(callback: (node: LiquiGroupMarginTreeNode) => any) {
-        let recurse = (currentNode: LiquiGroupMarginTreeNode) => {
-            for (let i = 0, length = currentNode.children.length; i < length; i++) {
-                recurse(currentNode.children[i]);
-            }
-            callback(currentNode);
+        this.root = {
+            data,
+            children: []
         };
-        recurse(this._root);
-    };
+    }
+}
 
-    public traverseBF(callback: (node: LiquiGroupMarginTreeNode) => any) {
-        let queue: LiquiGroupMarginTreeNode[] = [];
-        queue.push(this._root);
-        let currentTree: LiquiGroupMarginTreeNode = queue.pop();
-        while (currentTree) {
-            callback(currentTree);
-            for (let i = 0, length = currentTree.children.length; i < length; i++) {
-                queue.push(currentTree.children[i]);
-            }
-            currentTree = queue.pop();
+export function totalAdditionalMargin(tree: LiquiGroupMarginTree): number {
+    return tree.root.data.additionalMargin;
+}
+
+export function traverseDF(tree: LiquiGroupMarginTree, callback: (node: LiquiGroupMarginTreeNode) => any) {
+    let recurse = (currentNode: LiquiGroupMarginTreeNode) => {
+        for (let i = 0, length = currentNode.children.length; i < length; i++) {
+            recurse(currentNode.children[i]);
         }
+        callback(currentNode);
     };
+    recurse(tree.root);
+}
 
-    private contains(callback: (node: LiquiGroupMarginTreeNode) => any) {
-        this.traverseDF(callback);
-    };
-
-    public add(data: LiquiGroupMarginNodeData, parentId: string) {
-        let child: LiquiGroupMarginTreeNode = new LiquiGroupMarginTreeNode(data),
-            parent: LiquiGroupMarginTreeNode,
-            callback = (node: LiquiGroupMarginTreeNode) => {
-                if (node.data.id === parentId) {
-                    parent = node;
-                }
-            };
-        this.contains(callback);
-        if (parent) {
-            parent.children.push(child);
-            child.parent = parent;
-            while (!!parent) {
-                parent.data.additionalMargin += child.data.additionalMargin;
-                parent = parent.parent;
-            }
-        } else {
-            throw new Error('Cannot add node to a non-existent parent.');
+export function traverseBF(tree: LiquiGroupMarginTree, callback: (node: LiquiGroupMarginTreeNode) => any) {
+    let queue: LiquiGroupMarginTreeNode[] = [];
+    queue.push(tree.root);
+    let currentTree: LiquiGroupMarginTreeNode = queue.pop();
+    while (currentTree) {
+        callback(currentTree);
+        for (let i = 0, length = currentTree.children.length; i < length; i++) {
+            queue.push(currentTree.children[i]);
         }
+        currentTree = queue.pop();
+    }
+}
+
+export function addNodeToTree(tree: LiquiGroupMarginTree, data: LiquiGroupMarginNodeData, parentId: string) {
+    let child: LiquiGroupMarginTreeNode = {
+            data,
+            children: []
+        },
+        parent: LiquiGroupMarginTreeNode,
+        callback = (node: LiquiGroupMarginTreeNode) => {
+            if (node.data.id === parentId) {
+                parent = node;
+            }
+        };
+    traverseDF(tree, callback);
+    if (parent) {
+        parent.children.push(child);
+        child.parent = parent;
+        while (!!parent) {
+            parent.data.additionalMargin += child.data.additionalMargin;
+            parent = parent.parent;
+        }
+    } else {
+        throw new Error('Cannot add node to a non-existent parent.');
     }
 }

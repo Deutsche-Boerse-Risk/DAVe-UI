@@ -8,7 +8,13 @@ import {PercentPipe} from '@dbg-riskit/dave-ui-view';
 import {AbstractComponent} from '../abstract.component';
 
 import {LiquiGroupMarginService} from './liqui.group.margin.service';
-import {LiquiGroupMarginTree, LiquiGroupMarginTreeNode} from './liqui.group.margin.types';
+import {
+    isLeaf,
+    LiquiGroupMarginTree,
+    LiquiGroupMarginTreeNode,
+    nodePercentage,
+    traverseBF
+} from './liqui.group.margin.types';
 
 import {Subscription} from 'rxjs/Subscription';
 
@@ -77,9 +83,9 @@ export class LiquiGroupMarginTreemapComponent extends AbstractComponent {
                     rows: []
                 };
 
-                tree.traverseBF((node: LiquiGroupMarginTreeNode) => {
+                traverseBF(tree, (node: LiquiGroupMarginTreeNode) => {
                     node.data.formattedText = `${node.data.text} (${this.percentPipe.transform(
-                        node.percentage * 100, '.1-1')})`;
+                        nodePercentage(node) * 100, '.1-1')})`;
                     this.chartData.rows.push({
                         c           : [
                             {
@@ -105,7 +111,7 @@ export class LiquiGroupMarginTreemapComponent extends AbstractComponent {
         let row: ChartRow = this.chartData.rows[selectionEvent[0].row];
 
         let node: LiquiGroupMarginTreeNode = row.originalData;
-        if (node && node.leaf && node.data.text.indexOf('Rest') === -1) {
+        if (node && isLeaf(node) && node.data.text.indexOf('Rest') === -1) {
             this.router.navigate([
                 this.rootRoutePath,
                 node.data.clearer || '*',

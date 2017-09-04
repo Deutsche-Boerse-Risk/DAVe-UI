@@ -6,7 +6,6 @@ import {
     AuthProvider,
     DateUtils,
     IndexedDBReplaySubject,
-    ReplaySubjectExt,
     RxChain,
     StrictRxChain,
     UIDUtils
@@ -14,12 +13,15 @@ import {
 import {ErrorCollectorService} from '@dbg-riskit/dave-ui-error';
 
 import {
+    addNodeToTree,
     LiquiGroupMarginData,
     LiquiGroupMarginHistoryParams,
     LiquiGroupMarginParams,
     LiquiGroupMarginServerData,
     LiquiGroupMarginTree,
-    LiquiGroupMarginTreeNode
+    LiquiGroupMarginTreeNode,
+    traverseBF,
+    traverseDF
 } from './liqui.group.margin.types';
 
 import {AbstractService} from '../abstract.service';
@@ -38,7 +40,8 @@ export class LiquiGroupMarginService extends AbstractService {
 
     private latestSubject: IndexedDBReplaySubject<LiquiGroupMarginData[]>
         = new IndexedDBReplaySubject<LiquiGroupMarginData[]>('dave-liquiGroupMarginLatest');
-    private treeMapSubject: ReplaySubjectExt<LiquiGroupMarginTree> = new ReplaySubjectExt<LiquiGroupMarginTree>(1);
+    private treeMapSubject: IndexedDBReplaySubject<LiquiGroupMarginTree>
+        = new IndexedDBReplaySubject<LiquiGroupMarginTree>('dave-liquiGroupMarginTree');
     private latestSubscription: Subscription;
     private treeMapSubscription: Subscription;
 
@@ -114,7 +117,7 @@ export class LiquiGroupMarginService extends AbstractService {
 
                         if (!members[member]) {
                             members[member] = true;
-                            tree.add({
+                            addNodeToTree(tree, {
                                 id              : member,
                                 text            : member.replace(/\w+-/, ''),
                                 additionalMargin: 0,
@@ -125,7 +128,7 @@ export class LiquiGroupMarginService extends AbstractService {
 
                         if (!accounts[account]) {
                             accounts[account] = true;
-                            tree.add({
+                            addNodeToTree(tree, {
                                 id              : account,
                                 text            : account.replace(/\w+-/, ''),
                                 additionalMargin: 0,
@@ -137,7 +140,7 @@ export class LiquiGroupMarginService extends AbstractService {
 
                         if (!classes[marginClass]) {
                             classes[marginClass] = true;
-                            tree.add({
+                            addNodeToTree(tree, {
                                 id              : marginClass,
                                 text            : marginClass.replace(/\w+-/, ''),
                                 additionalMargin: 0,
@@ -148,7 +151,7 @@ export class LiquiGroupMarginService extends AbstractService {
                             }, account);
                         }
 
-                        tree.add({
+                        addNodeToTree(tree, {
                             id              : marginCurrency,
                             text            : marginCurrency.replace(/\w+-/, ''),
                             additionalMargin: row.additionalMargin,
@@ -160,7 +163,7 @@ export class LiquiGroupMarginService extends AbstractService {
                         }, marginClass);
                     });
 
-                    tree.traverseBF((node: LiquiGroupMarginTreeNode) => {
+                    traverseBF(tree, (node: LiquiGroupMarginTreeNode) => {
                         if (node.children && node.children.length === 1 && !!node.parent) {
                             let parentChildren = node.parent.children;
                             parentChildren.splice(parentChildren.indexOf(node), 1);
@@ -169,24 +172,27 @@ export class LiquiGroupMarginService extends AbstractService {
                         }
                     });
 
-                    tree.traverseDF((node: LiquiGroupMarginTreeNode) => {
+                    traverseDF(tree, (node: LiquiGroupMarginTreeNode) => {
                         node.children.sort((a, b) => {
                             return b.data.additionalMargin - a.data.additionalMargin;
                         });
                     });
 
-                    tree.traverseBF((node: LiquiGroupMarginTreeNode) => {
-                        let restNode = new LiquiGroupMarginTreeNode({
-                            id              : node.data.id + '-Rest',
-                            text            : 'Rest',
-                            additionalMargin: 0,
-                            clearer         : node.data.clearer,
-                            member          : node.data.member,
-                            account         : node.data.account,
-                            marginClass     : node.data.marginClass,
-                            marginCurrency  : node.data.marginCurrency
-                        });
-                        restNode.parent = node;
+                    traverseBF(tree, (node: LiquiGroupMarginTreeNode) => {
+                        let restNode: LiquiGroupMarginTreeNode = {
+                            data    : {
+                                id              : node.data.id + '-Rest',
+                                text            : 'Rest',
+                                additionalMargin: 0,
+                                clearer         : node.data.clearer,
+                                member          : node.data.member,
+                                account         : node.data.account,
+                                marginClass     : node.data.marginClass,
+                                marginCurrency  : node.data.marginCurrency
+                            },
+                            parent  : node,
+                            children: []
+                        };
                         let aggregateCount = Math.max(node.children.length - 10, 0);
                         if (aggregateCount > 1) {
                             for (let i = 0; i < aggregateCount; i++) {

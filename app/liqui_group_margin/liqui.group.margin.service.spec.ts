@@ -15,10 +15,12 @@ import {
 } from './liqui.group.margin.service';
 
 import {
+    isLeaf,
     LiquiGroupMarginData,
     LiquiGroupMarginServerData,
     LiquiGroupMarginTree,
-    LiquiGroupMarginTreeNode
+    LiquiGroupMarginTreeNode,
+    traverseDF
 } from './liqui.group.margin.types';
 
 import {DATA_REFRESH_INTERVAL, PeriodicHttpService} from '../periodic.http.service';
@@ -61,10 +63,10 @@ describe('LiquiGroupMarginService', () => {
                         .toBe(liquiGroupMarginLatestURL);
                     expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params).not.toBeDefined();
                     let nodesCount = 0;
-                    data.traverseDF((node: LiquiGroupMarginTreeNode) => {
+                    traverseDF(data, (node: LiquiGroupMarginTreeNode) => {
                         nodesCount++;
 
-                        if (node.leaf) {
+                        if (isLeaf(node)) {
                             expect(node.children.length).toBe(0);
                         }
                         if (node.parent && node.children.length) {
@@ -92,7 +94,7 @@ describe('LiquiGroupMarginService', () => {
                         .toBe(liquiGroupMarginLatestURL);
                     expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params).not.toBeDefined();
 
-                    expect((data as any)._root).not.toBeDefined();
+                    expect((data as any).root).not.toBeDefined();
                 });
 
             expect(httpSyp).toHaveBeenCalledTimes(2);
@@ -106,7 +108,7 @@ describe('LiquiGroupMarginService', () => {
                         .toBe(liquiGroupMarginLatestURL);
                     expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params).not.toBeDefined();
 
-                    expect((data as any)._root).not.toBeDefined();
+                    expect((data as any).root).not.toBeDefined();
                 });
 
             expect(httpSyp).toHaveBeenCalledTimes(3);
