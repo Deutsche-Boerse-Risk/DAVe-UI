@@ -80,41 +80,17 @@ export type SelectValues = {
     subRecords: PositionReportChartDataSelect
 }
 
-export class PositionReportChartDataSelect {
-
-    private options: {
+export interface PositionReportChartDataSelect {
+    options: {
         [key: string]: SelectValues
-    } = {};
+    };
+    key?: string;
+}
 
-    constructor(public key?: string) {
-    }
-
-    public getOptions(): PositionReportBubble[] {
-        return Object.keys(this.options).map((key: string) => {
-            return this.options[key].record;
-        });
-    }
-
-    public get(key: string): SelectValues {
-        return this.options[key];
-    }
-
-    public create(key: string): SelectValues {
-        return this.options[key] = {
-            subRecords: new PositionReportChartDataSelect(key)
-        };
-    }
-
-    public sort(): void {
-        this.options = Object.keys(this.options).sort()
-            .reduce((newOptions: { [key: string]: SelectValues }, key: string) => {
-                newOptions[key] = this.options[key];
-                if (newOptions[key].subRecords) {
-                    newOptions[key].subRecords.sort();
-                }
-                return newOptions;
-            }, {});
-    }
+export function toOptionsArray(selection: PositionReportChartDataSelect): PositionReportBubble[] {
+    return Object.keys(selection.options).map((key: string) => {
+        return selection.options[key].record;
+    });
 }
 
 export interface PositionReportBubble {

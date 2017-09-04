@@ -6,7 +6,6 @@ import {
     AuthProvider,
     DateUtils,
     IndexedDBReplaySubject,
-    ReplaySubjectExt,
     RxChain,
     StrictRxChain,
     UIDUtils
@@ -24,7 +23,8 @@ import {
     PositionReportServerData,
     PositionReportsHistoryParams,
     PositionReportsParams,
-    SelectValues
+    SelectValues,
+    toOptionsArray
 } from './position.report.types';
 
 import {Observable} from 'rxjs/Observable';
@@ -40,7 +40,8 @@ export class PositionReportsService extends AbstractService {
 
     private latestSubject: IndexedDBReplaySubject<PositionReportData[]>
         = new IndexedDBReplaySubject<PositionReportData[]>('dave-positionReportsLatest');
-    private chartsSubject: ReplaySubjectExt<PositionReportChartData> = new ReplaySubjectExt<PositionReportChartData>(1);
+    private chartsSubject: IndexedDBReplaySubject<PositionReportChartData>
+        = new IndexedDBReplaySubject<PositionReportChartData>('dave-positionReportsBubbles');
     private latestSubscription: Subscription;
     private chartsSubscription: Subscription;
 
@@ -87,7 +88,9 @@ export class PositionReportsService extends AbstractService {
             .guardedDeferredMap(
                 (data: PositionReportData[], subscriber: Subscriber<PositionReportChartData>) => {
                     let chartRecords: PositionReportBubble[] = [];
-                    let selection: PositionReportChartDataSelect = new PositionReportChartDataSelect();
+                    let selection: PositionReportChartDataSelect = {
+                        options: {}
+                    };
                     let clearingCurrency: string = null;
 
                     if (data) {
@@ -122,16 +125,27 @@ export class PositionReportsService extends AbstractService {
                                     bubblesMap.set(bubbleKey, bubble);
                                 }
 
-                                let selectValues: SelectValues = selection.get(memberKey);
+                                let selectValues: SelectValues = selection.options[memberKey];
 
-                                if (!(selectValues)) {
-                                    selectValues = selection.create(memberKey);
-                                    selectValues.record = bubble;
+                                if (!selectValues) {
+                                    selection.options[memberKey] = {
+                                        subRecords: {
+                                            key    : memberKey,
+                                            options: {}
+                                        },
+                                        record    : bubble
+                                    };
+                                    selectValues = selection.options[memberKey];
                                 }
 
-                                if (!(selectValues.subRecords.get(record.account))) {
-                                    selectValues = selectValues.subRecords.create(record.account);
-                                    selectValues.record = bubble;
+                                if (!(selectValues.subRecords.options[record.account])) {
+                                    selectValues.subRecords.options[record.account] = {
+                                        subRecords: {
+                                            key    : record.account,
+                                            options: {}
+                                        },
+                                        record    : bubble
+                                    };
                                 }
                                 return bubblesMap;
                             }, new Map())
@@ -139,8 +153,8 @@ export class PositionReportsService extends AbstractService {
                                 chartRecords.push(bubble);
                             });
                     }
-                    selection.sort();
-                    let options = selection.getOptions();
+                    sortSelectValues(selection);
+                    let options = toOptionsArray(selection);
                     subscriber.next({
                         bubbles         : chartRecords,
                         clearingCurrency: clearingCurrency,
@@ -155,7 +169,9 @@ export class PositionReportsService extends AbstractService {
                         this.chartsSubject.next({
                             bubbles         : [],
                             clearingCurrency: null,
-                            selection       : new PositionReportChartDataSelect(),
+                            selection       : {
+                                options: {}
+                            },
                             memberSelection : null,
                             accountSelection: null
                         });
@@ -216,4 +232,15 @@ export class PositionReportsService extends AbstractService {
             contractDate: new Date(record.contractYear, record.contractMonth - 1, record.expiryDay || 1, 0, 0, 0, 0)
         };
     }
+}
+
+export function sortSelectValues(selection: PositionReportChartDataSelect): void {
+    selection.options = Object.keys(selection.options).sort()
+        .reduce((newOptions: { [key: string]: SelectValues }, key: string) => {
+            newOptions[key] = selection.options[key];
+            if (newOptions[key].subRecords) {
+                sortSelectValues(newOptions[key].subRecords);
+            }
+            return newOptions;
+        }, {});
 }

@@ -8,7 +8,7 @@ import {PercentPipe} from '@dbg-riskit/dave-ui-view';
 import {AbstractComponent} from '../abstract.component';
 
 import {PositionReportsService} from './position.reports.service';
-import {PositionReportBubble, PositionReportChartData, SelectValues} from './position.report.types';
+import {PositionReportBubble, PositionReportChartData, SelectValues, toOptionsArray} from './position.report.types';
 import {Subscription} from 'rxjs/Subscription';
 
 export const compVarPositiveLegend = 'Positive';
@@ -127,7 +127,7 @@ export class PositionReportBubbleChartComponent extends AbstractComponent {
     public topRecordsCount: number = 20;
 
     public get memberSelectionOptions(): PositionReportBubble[] {
-        return this.sourceData.selection.getOptions();
+        return toOptionsArray(this.sourceData.selection);
     }
 
     public memberSelectionChanged(): void {
@@ -142,8 +142,9 @@ export class PositionReportBubbleChartComponent extends AbstractComponent {
 
     public get accountSelectionOptions(): PositionReportBubble[] {
         if (this.sourceData.memberSelection) {
-            let selectValues: SelectValues = this.sourceData.selection.get(this.sourceData.memberSelection.memberKey);
-            return selectValues.subRecords.getOptions();
+            let selectValues: SelectValues = this.sourceData.selection
+                .options[this.sourceData.memberSelection.memberKey];
+            return toOptionsArray(selectValues.subRecords);
         }
         return [];
     }

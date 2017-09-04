@@ -13,7 +13,8 @@ import {
     PositionReportBubble,
     PositionReportChartData,
     PositionReportData,
-    PositionReportServerData
+    PositionReportServerData,
+    toOptionsArray
 } from './position.report.types';
 
 import {DATA_REFRESH_INTERVAL, PeriodicHttpService} from '../periodic.http.service';
@@ -236,21 +237,25 @@ describe('PositionReportsService', () => {
         (positionReportsService: PositionReportsService, http: HttpServiceStub<PositionReportServerData[]>) => {
             let expectSelectItems = function (data: PositionReportChartData, clearer: string, member: string,
                 account: string) {
-                expect(data.selection.get(clearer + '-' + member).subRecords).toBeDefined();
-                expect(data.selection.get(clearer + '-' + member).subRecords.getOptions()).toBeDefined();
-                expect(data.selection.get(clearer + '-' + member).subRecords.getOptions().length).toBe(2);
-                expect(data.selection.get(clearer + '-' + member).subRecords.get(account)).toBeDefined();
-                expect(data.selection.get(clearer + '-' + member).subRecords.get(account).record.clearer).toBe(clearer);
-                expect(data.selection.get(clearer + '-' + member).subRecords.get(account).record.member).toBe(member);
-                expect(data.selection.get(clearer + '-' + member).subRecords.get(account).record.account).toBe(account);
+                let selectMemberValue = data.selection.options[clearer + '-' + member];
+                let availableAccount = selectMemberValue.subRecords;
+                let options = toOptionsArray(availableAccount);
+                let selectedAccountValue = availableAccount.options[account];
+                expect(availableAccount).toBeDefined();
+                expect(options).toBeDefined();
+                expect(options.length).toBe(2);
+                expect(selectedAccountValue).toBeDefined();
+                expect(selectedAccountValue.record.clearer).toBe(clearer);
+                expect(selectedAccountValue.record.member).toBe(member);
+                expect(selectedAccountValue.record.account).toBe(account);
             };
             let subscription = positionReportsService.getPositionReportsChartData()
                 .subscribe((data: PositionReportChartData) => {
                     expect((httpSyp.calls.mostRecent().args[0] as Request<any>).resourceURL).toBe(latestURL);
                     expect((httpSyp.calls.mostRecent().args[0] as Request<any>).params).toBeUndefined();
 
-                    expect(data.selection.getOptions()).toBeDefined();
-                    expect(data.selection.getOptions().length).toBe(2);
+                    expect(toOptionsArray(data.selection)).toBeDefined();
+                    expect(toOptionsArray(data.selection).length).toBe(2);
                     expectSelectItems(data, 'B', 'F', 'I');
                     expectSelectItems(data, 'D', 'G', 'I');
                     expectSelectItems(data, 'D', 'G', 'J');
