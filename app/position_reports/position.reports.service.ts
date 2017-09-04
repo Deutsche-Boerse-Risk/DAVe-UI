@@ -5,6 +5,7 @@ import {
     AUTH_PROVIDER,
     AuthProvider,
     DateUtils,
+    IndexedDBArrayReplaySubject,
     IndexedDBReplaySubject,
     RxChain,
     StrictRxChain,
@@ -38,8 +39,8 @@ export const historyURL: string = '/api/v1.0/pr/history';
 @Injectable()
 export class PositionReportsService extends AbstractService {
 
-    private latestSubject: IndexedDBReplaySubject<PositionReportData[]>
-        = new IndexedDBReplaySubject<PositionReportData[]>('dave-positionReportsLatest');
+    private latestSubject: IndexedDBArrayReplaySubject<PositionReportData>
+        = new IndexedDBArrayReplaySubject<PositionReportData>(1000, 'dave-positionReportsLatest');
     private chartsSubject: IndexedDBReplaySubject<PositionReportChartData>
         = new IndexedDBReplaySubject<PositionReportChartData>('dave-positionReportsBubbles');
     private latestSubscription: Subscription;
