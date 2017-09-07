@@ -37,16 +37,16 @@
                 contentAlign="right"
                 [sortingKey]="valueGetters.compVar">
             <ng-template let-record="row" cell-template>
-                {{record.compVar | number:'.0-0'}}
+                {{record.compVar | number:'.0-0'}} {{record.clearingCurrency}}
             </ng-template>
         </column>
-        <column title="EuroDelta"
-                tooltip="Position sensitivity to underlying move in Euro"
+        <column title="EUR Delta"
+                tooltip="Position sensitivity to underlying move in EUR"
                 headerAlign="right"
                 contentAlign="right"
                 [sortingKey]="valueGetters.normalizedDelta">
             <ng-template let-record="row" cell-template>
-                {{record.normalizedDelta | number:'.0-0'}}
+                {{record.normalizedDelta | number:'.0-0'}} EUR
             </ng-template>
         </column>
         <column title="LA"
@@ -55,7 +55,7 @@
                 contentAlign="right"
                 [sortingKey]="valueGetters.compLiquidityAddOn">
             <ng-template let-record="row" cell-template>
-                {{record.compLiquidityAddOn | number:'.0-0'}}
+                {{record.compLiquidityAddOn | number:'.0-0'}} {{record.clearingCurrency}}
             </ng-template>
         </column>
         <column>
@@ -66,11 +66,6 @@
         <!-- Sub detail -->
         <row-detail>
             <column-group>
-                <column title="Clearing Ccy">
-                    <ng-template let-record="row" cell-template>
-                        {{record.clearingCurrency}}
-                    </ng-template>
-                </column>
                 <column title="Product Ccy">
                     <ng-template let-record="row" cell-template>
                         {{record.productCurrency}}
@@ -89,7 +84,7 @@
                         headerAlign="right"
                         contentAlign="right">
                     <ng-template let-record="row" cell-template>
-                        {{record.compCorrelationBreak | number:'.0-0'}}
+                        {{record.compCorrelationBreak | number:'.0-0'}} {{record.clearingCurrency}}
                     </ng-template>
                 </column>
                 <column title="CompError"
@@ -97,7 +92,7 @@
                         headerAlign="right"
                         contentAlign="right">
                     <ng-template let-record="row" cell-template>
-                        {{record.compCompressionError | number:'.0-0'}}
+                        {{record.compCompressionError | number:'.0-0'}} {{record.clearingCurrency}}
                     </ng-template>
                 </column>
                 <column title="LonOptCredit"
@@ -105,14 +100,14 @@
                         headerAlign="right"
                         contentAlign="right">
                     <ng-template let-record="row" cell-template>
-                        {{record.compLongOptionCredit | number:'.0-0'}}
+                        {{record.compLongOptionCredit | number:'.0-0'}} {{record.clearingCurrency}}
                     </ng-template>
                 </column>
                 <column title="PremPay"
                         headerAlign="right"
                         contentAlign="right">
                     <ng-template let-record="row" cell-template>
-                        {{record.variationPremiumPayment | number:'.2-2'}}
+                        {{record.variationPremiumPayment | number:'.2-2'}} {{record.productCurrency}}
                     </ng-template>
                 </column>
             </column-group>
@@ -121,35 +116,35 @@
                         headerAlign="right"
                         contentAlign="right">
                     <ng-template let-record="row" cell-template>
-                        {{record.premiumMargin | number:'.0-0'}}
+                        {{record.premiumMargin | number:'.0-0'}} {{record.productCurrency}}
                     </ng-template>
                 </column>
-                <column title="Gamma"
+                <column title="EUR Gamma"
                         headerAlign="right"
                         contentAlign="right">
                     <ng-template let-record="row" cell-template>
-                        {{record.normalizedGamma | number:'.0-0'}}
+                        {{record.normalizedGamma | number:'.0-0'}} EUR
                     </ng-template>
                 </column>
-                <column title="Vega"
+                <column title="EUR Vega"
                         headerAlign="right"
                         contentAlign="right">
                     <ng-template let-record="row" cell-template>
-                        {{record.normalizedVega | number:'.0-0'}}
+                        {{record.normalizedVega | number:'.0-0'}} EUR
                     </ng-template>
                 </column>
-                <column title="Rho"
+                <column title="EUR Rho"
                         headerAlign="right"
                         contentAlign="right">
                     <ng-template let-record="row" cell-template>
-                        {{record.normalizedRho | number:'.0-0'}}
+                        {{record.normalizedRho | number:'.0-0'}} EUR
                     </ng-template>
                 </column>
-                <column title="Theta"
+                <column title="EUR Theta"
                         headerAlign="right"
                         contentAlign="right">
                     <ng-template let-record="row" cell-template>
-                        {{record.normalizedTheta | number:'.0-0'}}
+                        {{record.normalizedTheta | number:'.0-0'}} EUR
                     </ng-template>
                 </column>
                 <column title="MVar"
@@ -157,7 +152,7 @@
                         headerAlign="right"
                         contentAlign="right">
                     <ng-template let-record="row" cell-template>
-                        {{record.mVar | number:'.0-0'}}
+                        {{record.mVar | number:'.0-0'}} {{record.clearingCurrency}}
                     </ng-template>
                 </column>
             </column-group>

@@ -60,12 +60,14 @@ export class PositionReportHistoryComponent extends AbstractHistoryListComponent
             {
                 label: 'Net position',
                 type : 'number',
-                value: record.netQuantityLs
+                value: record.netQuantityLs,
+                ccy  : record.clearingCurrency
             },
             {
-                label: 'EuroDelta',
+                label: 'EUR Delta',
                 type : 'number',
-                value: record.normalizedDelta
+                value: record.normalizedDelta,
+                ccy  : 'EUR'
             },
             {
                 label: 'LA',
@@ -73,24 +75,28 @@ export class PositionReportHistoryComponent extends AbstractHistoryListComponent
                 value: record.compLiquidityAddOn
             },
             {
-                label: 'Gamma',
+                label: 'EUR Gamma',
                 type : 'number',
-                value: record.normalizedGamma
+                value: record.normalizedGamma,
+                ccy  : 'EUR'
             },
             {
-                label: 'Vega',
+                label: 'EUR Vega',
                 type : 'number',
-                value: record.normalizedVega
+                value: record.normalizedVega,
+                ccy  : 'EUR'
             },
             {
-                label: 'Rho',
+                label: 'EUR Rho',
                 type : 'number',
-                value: record.normalizedRho
+                value: record.normalizedRho,
+                ccy  : 'EUR'
             },
             {
-                label: 'Theta',
+                label: 'EUR Theta',
                 type : 'number',
-                value: record.normalizedTheta
+                value: record.normalizedTheta,
+                ccy  : 'EUR'
             }
         ];
     }
