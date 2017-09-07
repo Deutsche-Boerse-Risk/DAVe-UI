@@ -160,7 +160,7 @@ export const exportKeys: CSVExportColumn<PositionReportData>[] = [
     },
     {
         get   : valueGetters.exercisePrice,
-        header: 'Strk'
+        header: 'Strike'
     },
     {
         get   : valueGetters.version,
@@ -228,7 +228,7 @@ export const exportKeys: CSVExportColumn<PositionReportData>[] = [
     },
     {
         get   : (row: PositionReportData) => row.premiumMargin,
-        header: 'PremMrgn'
+        header: 'Premium Margin'
     },
     {
         get   : (row: PositionReportData) => row.normalizedGamma,
