@@ -160,7 +160,7 @@ export const exportKeys: CSVExportColumn<PositionReportData>[] = [
     },
     {
         get   : valueGetters.exercisePrice,
-        header: 'Exercise price'
+        header: 'Strk'
     },
     {
         get   : valueGetters.version,
@@ -180,11 +180,11 @@ export const exportKeys: CSVExportColumn<PositionReportData>[] = [
     },
     {
         get   : valueGetters.normalizedDelta,
-        header: 'EuroDelta'
+        header: 'EUR Delta'
     },
     {
-        get   : (row: PositionReportData) => row.flexContractSymbol,
-        header: 'Flex contract symbol'
+        get   : valueGetters.compLiquidityAddOn,
+        header: 'LA'
     },
     {
         get   : (row: PositionReportData) => row.liquidationGroup,
@@ -193,6 +193,10 @@ export const exportKeys: CSVExportColumn<PositionReportData>[] = [
     {
         get   : (row: PositionReportData) => row.liquidationGroupSplit,
         header: 'Liquidation group split'
+    },
+    {
+        get   : (row: PositionReportData) => row.flexContractSymbol,
+        header: 'Flex contract symbol'
     },
     {
         get   : (row: PositionReportData) => row.clearingCurrency,
@@ -219,10 +223,6 @@ export const exportKeys: CSVExportColumn<PositionReportData>[] = [
         header: 'LonOptCredit'
     },
     {
-        get   : valueGetters.compLiquidityAddOn,
-        header: 'CompLiquidityAddOn'
-    },
-    {
         get   : (row: PositionReportData) => row.variationPremiumPayment,
         header: 'PremPay'
     },
@@ -232,19 +232,19 @@ export const exportKeys: CSVExportColumn<PositionReportData>[] = [
     },
     {
         get   : (row: PositionReportData) => row.normalizedGamma,
-        header: 'Gamma'
+        header: 'EUR Gamma'
     },
     {
         get   : (row: PositionReportData) => row.normalizedVega,
-        header: 'Vega'
+        header: 'EUR Vega'
     },
     {
         get   : (row: PositionReportData) => row.normalizedRho,
-        header: 'Rho'
+        header: 'EUR Rho'
     },
     {
         get   : (row: PositionReportData) => row.normalizedTheta,
-        header: 'Theta'
+        header: 'EUR Theta'
     },
     {
         get   : (row: PositionReportData) => row.mVar,
