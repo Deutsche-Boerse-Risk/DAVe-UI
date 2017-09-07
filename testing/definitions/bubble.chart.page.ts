@@ -30,7 +30,7 @@ export class BubbleChartPage extends LinkOnlyPage<PositionReportBubbleChartCompo
     };
 
     public get memberSelectionOptions(): PositionReportBubble[] {
-        return this.component.sourceData.selection.getOptions();
+        return this.component.memberSelectionOptions;
     }
 
     public get memberSelectValue(): string {
@@ -51,8 +51,7 @@ export class BubbleChartPage extends LinkOnlyPage<PositionReportBubbleChartCompo
     };
 
     public get accountSelectionOptions(): PositionReportBubble[] {
-        return this.component.sourceData.selection.get(this.component.sourceData.memberSelection.memberKey)
-            .subRecords.getOptions();
+        return this.component.accountSelectionOptions;
     }
 
     public get accountSelectValue(): string {

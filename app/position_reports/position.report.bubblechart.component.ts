@@ -93,22 +93,21 @@ export class PositionReportBubbleChartComponent extends AbstractComponent {
         if (this.sourceData) {
             this.sourceData.bubbles = chartData.bubbles;
             this.sourceData.selection = chartData.selection;
-            if (!this.sourceData.memberSelection || !this.sourceData.selection
-                    .getOptions().some((option: PositionReportBubble) => {
+            if (!this.sourceData.memberSelection || !this.memberSelectionOptions
+                    .some((option: PositionReportBubble) => {
                         return option.memberKey === this.sourceData.memberSelection.memberKey;
                     })) {
                 this.sourceData.memberSelection = chartData.memberSelection;
             }
 
             if (this.sourceData.memberSelection) {
-                let selectValues: SelectValues = this.sourceData.selection.get(
-                    this.sourceData.memberSelection.memberKey);
-                if (!this.sourceData.accountSelection || !selectValues.subRecords
-                        .getOptions().some((option: PositionReportBubble) => {
+                let options = this.accountSelectionOptions;
+                if (!this.sourceData.accountSelection || !options
+                        .some((option: PositionReportBubble) => {
                             return option.memberKey === this.sourceData.accountSelection.memberKey
                                 && option.account === this.sourceData.accountSelection.account;
                         })) {
-                    this.sourceData.accountSelection = selectValues.subRecords.getOptions()[0];
+                    this.sourceData.accountSelection = options[0];
                 }
             } else {
                 delete this.sourceData.accountSelection;
@@ -127,14 +126,26 @@ export class PositionReportBubbleChartComponent extends AbstractComponent {
 
     public topRecordsCount: number = 20;
 
+    public get memberSelectionOptions(): PositionReportBubble[] {
+        return this.sourceData.selection.getOptions();
+    }
+
     public memberSelectionChanged(): void {
-        let selectValues: SelectValues = this.sourceData.selection.get(this.sourceData.memberSelection.memberKey);
-        if (selectValues.subRecords.getOptions().length) {
-            this.sourceData.accountSelection = selectValues.subRecords.getOptions()[0];
+        let options = this.accountSelectionOptions;
+        if (options.length) {
+            this.sourceData.accountSelection = options[0];
         } else {
             delete this.sourceData.accountSelection;
         }
         this.accountSelectionChanged();
+    }
+
+    public get accountSelectionOptions(): PositionReportBubble[] {
+        if (this.sourceData.memberSelection) {
+            let selectValues: SelectValues = this.sourceData.selection.get(this.sourceData.memberSelection.memberKey);
+            return selectValues.subRecords.getOptions();
+        }
+        return [];
     }
 
     public accountSelectionChanged(): void {

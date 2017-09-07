@@ -2,7 +2,7 @@
     <md-select placeholder="Member"
                [(ngModel)]="sourceData.memberSelection"
                (ngModelChange)="memberSelectionChanged()">
-        <md-option *ngFor="let option of sourceData?.selection.getOptions(); trackBy:trackByKey"
+        <md-option *ngFor="let option of memberSelectionOptions; trackBy:trackByKey"
                    [value]="option">{{option.member}}
         </md-option>
     </md-select>
@@ -10,7 +10,7 @@
                [(ngModel)]="sourceData.accountSelection"
                (ngModelChange)="accountSelectionChanged()">
         <md-option
-                *ngFor="let option of sourceData?.selection.get(sourceData?.memberSelection?.memberKey)?.subRecords.getOptions(); trackBy:trackByKey"
+                *ngFor="let option of accountSelectionOptions; trackBy:trackByKey"
                 [value]="option">{{option.account}}
         </md-option>
     </md-select>
