@@ -28,8 +28,6 @@ export abstract class AbstractListComponent<T extends { uid: string }> extends A
 
     public ngOnInit(): void {
         this.route.params.forEach(this.processRoute.bind(this));
-
-        super.ngOnInit();
     }
 
     public abstract get defaultOrdering(): (OrderingCriteria<T> | ValueGetter<T>)[];
@@ -55,6 +53,7 @@ export abstract class AbstractListComponent<T extends { uid: string }> extends A
                 }
             }
         });
+        this.initLoad();
     }
 
     protected createRoutePart(title: string, routePart: string, key: string, index: number): RoutePart {

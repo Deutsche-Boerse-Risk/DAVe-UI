@@ -72,7 +72,8 @@ export class PositionReportHistoryComponent extends AbstractHistoryListComponent
             {
                 label: 'LA',
                 type : 'number',
-                value: record.compLiquidityAddOn
+                value: record.compLiquidityAddOn,
+                ccy  : record.clearingCurrency
             },
             {
                 label: 'EUR Gamma',

@@ -1,8 +1,12 @@
 <md-chip-list *ngIf="filteredRouteParts?.length > 0">
-    <md-chip *ngFor="let part of filteredRouteParts; trackBy:trackByIndex" #chip
-             [disabled]="part.inactive"
+    <md-chip *ngFor="let part of filteredRouteParts; trackBy:trackByIndex"
              [selected]="filteredRouteParts.indexOf(part) === 0"
-             (click)="navigate(part)">
+             selectable="false"
+             class="mat-elevation-z3">
         {{part.title}}
+        <md-icon *ngIf="filteredRouteParts.indexOf(part) !== 0"
+                 mdChipRemove
+                 (click)="navigate(part)">cancel
+        </md-icon>
     </md-chip>
 </md-chip-list>

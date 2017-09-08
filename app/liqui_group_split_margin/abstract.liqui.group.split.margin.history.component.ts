@@ -8,8 +8,6 @@ import {LiquiGroupSplitMarginData, LiquiGroupSplitMarginHistoryParams} from './l
 
 import {AbstractHistoryListComponent} from '../list/abstract.history.list.component';
 
-import {RoutePart} from '../list/bread.crumbs.component';
-
 import {Subscription} from 'rxjs/Subscription';
 
 export const routingKeys: (keyof LiquiGroupSplitMarginHistoryParams)[] = [
@@ -41,17 +39,6 @@ export abstract class AbstractLiquiGroupSplitMarginHistoryComponent
             (rows: LiquiGroupSplitMarginData[]) => {
                 this.processData(rows);
             });
-    }
-
-    protected createRoutePart(title: string, routePath: string, key: string, index: number): RoutePart {
-        let part: RoutePart = super.createRoutePart(title, routePath, key, index);
-        if (key === 'marginCurrency') {
-            part.inactive = true;
-        }
-        if (key === 'liquidationGroupSplit') {
-            part.inactive = true;
-        }
-        return part;
     }
 
     public get defaultOrdering(): OrderingCriteria<LiquiGroupSplitMarginData>[] {

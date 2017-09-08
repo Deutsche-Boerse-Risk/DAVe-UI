@@ -7,7 +7,6 @@ export interface RoutePart {
     title: string;
     routePart: string;
     index?: number;
-    inactive?: boolean;
 }
 
 @Component({
@@ -32,23 +31,25 @@ export class BreadCrumbsComponent implements OnChanges {
 
     public ngOnChanges(changes: SimpleChanges): void {
         if (this.routeParts) {
-            this.filteredRouteParts = this.routeParts.filter((part: RoutePart, index: number) => {
-                part.index = index;
-                return part.title !== '*';
-            });
+            this.filterParts();
         }
+    }
+
+    private filterParts() {
+        this.filteredRouteParts = this.routeParts.filter((part: RoutePart, index: number) => {
+            part.index = index;
+            return part.title !== '*';
+        });
     }
 
     public navigate(part: RoutePart): void {
-        if (!part.inactive) {
-            this.router.navigate(this.getRoute(part));
-        }
+        part.routePart = '*';
+        this.router.navigate(this.getRoute());
     }
 
-    private getRoute(part: RoutePart): string[] {
-        let index = part.index;
+    private getRoute(): string[] {
         const items: string[] = [];
-        for (let i = 0; i <= index; i++) {
+        for (let i = 0; i < this.routeParts.length; i++) {
             items.push(this.routeParts[i].routePart);
         }
         return items;

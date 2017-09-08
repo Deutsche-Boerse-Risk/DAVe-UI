@@ -6,8 +6,6 @@ import {DateFormatter} from '@dbg-riskit/dave-ui-view';
 
 import {AbstractListComponent} from './abstract.list.component';
 
-import {RoutePart} from './bread.crumbs.component';
-
 export interface LineChartColumn extends ChartColumn {
     value: any;
     ccy?: string;
@@ -113,15 +111,6 @@ export abstract class AbstractHistoryListComponent<T extends { uid: string }> ex
 
     constructor(route: ActivatedRoute, private dateFormatter: DateFormatter, private numberPipe: DecimalPipe) {
         super(route);
-    }
-
-    protected createRoutePart(title: string, routePath: string, key: string, index: number): RoutePart {
-        if (index === 0) {
-            let part: RoutePart = super.createRoutePart(title, routePath, key, index);
-            part.inactive = true;
-            return part;
-        }
-        return super.createRoutePart(title, routePath, key, index);
     }
 
     protected processData(data: T[]): void {

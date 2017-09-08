@@ -9,7 +9,6 @@ import {LiquiGroupSplitMarginService} from './liqui.group.split.margin.service';
 import {LiquiGroupSplitMarginData, LiquiGroupSplitMarginParams} from './liqui.group.split.margin.types';
 
 import {AbstractLatestListComponent} from '../list/abstract.latest.list.component';
-import {RoutePart} from '../list/bread.crumbs.component';
 
 import {Subscription} from 'rxjs/Subscription';
 
@@ -40,14 +39,6 @@ export abstract class AbstractLiquiGroupSplitMarginLatestComponent
             (rows: LiquiGroupSplitMarginData[]) => {
                 this.processData(rows);
             });
-    }
-
-    protected createRoutePart(title: string, routePath: string, key: string, index: number): RoutePart {
-        let part: RoutePart = super.createRoutePart(title, routePath, key, index);
-        if (key === 'liquidationGroupSplit') {
-            part.inactive = true;
-        }
-        return part;
     }
 
     public get defaultOrdering(): (

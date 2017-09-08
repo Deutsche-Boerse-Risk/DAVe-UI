@@ -11,7 +11,6 @@ import {LiquiGroupMarginService} from './liqui.group.margin.service';
 import {LiquiGroupMarginData, LiquiGroupMarginHistoryParams} from './liqui.group.margin.types';
 
 import {AbstractHistoryListComponent, LineChartColumn} from '../list/abstract.history.list.component';
-import {RoutePart} from '../list/bread.crumbs.component';
 
 import {exportKeys, valueGetters} from './liqui.group.margin.latest.component';
 
@@ -48,14 +47,6 @@ export class LiquiGroupMarginHistoryComponent extends AbstractHistoryListCompone
             (rows: LiquiGroupMarginData[]) => {
                 this.processData(rows);
             });
-    }
-
-    protected createRoutePart(title: string, routePath: string, key: string, index: number): RoutePart {
-        let part: RoutePart = super.createRoutePart(title, routePath, key, index);
-        if (key === 'marginCurrency') {
-            part.inactive = true;
-        }
-        return part;
     }
 
     protected getTickFromRecord(record: LiquiGroupMarginData): LineChartColumn[] {
