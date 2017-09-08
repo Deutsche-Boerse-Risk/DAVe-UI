@@ -38,7 +38,7 @@ export class InitialMarginHistoryComponent extends AbstractLiquiGroupSplitMargin
                 ccy  : record.marginCurrency
             },
             {
-                label: 'Liqu Risk',
+                label: 'Liquidity Add-on (LA)',
                 type : 'number',
                 value: record.liquRisk,
                 ccy  : record.marginCurrency

@@ -89,7 +89,7 @@ export const exportKeys: CSVExportColumn<LiquiGroupSplitMarginData>[] = [
     },
     {
         get   : valueGetters.liquRisk,
-        header: 'Liqu Risk'
+        header: 'Liquidity Add-on (LA)'
     },
     {
         get   : valueGetters.longOptionCredit,
