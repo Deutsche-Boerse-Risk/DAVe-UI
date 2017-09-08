@@ -51,6 +51,10 @@ export class RiskLimitUtilizationLatestComponent extends AbstractLatestListCompo
         return exportKeys;
     }
 
+    public get filterValueGetters(): ValueGetter<RiskLimitUtilizationData>[] {
+        return filterValueGetters;
+    }
+
     protected get routingKeys(): string[] {
         return routingKeys;
     }
@@ -84,6 +88,19 @@ export const valueGetters = {
     rejectUtil   : (row: RiskLimitUtilizationData) => row.rejectUtil,
     received     : (row: RiskLimitUtilizationData) => row.received
 };
+
+export const filterValueGetters = [
+    valueGetters.member,
+    valueGetters.maintainer,
+    valueGetters.limitType,
+    valueGetters.utilization,
+    valueGetters.warningLevel,
+    valueGetters.warningUtil,
+    valueGetters.throttleLevel,
+    valueGetters.throttleUtil,
+    valueGetters.rejectLevel,
+    valueGetters.rejectUtil
+];
 
 const defaultOrdering: (
     OrderingCriteria<RiskLimitUtilizationData>

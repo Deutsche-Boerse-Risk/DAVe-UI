@@ -2,6 +2,7 @@ import {DecimalPipe} from '@angular/common';
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
+import {ValueGetter} from '@dbg-riskit/dave-ui-common';
 import {COMPONENT_CSS} from '@dbg-riskit/dave-ui-devkit';
 import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
 import {DateFormatter} from '@dbg-riskit/dave-ui-view';
@@ -26,6 +27,10 @@ export class VariationPremiumMarginLatestComponent extends AbstractLiquiGroupSpl
         return exportKeys;
     }
 
+    public get filterValueGetters(): ValueGetter<LiquiGroupSplitMarginData>[] {
+        return filterValueGetters;
+    }
+
     public get rootRouteTitle(): string {
         return 'Latest Variation / Premium Margin';
     }
@@ -47,10 +52,21 @@ export const valueGetters = {
     account                : (row: LiquiGroupSplitMarginData) => row.account,
     liquidationGroup       : (row: LiquiGroupSplitMarginData) => row.liquidationGroup,
     liquidationGroupSplit  : (row: LiquiGroupSplitMarginData) => row.liquidationGroupSplit,
+    marginCurrency         : (row: LiquiGroupSplitMarginData) => row.marginCurrency,
     premiumMargin          : (row: LiquiGroupSplitMarginData) => row.premiumMargin,
     variationPremiumPayment: (row: LiquiGroupSplitMarginData) => row.variationPremiumPayment,
     received               : (row: LiquiGroupSplitMarginData) => row.received
 };
+
+export const filterValueGetters = [
+    valueGetters.member,
+    valueGetters.account,
+    valueGetters.liquidationGroup,
+    valueGetters.liquidationGroupSplit,
+    valueGetters.premiumMargin,
+    valueGetters.variationPremiumPayment,
+    valueGetters.marginCurrency
+];
 
 export const exportKeys: CSVExportColumn<LiquiGroupSplitMarginData>[] = [
     {
@@ -74,7 +90,7 @@ export const exportKeys: CSVExportColumn<LiquiGroupSplitMarginData>[] = [
         header: 'Liquidation Group Split'
     },
     {
-        get   : (row: LiquiGroupSplitMarginData) => row.marginCurrency,
+        get   : valueGetters.marginCurrency,
         header: 'Margin Currency'
     },
     {

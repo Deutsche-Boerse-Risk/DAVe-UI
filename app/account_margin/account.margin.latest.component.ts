@@ -54,6 +54,10 @@ export class AccountMarginLatestComponent extends AbstractLatestListComponent<Ac
         return exportKeys;
     }
 
+    public get filterValueGetters(): ValueGetter<AccountMarginData>[] {
+        return filterValueGetters;
+    }
+
     protected get routingKeys(): string[] {
         return routingKeys;
     }
@@ -78,6 +82,7 @@ export const valueGetters = {
     member                     : (row: AccountMarginData) => row.member,
     account                    : (row: AccountMarginData) => row.account,
     marginCurrency             : (row: AccountMarginData) => row.marginCurrency,
+    clearingCurrency           : (row: AccountMarginData) => row.clearingCurrency,
     pool                       : (row: AccountMarginData) => row.pool,
     marginReqInMarginCurr      : (row: AccountMarginData) => row.marginReqInMarginCurr,
     marginReqInClrCurr         : (row: AccountMarginData) => row.marginReqInClrCurr,
@@ -85,6 +90,18 @@ export const valueGetters = {
     variationPremiumPayment    : (row: AccountMarginData) => row.variationPremiumPayment,
     received                   : (row: AccountMarginData) => row.received
 };
+
+export const filterValueGetters = [
+    valueGetters.member,
+    valueGetters.account,
+    valueGetters.marginCurrency,
+    valueGetters.clearingCurrency,
+    valueGetters.pool,
+    valueGetters.marginReqInMarginCurr,
+    valueGetters.marginReqInClrCurr,
+    valueGetters.unadjustedMarginRequirement,
+    valueGetters.variationPremiumPayment
+];
 
 const defaultOrdering: (OrderingCriteria<AccountMarginData> | ValueGetter<AccountMarginData>)[] = [
     {
@@ -115,7 +132,7 @@ export const exportKeys: CSVExportColumn<AccountMarginData>[] = [
         header: 'Margin currency'
     },
     {
-        get   : (row: AccountMarginData) => row.clearingCurrency,
+        get   : valueGetters.clearingCurrency,
         header: 'Clearing currency'
     },
     {

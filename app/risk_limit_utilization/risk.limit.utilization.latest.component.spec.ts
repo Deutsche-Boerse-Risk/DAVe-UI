@@ -13,7 +13,12 @@ import {
 import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 
-import {generateRiskLimitUtilization, generateRiskLimitUtilizationHistory, LatestListPage} from '@dave/testing';
+import {
+    filterPartsTestHelper,
+    generateRiskLimitUtilization,
+    generateRiskLimitUtilizationHistory,
+    LatestListPage
+} from '@dave/testing';
 
 import {
     RiskLimitUtilizationData,
@@ -24,7 +29,12 @@ import {RiskLimitUtilizationService} from './risk.limit.utilization.service';
 
 import {DATA_REFRESH_INTERVAL} from '../periodic.http.service';
 
-import {exportKeys, RiskLimitUtilizationLatestComponent, valueGetters} from './risk.limit.utilization.latest.component';
+import {
+    exportKeys,
+    filterValueGetters,
+    RiskLimitUtilizationLatestComponent,
+    valueGetters
+} from './risk.limit.utilization.latest.component';
 import {ROUTES} from '../routes/routing.paths';
 
 describe('Risk limit utilization latest component', () => {
@@ -243,7 +253,7 @@ describe('Risk limit utilization latest component', () => {
             let originalItems = data.length;
             let items = originalItems;
             let filter = '';
-            let idParts = firstRow.uid.split('-');
+            let idParts = filterPartsTestHelper(filterValueGetters, firstRow);
             for (let id of idParts) {
                 filter += id + ' ';
                 page.filter(filter);

@@ -56,6 +56,10 @@ export class LiquiGroupMarginLatestComponent extends AbstractLatestListComponent
         return exportKeys;
     }
 
+    public get filterValueGetters(): ValueGetter<LiquiGroupMarginData>[] {
+        return filterValueGetters;
+    }
+
     protected get routingKeys(): string[] {
         return routingKeys;
     }
@@ -81,12 +85,25 @@ export const valueGetters = {
     account                    : (row: LiquiGroupMarginData) => row.account,
     marginClass                : (row: LiquiGroupMarginData) => row.marginClass,
     premiumMargin              : (row: LiquiGroupMarginData) => row.premiumMargin,
+    marginCurrency             : (row: LiquiGroupMarginData) => row.marginCurrency,
     currentLiquidatingMargin   : (row: LiquiGroupMarginData) => row.currentLiquidatingMargin,
     additionalMargin           : (row: LiquiGroupMarginData) => row.additionalMargin,
     unadjustedMarginRequirement: (row: LiquiGroupMarginData) => row.unadjustedMarginRequirement,
     variationPremiumPayment    : (row: LiquiGroupMarginData) => row.variationPremiumPayment,
     received                   : (row: LiquiGroupMarginData) => row.received
 };
+
+export const filterValueGetters = [
+    valueGetters.member,
+    valueGetters.account,
+    valueGetters.marginClass,
+    valueGetters.premiumMargin,
+    valueGetters.marginCurrency,
+    valueGetters.currentLiquidatingMargin,
+    valueGetters.additionalMargin,
+    valueGetters.unadjustedMarginRequirement,
+    valueGetters.variationPremiumPayment
+];
 
 const defaultOrdering: (OrderingCriteria<LiquiGroupMarginData> | ValueGetter<LiquiGroupMarginData>)[] = [
     {
@@ -97,7 +114,7 @@ const defaultOrdering: (OrderingCriteria<LiquiGroupMarginData> | ValueGetter<Liq
     valueGetters.member,
     valueGetters.account,
     valueGetters.marginClass,
-    (row: LiquiGroupMarginData) => row.marginCurrency
+    valueGetters.marginCurrency
 ];
 
 export const exportKeys: CSVExportColumn<LiquiGroupMarginData>[] = [
@@ -118,7 +135,7 @@ export const exportKeys: CSVExportColumn<LiquiGroupMarginData>[] = [
         header: 'Margin Class'
     },
     {
-        get   : (row: LiquiGroupMarginData) => row.marginCurrency,
+        get   : valueGetters.marginCurrency,
         header: 'Margin Currency'
     },
     {

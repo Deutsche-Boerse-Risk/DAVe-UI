@@ -50,6 +50,10 @@ export class PoolMarginLatestComponent extends AbstractLatestListComponent<PoolM
         return exportKeys;
     }
 
+    public get filterValueGetters(): ValueGetter<PoolMarginData>[] {
+        return filterValueGetters;
+    }
+
     protected get routingKeys(): string[] {
         return routingKeys;
     }
@@ -85,6 +89,20 @@ export const valueGetters = {
     poolOwner            : (row: PoolMarginData) => row.poolOwner,
     received             : (row: PoolMarginData) => row.received
 };
+
+export const filterValueGetters = [
+    valueGetters.pool,
+    valueGetters.marginCurrency,
+    valueGetters.clrRptCurrency,
+    valueGetters.requiredMargin,
+    valueGetters.cashCollateralAmount,
+    valueGetters.adjustedSecurities,
+    valueGetters.overUnderInMarginCurr,
+    valueGetters.overUnderInClrRptCurr,
+    valueGetters.variPremInMarginCurr,
+    valueGetters.adjustedExchangeRate,
+    valueGetters.poolOwner
+];
 
 const defaultOrdering: (
     OrderingCriteria<PoolMarginData>
