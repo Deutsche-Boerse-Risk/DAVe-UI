@@ -1,3 +1,4 @@
+import {DecimalPipe} from '@angular/common';
 import {DebugElement, Type} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {NgModel} from '@angular/forms';
@@ -24,11 +25,12 @@ import {
     stubRouter
 } from '@dbg-riskit/dave-ui-testing';
 
-import {AUTH_PROVIDER, DATE_FORMAT} from '@dbg-riskit/dave-ui-common';
+import {AUTH_PROVIDER, DATE_FORMAT, ValueGetter} from '@dbg-riskit/dave-ui-common';
 import {DataTableComponent, DataTableModule, HIGHLIGHTER_TIMEOUT} from '@dbg-riskit/dave-ui-datatable';
 import {ErrorCollectorService} from '@dbg-riskit/dave-ui-error';
 import {CSVDownloadMenuComponent, FileModule} from '@dbg-riskit/dave-ui-file';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
+import {DateFormatter} from '@dbg-riskit/dave-ui-view';
 
 import {BreadCrumbsDefinition} from './bread.crumbs.page';
 
@@ -277,4 +279,19 @@ export class HistoryListPage<T> extends LatestListPage<T> {
     public get lineChart(): DebugElement {
         return this.listElement.query(By.directive(GoogleLineChartStub));
     }
+}
+
+export function filterPartsTestHelper<T>(valueGetters: ValueGetter<T>[], value: T): string[] {
+    return valueGetters.map(getter => getter(value)).map((value: any) => {
+        if (typeof value === 'number') {
+            value = TestBed.get(DecimalPipe).transform(value, '.0-0');
+        }
+        if (value instanceof Date) {
+            value = TestBed.get(DateFormatter).transform(value);
+        }
+        if (typeof value !== 'string') {
+            return null;
+        }
+        return value;
+    }).filter((value => value != null));
 }

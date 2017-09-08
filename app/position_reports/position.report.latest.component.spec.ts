@@ -13,14 +13,24 @@ import {
 import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 
-import {generatePositionReports, generatePositionReportsHistory, LatestListPage} from '@dave/testing';
+import {
+    filterPartsTestHelper,
+    generatePositionReports,
+    generatePositionReportsHistory,
+    LatestListPage
+} from '@dave/testing';
 
 import {PositionReportData, PositionReportServerData, PositionReportsParams} from './position.report.types';
 import {PositionReportsService} from './position.reports.service';
 
 import {DATA_REFRESH_INTERVAL} from '../periodic.http.service';
 
-import {exportKeys, PositionReportLatestComponent, valueGetters} from './position.report.latest.component';
+import {
+    exportKeys,
+    filterValueGetters,
+    PositionReportLatestComponent,
+    valueGetters
+} from './position.report.latest.component';
 import {ROUTES} from '../routes/routing.paths';
 
 describe('Position reports latest component', () => {
@@ -239,7 +249,7 @@ describe('Position reports latest component', () => {
             let originalItems = data.length;
             let items = originalItems;
             let filter = '';
-            let idParts = firstRow.uid.split('-');
+            let idParts = filterPartsTestHelper(filterValueGetters, firstRow);
             for (let id of idParts) {
                 filter += id + ' ';
                 page.filter(filter);

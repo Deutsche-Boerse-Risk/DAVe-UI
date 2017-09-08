@@ -13,14 +13,19 @@ import {
 import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
 import {HttpService} from '@dbg-riskit/dave-ui-http';
 
-import {generatePoolMarginHistory, generatePoolMarginLatest, LatestListPage} from '@dave/testing';
+import {
+    filterPartsTestHelper,
+    generatePoolMarginHistory,
+    generatePoolMarginLatest,
+    LatestListPage
+} from '@dave/testing';
 
 import {PoolMarginData, PoolMarginParams, PoolMarginServerData} from './pool.margin.types';
 import {PoolMarginService} from './pool.margin.service';
 
 import {DATA_REFRESH_INTERVAL} from '../periodic.http.service';
 
-import {exportKeys, PoolMarginLatestComponent, valueGetters} from './pool.margin.latest.component';
+import {exportKeys, filterValueGetters, PoolMarginLatestComponent, valueGetters} from './pool.margin.latest.component';
 import {ROUTES} from '../routes/routing.paths';
 
 describe('Pool Margin latest component', () => {
@@ -242,7 +247,7 @@ describe('Pool Margin latest component', () => {
             let originalItems = data.length;
             let items = originalItems;
             let filter = '';
-            let idParts = firstRow.uid.split('-');
+            let idParts = filterPartsTestHelper(filterValueGetters, firstRow);
             for (let id of idParts) {
                 filter += id + ' ';
                 page.filter(filter);
