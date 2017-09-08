@@ -74,6 +74,10 @@ export class PositionReportLatestComponent extends AbstractLatestListComponent<P
         return exportKeys;
     }
 
+    public get filterValueGetters(): ValueGetter<PositionReportData>[] {
+        return filterValueGetters;
+    }
+
     protected get routingKeys(): string[] {
         return routingKeys;
     }
@@ -94,23 +98,70 @@ export class PositionReportLatestComponent extends AbstractLatestListComponent<P
 //<editor-fold defaultstate="collapsed" desc="Value getters, default ordering, exported columns">
 
 export const valueGetters = {
-    clearer           : (row: PositionReportData) => row.clearer,
-    member            : (row: PositionReportData) => row.member,
-    account           : (row: PositionReportData) => row.account,
-    product           : (row: PositionReportData) => row.product,
-    callPut           : (row: PositionReportData) => row.callPut,
-    exercisePrice     : (row: PositionReportData) => row.exercisePrice,
-    version           : (row: PositionReportData) => row.version,
-    contractYear      : (row: PositionReportData) => row.contractYear,
-    contractMonth     : (row: PositionReportData) => row.contractMonth,
-    expiryDay         : (row: PositionReportData) => row.expiryDay,
-    netQuantityLs     : (row: PositionReportData) => row.netQuantityLs,
-    compVar           : (row: PositionReportData) => row.compVar,
-    normalizedDelta   : (row: PositionReportData) => row.normalizedDelta,
-    compLiquidityAddOn: (row: PositionReportData) => row.compLiquidityAddOn,
-    received          : (row: PositionReportData) => row.received,
-    contractDate      : (row: PositionReportData) => row.contractDate
+    clearer                : (row: PositionReportData) => row.clearer,
+    member                 : (row: PositionReportData) => row.member,
+    account                : (row: PositionReportData) => row.account,
+    product                : (row: PositionReportData) => row.product,
+    callPut                : (row: PositionReportData) => row.callPut,
+    exercisePrice          : (row: PositionReportData) => row.exercisePrice,
+    version                : (row: PositionReportData) => row.version,
+    contractYear           : (row: PositionReportData) => row.contractYear,
+    contractMonth          : (row: PositionReportData) => row.contractMonth,
+    expiryDay              : (row: PositionReportData) => row.expiryDay,
+    netQuantityLs          : (row: PositionReportData) => row.netQuantityLs,
+    compVar                : (row: PositionReportData) => row.compVar,
+    normalizedDelta        : (row: PositionReportData) => row.normalizedDelta,
+    compLiquidityAddOn     : (row: PositionReportData) => row.compLiquidityAddOn,
+    received               : (row: PositionReportData) => row.received,
+    contractDate           : (row: PositionReportData) => row.contractDate,
+    underlying             : (row: PositionReportData) => row.underlying,
+    clearingCurrency       : (row: PositionReportData) => row.clearingCurrency,
+    productCurrency        : (row: PositionReportData) => row.productCurrency,
+    liquidationGroup       : (row: PositionReportData) => row.liquidationGroup,
+    liquidationGroupSplit  : (row: PositionReportData) => row.liquidationGroupSplit,
+    netQuantityEa          : (row: PositionReportData) => row.netQuantityEa,
+    compCorrelationBreak   : (row: PositionReportData) => row.compCorrelationBreak,
+    compCompressionError   : (row: PositionReportData) => row.compCompressionError,
+    compLongOptionCredit   : (row: PositionReportData) => row.compLongOptionCredit,
+    variationPremiumPayment: (row: PositionReportData) => row.variationPremiumPayment,
+    premiumMargin          : (row: PositionReportData) => row.premiumMargin,
+    normalizedGamma        : (row: PositionReportData) => row.normalizedGamma,
+    normalizedVega         : (row: PositionReportData) => row.normalizedVega,
+    normalizedRho          : (row: PositionReportData) => row.normalizedRho,
+    normalizedTheta        : (row: PositionReportData) => row.normalizedTheta,
+    mVar                   : (row: PositionReportData) => row.mVar
 };
+
+export const filterValueGetters = [
+    valueGetters.member,
+    valueGetters.account,
+    valueGetters.underlying,
+    valueGetters.clearingCurrency,
+    valueGetters.productCurrency,
+    () => 'EUR',
+    valueGetters.product,
+    valueGetters.callPut,
+    valueGetters.contractDate,
+    valueGetters.exercisePrice,
+    valueGetters.version,
+    valueGetters.netQuantityLs,
+    valueGetters.compVar,
+    valueGetters.normalizedDelta,
+    valueGetters.compLiquidityAddOn,
+    valueGetters.liquidationGroup,
+    valueGetters.liquidationGroupSplit,
+    valueGetters.netQuantityEa,
+    valueGetters.compCorrelationBreak,
+    valueGetters.compCompressionError,
+    valueGetters.compLongOptionCredit,
+    valueGetters.variationPremiumPayment,
+    valueGetters.premiumMargin,
+    valueGetters.normalizedGamma,
+    valueGetters.normalizedVega,
+    valueGetters.normalizedRho,
+    valueGetters.normalizedTheta,
+    valueGetters.mVar
+];
 
 const defaultOrdering: (OrderingCriteria<PositionReportData> | ValueGetter<PositionReportData>)[] = [
     {
@@ -147,7 +198,7 @@ export const exportKeys: CSVExportColumn<PositionReportData>[] = [
         header: 'Business date'
     },
     {
-        get   : (row: PositionReportData) => row.underlying,
+        get   : valueGetters.underlying,
         header: 'Underlying'
     },
     {
@@ -187,11 +238,11 @@ export const exportKeys: CSVExportColumn<PositionReportData>[] = [
         header: 'LA'
     },
     {
-        get   : (row: PositionReportData) => row.liquidationGroup,
+        get   : valueGetters.liquidationGroup,
         header: 'Liquidation group'
     },
     {
-        get   : (row: PositionReportData) => row.liquidationGroupSplit,
+        get   : valueGetters.liquidationGroupSplit,
         header: 'Liquidation group split'
     },
     {
@@ -199,55 +250,55 @@ export const exportKeys: CSVExportColumn<PositionReportData>[] = [
         header: 'Flex contract symbol'
     },
     {
-        get   : (row: PositionReportData) => row.clearingCurrency,
+        get   : valueGetters.clearingCurrency,
         header: 'Clearing Ccy'
     },
     {
-        get   : (row: PositionReportData) => row.productCurrency,
+        get   : valueGetters.productCurrency,
         header: 'Product Ccy'
     },
     {
-        get   : (row: PositionReportData) => row.netQuantityEa,
+        get   : valueGetters.netQuantityEa,
         header: 'NetEA'
     },
     {
-        get   : (row: PositionReportData) => row.compCorrelationBreak,
+        get   : valueGetters.compCorrelationBreak,
         header: 'CorrBreak'
     },
     {
-        get   : (row: PositionReportData) => row.compCompressionError,
+        get   : valueGetters.compCompressionError,
         header: 'CompError'
     },
     {
-        get   : (row: PositionReportData) => row.compLongOptionCredit,
+        get   : valueGetters.compLongOptionCredit,
         header: 'LonOptCredit'
     },
     {
-        get   : (row: PositionReportData) => row.variationPremiumPayment,
+        get   : valueGetters.variationPremiumPayment,
         header: 'PremPay'
     },
     {
-        get   : (row: PositionReportData) => row.premiumMargin,
+        get   : valueGetters.premiumMargin,
         header: 'Premium Margin'
     },
     {
-        get   : (row: PositionReportData) => row.normalizedGamma,
+        get   : valueGetters.normalizedGamma,
         header: 'EUR Gamma'
     },
     {
-        get   : (row: PositionReportData) => row.normalizedVega,
+        get   : valueGetters.normalizedVega,
         header: 'EUR Vega'
     },
     {
-        get   : (row: PositionReportData) => row.normalizedRho,
+        get   : valueGetters.normalizedRho,
         header: 'EUR Rho'
     },
     {
-        get   : (row: PositionReportData) => row.normalizedTheta,
+        get   : valueGetters.normalizedTheta,
         header: 'EUR Theta'
     },
     {
-        get   : (row: PositionReportData) => row.mVar,
+        get   : valueGetters.mVar,
         header: 'MVar'
     },
     {

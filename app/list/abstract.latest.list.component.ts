@@ -1,7 +1,7 @@
 import {DecimalPipe} from '@angular/common';
 import {ActivatedRoute} from '@angular/router';
 
-import {CSVExportColumn} from '@dbg-riskit/dave-ui-file';
+import {ValueGetter} from '@dbg-riskit/dave-ui-common';
 import {DateFormatter} from '@dbg-riskit/dave-ui-view';
 
 import {AbstractListComponent} from './abstract.list.component';
@@ -16,6 +16,8 @@ export abstract class AbstractLatestListComponent<T extends { uid: string }> ext
     constructor(route: ActivatedRoute, private dateFormatter: DateFormatter, private numberFormatter: DecimalPipe) {
         super(route);
     }
+
+    public abstract get filterValueGetters(): ValueGetter<T>[];
 
     protected processData(data: T[]): void {
         super.processData(data);
@@ -72,8 +74,8 @@ export abstract class AbstractLatestListComponent<T extends { uid: string }> ext
     }
 
     public matchObject(item: any, search: string): boolean {
-        return this.exportKeys.some((key: CSVExportColumn<T>) => {
-            let value = key.get(item);
+        return this.filterValueGetters.some((key: ValueGetter<T>) => {
+            let value = key(item);
             if (typeof value === 'number') {
                 value = this.numberFormatter.transform(value, '.0-0');
             }
